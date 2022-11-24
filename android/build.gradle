@@ -1,0 +1,79 @@
+buildscript {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def storeFileStage = properties.getProperty('CASHIFY_STAGE')
+    def storeFileTest = properties.getProperty('CASHIFY_TEST')
+    def storeFileProd = properties.getProperty('CASHIFY_PROD')
+    def keyAlias = properties.getProperty('SIGNING_CONFIGS_KEY_ALIAS')
+    def keyPassword = properties.getProperty('SIGNING_CONFIGS_KEY_PASSWORD')
+    def storePassword = properties.getProperty('SIGNING_CONFIGS_STORE_PASSWORD')
+
+    /*reading properties from project*/
+    def pStoreFileStage = project.getProperty("signingKeyFile")
+    def pKeyAlias = project.getProperty("signingKeyAlias")
+    def pKeyPassword = project.getProperty("signingKeyPassword")
+    def pStorePassword = project.getProperty("signingStorePassword")
+
+    ext.isNull = { param ->
+        return param == null || param == 'null'
+    }
+
+    if (!ext.isNull(pKeyAlias)) {
+        keyAlias = pKeyAlias
+    }
+    if (!ext.isNull(pKeyPassword)) {
+        keyPassword = pKeyPassword
+    }
+    if (!ext.isNull(pStorePassword)) {
+        storePassword = pStorePassword
+    }
+    if (!ext.isNull(pStoreFileStage)) {
+        storeFileStage = pStoreFileStage
+        storeFileTest = pStoreFileStage
+        storeFileProd = pStoreFileStage
+    }
+
+    ext.credentials = [
+            'storeFileTest' : storeFileTest,
+            'storeFileStage': storeFileStage,
+            'storeFileProd' : storeFileProd,
+            'keyAlias'      : keyAlias,
+            'keyPassword'   : keyPassword,
+            'storePassword' : storePassword,
+    ]
+
+
+    ext.kotlin_version = '1.6.10'
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+//        classpath 'com.android.tools.build:gradle:7.1.0'
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.google.gms:google-services:4.3.10'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

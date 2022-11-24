@@ -1,0 +1,113 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+android {
+    compileSdkVersion flutter.compileSdkVersion
+    ndkVersion "23.1.7779620"
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+        checkReleaseBuilds false
+        abortOnError false
+        ignoreWarnings true
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "in.cashify.console_flutter_template"
+        minSdkVersion 21
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        stage {
+            keyAlias credentials.keyAlias
+            keyPassword credentials.keyAlias
+            storeFile file("${credentials.storeFileStage}")
+            storePassword credentials.storePassword
+        }
+        cashify {
+            keyAlias credentials.keyAlias
+            keyPassword credentials.keyPassword
+            storeFile file("${credentials.storeFileProd}")
+            storePassword credentials.storePassword
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            debuggable false
+            shrinkResources false
+            signingConfig signingConfigs.cashify
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            ndk {
+//                debugSymbolLevel = 'FULL'
+//            }
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "tier"
+
+    productFlavors {
+        prod {
+            applicationId "in.cashify.console_flutter_template"
+            signingConfig signingConfigs.cashify
+            dimension "tier"
+        }
+        beta {
+            applicationId "in.cashify.console_flutter_template.beta"
+            signingConfig signingConfigs.cashify
+            dimension "tier"
+        }
+        stage {
+            applicationId "in.cashify.console_flutter_template.stage"
+            dimension "tier"
+            signingConfig signingConfigs.stage
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
+}
