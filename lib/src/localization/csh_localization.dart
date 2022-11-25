@@ -1,8 +1,9 @@
 import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:console_flutter_template/src/l10n/messages_all.dart';
 import 'package:intl/intl.dart';
+
+import '../l10n/messages_all.dart';
 
 class CshLocalizations {
   CshLocalizations(this.localeName);
@@ -28,7 +29,8 @@ class CshLocalizationsDelegate extends LocalizationsDelegate<CshLocalizations> {
 
   @override
   bool isSupported(Locale locale) {
-    int index = LanguageUtil.getSupportedLanguageListLocale().toList()
+    int index = LanguageUtil.getSupportedLanguageListLocale()
+        .toList()
         .indexWhere((element) => element.languageCode == locale.languageCode);
     return index >= 0;
   }

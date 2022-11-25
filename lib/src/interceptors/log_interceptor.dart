@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:core/core.dart';
-import 'package:console_flutter_template/src/libraries/alice/csh_alice.dart';
+
+import '../libraries/alice/csh_alice.dart';
 
 class LogInterceptor implements HttpInterceptor {
   static const LOG_INTERCEPTOR = 'LOG_INTERCEPTOR';
 
-  CshAlice cshAlice = CshAlice(showNotification: true, showInspectorOnShake: true);
+  CshAlice cshAlice = CshAlice(showNotification: true, showInspectorOnShake: false);
 
   @override
   Stream<HttpResponse> intercept(HttpRequest req, HttpHandler next) {

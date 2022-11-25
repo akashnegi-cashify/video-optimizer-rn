@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:core/core.dart';
-import 'package:console_flutter_template/src/common/cashify_alert/cashify_alert_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
+
+import '../common/cashify_alert/cashify_alert_handler.dart';
 
 class CashifyAlertInterceptor extends HttpInterceptor {
   static const CASHIFY_ALERT_INTERCEPTOR = 'CASHIFY_ALERT_INTERCEPTOR';
@@ -14,20 +15,6 @@ class CashifyAlertInterceptor extends HttpInterceptor {
       StreamController<HttpResponse> streamController = StreamController();
 
       CashifyAlert? alert = mayBe(() => CashifyAlert.fromJson(jsonDecode(event.body)['__ca']));
-
-      //TODO added for testing
-      // if (req.url.path.contains('relationship-manager')) {
-      //   alert = CashifyAlert.fromJson({
-      //     "_t": "Title",
-      //     "_m": "Message goes here",
-      //     "pbt": "Yes",
-      //     "nbt": "No",
-      //     "_a": {
-      //       "at": "ilink",
-      //       "ad": {"url": "https://storefront.stage.cashify.in/contact-us"}
-      //     }
-      //   });
-      // }
 
       if (alert != null) {
         CashifyAlertHandler.instance.registerAlertCallback(alert).then((value) {

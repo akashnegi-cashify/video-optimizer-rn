@@ -4,10 +4,11 @@ import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:core/src/http/interceptor/global_retry_when_interceptor.dart';
 import 'package:core/src/http/utils/retry_when_util.dart';
-import 'package:console_flutter_template/src/common/session/session_expired_callback.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/interceptors/auth/request_headers.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../common/session/session_expired_callback.dart';
 import 'session_stream.helper.dart';
 
 class AuthHeaderInterceptor extends HttpRetryWhenInterceptor {
@@ -19,8 +20,8 @@ class AuthHeaderInterceptor extends HttpRetryWhenInterceptor {
   HttpRequest _addXUserAuthHeader(HttpRequest req) {
     String userAuth = AuthHandler().userAuth!;
     HttpHeaders headers = req.httpHeaders;
-    if (headers.has(AppHeaders.xSSOTokenKey)) {
-      return req.clone(setHeaders: {AppHeaders.xSSOTokenKey: userAuth});
+    if (headers.has(AppHeaders.X_USER_AUTH_KEY)) {
+      return req.clone(setHeaders: {AppHeaders.X_USER_AUTH_KEY: userAuth});
     }
     return req;
   }
@@ -41,7 +42,7 @@ class AuthHeaderInterceptor extends HttpRetryWhenInterceptor {
   }
 
   bool _userAuthRequired(HttpHeaders headers) {
-    return headers.has(AppHeaders.xSSOTokenKey);
+    return headers.has(AppHeaders.X_USER_AUTH_KEY);
   }
 
   @override

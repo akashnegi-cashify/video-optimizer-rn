@@ -14,7 +14,7 @@ class Environments {
   static Environment stage = Environment(
     appVersion: "5.1.0-stage.21",
     mode: "stage",
-    baseUrl: "http://localhost",
+    baseUrl: "https://localhost",
     cashifyUrl: "https://www.stage.cashify.in",
     casIdentifier: "cas",
     authUri: "/v1/oauth/token",

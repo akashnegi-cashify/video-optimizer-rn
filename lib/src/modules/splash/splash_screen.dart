@@ -1,13 +1,9 @@
-import 'dart:async';
-
 import 'package:components/components.dart';
-import 'package:console_flutter_template/src/modules/login/screen/login_screen.dart';
-import 'package:console_flutter_template/src/screens/home_screen.dart';
-import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
-import '../pd/pd_screen_example.dart';
+import '../home/home_screen.dart';
+import '../login/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const route = '/splash';
@@ -18,17 +14,30 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+  AnimationController? _lottieAnimationController;
+
   @override
   void initState() {
-    Timer(const Duration(seconds: 2), () {
-      _checkAuth();
+    _lottieAnimationController = AnimationController(vsync: this);
+    _lottieAnimationController?.addStatusListener((status) async {
+      if (status == AnimationStatus.completed) {
+        _checkAuth();
+      }
     });
     super.initState();
   }
 
+  void playAnimation(LottieComposition composition) {
+    if (_lottieAnimationController != null) {
+      _lottieAnimationController!
+        ..duration = composition.duration
+        ..forward();
+    }
+  }
+
   void _checkAuth() {
-    Logger.debug('_SplashScreenState._checkAuth', [AuthHandler().userAuth]);
+    print('${AuthHandler().userAuth}');
     if (AuthHandler().userAuth == null) {
       Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
     } else {
@@ -38,14 +47,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    BaseL10n l10n = BaseL10n(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.appName),
-      ),
-      body: const Center(
-        child: Text('Splash Screen'),
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Lottie.asset(
+        'assets/json/cashify_splash.json',
+        frameRate: FrameRate.composition,
+        controller: _lottieAnimationController,
+        onLoaded: (LottieComposition composition) {
+          playAnimation(composition);
+        },
       ),
     );
   }

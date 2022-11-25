@@ -1,4 +1,4 @@
-import 'package:core_widgets/core_widgets.dart';import 'package:core_widgets/src/theme/pallete.dart';
+import 'package:core_widgets/core_widgets.dart';
 
 class ProjectTheme implements AbsProjectTheme {
   final bool isDarkTheme;

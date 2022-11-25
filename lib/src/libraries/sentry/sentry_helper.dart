@@ -1,10 +1,10 @@
 import 'dart:async';
-
-import 'package:console_flutter_template/src/environments/environment_config.dart';
-import 'package:console_flutter_template/src/environments/types.dart';
 import 'package:core/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
+import '../../environments/environment_config.dart';
+import '../../environments/types.dart';
 
 class SentryHelper {
   // TODO: Dev Action Required -> add sentry dns here

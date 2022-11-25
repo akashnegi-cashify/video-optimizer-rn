@@ -1,7 +1,8 @@
 import 'package:components/components.dart';
-import 'package:console_flutter_template/src/screens/home_screen.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+
+import '../../screens/home_screen.dart';
 
 class HomeAction extends AbstractAction {
   String? telephone;

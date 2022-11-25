@@ -1,7 +1,8 @@
 import 'package:core/core.dart';
-import 'package:console_flutter_template/src/environments/environment_config.dart';
-import 'package:console_flutter_template/src/environments/environments.dart';
 
+
+import '../../environments/environment_config.dart';
+import '../../environments/environments.dart';
 import 'base_tracking_event.dart';
 
 // TODO: Dev Action Required -> Update the analytics trackers in this file

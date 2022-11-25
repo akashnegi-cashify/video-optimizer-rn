@@ -1,4 +1,4 @@
-name: console_flutter_template
+name: flutter_trc
 description: A new Flutter application.
 
 
@@ -28,7 +28,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  json_annotation: ^4.1.0
+  json_annotation: ^4.7.0
   core:
     git:
       url: https://github.com/reglobe/flutter_packages.git
@@ -53,11 +53,6 @@ dependencies:
       ref: main
       path: calculator_ui
 
-  pd:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
-      path: pd
 
   device_info_plus: ^3.2.4
   sentry_flutter: ^6.5.1
@@ -67,14 +62,11 @@ dependencies:
     sdk: flutter
   intl: ^0.17.0
   package_info_plus: ^1.4.2
-  provider: ^6.0.3
+  provider: ^6.0.4
   flutter_feather_icons: ^2.0.0+1
-  fluttertoast: ^8.0.9
-  firebase_core: ^1.17.1
-  firebase_analytics: ^9.1.9
-  facebook_app_events: ^0.16.0
-  mixpanel_flutter: ^1.5.1
-  fl_chart: ^0.50.6
+  firebase_core: ^2.3.0
+  firebase_analytics: ^10.0.6
+  lottie: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -83,27 +75,20 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: ^6.0.1
-  build_runner: ^2.1.7
+  json_serializable: ^6.5.4
+  build_runner: ^2.3.2
   flutter_lints: ^2.0.1
 
 
+
+
 dependency_overrides:
-  permission_handler: ^9.2.0
-  webview_flutter: ^2.0.4
-#  core_widgets:
-#    path: ../flutter_admin_ui/core_widgets/
-#
-#  components:
-#    path: ../flutter_admin_ui/components/
-#
-#  media_widget:
-#    path: ../flutter_admin_ui/media_widget/
-#
-#  pd:
-#    path: ../flutter_admin_ui/pd/
-#  calculator_ui:
-#    path: ../flutter_admin_ui/calculator_ui
+  permission_handler: ^10.2.0
+  webview_flutter: ^3.0.4
+
+
+
+
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -117,6 +102,7 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/json/
 
   fonts:
     - family: Montserrat
