@@ -1,9 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
-import 'base_service.dart';
-
-class TrcService extends TRCBaseService {
+class TrcService extends BaseService {
   final bool addAuthorization;
 
   TrcService({this.addAuthorization = false});

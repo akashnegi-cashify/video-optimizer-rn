@@ -365,8 +365,8 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: main
-      resolved-ref: d081427a78f8aa0970a2fc0bb82759ecb05c6ffc
+      ref: service_group
+      resolved-ref: "4b05f7b9cab22510a8dd318989bd8ede03f9f26d"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"
