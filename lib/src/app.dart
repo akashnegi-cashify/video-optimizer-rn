@@ -48,22 +48,22 @@ class _CashifyAppState extends State<CashifyApp> {
     _connectionSubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
       switch (result) {
         case ConnectivityResult.none:
-        // TODO: Dev Action Required -> show no internet ui
-        // Navigator.pushReplacementNamed(_navKey.currentState.context, NoInternetScreen.routeName);
+          // TODO: Dev Action Required -> show no internet ui
+          // Navigator.pushReplacementNamed(_navKey.currentState.context, NoInternetScreen.routeName);
           break;
 
         case ConnectivityResult.wifi:
         case ConnectivityResult.mobile:
-        // TODO: Dev Action Required -> Pass the NoInternetScreen route name
+          // TODO: Dev Action Required -> Pass the NoInternetScreen route name
           if (_navKey != null && _navKey!.currentContext != null) {
             CshRouteObserver().openScreenBeforeInternetError(_navKey!.currentContext!, '' /* Route name */);
           }
           break;
         case ConnectivityResult.bluetooth:
-        // TODO: Handle this case.
+          // TODO: Handle this case.
           break;
         case ConnectivityResult.ethernet:
-        // TODO: Handle this case.
+          // TODO: Handle this case.
           break;
       }
     });
@@ -94,12 +94,11 @@ class _CashifyAppState extends State<CashifyApp> {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) =>
-                LocaleProvider(
-                  onLoad: (Locale locale) {
-                    CshLocalizations.load(locale);
-                  },
-                ),
+            create: (_) => LocaleProvider(
+              onLoad: (Locale locale) {
+                CshLocalizations.load(locale);
+              },
+            ),
           ),
           ChangeNotifierProvider(
             lazy: false,
@@ -125,7 +124,6 @@ class _CashifyAppState extends State<CashifyApp> {
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                   ],
-
                   supportedLocales: LanguageUtil.getSupportedLanguageListLocale(),
                   routes: {
                     SplashScreen.route: (_) => const SplashScreen(),
@@ -140,7 +138,6 @@ class _CashifyAppState extends State<CashifyApp> {
                         settings: settings);
                   },
                   initialRoute: SplashScreen.route,
-                  // home: const HomeScreen(),
                 );
               });
         },
