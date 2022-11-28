@@ -1,11 +1,12 @@
-import 'package:console_flutter_template/src/utils/platforms.dart';
 import 'package:core/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:console_flutter_template/src/environments/environment_config.dart';
-import 'package:console_flutter_template/src/environments/environments.dart';
-import 'package:console_flutter_template/src/types/client_ids.dart';
+import 'package:flutter_trc/src/utils/platforms.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
+import '../environments/environment_config.dart';
+import '../environments/environments.dart';
+import '../types/client_ids.dart';
 
 const CLIENT_VERSION = 'v1';
 
@@ -94,8 +95,7 @@ class AppUtil {
   }
 
   static Future<String> getAppName() async {
-    // TODO Change app name
-    String appName = '<App Name>';
+    String appName = 'TRC';
     if (isWeb()) {
       return appName;
     } else if (isAndroid() || isIOS()) {

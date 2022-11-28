@@ -1,12 +1,11 @@
 import 'package:components/components.dart';
-import 'package:console_flutter_template/src/actions/project_actions.dart';
-import 'package:console_flutter_template/src/environments/types.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 
-
+import 'actions/project_actions.dart';
 import 'environments/environment_config.dart';
 import 'environments/environments.dart';
+import 'environments/types.dart';
 import 'interceptors/header/header_interceptor.dart';
 import 'interceptors/log_interceptor.dart';
 import 'libraries/analytics/analytics_controller.dart';
@@ -14,9 +13,8 @@ import 'libraries/analytics/analytics_controller.dart';
 const RUNNING_SYSTEM_ENV = String.fromEnvironment('env', defaultValue: 'prod');
 
 class AppInitializer {
-  static init({List<AnalyticTrackers>? trackers, Map<String, HttpInterceptorFactory>? interceptors}) async {
+  static init({required List<AnalyticTrackers> trackers, Map<String, HttpInterceptorFactory>? interceptors}) async {
     await AuthHandler().syncAuth();
-    // await FirebaseHelper().initFirebase();
     await AnalyticsController.init(trackers);
     await _initApp(interceptors: interceptors);
   }
@@ -26,8 +24,6 @@ class AppInitializer {
 
     _setLogLevel(environment);
     _registerProjectActions();
-
-    // ChooseLanguageHelper.init();
 
     interceptors ??= <String, HttpInterceptorFactory>{};
     if (environment?.mode != EnvironmentTypes.PROD.value) {

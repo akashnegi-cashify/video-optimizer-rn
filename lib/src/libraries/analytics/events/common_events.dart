@@ -1,6 +1,4 @@
-import 'package:components/components.dart';
-import 'package:core_widgets/core_widgets.dart';
-
+import '../../../interceptors/auth/request_headers.dart';
 import '../advertiser_id_helper.dart';
 import '../analytic_event_params.dart';
 import '../analytics_controller.dart';

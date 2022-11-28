@@ -1,6 +1,6 @@
-import 'package:console_flutter_template/src/environments/types.dart';
 import 'package:core/core.dart';
-import 'package:console_flutter_template/src/app_initializer.dart';
+import 'package:flutter_trc/src/environments/types.dart';
+import '../app_initializer.dart';
 import '../utils/app_util.dart';
 import 'environments.dart';
 

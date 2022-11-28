@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:console_flutter_template/src/app.dart';
-import 'package:console_flutter_template/src/interceptors/interceptors_helper.dart';
-import 'package:console_flutter_template/src/libraries/analytics/analytics_controller.dart';
-import 'package:console_flutter_template/src/libraries/sentry/sentry_helper.dart';
-import 'package:console_flutter_template/src/utils/app_util.dart';
+import 'package:flutter_trc/src/app.dart';
+import 'package:flutter_trc/src/interceptors/interceptors_helper.dart';
+import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
+import 'package:flutter_trc/src/libraries/sentry/sentry_helper.dart';
+import 'package:flutter_trc/src/utils/app_util.dart';
 
 import 'src/app_initializer.dart';
 

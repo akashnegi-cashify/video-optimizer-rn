@@ -1,8 +1,7 @@
 import 'dart:async';
-
-import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
+import '../auth/request_headers.dart';
 
 class HeaderInterceptor extends HttpInterceptor {
   static const HEADER_INTERCEPTOR = 'HEADER_INTERCEPTOR';

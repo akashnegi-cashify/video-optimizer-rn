@@ -1,20 +1,20 @@
 import 'package:alice/alice.dart';
 import 'package:core/core.dart';
-import 'package:console_flutter_template/src/environments/environment_config.dart';
-import 'package:console_flutter_template/src/environments/environments.dart';
+
+import '../../environments/environment_config.dart';
+import '../../environments/environments.dart';
 
 class CshAlice {
   static CshAlice? _instance;
 
-  // Alice? _alice;
+  Alice? _alice;
 
   dynamic get alice {
-    return null;
-    // return _alice;
+    return _alice;
   }
 
   set alice(dynamic? alice) {
-    // _alice = alice;
+    _alice = alice;
   }
 
   factory CshAlice({bool showNotification = false, bool showInspectorOnShake = false}) {
@@ -25,7 +25,7 @@ class CshAlice {
   CshAlice._internal({bool showNotification = false, bool showInspectorOnShake = false}) {
     Environment environment = getEnvironment();
     if (!isWeb() && environment.enableAlice!) {
-      // alice = Alice(showNotification: showNotification, showInspectorOnShake: showInspectorOnShake);
+      alice = Alice(showNotification: showNotification, showInspectorOnShake: showInspectorOnShake);
     }
   }
 
