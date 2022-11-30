@@ -25,7 +25,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     var theme = Theme.of(context);
     var l10n = L10n(context);
 
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: Dimens.space_20, horizontal: Dimens.space_16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,10 +90,10 @@ class _LoginWidgetState extends State<LoginWidget> {
               text: _isEmployeeIdValidated ? l10n.continueStr : l10n.verify,
               onPressed: _isEmployeeIdValidated
                   ? () {
-                      if (_detailsVerification()) {
+                      if (_detailsVerification(l10n)) {
                         String empId = _empIdController.text.trim();
                         String pw = _passwordController.text.trim();
-                        _submitLoginCredentials(empId, pw);
+                        _submitLoginCredentials(empId, pw, l10n.loggedInSuccessfully, l10n.somethingWentWrong);
                       }
                     }
                   : () {
@@ -101,7 +101,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         _isEmployeeIdValidated = true;
                         setState(() {});
                       } else {
-                        CshSnackBar.error(context: context, message: "Please enter employee Id");
+                        CshSnackBar.error(context: context, message: l10n.pleaseEnterYourEmployeeId);
                       }
                     },
             ),
@@ -111,24 +111,24 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  bool _detailsVerification() {
+  bool _detailsVerification(L10n l10n) {
     if (Validator.isNullOrEmpty(_passwordController.text)) {
-      CshSnackBar.error(context: context, message: "Please enter password");
+      CshSnackBar.error(context: context, message: l10n.pleaseEnterPassword);
       return false;
     }
     return true;
   }
 
-  _submitLoginCredentials(String employeeId, String password) {
+  _submitLoginCredentials(String employeeId, String password, String successMessage, String errorMessage) {
     var provider = TRCLoginProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.userLogin(employeeId, password).then((value) {
       if (value) {
-        CshSnackBar.success(context: context, message: "Logged in successfully");
+        CshSnackBar.success(context: context, message: successMessage);
         CshLoading().hideLoading(context);
         Navigator.of(context).pushReplacementNamed(HomeScreen.route);
       } else {
-        CshSnackBar.error(context: context, message: "Something went wrong");
+        CshSnackBar.error(context: context, message: errorMessage);
       }
       CshLoading().hideLoading(context);
     }, onError: (error) {
@@ -136,4 +136,5 @@ class _LoginWidgetState extends State<LoginWidget> {
       CshSnackBar.error(context: context, message: error);
     });
   }
+
 }

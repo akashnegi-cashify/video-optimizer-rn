@@ -37,7 +37,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   }
 
   void _checkAuth() {
-    print('${AuthHandler().userAuth}');
     if (AuthHandler().userAuth == null) {
       Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
     } else {

@@ -21,4 +21,7 @@ class L10n extends BaseL10n {
   String get location => Intl.message("Location", locale: localName, name: "location");
 
   String get verify => Intl.message("Verify", locale: localName, name: "verify");
+  String get pleaseEnterPassword => Intl.message("Please enter password", locale: localName, name: "pleaseEnterPassword");
+  String get loggedInSuccessfully => Intl.message("Logged in successfully", locale: localName, name: "loggedInSuccessfully");
+  String get somethingWentWrong => Intl.message("Something went wrong", locale: localName, name: "somethingWentWrong");
 }
