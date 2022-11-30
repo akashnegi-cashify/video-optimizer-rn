@@ -41,7 +41,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "in.cashify.console_flutter_template"
+        applicationId "in.cashify.androidtrc"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
@@ -86,17 +86,17 @@ android {
 
     productFlavors {
         prod {
-            applicationId "in.cashify.console_flutter_template"
+            applicationId "in.cashify.androidtrc"
             signingConfig signingConfigs.cashify
             dimension "tier"
         }
         beta {
-            applicationId "in.cashify.console_flutter_template.beta"
+            applicationId "in.cashify.androidtrc.beta"
             signingConfig signingConfigs.cashify
             dimension "tier"
         }
         stage {
-            applicationId "in.cashify.console_flutter_template.stage"
+            applicationId "in.cashify.androidtrc.stage"
             dimension "tier"
             signingConfig signingConfigs.stage
         }

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="in.cashify.flutter_boilerplate">
+    package="in.cashify.androidtrc">
 
     <uses-permission android:name="android.permission.INTERNET" />
 

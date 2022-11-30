@@ -1,4 +1,4 @@
-package `in`.cashify.flutter_boilerplate
+package in.cashify.androidtrc
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
