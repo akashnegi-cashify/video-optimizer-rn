@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="viewModel"
+                type="in.cashify.androidtrc.module.engineer.data.ViewPartActivityViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        android:padding="@dimen/space_10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/device_barcode"
+            style="@style/SemiBold.Black.TextSize16"
+            android:id="@+id/lbl_device_barcode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_barcode"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_device_barcode"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toStartOf="@+id/tv_device_barcode"/>
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+android:gravity="end"
+            style="@style/Medium.JetBlack.TextSize16"
+            android:id="@+id/tv_device_barcode"
+            app:layout_constraintStart_toEndOf="@+id/lbl_device_barcode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/space_10dp"
+            tools:text="hgdsjkalgdhyjhfyghdjshghedjkghdjshjs"
+            />
+
+
+
+
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/status"
+            style="@style/SemiBold.Black.TextSize16"
+            android:id="@+id/lbl_device_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_status"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_device_status"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toStartOf="@+id/tv_device_status"/>
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            style="@style/Medium.JetBlack.TextSize16"
+            android:id="@+id/tv_device_status"
+            app:layout_constraintStart_toEndOf="@+id/lbl_device_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_device_barcode"
+            android:layout_marginTop="@dimen/space_10dp"
+            android:layout_marginStart="@dimen/space_10dp"
+            tools:text="hgdsjkalgdhyjhfyghdjshghedjkghdjshjs"
+            />
+
+
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/product_title"
+            style="@style/SemiBold.Black.TextSize16"
+            android:id="@+id/lbl_device_product_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_product_title"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_device_product_title"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toStartOf="@+id/tv_device_product_title"/>
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            style="@style/Medium.JetBlack.TextSize16"
+            android:id="@+id/tv_device_product_title"
+            app:layout_constraintStart_toEndOf="@+id/lbl_device_product_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_device_status"
+            android:layout_marginTop="@dimen/space_10dp"
+            android:layout_marginStart="@dimen/space_10dp"
+            tools:text="hgdsjkalgdhyjhfyghdjshghedjkghdjshjs"
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDevices"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/space_8dp"
+                android:layout_marginBottom="@dimen/space_9dp"
+                app:layout_constraintBottom_toTopOf="@+id/linear"
+                app:layout_constraintStart_toStartOf="parent"
+tools:listitem="@layout/item_view_part"
+                app:layout_constraintTop_toBottomOf="@+id/tv_device_product_title"
+                app:layout_constraintVertical_weight="1" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/space_8dp"
+            android:layout_marginBottom="@dimen/space_9dp"
+            android:paddingStart="@dimen/space_8dp"
+            android:id="@+id/linear"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/btn_self_assign_part"
+                style="@style/TealButtonRoundCorner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:paddingEnd="@dimen/space_8dp"
+                android:text="Self assign Part"
+                />
+
+        <Button
+                android:id="@+id/btn_order_part"
+                style="@style/TealButtonRoundCorner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+                android:paddingEnd="@dimen/space_8dp"
+                android:text="Order Part"
+                />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/lay_btn"
+            android:layout_marginBottom="@dimen/space_30dp"
+            android:id="@+id/scroll">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_10dp"
+                tools:context=".module.engineer.ui.activity.WIPPartInfoActivity">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/device_barcode"
+                    style="@style/SemiBold.Black.TextSize16"
+                    android:id="@+id/lbl_device_barcode"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_device_barcode"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_device_barcode"
+                    android:gravity="center_vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_device_barcode"/>
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    style="@style/Medium.JetBlack.TextSize16"
+                    android:id="@+id/tv_device_barcode"
+                    app:layout_constraintStart_toEndOf="@+id/lbl_device_barcode"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    tools:text="hgdsjkalgdhyjhfyghdjshghedjkghdjshjs"
+                    />
+
+
+
+
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/status"
+                    style="@style/SemiBold.Black.TextSize16"
+                    android:id="@+id/lbl_device_status"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_device_status"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_device_status"
+                    android:gravity="center_vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_device_status"/>
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    style="@style/Medium.JetBlack.TextSize16"
+                    android:id="@+id/tv_device_status"
+                    app:layout_constraintStart_toEndOf="@+id/lbl_device_status"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_device_barcode"
+                    android:layout_marginTop="@dimen/space_10dp"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    tools:text="hgdsjkalgdhyjhfyghdjshghedjkghdjshjs"
+                    />
+
+
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/product_title"
+                    style="@style/SemiBold.Black.TextSize16"
+                    android:id="@+id/lbl_device_product_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_device_product_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_device_product_title"
+                    android:gravity="center_vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_device_product_title"/>
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    style="@style/Medium.JetBlack.TextSize16"
+                    android:id="@+id/tv_device_product_title"
+                    app:layout_constraintStart_toEndOf="@+id/lbl_device_product_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_device_status"
+                    android:layout_marginTop="@dimen/space_10dp"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    tools:text="hgdsjkalgdhyjhfyghdjshghedjkghdjshjs"
+                    />
+
+
+
+
+
+
+
+
+
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_6dp"
+                    android:layout_marginTop="@dimen/space_30dp"
+                    android:layout_marginEnd="@dimen/space_6dp"
+                    android:layout_marginBottom="@dimen/space_6dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_device_product_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="@dimen/space_10dp"
+                    app:cardElevation="@dimen/space_5dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_10dp">
+
+
+                        <TextView
+                            android:id="@+id/lbl_part_name"
+                            style="@style/Medium.Teal.TextSize14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/part_name"
+                            app:layout_constraintTop_toTopOf="@+id/tv_part_name"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_part_name"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_part_name"/>
+
+
+                        <TextView
+                            android:id="@+id/tv_part_name"
+                            style="@style/Medium.JetBlack.TextSize14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="@string/part_name"
+                            tools:text="dfghjkhgfhjk,ghjkhgvhjkbhgvjkbhjkhbjnbhjnkmbhjgfhj"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginStart="@dimen/space_10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/lbl_part_name"/>
+
+
+
+
+                        <TextView
+                            android:id="@+id/lbl_part_barcode"
+                            style="@style/Medium.Teal.TextSize14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/part_barcode"
+                            app:layout_constraintTop_toTopOf="@+id/tv_part_barcode"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_part_barcode"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_part_barcode"/>
+
+
+                        <TextView
+                            android:id="@+id/tv_part_barcode"
+                            style="@style/SemiBold.JetBlack.TextSize14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_20dp"
+                            android:gravity="end"
+                            android:text="@string/part_name"
+                            tools:text="dfghjkhgfhjk,ghjkhgvhjkbhgvjkbhjkhbjnbhjnkmbhjgfhj"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_part_name"
+                            android:layout_marginStart="@dimen/space_10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/lbl_part_barcode"/>
+
+
+
+
+
+                        <TextView
+                            android:id="@+id/lbl_part_sku"
+                            style="@style/Medium.Teal.TextSize14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/part_sku"
+                            app:layout_constraintTop_toTopOf="@+id/tv_part_sku"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_part_sku"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_part_sku"/>
+
+
+                        <TextView
+                            android:id="@+id/tv_part_sku"
+                            style="@style/Medium.JetBlack.TextSize14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_20dp"
+                            android:text="@string/part_name"
+                            android:gravity="end"
+                            tools:text="dfghjkhgfhjk,ghjkhgvhjkbhgvjkbhjkhbjnbhjnkmbhjgfhj"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_part_barcode"
+                            android:layout_marginStart="@dimen/space_10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/lbl_part_sku"/>
+
+
+
+
+
+
+
+
+
+
+
+                        <TextView
+                            android:id="@+id/lbl_part_status"
+                            style="@style/Medium.Teal.TextSize14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/part_status"
+                            app:layout_constraintTop_toTopOf="@+id/tv_part_status"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_part_status"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_part_status"/>
+
+
+                        <TextView
+                            android:id="@+id/tv_part_status"
+                            style="@style/Medium.JetBlack.TextSize14"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_20dp"
+                            android:text="@string/part_name"
+                            android:gravity="end"
+                            tools:text="dfghjkhgfhjk,ghjkhgvhjkbhgvjkbhjkhbjnbhjnkmbhjgfhj"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_part_sku"
+                            android:layout_marginStart="@dimen/space_10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/lbl_part_status"/>
+
+
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/space_20dp"
+            android:id="@+id/lay_btn">
+
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/TealButtonRoundCorner"
+                android:layout_weight="1"
+                android:id="@+id/btn_receive"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:text="@string/receive"/>
+
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/TealButtonRoundCorner"
+                android:layout_weight="1"
+                android:id="@+id/btn_cancel"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:text="@string/cancel"/>
+
+
+
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

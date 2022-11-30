@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/space_6dp"
+    android:layout_marginTop="@dimen/space_6dp"
+    android:layout_marginEnd="@dimen/space_6dp"
+    android:layout_marginBottom="@dimen/space_6dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/space_10dp"
+    app:cardElevation="@dimen/space_5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/rl_sell_old_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/space_16dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@+id/cancel"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingStart="@dimen/space_5dp"
+            android:paddingEnd="@dimen/space_5dp">
+
+            <TextView
+                android:id="@+id/tv_line_1"
+                style="@style/SemiBold.Black.TextSize14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_11dp"
+                tools:text="toolsText" />
+
+            <TextView
+                android:id="@+id/tv_part_barcode"
+                style="@style/Regular.Black.TextSize12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_9dp"
+                tools:text="toolsText" />
+
+            <TextView
+                android:id="@+id/tv_line_2"
+                style="@style/Regular.Black.TextSize12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="toolsText" />
+
+            <TextView
+                android:id="@+id/tv_line_3"
+                style="@style/Regular.Black.TextSize12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="toolsText" />
+
+            <TextView
+                android:id="@+id/tv_line_4"
+                style="@style/Regular.Black.TextSize12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_11dp"
+                tools:text="toolsText" />
+
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/receive_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/space_30dp"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/teal_bg_round_corner"
+            android:layout_marginEnd="@dimen/space_16dp"
+            style="@style/SemiBold.White.TextSize12"
+            android:text="Receive"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cancel_red"
+            android:padding="@dimen/space_10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/cancel"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

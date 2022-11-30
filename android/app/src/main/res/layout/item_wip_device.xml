@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="@dimen/space_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_6dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_marginTop="@dimen/space_6dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true"
+        android:layout_marginBottom="@dimen/space_6dp"
+        android:layout_marginEnd="@dimen/space_6dp"
+        android:id="@+id/cv_card"
+        app:cardElevation="@dimen/space_5dp">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:orientation="vertical"
+                  android:layout_alignParentStart="true"
+                  android:paddingStart="@dimen/space_8dp"
+                  android:id="@+id/rl_sell_old_device"
+                  android:layout_marginEnd="@dimen/space_16dp"
+                  android:layout_height="wrap_content">
+
+        <TextView android:layout_width="wrap_content"
+                  android:id="@+id/tv_line_1"
+                  android:layout_marginTop="@dimen/space_11dp"
+                  style="@style/SemiBold.Black.TextSize14"
+                  app:layout_constraintStart_toStartOf="parent"
+                  android:layout_height="wrap_content"/>
+
+        <View android:layout_width="@dimen/space_21dp"
+              android:id="@+id/void_view"
+              android:layout_marginTop="@dimen/space_4dp"
+              android:background="@android:color/black"
+              android:layout_height="@dimen/space_2dp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:id="@+id/tv_line_2"
+                  android:layout_marginTop="@dimen/space_9dp"
+                  style="@style/Regular.Black.TextSize12"
+                  android:layout_height="wrap_content"/>
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/space_9dp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:id="@+id/tv_line_3"
+                  android:layout_marginBottom="@dimen/space_9dp"
+                  style="@style/Regular.Black.TextSize12"
+                  android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

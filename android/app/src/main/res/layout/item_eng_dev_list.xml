@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cv_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_6dp"
+        android:layout_marginTop="@dimen/space_6dp"
+        android:layout_marginEnd="@dimen/space_6dp"
+        android:layout_marginBottom="@dimen/space_6dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/space_10dp"
+        app:cardElevation="@dimen/space_5dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+            android:padding="@dimen/space_4dp">
+
+        <CheckBox
+            android:id="@+id/radioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:focusableInTouchMode="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_barcode"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+                android:id="@+id/tv_barcode"
+                style="@style/SemiBold.Black.TextSize12"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/space_8dp"
+                android:layout_marginEnd="@dimen/space_8dp"
+                android:gravity="center"
+                android:minLines="3"
+                android:text="Gur12"
+            android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_product_title"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/radioButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/tv_product_title"
+                style="@style/Medium.JetBlack.TextSize12"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/space_8dp"
+                android:gravity="center"
+                android:minLines="3"
+                android:text="Moto G4 s"
+            android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_status"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/tv_barcode"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/tv_status"
+                style="@style/Regular.Black.TextSize12"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/space_8dp"
+                android:gravity="center"
+                android:minLines="3"
+                android:text="Hold"
+            android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/radioButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/tv_product_title"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
