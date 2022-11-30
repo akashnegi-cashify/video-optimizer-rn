@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_4dp"
+        android:layout_marginTop="@dimen/space_4dp"
+        android:layout_marginEnd="@dimen/space_4dp"
+        android:layout_marginBottom="@dimen/space_4dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/space_4dp"
+        app:cardElevation="@dimen/space_5dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="@dimen/space_4dp"
+            android:weightSum="1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.6"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_counter"
+                    style="@style/SemiBold.Black.TextSize14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_4dp"
+                    android:text="1."
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_part_name"
+                    style="@style/Medium.JetBlack.TextSize14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                     android:text="Part 1"
+                    app:layout_constraintStart_toEndOf="@+id/tv_counter"
+                    app:layout_constraintTop_toTopOf="@id/tv_counter" />
+
+                <TextView
+                    android:id="@+id/tv_part_sku"
+                    style="@style/Medium.JetBlack.TextSize14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_part_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_part_name"
+                    tools:text="White" />
+
+
+                <TextView
+                    android:id="@+id/tv_part_color"
+                    style="@style/Medium.JetBlack.TextSize14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_10dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_part_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_part_sku"
+                    tools:text="White" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_10dp"
+                android:layout_marginRight="@dimen/space_10dp"
+                android:layout_weight="0.4"
+                android:gravity="center_vertical"
+                android:background="@drawable/spinner_border"
+                android:drawSelectorOnTop="true"
+                android:padding="@dimen/space_10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_camera_teal"
+                android:id="@+id/camera"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

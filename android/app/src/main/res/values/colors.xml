@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="teal">#42C8B7</color>
+    <color name="teal_transparent">#1642C8B7</color>
+    <color name="green">#108610</color>
+    <color name="teal_text_color">#3bcaa6</color>
+    <color name="red_text_dim">#FF6565</color>
+    <color name="red">#FF0000</color>
+    <color name="red_light">#FF8888</color>
+    <color name="darkGrey">#707070</color>
+    <color name="transparent">#00000000</color>
+    <color name="lightGrey">#DCDCDC</color>
+    <color name="card_boundry_color">#CABBBBBB</color>
+    <color name="text_color_opacity_20">#33000000</color>
+    <color name="text_color_opacity_50">#80000000</color>
+    <color name="shimmer_background">#f3f4f7</color>
+    <color name="white">#ffffff</color>
+
+    <color name="bg_product_detail_voucher">#d8fcf7</color>
+    <color name="bg_refer_earn_home_card">#fae677</color>
+
+    <color name="text_color_opacity_10">#1a000000</color>
+    <color name="text_color_opacity_40">#66000000</color>
+    <!--ScreenPro color-->
+    <color name="runnerColorPrimary">#7f5eff</color>
+    <color name="black">#000000</color>
+    <color name="shimmer_color">#f3f4f7</color>
+    <color name="textView_bg_color">#f8f8f8</color>
+
+    <color name="blackGrape90">#ff3e4152</color>
+    <color name="alert_red">#F44336</color>
+    <color name="confirm">#2196F3</color>
+
+
+
+    <color name="total_assign">#b15928</color>
+    <color name="mark_ok">#ffff99</color>
+    <color name="mark_ok_pass">#6a3d9a</color>
+    <color name="mark_ok_fail">#cab2d6</color>
+
+
+
+    <color name="parts_assign">#b15928</color>
+    <color name="parts_consume">#ffff99</color>
+    <color name="parts_return">#6a3d9a</color>
+    <color name="parts_requested">#cab2d6</color>
+    <color name="color_assigned">#5aae61</color>
+    <color name="color_pending_delivery">#1b7837</color>
+    <color name="color_pending_return">#a6dba0</color>
+</resources>

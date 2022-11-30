@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/space_20dp"
+    android:background="@color/white"
+    tools:context=".module.inventory_manager.fragment.InventoryManagerSummaryFragment">
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delivery_colon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Medium.JetBlack.TextSize16"
+        android:id="@+id/lbl_delivry"
+        />
+
+
+    <in.cashify.androidtrc.util.widget.pie_chart.PieChartView
+        android:id="@+id/pieChart"
+        android:layout_width="@dimen/space_200dp"
+     android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/space_20dp"
+        android:layout_height="@dimen/space_200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_delivry"
+        />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/space_20dp"
+        android:id="@+id/lay_assigned_for_delivery"
+app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pieChart"
+
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/space_80dp"
+            android:background="@color/color_assigned"
+            android:layout_height="@dimen/space_30dp"
+            android:id="@+id/view_assigned"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/view_assigned"
+            android:layout_toStartOf="@+id/tv_assigned_count"
+            android:layout_marginStart="@dimen/space_20dp"
+            android:layout_marginEnd="@dimen/space_20dp"
+            android:text="@string/assigned_for_delivery"
+            style="@style/Medium.JetBlack.TextSize14"
+            android:id="@+id/lbl_assigned"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/view_assigned"
+            android:layout_toStartOf="@+id/tv_assigned_count"
+            android:layout_below="@+id/lbl_assigned"
+            android:layout_marginStart="@dimen/space_20dp"
+android:textColor="@color/darkGrey"
+android:layout_marginTop="@dimen/space_5dp"
+            android:layout_marginEnd="@dimen/space_20dp"
+            android:text="@string/number_of_parts_assignes"
+            style="@style/Medium.JetBlack.TextSize14"
+            android:id="@+id/lbl_assigned_desc"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2"
+            android:layout_centerVertical="true"
+            style="@style/Medium.JetBlack.TextSize16"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/tv_assigned_count"/>
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/space_20dp"
+        android:id="@+id/lay_pending_for_delivery"
+
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lay_assigned_for_delivery">
+
+        <View
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/space_80dp"
+            android:background="@color/color_pending_delivery"
+            android:layout_height="@dimen/space_30dp"
+            android:id="@+id/view_pending"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/view_pending"
+            android:layout_toStartOf="@+id/tv_pending_count"
+            android:layout_marginStart="@dimen/space_20dp"
+            android:layout_marginEnd="@dimen/space_20dp"
+            android:text="@string/pending_for_delivery"
+            style="@style/Medium.JetBlack.TextSize14"
+            android:id="@+id/lbl_pending"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/view_pending"
+            android:layout_toStartOf="@+id/tv_pending_count"
+            android:layout_below="@+id/lbl_pending"
+            android:layout_marginStart="@dimen/space_20dp"
+            android:textColor="@color/darkGrey"
+            android:layout_marginTop="@dimen/space_5dp"
+            android:layout_marginEnd="@dimen/space_20dp"
+            android:text="@string/number_of_parts_that_are"
+            style="@style/Medium.JetBlack.TextSize14"
+            android:id="@+id/lbl_pending_desc"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2"
+            android:layout_centerVertical="true"
+            style="@style/Medium.JetBlack.TextSize16"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/tv_pending_count"/>
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/space_20dp"
+        android:id="@+id/lay_return"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lay_pending_for_delivery"
+
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/space_80dp"
+            android:background="@color/color_pending_return"
+            android:layout_height="@dimen/space_30dp"
+            android:id="@+id/view_return"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/view_return"
+            android:layout_toStartOf="@+id/tv_return_count"
+            android:layout_marginStart="@dimen/space_20dp"
+            android:layout_marginEnd="@dimen/space_20dp"
+            android:text="@string/pending_return"
+            style="@style/Medium.JetBlack.TextSize14"
+            android:id="@+id/lbl_return"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/view_return"
+            android:layout_toStartOf="@+id/tv_return_count"
+            android:layout_below="@+id/lbl_return"
+            android:layout_marginStart="@dimen/space_20dp"
+            android:textColor="@color/darkGrey"
+            android:layout_marginTop="@dimen/space_5dp"
+            android:layout_marginEnd="@dimen/space_20dp"
+            android:text="@string/number_of_returned_parts"
+            style="@style/Medium.JetBlack.TextSize14"
+            android:id="@+id/lbl_return_desc"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2"
+            android:layout_centerVertical="true"
+            style="@style/Medium.JetBlack.TextSize16"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/tv_return_count"/>
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

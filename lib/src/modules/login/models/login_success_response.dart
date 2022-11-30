@@ -6,18 +6,29 @@ part 'login_success_response.g.dart';
 class LoginSuccessResponse {
   @JsonKey(name: "r_id")
   String? referenceId;
-  @JsonKey(name: "token")
-  String? token;
-  @JsonKey(name: "s")
-  bool? status;
+  @JsonKey(name: "dt")
+  LoginSuccessData? data;
 
   LoginSuccessResponse({
-    this.status,
     this.referenceId,
-    this.token,
+    this.data,
   });
 
   static LoginSuccessResponse fromJson(Map<String, dynamic> data) => _$LoginSuccessResponseFromJson(data);
 
   Map<String, dynamic> toJson() => _$LoginSuccessResponseToJson(this);
+}
+
+@JsonSerializable()
+class LoginSuccessData {
+  @JsonKey(name: "token")
+  String? token;
+  @JsonKey(name: "s")
+  bool? status;
+
+  LoginSuccessData(this.token, this.status);
+
+  static LoginSuccessData fromJson(Map<String, dynamic> data) => _$LoginSuccessDataFromJson(data);
+
+  Map<String, dynamic> toJson() => _$LoginSuccessDataToJson(this);
 }

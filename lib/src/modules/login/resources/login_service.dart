@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:core_widgets/core_widgets.dart';
-
 import '../../../services/trc_service.dart';
 import '../models/login_success_response.dart';
 

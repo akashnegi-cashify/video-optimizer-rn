@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/space_10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:hint="@string/enter_part_barcode"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/space_10dp"
+                    android:id="@+id/et_part"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_20sp"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/alert_red"/>
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/confirm"
+                android:layout_marginStart="@dimen/space_10dp"
+                android:text="or"/>
+
+
+            <Button
+                android:id="@+id/btn_scan_part_barcode"
+                style="@style/TealButtonRoundCorner"
+                android:layout_width="@dimen/space_100dp"
+
+                android:text="@string/scan"
+                android:layout_height="wrap_content"
+
+
+
+                />
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_3dp"
+            android:background="@color/lightGrey"
+            />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/space_10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:hint="@string/enter_device_barcode"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_device"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_20sp"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/alert_red"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/confirm"
+                android:layout_marginStart="@dimen/space_10dp"
+                android:text="or"/>
+
+
+            <Button
+                android:id="@+id/btn_scan_device_barcode"
+                style="@style/TealButtonRoundCorner"
+                android:layout_width="@dimen/space_100dp"
+
+                android:text="@string/scan"
+                android:layout_height="wrap_content"
+
+
+
+                />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_submit"
+            style="@style/TealButtonRoundCorner"
+            android:layout_width="@dimen/space_100dp"
+
+            android:text="@string/submit"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/space_20dp"
+            android:layout_height="wrap_content"
+
+
+
+            />
+    </LinearLayout>
+
+</layout>
