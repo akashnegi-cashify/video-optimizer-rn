@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tech Refurbish Center Stage</string>
+    <string name="base_api_url">api.stage.cashify.in</string>
+    <string name="base_auth_url">http://cas.api.stage.cashify.in</string>
+    <string name="end_auth_url">/v1/oauth/token?grant_type=implicit&amp;client_id=trc-app&amp;client_version=v1</string>
+    <string name="auth_api_url">api.stage.cashify.in</string>
+
+</resources>

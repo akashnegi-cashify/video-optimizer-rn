@@ -136,10 +136,10 @@
         <activity
             android:name=".module.engineer.ui.activity.SelfAssignPartActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.splash.SplashActivity"
-            android:screenOrientation="portrait">
-        </activity>
+<!--        <activity-->
+<!--            android:name=".module.splash.SplashActivity"-->
+<!--            android:screenOrientation="portrait">-->
+<!--        </activity>-->
         <activity
             android:name=".module.login.LoginActivity"
             android:screenOrientation="portrait" />

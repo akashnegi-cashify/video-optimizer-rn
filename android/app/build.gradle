@@ -29,7 +29,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
+//apply from: '../jacoco.gradle'
 
 
 
@@ -57,6 +57,14 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    androidExtensions {
+        experimental = true
     }
 
     signingConfigs {
@@ -106,17 +114,27 @@ android {
             signingConfig signingConfigs.cashify
             dimension "tier"
         }
-        beta {
-            applicationId "in.cashify.androidtrc.beta"
-            signingConfig signingConfigs.cashify
-            dimension "tier"
-        }
+//        beta {
+//            applicationId "in.cashify.androidtrc.beta"
+//            signingConfig signingConfigs.cashify
+//            dimension "tier"
+//        }
         stage {
             applicationId "in.cashify.androidtrc.stage"
             dimension "tier"
             signingConfig signingConfigs.stage
         }
     }
+
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//
+//    kotlinOptions {
+//        jvmTarget = JavaVersion.VERSION_1_8
+//    }
+
 }
 
 flutter {

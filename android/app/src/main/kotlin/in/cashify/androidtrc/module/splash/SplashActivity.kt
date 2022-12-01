@@ -22,20 +22,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 class SplashActivity : BaseActivity(), Animator.AnimatorListener {
 
-    override fun onAnimationRepeat(animation: Animator?) {
-
-    }
-
-    override fun onAnimationEnd(animation: Animator?) {
-        load()
-    }
-
-    override fun onAnimationCancel(animation: Animator?) {
-    }
-
-    override fun onAnimationStart(animation: Animator?) {
-    }
-
     lateinit var binding: ActivitySplashBinding
 
     override fun getLayoutResId(): Int {
@@ -98,6 +84,22 @@ class SplashActivity : BaseActivity(), Animator.AnimatorListener {
                 }
             }
         }).execute()
+    }
+
+    override fun onAnimationStart(animation: Animator) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAnimationEnd(animation: Animator) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAnimationCancel(animation: Animator) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAnimationRepeat(animation: Animator) {
+        TODO("Not yet implemented")
     }
 
 }
