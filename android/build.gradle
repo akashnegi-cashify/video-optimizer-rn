@@ -43,11 +43,12 @@ buildscript {
     ]
 
 
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.6.21'
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://maven.google.com' }
+//        maven { url 'https://maven.google.com' }
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
@@ -58,7 +59,7 @@ buildscript {
 //        classpath 'com.android.tools.build:gradle:4.1.1'
 //        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // Add the dependency for the Performance Monitoring plugin
-        classpath 'com.google.firebase:perf-plugin:1.3.4'  // Performance Monitoring plugin
+        classpath 'com.google.firebase:perf-plugin:1.4.2'  // Performance Monitoring plugin
         classpath 'com.google.gms:google-services:4.3.13'
         // Add the Crashlytics Gradle plugin
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
@@ -70,9 +71,8 @@ buildscript {
 
 allprojects {
     repositories {
-
-        mavenCentral()
         google()
+        mavenCentral()
         maven {
             url 'https://maven.google.com/'
             name 'Google'
@@ -85,19 +85,14 @@ allprojects {
             }
         }
         maven { url "https://jitpack.io" }
-
-
-//        google()
-//        mavenCentral()
-//        maven {
-//            url 's3://in.cashify.sdk/maven/'
-//            credentials(AwsCredentials) {
-//                accessKey = AWS_ACCESS_KEY
-//                secretKey = AWS_SECRET_KEY
-//            }
-//        }
-//        maven { url "https://jitpack.io" }
     }
+}
+
+ext {
+    cshCompileSdkVersion = 33
+    cshMinSdkVersion = 21
+    cshTargetSdkVersion = 32
+    cd_core_ktx = '1.9.0'
 }
 
 rootProject.buildDir = '../build'

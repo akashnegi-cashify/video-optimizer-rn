@@ -131,7 +131,7 @@ class ListReturnPartsResponse() : BaseResponse(), Parcelable {
             return 0
         }
 
-        override fun writeToParcel(dest: Parcel?, flags: Int) {
+        override fun writeToParcel(dest: Parcel, flags: Int) {
             dest?.writeTypedList(partList)
         }
 
