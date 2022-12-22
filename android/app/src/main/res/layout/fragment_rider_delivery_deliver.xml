@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/bg_search"
+            android:layout_margin="@dimen/space_10dp"
+            android:drawableStart="@drawable/ic_search"
+            android:padding="@dimen/space_5dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox_urgent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_search"
+            android:layout_margin="@dimen/space_10dp"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_16sp"
+            android:text="@string/show_urgent_req"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/recyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/checkbox_urgent"
+            app:layout_constraintBottom_toTopOf="@+id/linear_btn"
+            android:layout_marginTop="@dimen/space_20dp"
+            tools:itemCount="10"
+
+            tools:listitem="@layout/row_rider_delivery_deliver"/>
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_10dp"
+            android:id="@+id/linear_btn"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/previous"
+                style="@style/Medium.Teal.TextSize14"
+                android:gravity="start"
+                android:id="@+id/tv_previous"
+                android:drawableStart="@drawable/ic_arrow_left"
+                android:layout_height="wrap_content"/>
+
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/next"
+                style="@style/Medium.Teal.TextSize14"
+                android:gravity="end"
+                android:id="@+id/tv_next"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

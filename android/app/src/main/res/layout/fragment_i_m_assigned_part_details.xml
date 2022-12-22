@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="in.cashify.androidtrc.module.inventory_manager.InventoryManagerAssignedPartViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".module.inventory_manager.fragment.pending.IMPendingDevicePartDetailsFragment">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/scroll"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_lay"
+            android:layout_height="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="vertical">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/card_details"
+                    android:elevation="@dimen/cardview_default_elevation">
+
+
+                    <LinearLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_5dp"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/space_5dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/device_barcode"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                android:id="@+id/tv_barcode"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                tools:text="dfuyfjdifflyudfukl"/>
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/space_5dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/device_name"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                android:id="@+id/tv_device_name"
+                                android:gravity="end"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                tools:text="dfuyfjdifflyudfukl"/>
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/space_5dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/engineers_name"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                android:id="@+id/tv_engineer_name"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:gravity="end"
+                                tools:text="dfuyfjdifflyudfukl"/>
+
+
+                        </LinearLayout>
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/space_5dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/location"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                android:id="@+id/tv_location"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:gravity="end"
+                                tools:text="dfuyfjdifflyudfukl"/>
+
+
+                        </LinearLayout>
+
+
+
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+
+
+
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:id="@+id/btnSync"-->
+                <!--                    android:layout_gravity="end"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/card_details"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    android:layout_marginTop="@dimen/space_10dp"-->
+                <!--                    style="@style/Medium.JetBlack.TextSize14"-->
+                <!--                    android:layout_margin="@dimen/space_10dp"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:background="@color/teal"-->
+                <!--                    android:paddingStart="@dimen/space_10dp"-->
+                <!--                    android:paddingEnd="@dimen/space_10dp"-->
+                <!--                    android:paddingTop="@dimen/space_5dp"-->
+                <!--                    android:drawablePadding="@dimen/space_5dp"-->
+                <!--                    android:paddingBottom="@dimen/space_5dp"-->
+                <!--                    android:drawableStart="@drawable/ic_sync"-->
+
+                <!--                    android:text="@string/sync"/>-->
+
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_part_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/card_details"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_margin="@dimen/space_10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/bottom_lay"
+                    android:layout_marginTop="@dimen/space_20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/space_10dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/part_name"
+                                android:layout_weight="1"/>
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                tools:text="hgasJkaLzshgj"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:id="@+id/tv_part_name"
+                                android:gravity="end"
+                                android:layout_weight="1"/>
+                        </LinearLayout>
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/space_10dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/part_sku"
+                                android:layout_weight="1"/>
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                tools:text="hgasJkaLzshgj"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:gravity="end"
+                                android:id="@+id/tv_part_sku"
+                                android:layout_weight="1"/>
+                        </LinearLayout>
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/space_10dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/part_status"
+                                android:layout_weight="1"/>
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                tools:text="hgasJkaLzshgj"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:id="@+id/tv_part_status"
+                                android:gravity="end"
+                                android:layout_weight="1"/>
+                        </LinearLayout>
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/space_10dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/part_color"
+                                android:layout_weight="1"/>
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                tools:text="hgasJkaLzshgj"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:id="@+id/tv_part_color"
+                                android:gravity="end"
+                                android:layout_weight="1"/>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/lay_alternate_parts"
+
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="@dimen/space_10dp">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Medium.Teal.TextSize14"
+                                    android:text="@string/alternate_part_sku"
+                                    android:layout_weight="1"/>
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Medium.JetBlack.TextSize14"
+                                    tools:text="hgasJkaLzshgj"
+                                    android:layout_marginStart="@dimen/space_10dp"
+                                    android:id="@+id/tv_alternate_part_sku"
+                                    android:gravity="end"
+                                    android:layout_weight="1"/>
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="@dimen/space_10dp">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Medium.Teal.TextSize14"
+                                    android:text="@string/alternate_part_status"
+                                    android:layout_weight="1"/>
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Medium.JetBlack.TextSize14"
+                                    tools:text="hgasJkaLzshgj"
+                                    android:layout_marginStart="@dimen/space_10dp"
+                                    android:id="@+id/tv_alternate_part_status"
+                                    android:gravity="end"
+                                    android:layout_weight="1"/>
+                            </LinearLayout>
+
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="@dimen/space_10dp">
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Medium.Teal.TextSize14"
+                                    android:text="@string/alternate_part_color"
+                                    android:layout_weight="1"/>
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    style="@style/Medium.JetBlack.TextSize14"
+                                    tools:text="hgasJkaLzshgj"
+                                    android:layout_marginStart="@dimen/space_10dp"
+                                    android:id="@+id/tv_alternate_part_color"
+                                    android:gravity="end"
+                                    android:layout_weight="1"/>
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:id="@+id/lay_available_quantity"
+                            android:layout_marginTop="@dimen/space_10dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/available_quantity"
+                                android:layout_weight="1"/>
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                android:text="@string/get_quantity"
+
+                                android:background="@color/teal"
+                                android:textColor="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/space_3dp"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:id="@+id/tv_available_quantity"
+                                android:layout_weight="1"/>
+
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                android:text="@string/get_quantity"
+
+                                android:gravity="end"
+                                android:padding="@dimen/space_3dp"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:id="@+id/tv_quantity"
+                                android:layout_weight="1"/>
+                        </LinearLayout>
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/space_10dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.Teal.TextSize14"
+                                android:text="@string/requested_quantity"
+                                android:layout_weight="1"/>
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                style="@style/Medium.JetBlack.TextSize14"
+                                tools:text="hgasJkaLzshgj"
+                                android:layout_marginStart="@dimen/space_10dp"
+                                android:id="@+id/tv_requested_quantity"
+                                android:gravity="end"
+                                android:layout_weight="1"/>
+                        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+
+                </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/space_10dp"
+                    android:id="@+id/card_bar_code">
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/space_10dp"
+                        android:layout_marginTop="@dimen/space_10dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            style="@style/Medium.Teal.TextSize14"
+                            android:text="@string/part_barcode"
+                            android:layout_weight="1"/>
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            style="@style/Medium.JetBlack.TextSize14"
+                            android:gravity="end"
+                            android:layout_marginStart="@dimen/space_10dp"
+                            android:id="@+id/tv_part_barcode"
+                            tools:text="76348483e54988594"
+                            android:layout_weight="1"
+                            />
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_unlink"
+                            android:padding="@dimen/space_5dp"
+                            android:id="@+id/img_unlink"/>
+
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_lay"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_10dp"
+                android:id="@+id/linear_btn"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+
+
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/space_10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_assign"
+                    android:background="@null"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/space_10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/card_part_details"
+                    android:id="@+id/btn_cancel"/>
+
+
+
+
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/go_back"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/space_10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn_cancel"
+                    android:layout_marginStart="@dimen/space_20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/card_part_details"
+                    style="@style/TealButton.TextSize10"
+                    android:id="@+id/btn_go_back"/>
+
+
+                <!--                <Button-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="@string/assign"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:layout_margin="@dimen/space_10dp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toEndOf="@+id/btn_cancel"-->
+                <!--                    android:layout_marginStart="@dimen/space_20dp"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/card_part_details"-->
+                <!--                    style="@style/TealButton.TextSize10"-->
+                <!--                    android:id="@+id/btn_assign"/>-->
+
+            </LinearLayout>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is off -->
+
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <!-- Show a splash screen on the activity. Automatically removed when
              Flutter draws its first frame -->
@@ -10,9 +9,887 @@
          This theme determines the color of the Android Window while your
          Flutter UI initializes, as well as behind your Flutter UI while its
          running.
-         
+
          This Theme is only used starting with V2 of Flutter's Android embedding. -->
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/teal</item>
+    </style>
+
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/teal</item>
+    </style>
+
+    <style name="ToolbarTheme">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="actionBarWidgetTheme">@null</item>
+        <item name="android:textAppearance">@style/ActionBarTextAppearance</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="ActionBarTextAppearance" parent="JetBlack.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.NoTitle" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Teal">
+        <item name="android:textColor">@color/teal</item>
+    </style>
+
+    <style name="Red">
+        <item name="android:textColor">@color/red_text_dim</item>
+    </style>
+
+    <style name="JetBlack">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="White">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="DarkGrey">
+        <item name="android:textColor">@color/darkGrey</item>
+    </style>
+
+    <style name="LightGrey">
+        <item name="android:textColor">@color/lightGrey</item>
+    </style>
+
+    <style name="Engineer">
+        <item name="android:colorBackground">@color/teal</item>
+    </style>
+
+    <style name="Runner">
+        <item name="android:colorBackground">@color/runnerColorPrimary</item>
+    </style>
+
+    <!--Teal Color Text Styles-->
+    <style name="Teal.TextSize34" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_34sp</item>
+    </style>
+
+    <style name="Teal.TextSize28" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_28sp</item>
+    </style>
+
+    <style name="Teal.TextSize24" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+    </style>
+
+    <style name="Teal.TextSize20" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
+
+    <style name="Teal.TextSize18" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style>
+
+    <style name="Teal.TextSize16" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="Teal.TextSize14" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+
+    <style name="Teal.TextSize12" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+    </style>
+
+    <style name="Teal.TextSize10" parent="Teal">
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+    </style>
+
+
+    <!--Red Color Text Styles-->
+    <style name="Red.TextSize34" parent="Red">
+        <item name="android:textSize">@dimen/text_size_34sp</item>
+    </style>
+
+    <style name="Red.TextSize28" parent="Red">
+        <item name="android:textSize">@dimen/text_size_28sp</item>
+    </style>
+
+    <style name="Red.TextSize24" parent="Red">
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+    </style>
+
+    <style name="Red.TextSize20" parent="Red">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
+
+    <style name="Red.TextSize18" parent="Red">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style>
+
+    <style name="Red.TextSize16" parent="Red">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="Red.TextSize14" parent="Red">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+
+    <style name="Red.TextSize12" parent="Red">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+    </style>
+
+    <style name="Red.TextSize10" parent="Red">
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+    </style>
+
+
+    <!--JetBlack Color Text Styles-->
+    <style name="JetBlack.TextSize34" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_34sp</item>
+    </style>
+
+    <style name="JetBlack.TextSize28" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_28sp</item>
+    </style>
+
+    <style name="JetBlack.TextSize24" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+    </style>
+
+    <style name="JetBlack.TextSize20" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
+
+    <style name="JetBlack.TextSize18" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style>
+
+    <style name="JetBlack.TextSize16" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="JetBlack.TextSize14" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+
+    <style name="JetBlack.TextSize12" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+    </style>
+
+    <style name="JetBlack.TextSize10" parent="JetBlack">
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+    </style>
+
+
+    <!--DarkGrey Color Text Styles-->
+    <style name="DarkGrey.TextSize34" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_34sp</item>
+    </style>
+
+    <style name="DarkGrey.TextSize28" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_28sp</item>
+    </style>
+
+    <style name="DarkGrey.TextSize24" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+    </style>
+
+    <style name="DarkGrey.TextSize20" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
+
+    <style name="DarkGrey.TextSize18" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style>
+
+    <style name="DarkGrey.TextSize16" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="DarkGrey.TextSize14" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+
+    <style name="DarkGrey.TextSize12" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+    </style>
+
+    <style name="DarkGrey.TextSize10" parent="DarkGrey">
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+    </style>
+
+    <!--LightGrey Color Text Styles-->
+    <style name="LightGrey.TextSize34" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_34sp</item>
+    </style>
+
+    <style name="LightGrey.TextSize28" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_28sp</item>
+    </style>
+
+    <style name="LightGrey.TextSize24" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+    </style>
+
+    <style name="LightGrey.TextSize20" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
+
+    <style name="LightGrey.TextSize18" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style>
+
+    <style name="LightGrey.TextSize16" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="LightGrey.TextSize14" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+
+    <style name="LightGrey.TextSize12" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+    </style>
+
+    <style name="LightGrey.TextSize10" parent="LightGrey">
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+    </style>
+
+
+    <!--White Color Text Styles-->
+    <style name="White.TextSize34" parent="White">
+        <item name="android:textSize">@dimen/text_size_34sp</item>
+    </style>
+
+    <style name="White.TextSize28" parent="White">
+        <item name="android:textSize">@dimen/text_size_28sp</item>
+    </style>
+
+    <style name="White.TextSize24" parent="White">
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+    </style>
+
+    <style name="White.TextSize20" parent="White">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+    </style>
+
+    <style name="White.TextSize18" parent="White">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style>
+
+    <style name="White.TextSize16" parent="White">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="White.TextSize14" parent="White">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+
+    <style name="White.TextSize12" parent="White">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+    </style>
+
+    <style name="White.TextSize10" parent="White">
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+    </style>
+
+    <!--Regular Font-->
+
+    <style name="Regular.Teal.TextSize34" parent="Teal.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Teal.TextSize28" parent="Teal.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Teal.TextSize24" parent="Teal.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Teal.TextSize20" parent="Teal.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Teal.TextSize18" parent="Teal.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Teal.TextSize16" parent="Teal.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Teal.TextSize14" parent="Teal.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Teal.TextSize12" parent="Teal.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Teal.TextSize10" parent="Teal.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <!--Medium font-->
+
+    <style name="Medium.JetBlack.TextSize34" parent="JetBlack.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.JetBlack.TextSize28" parent="JetBlack.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.JetBlack.TextSize24" parent="JetBlack.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.JetBlack.TextSize20" parent="JetBlack.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.JetBlack.TextSize18" parent="JetBlack.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.JetBlack.TextSize16" parent="JetBlack.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.JetBlack.TextSize14" parent="JetBlack.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.JetBlack.TextSize12" parent="JetBlack.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.JetBlack.TextSize10" parent="JetBlack.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize34" parent="Teal.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize28" parent="Teal.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize24" parent="Teal.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize20" parent="Teal.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize18" parent="Teal.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize16" parent="Teal.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize14" parent="Teal.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize12" parent="Teal.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Teal.TextSize10" parent="Teal.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize34" parent="Red.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize28" parent="Red.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize24" parent="Red.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize20" parent="Red.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize18" parent="Red.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize16" parent="Red.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize14" parent="Red.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize12" parent="Red.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="Medium.Red.TextSize10" parent="Red.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <!--Semi Bold Teal font-->
+
+    <style name="SemiBold.Teal.TextSize34" parent="Teal.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Teal.TextSize28" parent="Teal.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Teal.TextSize24" parent="Teal.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Teal.TextSize20" parent="Teal.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Teal.TextSize18" parent="Teal.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Teal.TextSize16" parent="Teal.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Teal.TextSize14" parent="Teal.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Teal.TextSize12" parent="Teal.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Teal.TextSize10" parent="Teal.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <!--Semi Bold Red font-->
+
+    <style name="SemiBold.Red.TextSize34" parent="Red.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Red.TextSize28" parent="Red.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Red.TextSize24" parent="Red.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Red.TextSize20" parent="Red.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Red.TextSize18" parent="Red.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Red.TextSize16" parent="Red.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Red.TextSize14" parent="Red.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Red.TextSize12" parent="Red.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Red.TextSize10" parent="Red.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+
+    <!--Regular Red font-->
+    <style name="Regular.Red.TextSize34" parent="Red.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Red.TextSize28" parent="Red.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Red.TextSize24" parent="Red.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Red.TextSize20" parent="Red.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Red.TextSize18" parent="Red.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Red.TextSize16" parent="Red.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Red.TextSize14" parent="Red.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Red.TextSize12" parent="Red.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Red.TextSize10" parent="Red.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <!--Semi Bold Black font-->
+
+    <style name="SemiBold.JetBlack.TextSize34" parent="JetBlack.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.JetBlack.TextSize28" parent="JetBlack.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.JetBlack.TextSize24" parent="JetBlack.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.JetBlack.TextSize20" parent="JetBlack.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.JetBlack.TextSize18" parent="JetBlack.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.JetBlack.TextSize16" parent="JetBlack.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.JetBlack.TextSize14" parent="JetBlack.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.JetBlack.TextSize12" parent="JetBlack.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.JetBlack.TextSize10" parent="JetBlack.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="DialogUpDownAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <style name="Regular.White.TextSize34" parent="White.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.White.TextSize28" parent="White.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.White.TextSize24" parent="White.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.White.TextSize20" parent="White.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.White.TextSize18" parent="White.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.White.TextSize16" parent="White.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.White.TextSize14" parent="White.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.White.TextSize12" parent="White.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.White.TextSize10" parent="White.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize34" parent="White.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize28" parent="White.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize24" parent="White.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize20" parent="White.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize18" parent="White.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize16" parent="White.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize14" parent="White.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize12" parent="White.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.White.TextSize10" parent="White.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="Regular.Black.TextSize34" parent="JetBlack.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Black.TextSize28" parent="JetBlack.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Black.TextSize24" parent="JetBlack.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Black.TextSize20" parent="JetBlack.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Black.TextSize18" parent="JetBlack.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Black.TextSize16" parent="JetBlack.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Black.TextSize14" parent="JetBlack.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Black.TextSize12" parent="JetBlack.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Regular.Black.TextSize10" parent="JetBlack.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize34" parent="JetBlack.TextSize34">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize28" parent="JetBlack.TextSize28">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize24" parent="JetBlack.TextSize24">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize20" parent="JetBlack.TextSize20">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize18" parent="JetBlack.TextSize18">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize16" parent="JetBlack.TextSize16">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize14" parent="JetBlack.TextSize14">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize12" parent="JetBlack.TextSize12">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <style name="SemiBold.Black.TextSize10" parent="JetBlack.TextSize10">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+
+    <style name="TealButtonRoundCorner" parent="White.TextSize14"><!-- Also change the same in values/style.xml file -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_marginStart">@dimen/space_30dp</item>
+        <item name="android:layout_marginEnd">@dimen/space_30dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/teal_bg_round_corner</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:elevation">@dimen/space_3dp</item>
+
+    </style>
+
+    <style name="GreyButtonRoundCorner" parent="White.TextSize14"><!-- Also change the same in values/style.xml file -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_marginStart">@dimen/space_30dp</item>
+        <item name="android:layout_marginEnd">@dimen/space_30dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/dark_grey_bg_round_corner</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:elevation">@dimen/space_3dp</item>
+
+    </style>
+
+    <style name="ButtonRoundCorner" parent="White.TextSize14"><!-- Also change the same in values/style.xml file -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_marginStart">@dimen/space_30dp</item>
+        <item name="android:layout_marginEnd">@dimen/space_30dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/disabled_bg_round_corner</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:elevation">@dimen/space_3dp</item>
+
+    </style>
+
+    <style name="RedButtonRoundCorner" parent="White.TextSize14"><!-- Also change the same in values/style.xml file -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_marginStart">@dimen/space_30dp</item>
+        <item name="android:layout_marginEnd">@dimen/space_30dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/red_bg_round_corner</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:elevation">@dimen/space_3dp</item>
+
+    </style>
+
+    <style name="TealButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:layout_marginLeft">@dimen/space_30dp</item>
+        <item name="android:layout_marginRight">@dimen/space_30dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/teal_bg_round_corner</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:elevation">@dimen/space_3dp</item>
+
+    </style>
+
+    <style name="TealButton.TextSize10" parent="TealButton">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+    </style>
+
+    <style name="EditTextRoundCornerWhite" parent="JetBlack.TextSize16"><!-- Also change the same in values/style.xml file -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/space_65dp</item>
+        <item name="android:background">@drawable/white_bg_round_corner</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:padding">@dimen/space_4dp</item>
+        <item name="android:elevation">@dimen/space_4dp</item>
+        <item name="android:paddingStart">@dimen/space_18dp</item>
+        <item name="android:layout_marginLeft">@dimen/space_16dp</item>
+        <item name="android:layout_marginRight">@dimen/space_16dp</item>
+        <item name="android:layout_marginTop">@dimen/space_18dp</item>
+    </style>
+
+    <style name="BgRoundCornerWhite"><!-- Also change the same in values/style.xml file -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/white_bg_round_corner</item>
+        <item name="android:padding">@dimen/space_5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+        <item name="android:elevation">@dimen/space_4dp</item>
+    </style>
+
+    <style name="ImageViewRoundCornerGrey"><!-- Also change the same in v21/style.xml file -->
+        <item name="android:background">@drawable/dark_grey_bg_round_corner</item>
+        <item name="android:elevation">@dimen/space_4dp</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#1abea3</item>
+        <item name="colorControlActivated">@color/lightGrey</item>
+    </style>
+
+    <style name="CardPrimary" parent="android:Widget">
+        <item name="android:layout_marginBottom">@dimen/space_6dp</item>
+        <item name="android:layout_marginStart">@dimen/space_6dp</item>
+        <item name="android:layout_marginTop">@dimen/space_6dp</item>
+        <item name="android:layout_marginEnd">@dimen/space_6dp</item>
+        <item name="cardCornerRadius">@dimen/space_10dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="cardElevation">@dimen/space_5dp</item>
+        <item name="cardBackgroundColor">@color/teal</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <declare-styleable name="SearchableSpinner">
+        <attr name="hintText" format="string" />
+    </declare-styleable>
+
 </resources>

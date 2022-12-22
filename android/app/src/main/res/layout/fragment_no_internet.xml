@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:background="@color/white"
+            android:layout_height="match_parent"
+            android:focusable="true">
+
+
+        <ImageView
+
+                android:id="@+id/img_no_internet"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/space_90dp"
+                android:layout_width="0dp"
+                android:src="@drawable/ic_no_internet"
+                android:layout_height="@dimen/space_160dp"/>
+
+        <TextView
+                android:id="@+id/tv_ooops"
+                app:layout_constraintTop_toBottomOf="@+id/img_no_internet"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/space_46dp"
+                style="@style/SemiBold.Teal.TextSize28"
+                android:lineSpacingExtra="6sp"
+                android:gravity="center_horizontal"
+                tools:text="Ooops!"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"/>
+
+
+        <TextView
+
+                style="@style/JetBlack.TextSize16"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ooops"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/space_9dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:lineSpacingExtra="6sp"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/space_35dp"
+                android:layout_marginRight="@dimen/space_35dp"
+                android:text="@string/errror_no_internet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/continue_sign_up"
+                style="@style/TealButtonRoundCorner"
+                android:layout_alignParentBottom="true"
+                android:text="@string/try_again"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:layout_marginTop="@dimen/space_8dp"
+                android:layout_marginStart="@dimen/space_11dp"
+                android:layout_marginEnd="@dimen/space_11dp"
+                android:layout_marginBottom="@dimen/space_11dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

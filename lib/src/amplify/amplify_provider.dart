@@ -1,0 +1,72 @@
+import 'package:core/core.dart';
+import 'package:core_widgets/core_widgets.dart';
+import '../resources/models/s3_details_response.dart';
+import '../services/s3_details.dart';
+import '../utils/misc.dart';
+import 'amplifier.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class AmplifyProvider extends CshChangeNotifier {
+  static AmplifyProvider of(BuildContext context, {bool listen = true}) {
+    return Provider.of<AmplifyProvider>(context, listen: listen);
+  }
+
+  S3DetailsResponse? configResponse;
+
+  getS3DetailsAndConfigureAmplify() {
+    S3DetailsService.fetchS3Details().listen((event) {
+      if (event != null) {
+        configResponse = event;
+
+        Logger.log(
+            'mydebug configResponse?.cognitoPoolId', [configResponse?.data?.bucketName, configResponse?.data?.poolId]);
+        if (!Validator.isNullOrEmpty(configResponse?.data?.bucketName) &&
+            !Validator.isNullOrEmpty(configResponse?.data?.poolId)) {
+          _setAmplifierDetails(configResponse!.data!.bucketName!, configResponse!.data!.poolId!);
+        }
+      }
+    }, onError: (error) {
+      String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
+      Logger.debug('mydebug------AmplifyProvider.getS3DetailsAndConfigureAmplify', [errorMessage]);
+    }, onDone: () {
+      notifyListeners();
+    });
+  }
+
+  //Set amplifier details data;
+  _setAmplifierDetails(String bucketName, String cognitoPoolId) {
+    Amplifier().init(bucketName, cognitoPoolId);
+  }
+
+  uploadFile({
+    required String fileName,
+    String? folderName,
+    dynamic? file,
+    required Function(String) onFileUploaded,
+    required Function(String) onFailed,
+    Function(int currentBytes, int totalBytes)? onProgress,
+  }) {
+    String filePath = appendPath(folderName, fileName);
+
+    if (file != null) {
+      Amplifier().uploadFile(filePath, file, onFileUploaded, onFailed, onProgress: onProgress);
+    }
+  }
+
+  String? getFolderName() {
+    return configResponse?.data?.folderName;
+  }
+
+  Future<String> getS3FileUrlFromS3Key({required String filePath, bool? fullPath = false}) async {
+    String imageUrl = "";
+    if (filePath.startsWith(Amplifier.PREFIX)) {
+      String key = Amplifier.removePrefix(filePath);
+      await Amplifier().getFileUrl(key, fullPath: fullPath).then((value) {
+        imageUrl = value;
+      });
+    }
+    notifyListeners();
+    return imageUrl;
+  }
+}
