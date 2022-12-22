@@ -1,22 +1,25 @@
 import 'dart:async';
-
 import 'package:components/components.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_trc/src/modules/elss/screens/add_device_media_screen.dart';
+import 'package:flutter_trc/src/modules/elss/screens/add_part_screen.dart';
+import 'package:flutter_trc/src/modules/elss/screens/elss_screen.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
+import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
-
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-
+import 'amplify/amplify_provider.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
 import 'libraries/alice/csh_alice.dart';
 import 'localization/csh_localization.dart';
+import 'modules/elss/screens/part_selection_screen.dart';
 import 'modules/splash/splash_screen.dart';
 
 class CashifyApp extends StatefulWidget {
@@ -24,7 +27,6 @@ class CashifyApp extends StatefulWidget {
 
   const CashifyApp(this.appName, {Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   _CashifyAppState createState() => _CashifyAppState();
 }
@@ -100,9 +102,9 @@ class _CashifyAppState extends State<CashifyApp> {
               },
             ),
           ),
-          ChangeNotifierProvider(
+          ChangeNotifierProvider<AmplifyProvider>(
             lazy: false,
-            create: (_) => ConsoleDrawerProvider("/v1/menu-header", serviceGroup: ServiceGroups.console),
+            create: (_) => AmplifyProvider(),
           ),
         ],
         builder: (BuildContext context, _) {
@@ -129,13 +131,11 @@ class _CashifyAppState extends State<CashifyApp> {
                     SplashScreen.route: (_) => const SplashScreen(),
                     LoginScreen.route: (_) => const LoginScreen(),
                     HomeScreen.route: (_) => const HomeScreen(),
-                  },
-                  onUnknownRoute: (settings) {
-                    return MaterialPageRoute(
-                        builder: (context) {
-                          return const PageNotFoundScreen();
-                        },
-                        settings: settings);
+                    ELSSScreen.route: (_) => const ELSSScreen(),
+                    BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
+                    PartSelectionScreen.route: (_) => const PartSelectionScreen(),
+                    AddPartScreen.route: (_) => const AddPartScreen(),
+                    AddDeviceMediaScreen.route: (_) => const AddDeviceMediaScreen(),
                   },
                   initialRoute: SplashScreen.route,
                 );

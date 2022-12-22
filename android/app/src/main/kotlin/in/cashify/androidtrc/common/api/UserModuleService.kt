@@ -3,10 +3,12 @@ package `in`.cashify.androidtrc.common.api
 import `in`.reglobe.api.kotlin.callback.APICallback
 import `in`.reglobe.api.kotlin.response.APIResponse
 import `in`.cashify.androidtrc.common.AppInfoProvider
+import `in`.reglobe.api.kotlin.auth.AuthResponse
 import `in`.reglobe.api.kotlin.util.Defaults
 import android.content.Context
 import android.text.TextUtils
 import android.util.Log
+import com.google.gson.Gson
 
 class UserModuleService<U, L : APIResponse>(val apiClass: Class<U>, appContext: Context) : BaseAuthService<U, L>(appContext)
 {
@@ -18,6 +20,11 @@ class UserModuleService<U, L : APIResponse>(val apiClass: Class<U>, appContext: 
             val headerValue = AppInfoProvider.getInstance().userAuth!!
             addHeader(APIConstant.KEY_USER_AUTH, headerValue)
             Log.d(Defaults.TAG, " : X-USER-AUTH $headerValue")
+        }
+
+
+        if(auth==null){
+            auth= Gson().fromJson(AppInfoProvider.getInstance().authResponse,AuthResponse::class.java)
         }
         super.execute(callback)
     }

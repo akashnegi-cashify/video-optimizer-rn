@@ -20,7 +20,6 @@
         android:text="@string/msg_rec_part"/>
 
     <TextView
-
         android:textStyle="bold"
         android:textColor="@color/confirm"
         android:textSize="@dimen/space_20dp"

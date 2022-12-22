@@ -1,7 +1,9 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/modules/home/home_screen.dart';
+import 'package:flutter_trc/src/amplify/amplify_provider.dart';
+import 'package:flutter_trc/src/modules/elss/screens/elss_screen.dart';
+import '../../home/home_screen.dart';
 import '../l10n.dart';
 import '../providers/login_provider.dart';
 
@@ -121,12 +123,12 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   _submitLoginCredentials(String employeeId, String password, String successMessage, String errorMessage) {
     var provider = TRCLoginProvider.of(context, listen: false);
+
     CshLoading().showLoading(context);
-    provider.userLogin(employeeId, password).then((value) {
+    provider.userLogin(employeeId, password, context).then((value) {
       if (value) {
         CshSnackBar.success(context: context, message: successMessage);
         CshLoading().hideLoading(context);
-        Navigator.of(context).pushReplacementNamed(HomeScreen.route);
       } else {
         CshSnackBar.error(context: context, message: errorMessage);
       }
@@ -136,5 +138,4 @@ class _LoginWidgetState extends State<LoginWidget> {
       CshSnackBar.error(context: context, message: error);
     });
   }
-
 }

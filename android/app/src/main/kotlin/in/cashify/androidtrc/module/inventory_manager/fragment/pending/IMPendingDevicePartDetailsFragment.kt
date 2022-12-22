@@ -62,6 +62,7 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
 
         pendingPartViewModel?.pendingDevicePartResponse?.value = null
         pendingPartViewModel?.availableQuantityResponse?.value = null
+        pendingPartViewModel?.recommendedPartId?.value = null
 
         if (pendingPartViewModel?.partStatus == PartStatus.OTHER) {
             binding?.btnAssign?.isEnabled = false
@@ -84,6 +85,8 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
             binding?.btnAlternatePart?.visibility = View.GONE
             binding?.btnDeadPart?.visibility = View.GONE
             binding?.layAvailableQuantity?.visibility = View.VISIBLE
+            binding?.llSuggestedBarcode?.visibility=View.VISIBLE
+            pendingPartViewModel?.callRecommendedPartApi(pendingPartViewModel?.prid ?: 0)
 
 
         } else if (pendingPartViewModel?.partStatus == PartStatus.NOT_AVAILABLE) {
@@ -110,7 +113,6 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
             binding?.tvEngineerName?.text = it?.data?.en
             binding?.tvLocation?.text = it?.data?.lc
 
-            pendingPartViewModel?.callRecommendedPartApi(pendingPartViewModel?.prid ?: 0)
         })
 
 

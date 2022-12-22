@@ -1,12 +1,16 @@
-import 'package:components/components.dart';
+import 'dart:async';
+
+import 'package:components/auth/handler/auth_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../home/home_screen.dart';
+import '../../resources/user_details.dart';
+import '../../utils/trc_method_channels.dart';
 import '../login/login_screen.dart';
+import '../login/resources/collector_user_controller.dart';
 
 class SplashScreen extends StatefulWidget {
-  static const route = '/splash';
+  static const route = '/';
 
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -19,12 +23,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   void initState() {
-    _lottieAnimationController = AnimationController(vsync: this);
-    _lottieAnimationController?.addStatusListener((status) async {
-      if (status == AnimationStatus.completed) {
-        _checkAuth();
-      }
+    scheduleMicrotask(() {
+      _lottieAnimationController = AnimationController(vsync: this);
+      _lottieAnimationController?.addStatusListener((status) async {
+        if (status == AnimationStatus.completed) {
+          if (mounted) {
+            _checkAuth(context);
+          }
+        }
+      });
     });
+
     super.initState();
   }
 
@@ -36,11 +45,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     }
   }
 
-  void _checkAuth() {
+  void _checkAuth(BuildContext context) async {
     if (AuthHandler().userAuth == null) {
       Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
     } else {
-      Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.route, (route) => false);
+      UserDetails().setUserDetailsData(AuthHandler().userAuth!);
+
+      await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+          loginToken: AuthHandler().userAuth!);
+      if (mounted) {
+        await NativeCall.registerLogout(context);
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 package `in`.cashify.androidtrc.common.dagger
 
+import `in`.cashify.androidtrc.util.PreferenceUtils
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
@@ -14,6 +15,8 @@ import dagger.android.support.DaggerApplication
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
     fun inject(instance: dagger.android.DaggerApplication)
+
+    fun injectSharedPref(): PreferenceUtils
 
     @Component.Builder
     interface Builder {

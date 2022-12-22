@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * UserDetailResponse
  */
 
-class UserDetailResponse : BaseResponse() {
+class UserDetailResponse() : BaseResponse() {
 
     @SerializedName("uid")
     var userId: String? = null
@@ -26,6 +26,7 @@ class UserDetailResponse : BaseResponse() {
     var clientId: String? = null
     @SerializedName("em")
     var emailId: String? = null
+
 
     override fun isValid(condition: String?, isStrict: Boolean): Boolean {
         return true

@@ -29,8 +29,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
-//apply from: '../jacoco.gradle'
-
 
 
 android {
@@ -123,6 +121,7 @@ android {
             applicationId "in.cashify.androidtrc.stage"
             dimension "tier"
             signingConfig signingConfigs.stage
+
         }
     }
 
@@ -144,7 +143,6 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -160,7 +158,8 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.40'
     kapt 'com.google.dagger:dagger-android-processor:2.40'
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-    implementation 'in.cashify.libs.rest-ktx:rest-ktx-canary:1.2.18'
+   // implementation 'in.cashify.libs.rest-ktx:rest-ktx-canary:1.2.18'
+    implementation project(path: ':rest-ktx')
     implementation "com.squareup.okhttp3:logging-interceptor:4.7.2"
     implementation "com.squareup.picasso:picasso:2.71828"
     implementation 'com.facebook.shimmer:shimmer:0.4.0@aar'
@@ -205,7 +204,7 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
-
+//
     implementation 'in.cashify:s3-file-uploader-beta:2.2.0.5'
 
 

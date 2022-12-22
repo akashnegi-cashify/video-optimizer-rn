@@ -17,5 +17,4 @@ enum class ElssAction(val actionString: String) {
     REPAIRABLE_SERVER("Repairable")
 
 
-    // REPAIRABLE and REPAIRABLE_SERVER is same , but at android we use "Required" string to show it to user while we send "Repairable" to server
 }

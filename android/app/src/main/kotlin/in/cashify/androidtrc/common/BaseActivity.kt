@@ -1,27 +1,28 @@
 package `in`.cashify.androidtrc.common
 
+import `in`.cashify.androidtrc.MainActivity
 import `in`.cashify.androidtrc.R
 import `in`.cashify.androidtrc.common.api.UserModuleService
 import `in`.cashify.androidtrc.common.api.callback.BaseAPICallback
 import `in`.cashify.androidtrc.common.fragment.NoInternetFragment
 import `in`.cashify.androidtrc.databinding.ActivityBaseBinding
 import `in`.cashify.androidtrc.module.login.ChangePasswordActivity
-import `in`.cashify.androidtrc.module.login.LoginActivity
 import `in`.cashify.androidtrc.module.login.api.LogOutResponse
 import `in`.cashify.androidtrc.module.login.api.LoginModuleApi
 import `in`.cashify.androidtrc.module.storageManager.ui.activity.StoreInActivity
 import `in`.cashify.androidtrc.module.storageManager.ui.activity.StoreOutActivity
-import `in`.cashify.androidtrc.module.storageManager.ui.activity.VirtualStore
 import `in`.cashify.androidtrc.util.ActivityHelper
 import `in`.cashify.androidtrc.util.AppUtils
-import `in`.cashify.androidtrc.util.PreferenceUtils
 import `in`.cashify.androidtrc.util.TrcProgressDialog
 import `in`.reglobe.api.kotlin.exception.APIException
+import android.app.ActivityManager
 import android.content.*
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
@@ -34,23 +35,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Deferred
 import okhttp3.Response
+import java.util.*
 import javax.inject.Inject
 
 
 abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
 
+
     private var mDialog: TrcProgressDialog? = null
+
     @Inject
     lateinit var mActivityHelper: ActivityHelper
 
-    @Inject
-    lateinit var mPreferenceUtils: PreferenceUtils
 
     @Inject
     lateinit var mAppUtils: AppUtils
@@ -61,17 +60,16 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
     lateinit var baseBinding: ActivityBaseBinding
 
 
-
-         var actionBarDrawerToggle:ActionBarDrawerToggle? =null
+    var actionBarDrawerToggle: ActionBarDrawerToggle? = null
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppInfoProvider.getInstance().init(mPreferenceUtils)
+//        AppInfoProvider.getInstance().init(mPreferenceUtils)
         baseBinding = DataBindingUtil.inflate(layoutInflater, R.layout.activity_base, null, false)
         baseBinding.lifecycleOwner = this
         setContentView(baseBinding.root)
         initToolBar()
-        if(isShowNavDrawer()) {
+        if (isShowNavDrawer()) {
             initNavDrawer()
         }
 
@@ -82,23 +80,22 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
     }
 
 
+    protected open fun initNavDrawer() {
 
-    protected  open fun initNavDrawer(){
 
+        actionBarDrawerToggle =
+            ActionBarDrawerToggle(
+                this,
+                baseBinding.myDrawerLayout,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+            )
 
-             actionBarDrawerToggle =
-                ActionBarDrawerToggle(
-                    this,
-                    baseBinding.myDrawerLayout,
-                    R.string.navigation_drawer_open,
-                    R.string.navigation_drawer_close
-                )
-
-            actionBarDrawerToggle?.let {
-                baseBinding.myDrawerLayout.addDrawerListener(it)
-                actionBarDrawerToggle?.syncState()
-                getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            }
+        actionBarDrawerToggle?.let {
+            baseBinding.myDrawerLayout.addDrawerListener(it)
+            actionBarDrawerToggle?.syncState()
+            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        }
 
 
 
@@ -116,16 +113,26 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
         try {
             val pInfo: PackageInfo = getPackageManager().getPackageInfo(getPackageName(), 0)
             val version = pInfo.versionName
-            baseBinding.tvVersion.setText(String.format(resources.getString(R.string.app_version) , version))
+            baseBinding.tvVersion.setText(
+                String.format(
+                    resources.getString(R.string.app_version),
+                    version
+                )
+            )
 
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
-        baseBinding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_user).setText(String.format(resources.getString(R.string.hi_user), AppInfoProvider.getInstance().getUserDetailResponse()?.userName))
-
+        baseBinding.navView.getHeaderView(0).findViewById<TextView>(R.id.tv_user).setText(
+            String.format(
+                resources.getString(R.string.hi_user),
+                AppInfoProvider.getInstance().getUserDetailResponse()?.userName
+            )
+        )
 
 
     }
+
     private fun initToolBar() {
         if (hasActionBar()) {
             setSupportActionBar(baseBinding.toolbar)
@@ -142,20 +149,18 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
 
         baseBinding.btnLogOut.setOnClickListener {
             showPopUpMenu()
-         }
+        }
     }
 
 
-     fun handleStoreOut()
-    {
+    fun handleStoreOut() {
         val intent = Intent(this, StoreOutActivity::class.java)
         startActivity(intent)
 
     }
 
 
-    protected fun handleStoreIn()
-    {
+    protected fun handleStoreIn() {
 
         val intent = Intent(this, StoreInActivity::class.java)
         startActivity(intent)
@@ -184,21 +189,23 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
     }
 
 
-    override fun setTitle(title: String?)
-    {
+    override fun setTitle(title: String?) {
         baseBinding.tvTitle.text = title
     }
 
     private fun showLogOutAlert() {
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle("Log out...")
-        alertDialog.setMessage(AppInfoProvider.getInstance().getUserName() + ", Do you want to log out" + "?")
+        alertDialog.setMessage(
+            AppInfoProvider.getInstance().getUserName() + ", Do you want to log out" + "?"
+        )
         alertDialog.setPositiveButton(
             "OK"
         ) { _, _ -> logOut() }
         alertDialog.setNegativeButton("Cancel") { _, _ -> }
         alertDialog.show()
     }
+
 
     private fun logOut() {
         showLoading(true)
@@ -350,6 +357,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
     }
 
     private fun destroyLoginSession() {
+//        MainActivity.callLogout()
         AppInfoProvider.getInstance().destroySession()
         launchLoginActivity()
     }
@@ -358,8 +366,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
         title: String?,
         msg: String?,
         positiveButtonText: String?,
-        onPositiveClick: DialogInterface.OnClickListener?
-        , negButtonText: String?,
+        onPositiveClick: DialogInterface.OnClickListener?, negButtonText: String?,
         onNegativeClick: DialogInterface.OnClickListener?
     ) {
         val builder = AlertDialog.Builder(this)
@@ -406,9 +413,11 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
     }
 
     private fun launchLoginActivity() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
+        MainActivity.callLogout().let {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+        }
     }
 
     fun showBottomDialog(
@@ -429,20 +438,36 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
         transaction.commitAllowingStateLoss()
     }
 
+    private fun logOutForFlutter(): Boolean {
 
 
+        val am: ActivityManager = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+        val taskList: List<ActivityManager.RunningTaskInfo> = am.getRunningTasks(10)
+
+        if (taskList.size == 2 && taskList[0].topActivity!!.className.contains("HomeActivity")) {
+            return true;
+        }
+        return false;
 
 
+    }
+
+    override fun onBackPressed() {
+        if (logOutForFlutter()) {
+            this.finishAffinity();
+            return
+        }
+        super.onBackPressed()
+    }
 
 
-
-    protected open fun isShowNavDrawer():Boolean{
+    protected open fun isShowNavDrawer(): Boolean {
         return false
     }
 
 
-
-    protected open fun isShowLogoutButton():Boolean{
+    protected open fun isShowLogoutButton(): Boolean {
         return true
     }
 

@@ -53,6 +53,18 @@ dependencies:
       ref: main
       path: calculator_ui
 
+  s3_file_uploader_interface:
+    git:
+      url: https://github.com/reglobe/flutter_plugins.git
+      ref: prod
+      path: s3_file_uploader_interface
+
+  s3_file_uploader:
+    git:
+      url: https://github.com/reglobe/flutter_plugins.git
+      ref: prod
+      path: s3_file_uploader
+
 
   device_info_plus: ^3.2.4
   sentry_flutter: ^6.5.1
@@ -68,6 +80,10 @@ dependencies:
   firebase_analytics: ^10.0.6
   lottie: ^2.0.0
   jwt_decoder: ^2.0.1
+  cached_network_image: ^3.2.3
+  image_picker: ^0.8.6
+
+
 
 
 
@@ -82,6 +98,7 @@ dev_dependencies:
 
 
 
+
 dependency_overrides:
   permission_handler: ^10.2.0
   webview_flutter: ^3.0.4
@@ -90,6 +107,11 @@ dependency_overrides:
       url: https://github.com/reglobe/flutter_admin_ui.git
       ref: service_group
       path: core_widgets
+
+#  components:
+#    path: ../flutter_admin_ui/components
+#  core_widgets:
+#    path: ../flutter_admin_ui/core_widgets
 
 
 

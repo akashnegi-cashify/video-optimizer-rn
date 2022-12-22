@@ -4,13 +4,15 @@ import `in`.cashify.androidtrc.common.api.APIConstant
 import `in`.cashify.androidtrc.module.login.api.UserDetailResponse
 import `in`.cashify.androidtrc.util.CommonConstant
 import `in`.cashify.androidtrc.util.PreferenceUtils
+import `in`.reglobe.api.kotlin.auth.AuthResponse
 import android.text.TextUtils
 import com.google.gson.Gson
+import javax.inject.Inject
 
 
 class AppInfoProvider private constructor() {
 
-    private var preferenceUtils: PreferenceUtils? = null
+    private  var preferenceUtils: PreferenceUtils? = null
 
     companion object {
 
@@ -40,6 +42,19 @@ class AppInfoProvider private constructor() {
 
     val userProfilePicUrl: String?
         get() = preferenceUtils?.getString(CommonConstant.KEY_IMAGE_URL)
+
+
+    val authResponse: String?
+        get() = preferenceUtils?.getString(APIConstant.AUTH_RESPONSE)
+
+
+    fun saveAuthResponse(authResponse: String?) {
+        if (authResponse == null || authResponse.isEmpty()) {
+            return
+        }
+        preferenceUtils?.putString(APIConstant.AUTH_RESPONSE, authResponse)
+    }
+
 
     fun saveUserName(name: String?) {
         if (name == null || name.isEmpty()) {

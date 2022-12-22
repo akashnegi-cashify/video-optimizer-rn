@@ -8,5 +8,7 @@ interface APIConstant {
         val SERVICE_NAME = "trc"
         val SERVICE_VERSION = "v1"
         val LOGIN_SMS_TYPE = "sms"
+
+        val AUTH_RESPONSE = "auth_response"
     }
 }
