@@ -262,7 +262,7 @@ packages:
     description:
       path: calculator_ui
       ref: main
-      resolved-ref: b5e0c9e15344e448c4e78fcba9e3bd8066d965fb
+      resolved-ref: "352732dec8e84d611c869003d8d751e213bb69db"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"
@@ -397,7 +397,7 @@ packages:
     description:
       path: components
       ref: main
-      resolved-ref: b5e0c9e15344e448c4e78fcba9e3bd8066d965fb
+      resolved-ref: "352732dec8e84d611c869003d8d751e213bb69db"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"
@@ -463,8 +463,8 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: service_group
-      resolved-ref: "3df4f992a93418ba77563c7b8b6ef2fec964c802"
+      ref: main
+      resolved-ref: "352732dec8e84d611c869003d8d751e213bb69db"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"
@@ -1045,7 +1045,7 @@ packages:
     description:
       path: media_widget
       ref: main
-      resolved-ref: b5e0c9e15344e448c4e78fcba9e3bd8066d965fb
+      resolved-ref: "352732dec8e84d611c869003d8d751e213bb69db"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"

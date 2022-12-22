@@ -20,8 +20,8 @@ class NativeCall {
         });
   }
 
-  static void onLogout(BuildContext context) {
-    AuthHandler().onSessionExpire();
+  static void onLogout(BuildContext context) async{
+    await AuthHandler().onSessionExpire();
 
     Logger.debug('mydebug------NativeCall.onLogout----Cleared', [AuthHandler().userAuth]);
     Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
