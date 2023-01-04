@@ -48,8 +48,7 @@ buildscript {
         google()
         mavenCentral()
 //        maven { url 'https://maven.google.com' }
-//        maven { url 'https://maven.fabric.io/public' }
-
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
@@ -78,8 +77,6 @@ allprojects {
             url 'https://maven.google.com/'
             name 'Google'
         }
-
-        maven { url "https://jitpack.io" }
         maven {
             url 's3://in.cashify.sdk/maven/'
             credentials(AwsCredentials) {
@@ -87,6 +84,7 @@ allprojects {
                 secretKey = AWS_SECRET_KEY
             }
         }
+        maven { url "https://jitpack.io" }
     }
 }
 
