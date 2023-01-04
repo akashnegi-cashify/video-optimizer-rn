@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
 import '../../../utils/trc_method_channels.dart';
-import '../../elss/screens/elss_screen.dart';
+
+import '../../elss/screens/qc_and_trc_option_screen.dart';
 
 class UserRoles {
   static const String ROLE_STORAGE_MANAGER = "STORAGE_MANAGER";
@@ -23,7 +24,7 @@ class UserRoles {
     if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
       var amplifyPro = AmplifyProvider.of(context, listen: false);
       amplifyPro.getS3DetailsAndConfigureAmplify();
-      Navigator.of(context).pushNamedAndRemoveUntil(ELSSScreen.route, (route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(QcAndTRCOptionScreen.route, (route) => false);
     } else {
       NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
       await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));
