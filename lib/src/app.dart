@@ -20,6 +20,7 @@ import 'common/session/session_expired_callback.dart';
 import 'libraries/alice/csh_alice.dart';
 import 'localization/csh_localization.dart';
 import 'modules/elss/screens/part_selection_screen.dart';
+import 'modules/elss/screens/qc_and_trc_option_screen.dart';
 import 'modules/splash/splash_screen.dart';
 
 class CashifyApp extends StatefulWidget {
@@ -136,6 +137,7 @@ class _CashifyAppState extends State<CashifyApp> {
                     PartSelectionScreen.route: (_) => const PartSelectionScreen(),
                     AddPartScreen.route: (_) => const AddPartScreen(),
                     AddDeviceMediaScreen.route: (_) => const AddDeviceMediaScreen(),
+                    QcAndTRCOptionScreen.route: (_) => const QcAndTRCOptionScreen(),
                   },
                   initialRoute: SplashScreen.route,
                 );

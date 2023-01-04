@@ -1,9 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/amplify/amplify_provider.dart';
-import 'package:flutter_trc/src/modules/elss/screens/elss_screen.dart';
-import '../../home/home_screen.dart';
 import '../l10n.dart';
 import '../providers/login_provider.dart';
 

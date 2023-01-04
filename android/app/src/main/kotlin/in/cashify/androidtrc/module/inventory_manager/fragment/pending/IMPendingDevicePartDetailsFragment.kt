@@ -58,7 +58,9 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
 
         pendingPartViewModel?.btnQuantityVisibility?.value = true
 
-
+        binding?.apPColor?.visibility = View.GONE
+        binding?.llApSku?.visibility = View.GONE
+        binding?.llApStatus?.visibility = View.GONE
 
         pendingPartViewModel?.pendingDevicePartResponse?.value = null
         pendingPartViewModel?.availableQuantityResponse?.value = null
@@ -85,7 +87,7 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
             binding?.btnAlternatePart?.visibility = View.GONE
             binding?.btnDeadPart?.visibility = View.GONE
             binding?.layAvailableQuantity?.visibility = View.VISIBLE
-            binding?.llSuggestedBarcode?.visibility=View.VISIBLE
+            binding?.llSuggestedBarcode?.visibility = View.VISIBLE
             pendingPartViewModel?.callRecommendedPartApi(pendingPartViewModel?.prid ?: 0)
 
 
@@ -150,6 +152,30 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
             binding?.tvPartSku?.text = it.data?.sku
             binding?.tvPartName?.text = it.data?.partName
 
+
+            if (!TextUtils.isEmpty(it.data?.apc)) {
+                binding?.apPColor?.visibility = View.VISIBLE
+                binding?.tvAlternatePartColor?.text = it.data?.apc
+            } else {
+                binding?.apPColor?.visibility = View.GONE
+            }
+
+            if (!TextUtils.isEmpty(it.data?.asku)) {
+
+                binding?.llApSku?.visibility = View.VISIBLE
+                binding?.tvAlternatePartSku?.text = it.data?.asku
+            } else {
+                binding?.llApSku?.visibility = View.GONE
+            }
+
+            if (!TextUtils.isEmpty(it.data?.ast)) {
+                binding?.llApStatus?.visibility = View.VISIBLE
+                binding?.tvAlternatePartStatus?.text = it.data?.ast
+            } else {
+                binding?.llApStatus?.visibility = View.GONE
+            }
+
+
 //            isSyncBBtnEnable = true
 //            if (isSyncBBtnEnable) {
 //                binding?.btnSync?.setBackgroundColor(resources.getColor(R.color.teal))
@@ -178,7 +204,7 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
                     binding?.btnGoBack?.visibility = View.GONE
                     binding?.layBtn?.visibility = View.VISIBLE
                 }
-                
+
             }
         })
 
@@ -237,8 +263,8 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
 
         pendingPartViewModel?.recommendedPartId?.observe(viewLifecycleOwner, Observer {
 
-            if(TextUtils.isEmpty(it)){
-              return@Observer  
+            if (TextUtils.isEmpty(it)) {
+                return@Observer
             }
             binding?.tvSuggestedBarcode?.text = it
             showPopup(it)
@@ -255,7 +281,10 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
         val dialog = Dialog(requireContext())
 
         dialog.setContentView(R.layout.dialog_recommended_barcode)
-        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
         dialog.setCancelable(true)
         dialog.findViewById<TextView>(R.id.tv_barcode_rec).text = barcode
         dialog.show()
@@ -325,7 +354,9 @@ class IMPendingDevicePartDetailsFragment : BaseFragment(), View.OnClickListener 
                     object : OnResult<CancelPartResponse> {
                         override fun onResultAvailable(data: CancelPartResponse) {
 
-                            pendingPartViewModel?.getPendingPartDetails(pendingPartViewModel?.prid ?: 0)
+                            pendingPartViewModel?.getPendingPartDetails(
+                                pendingPartViewModel?.prid ?: 0
+                            )
 
                         }
                     })

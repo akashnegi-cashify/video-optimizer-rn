@@ -75,4 +75,11 @@ class L10n extends BaseL10n {
   String get doYouWantToLogout => Intl.message("Do you want to logout?", locale: localName, name: "doYouWantToLogout");
 
   String get yes => Intl.message("Yes", locale: localName, name: "yes");
+
+  String get techRefurbishmentCenter =>
+      Intl.message("Tech Refurbishment Center", locale: localName, name: "techRefurbishmentCenter");
+
+  String get qc => Intl.message("QC", locale: localName, name: "qc");
+
+  String get trc => Intl.message("TRC", locale: localName, name: "trc");
 }
