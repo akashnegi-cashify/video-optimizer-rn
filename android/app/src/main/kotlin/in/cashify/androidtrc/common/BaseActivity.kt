@@ -415,7 +415,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
     private fun launchLoginActivity() {
         MainActivity.callLogout().let {
             val intent = Intent(this, MainActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
         }
     }
