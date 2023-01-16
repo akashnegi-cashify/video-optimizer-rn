@@ -462,11 +462,9 @@ packages:
   core_widgets:
     dependency: "direct main"
     description:
-      path: core_widgets
-      ref: main
-      resolved-ref: "352732dec8e84d611c869003d8d751e213bb69db"
-      url: "https://github.com/reglobe/flutter_admin_ui.git"
-    source: git
+      path: "../flutter_admin_ui/core_widgets"
+      relative: true
+    source: path
     version: "0.0.1"
   cross_file:
     dependency: transitive

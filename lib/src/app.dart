@@ -21,6 +21,8 @@ import 'libraries/alice/csh_alice.dart';
 import 'localization/csh_localization.dart';
 import 'modules/elss/screens/part_selection_screen.dart';
 import 'modules/elss/screens/qc_and_trc_option_screen.dart';
+import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
+import 'modules/rubbing/widgets/rubbing_home_widget.dart';
 import 'modules/splash/splash_screen.dart';
 
 class CashifyApp extends StatefulWidget {
@@ -138,6 +140,8 @@ class _CashifyAppState extends State<CashifyApp> {
                     AddPartScreen.route: (_) => const AddPartScreen(),
                     AddDeviceMediaScreen.route: (_) => const AddDeviceMediaScreen(),
                     QcAndTRCOptionScreen.route: (_) => const QcAndTRCOptionScreen(),
+                    RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
+                    ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
                   },
                   initialRoute: SplashScreen.route,
                 );

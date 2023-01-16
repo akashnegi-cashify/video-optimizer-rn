@@ -1,0 +1,120 @@
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/paginated_listview.dart';
+import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
+import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
+import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
+import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_data.dart';
+import 'package:flutter_trc/src/modules/rubbing/providers/received_devices_provider.dart';
+import 'package:provider/provider.dart';
+
+class ReceivedDevicesListWidget extends StatefulWidget {
+  const ReceivedDevicesListWidget({Key? key}) : super(key: key);
+
+  @override
+  State<ReceivedDevicesListWidget> createState() => _ReceivedDevicesListWidgetState();
+}
+
+class _ReceivedDevicesListWidgetState extends PaginatedListState<RubbingDeviceData, ReceivedDevicesListWidget> {
+  late ReceivedDevicesProvider provider;
+  late L10n l10;
+
+  @override
+  void didChangeDependencies() {
+    provider = Provider.of<ReceivedDevicesProvider>(context, listen: false);
+    l10 = L10n(context);
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return (isLoading && items.isEmpty)
+        ? const ShimmerListWidget()
+        : this.iterate((item, index) {
+            return _ItemReceivedDevicesWidget(
+              rubbingDeviceData: item!,
+              onRubbingAction: resetAndRefreshScreen,
+            );
+          }, onRefresh: () async {});
+  }
+
+  @override
+  void requestApi(int pageNo, int pageSize,
+      {Function(List<RubbingDeviceData>? list)? onSuccess, Function(String? errorMessage)? onError}) {
+    provider.getDataStream(pageNo, pageSize, provider.searchQuery).listen((event) {
+      if (onSuccess != null) onSuccess(event?.dt?.deviceList);
+    }).onError((e) {
+      CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(e) ?? l10.somethingWentWrong);
+    });
+  }
+}
+
+class _ItemReceivedDevicesWidget extends StatelessWidget {
+  final VoidCallback onRubbingAction;
+  final RubbingDeviceData rubbingDeviceData;
+
+  const _ItemReceivedDevicesWidget({Key? key, required this.onRubbingAction, required this.rubbingDeviceData})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ReceivedDevicesProvider provider = Provider.of<ReceivedDevicesProvider>(context, listen: false);
+    L10n l10n = L10n(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
+      child: CshCard(
+          child: Column(
+        children: [
+          TitleValueRowWidget(title: l10n.deviceBarcode, value: rubbingDeviceData.deviceBarcode ?? ""),
+          TitleValueRowWidget(title: l10n.deviceName, value: rubbingDeviceData.productTitle ?? ""),
+          TitleValueRowWidget(title: l10n.deviceId, value: rubbingDeviceData.deviceId.toString()),
+          const SizedBox(
+            height: Dimens.space_16,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: CshMediumButton(
+                  text: l10n.rubbingNotDone,
+                  onPressed: rubbingDeviceData.deviceBarcode != null
+                      ? () {
+                          markRubbing(provider, l10n, context, false);
+                        }
+                      : null,
+                ),
+              ),
+              Flexible(
+                  child: CshMediumButton(
+                text: l10n.rubbingDone,
+                onPressed: rubbingDeviceData.deviceBarcode != null
+                    ? () {
+                        markRubbing(provider, l10n, context, true);
+                      }
+                    : null,
+              ))
+            ],
+          )
+        ],
+      )),
+    );
+  }
+
+  void markRubbing(ReceivedDevicesProvider provider, L10n l10n, BuildContext context, bool rubbing) {
+    provider.markRubbing(rubbingDeviceData.deviceBarcode!, rubbing).listen((event) {
+      rubbing
+          ? showSuccessMessage("${l10n.rubbingDone} successfully!", context)
+          : showSuccessMessage(l10n.deviceRemovedFromRubbing, context);
+      onRubbingAction();
+    }).onError((e) {
+      String errorMessage = ApiErrorHelper.getErrorMessage(e) ?? l10n.somethingWentWrong;
+      showErrorMessage(errorMessage, context);
+    });
+  }
+
+  void showErrorMessage(String errorMessage, BuildContext context) =>
+      CshSnackBar.error(context: context, message: errorMessage);
+
+  void showSuccessMessage(String successMessage, BuildContext context) =>
+      CshSnackBar.success(context: context, message: successMessage);
+}

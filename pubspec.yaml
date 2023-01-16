@@ -42,10 +42,7 @@ dependencies:
       path: components
 
   core_widgets:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
-      path: core_widgets
+    path: ../flutter_admin_ui/core_widgets
 
   calculator_ui:
     git:
@@ -102,6 +99,8 @@ dev_dependencies:
 dependency_overrides:
   permission_handler: ^10.2.0
   webview_flutter: ^3.0.4
+  core_widgets:
+    path: ../flutter_admin_ui/core_widgets
 #  core_widgets:
 #    git:
 #      url: https://github.com/reglobe/flutter_admin_ui.git
