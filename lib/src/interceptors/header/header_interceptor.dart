@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
+import 'package:localization/localization/locale_provider.dart';
 import '../auth/request_headers.dart';
 
 class HeaderInterceptor extends HttpInterceptor {

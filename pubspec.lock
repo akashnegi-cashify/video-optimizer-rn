@@ -958,7 +958,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.0"
+    version: "0.18.0"
   io:
     dependency: transitive
     description:
@@ -1010,6 +1010,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  localization:
+    dependency: "direct main"
+    description:
+      path: localization
+      ref: master
+      resolved-ref: "4374413b28111fbd2cf55f2f288bbd660db0b451"
+      url: "https://github.com/reglobe/flutter_packages.git"
+    source: git
+    version: "0.0.1"
   logging:
     dependency: transitive
     description:
