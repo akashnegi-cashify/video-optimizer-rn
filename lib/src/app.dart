@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:components/components.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
@@ -12,13 +13,16 @@ import 'package:flutter_trc/src/modules/login/login_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
+import 'package:localization/localization/csh_localization.dart';
+import 'package:localization/localization/language_util.dart';
+import 'package:localization/localization/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
 import 'amplify/amplify_provider.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
 import 'libraries/alice/csh_alice.dart';
-import 'localization/csh_localization.dart';
 import 'modules/elss/screens/part_selection_screen.dart';
 import 'modules/elss/screens/qc_and_trc_option_screen.dart';
 import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
@@ -98,13 +102,7 @@ class _CashifyAppState extends State<CashifyApp> {
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (_) => LocaleProvider(
-              onLoad: (Locale locale) {
-                CshLocalizations.load(locale);
-              },
-            ),
-          ),
+          ChangeNotifierProvider(create: (_) => LocaleProvider()),
           ChangeNotifierProvider<AmplifyProvider>(
             lazy: false,
             create: (_) => AmplifyProvider(),
