@@ -1,6 +1,7 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:localization/localization.dart';
 
 import 'actions/project_actions.dart';
 import 'environments/environment_config.dart';
@@ -8,6 +9,7 @@ import 'environments/environments.dart';
 import 'environments/types.dart';
 import 'interceptors/header/header_interceptor.dart';
 import 'interceptors/log_interceptor.dart';
+import 'l10n/messages_all.dart';
 import 'libraries/analytics/analytics_controller.dart';
 
 const RUNNING_SYSTEM_ENV = String.fromEnvironment('env', defaultValue: 'prod');
@@ -21,6 +23,9 @@ class AppInitializer {
 
   static _initApp({Map<String, HttpInterceptorFactory>? interceptors}) async {
     initEnvironment();
+
+    // init localisation
+    Localization.setup(initializeMessages: initializeMessages);
 
     _setLogLevel(environment);
     _registerProjectActions();
