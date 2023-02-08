@@ -754,7 +754,11 @@ packages:
     source: hosted
     version: "1.1.0"
   fl_chart:
+<<<<<<< HEAD
     dependency: "direct main"
+=======
+    dependency: transitive
+>>>>>>> f83e7c6 (pod file added)
     description:
       name: fl_chart
       sha256: "29da130cdef13f47e1798a66e99fd119e557c293b98be8ebaf6fed2cbc43bf29"
@@ -1896,6 +1900,7 @@ packages:
     source: hosted
     version: "2.0.13"
   visibility_detector:
+<<<<<<< HEAD
     dependency: "direct main"
     description:
       name: visibility_detector
@@ -1903,6 +1908,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.3"
+=======
+    dependency: transitive
+    description:
+      name: visibility_detector
+      sha256: ec932527913f32f65aa01d3a393504240b9e9021ecc77123f017755605e48832
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
+>>>>>>> f83e7c6 (pod file added)
   wakelock:
     dependency: transitive
     description:
