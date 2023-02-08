@@ -30,7 +30,7 @@ class RubbingHomeWidget extends StatelessWidget {
                   CshBigButton(
                     text: l10n.scanBarcode,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String barcode) {
+                      Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String barcode,  {BarcodeScannerController? controller} ) {
                         Provider.of<ReceivedDevicesProvider>(context, listen: false)
                             .receiveDeviceViaScanning(barcode)
                             .listen((event) {
