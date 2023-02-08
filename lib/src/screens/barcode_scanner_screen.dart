@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import 'l10n.dart';
 
 class BarcodeScanWidget extends StatefulWidget {
@@ -35,7 +36,8 @@ class _BarcodeScanWidgetState extends State<BarcodeScanWidget> {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
-    Function(String)? callback = ModalRoute.of(context)?.settings.arguments as Function(String)?;
+    Function(String, {BarcodeScannerController? controller})? callback =
+        ModalRoute.of(context)?.settings.arguments as Function(String, {BarcodeScannerController? controller})?;
     return Scaffold(
       appBar: CshHeader(l10n.barcodeScanner),
       body: Column(
@@ -109,7 +111,7 @@ class _BarcodeScanWidgetState extends State<BarcodeScanWidget> {
 }
 
 class _ScanWidget extends StatelessWidget {
-  final Function(String)? onResultCallback;
+  final Function(String, {BarcodeScannerController? controller})? onResultCallback;
 
   const _ScanWidget({
     Key? key,
