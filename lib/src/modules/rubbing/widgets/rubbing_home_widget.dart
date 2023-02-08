@@ -2,10 +2,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_widget.dart';
-import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/app_version_widget.dart';
+import '../../../common/widgets/user_name_widget.dart';
 import '../../../screens/barcode_scanner_screen.dart';
 import '../providers/received_devices_provider.dart';
 
@@ -57,10 +57,7 @@ class RubbingHomeWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Column(
-                      children: [
-                        CshTextNew.bodyText2("${l10n.loggedInUser} : ${UserDetails().userDetailsData?.firstName}"),
-                        const AppVersionWidget()
-                      ],
+                      children: const [UserNameWidget(), AppVersionWidget()],
                     ),
                   )
                 ],

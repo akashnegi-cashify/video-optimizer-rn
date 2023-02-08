@@ -8,7 +8,7 @@ class TrcService extends BaseService {
 
   @override
   TRCServiceGroups getServiceGroup() {
-    return TRCServiceGroups.TRC;
+    return TRCServiceGroups.trc;
   }
 
   @override

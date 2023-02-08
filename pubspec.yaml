@@ -41,15 +41,18 @@ dependencies:
       ref: master
       path: localization
 
-
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
       ref: main
       path: components
 
+
   core_widgets:
-    path: ../flutter_admin_ui/core_widgets
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: main
+      path: core_widgets
 
   calculator_ui:
     git:
@@ -86,7 +89,8 @@ dependencies:
   jwt_decoder: ^2.0.1
   cached_network_image: ^3.2.3
   image_picker: ^0.8.6
-
+  fl_chart: ^0.50.1
+  visibility_detector: ^0.3.3
 
 
 
@@ -106,9 +110,15 @@ dev_dependencies:
 dependency_overrides:
   permission_handler: ^10.2.0
   webview_flutter: ^3.0.4
-  core_widgets:
-    path: ../flutter_admin_ui/core_widgets
   intl: ^0.18.0
+  core_widgets:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: main
+      path: core_widgets
+  visibility_detector: ^0.3.3
+
+
 
 #  core_widgets:
 #    git:
@@ -130,7 +140,7 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  #  uses-material-design: true
+  uses-material-design: true
 
   # Enable generation of localized Strings from arb files.
   generate: true

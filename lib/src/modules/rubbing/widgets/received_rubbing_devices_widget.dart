@@ -5,6 +5,8 @@ import 'package:flutter_trc/src/modules/rubbing/providers/received_devices_provi
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_devices_list_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/widgets/searchbar_widget.dart';
+
 class ReceivedRubbingDevicesWidget extends StatelessWidget {
   const ReceivedRubbingDevicesWidget({Key? key}) : super(key: key);
   static const route = "/rubbing/device/list";
@@ -29,9 +31,9 @@ class ReceivedRubbingDevicesWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(Dimens.space_4),
                       border: Border.all(color: Theme.of(context).secondaryHeaderColor)),
-                  child: SearchBarWidget(
+                  child: SearchbarWidget(
                     initialText: searchQuery,
-                    hintText: l10n.searchBarCode,
+                    hint: l10n.searchBarCode,
                     onQuery: (query) {
                       provider.searchQuery = query;
                     },
