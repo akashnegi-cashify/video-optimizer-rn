@@ -25,6 +25,7 @@ import 'amplify/amplify_provider.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
 import 'libraries/alice/csh_alice.dart';
+import 'modules/elss/providers/user_session_provider.dart';
 import 'modules/elss/screens/part_selection_screen.dart';
 import 'modules/elss/screens/qc_and_trc_option_screen.dart';
 import 'modules/engineer/manage_parts/manage_parts_widget.dart';
@@ -114,6 +115,7 @@ class _CashifyAppState extends State<CashifyApp> {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
+          ChangeNotifierProvider(create: (_) => UserSessionProvider()),
           ChangeNotifierProvider<AmplifyProvider>(
             lazy: false,
             create: (_) => AmplifyProvider(),

@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';
 import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_widget.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,11 @@ class RubbingHomeWidget extends StatelessWidget {
         create: (context) => ReceivedDevicesProvider(),
         builder: (context, widget) {
           return Scaffold(
-            appBar: CshHeader(l10n.home),
+            appBar: CshHeader(
+              l10n.home,
+              showBackBtn: false,
+              actions: [LogoutActionWidget()],
+            ),
             body: SafeArea(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -30,7 +35,8 @@ class RubbingHomeWidget extends StatelessWidget {
                   CshBigButton(
                     text: l10n.scanBarcode,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String barcode,  {BarcodeScannerController? controller} ) {
+                      Navigator.of(context).pushNamed(BarcodeScanWidget.route,
+                          arguments: (String barcode, {BarcodeScannerController? controller}) {
                         Provider.of<ReceivedDevicesProvider>(context, listen: false)
                             .receiveDeviceViaScanning(barcode)
                             .listen((event) {

@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';
 import 'package:flutter_trc/src/common/widgets/app_version_widget.dart';
 import 'package:flutter_trc/src/common/widgets/user_name_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
@@ -19,7 +20,6 @@ class EngineerHomeScreen extends StatelessWidget {
   }
 }
 
-
 class _EngineerHomeWidget extends StatefulWidget {
   const _EngineerHomeWidget({Key? key}) : super(key: key);
 
@@ -35,6 +35,9 @@ class _EngineerHomeWidgetState extends State<_EngineerHomeWidget> {
       appBar: CshHeader(
         l10n.home,
         showBackBtn: false,
+        actions: [
+          LogoutActionWidget(),
+        ],
       ),
       body: SafeArea(
         child: Padding(
