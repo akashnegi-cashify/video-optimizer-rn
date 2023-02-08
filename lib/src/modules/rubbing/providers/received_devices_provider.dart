@@ -1,5 +1,4 @@
 import 'package:core_widgets/core_widgets.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_trc/src/common/searchable.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_receive_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_devices_response.dart';

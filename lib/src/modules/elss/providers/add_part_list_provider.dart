@@ -8,7 +8,7 @@ import '../resources/elss_service.dart';
 
 class AddPartListProvider extends CshChangeNotifier {
   AddPartListProvider(String barcode) {
-    _getAddPatDataList(barcode);
+    _getAddPartDataList(barcode);
   }
 
   static AddPartListProvider of(BuildContext context, {bool listen = true}) {
@@ -16,14 +16,12 @@ class AddPartListProvider extends CshChangeNotifier {
   }
 
   bool isPartListLoading = true;
-  PartDeviceListResponse? partDeviceListResponse;
   List<PartItemDataResponse> addPartsDataList = [];
 
-  _getAddPatDataList(String scannedBarcode) {
+  _getAddPartDataList(String scannedBarcode) {
     addPartsDataList.clear();
-    ElssService.getPartItemList(scannedBarcode).listen((event) {
+    ElssService.getAddPartItemList(scannedBarcode).listen((event) {
       if (event != null) {
-        partDeviceListResponse = event;
         if (!Validator.isListNullOrEmpty(event.partDataList)) {
           int k = 0;
           for (var element in event.partDataList!) {
@@ -65,5 +63,4 @@ class AddPartListProvider extends CshChangeNotifier {
     }
     return dataList;
   }
-
 }

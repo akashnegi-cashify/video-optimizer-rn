@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import '../l10n.dart';
 import '../providers/login_provider.dart';
 
@@ -29,10 +30,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l10n.login, style: theme.primaryTextTheme.headline1),
-          const SizedBox(height: Dimens.space_2),
-          Text(l10n.pleaseEnterYourEmployeeId, style: theme.primaryTextTheme.bodyText2),
-          const SizedBox(height: Dimens.space_16),
           CshTextFormField(
             controller: _empIdController,
             keyboardType: TextInputType.name,

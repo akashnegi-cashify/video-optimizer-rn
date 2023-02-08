@@ -82,4 +82,42 @@ class L10n extends BaseL10n {
   String get qc => Intl.message("QC", locale: localName, name: "qc");
 
   String get trc => Intl.message("TRC", locale: localName, name: "trc");
+
+  String get elssHome => Intl.message("Elss Home", locale: localName, name: "elssHome");
+
+  String get name => Intl.message("Name", locale: localName, name: "name");
+
+  String get employeeId => Intl.message("Employee Id", locale: localName, name: "employeeId");
+
+  String get qualityCheck => Intl.message("Quality Check", locale: localName, name: "qualityCheck");
+
+  String get searchParts => Intl.message("Search Parts", locale: localName, name: "searchParts");
+
+  String get searchDeviceParts => Intl.message("Search device parts", locale: localName, name: "searchDeviceParts");
+
+  String get grade => Intl.message("Grade", locale: localName, name: "grade");
+
+  String get addParts => Intl.message("Add parts", locale: localName, name: "addParts");
+
+  String get required => Intl.message("Required", locale: localName, name: "required");
+
+  String get notRequired => Intl.message("Not Required", locale: localName, name: "notRequired");
+
+  String get accept => Intl.message("Accept", locale: localName, name: "accept");
+
+  String get discard => Intl.message("Discard", locale: localName, name: "discard");
+
+  String get pna => Intl.message("PNA", locale: localName, name: "pna");
+
+  String get discardParts => Intl.message("Discard Parts", locale: localName, name: "discardParts");
+
+  String get areYouSureYouWantToRemoveTheseSelectedParts =>
+      Intl.message("Are you sure you want to remove these selected parts?",
+          locale: localName, name: "areYouSureYouWantToRemoveTheseSelectedParts");
+
+  String get deviceDetails => Intl.message("Device Details", locale: localName, name: "deviceDetails");
+
+  String get reject => Intl.message("Reject", locale: localName, name: "reject");
+
+  String get retest => Intl.message("Retest", locale: localName, name: "retest");
 }

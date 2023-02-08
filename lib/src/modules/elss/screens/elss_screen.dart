@@ -1,6 +1,5 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/modules/elss/screens/part_selection_screen.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
@@ -34,13 +33,7 @@ class ELSSScreen extends StatelessWidget {
                   width: double.infinity,
                   child: CshMediumButton(
                     text: l10n.scanBarcode,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
-                        if (!Validator.isNullOrEmpty(data)) {
-                          Navigator.of(context).pushReplacementNamed(PartSelectionScreen.route, arguments: data.trim());
-                        }
-                      });
-                    },
+                    onPressed: () {},
                   ),
                 ),
                 _userDetailsWidget(theme, l10n, UserDetails().userDetailsData?.userName ?? "", "1.0.0")

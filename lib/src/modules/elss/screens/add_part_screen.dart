@@ -13,7 +13,6 @@ class AddPartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
-    var theme = Theme.of(context);
     var scannedBarcode = ModalRoute.of(context)?.settings.arguments as String;
     return ChangeNotifierProvider<AddPartListProvider>(
       create: (_) => AddPartListProvider(scannedBarcode),
@@ -31,30 +30,9 @@ class AddPartScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 )
-              : (provider.isPartListLoading == false && provider.partDeviceListResponse == null)
-                  ? Center(
-                      child: Text(
-                        l10n.noDataFound,
-                        style: theme.primaryTextTheme.headline3,
-                      ),
-                    )
-                  : const _AddPartList(),
+              : const AddPartListWidget(),
         );
       },
     );
-  }
-}
-
-class _AddPartList extends StatefulWidget {
-  const _AddPartList({Key? key}) : super(key: key);
-
-  @override
-  State<_AddPartList> createState() => _AddPartListState();
-}
-
-class _AddPartListState extends State<_AddPartList> {
-  @override
-  Widget build(BuildContext context) {
-    return const AddPartListWidget();
   }
 }

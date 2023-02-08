@@ -1,0 +1,110 @@
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../l10n.dart';
+import '../providers/login_provider.dart';
+import '../resources/notification_type.dart';
+
+class QcLoginWidget extends StatefulWidget {
+  const QcLoginWidget({Key? key}) : super(key: key);
+
+  @override
+  State<QcLoginWidget> createState() => _QcLoginWidgetState();
+}
+
+class _QcLoginWidgetState extends State<QcLoginWidget> {
+  final TextEditingController _mobileNumberController = TextEditingController();
+
+  String? _referenceId;
+  final TextEditingController _otpController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    var l10n = L10n(context);
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CshTextFormField(
+            controller: _mobileNumberController,
+            keyboardType: TextInputType.phone,
+            maxLines: 1,
+            maxLength: 20,
+            autofocus: false,
+            hintText: l10n.mobileNumber,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(20),
+              FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
+            ],
+          ),
+          (!Validator.isNullOrEmpty(_referenceId))
+              ? ComboButton(
+                  firstBtnText: l10n.changeNo,
+                  secondBtnText: l10n.verifyOtp,
+                  buttonType: ButtonType.mini,
+                  isFirstPrimary: true,
+                  firstBtnClick: () {
+                    _referenceId = null;
+                    setState(() {});
+                  },
+                  secondBtnClick: () {
+                    if (!Validator.isNullOrEmpty(_otpController.text)) {
+                      String otp = _otpController.text.trim();
+                      _verifyEnteredOTP(_mobileNumberController.text.trim(), NotificationType.notificationTypeSMS.value,
+                          otp, _referenceId!, true);
+                    } else {
+                      CshSnackBar.error(context: context, message: l10n.pleaseEnterOtpSentToNumber);
+                    }
+                  },
+                )
+              : Container(
+                  margin: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
+                  width: double.infinity,
+                  child: CshMediumButton(
+                    text: l10n.verify,
+                    onPressed: () {
+                      if (!Validator.isNullOrEmpty(_mobileNumberController.text)) {
+                        String mn = _mobileNumberController.text.trim();
+                        _sendOtpToUser(mn, NotificationType.notificationTypeSMS.value, l10n.otpSentSuccessfully);
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pleaseEnterMobileNumber);
+                      }
+                    },
+                  ),
+                ),
+        ],
+      ),
+    );
+  }
+
+  _sendOtpToUser(String mobileNumber, String notificationType, String successMessage) {
+    var provider = TRCLoginProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.qcSendOTP(mobileNumber, notificationType).then((value) {
+      if (Validator.isNullOrEmpty(value)) {
+        _referenceId = value;
+        setState(() {});
+        CshLoading().hideLoading(context);
+        CshSnackBar.success(context: context, message: successMessage);
+      }
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error);
+    });
+  }
+
+  _verifyEnteredOTP(String mobileNumber, String notificationType, String otp, String referenceId, bool loginFromQC) {
+    var provider = TRCLoginProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.authenticateSentOTP(context, mobileNumber, notificationType, otp, referenceId, loginFromQC).then((value) {
+      if (!value) {
+        CshSnackBar.error(context: context, message: "Unable to authenticate!!");
+      }
+      CshLoading().hideLoading(context);
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error);
+    });
+  }
+}

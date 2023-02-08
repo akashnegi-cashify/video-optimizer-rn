@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +118,6 @@ class ELssProvider extends CshChangeNotifier {
     for (var element in dataList) {
       ElssPart data = ElssPart(
         partName: element.productName,
-        partColour: element.productColour,
         action: null,
         sku: element.sku,
         isManuallyAdded: true,
@@ -263,7 +261,7 @@ class ELssProvider extends CshChangeNotifier {
     return dataMap;
   }
 
-    getSelectedPartsFaultImages() {
+  getSelectedPartsFaultImages() {
     Map<String, List<String>> imageDataMap = {};
     if (!Validator.isListNullOrEmpty(elssPartList)) {
       List<String> listOfSkus = [];
@@ -329,6 +327,49 @@ class ELssProvider extends CshChangeNotifier {
       completer.completeError(e.toString());
     }
 
+    return completer.future;
+  }
+
+  Future<bool> rejectAndRetestElss(String scannedBarcode, {bool? isRetesting}) {
+    var completer = Completer<bool>();
+    try {
+      ElssService.retestOrRejectElss(scannedBarcode, isRetest: isRetesting).listen((event) {
+        if (event != null && event.isSuccess == true) {
+          completer.complete(true);
+        } else {
+          completer.complete(false);
+        }
+      }, onError: (error) {
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
+        completer.completeError(errorMessage);
+      }, onDone: () {
+        notifyListeners();
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+
+    return completer.future;
+  }
+
+  Future<bool> markPNAStatus(String barcode) {
+    var completer = Completer<bool>();
+    try {
+      ElssService.markPnaStatus(barcode).listen((event) {
+        if (event != null && event.isSuccess == true) {
+          completer.complete(true);
+        } else {
+          completer.complete(false);
+        }
+      }, onError: (error) {
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
+        completer.completeError(errorMessage);
+      }, onDone: () {
+        notifyListeners();
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
     return completer.future;
   }
 }

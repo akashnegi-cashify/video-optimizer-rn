@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:components/components.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
@@ -18,13 +17,12 @@ import 'package:localization/localization/language_util.dart';
 import 'package:localization/localization/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-
 import 'amplify/amplify_provider.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
 import 'libraries/alice/csh_alice.dart';
+import 'modules/elss/screens/elss_home_screen.dart';
 import 'modules/elss/screens/part_selection_screen.dart';
-import 'modules/elss/screens/qc_and_trc_option_screen.dart';
 import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
 import 'modules/rubbing/widgets/rubbing_home_widget.dart';
 import 'modules/splash/splash_screen.dart';
@@ -80,7 +78,7 @@ class _CashifyAppState extends State<CashifyApp> {
 
   Future<String> onSessionExpire() async {
     AuthHandler().onSessionExpire();
-    Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
+    Navigator.of(_navKey!.currentState!.context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
     return Future.error("Session Expire");
   }
 
@@ -111,39 +109,40 @@ class _CashifyAppState extends State<CashifyApp> {
         builder: (BuildContext context, _) {
           LocaleProvider localProvider = Provider.of<LocaleProvider>(context);
           return CshThemeWidget(
-              getProjectTheme: (bool isDarkTheme) => ProjectTheme.getTheme(isDarkTheme),
-              builder: (ThemeData theme) {
-                return MaterialApp(
-                  navigatorKey: _navKey,
-                  locale: localProvider.locale,
-                  theme: theme,
-                  navigatorObservers: [
-                    CshRouteObserver().instance,
-                    SentryNavigatorObserver(),
-                  ],
-                  title: BaseL10n(context).appName,
-                  localizationsDelegates: const [
-                    CshLocalizationsDelegate(),
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                  ],
-                  supportedLocales: LanguageUtil.getSupportedLanguageListLocale(),
-                  routes: {
-                    SplashScreen.route: (_) => const SplashScreen(),
-                    LoginScreen.route: (_) => const LoginScreen(),
-                    HomeScreen.route: (_) => const HomeScreen(),
-                    ELSSScreen.route: (_) => const ELSSScreen(),
-                    BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
-                    PartSelectionScreen.route: (_) => const PartSelectionScreen(),
-                    AddPartScreen.route: (_) => const AddPartScreen(),
-                    AddDeviceMediaScreen.route: (_) => const AddDeviceMediaScreen(),
-                    QcAndTRCOptionScreen.route: (_) => const QcAndTRCOptionScreen(),
-                    RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
-                    ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
-                  },
-                  initialRoute: SplashScreen.route,
-                );
-              });
+            getProjectTheme: (bool isDarkTheme) => ProjectTheme.getTheme(isDarkTheme),
+            builder: (ThemeData theme) {
+              return MaterialApp(
+                navigatorKey: _navKey,
+                locale: localProvider.locale,
+                theme: theme,
+                navigatorObservers: [
+                  CshRouteObserver().instance,
+                  SentryNavigatorObserver(),
+                ],
+                title: BaseL10n(context).appName,
+                localizationsDelegates: const [
+                  CshLocalizationsDelegate(),
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                supportedLocales: LanguageUtil.getSupportedLanguageListLocale(),
+                routes: {
+                  SplashScreen.route: (_) => const SplashScreen(),
+                  LoginScreen.route: (_) => const LoginScreen(),
+                  HomeScreen.route: (_) => const HomeScreen(),
+                  ELSSScreen.route: (_) => const ELSSScreen(),
+                  BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
+                  PartSelectionScreen.route: (_) => const PartSelectionScreen(),
+                  AddPartScreen.route: (_) => const AddPartScreen(),
+                  AddDeviceMediaScreen.route: (_) => const AddDeviceMediaScreen(),
+                  RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
+                  ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
+                  ElssHomeScreen.route: (_) => const ElssHomeScreen(),
+                },
+                initialRoute: SplashScreen.route,
+              );
+            },
+          );
         },
       ),
     );

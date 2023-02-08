@@ -23,28 +23,42 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (!Validator.isNullOrEmpty(dataModel?.deviceName))
-              _labelAndValueWidget(theme, l10n.deviceName, dataModel!.deviceName!),
-            if (!Validator.isNullOrEmpty(dataModel?.deviceRepairType)) ...[
-              const SizedBox(height: Dimens.space_4),
-              _labelAndValueWidget(theme, l10n.repairType, dataModel!.deviceRepairType!)
-            ],
-            if (!Validator.isNullOrEmpty(dataModel?.deviceBarcode)) ...[
-              const SizedBox(height: Dimens.space_4),
-              _labelAndValueWidget(theme, l10n.deviceBarcode, dataModel!.deviceBarcode!)
-            ],
-            if (!Validator.isNullOrEmpty(dataModel?.deviceColor)) ...[
-              const SizedBox(height: Dimens.space_4),
-              _labelAndValueWidget(theme, l10n.deviceColour, dataModel!.deviceColor!)
-            ],
-            if (!Validator.isNullOrEmpty(dataModel?.requestReason)) ...[
-              const SizedBox(height: Dimens.space_4),
-              _labelAndValueWidget(theme, l10n.rmsRemark, dataModel!.requestReason!)
-            ],
-            if (!Validator.isNullOrEmpty(dataModel?.imei)) ...[
-              const SizedBox(height: Dimens.space_4),
-              _labelAndValueWidget(theme, l10n.deviceImei, dataModel!.imei!)
-            ],
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                (!Validator.isNullOrEmpty(dataModel?.deviceName))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.deviceName, dataModel!.deviceName!))
+                    : const SizedBox(),
+                const SizedBox(width: Dimens.space_20),
+                (!Validator.isNullOrEmpty(dataModel?.deviceRepairType))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.repairType, dataModel!.deviceRepairType!))
+                    : const SizedBox()
+              ],
+            ),
+            const SizedBox(height: Dimens.space_16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                (!Validator.isNullOrEmpty(dataModel?.deviceBarcode))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.deviceBarcode, dataModel!.deviceBarcode!))
+                    : const SizedBox(),
+                const SizedBox(width: Dimens.space_20),
+                (!Validator.isNullOrEmpty(dataModel?.deviceColor))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.deviceColour, dataModel!.deviceColor!))
+                    : const SizedBox()
+              ],
+            ),
+            const SizedBox(height: Dimens.space_16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                (!Validator.isNullOrEmpty(dataModel?.imei))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.deviceImei, dataModel!.imei!))
+                    : const SizedBox(),
+                const SizedBox(width: Dimens.space_20),
+                Expanded(child: _labelAndValueWidget(theme, l10n.grade, "#"))
+              ],
+            ),
           ],
         ),
       ),
@@ -52,7 +66,22 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
   }
 
   _labelAndValueWidget(ThemeData theme, String label, String value) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
+        ),
+        const SizedBox(height: Dimens.space_6),
+        Text(
+          value,
+          style: theme.primaryTextTheme.subtitle2,
+        ),
+      ],
+    );
+
+    Row(
       children: [
         Text("$label: ", style: theme.primaryTextTheme.headline3),
         Expanded(

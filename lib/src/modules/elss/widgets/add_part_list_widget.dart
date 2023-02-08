@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -25,14 +24,17 @@ class _AddPartListWidgetState extends State<AddPartListWidget> {
 
   @override
   void initState() {
-    _searchController.addListener(() {
-      if (_searchController.text.isNotEmpty) {
-        _isFieldActive = true;
-      } else {
-        _isFieldActive = false;
-      }
-      setState(() {});
+    scheduleMicrotask(() {
+      _searchController.addListener(() {
+        if (_searchController.text.isNotEmpty) {
+          _isFieldActive = true;
+        } else {
+          _isFieldActive = false;
+        }
+        setState(() {});
+      });
     });
+
     super.initState();
   }
 
@@ -180,7 +182,6 @@ class _AddPartListWidgetState extends State<AddPartListWidget> {
       }
     }).toList();
     _searchedActive = true;
-
     setState(() {});
   }
 }

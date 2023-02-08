@@ -22,7 +22,7 @@ class PartSelectionScreen extends StatelessWidget {
         var provider = ELssProvider.of(innerContext);
 
         return Scaffold(
-          appBar: CshHeader(l10n.partSelection),
+          appBar: CshHeader(l10n.deviceDetails),
           resizeToAvoidBottomInset: false,
           body: (provider.isDetailsDataLoading)
               ? const Center(
