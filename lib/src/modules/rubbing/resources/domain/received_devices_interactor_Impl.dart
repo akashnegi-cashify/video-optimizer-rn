@@ -1,4 +1,3 @@
-import 'package:flutter_trc/src/common/page_size_mixin.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_receive_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_devices_request.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_devices_response.dart';

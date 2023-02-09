@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
 
 import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
@@ -30,9 +31,17 @@ class UserRoles {
       Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeWidget.route, (route) => false);
     } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {
       Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
+    } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(RiderHomeWidget.route, (route) => false);
     } else {
       NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
       await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));
     }
   }
 }
+
+
+
+
+
