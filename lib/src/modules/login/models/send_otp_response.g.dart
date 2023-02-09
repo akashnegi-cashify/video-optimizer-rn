@@ -8,7 +8,7 @@ part of 'send_otp_response.dart';
 
 SendOTPResponse _$SendOTPResponseFromJson(Map<String, dynamic> json) =>
     SendOTPResponse(
-      json['rid'] as String?,
+      requestId: json['rid'] as String?,
     );
 
 Map<String, dynamic> _$SendOTPResponseToJson(SendOTPResponse instance) =>

@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 import '../../home/models/logout_response.dart';
-import '../models/elss_device_details_response.dart';
-import '../models/elss_success_response.dart';
-import '../models/elss_option_response.dart';
-import '../models/elss_part_submit_response.dart';
-import '../models/part_device_list.dart';
-import '../models/upload_fault_images_response.dart';
+import '../common_models/elss_device_details_response.dart';
+import '../common_models/elss_option_response.dart';
+import '../common_models/elss_part_submit_response.dart';
+import '../common_models/elss_success_response.dart';
+import '../common_models/part_device_list.dart';
+import '../common_models/upload_fault_images_response.dart';
 
 class ElssService {
   static Stream<ElssDeviceDetailsResponse?> getElssDeviceDetails(String scannedBarcode) {
@@ -31,13 +31,6 @@ class ElssService {
     return TrcService().get("/part/list-device-parts", PartDeviceListResponse.fromJson, params: paramData);
   }
 
-  static Stream<PartDeviceListResponse?> getAddPartItemList(String scannedBarcode) {
-    Map<String, List<String>> paramData = {
-      "qr": [scannedBarcode],
-    };
-    return QcServiceElss().get("/device/elss/product/part-list", PartDeviceListResponse.fromJson, params: paramData);
-  }
-
   static Stream<UploadFaultImagesResponse?> uploadPartsFaultImages(
       String scannedBarcode, Map<String, List<String>> imageData) {
     Map<String, dynamic> dataMap = {};
@@ -54,6 +47,9 @@ class ElssService {
   static Stream<LogoutResponse?> logoutAndClearSession() {
     return TrcService().post("/logout", LogoutResponse.fromJson);
   }
+
+  //----------------------------------------->*************************<-------------------------------------------------//
+  //New_QC_APIs
 
   //mark PNA status
   static Stream<ElssSuccessResponse?> markPnaStatus(String scannedCode,
@@ -73,5 +69,12 @@ class ElssService {
     };
 
     return QcServiceElss().get("/device/elss/re-testing", ElssSuccessResponse.fromJson, params: paramsData);
+  }
+
+  static Stream<PartDeviceListResponse?> getAddPartItemList(String scannedBarcode) {
+    Map<String, List<String>> paramData = {
+      "qr": [scannedBarcode],
+    };
+    return QcServiceElss().get("/device/elss/product/part-list", PartDeviceListResponse.fromJson, params: paramData);
   }
 }

@@ -6,7 +6,7 @@ class SendOTPResponse {
   @JsonKey(name: "rid")
   String? requestId;
 
-  SendOTPResponse(this.requestId);
+  SendOTPResponse({this.requestId});
 
   static SendOTPResponse fromJson(Map<String, dynamic> data) => _$SendOTPResponseFromJson(data);
 

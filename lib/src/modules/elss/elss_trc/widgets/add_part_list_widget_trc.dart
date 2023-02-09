@@ -2,21 +2,21 @@ import 'dart:async';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/modules/elss/providers/add_part_list_provider.dart';
+import '../../common_models/part_device_list.dart';
 import '../l10n.dart';
-import '../models/part_device_list.dart';
-import 'add_part_item_widget.dart';
+import '../providers/add_part_list_provider_trc.dart';
+import '../../widgets/add_part_item_widget.dart';
 
-class AddPartListWidget extends StatefulWidget {
-  const AddPartListWidget({
+class AddPartListWidgetTrc extends StatefulWidget {
+  const AddPartListWidgetTrc({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<AddPartListWidget> createState() => _AddPartListWidgetState();
+  State<AddPartListWidgetTrc> createState() => _AddPartListWidgetTrcState();
 }
 
-class _AddPartListWidgetState extends State<AddPartListWidget> {
+class _AddPartListWidgetTrcState extends State<AddPartListWidgetTrc> {
   final TextEditingController _searchController = TextEditingController();
   bool _isFieldActive = false, _searchedActive = false;
   List<PartItemDataResponse> _searchedData = [];
@@ -24,17 +24,14 @@ class _AddPartListWidgetState extends State<AddPartListWidget> {
 
   @override
   void initState() {
-    scheduleMicrotask(() {
-      _searchController.addListener(() {
-        if (_searchController.text.isNotEmpty) {
-          _isFieldActive = true;
-        } else {
-          _isFieldActive = false;
-        }
-        setState(() {});
-      });
+    _searchController.addListener(() {
+      if (_searchController.text.isNotEmpty) {
+        _isFieldActive = true;
+      } else {
+        _isFieldActive = false;
+      }
+      setState(() {});
     });
-
     super.initState();
   }
 
@@ -42,7 +39,7 @@ class _AddPartListWidgetState extends State<AddPartListWidget> {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
-    var provider = AddPartListProvider.of(context);
+    var provider = AddPartListProviderTrc.of(context);
     return (!Validator.isListNullOrEmpty(provider.addPartsDataList))
         ? Padding(
             padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_8),
@@ -182,6 +179,7 @@ class _AddPartListWidgetState extends State<AddPartListWidget> {
       }
     }).toList();
     _searchedActive = true;
+
     setState(() {});
   }
 }

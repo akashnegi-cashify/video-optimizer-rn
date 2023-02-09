@@ -2,26 +2,27 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../common_models/part_device_list.dart';
+import '../../common_resources/elss_service.dart';
 
-import '../models/part_device_list.dart';
-import '../resources/elss_service.dart';
-
-class AddPartListProvider extends CshChangeNotifier {
-  AddPartListProvider(String barcode) {
-    _getAddPartDataList(barcode);
+class AddPartListProviderTrc extends CshChangeNotifier {
+  AddPartListProviderTrc(String barcode) {
+    _getAddPatDataList(barcode);
   }
 
-  static AddPartListProvider of(BuildContext context, {bool listen = true}) {
-    return Provider.of<AddPartListProvider>(context, listen: listen);
+  static AddPartListProviderTrc of(BuildContext context, {bool listen = true}) {
+    return Provider.of<AddPartListProviderTrc>(context, listen: listen);
   }
 
   bool isPartListLoading = true;
+  PartDeviceListResponse? partDeviceListResponse;
   List<PartItemDataResponse> addPartsDataList = [];
 
-  _getAddPartDataList(String scannedBarcode) {
+  _getAddPatDataList(String scannedBarcode) {
     addPartsDataList.clear();
-    ElssService.getAddPartItemList(scannedBarcode).listen((event) {
+    ElssService.getPartItemList(scannedBarcode).listen((event) {
       if (event != null) {
+        partDeviceListResponse = event;
         if (!Validator.isListNullOrEmpty(event.partDataList)) {
           int k = 0;
           for (var element in event.partDataList!) {

@@ -1,16 +1,13 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/modules/elss/providers/elss_provider.dart';
-
+import '../../common_models/part_device_list.dart';
 import '../l10n.dart';
-import '../models/part_device_list.dart';
-import '../screens/add_part_screen.dart';
-import '../screens/elss_screen.dart';
+import '../providers/elss_provider_qc.dart';
+import '../screens/add_part_screen_qc.dart';
 import 'discard_modal_widget.dart';
 import 'elss_device_details_widget.dart';
 import 'elss_part_widget.dart';
-import 'option_widget.dart';
 
 class PartSelectionWidget extends StatefulWidget {
   final String barcode;
@@ -38,7 +35,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
-    var provider = ELssProvider.of(context);
+    var provider = ELssProviderQc.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +52,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
             child: CshIconButton(
               text: l10n.addParts,
               onPressed: () {
-                Navigator.of(context).pushNamed(AddPartScreen.route, arguments: widget.barcode);
+                Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
               },
               prefixIcon: CshIcon(
                 FeatherIcons.plus,
@@ -223,130 +220,3 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     );
   }
 }
-// (provider.isElssOptionsLoading)
-//     ? SizedBox(
-//         height: Dimens.space_50,
-//         width: MediaQuery.of(context).size.width,
-//         child: const Center(
-//           child: SizedBox(
-//             height: Dimens.space_20,
-//             width: Dimens.space_20,
-//             child: CircularProgressIndicator(),
-//           ),
-//         ),
-//       )
-//     : (provider.elssOptionResponse != null)
-//         ? GestureDetector(
-//             onVerticalDragStart: (data) {
-//               if (data.globalPosition.dx > 40.0) {
-//                 _showElssOptionsModal(l10n, theme);
-//               }
-//             },
-//             child: Container(
-//               height: Dimens.space_50,
-//               width: MediaQuery.of(context).size.width,
-//               alignment: Alignment.center,
-//               color: theme.primaryColor,
-//               child: Text(
-//                 l10n.swipeUpToOpen,
-//                 style: theme.primaryTextTheme.headline3?.copyWith(color: theme.backgroundColor),
-//               ),
-//             ),
-//           )
-//         : const SizedBox()
-
-// _showElssOptionsModal(L10n l10n, ThemeData theme) {
-//   var provider = ELssProvider.of(context, listen: false);
-//
-//   showCshBottomSheet(
-//     context: context,
-//     child: AnimatedContainer(
-//       duration: const Duration(milliseconds: 700),
-//       child: StatefulBuilder(
-//         builder: (BuildContext insideContext, StateSetter setState) {
-//           return SingleChildScrollView(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Container(
-//                   height: Dimens.space_50,
-//                   width: MediaQuery.of(context).size.width,
-//                   alignment: Alignment.center,
-//                   color: theme.primaryColor,
-//                   child: Text(
-//                     l10n.swipeDownToClose,
-//                     style: theme.primaryTextTheme.headline3?.copyWith(color: theme.backgroundColor),
-//                   ),
-//                 ),
-//                 if (!Validator.isListNullOrEmpty(provider.productOptionList))
-//                   ListView.builder(
-//                     shrinkWrap: true,
-//                     itemBuilder: (context, index) {
-//                       return PartSelectionOptionWidget(
-//                         keyValue: provider.productOptionList[index].key ?? 0,
-//                         onGroupValueChanged: (int data) {
-//                           provider.setSelectedOptionKey(data);
-//                           setState(() {});
-//                         },
-//                         onApplicableReasonCallback: (int keyValue, bool isGcs, bool isPna, bool isRub) {
-//                           provider.setApplicableReasonsToOptions(keyValue,
-//                               isGca: isGcs, isPnaa: isPna, isRuba: isRub);
-//                           setState(() {});
-//                         },
-//                         groupValueKey: provider.selectedOptionKey,
-//                         dataModel: provider.productOptionList[index],
-//                       );
-//                     },
-//                     itemCount: provider.productOptionList.length,
-//                   ),
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_8),
-//                   child: SizedBox(
-//                     width: double.infinity,
-//                     child: CshMediumButton(
-//                       text: provider.submitButtonName,
-//                       onPressed: () {
-//                         Navigator.of(context).pop(true);
-//                         Map<String, List<String>> imagesDataMap = provider.getSelectedPartsFaultImages();
-//                         if (imagesDataMap.isNotEmpty) {
-//                           provider.submitPartsFaultImages(widget.barcode, imagesDataMap);
-//                         }
-//                         _submitElssPartRequest(widget.barcode, l10n);
-//                       },
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           );
-//         },
-//       ),
-//     ),
-//   ).then(
-//         (value) {
-//       if (provider.selectedOptionKey != -1) {
-//         provider.resetSelectedOptions();
-//       }
-//     },
-//   );
-// }
-// _submitElssPartRequest(String barcode, L10n l10n) {
-//   var provider = ELssProvider.of(context, listen: false);
-//   CshLoading().showLoading(context);
-//   provider.submitElssPartRequest(barcode).then((value) {
-//     if (value) {
-//       CshLoading().hideLoading(context);
-//       CshSnackBar.success(
-//           context: context,
-//           message: provider.elssPartSubmitResponse?.successMessage ?? l10n.dataSubmittedSuccessfully);
-//       Navigator.pushNamedAndRemoveUntil(context, ELSSScreen.route, (route) => false);
-//     } else {
-//       CshLoading().hideLoading(context);
-//       CshSnackBar.error(
-//           context: context, message: provider.elssPartSubmitResponse?.errorMessage ?? l10n.errorInSubmittingDetails);
-//     }
-//   }, onError: (error) {
-//     CshLoading().hideLoading(context);
-//     CshSnackBar.error(context: context, message: error);
-//   });
-// }

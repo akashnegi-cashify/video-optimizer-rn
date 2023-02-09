@@ -3,21 +3,22 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/elss_device_details_response.dart';
-import '../models/elss_option_response.dart';
-import '../models/elss_part.dart';
-import '../models/elss_part_submit_response.dart';
-import '../models/part_device_list.dart';
-import '../models/upload_fault_images_response.dart';
-import '../resources/elss_option.dart';
-import '../resources/elss_service.dart';
 
-class ELssProvider extends CshChangeNotifier {
-  static ELssProvider of(BuildContext context, {bool listen = true}) {
-    return Provider.of<ELssProvider>(context, listen: listen);
+import '../../common_models/elss_device_details_response.dart';
+import '../../common_models/elss_option_response.dart';
+import '../../common_models/elss_part.dart';
+import '../../common_models/elss_part_submit_response.dart';
+import '../../common_models/part_device_list.dart';
+import '../../common_models/upload_fault_images_response.dart';
+import '../../common_resources/elss_option.dart';
+import '../../common_resources/elss_service.dart';
+
+class ELssProviderQc extends CshChangeNotifier {
+  static ELssProviderQc of(BuildContext context, {bool listen = true}) {
+    return Provider.of<ELssProviderQc>(context, listen: listen);
   }
 
-  ELssProvider(String barcode) {
+  ELssProviderQc(String barcode) {
     _getDeviceDetailsData(barcode);
     _getElssOptionsList(barcode);
   }

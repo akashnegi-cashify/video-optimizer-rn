@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +31,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
             controller: _mobileNumberController,
             keyboardType: TextInputType.phone,
             maxLines: 1,
+            enabled: (!Validator.isNullOrEmpty(_referenceId)) ? false : true,
             maxLength: 20,
             autofocus: false,
             hintText: l10n.mobileNumber,
@@ -38,6 +40,19 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
               FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
             ],
           ),
+          if ((!Validator.isNullOrEmpty(_referenceId)))
+            CshTextFormField(
+              controller: _otpController,
+              keyboardType: TextInputType.phone,
+              maxLines: 1,
+              maxLength: 10,
+              autofocus: false,
+              hintText: l10n.enterOtp,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(20),
+                FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
+              ],
+            ),
           (!Validator.isNullOrEmpty(_referenceId))
               ? ComboButton(
                   firstBtnText: l10n.changeNo,
@@ -46,6 +61,8 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                   isFirstPrimary: true,
                   firstBtnClick: () {
                     _referenceId = null;
+                    _otpController.clear();
+                    _mobileNumberController.clear();
                     setState(() {});
                   },
                   secondBtnClick: () {
@@ -67,6 +84,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                       if (!Validator.isNullOrEmpty(_mobileNumberController.text)) {
                         String mn = _mobileNumberController.text.trim();
                         _sendOtpToUser(mn, NotificationType.notificationTypeSMS.value, l10n.otpSentSuccessfully);
+                        FocusScope.of(context).unfocus();
                       } else {
                         CshSnackBar.error(context: context, message: l10n.pleaseEnterMobileNumber);
                       }
@@ -82,15 +100,16 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
     var provider = TRCLoginProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.qcSendOTP(mobileNumber, notificationType).then((value) {
-      if (Validator.isNullOrEmpty(value)) {
+      CshLoading().hideLoading(context);
+      if (!Validator.isNullOrEmpty(value)) {
         _referenceId = value;
         setState(() {});
-        CshLoading().hideLoading(context);
         CshSnackBar.success(context: context, message: successMessage);
       }
     }, onError: (error) {
-      CshLoading().hideLoading(context);
+      Logger.debug('mydebug------_QcLoginWidgetState._sendOtpToUser', [error]);
       CshSnackBar.error(context: context, message: error);
+      CshLoading().hideLoading(context);
     });
   }
 

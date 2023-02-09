@@ -39,6 +39,8 @@ class L10n extends BaseL10n {
 
   String get mobileNumber => Intl.message("Mobile Number", locale: localName, name: "mobileNumber");
 
+  String get enterOtp => Intl.message("Enter OTP", locale: localName, name: "enterOtp");
+
   String get verifyOtp => Intl.message("Verify OTP", locale: localName, name: "verifyOtp");
 
   String get otpSentSuccessfully =>

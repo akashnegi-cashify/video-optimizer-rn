@@ -4,9 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_trc/src/modules/elss/screens/add_device_media_screen.dart';
-import 'package:flutter_trc/src/modules/elss/screens/add_part_screen.dart';
-import 'package:flutter_trc/src/modules/elss/screens/elss_screen.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
@@ -21,8 +18,14 @@ import 'amplify/amplify_provider.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
 import 'libraries/alice/csh_alice.dart';
-import 'modules/elss/screens/elss_home_screen.dart';
-import 'modules/elss/screens/part_selection_screen.dart';
+import 'modules/elss/common_screen/elss_home_screen.dart';
+import 'modules/elss/elss_qc/screens/add_part_screen_qc.dart';
+import 'modules/elss/elss_qc/screens/elss_screen_qc.dart';
+import 'modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
+import 'modules/elss/elss_trc/screens/add_device_media_screen_trc.dart';
+import 'modules/elss/elss_trc/screens/add_part_screen_trc.dart';
+import 'modules/elss/elss_trc/screens/elss_screen_trc.dart';
+import 'modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
 import 'modules/rubbing/widgets/rubbing_home_widget.dart';
 import 'modules/splash/splash_screen.dart';
@@ -72,12 +75,15 @@ class _CashifyAppState extends State<CashifyApp> {
         case ConnectivityResult.ethernet:
           // TODO: Handle this case.
           break;
+        case ConnectivityResult.vpn:
+          // TODO: Handle this case.
+          break;
       }
     });
   }
 
   Future<String> onSessionExpire() async {
-    AuthHandler().onSessionExpire();
+    await AuthHandler().onSessionExpire();
     Navigator.of(_navKey!.currentState!.context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
     return Future.error("Session Expire");
   }
@@ -130,14 +136,19 @@ class _CashifyAppState extends State<CashifyApp> {
                   SplashScreen.route: (_) => const SplashScreen(),
                   LoginScreen.route: (_) => const LoginScreen(),
                   HomeScreen.route: (_) => const HomeScreen(),
-                  ELSSScreen.route: (_) => const ELSSScreen(),
                   BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
-                  PartSelectionScreen.route: (_) => const PartSelectionScreen(),
-                  AddPartScreen.route: (_) => const AddPartScreen(),
-                  AddDeviceMediaScreen.route: (_) => const AddDeviceMediaScreen(),
                   RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
                   ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
                   ElssHomeScreen.route: (_) => const ElssHomeScreen(),
+                  //ELSS_TRC_ROUTES
+                  AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),
+                  AddPartScreenTrc.route: (_) => const AddPartScreenTrc(),
+                  ELSSScreenTrc.route: (_) => const ELSSScreenTrc(),
+                  PartSelectionScreenTrc.route: (_) => const PartSelectionScreenTrc(),
+                  //ELSS_QC_ROUTES
+                  AddPartScreenQc.route: (_) => const AddPartScreenQc(),
+                  ELSSScreenQc.route: (_) => const ELSSScreenQc(),
+                  PartSelectionScreenQc.route: (_) => const PartSelectionScreenQc(),
                 },
                 initialRoute: SplashScreen.route,
               );

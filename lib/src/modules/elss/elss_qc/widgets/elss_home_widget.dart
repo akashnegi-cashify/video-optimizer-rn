@@ -1,13 +1,19 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
-import '../../../screens/barcode_scanner_screen.dart';
+import '../../../../screens/barcode_scanner_screen.dart';
+import '../../elss_trc/screens/part_selection_screen_trc.dart';
 import '../l10n.dart';
-import '../screens/part_selection_screen.dart';
 import 'functionality_card.dart';
 
 class ElssHomeWidget extends StatelessWidget {
-  const ElssHomeWidget({Key? key}) : super(key: key);
+  final bool isLoginFromQC;
+
+  const ElssHomeWidget({
+    Key? key,
+    required this.isLoginFromQC,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,39 +27,48 @@ class ElssHomeWidget extends StatelessWidget {
         _stackColourSheet(context, theme),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_28),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _userDetailsCard(context, theme, l10n),
-              const SizedBox(
-                height: Dimens.space_20,
-              ),
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            _userDetailsCard(context, theme, l10n),
+            const SizedBox(
+              height: Dimens.space_20,
+            ),
+            if (!isLoginFromQC)
               FunctionalityCard(
-                cardLabel: l10n.qualityCheck,
+                cardLabel: l10n.techRefurbishmentCenter,
                 cardIconPath: "assets/images/ic_qc.png",
                 onTap: () {
                   Navigator.of(context).pushNamed(
                     BarcodeScanWidget.route,
                     arguments: (String data, {BarcodeScannerController? controller}) {
                       if (!Validator.isNullOrEmpty(data)) {
-                        Navigator.of(context).pushReplacementNamed(PartSelectionScreen.route, arguments: data.trim());
+                        Navigator.of(context).pushReplacementNamed(
+                          PartSelectionScreenTrc.route,
+                          arguments: data.trim(),
+                        );
                       }
                     },
                   );
                 },
               ),
-              const SizedBox(
-                height: Dimens.space_20,
-              ),
-              FunctionalityCard(
-                cardLabel: l10n.techRefurbishmentCenter,
-                cardIconPath: "assets/images/ic_trc.png",
-                onTap: () {
-                  //TODO add TRC navigation to this widget;
-                },
-              ),
-            ],
-          ),
+            if (isLoginFromQC)
+            FunctionalityCard(
+              cardLabel: l10n.qualityCheck,
+              cardIconPath: "assets/images/ic_trc.png",
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  BarcodeScanWidget.route,
+                  arguments: (String data, {BarcodeScannerController? controller}) {
+                    if (!Validator.isNullOrEmpty(data)) {
+                      Navigator.of(context).pushReplacementNamed(
+                        PartSelectionScreenQc.route,
+                        arguments: data.trim(),
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+          ]),
         )
       ],
     );

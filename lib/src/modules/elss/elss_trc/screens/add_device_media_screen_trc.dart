@@ -1,23 +1,23 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import '../l10n.dart';
-import '../widgets/add_media_card.dart';
+import '../../widgets/add_media_card.dart';
 
-class AddDeviceMediaArguments {
+class AddDeviceMediaArgumentsTrc {
   final List<String>? partsImage;
   final Function(int, String)? onImageUploadCallback;
 
-  AddDeviceMediaArguments({this.onImageUploadCallback, this.partsImage});
+  AddDeviceMediaArgumentsTrc({this.onImageUploadCallback, this.partsImage});
 }
 
-class AddDeviceMediaScreen extends StatelessWidget {
-  static const route = '/add_device_media_screen';
+class AddDeviceMediaScreenTrc extends StatelessWidget {
+  static const route = '/add_device_media_screen_trc';
 
-  const AddDeviceMediaScreen({Key? key}) : super(key: key);
+  const AddDeviceMediaScreenTrc({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    AddDeviceMediaArguments args = ModalRoute.of(context)?.settings.arguments as AddDeviceMediaArguments;
+    AddDeviceMediaArgumentsTrc args = ModalRoute.of(context)?.settings.arguments as AddDeviceMediaArgumentsTrc;
     return _AddDeviceMedia(
       listOfPartsImages: args.partsImage,
       setS3DataToParticularItem: args.onImageUploadCallback,

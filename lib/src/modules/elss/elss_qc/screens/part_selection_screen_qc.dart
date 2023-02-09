@@ -1,25 +1,25 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/modules/elss/providers/elss_provider.dart';
-import 'package:flutter_trc/src/modules/elss/widgets/part_selection_widget.dart';
 import 'package:provider/provider.dart';
 import '../l10n.dart';
+import '../providers/elss_provider_qc.dart';
+import '../widgets/part_selection_widget.dart';
 
-class PartSelectionScreen extends StatelessWidget {
-  static const route = '/part_selection_screen';
+class PartSelectionScreenQc extends StatelessWidget {
+  static const route = '/part_selection_screen_qc';
 
-  const PartSelectionScreen({Key? key}) : super(key: key);
+  const PartSelectionScreenQc({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
     String scannedBarcode = ModalRoute.of(context)?.settings.arguments as String;
-    return ChangeNotifierProvider<ELssProvider>(
-      create: (_) => ELssProvider(scannedBarcode),
+    return ChangeNotifierProvider<ELssProviderQc>(
+      create: (_) => ELssProviderQc(scannedBarcode),
       lazy: false,
       builder: (BuildContext innerContext, __) {
-        var provider = ELssProvider.of(innerContext);
+        var provider = ELssProviderQc.of(innerContext);
 
         return Scaffold(
           appBar: CshHeader(l10n.deviceDetails),
@@ -56,7 +56,7 @@ class _PartSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = ELssProvider.of(context);
+    var provider = ELssProviderQc.of(context);
     var theme = Theme.of(context);
     if (!Validator.isNullOrEmpty(provider.elssDeviceDetails?.errorMessage)) {
       return Padding(

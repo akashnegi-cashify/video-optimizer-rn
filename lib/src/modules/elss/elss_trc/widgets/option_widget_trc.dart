@@ -1,8 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-
+import '../../common_models/elss_option_response.dart';
 import '../l10n.dart';
-import '../models/elss_option_response.dart';
 
 class PartSelectionOptionWidget extends StatefulWidget {
   final OptionResponse dataModel;

@@ -1,7 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import '../../common_models/elss_device_details_response.dart';
 import '../l10n.dart';
-import '../models/elss_device_details_response.dart';
 
 class ElssDeviceDetailsWidget extends StatelessWidget {
   final DeviceDetailsData? dataModel;
@@ -78,20 +78,6 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
           value,
           style: theme.primaryTextTheme.subtitle2,
         ),
-      ],
-    );
-
-    Row(
-      children: [
-        Text("$label: ", style: theme.primaryTextTheme.headline3),
-        Expanded(
-          child: Text(
-            value,
-            style: theme.primaryTextTheme.bodyText1,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        )
       ],
     );
   }

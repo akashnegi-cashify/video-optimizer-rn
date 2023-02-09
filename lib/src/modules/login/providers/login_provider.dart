@@ -26,7 +26,7 @@ class TRCLoginProvider extends CshChangeNotifier {
             UserDetails().setUserDetailsData(event.data!.token!);
 
             await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                loginToken: event.data?.token!);
+                loginToken: event.data?.token!, loginFromQC: false);
             if (mounted) {
               await NativeCall.registerLogout(context);
             }
@@ -52,7 +52,7 @@ class TRCLoginProvider extends CshChangeNotifier {
     try {
       QcService.sendOtp(mobileNumber, "qc", "v1", notificationType, "on_site").listen((event) {
         if (event != null) {
-          completer.complete(event.requestId);
+          completer.complete(event.requestId ?? "");
         } else {
           completer.completeError("Something Went Wrong");
         }
@@ -75,12 +75,12 @@ class TRCLoginProvider extends CshChangeNotifier {
       QcService.authenticateOTP(mobileNumber, "qc", "v1", notificationType, "on_site", otp, referenceId).listen(
           (event) async {
         if (event != null) {
-          if (Validator.isNullOrEmpty(event.accessToken)) {
+          if (!Validator.isNullOrEmpty(event.accessToken)) {
             AuthHandler().setUserAuth(event.accessToken!);
             UserDetails().setUserDetailsData(event.accessToken!);
 
             await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                loginToken: event.accessToken!);
+                loginToken: event.accessToken!, loginFromQC: true);
             if (mounted) {
               await NativeCall.registerLogout(context);
             }
