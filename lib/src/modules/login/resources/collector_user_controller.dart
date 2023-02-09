@@ -1,10 +1,14 @@
 import 'dart:convert';
+
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
+
 import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
 import '../../../utils/trc_method_channels.dart';
 import '../../elss/common_screen/elss_home_screen.dart';
+import '../../engineer/widgets/engineer_home_widget.dart';
 import '../../rubbing/widgets/rubbing_home_widget.dart';
 
 class UserRoles {
@@ -26,6 +30,10 @@ class UserRoles {
       Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
     } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
       Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeWidget.route, (route) => false);
+    } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {
+      Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
+    } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {
+      Navigator.of(context).pushNamedAndRemoveUntil(RiderHomeWidget.route, (route) => false);
     } else {
       NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
       await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));

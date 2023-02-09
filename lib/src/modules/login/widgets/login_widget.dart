@@ -97,7 +97,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         _isEmployeeIdValidated = true;
                         setState(() {});
                       } else {
-                        CshSnackBar.error(context: context, message: l10n.pleaseEnterYourEmployeeId);
+                        CshSnackBar.error(context: context, message: l10n.pleaseEnterYourEmployeeId,snackBarPosition: SnackBarPosition.TOP);
                       }
                     },
             ),
@@ -109,7 +109,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   bool _detailsVerification(L10n l10n) {
     if (Validator.isNullOrEmpty(_passwordController.text)) {
-      CshSnackBar.error(context: context, message: l10n.pleaseEnterPassword);
+      CshSnackBar.error(context: context, message: l10n.pleaseEnterPassword, snackBarPosition: SnackBarPosition.TOP);
       return false;
     }
     return true;
@@ -121,15 +121,15 @@ class _LoginWidgetState extends State<LoginWidget> {
     CshLoading().showLoading(context);
     provider.userLogin(employeeId, password, context).then((value) {
       if (value) {
-        CshSnackBar.success(context: context, message: successMessage);
+        CshSnackBar.success(context: context, message: successMessage, snackBarPosition: SnackBarPosition.TOP);
         CshLoading().hideLoading(context);
       } else {
-        CshSnackBar.error(context: context, message: errorMessage);
+        CshSnackBar.error(context: context, message: errorMessage, snackBarPosition: SnackBarPosition.TOP);
       }
       CshLoading().hideLoading(context);
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
     });
   }
 }

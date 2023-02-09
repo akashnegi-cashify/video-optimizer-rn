@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import '../elss_trc/l10n.dart';
+import '../../l10n.dart';
+
 
 class LogoutModalWidget extends StatelessWidget {
   final Function()? onLogoutCallback;

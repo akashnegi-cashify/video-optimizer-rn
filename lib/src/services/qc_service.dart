@@ -8,7 +8,7 @@ class QcServiceElss extends BaseService {
 
   @override
   TRCServiceGroups getServiceGroup() {
-    return TRCServiceGroups.QC;
+    return TRCServiceGroups.qc;
   }
 
   @override
