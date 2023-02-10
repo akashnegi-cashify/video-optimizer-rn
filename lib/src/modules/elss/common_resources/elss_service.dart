@@ -2,11 +2,15 @@ import 'dart:convert';
 import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 import '../../home/models/logout_response.dart';
+import '../common_models/brands_all_products.dart';
+import '../common_models/brands_listing_models.dart';
+import '../common_models/device_details_submit.dart';
 import '../common_models/elss_device_details_response.dart';
 import '../common_models/elss_option_response.dart';
 import '../common_models/elss_part_submit_response.dart';
 import '../common_models/elss_success_response.dart';
 import '../common_models/part_device_list.dart';
+import '../common_models/products_colour_response.dart';
 import '../common_models/upload_fault_images_response.dart';
 
 class ElssService {
@@ -48,6 +52,34 @@ class ElssService {
     return TrcService().post("/logout", LogoutResponse.fromJson);
   }
 
+  static Stream<BrandsListingResponse?> getBrandsData() {
+    return TrcService().get("/brand/list-all-brands", BrandsListingResponse.fromJson);
+  }
+
+  static Stream<BrandsAllProductResponse?> getBrandsAllProducts(int bid) {
+    Map<String, List<String>> paramsData = {
+      "bid": [bid.toString()]
+    };
+    return TrcService().get("/product/list-all-products", BrandsAllProductResponse.fromJson, params: paramsData);
+  }
+
+  static Stream<ProductsColorResponse?> getProductsColoursData(int pid) {
+    Map<String, List<String>> paramsData = {
+      "pid": [pid.toString()],
+    };
+    return TrcService().get("/product/list-colors", ProductsColorResponse.fromJson, params: paramsData);
+  }
+
+  static Stream<DeviceDetailsSubmit?> submitDeviceDetails(int bid, int pid, String barcode, {String? color}) {
+    Map<String, dynamic> bodyData = {
+      "bid": bid,
+      "pid": pid,
+      "dbr": barcode,
+      "cl": color,
+    };
+    return TrcService().post("/device/submit-details", DeviceDetailsSubmit.fromJson, body: jsonEncode(bodyData));
+  }
+
   //----------------------------------------->*************************<-------------------------------------------------//
   //New_QC_APIs
 
@@ -76,5 +108,9 @@ class ElssService {
       "qr": [scannedBarcode],
     };
     return QcServiceElss().get("/device/elss/product/part-list", PartDeviceListResponse.fromJson, params: paramData);
+  }
+
+  static Stream<ElssDeviceDetailsResponse?> getDeviceDetailsWithParts(String scannedBarcode) {
+    return QcServiceElss().get("/device/elss/$scannedBarcode", ElssDeviceDetailsResponse.fromJson);
   }
 }

@@ -19,8 +19,7 @@ class ELssProviderQc extends CshChangeNotifier {
   }
 
   ELssProviderQc(String barcode) {
-    _getDeviceDetailsData(barcode);
-    _getElssOptionsList(barcode);
+    _getDeviceDetailsAndParts(barcode);
   }
 
   bool isDetailsDataLoading = true;
@@ -35,6 +34,30 @@ class ELssProviderQc extends CshChangeNotifier {
   bool isGc = false, isPna = false, isra = false;
   UploadFaultImagesResponse? uploadFaultImagesResponse;
   ElssPartSubmitResponse? elssPartSubmitResponse;
+
+  _getDeviceDetailsAndParts(String scannedBarcode) {
+    elssPartList.clear();
+    ElssService.getDeviceDetailsWithParts(scannedBarcode).listen((event) {
+      if (event != null) {
+        elssDeviceDetails = event;
+        if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
+          int k = 0;
+          for (var element in event.deviceDetailsData!.repairPartList!) {
+            element.elssPartId = k;
+            elssPartList.add(element);
+            k++;
+          }
+        }
+      }
+      isDetailsDataLoading = false;
+      notifyListeners();
+    }, onError: (error) {
+      String apiErrorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
+      Logger.debug('mydebug------ELssProviderQc._getDeviceDetailsAndParts', [apiErrorMessage]);
+      isDetailsDataLoading = false;
+      notifyListeners();
+    });
+  }
 
   _getDeviceDetailsData(String scannedBarcode) {
     ElssService.getElssDeviceDetails(scannedBarcode).listen((event) {

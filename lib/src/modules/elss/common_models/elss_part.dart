@@ -10,6 +10,8 @@ class ElssPart {
   String? partName;
   @JsonKey(name: "ac")
   String? action;
+  @JsonKey(name: "acc")
+  int? actionConstant;
   @JsonKey(name: "isManualAdded")
   bool? isManualAdded;
   @JsonKey(name: "pc")
@@ -44,8 +46,9 @@ class ElssPart {
     this.selectedPos = -1,
     this.sku,
     this.elssPartId,
-    this.isManuallyAdded,
+    this.isManuallyAdded = false,
     this.partsImageList,
+    this.actionConstant,
   });
 
   static ElssPart fromJson(Map<String, dynamic> data) => _$ElssPartFromJson(data);

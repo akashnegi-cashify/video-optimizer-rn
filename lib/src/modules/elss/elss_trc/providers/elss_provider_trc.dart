@@ -18,8 +18,9 @@ class ELssProviderTrc extends CshChangeNotifier {
     return Provider.of<ELssProviderTrc>(context, listen: listen);
   }
 
-  ELssProviderTrc(String barcode) {
-    _getDeviceDetailsData(barcode);
+  ELssProviderTrc(String barcode,
+      {Function(String, {ElssDeviceDetailsResponse? detailsData})? onProductIdMissingCallback}) {
+    _getDeviceDetailsData(barcode, onProductIdMissingCallback: onProductIdMissingCallback);
     _getElssOptionsList(barcode);
   }
 
@@ -30,23 +31,31 @@ class ELssProviderTrc extends CshChangeNotifier {
   List<OptionResponse> productOptionList = [];
   List<ElssPart> elssPartList = [];
   List<ElssPart> searchedElssPartList = [];
+  List<ElssPart> manualAddedPartsList = [];
   int selectedOptionKey = -1;
   String submitButtonName = "Select Option";
   bool isGc = false, isPna = false, isra = false;
   UploadFaultImagesResponse? uploadFaultImagesResponse;
   ElssPartSubmitResponse? elssPartSubmitResponse;
 
-  _getDeviceDetailsData(String scannedBarcode) {
+  _getDeviceDetailsData(String scannedBarcode,
+      {Function(String, {ElssDeviceDetailsResponse? detailsData})? onProductIdMissingCallback}) {
     ElssService.getElssDeviceDetails(scannedBarcode).listen((event) {
       if (event != null) {
         elssDeviceDetails = event;
-        if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
-          int k = 0;
-          for (var element in event.deviceDetailsData!.repairPartList!) {
-            element.elssPartId = k;
-            element.partsImageList = ["", "", "", "", "", ""];
-            elssPartList.add(element);
-            k++;
+        if (elssDeviceDetails?.deviceDetailsData?.productId == null) {
+          if (onProductIdMissingCallback != null) {
+            onProductIdMissingCallback(scannedBarcode, detailsData: elssDeviceDetails);
+          }
+        } else {
+          if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
+            int k = 0;
+            for (var element in event.deviceDetailsData!.repairPartList!) {
+              element.elssPartId = k;
+              element.partsImageList = ["", "", "", "", "", ""];
+              elssPartList.add(element);
+              k++;
+            }
           }
         }
       }
@@ -123,17 +132,20 @@ class ELssProviderTrc extends CshChangeNotifier {
         action: null,
         sku: element.sku,
         isManuallyAdded: true,
+        isManualAdded: true,
       );
       data.elssPartId = elssPartList.length + 1;
       data.partsImageList = ["", "", "", "", "", ""];
 
       elssPartList.add(data);
+      manualAddedPartsList.add(data);
     }
     notifyListeners();
   }
 
   removeExternalAddedPart(int id) {
     elssPartList.removeWhere((element) => element.elssPartId == id);
+    manualAddedPartsList.removeWhere((element) => element.elssPartId == id);
     int k = 0;
     for (var element in elssPartList) {
       element.elssPartId = k;
@@ -210,6 +222,7 @@ class ELssProviderTrc extends CshChangeNotifier {
 
   getDetailsPostDatMap(String scannedBarcode) {
     Map<String, dynamic> dataMap = {};
+    _addPartsFromPnaFlow();
     if (selectedOptionKey != -1) {
       dataMap["ac"] = selectedOptionKey;
       if (selectedOptionKey == 1 || selectedOptionKey == 2 || selectedOptionKey == 3) {
@@ -235,23 +248,16 @@ class ELssProviderTrc extends CshChangeNotifier {
     }
     List<Map<String, dynamic>> rprlList = [];
     if (elssPartList.isNotEmpty) {
-      if (isPna) {
-        for (var element in elssPartList) {
-          element.isPnaSelected = true;
-          element.isVisibleForPna = true;
-        }
-      }
       rprlList = List.generate(elssPartList.length, (index) {
         return {
           "isManualAdded": elssPartList[index].isManuallyAdded,
           "isPnaSelected": elssPartList[index].isPnaSelected,
-          "isVisibleForPna": elssPartList[index].isVisibleForPna,
           "pcl": elssPartList[index].partColour,
           "pc": 1,
           if (!Validator.isNullOrEmpty(elssPartList[index].action)) "ac": elssPartList[index].action,
           "pn": elssPartList[index].partName,
           "sku": elssPartList[index].sku,
-          "selectedPos": -1,
+          "selectedPos": elssPartList[index].isManuallyAdded == true ? -1 : 0,
           "_v": 0,
         };
       });
@@ -330,5 +336,49 @@ class ELssProviderTrc extends CshChangeNotifier {
     }
 
     return completer.future;
+  }
+
+  getIsPnaSelectedOrNot(int key) {
+    int index = productOptionList.indexWhere((element) {
+      if (element.key != null) {
+        return element.key! == key;
+      }
+      return false;
+    });
+    if (index != -1) {
+      var option = productOptionList[index];
+      if (option.isPnaApplicable != null && option.isPnaApplicable == true) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool checkPartsManuallyAdded() {
+    if (!Validator.isListNullOrEmpty(elssPartList)) {
+      for (var element in elssPartList) {
+        if (element.isManuallyAdded == true) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  _addPartsFromPnaFlow() {
+    if (!Validator.isListNullOrEmpty(elssPartList)) {
+      elssPartList.removeWhere((element) => element.isManuallyAdded ?? false);
+      if (!Validator.isListNullOrEmpty(manualAddedPartsList)) {
+        for (var element in manualAddedPartsList) {
+          elssPartList.add(element);
+        }
+      }
+    } else {
+      if (!Validator.isListNullOrEmpty(manualAddedPartsList)) {
+        for (var element in manualAddedPartsList) {
+          elssPartList.add(element);
+        }
+      }
+    }
   }
 }

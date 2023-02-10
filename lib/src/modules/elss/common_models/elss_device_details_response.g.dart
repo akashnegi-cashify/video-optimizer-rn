@@ -15,13 +15,14 @@ ElssDeviceDetailsResponse _$ElssDeviceDetailsResponseFromJson(
       json['dt'] == null
           ? null
           : DeviceDetailsData.fromJson(json['dt'] as Map<String, dynamic>),
-    );
+    )..success = json['success'] as bool?;
 
 Map<String, dynamic> _$ElssDeviceDetailsResponseToJson(
         ElssDeviceDetailsResponse instance) =>
     <String, dynamic>{
       'r_id': instance.referenceId,
       's': instance.isSuccess,
+      'success': instance.success,
       'em': instance.errorMessage,
       'dt': instance.deviceDetailsData,
     };
@@ -41,6 +42,8 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
       (json['rp'] as List<dynamic>?)
           ?.map((e) => ElssPart.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['dgr'] as String?,
+      json['paal'] as bool?,
     );
 
 Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
@@ -49,6 +52,8 @@ Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
       'dbr': instance.deviceBarcode,
       'dst': instance.deviceStatus,
       'drt': instance.deviceRepairType,
+      'dgr': instance.deviceGrade,
+      'paal': instance.partAdditionNotAllowed,
       'dcl': instance.deviceColor,
       'pid': instance.productId,
       'isDetailsPresent': instance.isDetailsPresent,

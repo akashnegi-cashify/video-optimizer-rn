@@ -17,12 +17,14 @@ ElssPart _$ElssPartFromJson(Map<String, dynamic> json) => ElssPart(
       partName: json['pn'] as String?,
       selectedPos: json['selectedPos'] as int? ?? -1,
       sku: json['sku'] as String?,
+      actionConstant: json['acc'] as int?,
     );
 
 Map<String, dynamic> _$ElssPartToJson(ElssPart instance) => <String, dynamic>{
       'sku': instance.sku,
       'pn': instance.partName,
       'ac': instance.action,
+      'acc': instance.actionConstant,
       'isManualAdded': instance.isManualAdded,
       'pc': instance.partCount,
       'pcl': instance.partColour,

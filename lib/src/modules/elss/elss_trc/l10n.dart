@@ -82,4 +82,39 @@ class L10n extends BaseL10n {
   String get qc => Intl.message("QC", locale: localName, name: "qc");
 
   String get trc => Intl.message("TRC", locale: localName, name: "trc");
+
+  String get noPartAddedForPna => Intl.message("No Part Added For PNA", locale: localName, name: "noPartAddedForPna");
+
+  String get pleaseSelectPartsForPna =>
+      Intl.message("Please Select parts for PNA", locale: localName, name: "pleaseSelectPartsForPna");
+
+  String get selectParts => Intl.message("Select Parts", locale: localName, name: "selectParts");
+
+  String get addedParts => Intl.message("Added Parts", locale: localName, name: "addedParts");
+
+  String get selectedPartsForPna =>
+      Intl.message("Selected Parts for PNA", locale: localName, name: "selectedPartsForPna");
+
+  String get submit => Intl.message("Submit", locale: localName, name: "submit");
+
+  String get submitParts => Intl.message("Submit Parts", locale: localName, name: "submitParts");
+
+  String get areYouSureYouWantToSubmit =>
+      Intl.message("Are you sure you want to submit?", locale: localName, name: "areYouSureYouWantToSubmit");
+
+  String get techRefurbishCenter =>
+      Intl.message("Tech Refurbish Center", locale: localName, name: "techRefurbishCenter");
+
+  String get deviceDetails => Intl.message("Device Details", locale: localName, name: "deviceDetails");
+
+  String get selectBrand => Intl.message("Select Brand", locale: localName, name: "selectBrand");
+
+  String get selectProduct => Intl.message("Select Product", locale: localName, name: "selectProduct");
+
+  String get selectColor => Intl.message("Select Color", locale: localName, name: "selectColor");
+
+  String get pleaseSelectBrand => Intl.message("Please Select Brand!!", locale: localName, name: "pleaseSelectBrand");
+
+  String get pleaseSelectProduct =>
+      Intl.message("Please Select Product!!", locale: localName, name: "pleaseSelectProduct");
 }

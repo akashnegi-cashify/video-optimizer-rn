@@ -10,6 +10,8 @@ class ElssDeviceDetailsResponse {
   String? referenceId;
   @JsonKey(name: "s")
   bool? isSuccess;
+  @JsonKey(name: "success")
+  bool? success;
   @JsonKey(name: "em")
   String? errorMessage;
   @JsonKey(name: "dt")
@@ -37,6 +39,10 @@ class DeviceDetailsData {
   String? deviceStatus;
   @JsonKey(name: "drt")
   String? deviceRepairType;
+  @JsonKey(name: "dgr")
+  String? deviceGrade;
+  @JsonKey(name: "paal")
+  bool? partAdditionNotAllowed;
   @JsonKey(name: "dcl")
   String? deviceColor;
   @JsonKey(name: "pid")
@@ -52,7 +58,6 @@ class DeviceDetailsData {
   @JsonKey(name: "rp")
   List<ElssPart>? repairPartList;
 
-
   DeviceDetailsData(
     this.deviceBarcode,
     this.requestReason,
@@ -65,6 +70,8 @@ class DeviceDetailsData {
     this.deviceRepairType,
     this.isDetailsPresent,
     this.repairPartList,
+    this.deviceGrade,
+    this.partAdditionNotAllowed,
   );
 
   static DeviceDetailsData fromJson(Map<String, dynamic> data) => _$DeviceDetailsDataFromJson(data);
