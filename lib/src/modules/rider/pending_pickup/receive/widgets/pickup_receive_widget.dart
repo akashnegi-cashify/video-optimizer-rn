@@ -53,7 +53,7 @@ class _PickupReceiveWidgetState extends State<PickupReceiveWidget>
                     child: EngineerCardWidget(detail: list[index]),
                     onTap: () {
                       Navigator.pushNamed(
-                          context, PickupReceiveEngineerPartsWidget.route,
+                          context, PickupReceiveEngineerPartsScreen.route,
                           arguments: list[index]);
                     },
                   );

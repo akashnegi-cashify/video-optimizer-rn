@@ -9,16 +9,13 @@ class ItemDeliveryDeliverWidget extends StatelessWidget {
   // item to display
   final EngineerDetail item;
 
-  const ItemDeliveryDeliverWidget({Key? key, required this.item})
-      : super(key: key);
+  const ItemDeliveryDeliverWidget({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-            DeliveryDeliverEngineerPartsWidget.route,
-            arguments: item);
+        Navigator.of(context).pushNamed(DeliveryDeliverEngineerPartsScreen.route, arguments: item);
       },
       child: EngineerCardWidget(detail: item),
     );
