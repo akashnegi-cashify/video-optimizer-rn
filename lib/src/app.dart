@@ -39,10 +39,10 @@ import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_part
 import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
 import 'modules/engineer/view_reports/view_report_widget.dart';
-import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
-import 'modules/rubbing/widgets/rubbing_home_widget.dart';
 import 'modules/rider/pending_delivery/deliver/widgets/delivery_deliver_engineer_parts_widget.dart';
 import 'modules/rider/pending_pickup/receive/widgets/pickup_receive_engineer_parts_widget.dart';
+import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
+import 'modules/rubbing/widgets/rubbing_home_widget.dart';
 import 'modules/splash/splash_screen.dart';
 
 class CashifyApp extends StatefulWidget {
@@ -176,9 +176,9 @@ class _CashifyAppState extends State<CashifyApp> {
                     ManagePartsScreen.route: (_) => const ManagePartsScreen(),
                     ViewReportScreen.route: (_) => const ViewReportScreen(),
                     // rider role screens
-                    RiderHomeWidget.route: (_) => const RiderHomeWidget(),
-                    DeliveryDeliverEngineerPartsWidget.route: (_) => const DeliveryDeliverEngineerPartsWidget(),
-                    PickupReceiveEngineerPartsWidget.route: (_) => const PickupReceiveEngineerPartsWidget(),
+                    RiderHomeScreen.route: (_) => const RiderHomeScreen(),
+                    DeliveryDeliverEngineerPartsScreen.route: (_) => const DeliveryDeliverEngineerPartsScreen(),
+                    PickupReceiveEngineerPartsScreen.route: (_) => const PickupReceiveEngineerPartsScreen(),
                   },
                   initialRoute: SplashScreen.route,
                 );
