@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:components/components.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
@@ -148,6 +149,7 @@ class _CashifyAppState extends State<CashifyApp> {
                   ],
                   supportedLocales: LanguageUtil.getSupportedLanguageListLocale(),
                   routes: {
+
                     SplashScreen.route: (_) => const SplashScreen(),
                     LoginScreen.route: (_) => const LoginScreen(),
                     HomeScreen.route: (_) => const HomeScreen(),
