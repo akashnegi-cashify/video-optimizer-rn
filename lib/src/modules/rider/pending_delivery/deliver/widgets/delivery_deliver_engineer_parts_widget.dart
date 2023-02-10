@@ -9,15 +9,22 @@ import '../../receive/models/receive_response_model.dart';
 import '../resources/delivery_deliver_api_service.dart';
 import 'item_delivery_deliver_widget.dart';
 
-class DeliveryDeliverEngineerPartsWidget extends StatelessWidget {
+class DeliveryDeliverEngineerPartsScreen extends StatelessWidget {
+  const DeliveryDeliverEngineerPartsScreen({Key? key}) : super(key: key);
   static const route = "/rider/delivery/pending/received/parts";
-
-  const DeliveryDeliverEngineerPartsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    EngineerDetail? detail =
-        ModalRoute.of(context)?.settings.arguments as EngineerDetail?;
+    return const _DeliveryDeliverEngineerPartsWidget();
+  }
+}
+
+class _DeliveryDeliverEngineerPartsWidget extends StatelessWidget {
+  const _DeliveryDeliverEngineerPartsWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    EngineerDetail? detail = ModalRoute.of(context)?.settings.arguments as EngineerDetail?;
 
     L10n l10n = L10n(context);
 
@@ -51,9 +58,7 @@ class _PartListWidget extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           CshSnackBar.error(
-              context: context,
-              message: ApiErrorHelper.getErrorMessage(snapshot.error) ??
-                  l10n.somethingWentWrong);
+              context: context, message: ApiErrorHelper.getErrorMessage(snapshot.error) ?? l10n.somethingWentWrong);
         }
         List<Part>? partsList = snapshot.data?.parts;
         if (partsList != null) {
@@ -76,8 +81,7 @@ class _PartListWidget extends StatelessWidget {
 class _ItemDeliveryDeliverEngineerPart extends StatelessWidget {
   final Part part;
 
-  const _ItemDeliveryDeliverEngineerPart({Key? key, required this.part})
-      : super(key: key);
+  const _ItemDeliveryDeliverEngineerPart({Key? key, required this.part}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

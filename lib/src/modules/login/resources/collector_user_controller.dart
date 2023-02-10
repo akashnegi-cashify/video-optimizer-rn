@@ -33,7 +33,7 @@ class UserRoles {
       Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
     } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {
       Navigator.of(context)
-          .pushNamedAndRemoveUntil(RiderHomeWidget.route, (route) => false);
+          .pushNamedAndRemoveUntil(RiderHomeScreen.route, (route) => false);
     } else {
       NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
       await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));
