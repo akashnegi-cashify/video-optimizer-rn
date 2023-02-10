@@ -131,7 +131,6 @@ class ELssProviderTrc extends CshChangeNotifier {
         partColour: element.productColour,
         action: null,
         sku: element.sku,
-        isManuallyAdded: true,
         isManualAdded: true,
       );
       data.elssPartId = elssPartList.length + 1;
@@ -250,14 +249,14 @@ class ELssProviderTrc extends CshChangeNotifier {
     if (elssPartList.isNotEmpty) {
       rprlList = List.generate(elssPartList.length, (index) {
         return {
-          "isManualAdded": elssPartList[index].isManuallyAdded,
+          "isManualAdded": elssPartList[index].isManualAdded,
           "isPnaSelected": elssPartList[index].isPnaSelected,
           "pcl": elssPartList[index].partColour,
           "pc": 1,
           if (!Validator.isNullOrEmpty(elssPartList[index].action)) "ac": elssPartList[index].action,
           "pn": elssPartList[index].partName,
           "sku": elssPartList[index].sku,
-          "selectedPos": elssPartList[index].isManuallyAdded == true ? -1 : 0,
+          "selectedPos": elssPartList[index].isManualAdded == true ? -1 : 0,
           "_v": 0,
         };
       });
@@ -357,7 +356,7 @@ class ELssProviderTrc extends CshChangeNotifier {
   bool checkPartsManuallyAdded() {
     if (!Validator.isListNullOrEmpty(elssPartList)) {
       for (var element in elssPartList) {
-        if (element.isManuallyAdded == true) {
+        if (element.isManualAdded == true) {
           return true;
         }
       }
@@ -367,7 +366,7 @@ class ELssProviderTrc extends CshChangeNotifier {
 
   _addPartsFromPnaFlow() {
     if (!Validator.isListNullOrEmpty(elssPartList)) {
-      elssPartList.removeWhere((element) => element.isManuallyAdded ?? false);
+      elssPartList.removeWhere((element) => element.isManualAdded ?? false);
       if (!Validator.isListNullOrEmpty(manualAddedPartsList)) {
         for (var element in manualAddedPartsList) {
           elssPartList.add(element);

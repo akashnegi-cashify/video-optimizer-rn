@@ -144,7 +144,7 @@ class ELssProviderQc extends CshChangeNotifier {
         partName: element.productName,
         action: null,
         sku: element.sku,
-        isManuallyAdded: true,
+        isManualAdded: true,
       );
       data.elssPartId = elssPartList.length + 1;
       data.partsImageList = ["", "", "", "", "", ""];
@@ -265,7 +265,7 @@ class ELssProviderQc extends CshChangeNotifier {
       }
       rprlList = List.generate(elssPartList.length, (index) {
         return {
-          "isManualAdded": elssPartList[index].isManuallyAdded,
+          "isManualAdded": elssPartList[index].isManualAdded,
           "isPnaSelected": elssPartList[index].isPnaSelected,
           "isVisibleForPna": elssPartList[index].isVisibleForPna,
           "pcl": elssPartList[index].partColour,

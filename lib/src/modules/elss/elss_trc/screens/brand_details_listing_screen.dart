@@ -75,11 +75,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                       }
                     },
                     hintText: l10n.selectBrand,
-                    items: List.generate(
-                      provider.brandDetailsData!.brandDataList!.length,
-                      (index) => DropDownItem(provider.brandDetailsData!.brandDataList![index].brandId.toString(),
-                          provider.brandDetailsData!.brandDataList![index].brandName),
-                    ),
+                    items: provider.getBrandDropDownItems(provider.brandDetailsData!.brandDataList!),
                   )
                 ],
                 if (_showProductsListing == true &&
@@ -104,12 +100,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                         _getColoursFromProductId(innerContext, int.parse(data.id!));
                       }
                     },
-                    items: List.generate(
-                      provider.brandsAllProductResponse!.listOfAllProducts!.length,
-                      (index) => DropDownItem(
-                          provider.brandsAllProductResponse!.listOfAllProducts![index].pid.toString(),
-                          provider.brandsAllProductResponse!.listOfAllProducts![index].productName),
-                    ),
+                    items: provider.getProductDropDownItems(provider.brandsAllProductResponse!.listOfAllProducts!),
                   )
                 ],
                 if (_showColourListing) ...[
@@ -124,10 +115,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                     onChanged: (DropDownItem data) {
                       _colour = data.label;
                     },
-                    items: List.generate(
-                      provider.productsColorResponse?.listOfColours?.length ?? 0,
-                      (index) => DropDownItem(index.toString(), provider.productsColorResponse?.listOfColours?[index]),
-                    ),
+                    items: provider.getProductColorDropDownItems(provider.productsColorResponse?.listOfColours),
                   )
                 ],
                 const Expanded(

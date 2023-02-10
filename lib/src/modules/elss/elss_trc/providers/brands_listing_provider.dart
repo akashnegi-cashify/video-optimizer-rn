@@ -117,4 +117,25 @@ class BrandsListingProvider extends CshChangeNotifier {
     productsColorResponse = null;
     notifyListeners();
   }
+
+  getBrandDropDownItems(List<BrandsDataModel> dataList) {
+    return List.generate(
+      dataList.length,
+      (index) => DropDownItem(dataList[index].brandId.toString(), dataList[index].brandName),
+    );
+  }
+
+  getProductDropDownItems(List<BrandsAllProductDataList> dataList) {
+    return List.generate(
+      dataList.length,
+      (index) => DropDownItem(dataList[index].pid.toString(), dataList[index].productName),
+    );
+  }
+
+  getProductColorDropDownItems(List<String>? dataList) {
+    return List.generate(
+      dataList?.length ?? 0,
+      (index) => DropDownItem(index.toString(), dataList?[index]),
+    );
+  }
 }
