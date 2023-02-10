@@ -1,7 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import '../l10n.dart';
-import '../models/part_device_list.dart';
+import '../common_models/part_device_list.dart';
+import '../elss_trc/l10n.dart';
 
 class AddPartItemList extends StatefulWidget {
   final PartItemDataResponse? dataModel;

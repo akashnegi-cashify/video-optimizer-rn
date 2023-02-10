@@ -1,8 +1,8 @@
 import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/elss/common_providers/user_session_provider.dart';
 
-import '../../modules/elss/providers/user_session_provider.dart';
 import 'widget/logout_modal_widget.dart';
 import '../../modules/login/login_screen.dart';
 

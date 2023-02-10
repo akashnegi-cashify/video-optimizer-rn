@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import '../../../modules/elss/l10n.dart';
+import '../../l10n.dart';
+
 
 class LogoutModalWidget extends StatelessWidget {
   final Function()? onLogoutCallback;
@@ -29,30 +30,21 @@ class LogoutModalWidget extends StatelessWidget {
             style: theme.primaryTextTheme.bodyText1,
           ),
           const SizedBox(height: Dimens.space_30),
-          Row(
-            children: [
-              Expanded(
-                child: CshMediumButton(
-                  text: l10n.cancel,
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                ),
-              ),
-              const SizedBox(width: Dimens.space_8),
-              Expanded(
-                child: CshMediumButton(
-                  text: l10n.yes,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    if (onLogoutCallback != null) {
-                      onLogoutCallback!();
-                    }
-                  },
-                ),
-              )
-            ],
-          )
+          ComboButton(
+            firstBtnText: l10n.cancel,
+            secondBtnText: l10n.yes,
+            isFirstPrimary: true,
+            firstBtnClick: () {
+              Navigator.of(context).pop(true);
+            },
+            secondBtnClick: () {
+              Navigator.pop(context);
+              if (onLogoutCallback != null) {
+                onLogoutCallback!();
+              }
+            },
+            buttonType: ButtonType.mini,
+          ),
         ],
       ),
     );

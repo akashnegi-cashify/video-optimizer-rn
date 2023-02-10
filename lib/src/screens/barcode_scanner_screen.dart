@@ -1,7 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-
+import 'package:flutter_trc/src/screens/qr_barcode_scanner.dart';
 import 'l10n.dart';
 
 class BarcodeScanWidget extends StatefulWidget {
@@ -36,17 +36,12 @@ class _BarcodeScanWidgetState extends State<BarcodeScanWidget> {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
-    Function(String, {BarcodeScannerController? controller})? callback =
-        ModalRoute.of(context)?.settings.arguments as Function(String, {BarcodeScannerController? controller})?;
+    var callback = ModalRoute.of(context)?.settings.arguments as Function(String)?;
     return Scaffold(
       appBar: CshHeader(l10n.barcodeScanner),
       body: Column(
         children: [
-          Expanded(
-            child: _ScanWidget(
-              onResultCallback: callback,
-            ),
-          ),
+          Expanded(child: QrBarcodeScanner(onResultantCallback: callback ?? (String data) {})),
           Container(
             width: MediaQuery.of(context).size.width,
             height: Dimens.space_120,
@@ -106,22 +101,6 @@ class _BarcodeScanWidgetState extends State<BarcodeScanWidget> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _ScanWidget extends StatelessWidget {
-  final Function(String, {BarcodeScannerController? controller})? onResultCallback;
-
-  const _ScanWidget({
-    Key? key,
-    this.onResultCallback,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BarCodeScannerWidget(
-      resultCallback: onResultCallback,
     );
   }
 }

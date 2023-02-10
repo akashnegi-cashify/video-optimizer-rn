@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import '../l10n.dart';
+import '../../../amplify/amplifier.dart';
+import '../../../amplify/amplify_provider.dart';
+import '../elss_trc/l10n.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../amplify/amplifier.dart';
-import '../../../amplify/amplify_provider.dart';
 import 'network_image_widget.dart';
 
 class AddMediaCards extends StatefulWidget {
