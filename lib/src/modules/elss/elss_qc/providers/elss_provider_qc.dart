@@ -19,8 +19,7 @@ class ELssProviderQc extends CshChangeNotifier {
   }
 
   ELssProviderQc(String barcode) {
-    _getDeviceDetailsData(barcode);
-    _getElssOptionsList(barcode);
+    _getDeviceDetailsAndParts(barcode);
   }
 
   bool isDetailsDataLoading = true;
@@ -35,6 +34,30 @@ class ELssProviderQc extends CshChangeNotifier {
   bool isGc = false, isPna = false, isra = false;
   UploadFaultImagesResponse? uploadFaultImagesResponse;
   ElssPartSubmitResponse? elssPartSubmitResponse;
+
+  _getDeviceDetailsAndParts(String scannedBarcode) {
+    elssPartList.clear();
+    ElssService.getDeviceDetailsWithParts(scannedBarcode).listen((event) {
+      if (event != null) {
+        elssDeviceDetails = event;
+        if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
+          int k = 0;
+          for (var element in event.deviceDetailsData!.repairPartList!) {
+            element.elssPartId = k;
+            elssPartList.add(element);
+            k++;
+          }
+        }
+      }
+      isDetailsDataLoading = false;
+      notifyListeners();
+    }, onError: (error) {
+      String apiErrorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
+      Logger.debug('mydebug------ELssProviderQc._getDeviceDetailsAndParts', [apiErrorMessage]);
+      isDetailsDataLoading = false;
+      notifyListeners();
+    });
+  }
 
   _getDeviceDetailsData(String scannedBarcode) {
     ElssService.getElssDeviceDetails(scannedBarcode).listen((event) {
@@ -121,7 +144,7 @@ class ELssProviderQc extends CshChangeNotifier {
         partName: element.productName,
         action: null,
         sku: element.sku,
-        isManuallyAdded: true,
+        isManualAdded: true,
       );
       data.elssPartId = elssPartList.length + 1;
       data.partsImageList = ["", "", "", "", "", ""];
@@ -242,7 +265,7 @@ class ELssProviderQc extends CshChangeNotifier {
       }
       rprlList = List.generate(elssPartList.length, (index) {
         return {
-          "isManualAdded": elssPartList[index].isManuallyAdded,
+          "isManualAdded": elssPartList[index].isManualAdded,
           "isPnaSelected": elssPartList[index].isPnaSelected,
           "isVisibleForPna": elssPartList[index].isVisibleForPna,
           "pcl": elssPartList[index].partColour,

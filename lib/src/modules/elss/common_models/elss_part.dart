@@ -10,6 +10,8 @@ class ElssPart {
   String? partName;
   @JsonKey(name: "ac")
   String? action;
+  @JsonKey(name: "acc")
+  int? actionConstant;
   @JsonKey(name: "isManualAdded")
   bool? isManualAdded;
   @JsonKey(name: "pc")
@@ -22,12 +24,11 @@ class ElssPart {
   int? selectedPos;
   @JsonKey(name: "isVisibleForPna")
   bool? isVisibleForPna;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   List<String>? partsImageList;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   int? elssPartId;
-  @JsonKey(ignore: true)
-  bool? isManuallyAdded;
+
   @JsonKey(name: "_v")
   int? version;
 
@@ -35,7 +36,7 @@ class ElssPart {
   ElssPart({
     this.version = 0,
     this.action,
-    this.isManualAdded,
+    this.isManualAdded = false,
     this.isPnaSelected = false,
     this.isVisibleForPna = false,
     this.partColour,
@@ -44,8 +45,8 @@ class ElssPart {
     this.selectedPos = -1,
     this.sku,
     this.elssPartId,
-    this.isManuallyAdded,
     this.partsImageList,
+    this.actionConstant,
   });
 
   static ElssPart fromJson(Map<String, dynamic> data) => _$ElssPartFromJson(data);

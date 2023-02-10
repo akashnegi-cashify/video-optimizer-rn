@@ -51,23 +51,25 @@ class ElssHomeWidget extends StatelessWidget {
                 },
               ),
             if (isLoginFromQC)
-            FunctionalityCard(
-              cardLabel: l10n.qualityCheck,
-              cardIconPath: "assets/images/ic_trc.png",
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  BarcodeScanWidget.route,
-                  arguments: (String data, {BarcodeScannerController? controller}) {
-                    if (!Validator.isNullOrEmpty(data)) {
-                      Navigator.of(context).pushReplacementNamed(
-                        PartSelectionScreenQc.route,
-                        arguments: data.trim(),
-                      );
-                    }
-                  },
-                );
-              },
-            ),
+              FunctionalityCard(
+                cardLabel: l10n.qualityCheck,
+                cardIconPath: "assets/images/ic_trc.png",
+                onTap: () {
+                  CshSnackBar.error(context: context, message: "Functionality Under Development!!!");
+
+                  // Navigator.of(context).pushNamed(
+                  //   BarcodeScanWidget.route,
+                  //   arguments: (String data, {BarcodeScannerController? controller}) {
+                  //     if (!Validator.isNullOrEmpty(data)) {
+                  //       Navigator.of(context).pushReplacementNamed(
+                  //         PartSelectionScreenQc.route,
+                  //         arguments: data.trim(),
+                  //       );
+                  //     }
+                  //   },
+                  // );
+                },
+              ),
           ]),
         )
       ],

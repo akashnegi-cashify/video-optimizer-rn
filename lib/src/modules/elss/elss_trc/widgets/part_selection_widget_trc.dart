@@ -3,11 +3,12 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import '../../common_models/part_device_list.dart';
+import '../../widgets/add_part_item_widget.dart';
 import '../l10n.dart';
 import '../providers/elss_provider_trc.dart';
 import '../screens/add_part_screen_trc.dart';
-import '../screens/elss_screen_trc.dart';
 import 'elss_device_details_widget_trc.dart';
 import 'elss_part_widget_trc.dart';
 import 'option_widget_trc.dart';
@@ -252,12 +253,16 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                       child: CshMediumButton(
                         text: provider.submitButtonName,
                         onPressed: () {
-                          Navigator.of(context).pop(true);
-                          Map<String, List<String>> imagesDataMap = provider.getSelectedPartsFaultImages();
-                          if (imagesDataMap.isNotEmpty) {
-                            provider.submitPartsFaultImages(widget.barcode, imagesDataMap);
+                          if (provider.getIsPnaSelectedOrNot(provider.selectedOptionKey)) {
+                            _showDialogueWhenPnaSelected(l10n, theme, provider.selectedOptionKey, provider);
+                          } else {
+                            Navigator.of(context).pop(true);
+                            Map<String, List<String>> imagesDataMap = provider.getSelectedPartsFaultImages();
+                            if (imagesDataMap.isNotEmpty) {
+                              provider.submitPartsFaultImages(widget.barcode, imagesDataMap);
+                            }
+                            _submitElssPartRequest(widget.barcode, l10n);
                           }
-                          _submitElssPartRequest(widget.barcode, l10n);
                         },
                       ),
                     ),
@@ -286,7 +291,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
         CshSnackBar.success(
             context: context,
             message: provider.elssPartSubmitResponse?.successMessage ?? l10n.dataSubmittedSuccessfully);
-        Navigator.pushNamedAndRemoveUntil(context, ELSSScreenTrc.route, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false);
       } else {
         CshLoading().hideLoading(context);
         CshSnackBar.error(
@@ -296,5 +301,132 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
     });
+  }
+
+  _showDialogueWhenPnaSelected(L10n l10n, ThemeData theme, int selectedKey, ELssProviderTrc provider) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(Dimens.space_8),
+          topLeft: Radius.circular(Dimens.space_8),
+        ),
+      ),
+      builder: (BuildContext innerContext) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: Dimens.space_12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+                child: Text(
+                  (Validator.isListNullOrEmpty(provider.manualAddedPartsList))
+                      ? l10n.noPartAddedForPna
+                      : l10n.selectedPartsForPna,
+                  style: theme.primaryTextTheme.headline3,
+                ),
+              ),
+              const SizedBox(height: Dimens.space_8),
+              SizedBox(
+                width: double.infinity,
+                height: 400.0,
+                child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+                    itemBuilder: (context, index) {
+                      return AddPartItemList(
+                        dataModel: PartItemDataResponse(
+                          provider.manualAddedPartsList[index].sku,
+                          provider.manualAddedPartsList[index].partColour,
+                          provider.manualAddedPartsList[index].partName,
+                          isCardSelected: false,
+                        ),
+                        onPartSelected: (bool data) {
+                          provider.manualAddedPartsList[index].isPnaSelected = data;
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: Dimens.space_8);
+                    },
+                    itemCount: provider.manualAddedPartsList.length),
+              ),
+              const SizedBox(height: Dimens.space_8),
+              ComboButton(
+                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+                firstBtnText: l10n.cancel,
+                secondBtnText:
+                    (Validator.isListNullOrEmpty(provider.manualAddedPartsList)) ? l10n.selectParts : l10n.submit,
+                isFirstPrimary: true,
+                buttonType: ButtonType.mini,
+                firstBtnClick: () {
+                  Navigator.of(context).pop(true);
+                },
+                secondBtnClick: (Validator.isListNullOrEmpty(provider.manualAddedPartsList))
+                    ? () async {
+                        Navigator.of(context).pop(true);
+                        var data =
+                            await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: widget.barcode);
+                        if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
+                          for (var element in data!) {
+                            Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
+                          }
+                          provider.addNewPartsFromAddParts(data);
+                        }
+                      }
+                    : () {
+                        Navigator.of(context).pop(true);
+                        _submitPopUpAfterPNA(l10n, theme, selectedKey, provider);
+                      },
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _submitPopUpAfterPNA(L10n l10n, ThemeData theme, int selectedKey, ELssProviderTrc provider) {
+    showDialog(
+      context: context,
+      builder: (BuildContext innerContext) {
+        return AlertDialog(
+          title: Text(
+            l10n.submitParts,
+            style: theme.primaryTextTheme.headline3,
+          ),
+          content: Text(
+            l10n.areYouSureYouWantToSubmit,
+            style: theme.primaryTextTheme.headline4,
+          ),
+          actions: [
+            CshMediumButton(
+              text: l10n.cancel,
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+              },
+            ),
+            CshMediumButton(
+              text: l10n.submit,
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+                Map<String, List<String>> imagesDataMap = provider.getSelectedPartsFaultImages();
+                if (imagesDataMap.isNotEmpty) {
+                  provider.submitPartsFaultImages(widget.barcode, imagesDataMap);
+                }
+                _submitElssPartRequest(widget.barcode, l10n);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+  import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app.dart';
 import 'package:flutter_trc/src/interceptors/interceptors_helper.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
