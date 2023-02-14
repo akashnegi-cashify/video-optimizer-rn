@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
 
 import '../../../amplify/amplify_provider.dart';
@@ -34,6 +35,8 @@ class UserRoles {
       Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
     } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {
       Navigator.of(context).pushNamedAndRemoveUntil(RiderHomeScreen.route, (route) => false);
+    } else if (listOfRoles.contains(UserRoles.ROLE_L4)) {
+      Navigator.of(context).pushNamedAndRemoveUntil(L4HomeScreen.route, (route) => false);
     } else {
       NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
       await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));

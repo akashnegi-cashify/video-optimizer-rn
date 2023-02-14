@@ -9,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
+import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
@@ -180,6 +181,9 @@ class _CashifyAppState extends State<CashifyApp> {
                     RiderHomeScreen.route: (_) => const RiderHomeScreen(),
                     DeliveryDeliverEngineerPartsScreen.route: (_) => const DeliveryDeliverEngineerPartsScreen(),
                     PickupReceiveEngineerPartsScreen.route: (_) => const PickupReceiveEngineerPartsScreen(),
+
+                  //  l4 role screen
+                    L4HomeScreen.route: (_) => const L4HomeScreen(),
                   },
                   initialRoute: SplashScreen.route,
                 );
