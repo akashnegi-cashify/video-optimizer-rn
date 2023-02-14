@@ -2,12 +2,12 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/modules/rider/urgent_request.dart';
 
 import '../../../../../common/searchable.dart';
+import '../../../../../common/utils/string_utils.dart';
 import '../models/delivery_response.dart';
 import '../resources/domain/delivery_deliver_interactor.dart';
 import '../resources/domain/delivery_deliver_interactor_impl.dart';
 
-class DeliveryDeliverProvider extends CshChangeNotifier
-    with Searchable, UrgentRequest {
+class DeliveryDeliverProvider extends CshChangeNotifier with Searchable, UrgentRequest {
   final DeliveryDeliverInteractor interactor = DeliveryDeliverInteractorImpl();
 
   Function(dynamic error) errorHandler;
@@ -44,13 +44,7 @@ class DeliveryDeliverProvider extends CshChangeNotifier
   }
 
   applySearch() {
-    displayList = _response?.data
-        ?.where((element) =>
-            element.name
-                ?.toLowerCase()
-                .contains(searchQuery?.toLowerCase() ?? "") ??
-            false)
-        .toList();
+    displayList = _response?.data?.where((element) => element.name.containsIgnoreCase(searchQuery)).toList();
     notifyListeners();
   }
 }

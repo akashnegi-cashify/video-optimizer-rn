@@ -4,12 +4,20 @@ import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/pending_delivery_widget.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/pending_pickup_widget.dart';
-
 import '../../utils/app_util.dart';
 
-class RiderHomeWidget extends StatelessWidget {
-  const RiderHomeWidget({Key? key}) : super(key: key);
+class RiderHomeScreen extends StatelessWidget {
+  const RiderHomeScreen({Key? key}) : super(key: key);
   static const route = '/rider';
+
+  @override
+  Widget build(BuildContext context) {
+    return const _RiderHomeWidget();
+  }
+}
+
+class _RiderHomeWidget extends StatelessWidget {
+  const _RiderHomeWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

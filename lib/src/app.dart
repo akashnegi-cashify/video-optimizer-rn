@@ -4,11 +4,11 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
-import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
@@ -39,9 +39,9 @@ import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_p
 import 'modules/engineer/view_reports/view_report_widget.dart';
 import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
 import 'modules/rubbing/widgets/rubbing_home_widget.dart';
-import 'modules/rider/pending_delivery/deliver/widgets/delivery_deliver_engineer_parts_widget.dart';
 import 'modules/rider/pending_pickup/receive/widgets/pickup_receive_engineer_parts_widget.dart';
 import 'modules/splash/splash_screen.dart';
+import 'modules/rider/pending_delivery/deliver/widgets/delivery_deliver_engineer_parts_widget.dart';
 
 class CashifyApp extends StatefulWidget {
   final String appName;
@@ -128,58 +128,59 @@ class _CashifyAppState extends State<CashifyApp> {
         builder: (BuildContext context, _) {
           LocaleProvider localProvider = Provider.of<LocaleProvider>(context);
           return CshThemeWidget(
-              getProjectTheme: (bool isDarkTheme) => ProjectTheme.getTheme(isDarkTheme),
-              builder: (ThemeData theme) {
-                return MaterialApp(
-                  navigatorKey: _navKey,
-                  locale: localProvider.locale,
-                  theme: theme,
-                  navigatorObservers: [
-                    CshRouteObserver().instance,
-                    SentryNavigatorObserver(),
-                  ],
-                  title: BaseL10n(context).appName,
-                  localizationsDelegates: const [
-                    CshLocalizationsDelegate(),
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                  ],
-                  supportedLocales: LanguageUtil.getSupportedLanguageListLocale(),
-                  routes: {
-                    SplashScreen.route: (_) => const SplashScreen(),
-                    LoginScreen.route: (_) => const LoginScreen(),
-                    HomeScreen.route: (_) => const HomeScreen(),
-                    BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
-                    RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
-                    ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
-                    ElssHomeScreen.route: (_) => const ElssHomeScreen(),
-                    //ELSS_TRC_ROUTES
-                    AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),
-                    AddPartScreenTrc.route: (_) => const AddPartScreenTrc(),
-                    ELSSScreenTrc.route: (_) => const ELSSScreenTrc(),
-                    PartSelectionScreenTrc.route: (_) => const PartSelectionScreenTrc(),
-                    BrandsDetailsListingScreen.route: (_) => const BrandsDetailsListingScreen(),
-                    //ELSS_QC_ROUTES
-                    AddPartScreenQc.route: (_) => const AddPartScreenQc(),
-                    ELSSScreenQc.route: (_) => const ELSSScreenQc(),
-                    PartSelectionScreenQc.route: (_) => const PartSelectionScreenQc(),
-                    // engineer routes
-                    EngineerHomeScreen.route: (_) => const EngineerHomeScreen(),
-                    MyDevicesScreen.route: (_) => const MyDevicesScreen(),
-                    AssignedPartsScreen.route: (_) => const AssignedPartsScreen(),
-                    WIPDetailScreen.route: (_) => const WIPDetailScreen(),
-                    SelfAssignPartScreen.route: (_) => const SelfAssignPartScreen(),
-                    OrderPartScreen.route: (_) => const OrderPartScreen(),
-                    ManagePartsScreen.route: (_) => const ManagePartsScreen(),
-                    ViewReportScreen.route: (_) => const ViewReportScreen(),
-                    // rider role screens
-                    RiderHomeWidget.route: (_) => const RiderHomeWidget(),
-                    DeliveryDeliverEngineerPartsWidget.route: (_) => const DeliveryDeliverEngineerPartsWidget(),
-                    PickupReceiveEngineerPartsWidget.route: (_) => const PickupReceiveEngineerPartsWidget(),
-                  },
-                  initialRoute: SplashScreen.route,
-                );
-              });
+            getProjectTheme: (bool isDarkTheme) => ProjectTheme.getTheme(isDarkTheme),
+            builder: (ThemeData theme) {
+              return MaterialApp(
+                navigatorKey: _navKey,
+                locale: localProvider.locale,
+                theme: theme,
+                navigatorObservers: [
+                  CshRouteObserver().instance,
+                  SentryNavigatorObserver(),
+                ],
+                title: BaseL10n(context).appName,
+                localizationsDelegates: const [
+                  CshLocalizationsDelegate(),
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                supportedLocales: LanguageUtil.getSupportedLanguageListLocale(),
+                routes: {
+                  SplashScreen.route: (_) => const SplashScreen(),
+                  LoginScreen.route: (_) => const LoginScreen(),
+                  HomeScreen.route: (_) => const HomeScreen(),
+                  BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
+                  RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
+                  ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
+                  ElssHomeScreen.route: (_) => const ElssHomeScreen(),
+                  //ELSS_TRC_ROUTES
+                  AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),
+                  AddPartScreenTrc.route: (_) => const AddPartScreenTrc(),
+                  ELSSScreenTrc.route: (_) => const ELSSScreenTrc(),
+                  PartSelectionScreenTrc.route: (_) => const PartSelectionScreenTrc(),
+                  BrandsDetailsListingScreen.route: (_) => const BrandsDetailsListingScreen(),
+                  //ELSS_QC_ROUTES
+                  AddPartScreenQc.route: (_) => const AddPartScreenQc(),
+                  ELSSScreenQc.route: (_) => const ELSSScreenQc(),
+                  PartSelectionScreenQc.route: (_) => const PartSelectionScreenQc(),
+                  // engineer routes
+                  EngineerHomeScreen.route: (_) => const EngineerHomeScreen(),
+                  MyDevicesScreen.route: (_) => const MyDevicesScreen(),
+                  AssignedPartsScreen.route: (_) => const AssignedPartsScreen(),
+                  WIPDetailScreen.route: (_) => const WIPDetailScreen(),
+                  SelfAssignPartScreen.route: (_) => const SelfAssignPartScreen(),
+                  OrderPartScreen.route: (_) => const OrderPartScreen(),
+                  ManagePartsScreen.route: (_) => const ManagePartsScreen(),
+                  ViewReportScreen.route: (_) => const ViewReportScreen(),
+                  RiderHomeScreen.route: (_) => const RiderHomeScreen(),
+                  DeliveryDeliverEngineerPartsScreen.route: (_) => const DeliveryDeliverEngineerPartsScreen(),
+                  PickupReceiveEngineerPartsScreen.route: (_) => const PickupReceiveEngineerPartsScreen(),
+                },
+                initialRoute: SplashScreen.route,
+              );
+              // rider role screens
+            },
+          );
         },
       ),
     );

@@ -13,8 +13,7 @@ class PickupReceiveWidget extends StatefulWidget {
   State<PickupReceiveWidget> createState() => _PickupReceiveWidgetState();
 }
 
-class _PickupReceiveWidgetState extends State<PickupReceiveWidget>
-    with AutomaticKeepAliveClientMixin {
+class _PickupReceiveWidgetState extends State<PickupReceiveWidget> with AutomaticKeepAliveClientMixin {
   bool isUrgentRequest = false;
 
   @override
@@ -24,10 +23,7 @@ class _PickupReceiveWidgetState extends State<PickupReceiveWidget>
 
     return ChangeNotifierProvider(create: (context) {
       return PickupReceiveProvider((error) {
-        CshSnackBar.error(
-            context: context,
-            message: ApiErrorHelper.getErrorMessage(error) ??
-                l10n.somethingWentWrong);
+        CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
       });
     }, builder: (context, child) {
       var provider = Provider.of<PickupReceiveProvider>(context, listen: false);
@@ -39,8 +35,7 @@ class _PickupReceiveWidgetState extends State<PickupReceiveWidget>
               provider.searchQuery = query;
             },
           ),
-          Expanded(child: Consumer<PickupReceiveProvider>(
-              builder: (context, provider, widget) {
+          Expanded(child: Consumer<PickupReceiveProvider>(builder: (context, provider, widget) {
             var list = provider.displayList;
             if (list != null) {
               return CshList(
@@ -52,9 +47,7 @@ class _PickupReceiveWidgetState extends State<PickupReceiveWidget>
                   return GestureDetector(
                     child: EngineerCardWidget(detail: list[index]),
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, PickupReceiveEngineerPartsWidget.route,
-                          arguments: list[index]);
+                      Navigator.pushNamed(context, PickupReceiveEngineerPartsScreen.route, arguments: list[index]);
                     },
                   );
                 },

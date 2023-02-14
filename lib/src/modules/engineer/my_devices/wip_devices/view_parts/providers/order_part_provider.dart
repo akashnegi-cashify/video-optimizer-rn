@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/common/utils/string_utils.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 
@@ -61,11 +62,5 @@ class OrderPartProvider extends CshChangeNotifier {
     }, onDone: () {
       getListParts((errorMessage) => handleError, l10n);
     });
-  }
-}
-
-extension StringOps on String? {
-  bool containsIgnoreCase(String? query) {
-    return (this ?? "").toLowerCase().contains(query?.toLowerCase() ?? "");
   }
 }

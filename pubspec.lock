@@ -157,10 +157,10 @@ packages:
     dependency: transitive
     description:
       name: args
-      sha256: "139d809800a412ebb26a3892da228b2d0ba36f0ef5d9a82166e5e52ec8d61611"
+      sha256: "4cab82a83ffef80b262ddedf47a0a8e56ee6fbf7fe21e6e768b02792034dd440"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.4.0"
   async:
     dependency: transitive
     description:
@@ -238,7 +238,7 @@ packages:
     description:
       path: builder_component
       ref: master
-      resolved-ref: "1e69938462729582a5ac89f8d57346d2ca6fdf0a"
+      resolved-ref: f3741f6f4fbb323061b5a2fc235c5adf395536a6
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
     version: "0.0.1"
@@ -287,7 +287,7 @@ packages:
     description:
       path: calculator
       ref: master
-      resolved-ref: "1e69938462729582a5ac89f8d57346d2ca6fdf0a"
+      resolved-ref: f3741f6f4fbb323061b5a2fc235c5adf395536a6
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
     version: "1.0.3"
@@ -296,7 +296,7 @@ packages:
     description:
       path: calculator_ui
       ref: main
-      resolved-ref: f48ba035d50971d43f413b7dfd85f45eaddc87f6
+      resolved-ref: "8fe7e783812c396ee61f5f7386c549ab8ba76a7f"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"
@@ -433,7 +433,7 @@ packages:
     description:
       path: components
       ref: main
-      resolved-ref: f48ba035d50971d43f413b7dfd85f45eaddc87f6
+      resolved-ref: "8fe7e783812c396ee61f5f7386c549ab8ba76a7f"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"
@@ -465,10 +465,10 @@ packages:
     dependency: transitive
     description:
       name: connectivity_plus_platform_interface
-      sha256: b8795b9238bf83b64375f63492034cb3d8e222af4d9ce59dda085edf038fa06f
+      sha256: cf1d1c28f4416f8c654d7dc3cd638ec586076255d407cef3ddbdaf178272a71a
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.4"
   connectivity_plus_web:
     dependency: transitive
     description:
@@ -498,7 +498,7 @@ packages:
     description:
       path: core
       ref: master
-      resolved-ref: "1e69938462729582a5ac89f8d57346d2ca6fdf0a"
+      resolved-ref: f3741f6f4fbb323061b5a2fc235c5adf395536a6
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
     version: "1.1.1"
@@ -507,7 +507,7 @@ packages:
     description:
       path: core_widgets
       ref: main
-      resolved-ref: f48ba035d50971d43f413b7dfd85f45eaddc87f6
+      resolved-ref: "8fe7e783812c396ee61f5f7386c549ab8ba76a7f"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"
@@ -532,7 +532,7 @@ packages:
     description:
       path: csh_annotation
       ref: master
-      resolved-ref: "1e69938462729582a5ac89f8d57346d2ca6fdf0a"
+      resolved-ref: f3741f6f4fbb323061b5a2fc235c5adf395536a6
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
     version: "0.0.1"
@@ -541,7 +541,7 @@ packages:
     description:
       path: csh_db
       ref: master
-      resolved-ref: "1e69938462729582a5ac89f8d57346d2ca6fdf0a"
+      resolved-ref: f3741f6f4fbb323061b5a2fc235c5adf395536a6
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
     version: "0.0.1"
@@ -1098,7 +1098,7 @@ packages:
     description:
       path: json_logic
       ref: master
-      resolved-ref: "1e69938462729582a5ac89f8d57346d2ca6fdf0a"
+      resolved-ref: f3741f6f4fbb323061b5a2fc235c5adf395536a6
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
     version: "0.0.1"
@@ -1131,7 +1131,7 @@ packages:
     description:
       path: localization
       ref: master
-      resolved-ref: "1e69938462729582a5ac89f8d57346d2ca6fdf0a"
+      resolved-ref: f3741f6f4fbb323061b5a2fc235c5adf395536a6
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
     version: "0.0.1"
@@ -1172,7 +1172,7 @@ packages:
     description:
       path: media_widget
       ref: main
-      resolved-ref: f48ba035d50971d43f413b7dfd85f45eaddc87f6
+      resolved-ref: "8fe7e783812c396ee61f5f7386c549ab8ba76a7f"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "0.0.1"
@@ -1340,10 +1340,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_linux
-      sha256: ab0987bf95bc591da42dffb38c77398fc43309f0b9b894dcc5d6f40c4b26c379
+      sha256: "2e32f1640f07caef0d3cb993680f181c79e54a3827b997d5ee221490d131fbd9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.7"
+    version: "2.1.8"
   path_provider_platform_interface:
     dependency: transitive
     description:
