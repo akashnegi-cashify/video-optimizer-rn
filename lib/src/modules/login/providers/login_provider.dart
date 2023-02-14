@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
 
@@ -78,6 +79,7 @@ class TRCLoginProvider extends CshChangeNotifier {
           if (!Validator.isNullOrEmpty(event.accessToken)) {
             AuthHandler().setUserAuth(event.accessToken!);
             UserDetails().setUserDetailsData(event.accessToken!);
+            AppPreferences().setIsLoginFromQC(true);
 
             await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
                 loginToken: event.accessToken!, loginFromQC: true);

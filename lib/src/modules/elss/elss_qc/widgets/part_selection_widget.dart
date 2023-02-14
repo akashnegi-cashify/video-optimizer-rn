@@ -1,13 +1,17 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import '../../common_models/part_device_list.dart';
+import '../../common_resources/elss_action.dart';
+import '../../common_screen/elss_home_screen.dart';
 import '../l10n.dart';
 import '../providers/elss_provider_qc.dart';
 import '../screens/add_part_screen_qc.dart';
 import 'discard_modal_widget.dart';
 import 'elss_device_details_widget.dart';
 import 'elss_part_widget.dart';
+import 'elss_pna_modal_widget_qc.dart';
 
 class PartSelectionWidget extends StatefulWidget {
   final String barcode;
@@ -22,7 +26,7 @@ class PartSelectionWidget extends StatefulWidget {
 }
 
 class _PartSelectionWidgetState extends State<PartSelectionWidget> {
-  bool _isSearching = false;
+  bool _isSearching = false, _isRubbingApplicable = false;
 
   List<PartItemDataResponse> additionalRequiredPartList = [];
 
@@ -45,23 +49,35 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
           child: ElssDeviceDetailsWidget(dataModel: provider.elssDeviceDetails?.deviceDetailsData),
         ),
         const SizedBox(height: Dimens.space_20),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-            child: CshIconButton(
-              text: l10n.addParts,
-              onPressed: () {
-                Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
-              },
-              prefixIcon: CshIcon(
-                FeatherIcons.plus,
-                padding: EdgeInsets.zero,
+        if (provider.elssDeviceDetails?.deviceDetailsData?.partAdditionAllowed ?? false)
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
+              child: CshIconButton(
+                text: l10n.addParts,
+                onPressed: () async {
+                  var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
+                  if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
+                    for (var element in data!) {
+                      Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
+                    }
+                    provider.addNewPartsFromAddParts(data);
+                  }
+                },
+                prefixIcon: CshIcon(
+                  FeatherIcons.plus,
+                  padding: EdgeInsets.zero,
+                ),
               ),
             ),
           ),
-        ),
         if (!Validator.isListNullOrEmpty(provider.elssPartList)) ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+            child: Text(l10n.deviceParts, style: theme.primaryTextTheme.headline4),
+          ),
+          const SizedBox(height: Dimens.space_4),
           if (_isSearching)
             Expanded(
               child: (provider.searchedElssPartList.isNotEmpty)
@@ -71,19 +87,30 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                       itemBuilder: (context, index) {
                         return ElssPartWidget(
                           key: const Key("Searching_List"),
-                          onImageUploadCallback: (int imageIndex, String s3Url) {
-                            provider.addS3UrlToListOfPartsImage(
-                                provider.searchedElssPartList[index].elssPartId!, index, s3Url);
-                          },
                           indexData: index + 1,
                           onPartRemoved: (int id) {
                             provider.removeAddedDataFromSearchAndMasterList(id);
                           },
                           dataModel: provider.searchedElssPartList[index],
-                          onActionChanged: (String data) {
-                            provider.searchItemDataUpdate(provider.searchedElssPartList[index].elssPartId!,
-                                action: data);
+                          onNotRequiredSelected: () {
+                            provider.searchItemDataUpdate(
+                              provider.searchedElssPartList[index].elssPartId!,
+                              action: ElssAction.NOT_REQUIRED.value,
+                              actionConstant: (provider.elssPartActionResponse?.actionsData?.notRequired != null)
+                                  ? provider.elssPartActionResponse!.actionsData!.notRequired!
+                                  : -99,
+                            );
                           },
+                          onRequiredSelected: () {
+                            provider.searchItemDataUpdate(
+                              provider.searchedElssPartList[index].elssPartId!,
+                              action: ElssAction.REPAIRABLE.value,
+                              actionConstant: (provider.elssPartActionResponse?.actionsData?.required != null)
+                                  ? provider.elssPartActionResponse!.actionsData!.required!
+                                  : -99,
+                            );
+                          },
+                          onImageUploadCallback: (int imageIndex, String s3Url) {},
                         );
                       },
                       itemCount: provider.searchedElssPartList.length,
@@ -103,16 +130,29 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                 itemBuilder: (context, index) {
                   return ElssPartWidget(
                     key: const Key("Master_List"),
-                    onImageUploadCallback: (int imageIndex, String s3Url) {
-                      provider.addS3UrlToListOfPartsImage(provider.elssPartList[index].elssPartId!, imageIndex, s3Url);
-                    },
+                    onImageUploadCallback: (int imageIndex, String s3Url) {},
                     indexData: provider.elssPartList[index].elssPartId ?? -1,
                     onPartRemoved: (int id) {
                       provider.removeExternalAddedPart(id);
                     },
                     dataModel: provider.elssPartList[index],
-                    onActionChanged: (String data) {
-                      provider.searchItemDataUpdate(provider.elssPartList[index].elssPartId!, action: data);
+                    onNotRequiredSelected: () {
+                      provider.searchItemDataUpdate(
+                        provider.elssPartList[index].elssPartId!,
+                        action: ElssAction.NOT_REQUIRED.value,
+                        actionConstant: (provider.elssPartActionResponse?.actionsData?.notRequired != null)
+                            ? provider.elssPartActionResponse!.actionsData!.notRequired!
+                            : -99,
+                      );
+                    },
+                    onRequiredSelected: () {
+                      provider.searchItemDataUpdate(
+                        provider.elssPartList[index].elssPartId!,
+                        action: ElssAction.REPAIRABLE.value,
+                        actionConstant: (provider.elssPartActionResponse?.actionsData?.required != null)
+                            ? provider.elssPartActionResponse!.actionsData!.required!
+                            : -99,
+                      );
                     },
                   );
                 },
@@ -126,6 +166,36 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
           const Expanded(
             child: SizedBox(),
           ),
+        if (provider.elssDeviceDetails?.deviceDetailsData?.isRubbingRequired ?? false)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
+            child: CshCard(
+              padding: EdgeInsets.zero,
+              radius: CshRadius.rad4,
+              elevation: CardElevation.dimen_10,
+              child: SizedBox(
+                width: double.infinity,
+                height: Dimens.space_60,
+                child: Row(
+                  children: [
+                    CshCheckbox(
+                      isSelected: _isRubbingApplicable,
+                      onChanged: (bool? data) {
+                        _isRubbingApplicable = Validator.isTrue(data);
+                        provider.isRubbingApplicable = data ?? false;
+                        setState(() {});
+                      },
+                    ),
+                    Text(
+                      l10n.deviceRubbing,
+                      style: theme.primaryTextTheme.overline,
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        const SizedBox(height: Dimens.space_8),
         CshCard(
           radius: CshRadius.none,
           padding: const EdgeInsets.all(Dimens.space_16),
@@ -142,6 +212,20 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
               theme,
               onDiscard: () {
                 _showOnDiscardModalBottomSheet();
+              },
+              onPNA: provider.elssPartList.isEmpty
+                  ? () {
+                      CshSnackBar.error(
+                        context: context,
+                        message: l10n.noPartsAvailableForPna,
+                        snackBarPosition: SnackBarPosition.TOP,
+                      );
+                    }
+                  : () {
+                      _onPnaOptionModal(l10n);
+                    },
+              onAccept: () {
+                _submitDataForPartsLogic(l10n);
               },
             ),
           ),
@@ -162,9 +246,52 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         ),
       ),
       builder: (BuildContext innerContext) {
-        return const DiscardModalWidget();
+        return DiscardModalWidget(
+          onRejectCallback: () {
+            Navigator.of(context).pop(true);
+            _onRejectElss();
+          },
+          onRetestCallback: () {
+            Navigator.of(context).pop(true);
+            _onRetestingElss();
+          },
+        );
       },
     );
+  }
+
+  _onRejectElss() {
+    var provider = ELssProviderQc.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.rejectElss(widget.barcode).then((value) {
+      CshLoading().hideLoading(context);
+      if (value) {
+        CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
+        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+      } else {
+        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
+      }
+    }, onError: (error) {
+      CshSnackBar.error(context: context, message: error);
+      CshLoading().hideLoading(context);
+    });
+  }
+
+  _onRetestingElss() {
+    var provider = ELssProviderQc.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.retestElss(widget.barcode).then((value) {
+      CshLoading().hideLoading(context);
+      if (value) {
+        CshSnackBar.success(context: context, message: "Moved to Retesting successfully!!");
+        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+      } else {
+        CshSnackBar.error(context: context, message: "Something went wrong!!");
+      }
+    }, onError: (error) {
+      CshSnackBar.error(context: context, message: error);
+      CshLoading().hideLoading(context);
+    });
   }
 
   _bottomHandlingButtons(
@@ -194,6 +321,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
             Expanded(
               child: CshMediumOutlineButton(
                 text: l10n.pna,
+                textColor: theme.primaryColor,
                 borderColor: theme.primaryColor,
                 onPressed: () {
                   if (onPNA != null) {
@@ -201,7 +329,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                   }
                 },
               ),
-            ),
+            )
           ],
         ),
         const SizedBox(height: Dimens.space_14),
@@ -218,5 +346,71 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         )
       ],
     );
+  }
+
+  _onPnaOptionModal(L10n l10n) {
+    var provider = ELssProviderQc.of(context, listen: false);
+    showCshBottomSheet(
+      context: context,
+      child: ElssPnaModalWidgetQC(
+        arePartsAdded: (!Validator.isListNullOrEmpty(provider.elssPartList)),
+        listOfSelectedParts: provider.elssPartList,
+        onCardSelectedCallback: (int index, bool data) {
+          provider.elssPartList[index].isPnaSelected = data;
+        },
+        onSubmitCallback: (Validator.isListNullOrEmpty(provider.elssPartList))
+            ? () async {
+                var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
+                if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
+                  for (var element in data!) {
+                    Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
+                  }
+                  provider.addNewPartsFromAddParts(data);
+                }
+              }
+            : () {
+                Navigator.of(context).pop(true);
+                if (provider.checkIsItemSelectedForPNA()) {
+                  _marPnaStatusToParts(l10n);
+                } else {
+                  CshSnackBar.error(
+                      context: context, message: l10n.checkMarkPartForPna, snackBarPosition: SnackBarPosition.TOP);
+                }
+              },
+      ),
+    );
+  }
+
+  _submitDataForPartsLogic(L10n l10n) {
+    var provider = ELssProviderQc.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.submitPartsForLogic(widget.barcode).then((value) {
+      CshLoading().hideLoading(context);
+      if (value) {
+        CshSnackBar.success(context: context, message: l10n.partsSubmittedSuccessfully);
+        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+      } else {
+        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
+      }
+    }, onError: (error) {
+      CshSnackBar.error(context: context, message: error);
+      CshLoading().hideLoading(context);
+    });
+  }
+
+  _marPnaStatusToParts(L10n l10n) {
+    var provider = ELssProviderQc.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.markPNAStatus(widget.barcode).then((value) {
+      if (value) {
+        CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
+        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+      } else {
+        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
+      }
+    }, onError: (error) {
+      CshSnackBar.error(context: context, message: error);
+      CshLoading().hideLoading(context);
+    });
   }
 }

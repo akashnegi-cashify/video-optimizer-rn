@@ -30,9 +30,9 @@ class PartItemDataResponse {
   String? productName;
   @JsonKey(name: "pcl")
   String? productColour;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isCardSelected;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   int? partId;
 
   PartItemDataResponse(

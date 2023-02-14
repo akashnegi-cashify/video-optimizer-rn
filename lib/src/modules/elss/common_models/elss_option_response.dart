@@ -1,6 +1,5 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 part 'elss_option_response.g.dart';
 
 @JsonSerializable()
@@ -38,9 +37,9 @@ class OptionResponse {
   bool? isPnaApplicable;
   @JsonKey(name: "isGc")
   bool? isGlassChangeApplicable;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isOptionSelected;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isApplicableReasonRequired;
 
   OptionResponse(

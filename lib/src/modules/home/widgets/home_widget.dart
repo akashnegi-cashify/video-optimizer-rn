@@ -1,6 +1,7 @@
 import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/home/providers/home_provider.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
 
@@ -14,7 +15,7 @@ class HomeWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Welcome"),
+          const Text("Welcome"),
           const SizedBox(height: Dimens.space_10),
           CshMediumButton(
             text: "Log out",
@@ -33,7 +34,7 @@ class HomeWidget extends StatelessWidget {
     provider.userLogout().then((value) {
       if (value) {
         CshLoading().hideLoading(context);
-        AuthHandler().onSessionExpire();
+        AppPreferences().resetAndClearAll();
         Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
       } else {
         CshLoading().hideLoading(context);

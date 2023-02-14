@@ -24,19 +24,23 @@ class UserRoles {
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
       {String? loginToken, bool? loginFromQC = false}) async {
-    if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
-      var amplifyPro = AmplifyProvider.of(context, listen: false);
-      amplifyPro.getS3DetailsAndConfigureAmplify();
+    if (loginFromQC == true) {
       Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
-    } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
-      Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeWidget.route, (route) => false);
-    } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {
-      Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
-    } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {
-      Navigator.of(context).pushNamedAndRemoveUntil(RiderHomeWidget.route, (route) => false);
     } else {
-      NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
-      await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));
+      if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
+        var amplifyPro = AmplifyProvider.of(context, listen: false);
+        amplifyPro.getS3DetailsAndConfigureAmplify();
+        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
+      } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeWidget.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(RiderHomeWidget.route, (route) => false);
+      } else {
+        NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
+        await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));
+      }
     }
   }
 }

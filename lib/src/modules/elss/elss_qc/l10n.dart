@@ -120,4 +120,31 @@ class L10n extends BaseL10n {
   String get reject => Intl.message("Reject", locale: localName, name: "reject");
 
   String get retest => Intl.message("Retest", locale: localName, name: "retest");
+
+  String get noPartsForPna => Intl.message("No Parts added for PNA", locale: localName, name: "noPartsForPna");
+
+  String get selectPartsForPna => Intl.message("Select Parts for PNA", locale: localName, name: "selectPartsForPna");
+
+  String get submit => Intl.message("Submit", locale: localName, name: "submit");
+
+  String get selectParts => Intl.message("Select Parts", locale: localName, name: "selectParts");
+
+  String get noPartsAvailableForPna =>
+      Intl.message("No Parts Available for PNA", locale: localName, name: "noPartsAvailableForPna");
+
+  String get isRubbingApplicable =>
+      Intl.message("Is Rubbing Applicable?", locale: localName, name: "isRubbingApplicable");
+
+  String get deviceRubbing => Intl.message("Device Rubbing", locale: localName, name: "deviceRubbing");
+
+  String get partsSubmittedSuccessfully =>
+      Intl.message("Parts Submitted Successfully!!", locale: localName, name: "partsSubmittedSuccessfully");
+
+  String get pnaStatusAppliedToSelectedParts =>
+      Intl.message("PNA status applied to selected parts", locale: localName, name: "pnaStatusAppliedToSelectedParts");
+
+  String get checkMarkPartForPna =>
+      Intl.message("Check Mark part for PNA", locale: localName, name: "checkMarkPartForPna");
+
+  String get deviceParts => Intl.message("Device Parts", locale: localName, name: "deviceParts");
 }

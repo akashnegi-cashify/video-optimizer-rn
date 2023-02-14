@@ -42,7 +42,7 @@ class DeviceDetailsData {
   @JsonKey(name: "dgr")
   String? deviceGrade;
   @JsonKey(name: "paal")
-  bool? partAdditionNotAllowed;
+  bool? partAdditionAllowed;
   @JsonKey(name: "dcl")
   String? deviceColor;
   @JsonKey(name: "pid")
@@ -57,6 +57,8 @@ class DeviceDetailsData {
   List<String?>? repairReasonList;
   @JsonKey(name: "rp")
   List<ElssPart>? repairPartList;
+  @JsonKey(name: "isr")
+  bool? isRubbingRequired;
 
   DeviceDetailsData(
     this.deviceBarcode,
@@ -71,7 +73,8 @@ class DeviceDetailsData {
     this.isDetailsPresent,
     this.repairPartList,
     this.deviceGrade,
-    this.partAdditionNotAllowed,
+    this.partAdditionAllowed,
+    this.isRubbingRequired,
   );
 
   static DeviceDetailsData fromJson(Map<String, dynamic> data) => _$DeviceDetailsDataFromJson(data);
