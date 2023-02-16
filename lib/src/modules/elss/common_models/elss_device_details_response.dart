@@ -17,6 +17,7 @@ class ElssDeviceDetailsResponse {
   @JsonKey(name: "dt")
   DeviceDetailsData? deviceDetailsData;
 
+
   ElssDeviceDetailsResponse(
     this.referenceId,
     this.errorMessage,

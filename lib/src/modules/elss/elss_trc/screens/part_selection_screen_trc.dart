@@ -42,7 +42,8 @@ class _PartSelectionScreenTrcState extends State<PartSelectionScreenTrc> {
               : (provider.isDetailsDataLoading == false && provider.elssDeviceDetails == null)
                   ? Center(
                       child: Text(
-                        l10n.noDataFound,
+                        (provider.apiErrorMessage.isNotEmpty) ? provider.apiErrorMessage : l10n.noDataFound,
+                        textAlign: TextAlign.center,
                         style: theme.primaryTextTheme.headline3,
                       ),
                     )

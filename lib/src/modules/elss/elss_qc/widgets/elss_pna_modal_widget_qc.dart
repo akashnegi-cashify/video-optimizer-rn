@@ -41,7 +41,7 @@ class ElssPnaModalWidgetQC extends StatelessWidget {
             width: double.infinity,
             height: 400.0,
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
               itemBuilder: (context, index) {
                 return AddPartItemList(
                   dataModel: PartItemDataResponse(
@@ -66,9 +66,8 @@ class ElssPnaModalWidgetQC extends StatelessWidget {
               itemCount: listOfSelectedParts.length,
             ),
           ),
-          const SizedBox(height: Dimens.space_8),
           ComboButton(
-            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+            padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_8, Dimens.space_16, 0.0),
             firstBtnText: l10n.cancel,
             secondBtnText: arePartsAdded ? l10n.submit : l10n.selectParts,
             isFirstPrimary: true,

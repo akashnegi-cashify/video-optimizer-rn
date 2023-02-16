@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'rubbing_device_data.g.dart';
 
 @JsonSerializable()

@@ -36,6 +36,7 @@ class ELssProviderTrc extends CshChangeNotifier {
   String submitButtonName = "Select Option";
   bool isGc = false, isPna = false, isra = false;
   UploadFaultImagesResponse? uploadFaultImagesResponse;
+  String apiErrorMessage = "";
   ElssPartSubmitResponse? elssPartSubmitResponse;
 
   _getDeviceDetailsData(String scannedBarcode,
@@ -63,6 +64,7 @@ class ELssProviderTrc extends CshChangeNotifier {
       notifyListeners();
     }, onError: (error) {
       String errMessage = ApiErrorHelper.getErrorMessage(error) ?? "Someting went wrong";
+      apiErrorMessage = errMessage;
       Logger.debug('mydebug------ELssProvider._getDeviceDetailsData', [errMessage]);
       isDetailsDataLoading = false;
       notifyListeners();

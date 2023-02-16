@@ -7,7 +7,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 class QrBarcodeScanner extends StatefulWidget {
   final Function(String) onResultantCallback;
 
-  const   QrBarcodeScanner({
+  const QrBarcodeScanner({
     Key? key,
     required this.onResultantCallback,
   }) : super(key: key);

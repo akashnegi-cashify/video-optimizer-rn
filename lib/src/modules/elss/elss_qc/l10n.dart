@@ -147,4 +147,32 @@ class L10n extends BaseL10n {
       Intl.message("Check Mark part for PNA", locale: localName, name: "checkMarkPartForPna");
 
   String get deviceParts => Intl.message("Device Parts", locale: localName, name: "deviceParts");
+
+  String get channelOptions => Intl.message("Channel Options", locale: localName, name: "channelOptions");
+
+  String get previousSuggestion => Intl.message("Previous Suggestion", locale: localName, name: "previousSuggestion");
+
+  String get price => Intl.message("Price", locale: localName, name: "price");
+
+  String get channelName => Intl.message("Channel Name", locale: localName, name: "channelName");
+
+  String get channelSuggestionCost =>
+      Intl.message("Channel Suggestion Cost", locale: localName, name: "channelSuggestionCost");
+
+  String get defaultChannelOption =>
+      Intl.message("Default Channel Option", locale: localName, name: "defaultChannelOption");
+
+  String get isRubbingAllowed => Intl.message("Is Rubbing Allowed", locale: localName, name: "isRubbingAllowed");
+
+  String get listOfSkUs => Intl.message("List Of SKUs", locale: localName, name: "listOfSkUs");
+
+  String get noPartSelectedForPna =>
+      Intl.message("No Part Selected For PNA", locale: localName, name: "noPartSelectedForPna");
+
+  String get imageAttached => Intl.message("Image Attached", locale: localName, name: "imageAttached");
+
+  String get attachImageEverySku =>
+      Intl.message("Attach Image every SKU", locale: localName, name: "attachImageEverySku");
+
+
 }

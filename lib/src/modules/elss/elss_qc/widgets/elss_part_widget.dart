@@ -28,7 +28,7 @@ class ElssPartWidget extends StatefulWidget {
 }
 
 class _ElssPartWidgetState extends State<ElssPartWidget> {
-  bool? _isRequiredSelected;
+  bool _isRequiredSelected = true;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
       padding: const EdgeInsets.all(Dimens.space_8),
       child: (widget.dataModel?.isManualAdded ?? false)
           ? Container(
-              height: Dimens.space_60,
+              height: Dimens.space_50,
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
               child: Row(
@@ -75,46 +75,50 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
             )
           : Theme(
               data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                title: Text(
-                  widget.dataModel?.partName ?? "",
-                  style: theme.primaryTextTheme.overline,
-                ),
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Dimens.space_12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _requiredWidget(
-                          theme,
-                          l10n.required,
-                          () {
-                            _isRequiredSelected = true;
-
-                            if (widget.onRequiredSelected != null) {
-                              widget.onRequiredSelected!();
-                            }
-                            setState(() {});
-                          },
-                        ),
-                        Container(width: Dimens.space_1, height: Dimens.space_12, color: theme.dividerColor),
-                        _notRequiredWidget(
-                          theme,
-                          l10n.notRequired,
-                          () {
-                            _isRequiredSelected = false;
-
-                            if (widget.onNotRequiredSelected != null) {
-                              widget.onNotRequiredSelected!();
-                            }
-                            setState(() {});
-                          },
-                        )
-                      ],
-                    ),
+              child: ListTileTheme(
+                dense: true,
+                child: ExpansionTile(
+                  tilePadding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
+                  title: Text(
+                    widget.dataModel?.partName ?? "",
+                    style: theme.primaryTextTheme.overline,
                   ),
-                ],
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _requiredWidget(
+                            theme,
+                            l10n.required,
+                            () {
+                              _isRequiredSelected = true;
+
+                              if (widget.onRequiredSelected != null) {
+                                widget.onRequiredSelected!();
+                              }
+                              setState(() {});
+                            },
+                          ),
+                          Container(width: Dimens.space_1, height: Dimens.space_12, color: theme.shadowColor),
+                          _notRequiredWidget(
+                            theme,
+                            l10n.notRequired,
+                            () {
+                              _isRequiredSelected = false;
+
+                              if (widget.onNotRequiredSelected != null) {
+                                widget.onNotRequiredSelected!();
+                              }
+                              setState(() {});
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
     );
@@ -124,12 +128,10 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: Dimens.space_2, horizontal: Dimens.space_4),
+        padding: const EdgeInsets.symmetric(vertical: Dimens.space_6, horizontal: Dimens.space_6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimens.space_4),
-          border: (_isRequiredSelected != null && _isRequiredSelected == false)
-              ? Border.all(color: theme.errorColor, width: Dimens.space_1)
-              : null,
+          border: (_isRequiredSelected == false) ? Border.all(color: theme.errorColor, width: Dimens.space_1) : null,
         ),
         child: Row(
           children: [
@@ -155,12 +157,10 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: Dimens.space_2, horizontal: Dimens.space_4),
+        padding: const EdgeInsets.symmetric(vertical: Dimens.space_6, horizontal: Dimens.space_6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimens.space_4),
-          border: (_isRequiredSelected != null && _isRequiredSelected!)
-              ? Border.all(color: theme.primaryColor, width: Dimens.space_1)
-              : null,
+          border: (_isRequiredSelected) ? Border.all(color: theme.primaryColor, width: Dimens.space_1) : null,
         ),
         child: Row(
           children: [

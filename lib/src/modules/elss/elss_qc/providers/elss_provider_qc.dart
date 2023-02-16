@@ -10,6 +10,7 @@ import '../../common_models/elss_part.dart';
 import '../../common_models/elss_part_submit_response.dart';
 import '../../common_models/part_device_list.dart';
 import '../../common_models/parts_elss_action.dart';
+import '../../common_models/submit_parts_logic_model.dart';
 import '../../common_models/upload_fault_images_response.dart';
 import '../../common_resources/elss_action.dart';
 import '../../common_resources/elss_service.dart';
@@ -27,15 +28,15 @@ class ELssProviderQc extends CshChangeNotifier {
   bool isDetailsDataLoading = true;
   bool isRubbingApplicable = false;
   ElssDeviceDetailsResponse? elssDeviceDetails;
-
   ElssOptionResponse? elssOptionResponse;
   List<OptionResponse> productOptionList = [];
   List<ElssPart> elssPartList = [];
   List<ElssPart> searchedElssPartList = [];
-
   UploadFaultImagesResponse? uploadFaultImagesResponse;
   ElssPartSubmitResponse? elssPartSubmitResponse;
   PartsElssActionResponse? elssPartActionResponse;
+  String detailsApiErrorMessage = "";
+  SubmitPartsLogicResponse? submitPatsLogicData;
 
   _getElssPartsAction() {
     ElssService.getElssActionForParts().listen((event) {
@@ -68,6 +69,7 @@ class ELssProviderQc extends CshChangeNotifier {
       notifyListeners();
     }, onError: (error) {
       String apiErrorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
+      detailsApiErrorMessage = apiErrorMessage;
       Logger.debug('mydebug------ELssProviderQc._getDeviceDetailsAndParts', [apiErrorMessage]);
       isDetailsDataLoading = false;
       notifyListeners();
@@ -244,6 +246,7 @@ class ELssProviderQc extends CshChangeNotifier {
     try {
       ElssService.submitPartsForLogic(bodyData).listen((event) {
         if (event != null) {
+          submitPatsLogicData = event;
           if (event.isSuccess != null && event.isSuccess!) {
             completer.complete(true);
           } else {
@@ -272,45 +275,61 @@ class ELssProviderQc extends CshChangeNotifier {
     }
     return false;
   }
-}
-// getSelectedPartsFaultImages() {
-//   Map<String, List<String>> imageDataMap = {};
-//   if (!Validator.isListNullOrEmpty(elssPartList)) {
-//     List<String> listOfSkus = [];
-//     for (var element in elssPartList) {
-//       if (!listOfSkus.contains(element.sku)) {
-//         listOfSkus.add(element.sku ?? "");
-//       }
-//     }
-//
-//     for (String skuName in listOfSkus) {
-//       List<String> clubbedSkuImage = [];
-//       for (var item in elssPartList) {
-//         if (item.sku == skuName) {
-//           List<String> shortUrlList = [];
-//           for (String s3Url in item.partsImageList!) {
-//             if (s3Url.isNotEmpty) {
-//               shortUrlList.add(s3Url.substring(0, s3Url.indexOf("?")));
-//             }
-//           }
-//           clubbedSkuImage.addAll(shortUrlList);
-//         }
-//       }
-//       imageDataMap[skuName] = clubbedSkuImage;
-//     }
-//   }
-//   Logger.debug('mydebug------ELssProvider.getSelectedPartsFaultImages', [imageDataMap]);
-//   return imageDataMap;
-// }
 
-// addS3UrlToListOfPartsImage(int partId, int ind, String s3Url) {
-//   if (!Validator.isListNullOrEmpty(elssPartList)) {
-//     int index = elssPartList.indexWhere((element) => element.elssPartId == partId);
-//     if (index != -1) {
-//       elssPartList[index].partsImageList![ind] = s3Url;
-//
-//       Logger.debug('mydebug------ELssProvider.addS3UrlToListOfPartsImage', [elssPartList[index].partsImageList]);
-//     }
-//   }
-//   notifyListeners();
-// }
+  checkIfImageIsAttachedToAllSkus() {
+    if (elssPartList.isNotEmpty) {
+      for (var element in elssPartList) {
+        if (Validator.isNullOrEmpty(element.imageS3Url)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  List<Map<String, dynamic>> getPostDataMapForElssOptionData() {
+    List<Map<String, dynamic>> listDataMap = [];
+    if (elssPartList.isNotEmpty) {
+      for (var element in elssPartList) {
+        listDataMap.add({
+          "sku": element.sku,
+          "pn": element.partName,
+          "img": element.imageS3Url,
+        });
+      }
+    }
+
+    return listDataMap;
+  }
+
+  Future<bool> submitElssAcceptData(String barcode, {int? optionId}) {
+    var completer = Completer<bool>();
+    var partsDataList = getPostDataMapForElssOptionData();
+    try {
+      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId).listen((event) {
+        if (event != null && event.isSuccess == true) {
+          completer.complete(true);
+        } else {
+          completer.complete(false);
+        }
+      }, onError: (error) {
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+        Logger.debug('mydebug------ChannelOptionProvider.submitElssAccpetData', [errorMessage]);
+        completer.completeError(errorMessage);
+      }, onDone: () {
+        notifyListeners();
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  removePNASelectedItem() {
+    if (elssPartList.isNotEmpty) {
+      for (var element in elssPartList) {
+        element.isPnaSelected = false;
+      }
+    }
+  }
+}

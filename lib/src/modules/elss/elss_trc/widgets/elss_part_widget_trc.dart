@@ -141,8 +141,11 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(horizontal: Dimens.space_4),
                   decoration: BoxDecoration(
-                      border: Border.all(color: theme.disabledColor),
-                      borderRadius: const BorderRadius.all(Radius.circular(Dimens.space_4))),
+                    border: Border.all(color: theme.disabledColor),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(Dimens.space_4),
+                    ),
+                  ),
                   child: DropdownButton<String>(
                     value: _optionSelected,
                     underline: const SizedBox(),
@@ -168,9 +171,6 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
               const SizedBox(width: Dimens.space_8),
               GestureDetector(
                 onTap: () {
-                  Logger.debug('mydebug------_ElssPartWidgetState.build', [widget.dataModel?.partsImageList]);
-                  Logger.debug(
-                      'mydebug------_ElssPartWidgetState.build_length', [widget.dataModel?.partsImageList?.length]);
                   AddDeviceMediaArgumentsTrc args = AddDeviceMediaArgumentsTrc(
                       partsImage: widget.dataModel?.partsImageList,
                       onImageUploadCallback: widget.onImageUploadCallback);

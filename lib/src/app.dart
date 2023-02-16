@@ -4,6 +4,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'modules/elss/elss_qc/screens/allowed_option_screen.dart';
 import 'modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
@@ -24,12 +25,11 @@ import 'libraries/alice/csh_alice.dart';
 import 'modules/elss/common_providers/user_session_provider.dart';
 import 'modules/elss/common_screen/elss_home_screen.dart';
 import 'modules/elss/elss_qc/screens/add_part_screen_qc.dart';
-import 'modules/elss/elss_qc/screens/elss_screen_qc.dart';
+
 import 'modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'modules/elss/elss_trc/screens/add_device_media_screen_trc.dart';
 import 'modules/elss/elss_trc/screens/add_part_screen_trc.dart';
 import 'modules/elss/elss_trc/screens/brand_details_listing_screen.dart';
-import 'modules/elss/elss_trc/screens/elss_screen_trc.dart';
 import 'modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'modules/engineer/manage_parts/manage_parts_widget.dart';
 import 'modules/engineer/my_devices/widgets/my_devices_widget.dart';
@@ -119,7 +119,10 @@ class _CashifyAppState extends State<CashifyApp> {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
-          ChangeNotifierProvider(create: (_) => UserSessionProvider()),
+          ChangeNotifierProvider(
+            create: (_) => UserSessionProvider(),
+            lazy: false,
+          ),
           ChangeNotifierProvider<AmplifyProvider>(
             lazy: false,
             create: (_) => AmplifyProvider(),
@@ -156,13 +159,13 @@ class _CashifyAppState extends State<CashifyApp> {
                   //ELSS_TRC_ROUTES
                   AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),
                   AddPartScreenTrc.route: (_) => const AddPartScreenTrc(),
-                  ELSSScreenTrc.route: (_) => const ELSSScreenTrc(),
                   PartSelectionScreenTrc.route: (_) => const PartSelectionScreenTrc(),
                   BrandsDetailsListingScreen.route: (_) => const BrandsDetailsListingScreen(),
                   //ELSS_QC_ROUTES
                   AddPartScreenQc.route: (_) => const AddPartScreenQc(),
-                  ELSSScreenQc.route: (_) => const ELSSScreenQc(),
+
                   PartSelectionScreenQc.route: (_) => const PartSelectionScreenQc(),
+                  AllowedOptionScreen.route: (_) => const AllowedOptionScreen(),
                   // engineer routes
                   EngineerHomeScreen.route: (_) => const EngineerHomeScreen(),
                   MyDevicesScreen.route: (_) => const MyDevicesScreen(),

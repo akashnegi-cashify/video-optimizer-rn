@@ -22,11 +22,12 @@ class UserRoles {
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
       {String? loginToken, bool? loginFromQC = false}) async {
+    var amplifyPro = AmplifyProvider.of(context, listen: false);
     if (loginFromQC == true) {
+      amplifyPro.getS3DetailsForQcAndConfigAmplify();
       Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
     } else {
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
-        var amplifyPro = AmplifyProvider.of(context, listen: false);
         amplifyPro.getS3DetailsAndConfigureAmplify();
         Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
       } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
