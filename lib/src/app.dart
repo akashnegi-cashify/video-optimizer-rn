@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:components/components.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,9 @@ import 'modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
+import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
+import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
@@ -178,6 +182,7 @@ class _CashifyAppState extends State<CashifyApp> {
                   RiderHomeScreen.route: (_) => const RiderHomeScreen(),
                   DeliveryDeliverEngineerPartsScreen.route: (_) => const DeliveryDeliverEngineerPartsScreen(),
                   PickupReceiveEngineerPartsScreen.route: (_) => const PickupReceiveEngineerPartsScreen(),
+                  L4HomeScreen.route: (_) => const L4HomeScreen(),
                 },
                 initialRoute: SplashScreen.route,
               );
