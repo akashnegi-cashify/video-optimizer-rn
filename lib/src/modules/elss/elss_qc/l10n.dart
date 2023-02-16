@@ -172,7 +172,5 @@ class L10n extends BaseL10n {
   String get imageAttached => Intl.message("Image Attached", locale: localName, name: "imageAttached");
 
   String get attachImageEverySku =>
-      Intl.message("Attach Image every SKU", locale: localName, name: "attachImageEverySku");
-
-
+      Intl.message("Attach Image to every SKU", locale: localName, name: "attachImageEverySku");
 }

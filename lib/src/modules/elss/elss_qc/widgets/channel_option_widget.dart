@@ -1,11 +1,11 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import '../../../../screens/barcode_scanner_screen.dart';
 import '../../common_models/channel_option_response.dart';
 import '../../common_models/elss_device_details_response.dart';
 import '../../common_models/elss_part.dart';
 import '../../common_models/part_device_list.dart';
-import '../../common_screen/elss_home_screen.dart';
 import '../../widgets/add_part_item_widget.dart';
 import '../l10n.dart';
 import '../providers/channel_option_provider.dart';
@@ -14,7 +14,6 @@ import 'channel_option_modal_widget.dart';
 import 'channel_options_card_widget.dart';
 import 'default_channel_widget.dart';
 import 'elss_device_details_widget.dart';
-import 'elss_pna_modal_widget_qc.dart';
 import 'initial_or_default_option_widget.dart';
 
 class ChannelOptionWidget extends StatefulWidget {
@@ -187,7 +186,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
-        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
@@ -282,7 +281,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
-        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
@@ -299,7 +298,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Submitted Successfully!!");
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.pushNamedAndRemoveUntil(context, BarcodeScanWidget.route, (route) => false);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong");
       }

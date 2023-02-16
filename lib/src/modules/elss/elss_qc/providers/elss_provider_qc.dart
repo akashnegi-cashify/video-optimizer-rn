@@ -276,14 +276,16 @@ class ELssProviderQc extends CshChangeNotifier {
     return false;
   }
 
-  checkIfImageIsAttachedToAllSkus() {
-    if (elssPartList.isNotEmpty) {
-      for (var element in elssPartList) {
+  checkIfImageIsAttachedToAllSkus(List<ElssPart> dataList) {
+    if (dataList.isNotEmpty) {
+      for (var element in dataList) {
         if (Validator.isNullOrEmpty(element.imageS3Url)) {
+          notifyListeners();
           return false;
         }
       }
     }
+    notifyListeners();
     return true;
   }
 

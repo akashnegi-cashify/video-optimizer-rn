@@ -2,9 +2,9 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import '../../../../screens/barcode_scanner_screen.dart';
 import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_action.dart';
-import '../../common_screen/elss_home_screen.dart';
 import '../l10n.dart';
 import '../providers/elss_provider_qc.dart';
 import '../screens/add_part_screen_qc.dart';
@@ -132,28 +132,30 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-          child: CshCard(
-            padding: EdgeInsets.zero,
-            radius: CshRadius.rad4,
-            elevation: CardElevation.dimen_10,
-            child: SizedBox(
-              width: double.infinity,
-              height: Dimens.space_60,
-              child: Row(
-                children: [
-                  CshCheckbox(
-                    isSelected: _isRubbingApplicable,
-                    onChanged: (bool? data) {
-                      _isRubbingApplicable = Validator.isTrue(data);
-                      provider.isRubbingApplicable = data ?? false;
-                      setState(() {});
-                    },
-                  ),
-                  Text(
-                    l10n.deviceRubbing,
-                    style: theme.primaryTextTheme.overline,
-                  )
-                ],
+          child: GestureDetector(
+            onTap: () {
+              _isRubbingApplicable = !_isRubbingApplicable;
+              provider.isRubbingApplicable = _isRubbingApplicable;
+              setState(() {});
+            },
+            child: CshCard(
+              padding: EdgeInsets.zero,
+              radius: CshRadius.rad4,
+              elevation: CardElevation.dimen_10,
+              child: SizedBox(
+                width: double.infinity,
+                height: Dimens.space_60,
+                child: Row(
+                  children: [
+                    CshCheckbox(
+                      isSelected: _isRubbingApplicable,
+                    ),
+                    Text(
+                      l10n.deviceRubbing,
+                      style: theme.primaryTextTheme.overline,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -230,7 +232,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
-        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
@@ -247,7 +249,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Moved to Retesting successfully!!");
-        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
       } else {
         CshSnackBar.error(context: context, message: "Something went wrong!!");
       }
@@ -381,7 +383,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     provider.markPNAStatus(widget.barcode).then((value) {
       if (value) {
         CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
-        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
@@ -401,14 +403,18 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         onWillPop: () async => false,
         child: OptionNotAllowedModal(
           dataList: provider.elssPartList,
+          onAttachS3UrlToSku: (int point, String s3Url) {
+            provider.elssPartList[point].imageS3Url = s3Url;
+          },
           onSubmitCallback: () {
-            Navigator.of(context).pop(true);
             Logger.debug('mydebug------_PartSelectionWidgetState._showOptionNotAllowedModal',
-                [provider.checkIfImageIsAttachedToAllSkus()]);
-            if (provider.checkIfImageIsAttachedToAllSkus()) {
+                [provider.checkIfImageIsAttachedToAllSkus(provider.elssPartList)]);
+            if (provider.checkIfImageIsAttachedToAllSkus(provider.elssPartList)) {
+              Navigator.of(context).pop(true);
               _submitElssAccept();
             } else {
-              CshSnackBar.error(context: context, message: l10n.attachImageEverySku);
+              CshSnackBar.error(
+                  context: context, message: l10n.attachImageEverySku, snackBarPosition: SnackBarPosition.TOP);
             }
           },
         ),
@@ -424,7 +430,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       if (value) {
         CshSnackBar.success(
             context: context, message: "Elss Submitted Successfully!!", duration: SnackBarDuration.SHORT);
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.pushNamedAndRemoveUntil(context, BarcodeScanWidget.route, (route) => false);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong");
       }

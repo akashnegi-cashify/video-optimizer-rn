@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../../../amplify/amplifier.dart';
 import '../../../../amplify/amplify_provider.dart';
 import '../../common_models/elss_part.dart';
@@ -12,12 +12,14 @@ import 'option_sku_tile_widget.dart';
 
 class OptionNotAllowedModal extends StatefulWidget {
   final List<ElssPart>? dataList;
-  final Function()? onSubmitCallback;
+  final Function() onSubmitCallback;
+  final Function(int, String)? onAttachS3UrlToSku;
 
   const OptionNotAllowedModal({
     Key? key,
     this.dataList,
-    this.onSubmitCallback,
+    required this.onSubmitCallback,
+    this.onAttachS3UrlToSku,
   }) : super(key: key);
 
   @override
@@ -75,6 +77,9 @@ class _OptionNotAllowedModalState extends State<OptionNotAllowedModal> {
                                       message: l10n.imageUploadedSuccessfully,
                                       snackBarPosition: SnackBarPosition.TOP,
                                     );
+                                    if (widget.onAttachS3UrlToSku != null) {
+                                      widget.onAttachS3UrlToSku!(index, s3Url);
+                                    }
                                     widget.dataList![index].imageS3Url = s3Url;
 
                                     setState(() {});
@@ -111,11 +116,24 @@ class _OptionNotAllowedModalState extends State<OptionNotAllowedModal> {
             width: double.infinity,
             child: CshMediumButton(
               text: l10n.submit,
-              onPressed: widget.onSubmitCallback ?? () {},
+              onPressed: _checkIfImageAttachedWithEverySKU() ? widget.onSubmitCallback : null,
             ),
           )
         ],
       ),
     );
+  }
+
+  _checkIfImageAttachedWithEverySKU() {
+    if (!Validator.isListNullOrEmpty(widget.dataList)) {
+      for (var element in widget.dataList!) {
+        if (Validator.isNullOrEmpty(element.imageS3Url)) {
+          setState(() {});
+          return false;
+        }
+      }
+      setState(() {});
+      return true;
+    }
   }
 }

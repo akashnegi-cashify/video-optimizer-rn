@@ -66,7 +66,7 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                     child: CshIcon(
                       FeatherIcons.trash,
                       iconColor: theme.errorColor,
-                      iconSize: MobileIconSize.medium,
+                      iconSize: MobileIconSize.large,
                       padding: EdgeInsets.zero,
                     ),
                   ),
