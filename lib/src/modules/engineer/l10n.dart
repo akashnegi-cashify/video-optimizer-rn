@@ -41,7 +41,17 @@ class L10n extends l10n_common.L10n {
 
   String get putOnHold => Intl.message("Put On Hold", locale: localName, name: "putOnHold");
 
+  String get startWork => Intl.message("Start Work", locale: localName, name: "startWork");
+
   String get markOk => Intl.message("Mark Ok", locale: localName, name: "markOk");
+
+  String get markFI => Intl.message("Mark FI", locale: localName, name: "markFI");
+
+  String get markFFI => Intl.message("Mark FFI", locale: localName, name: "markFFI");
+
+  String get markNR => Intl.message("Mark NR", locale: localName, name: "markNR");
+
+  String get repairDone => Intl.message("Repair Done", locale: localName, name: "repairDone");
 
   String get viewParts => Intl.message("View Parts", locale: localName, name: "viewParts");
 
