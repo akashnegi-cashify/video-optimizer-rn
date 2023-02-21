@@ -1,4 +1,6 @@
 import 'package:core/core.dart';
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../modules/login/models/user_details_response.dart';
@@ -27,5 +29,13 @@ class UserDetails {
   void setAppVerison(int? appV) {
     print('UserDetails.setAppVerison $appV');
     appVersion = appV;
+  }
+
+  bool isEngineerRole() {
+    if (Validator.isListNullOrEmpty(userDetailsData?.listOfRoles)) {
+      return false;
+    }
+
+    return userDetailsData!.listOfRoles!.contains(UserRoles.ROLE_ENGINEER);
   }
 }

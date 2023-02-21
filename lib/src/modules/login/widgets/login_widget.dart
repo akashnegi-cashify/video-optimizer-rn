@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -19,6 +20,14 @@ class _LoginWidgetState extends State<LoginWidget> {
   bool _isEmployeeIdValidated = false;
   bool _showPassword = false;
   bool _showPassActivated = false;
+
+  @override
+  void initState() {
+    if (isDebug()) {
+      _passwordController.text = "Cashify@123";
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
