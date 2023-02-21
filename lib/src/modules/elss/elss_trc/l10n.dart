@@ -117,4 +117,6 @@ class L10n extends BaseL10n {
 
   String get pleaseSelectProduct =>
       Intl.message("Please Select Product!!", locale: localName, name: "pleaseSelectProduct");
+
+  String get quantity => Intl.message("Quantity", locale: localName, name: "quantity");
 }

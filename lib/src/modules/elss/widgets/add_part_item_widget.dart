@@ -49,7 +49,11 @@ class _AddPartItemListState extends State<AddPartItemList> {
                   ],
                   if (!Validator.isNullOrEmpty(widget.dataModel?.productColour)) ...[
                     _labelAndValueWidget(theme, l10n.colour, widget.dataModel!.productColour!),
+                    const SizedBox(height: Dimens.space_8),
                   ],
+                  if (widget.dataModel?.partQuantity != null) ...[
+                    _labelAndValueWidget(theme, l10n.quantity, widget.dataModel!.partQuantity!.toString()),
+                  ]
                 ],
               ),
             ),

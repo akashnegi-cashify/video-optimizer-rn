@@ -48,6 +48,7 @@ class ElssPnaModalWidgetQC extends StatelessWidget {
                     listOfSelectedParts[index].sku,
                     listOfSelectedParts[index].partColour,
                     listOfSelectedParts[index].partName,
+                    partQuantity: listOfSelectedParts[index].partCount,
                     isCardSelected: false,
                   ),
                   onPartSelected: (bool data) {

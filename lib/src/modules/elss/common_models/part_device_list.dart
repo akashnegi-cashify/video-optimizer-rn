@@ -30,6 +30,8 @@ class PartItemDataResponse {
   String? productName;
   @JsonKey(name: "pcl")
   String? productColour;
+  @JsonKey(name: "qty")
+  int? partQuantity;
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isCardSelected;
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -41,6 +43,7 @@ class PartItemDataResponse {
     this.productName, {
     this.isCardSelected = false,
     this.partId,
+    this.partQuantity,
   });
 
   static PartItemDataResponse fromJson(Map<String, dynamic> data) => _$PartItemDataResponseFromJson(data);

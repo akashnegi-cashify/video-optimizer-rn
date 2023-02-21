@@ -41,17 +41,13 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                (widget.dataModel?.channelOptionPrice != null)
-                    ? Text(
-                        "${l10n.channelSuggestionCost}: ${widget.dataModel?.channelOptionPrice}",
-                        style: theme.primaryTextTheme.headline3,
-                      )
-                    : const SizedBox.shrink(),
+                Text(l10n.channelSuggestion, style: theme.primaryTextTheme.headline3),
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop(true);
@@ -62,6 +58,40 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                     padding: EdgeInsets.zero,
                   ),
                 )
+              ],
+            ),
+            const SizedBox(height: Dimens.space_16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                (!Validator.isNullOrEmpty(widget.dataModel?.channelName))
+                    ? RichText(
+                        text: TextSpan(
+                          text: "${l10n.repairType}: ",
+                          style: theme.primaryTextTheme.overline,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: widget.dataModel!.channelName!,
+                              style: theme.primaryTextTheme.headline5,
+                            )
+                          ],
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                (widget.dataModel?.channelOptionPrice != null)
+                    ? RichText(
+                        text: TextSpan(
+                          text: "${l10n.cost}: ",
+                          style: theme.primaryTextTheme.overline,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "₹${widget.dataModel!.channelOptionPrice!}",
+                              style: theme.primaryTextTheme.headline5,
+                            )
+                          ],
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
             Expanded(

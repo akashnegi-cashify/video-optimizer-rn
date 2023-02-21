@@ -32,7 +32,7 @@ class QcS3DetailsResponse {
     this.videoFolderName,
   );
 
-  static QcS3DetailsResponse fromJson(Map<String, dynamic> data) => _$S3DetailsResponseFromJson(data);
+  static QcS3DetailsResponse fromJson(Map<String, dynamic> data) => _$QcS3DetailsResponseFromJson(data);
 
-  Map<String, dynamic> toJson() => _$S3DetailsResponseToJson(this);
+  Map<String, dynamic> toJson() => _$QcS3DetailsResponseToJson(this);
 }

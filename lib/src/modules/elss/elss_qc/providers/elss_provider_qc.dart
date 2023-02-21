@@ -3,7 +3,6 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../common_models/elss_device_details_response.dart';
 import '../../common_models/elss_option_response.dart';
 import '../../common_models/elss_part.dart';
@@ -111,6 +110,7 @@ class ELssProviderQc extends CshChangeNotifier {
         sku: element.sku,
         isManualAdded: true,
         partColour: element.productColour,
+        partCount: element.partQuantity,
       );
       data.elssPartId = elssPartList.length + 1;
       data.partsImageList = ["", "", "", "", "", ""];
