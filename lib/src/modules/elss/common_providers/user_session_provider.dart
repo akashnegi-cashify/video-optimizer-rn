@@ -9,10 +9,10 @@ class UserSessionProvider extends CshChangeNotifier {
     return Provider.of<UserSessionProvider>(context, listen: listen);
   }
 
-  Future<bool> logoutUserAndClearSession() {
+  Future<bool> logoutUserAndClearSession(bool isLoginFromQC) {
     var completer = Completer<bool>();
     try {
-      ElssService.logoutAndClearSession().listen((event) {
+      ElssService.logoutAndClearSession(isLoginFromQC).listen((event) {
         if (event != null) {
           completer.complete(true);
         } else {

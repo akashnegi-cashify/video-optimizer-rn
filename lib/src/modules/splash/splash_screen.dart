@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:components/auth/handler/auth_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../resources/user_details.dart';
@@ -50,9 +51,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
     } else {
       UserDetails().setUserDetailsData(AuthHandler().userAuth!);
-
+      bool? isLoginFromQC = await AppPreferences().getIsLoginFromQC();
       await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-          loginToken: AuthHandler().userAuth!);
+          loginToken: AuthHandler().userAuth!, loginFromQC: isLoginFromQC);
       if (mounted) {
         await NativeCall.registerLogout(context);
       }

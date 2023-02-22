@@ -57,7 +57,7 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
                     : const SizedBox(),
                 const SizedBox(width: Dimens.space_20),
                 (!Validator.isNullOrEmpty(dataModel?.deviceGrade))
-                    ? Expanded(child: _labelAndValueWidget(theme, l10n.grade, "#"))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.grade, dataModel!.deviceGrade!))
                     : const SizedBox(),
               ],
             ),

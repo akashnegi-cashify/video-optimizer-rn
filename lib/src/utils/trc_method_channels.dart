@@ -1,10 +1,8 @@
-import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
-import 'package:flutter_trc/src/utils/csh_route_observer.dart';
 
 class NativeCall {
   static MethodChannel platformMethodChannel = const MethodChannel('in.cashify.trc/plugin');
@@ -20,11 +18,8 @@ class NativeCall {
         });
   }
 
-  static void onLogout(BuildContext context) async{
-    await AuthHandler().onSessionExpire();
-
-    Logger.debug('mydebug------NativeCall.onLogout----Cleared', [AuthHandler().userAuth]);
+  static void onLogout(BuildContext context) async {
+    await AppPreferences().resetAndClearAll();
     Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
-    Logger.debug('mydebug------NativeCall.onLogout', [CshRouteObserver().pageRouteStack]);
   }
 }

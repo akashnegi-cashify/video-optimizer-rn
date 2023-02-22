@@ -1,6 +1,6 @@
-import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/elss/common_providers/user_session_provider.dart';
 
 import 'widget/logout_modal_widget.dart';
@@ -9,21 +9,23 @@ import '../../modules/login/login_screen.dart';
 class UserUtil {
   static applicationLogout(BuildContext context) {
     showCshBottomSheet(
-        context: context,
-        child: LogoutModalWidget(
-          onLogoutCallback: () {
-            _onLogout(context);
-          },
-        ));
+      context: context,
+      child: LogoutModalWidget(
+        onLogoutCallback: () async {
+          bool? isLoginFromQC = await AppPreferences().getIsLoginFromQC();
+          _onLogout(context, isLoginFromQC ?? false);
+        },
+      ),
+    );
   }
 
-  static _onLogout(BuildContext context) {
+  static _onLogout(BuildContext context, bool loginFromQC) {
     var provider = UserSessionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.logoutUserAndClearSession().then((value) {
+    provider.logoutUserAndClearSession(loginFromQC).then((value) {
       if (value) {
         CshLoading().hideLoading(context);
-        AuthHandler().onSessionExpire();
+        AppPreferences().resetAndClearAll();
         Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
       }
     }, onError: (error) {

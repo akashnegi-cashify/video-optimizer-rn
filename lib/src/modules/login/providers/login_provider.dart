@@ -3,15 +3,22 @@ import 'dart:async';
 import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
-
 import '../../../utils/trc_method_channels.dart';
+import '../models/send_otp_response.dart';
 import '../resources/collector_user_controller.dart';
 import '../resources/login_service.dart';
 import '../resources/qc_service.dart';
 
 class TRCLoginProvider extends CshChangeNotifier {
+  Timer? timer;
+  int start = 30;
+  bool isTimerStared = false;
+  bool isActiveResendOtp = false;
+  SendOTPResponse? otpResponse;
+
   static TRCLoginProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<TRCLoginProvider>(context, listen: listen);
   }
@@ -52,6 +59,8 @@ class TRCLoginProvider extends CshChangeNotifier {
     try {
       QcService.sendOtp(mobileNumber, "qc", "v1", notificationType, "on_site").listen((event) {
         if (event != null) {
+          otpResponse = event;
+          startTimer();
           completer.complete(event.requestId ?? "");
         } else {
           completer.completeError("Something Went Wrong");
@@ -78,6 +87,7 @@ class TRCLoginProvider extends CshChangeNotifier {
           if (!Validator.isNullOrEmpty(event.accessToken)) {
             AuthHandler().setUserAuth(event.accessToken!);
             UserDetails().setUserDetailsData(event.accessToken!);
+            AppPreferences().setIsLoginFromQC(true);
 
             await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
                 loginToken: event.accessToken!, loginFromQC: true);
@@ -99,5 +109,46 @@ class TRCLoginProvider extends CshChangeNotifier {
       completer.completeError(e.toString());
     }
     return completer.future;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (timer != null && timer!.isActive) {
+      timer!.cancel();
+    }
+  }
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (start == 1) {
+          timer.cancel();
+          isActiveResendOtp = true;
+        } else {
+          start--;
+        }
+        notifyListeners();
+      },
+    );
+  }
+
+  void resetResendOtpButton() {
+    isActiveResendOtp = false;
+    start = 30;
+    notifyListeners();
+  }
+
+  void resetSentOTPResponse() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    isActiveResendOtp = false;
+    start = 30;
+
+    otpResponse = null;
+    notifyListeners();
   }
 }

@@ -53,4 +53,6 @@ class L10n extends BaseL10n {
       Intl.message("Please Enter OTP Sent To Number!!", locale: localName, name: "pleaseEnterOtpSentToNumber");
 
   String get changeNo => Intl.message("Change No.", locale: localName, name: "changeNo");
+
+  String get resendOtp => Intl.message("Resend OTP", locale: localName, name: "resendOtp");
 }

@@ -31,7 +31,7 @@ class _AddPartItemListState extends State<AddPartItemList> {
       child: CshCard(
         radius: CshRadius.rad4,
         elevation: CardElevation.dimen_10,
-        padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_4),
+        padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -49,7 +49,11 @@ class _AddPartItemListState extends State<AddPartItemList> {
                   ],
                   if (!Validator.isNullOrEmpty(widget.dataModel?.productColour)) ...[
                     _labelAndValueWidget(theme, l10n.colour, widget.dataModel!.productColour!),
+                    const SizedBox(height: Dimens.space_8),
                   ],
+                  if (widget.dataModel?.partQuantity != null) ...[
+                    _labelAndValueWidget(theme, l10n.quantity, widget.dataModel!.partQuantity!.toString()),
+                  ]
                 ],
               ),
             ),

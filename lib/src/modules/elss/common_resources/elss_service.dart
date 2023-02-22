@@ -1,16 +1,21 @@
 import 'dart:convert';
 import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
+import '../../../resources/models/s3_details_response.dart';
 import '../../home/models/logout_response.dart';
 import '../common_models/brands_all_products.dart';
 import '../common_models/brands_listing_models.dart';
+import '../common_models/channel_option_response.dart';
 import '../common_models/device_details_submit.dart';
 import '../common_models/elss_device_details_response.dart';
 import '../common_models/elss_option_response.dart';
 import '../common_models/elss_part_submit_response.dart';
 import '../common_models/elss_success_response.dart';
 import '../common_models/part_device_list.dart';
+import '../common_models/parts_elss_action.dart';
 import '../common_models/products_colour_response.dart';
+import '../common_models/qc_s3_details_config.dart';
+import '../common_models/submit_parts_logic_model.dart';
 import '../common_models/upload_fault_images_response.dart';
 
 class ElssService {
@@ -48,8 +53,10 @@ class ElssService {
     return TrcService().post("/elss/submit-repair-part", ElssPartSubmitResponse.fromJson, body: jsonEncode(dataMap));
   }
 
-  static Stream<LogoutResponse?> logoutAndClearSession() {
-    return TrcService().post("/logout", LogoutResponse.fromJson);
+  static Stream<LogoutResponse?> logoutAndClearSession(bool loginFromQC) {
+    return loginFromQC
+        ? QcServiceElss().post("/user/destroy", LogoutResponse.fromJson)
+        : TrcService().post("/logout", LogoutResponse.fromJson);
   }
 
   static Stream<BrandsListingResponse?> getBrandsData() {
@@ -84,23 +91,13 @@ class ElssService {
   //New_QC_APIs
 
   //mark PNA status
-  static Stream<ElssSuccessResponse?> markPnaStatus(String scannedCode,
-      {List<PartItemDataResponse>? listOfSelectedParts}) {
+  static Stream<ElssSuccessResponse?> markPnaStatus(String scannedCode, Map<String, dynamic> bodyData) {
     Map<String, List<String>> params = {
       "qr": [scannedCode],
     };
-    //TODO masking for list of parts.
-    return QcServiceElss().post("/device/elss/mark-pna", ElssSuccessResponse.fromJson, params: params);
-  }
 
-  //Retest and Reject.
-  static Stream<ElssSuccessResponse?> retestOrRejectElss(String scannedBarcode, {bool? isRetest}) {
-    Map<String, List<String>> paramsData = {
-      "qr": [scannedBarcode],
-      if (isRetest != null) "isDefault": ["false"],
-    };
-
-    return QcServiceElss().get("/device/elss/re-testing", ElssSuccessResponse.fromJson, params: paramsData);
+    return QcServiceElss()
+        .post("/device/elss/mark-pna", ElssSuccessResponse.fromJson, params: params, body: jsonEncode(bodyData));
   }
 
   static Stream<PartDeviceListResponse?> getAddPartItemList(String scannedBarcode) {
@@ -112,5 +109,51 @@ class ElssService {
 
   static Stream<ElssDeviceDetailsResponse?> getDeviceDetailsWithParts(String scannedBarcode) {
     return QcServiceElss().get("/device/elss/$scannedBarcode", ElssDeviceDetailsResponse.fromJson);
+  }
+
+  static Stream<PartsElssActionResponse?> getElssActionForParts() {
+    return QcServiceElss().get("/device/elss/actions", PartsElssActionResponse.fromJson);
+  }
+
+  static Stream<ElssSuccessResponse?> retestingElss(String barcode) {
+    Map<String, List<String>> paramsData = {
+      "qr": [barcode],
+    };
+    return QcServiceElss().get("/device/elss/re-testing", ElssSuccessResponse.fromJson, params: paramsData);
+  }
+
+  static Stream<ElssSuccessResponse?> rejectElss(String barcode) {
+    Map<String, List<String>> paramsData = {
+      "qr": [barcode],
+      "isDefault": ["false"],
+    };
+    return QcServiceElss().get("/device/elss/reject", ElssSuccessResponse.fromJson, params: paramsData);
+  }
+
+  static Stream<SubmitPartsLogicResponse?> submitPartsForLogic(Map<String, dynamic> bodyData) {
+    return QcServiceElss()
+        .post("/device/elss/submit-parts", SubmitPartsLogicResponse.fromJson, body: jsonEncode(bodyData));
+  }
+
+  static Stream<ChannelOptionResponse?> getChannelOptions(String barcode) {
+    Map<String, List<String>> paramData = {
+      "qr": [barcode]
+    };
+    return QcServiceElss().get("/device/elss/channel-options", ChannelOptionResponse.fromJson, params: paramData);
+  }
+
+  static Stream<QcS3DetailsResponse?> fetchS3Details() {
+    return QcServiceElss().get("/v2/s3/config", QcS3DetailsResponse.fromJson);
+  }
+
+  static Stream<ElssSuccessResponse?> submitAcceptElss(List<Map<String, dynamic>> partsDataList, String barcode,
+      {int? optionId, bool? isRubbingAllowed = false}) {
+    Map<String, dynamic> dataMap = {
+      "dbr": barcode,
+      "opid": optionId,
+      "isr": isRubbingAllowed,
+      "rprl": partsDataList,
+    };
+    return QcServiceElss().post("/device/elss/elss-accept", ElssSuccessResponse.fromJson, body: jsonEncode(dataMap));
   }
 }

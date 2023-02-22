@@ -36,7 +36,7 @@ class DiscardModalWidget extends StatelessWidget {
                 },
                 child: CshIcon(
                   FeatherIcons.x,
-                  iconSize: MobileIconSize.medium,
+                  iconSize: MobileIconSize.large,
                   padding: EdgeInsets.zero,
                 ),
               )

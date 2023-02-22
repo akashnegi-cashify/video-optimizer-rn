@@ -35,7 +35,10 @@ class PartSelectionScreenQc extends StatelessWidget {
               : (provider.isDetailsDataLoading == false && provider.elssDeviceDetails == null)
                   ? Center(
                       child: Text(
-                        l10n.noDataFound,
+                        (provider.detailsApiErrorMessage.isNotEmpty)
+                            ? provider.detailsApiErrorMessage
+                            : l10n.noDataFound,
+                        textAlign: TextAlign.center,
                         style: theme.primaryTextTheme.headline3,
                       ),
                     )

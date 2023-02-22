@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/delivery_response.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/engineer_parts_response.dart';
-
 import '../../../../../common/widgets/key_value_row_widget.dart';
 import '../../receive/models/receive_response_model.dart';
 import '../resources/delivery_deliver_api_service.dart';
@@ -31,18 +30,19 @@ class _DeliveryDeliverEngineerPartsWidget extends StatelessWidget {
     assert(detail != null, "Engineer detail couldn't be retrieved");
 
     return Scaffold(
-        appBar: CshHeader(l10n.engineerParts),
-        body: SafeArea(
-          child: Column(
-            children: [
-              ItemDeliveryDeliverWidget(item: detail!),
-              Expanded(
-                  child: _PartListWidget(
-                engineerId: detail.id,
-              ))
-            ],
-          ),
-        ));
+      appBar: CshHeader(l10n.engineerParts),
+      body: SafeArea(
+        child: Column(
+          children: [
+            ItemDeliveryDeliverWidget(item: detail!),
+            Expanded(
+                child: _PartListWidget(
+              engineerId: detail.id,
+            ))
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -87,14 +87,15 @@ class _ItemDeliveryDeliverEngineerPart extends StatelessWidget {
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
     return CshCard(
-        child: Column(
-      children: [
-        KeyValueRowWidget(title: l10n.partName, value: part.partName),
-        KeyValueRowWidget(title: l10n.partBarcode, value: part.partBarcode),
-        KeyValueRowWidget(title: l10n.partSku, value: part.partSku),
-        KeyValueRowWidget(title: l10n.deviceBarcode, value: part.deviceBarcode),
-        KeyValueRowWidget(title: l10n.deviceName, value: part.deviceName),
-      ],
-    ));
+      child: Column(
+        children: [
+          KeyValueRowWidget(title: l10n.partName, value: part.partName),
+          KeyValueRowWidget(title: l10n.partBarcode, value: part.partBarcode),
+          KeyValueRowWidget(title: l10n.partSku, value: part.partSku),
+          KeyValueRowWidget(title: l10n.deviceBarcode, value: part.deviceBarcode),
+          KeyValueRowWidget(title: l10n.deviceName, value: part.deviceName),
+        ],
+      ),
+    );
   }
 }

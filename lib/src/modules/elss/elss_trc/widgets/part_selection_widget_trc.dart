@@ -147,10 +147,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
           onTap: () async {
             var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: widget.barcode);
             if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
-              for (var element in data!) {
-                Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
-              }
-              provider.addNewPartsFromAddParts(data);
+              provider.addNewPartsFromAddParts(data!);
             }
           },
           child: Row(
