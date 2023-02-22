@@ -71,10 +71,10 @@ class _OrderPartWidget extends StatelessWidget {
                         ),
                         CounterButton(
                           onIncrementClick: () {
-                            provider.updateDataForNIndex(index, 1);
+                            provider.updateDataForNIndex(part, 1);
                           },
                           onDecrementClick: () {
-                            provider.updateDataForNIndex(index, -1);
+                            provider.updateDataForNIndex(part, -1);
                           },
                           key: ValueKey(part.orderQuantity),
                           counter: part.orderQuantity ?? 0,
