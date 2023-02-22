@@ -48,7 +48,7 @@ class BrandsListingProvider extends CshChangeNotifier {
           brandsAllProductResponse = event;
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
@@ -71,7 +71,7 @@ class BrandsListingProvider extends CshChangeNotifier {
           productsColorResponse = event;
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
@@ -93,7 +93,7 @@ class BrandsListingProvider extends CshChangeNotifier {
         if (event != null) {
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";

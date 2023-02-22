@@ -202,12 +202,8 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     CshLoading().showLoading(context);
     provider.rejectElss(widget.scannedBarcode).then((value) {
       CshLoading().hideLoading(context);
-      if (value) {
-        CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
-      }
+      CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
+      Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
       CshLoading().hideLoading(context);
@@ -300,9 +296,6 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       if (value) {
         CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        Navigator.of(context).pop(true);
-        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
     }, onError: (error) {
       Navigator.of(context).pop(true);
@@ -321,9 +314,6 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Submitted Successfully!!");
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        Navigator.of(context).pop(true);
-        CshSnackBar.error(context: context, message: "Something Went Wrong", snackBarPosition: SnackBarPosition.TOP);
       }
     }, onError: (error) {
       Navigator.of(context).pop(true);

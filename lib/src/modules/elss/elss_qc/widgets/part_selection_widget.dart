@@ -234,8 +234,6 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
@@ -251,8 +249,6 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       if (value) {
         CshSnackBar.success(context: context, message: "Moved to Retesting successfully!!");
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        CshSnackBar.error(context: context, message: "Something went wrong!!");
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
@@ -369,8 +365,6 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         } else {
           _showOptionNotAllowedModal(l10n);
         }
-      } else {
-        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
@@ -385,8 +379,6 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       if (value) {
         CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
     }, onError: (error) {
       Navigator.of(context).pop(true);
@@ -437,8 +429,6 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         CshSnackBar.success(
             context: context, message: "Elss Submitted Successfully!!", duration: SnackBarDuration.SHORT);
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        CshSnackBar.error(context: context, message: "Something Went Wrong");
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);

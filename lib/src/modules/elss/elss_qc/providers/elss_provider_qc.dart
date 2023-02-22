@@ -184,7 +184,7 @@ class ELssProviderQc extends CshChangeNotifier {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong!!");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
@@ -205,7 +205,7 @@ class ELssProviderQc extends CshChangeNotifier {
         if (event != null) {
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong!!");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
@@ -226,7 +226,7 @@ class ELssProviderQc extends CshChangeNotifier {
         if (event != null) {
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
@@ -250,7 +250,7 @@ class ELssProviderQc extends CshChangeNotifier {
           if (event.isSuccess != null && event.isSuccess!) {
             completer.complete(true);
           } else {
-            completer.complete(false);
+            completer.completeError("Something Went Wrong");
           }
         }
       }, onError: (error) {
@@ -313,7 +313,7 @@ class ELssProviderQc extends CshChangeNotifier {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";

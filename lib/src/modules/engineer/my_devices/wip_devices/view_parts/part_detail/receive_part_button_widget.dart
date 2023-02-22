@@ -61,7 +61,7 @@ class ReceivePartButtonWidget extends StatelessWidget {
     }
 
     if (partInfo.isBulk ?? false) {
-      receiveDevice(partInfo.deviceBarcode, partInfo.partId, partInfo.prId);
+      receiveDevice(partInfo.partBarcode, partInfo.partId, partInfo.prId);
     } else {
       Navigator.pushNamed(context, BarcodeScanWidget.route,
           arguments: (String barcode, {BarcodeScannerController? controller}) {
