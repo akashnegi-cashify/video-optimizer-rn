@@ -43,9 +43,13 @@ class OrderPartProvider extends CshChangeNotifier {
     });
   }
 
-  updateDataForNIndex(int n, int update) {
-    _originalDataList[n].orderQuantity = (_originalDataList[n].orderQuantity ?? 0) + update;
-    notifyListeners();
+  updateDataForNIndex(OrderEngineerPart item, int update) {
+    int searchedIndex = _originalDataList.indexWhere(
+        (element) => element.sku.containsIgnoreCase(item.sku) && element.partColor.containsIgnoreCase(item.partColor));
+    if (searchedIndex > -1) {
+      _originalDataList[searchedIndex].orderQuantity = (_originalDataList[searchedIndex].orderQuantity ?? 0) + update;
+      notifyListeners();
+    }
   }
 
   orderParts(Function(String errorMessage) handleError, L10n l10n, VoidCallback callback) {
