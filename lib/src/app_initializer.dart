@@ -31,7 +31,7 @@ class AppInitializer {
     _registerProjectActions();
 
     interceptors ??= <String, HttpInterceptorFactory>{};
-    if (environment?.mode != EnvironmentTypes.PROD.value) {
+    if (!isWeb() && environment?.enableAlice == true) {
       interceptors[LogInterceptor.LOG_INTERCEPTOR] = () => LogInterceptor();
     }
     String xAppOS = await DeviceUtil.getXOSAPPHeader();
