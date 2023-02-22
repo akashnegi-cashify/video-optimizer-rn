@@ -1,19 +1,15 @@
 import 'dart:async';
 
-import 'package:components/components.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
-import 'modules/elss/elss_qc/screens/allowed_option_screen.dart';
-import 'modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
-import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
@@ -22,6 +18,7 @@ import 'package:localization/localization/language_util.dart';
 import 'package:localization/localization/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
 import 'amplify/amplify_provider.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
@@ -29,7 +26,7 @@ import 'libraries/alice/csh_alice.dart';
 import 'modules/elss/common_providers/user_session_provider.dart';
 import 'modules/elss/common_screen/elss_home_screen.dart';
 import 'modules/elss/elss_qc/screens/add_part_screen_qc.dart';
-
+import 'modules/elss/elss_qc/screens/allowed_option_screen.dart';
 import 'modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'modules/elss/elss_trc/screens/add_device_media_screen_trc.dart';
 import 'modules/elss/elss_trc/screens/add_part_screen_trc.dart';
@@ -41,11 +38,12 @@ import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_part
 import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
 import 'modules/engineer/view_reports/view_report_widget.dart';
+import 'modules/rider/pending_delivery/deliver/widgets/delivery_deliver_engineer_parts_widget.dart';
+import 'modules/rider/pending_pickup/receive/widgets/pickup_receive_engineer_parts_widget.dart';
+import 'modules/rider/rider_home_widget.dart';
 import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
 import 'modules/rubbing/widgets/rubbing_home_widget.dart';
-import 'modules/rider/pending_pickup/receive/widgets/pickup_receive_engineer_parts_widget.dart';
 import 'modules/splash/splash_screen.dart';
-import 'modules/rider/pending_delivery/deliver/widgets/delivery_deliver_engineer_parts_widget.dart';
 
 class CashifyApp extends StatefulWidget {
   final String appName;

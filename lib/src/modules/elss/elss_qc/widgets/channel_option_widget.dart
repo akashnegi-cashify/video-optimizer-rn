@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/your_channel_suggestion.dart';
 import '../../../../screens/barcode_scanner_screen.dart';
 import '../../common_models/channel_option_response.dart';
 import '../../common_models/elss_device_details_response.dart';
@@ -110,17 +111,17 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                     )
                   ],
                   const SizedBox(height: Dimens.space_20),
-                  InitialOrDefaultWidget(
-                    channelTitle: l10n.previousSuggestion,
-                    channelData: provider.channelOptionResponse?.channelOptionData?.initialChannelOption,
+                  ChannelSuggestionWidget(
+                    title: l10n.previousSuggestion,
+                    dataModel: provider.channelOptionResponse?.channelOptionData?.initialChannelOption,
                   ),
                   const SizedBox(height: Dimens.space_20),
-                  DefaultChannelOptionWidget(
+                  ChannelSuggestionWidget(
                     title: l10n.yourChannelOption,
                     dataModel: provider.channelOptionResponse?.channelOptionData?.yourChannelSuggestion,
                   ),
                   const SizedBox(height: Dimens.space_20),
-                  DefaultChannelOptionWidget(
+                  ChannelSuggestionWidget(
                     title: l10n.defaultChannelOption,
                     dataModel: provider.channelOptionResponse?.channelOptionData?.defaultChannelOption,
                   ),
