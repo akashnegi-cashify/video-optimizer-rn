@@ -304,11 +304,12 @@ class ELssProviderQc extends CshChangeNotifier {
     return listDataMap;
   }
 
-  Future<bool> submitElssAcceptData(String barcode, {int? optionId}) {
+  Future<bool> submitElssAcceptData(String barcode, {int? optionId, bool? isRubbingAllowed}) {
     var completer = Completer<bool>();
     var partsDataList = getPostDataMapForElssOptionData();
     try {
-      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId).listen((event) {
+      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId, isRubbingAllowed: isRubbingAllowed)
+          .listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {

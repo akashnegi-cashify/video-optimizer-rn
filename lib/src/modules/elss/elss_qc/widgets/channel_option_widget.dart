@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import '../../../../screens/barcode_scanner_screen.dart';
 import '../../common_models/channel_option_response.dart';
 import '../../common_models/elss_device_details_response.dart';
@@ -47,11 +48,6 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                 children: [
                   ElssDeviceDetailsWidget(dataModel: widget.detailsDataModel?.deviceDetailsData),
                   const SizedBox(height: Dimens.space_16),
-                  InitialOrDefaultWidget(
-                    channelTitle: l10n.previousSuggestion,
-                    channelData: provider.channelOptionResponse?.channelOptionData?.initialChannelOption,
-                  ),
-                  const SizedBox(height: Dimens.space_20),
                   if (!Validator.isListNullOrEmpty(
                       provider.channelOptionResponse?.channelOptionData?.listOfChannelOption)) ...[
                     Text(l10n.channelOptions, style: theme.primaryTextTheme.headline4),
@@ -64,7 +60,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                           dataModel: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index],
                           onCardTap: () {
                             _showModalForImages(
-                              provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index],
+                              index,
                               onPna: () {
                                 if (!Validator.isListNullOrEmpty(provider.channelOptionResponse!.channelOptionData!
                                     .listOfChannelOption![index].requestedParts)) {
@@ -87,9 +83,12 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                                         .listOfChannelOption![index]
                                         .requestedParts!);
                                     _submitElssAccept(
-                                        dataMap,
-                                        provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                                            .optionId!);
+                                      dataMap,
+                                      provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
+                                          .optionId!,
+                                      isRubAllowed: provider.channelOptionResponse!.channelOptionData!
+                                          .listOfChannelOption![index].isRubbingAllowed,
+                                    );
                                     Logger.debug('mydebug------_ChannelOptionWidgetState.build', [dataMap]);
                                   }
                                 } else {
@@ -111,8 +110,19 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                     )
                   ],
                   const SizedBox(height: Dimens.space_20),
+                  InitialOrDefaultWidget(
+                    channelTitle: l10n.previousSuggestion,
+                    channelData: provider.channelOptionResponse?.channelOptionData?.initialChannelOption,
+                  ),
+                  const SizedBox(height: Dimens.space_20),
                   DefaultChannelOptionWidget(
+                    title: l10n.defaultChannelOption,
                     dataModel: provider.channelOptionResponse?.channelOptionData?.defaultChannelOption,
+                  ),
+                  const SizedBox(height: Dimens.space_20),
+                  DefaultChannelOptionWidget(
+                    title: l10n.yourChannelOption,
+                    dataModel: provider.channelOptionResponse?.channelOptionData?.yourChannelSuggestion,
                   ),
                 ],
               ),
@@ -147,7 +157,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                 //Retest ELSS
                 Expanded(
                   child: CshMediumButton(
-                    text: l10n.retest,
+                    text: l10n.reset,
                     onPressed: () {
                       Navigator.of(context)
                           .pushReplacementNamed(PartSelectionScreenQc.route, arguments: widget.scannedBarcode);
@@ -163,20 +173,27 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
   }
 
   _showModalForImages(
-    ChannelOptionData? dataModel, {
+    int index, {
     Function()? onDone,
     Function()? onPna,
   }) {
+    var provider = ChannelOptionProvider.of(context, listen: false);
     showCshBottomSheet(
       isDismissible: true,
       isScrollControlled: true,
       context: context,
       child: ChannelOptionModalWidget(
-        dataModel: dataModel,
+        dataModel: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index],
         onDoneCallback: onDone,
         onPnaCallback: onPna,
       ),
-    );
+    ).then((value) {
+      if (!Validator.isListNullOrEmpty(
+          provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts)) {
+        provider.removeAttachedImageOverBack(
+            provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!);
+      }
+    });
   }
 
   _onRejectElss() {
@@ -186,7 +203,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
-        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
@@ -281,29 +298,35 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
-        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
       } else {
+        Navigator.of(context).pop(true);
         CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
     }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
+      Navigator.of(context).pop(true);
+      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
       CshLoading().hideLoading(context);
     });
   }
 
-  _submitElssAccept(List<Map<String, dynamic>> dataList, int optionId) {
+  _submitElssAccept(List<Map<String, dynamic>> dataList, int optionId, {bool? isRubAllowed}) {
     var provider = ChannelOptionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.submitElssAcceptData(dataList, widget.scannedBarcode, optionId: optionId).then((value) {
+    provider
+        .submitElssAcceptData(dataList, widget.scannedBarcode, optionId: optionId, isRubbingAllowed: isRubAllowed)
+        .then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Submitted Successfully!!");
-        Navigator.pushNamedAndRemoveUntil(context, BarcodeScanWidget.route, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
       } else {
-        CshSnackBar.error(context: context, message: "Something Went Wrong");
+        Navigator.of(context).pop(true);
+        CshSnackBar.error(context: context, message: "Something Went Wrong", snackBarPosition: SnackBarPosition.TOP);
       }
     }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
+      Navigator.of(context).pop(true);
+      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
       CshLoading().hideLoading(context);
     });
   }

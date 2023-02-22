@@ -36,12 +36,15 @@ class ChannelOptionDataModel {
   List<ChannelOptionData>? listOfChannelOption;
   @JsonKey(name: "df")
   ChannelOptionData? defaultChannelOption;
+  @JsonKey(name: "yo")
+  ChannelOptionData? yourChannelSuggestion;
 
   ChannelOptionDataModel({
     this.barcode,
     this.defaultChannelOption,
     this.initialChannelOption,
     this.listOfChannelOption,
+    this.yourChannelSuggestion,
   });
 
   static ChannelOptionDataModel fromJson(Map<String, dynamic> data) => _$ChannelOptionDataModelFromJson(data);

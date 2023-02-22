@@ -182,13 +182,12 @@ class ELssProviderTrc extends CshChangeNotifier {
 
   resetSelectedOptions() {
     selectedOptionKey = -1;
-
     submitButtonName = "Select Option";
     for (var element in productOptionList) {
       if (element.isApplicableReasonRequired ?? false) {
-        element.isGlassChangeApplicable = true;
-        element.isRubbingApplicable = true;
-        element.isPnaApplicable = true;
+        element.isRub = false;
+        element.isPNA = false;
+        element.isGc = false;
       }
     }
     notifyListeners();
@@ -202,9 +201,9 @@ class ELssProviderTrc extends CshChangeNotifier {
       return false;
     });
     if (index != -1) {
-      productOptionList[index].isPnaApplicable = isPnaa;
-      productOptionList[index].isRubbingApplicable = isRuba;
-      productOptionList[index].isGlassChangeApplicable = isGca;
+      productOptionList[index].isPNA = isPnaa;
+      productOptionList[index].isRub = isRuba;
+      productOptionList[index].isGc = isGca;
     }
     notifyListeners();
   }
@@ -234,9 +233,9 @@ class ELssProviderTrc extends CshChangeNotifier {
           return false;
         });
         if (index != -1) {
-          isGc = productOptionList[index].isGlassChangeApplicable ?? false;
-          isPna = productOptionList[index].isPnaApplicable ?? false;
-          isra = productOptionList[index].isRubbingApplicable ?? false;
+          isGc = productOptionList[index].isGc ?? false;
+          isPna = productOptionList[index].isPNA ?? false;
+          isra = productOptionList[index].isRub ?? false;
           dataMap["isGc"] = isGc;
           dataMap["isPna"] = isPna;
           dataMap["isra"] = isra;
@@ -348,7 +347,7 @@ class ELssProviderTrc extends CshChangeNotifier {
     });
     if (index != -1) {
       var option = productOptionList[index];
-      if (option.isPnaApplicable != null && option.isPnaApplicable == true) {
+      if (option.isPNA != null && option.isPNA == true) {
         return true;
       }
     }

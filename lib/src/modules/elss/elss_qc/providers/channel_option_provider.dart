@@ -127,11 +127,17 @@ class ChannelOptionProvider extends CshChangeNotifier {
     return listDataMap;
   }
 
-  Future<bool> submitElssAcceptData(List<Map<String, dynamic>> partsDataList, String barcode, {int? optionId}) {
+  Future<bool> submitElssAcceptData(
+    List<Map<String, dynamic>> partsDataList,
+    String barcode, {
+    int? optionId,
+    bool? isRubbingAllowed,
+  }) {
     var completer = Completer<bool>();
 
     try {
-      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId).listen((event) {
+      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId, isRubbingAllowed: isRubbingAllowed)
+          .listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
@@ -154,6 +160,14 @@ class ChannelOptionProvider extends CshChangeNotifier {
     if (dataList.isNotEmpty) {
       for (var element in dataList) {
         element.isPnaSelected = false;
+      }
+    }
+  }
+
+  removeAttachedImageOverBack(List<ElssPart> dataList) {
+    if (dataList.isNotEmpty) {
+      for (var element in dataList) {
+        element.imageS3Url = null;
       }
     }
   }

@@ -39,6 +39,9 @@ ChannelOptionDataModel _$ChannelOptionDataModelFromJson(
       listOfChannelOption: (json['fi'] as List<dynamic>?)
           ?.map((e) => ChannelOptionData.fromJson(e as Map<String, dynamic>))
           .toList(),
+      yourChannelSuggestion: json['yo'] == null
+          ? null
+          : ChannelOptionData.fromJson(json['yo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ChannelOptionDataModelToJson(
@@ -48,6 +51,7 @@ Map<String, dynamic> _$ChannelOptionDataModelToJson(
       'in': instance.initialChannelOption,
       'fi': instance.listOfChannelOption,
       'df': instance.defaultChannelOption,
+      'yo': instance.yourChannelSuggestion,
     };
 
 ChannelOptionData _$ChannelOptionDataFromJson(Map<String, dynamic> json) =>

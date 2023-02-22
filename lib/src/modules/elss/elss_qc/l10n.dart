@@ -162,6 +162,8 @@ class L10n extends BaseL10n {
   String get defaultChannelOption =>
       Intl.message("Default Channel Option", locale: localName, name: "defaultChannelOption");
 
+  String get yourChannelOption => Intl.message("Your Channel Option", locale: localName, name: "yourChannelOption");
+
   String get isRubbingAllowed => Intl.message("Is Rubbing Allowed", locale: localName, name: "isRubbingAllowed");
 
   String get listOfSkUs => Intl.message("List Of SKUs", locale: localName, name: "listOfSkUs");
@@ -177,4 +179,6 @@ class L10n extends BaseL10n {
   String get channelSuggestion => Intl.message("Channel Suggestion", locale: localName, name: "channelSuggestion");
 
   String get cost => Intl.message("Cost", locale: localName, name: "cost");
+
+  String get reset => Intl.message("Reset", locale: localName, name: "reset");
 }

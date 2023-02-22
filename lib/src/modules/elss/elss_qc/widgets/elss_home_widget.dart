@@ -110,8 +110,8 @@ class ElssHomeWidget extends StatelessWidget {
           _labelValueWidget(
               theme,
               l10n.employeeId,
-              (!Validator.isNullOrEmpty(UserDetails().userDetailsData?.kid))
-                  ? "${UserDetails().userDetailsData!.kid}"
+              (!Validator.isNullOrEmpty(UserDetails().userDetailsData?.uid))
+                  ? "${UserDetails().userDetailsData!.uid}"
                   : "")
         ],
       ),

@@ -13,11 +13,13 @@ import 'option_sku_tile_widget.dart';
 class OptionNotAllowedModal extends StatefulWidget {
   final List<ElssPart>? dataList;
   final Function() onSubmitCallback;
+  final Function() onResetButtonCallback;
   final Function(int, String)? onAttachS3UrlToSku;
 
   const OptionNotAllowedModal({
     Key? key,
     this.dataList,
+    required this.onResetButtonCallback,
     required this.onSubmitCallback,
     this.onAttachS3UrlToSku,
   }) : super(key: key);
@@ -112,13 +114,14 @@ class _OptionNotAllowedModalState extends State<OptionNotAllowedModal> {
                   ),
                 )
               : const SizedBox.shrink(),
-          SizedBox(
-            width: double.infinity,
-            child: CshMediumButton(
-              text: l10n.submit,
-              onPressed: _checkIfImageAttachedWithEverySKU() ? widget.onSubmitCallback : null,
-            ),
-          )
+          ComboButton(
+            firstBtnText: l10n.reset,
+            secondBtnText: l10n.submit,
+            isFirstPrimary: true,
+            buttonType: ButtonType.mini,
+            firstBtnClick: widget.onResetButtonCallback,
+            secondBtnClick: _checkIfImageAttachedWithEverySKU() ? widget.onSubmitCallback : null,
+          ),
         ],
       ),
     );

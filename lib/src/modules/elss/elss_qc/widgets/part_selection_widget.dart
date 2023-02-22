@@ -2,13 +2,14 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import '../../../../screens/barcode_scanner_screen.dart';
+import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_action.dart';
 import '../l10n.dart';
 import '../providers/elss_provider_qc.dart';
 import '../screens/add_part_screen_qc.dart';
 import '../screens/allowed_option_screen.dart';
+import '../screens/part_selection_screen_qc.dart';
 import 'discard_modal_widget.dart';
 import 'elss_device_details_widget.dart';
 import 'elss_part_widget.dart';
@@ -232,7 +233,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
-        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
@@ -249,7 +250,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Moved to Retesting successfully!!");
-        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
       } else {
         CshSnackBar.error(context: context, message: "Something went wrong!!");
       }
@@ -383,12 +384,13 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     provider.markPNAStatus(widget.barcode).then((value) {
       if (value) {
         CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
-        Navigator.of(context).pushNamedAndRemoveUntil(BarcodeScanWidget.route, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
     }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
+      Navigator.of(context).pop(true);
+      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
       CshLoading().hideLoading(context);
     });
   }
@@ -405,6 +407,10 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
           dataList: provider.elssPartList,
           onAttachS3UrlToSku: (int point, String s3Url) {
             provider.elssPartList[point].imageS3Url = s3Url;
+          },
+          onResetButtonCallback: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed(PartSelectionScreenQc.route, arguments: widget.barcode);
           },
           onSubmitCallback: () {
             Logger.debug('mydebug------_PartSelectionWidgetState._showOptionNotAllowedModal',
@@ -425,12 +431,12 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
   _submitElssAccept() {
     var provider = ELssProviderQc.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.submitElssAcceptData(widget.barcode).then((value) {
+    provider.submitElssAcceptData(widget.barcode, isRubbingAllowed: _isRubbingApplicable).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(
             context: context, message: "Elss Submitted Successfully!!", duration: SnackBarDuration.SHORT);
-        Navigator.pushNamedAndRemoveUntil(context, BarcodeScanWidget.route, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
       } else {
         CshSnackBar.error(context: context, message: "Something Went Wrong");
       }

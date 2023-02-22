@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'elss_option_response.g.dart';
 
 @JsonSerializable()
@@ -41,6 +42,12 @@ class OptionResponse {
   bool? isOptionSelected;
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isApplicableReasonRequired;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? isGc;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? isRub;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? isPNA;
 
   OptionResponse(
     this.isRubbingApplicable,
@@ -48,6 +55,9 @@ class OptionResponse {
     this.isGlassChangeApplicable,
     this.key,
     this.optionName, {
+    this.isGc = false,
+    this.isPNA = false,
+    this.isRub = false,
     this.isOptionSelected = false,
     this.isApplicableReasonRequired = false,
   });

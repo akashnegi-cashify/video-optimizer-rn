@@ -147,10 +147,11 @@ class ElssService {
   }
 
   static Stream<ElssSuccessResponse?> submitAcceptElss(List<Map<String, dynamic>> partsDataList, String barcode,
-      {int? optionId}) {
+      {int? optionId, bool? isRubbingAllowed = false}) {
     Map<String, dynamic> dataMap = {
       "dbr": barcode,
       "opid": optionId,
+      "isr": isRubbingAllowed,
       "rprl": partsDataList,
     };
     return QcServiceElss().post("/device/elss/elss-accept", ElssSuccessResponse.fromJson, body: jsonEncode(dataMap));

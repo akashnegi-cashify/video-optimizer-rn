@@ -15,13 +15,13 @@ class QcLoginWidget extends StatefulWidget {
 
 class _QcLoginWidgetState extends State<QcLoginWidget> {
   final TextEditingController _mobileNumberController = TextEditingController();
-
-  String? _referenceId;
   final TextEditingController _otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
+    var provider = TRCLoginProvider.of(context);
+    var theme = Theme.of(context);
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_20),
       child: Column(
@@ -31,7 +31,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
             controller: _mobileNumberController,
             keyboardType: TextInputType.phone,
             maxLines: 1,
-            enabled: (!Validator.isNullOrEmpty(_referenceId)) ? false : true,
+            enabled: (provider.otpResponse != null) ? false : true,
             maxLength: 20,
             autofocus: false,
             hintText: l10n.mobileNumber,
@@ -40,7 +40,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
               FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
             ],
           ),
-          if ((!Validator.isNullOrEmpty(_referenceId)))
+          if (provider.otpResponse != null) ...[
             CshTextFormField(
               controller: _otpController,
               keyboardType: TextInputType.phone,
@@ -53,56 +53,91 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                 FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
               ],
             ),
-          (!Validator.isNullOrEmpty(_referenceId))
-              ? ComboButton(
-                  firstBtnText: l10n.changeNo,
-                  secondBtnText: l10n.verifyOtp,
-                  buttonType: ButtonType.mini,
-                  isFirstPrimary: true,
-                  firstBtnClick: () {
-                    _referenceId = null;
-                    _otpController.clear();
-                    _mobileNumberController.clear();
-                    setState(() {});
-                  },
-                  secondBtnClick: () {
-                    if (!Validator.isNullOrEmpty(_otpController.text)) {
-                      String otp = _otpController.text.trim();
-                      _verifyEnteredOTP(_mobileNumberController.text.trim(), NotificationType.notificationTypeSMS.value,
-                          otp, _referenceId!, true);
-                    } else {
-                      CshSnackBar.error(context: context, message: l10n.pleaseEnterOtpSentToNumber);
-                    }
-                  },
-                )
-              : Container(
-                  margin: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
-                  width: double.infinity,
-                  child: CshMediumButton(
-                    text: l10n.verify,
-                    onPressed: () {
-                      if (!Validator.isNullOrEmpty(_mobileNumberController.text)) {
-                        String mn = _mobileNumberController.text.trim();
-                        _sendOtpToUser(mn, NotificationType.notificationTypeSMS.value, l10n.otpSentSuccessfully);
-                        FocusScope.of(context).unfocus();
-                      } else {
-                        CshSnackBar.error(context: context, message: l10n.pleaseEnterMobileNumber);
-                      }
+            ComboButton(
+              firstBtnText: l10n.changeNo,
+              secondBtnText: l10n.verifyOtp,
+              buttonType: ButtonType.mini,
+              isFirstPrimary: true,
+              firstBtnClick: () {
+                provider.resetSentOTPResponse();
+                _otpController.clear();
+                _mobileNumberController.clear();
+                setState(() {});
+              },
+              secondBtnClick: () {
+                if (!Validator.isNullOrEmpty(_otpController.text) &&
+                    !Validator.isNullOrEmpty(provider.otpResponse?.requestId)) {
+                  String otp = _otpController.text.trim();
+                  _verifyEnteredOTP(_mobileNumberController.text.trim(), NotificationType.notificationTypeSMS.value,
+                      otp, provider.otpResponse!.requestId!, true);
+                } else {
+                  CshSnackBar.error(context: context, message: l10n.pleaseEnterOtpSentToNumber);
+                }
+              },
+            ),
+            const SizedBox(height: Dimens.space_10),
+            provider.isActiveResendOtp
+                ? GestureDetector(
+                    onTap: () {
+                      String data = _mobileNumberController.text.trim();
+                      _sendOtpToUser(data, NotificationType.notificationTypeSMS.value, l10n.otpSentSuccessfully,
+                          isResendFlow: true);
                     },
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        l10n.resendOtp,
+                        style: theme.primaryTextTheme.bodyText1?.copyWith(color: theme.primaryColor),
+                      ),
+                    ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${l10n.resendOtp} | ',
+                        style: theme.primaryTextTheme.bodyText1,
+                      ),
+                      Text(
+                        '${provider.start}',
+                        style: theme.primaryTextTheme.bodyText1,
+                      ),
+                    ],
                   ),
-                ),
+          ],
+          if (provider.otpResponse == null)
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
+              width: double.infinity,
+              child: CshMediumButton(
+                text: l10n.verify,
+                onPressed: () {
+                  if (!Validator.isNullOrEmpty(_mobileNumberController.text)) {
+                    String mn = _mobileNumberController.text.trim();
+                    _sendOtpToUser(mn, NotificationType.notificationTypeSMS.value, l10n.otpSentSuccessfully);
+                    FocusScope.of(context).unfocus();
+                  } else {
+                    CshSnackBar.error(context: context, message: l10n.pleaseEnterMobileNumber);
+                  }
+                },
+              ),
+            ),
         ],
       ),
     );
   }
 
-  _sendOtpToUser(String mobileNumber, String notificationType, String successMessage) {
+  _sendOtpToUser(String mobileNumber, String notificationType, String successMessage, {bool isResendFlow = false}) {
     var provider = TRCLoginProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.qcSendOTP(mobileNumber, notificationType).then((value) {
       CshLoading().hideLoading(context);
       if (!Validator.isNullOrEmpty(value)) {
-        _referenceId = value;
+        if (isResendFlow) {
+          provider.resetResendOtpButton();
+        }
+        FocusScope.of(context).unfocus();
+
         setState(() {});
         CshSnackBar.success(context: context, message: successMessage);
       }

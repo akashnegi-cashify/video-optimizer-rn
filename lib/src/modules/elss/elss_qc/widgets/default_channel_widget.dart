@@ -6,9 +6,11 @@ import '../l10n.dart';
 
 class DefaultChannelOptionWidget extends StatelessWidget {
   final ChannelOptionData? dataModel;
+  final String title;
 
   const DefaultChannelOptionWidget({
     Key? key,
+    required this.title,
     this.dataModel,
   }) : super(key: key);
 
@@ -28,7 +30,7 @@ class DefaultChannelOptionWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l10n.defaultChannelOption,
+                  title,
                   style: theme.primaryTextTheme.headline5,
                 ),
                 Padding(

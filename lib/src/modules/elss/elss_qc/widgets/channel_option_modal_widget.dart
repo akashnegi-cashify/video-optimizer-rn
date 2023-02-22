@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -86,7 +85,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                           children: <TextSpan>[
                             TextSpan(
                               text: "₹${widget.dataModel!.channelOptionPrice!}",
-                              style: theme.primaryTextTheme.headline5,
+                              style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
                             )
                           ],
                         ),
@@ -94,6 +93,20 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                     : const SizedBox.shrink(),
               ],
             ),
+            const SizedBox(height: Dimens.space_8),
+            if (widget.dataModel?.isRubbingAllowed != null)
+              RichText(
+                text: TextSpan(
+                  text: "${l10n.isRubbingAllowed}: ",
+                  style: theme.primaryTextTheme.overline,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "${widget.dataModel!.isRubbingAllowed!}",
+                      style: theme.primaryTextTheme.headline5,
+                    )
+                  ],
+                ),
+              ),
             Expanded(
               child: (!Validator.isListNullOrEmpty(widget.dataModel?.requestedParts))
                   ? ListView.separated(
@@ -127,6 +140,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                                         context: context,
                                         message: l10n.imageUploadedSuccessfully,
                                         snackBarPosition: SnackBarPosition.TOP,
+                                        duration: SnackBarDuration.SHORT,
                                       );
                                       widget.dataModel!.requestedParts![index].imageS3Url = s3Url;
 
@@ -139,6 +153,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                                       context: context,
                                       message: errorMsg,
                                       snackBarPosition: SnackBarPosition.TOP,
+                                      duration: SnackBarDuration.SHORT,
                                     );
                                   },
                                 );
@@ -162,7 +177,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
             ),
             ComboButton(
               firstBtnText: l10n.pna,
-              secondBtnText: l10n.done,
+              secondBtnText: l10n.submit,
               isFirstPrimary: true,
               firstBtnClick: widget.onPnaCallback ?? () {},
               secondBtnClick: widget.onDoneCallback ?? () {},
