@@ -116,13 +116,13 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                   ),
                   const SizedBox(height: Dimens.space_20),
                   DefaultChannelOptionWidget(
-                    title: l10n.defaultChannelOption,
-                    dataModel: provider.channelOptionResponse?.channelOptionData?.defaultChannelOption,
+                    title: l10n.yourChannelOption,
+                    dataModel: provider.channelOptionResponse?.channelOptionData?.yourChannelSuggestion,
                   ),
                   const SizedBox(height: Dimens.space_20),
                   DefaultChannelOptionWidget(
-                    title: l10n.yourChannelOption,
-                    dataModel: provider.channelOptionResponse?.channelOptionData?.yourChannelSuggestion,
+                    title: l10n.defaultChannelOption,
+                    dataModel: provider.channelOptionResponse?.channelOptionData?.defaultChannelOption,
                   ),
                 ],
               ),
