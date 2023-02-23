@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/your_channel_suggestion.dart';
 import '../../../../screens/barcode_scanner_screen.dart';
 import '../../common_models/channel_option_response.dart';
 import '../../common_models/elss_device_details_response.dart';
@@ -110,17 +111,17 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                     )
                   ],
                   const SizedBox(height: Dimens.space_20),
-                  InitialOrDefaultWidget(
-                    channelTitle: l10n.previousSuggestion,
-                    channelData: provider.channelOptionResponse?.channelOptionData?.initialChannelOption,
+                  ChannelSuggestionWidget(
+                    title: l10n.previousSuggestion,
+                    dataModel: provider.channelOptionResponse?.channelOptionData?.initialChannelOption,
                   ),
                   const SizedBox(height: Dimens.space_20),
-                  DefaultChannelOptionWidget(
+                  ChannelSuggestionWidget(
                     title: l10n.yourChannelOption,
                     dataModel: provider.channelOptionResponse?.channelOptionData?.yourChannelSuggestion,
                   ),
                   const SizedBox(height: Dimens.space_20),
-                  DefaultChannelOptionWidget(
+                  ChannelSuggestionWidget(
                     title: l10n.defaultChannelOption,
                     dataModel: provider.channelOptionResponse?.channelOptionData?.defaultChannelOption,
                   ),
@@ -201,12 +202,8 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     CshLoading().showLoading(context);
     provider.rejectElss(widget.scannedBarcode).then((value) {
       CshLoading().hideLoading(context);
-      if (value) {
-        CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
-      }
+      CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
+      Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
       CshLoading().hideLoading(context);
@@ -299,9 +296,6 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       if (value) {
         CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        Navigator.of(context).pop(true);
-        CshSnackBar.error(context: context, message: "Something Went Wrong!!");
       }
     }, onError: (error) {
       Navigator.of(context).pop(true);
@@ -320,9 +314,6 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       if (value) {
         CshSnackBar.success(context: context, message: "Elss Submitted Successfully!!");
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      } else {
-        Navigator.of(context).pop(true);
-        CshSnackBar.error(context: context, message: "Something Went Wrong", snackBarPosition: SnackBarPosition.TOP);
       }
     }, onError: (error) {
       Navigator.of(context).pop(true);

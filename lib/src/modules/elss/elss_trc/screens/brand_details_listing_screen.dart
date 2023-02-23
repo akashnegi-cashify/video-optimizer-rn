@@ -199,8 +199,6 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
       if (value) {
         _showProductsListing = true;
         setState(() {});
-      } else {
-        CshSnackBar.error(context: context, message: "Unable to fetch products");
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
@@ -216,8 +214,6 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
       if (value) {
         _showColourListing = true;
         setState(() {});
-      } else {
-        CshSnackBar.error(context: context, message: "Unable to fetch Colours");
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
@@ -233,8 +229,6 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
       if (value) {
         CshSnackBar.success(context: context, message: "Details Submitted Successfully!!");
         Navigator.of(context).pushReplacementNamed(PartSelectionScreenTrc.route, arguments: barcode);
-      } else {
-        CshSnackBar.error(context: context, message: "Something wen wrong");
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);

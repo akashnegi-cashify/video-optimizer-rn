@@ -41,9 +41,11 @@ class ChannelOptionProvider extends CshChangeNotifier {
     try {
       ElssService.rejectElss(barcode).listen((event) {
         if (event != null) {
-          completer.complete(true);
-        } else {
-          completer.complete(false);
+          if (event.isSuccess == true) {
+            completer.complete(true);
+          } else {
+            completer.completeError("Something Went Wrong!!");
+          }
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
@@ -79,7 +81,7 @@ class ChannelOptionProvider extends CshChangeNotifier {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
@@ -141,7 +143,7 @@ class ChannelOptionProvider extends CshChangeNotifier {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong!!");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
