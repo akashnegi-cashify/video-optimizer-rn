@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
-
 import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
 import '../../../utils/trc_method_channels.dart';
@@ -26,20 +24,25 @@ class UserRoles {
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
       {String? loginToken, bool? loginFromQC = false}) async {
     var amplifyPro = AmplifyProvider.of(context, listen: false);
-    amplifyPro.getS3DetailsAndConfigureAmplify();
-    if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
+    if (loginFromQC == true) {
+      amplifyPro.getS3DetailsForQcAndConfigAmplify();
       Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
-    } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
-      Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeWidget.route, (route) => false);
-    } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {
-      Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
-    } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {
-      Navigator.of(context).pushNamedAndRemoveUntil(RiderHomeScreen.route, (route) => false);
-    } else if (listOfRoles.contains(UserRoles.ROLE_L4)) {
-      Navigator.of(context).pushNamedAndRemoveUntil(L4HomeScreen.route, (route) => false);
     } else {
-      NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
-      await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));
+      if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
+        amplifyPro.getS3DetailsAndConfigureAmplify();
+        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
+      } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeWidget.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(RiderHomeScreen.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.ROLE_L4)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(L4HomeScreen.route, (route) => false);
+      } else {
+        NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
+        await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));
+      }
     }
   }
 }

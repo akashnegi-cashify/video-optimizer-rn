@@ -30,6 +30,7 @@ PartItemDataResponse _$PartItemDataResponseFromJson(
       json['sku'] as String?,
       json['pcl'] as String?,
       json['pn'] as String?,
+      partQuantity: json['qty'] as int?,
     );
 
 Map<String, dynamic> _$PartItemDataResponseToJson(
@@ -38,4 +39,5 @@ Map<String, dynamic> _$PartItemDataResponseToJson(
       'sku': instance.sku,
       'pn': instance.productName,
       'pcl': instance.productColour,
+      'qty': instance.partQuantity,
     };

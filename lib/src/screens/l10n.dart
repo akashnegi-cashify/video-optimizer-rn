@@ -7,5 +7,6 @@ class L10n extends BaseL10n {
   String get barcodeScanner => Intl.message("Barcode Scanner", locale: localName, name: "barcodeScanner");
 
   String get enterBarcode => Intl.message("Enter Barcode", locale: localName, name: "enterBarcode");
+
   String get next => Intl.message("Next", locale: localName, name: "next");
 }

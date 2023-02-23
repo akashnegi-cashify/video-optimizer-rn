@@ -6,6 +6,7 @@ import 'package:core/src/http/interceptor/global_retry_when_interceptor.dart';
 import 'package:core/src/http/utils/retry_when_util.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/interceptors/auth/request_headers.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../common/session/session_expired_callback.dart';
@@ -34,7 +35,7 @@ class AuthHeaderInterceptor extends HttpRetryWhenInterceptor {
       handleError: (error, stackTrace, sink) {
         if (isHandleError(error, retryStatusCodes)) {
           print('Session expire: Invalid user auth. Removing auth from AuthHandler');
-          AuthHandler().onSessionExpire();
+          AppPreferences().resetAndClearAll();
         }
         sink.addError(error, stackTrace);
       },

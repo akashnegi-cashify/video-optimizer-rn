@@ -6,12 +6,12 @@ import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_service.dart';
 
 class AddPartListProviderTrc extends CshChangeNotifier {
-  AddPartListProviderTrc(String barcode) {
-    _getAddPatDataList(barcode);
-  }
-
   static AddPartListProviderTrc of(BuildContext context, {bool listen = true}) {
     return Provider.of<AddPartListProviderTrc>(context, listen: listen);
+  }
+
+  AddPartListProviderTrc(String barcode) {
+    _getAddPatDataList(barcode);
   }
 
   bool isPartListLoading = true;

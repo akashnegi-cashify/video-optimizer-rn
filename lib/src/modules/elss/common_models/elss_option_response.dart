@@ -38,10 +38,16 @@ class OptionResponse {
   bool? isPnaApplicable;
   @JsonKey(name: "isGc")
   bool? isGlassChangeApplicable;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isOptionSelected;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isApplicableReasonRequired;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? isGc;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? isRub;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? isPNA;
 
   OptionResponse(
     this.isRubbingApplicable,
@@ -49,6 +55,9 @@ class OptionResponse {
     this.isGlassChangeApplicable,
     this.key,
     this.optionName, {
+    this.isGc = false,
+    this.isPNA = false,
+    this.isRub = false,
     this.isOptionSelected = false,
     this.isApplicableReasonRequired = false,
   });

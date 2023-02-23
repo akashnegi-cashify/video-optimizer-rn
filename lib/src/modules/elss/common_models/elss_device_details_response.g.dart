@@ -44,6 +44,7 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
           .toList(),
       json['dgr'] as String?,
       json['paal'] as bool?,
+      json['isr'] as bool?,
     );
 
 Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
@@ -53,7 +54,7 @@ Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
       'dst': instance.deviceStatus,
       'drt': instance.deviceRepairType,
       'dgr': instance.deviceGrade,
-      'paal': instance.partAdditionNotAllowed,
+      'paal': instance.partAdditionAllowed,
       'dcl': instance.deviceColor,
       'pid': instance.productId,
       'isDetailsPresent': instance.isDetailsPresent,
@@ -61,4 +62,5 @@ Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
       'rr': instance.requestReason,
       'rrs': instance.repairReasonList,
       'rp': instance.repairPartList,
+      'isr': instance.isRubbingRequired,
     };

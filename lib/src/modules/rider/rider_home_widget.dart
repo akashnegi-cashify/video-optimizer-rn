@@ -4,7 +4,6 @@ import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/pending_delivery_widget.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/pending_pickup_widget.dart';
-
 import '../../utils/app_util.dart';
 
 class RiderHomeScreen extends StatelessWidget {

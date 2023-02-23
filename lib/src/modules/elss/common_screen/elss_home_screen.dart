@@ -18,14 +18,13 @@ class _ElssHomeScreenState extends State<ElssHomeScreen> {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
-    var theme = Theme.of(context);
     bool? arg = ModalRoute.of(context)?.settings.arguments as bool?;
 
     return Scaffold(
       appBar: CshHeader(
         l10n.elssHome,
         showBackBtn: false,
-        actions:  [LogoutActionWidget()],
+        actions: [LogoutActionWidget()],
       ),
       body: ElssHomeWidget(
         isLoginFromQC: arg ?? false,

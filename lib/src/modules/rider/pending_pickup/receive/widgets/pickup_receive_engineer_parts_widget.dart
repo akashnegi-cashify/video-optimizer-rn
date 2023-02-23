@@ -6,7 +6,6 @@ import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/de
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/providers/pickup_receive_engineer_parts_presenter.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/resources/pickup_receive_api_service.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/widgets/pickup_receive_barcode_scanner_widget.dart';
-
 import '../../../engineer_card_widget.dart';
 import '../../../pending_delivery/deliver/models/engineer_parts_response.dart';
 import '../../../pending_delivery/receive/models/receive_response_model.dart';
@@ -122,4 +121,3 @@ class _PartListWidget extends StatelessWidget {
     );
   }
 }
-

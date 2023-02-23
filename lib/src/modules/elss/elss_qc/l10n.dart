@@ -120,4 +120,65 @@ class L10n extends BaseL10n {
   String get reject => Intl.message("Reject", locale: localName, name: "reject");
 
   String get retest => Intl.message("Retest", locale: localName, name: "retest");
+
+  String get noPartsForPna => Intl.message("No Parts added for PNA", locale: localName, name: "noPartsForPna");
+
+  String get selectPartsForPna => Intl.message("Select Parts for PNA", locale: localName, name: "selectPartsForPna");
+
+  String get submit => Intl.message("Submit", locale: localName, name: "submit");
+
+  String get selectParts => Intl.message("Select Parts", locale: localName, name: "selectParts");
+
+  String get noPartsAvailableForPna =>
+      Intl.message("No Parts Available for PNA", locale: localName, name: "noPartsAvailableForPna");
+
+  String get isRubbingApplicable =>
+      Intl.message("Is Rubbing Applicable?", locale: localName, name: "isRubbingApplicable");
+
+  String get deviceRubbing => Intl.message("Device Rubbing", locale: localName, name: "deviceRubbing");
+
+  String get partsSubmittedSuccessfully =>
+      Intl.message("Parts Submitted Successfully!!", locale: localName, name: "partsSubmittedSuccessfully");
+
+  String get pnaStatusAppliedToSelectedParts =>
+      Intl.message("PNA status applied to selected parts", locale: localName, name: "pnaStatusAppliedToSelectedParts");
+
+  String get checkMarkPartForPna =>
+      Intl.message("Check Mark part for PNA", locale: localName, name: "checkMarkPartForPna");
+
+  String get deviceParts => Intl.message("Device Parts", locale: localName, name: "deviceParts");
+
+  String get channelOptions => Intl.message("Channel Options", locale: localName, name: "channelOptions");
+
+  String get previousSuggestion => Intl.message("Previous Suggestion", locale: localName, name: "previousSuggestion");
+
+  String get price => Intl.message("Price", locale: localName, name: "price");
+
+  String get channelName => Intl.message("Channel Name", locale: localName, name: "channelName");
+
+  String get channelSuggestionCost =>
+      Intl.message("Channel Suggestion Cost", locale: localName, name: "channelSuggestionCost");
+
+  String get defaultChannelOption =>
+      Intl.message("Default Channel Option", locale: localName, name: "defaultChannelOption");
+
+  String get yourChannelOption => Intl.message("Your Channel Option", locale: localName, name: "yourChannelOption");
+
+  String get isRubbingAllowed => Intl.message("Is Rubbing Allowed", locale: localName, name: "isRubbingAllowed");
+
+  String get listOfSkUs => Intl.message("List Of SKUs", locale: localName, name: "listOfSkUs");
+
+  String get noPartSelectedForPna =>
+      Intl.message("No Part Selected For PNA", locale: localName, name: "noPartSelectedForPna");
+
+  String get imageAttached => Intl.message("Image Attached", locale: localName, name: "imageAttached");
+
+  String get attachImageEverySku =>
+      Intl.message("Attach Image to every SKU", locale: localName, name: "attachImageEverySku");
+
+  String get channelSuggestion => Intl.message("Channel Suggestion", locale: localName, name: "channelSuggestion");
+
+  String get cost => Intl.message("Cost", locale: localName, name: "cost");
+
+  String get reset => Intl.message("Reset", locale: localName, name: "reset");
 }

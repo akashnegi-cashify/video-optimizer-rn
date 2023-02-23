@@ -3,14 +3,15 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../common_models/elss_device_details_response.dart';
 import '../../common_models/elss_option_response.dart';
 import '../../common_models/elss_part.dart';
 import '../../common_models/elss_part_submit_response.dart';
 import '../../common_models/part_device_list.dart';
+import '../../common_models/parts_elss_action.dart';
+import '../../common_models/submit_parts_logic_model.dart';
 import '../../common_models/upload_fault_images_response.dart';
-import '../../common_resources/elss_option.dart';
+import '../../common_resources/elss_action.dart';
 import '../../common_resources/elss_service.dart';
 
 class ELssProviderQc extends CshChangeNotifier {
@@ -20,20 +21,34 @@ class ELssProviderQc extends CshChangeNotifier {
 
   ELssProviderQc(String barcode) {
     _getDeviceDetailsAndParts(barcode);
+    _getElssPartsAction();
   }
 
   bool isDetailsDataLoading = true;
+  bool isRubbingApplicable = false;
   ElssDeviceDetailsResponse? elssDeviceDetails;
-  bool isElssOptionsLoading = true;
   ElssOptionResponse? elssOptionResponse;
   List<OptionResponse> productOptionList = [];
   List<ElssPart> elssPartList = [];
   List<ElssPart> searchedElssPartList = [];
-  int selectedOptionKey = -1;
-  String submitButtonName = "Select Option";
-  bool isGc = false, isPna = false, isra = false;
   UploadFaultImagesResponse? uploadFaultImagesResponse;
   ElssPartSubmitResponse? elssPartSubmitResponse;
+  PartsElssActionResponse? elssPartActionResponse;
+  String detailsApiErrorMessage = "";
+  SubmitPartsLogicResponse? submitPatsLogicData;
+
+  _getElssPartsAction() {
+    ElssService.getElssActionForParts().listen((event) {
+      if (event != null) {
+        elssPartActionResponse = event;
+      }
+    }, onError: (error) {
+      String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+      Logger.debug('mydebug------ELssProviderQc._getElssPartsAction', [errorMessage]);
+    }, onDone: () {
+      notifyListeners();
+    });
+  }
 
   _getDeviceDetailsAndParts(String scannedBarcode) {
     elssPartList.clear();
@@ -53,72 +68,20 @@ class ELssProviderQc extends CshChangeNotifier {
       notifyListeners();
     }, onError: (error) {
       String apiErrorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
+      detailsApiErrorMessage = apiErrorMessage;
       Logger.debug('mydebug------ELssProviderQc._getDeviceDetailsAndParts', [apiErrorMessage]);
       isDetailsDataLoading = false;
       notifyListeners();
     });
   }
 
-  _getDeviceDetailsData(String scannedBarcode) {
-    ElssService.getElssDeviceDetails(scannedBarcode).listen((event) {
-      if (event != null) {
-        elssDeviceDetails = event;
-        if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
-          int k = 0;
-          for (var element in event.deviceDetailsData!.repairPartList!) {
-            element.elssPartId = k;
-            element.partsImageList = ["", "", "", "", "", ""];
-            elssPartList.add(element);
-            k++;
-          }
-        }
-      }
-      isDetailsDataLoading = false;
-      notifyListeners();
-    }, onError: (error) {
-      String errMessage = ApiErrorHelper.getErrorMessage(error) ?? "Someting went wrong";
-      Logger.debug('mydebug------ELssProvider._getDeviceDetailsData', [errMessage]);
-      isDetailsDataLoading = false;
-      notifyListeners();
-    });
-  }
-
-  _getElssOptionsList(String scannedBarcode) {
-    ElssService.getElssOptions(scannedBarcode).listen(
-      (event) {
-        if (event != null) {
-          elssOptionResponse = event;
-          if (!Validator.isListNullOrEmpty(event.listOfOptions)) {
-            productOptionList = event.listOfOptions!;
-            _checkIsOptionRequires();
-          }
-        }
-        isElssOptionsLoading = false;
-        notifyListeners();
-      },
-      onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "something went wrong";
-        Logger.debug('mydebug------ELssProvider._getElssOptionsList', [errorMessage]);
-        isElssOptionsLoading = false;
-        notifyListeners();
-      },
-    );
-  }
-
-  _checkIsOptionRequires() {
-    for (var element in productOptionList) {
-      if (element.getIsApplicableOptionsPresent()) {
-        element.isApplicableReasonRequired = true;
-      }
-    }
-  }
-
-  searchItemDataUpdate(int id, {String? action}) {
+  searchItemDataUpdate(int id, {String? action, int? actionConstant}) {
     Logger.debug('mydebug------ELssProvider.searchItemDataUpdate', [id, action]);
     if (!Validator.isListNullOrEmpty(elssPartList)) {
       for (var element in elssPartList) {
         if (element.elssPartId == id && !Validator.isNullOrEmpty(action)) {
           element.action = action!;
+          element.actionConstant = actionConstant;
           break;
         }
       }
@@ -142,9 +105,12 @@ class ELssProviderQc extends CshChangeNotifier {
     for (var element in dataList) {
       ElssPart data = ElssPart(
         partName: element.productName,
-        action: null,
+        action: ElssAction.REPAIRABLE.value,
+        actionConstant: elssPartActionResponse?.actionsData?.required,
         sku: element.sku,
         isManualAdded: true,
+        partColour: element.productColour,
+        partCount: element.partQuantity,
       );
       data.elssPartId = elssPartList.length + 1;
       data.partsImageList = ["", "", "", "", "", ""];
@@ -174,216 +140,51 @@ class ELssProviderQc extends CshChangeNotifier {
     notifyListeners();
   }
 
-  setSelectedOptionKey(int key) {
-    selectedOptionKey = key;
-    int index = productOptionList.indexWhere((element) {
-      if (element.key != null) {
-        return (element.key! == selectedOptionKey);
-      }
-      return false;
-    });
-
-    if (index != -1) {
-      submitButtonName = productOptionList[index].optionName ?? "";
-    }
-    notifyListeners();
-  }
-
-  resetSelectedOptions() {
-    selectedOptionKey = -1;
-
-    submitButtonName = "Select Option";
-    for (var element in productOptionList) {
-      if (element.isApplicableReasonRequired ?? false) {
-        element.isGlassChangeApplicable = true;
-        element.isRubbingApplicable = true;
-        element.isPnaApplicable = true;
-      }
-    }
-    notifyListeners();
-  }
-
-  setApplicableReasonsToOptions(int key, {bool? isGca, bool? isPnaa, bool? isRuba}) {
-    int index = productOptionList.indexWhere((element) {
-      if (element.key != null) {
-        return element.key! == key;
-      }
-      return false;
-    });
-    if (index != -1) {
-      productOptionList[index].isPnaApplicable = isPnaa;
-      productOptionList[index].isRubbingApplicable = isRuba;
-      productOptionList[index].isGlassChangeApplicable = isGca;
-    }
-    notifyListeners();
-  }
-
-  addS3UrlToListOfPartsImage(int partId, int ind, String s3Url) {
-    if (!Validator.isListNullOrEmpty(elssPartList)) {
-      int index = elssPartList.indexWhere((element) => element.elssPartId == partId);
-      if (index != -1) {
-        elssPartList[index].partsImageList![ind] = s3Url;
-
-        Logger.debug('mydebug------ELssProvider.addS3UrlToListOfPartsImage', [elssPartList[index].partsImageList]);
-      }
-    }
-    notifyListeners();
-  }
-
   getDetailsPostDatMap(String scannedBarcode) {
     Map<String, dynamic> dataMap = {};
-    if (selectedOptionKey != -1) {
-      dataMap["ac"] = selectedOptionKey;
-      if (selectedOptionKey == 1 || selectedOptionKey == 2 || selectedOptionKey == 3) {
-        int index = productOptionList.indexWhere((element) {
-          if (element.key != null) {
-            return (element.key! == selectedOptionKey);
-          }
-          return false;
-        });
-        if (index != -1) {
-          isGc = productOptionList[index].isGlassChangeApplicable ?? false;
-          isPna = productOptionList[index].isPnaApplicable ?? false;
-          isra = productOptionList[index].isRubbingApplicable ?? false;
-          dataMap["isGc"] = isGc;
-          dataMap["isPna"] = isPna;
-          dataMap["isra"] = isra;
-        }
-      }
-      ElssOption? option = ElssOption.getEnumFromValue(selectedOptionKey);
-      if (option != null) {
-        dataMap["rt"] = ElssOption.getOptionName(option);
-      }
-    }
+
     List<Map<String, dynamic>> rprlList = [];
     if (elssPartList.isNotEmpty) {
-      if (isPna) {
-        for (var element in elssPartList) {
-          element.isPnaSelected = true;
-          element.isVisibleForPna = true;
-        }
-      }
       rprlList = List.generate(elssPartList.length, (index) {
         return {
-          "isManualAdded": elssPartList[index].isManualAdded,
-          "isPnaSelected": elssPartList[index].isPnaSelected,
-          "isVisibleForPna": elssPartList[index].isVisibleForPna,
-          "pcl": elssPartList[index].partColour,
-          "pc": 1,
-          if (!Validator.isNullOrEmpty(elssPartList[index].action)) "ac": elssPartList[index].action,
-          "pn": elssPartList[index].partName,
           "sku": elssPartList[index].sku,
-          "selectedPos": -1,
-          "_v": 0,
+          "pn": elssPartList[index].partName,
+          "pcl": elssPartList[index].partColour,
+          "ac": elssPartList[index].action,
+          "acc": elssPartList[index].actionConstant
         };
       });
     }
 
     dataMap["rprl"] = rprlList;
-    dataMap["version"] = 0;
+    dataMap["isr"] = isRubbingApplicable;
     dataMap["dbr"] = scannedBarcode;
     return dataMap;
   }
 
-  getSelectedPartsFaultImages() {
-    Map<String, List<String>> imageDataMap = {};
-    if (!Validator.isListNullOrEmpty(elssPartList)) {
-      List<String> listOfSkus = [];
+  getBodyDataMapForPNA() {
+    Map<String, dynamic> dataMap = {};
+    List<Map<String, dynamic>> listDataMap = [];
+    if (elssPartList.isNotEmpty) {
       for (var element in elssPartList) {
-        if (!listOfSkus.contains(element.sku)) {
-          listOfSkus.add(element.sku ?? "");
+        if (element.isPnaSelected == true) {
+          listDataMap.add({"sku": element.sku, "pn": element.partName, "pcl": element.partColour});
         }
       }
-
-      for (String skuName in listOfSkus) {
-        List<String> clubbedSkuImage = [];
-        for (var item in elssPartList) {
-          if (item.sku == skuName) {
-            List<String> shortUrlList = [];
-            for (String s3Url in item.partsImageList!) {
-              if (s3Url.isNotEmpty) {
-                shortUrlList.add(s3Url.substring(0, s3Url.indexOf("?")));
-              }
-            }
-            clubbedSkuImage.addAll(shortUrlList);
-          }
-        }
-        imageDataMap[skuName] = clubbedSkuImage;
-      }
     }
-    Logger.debug('mydebug------ELssProvider.getSelectedPartsFaultImages', [imageDataMap]);
-    return imageDataMap;
-  }
-
-  submitPartsFaultImages(String scannedBarcode, Map<String, List<String>> imagesDataMap) {
-    ElssService.uploadPartsFaultImages(scannedBarcode, imagesDataMap).listen((event) {
-      if (event != null) {
-        uploadFaultImagesResponse = event;
-      }
-    }, onError: (error) {
-      String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-      Logger.debug('mydebug------ELssProvider.submitPartsFaultImages', [errorMessage]);
-    }, onDone: () {
-      notifyListeners();
-    });
-  }
-
-  Future<bool> submitElssPartRequest(String scannedBarcode) {
-    Map<String, dynamic> dataMap = getDetailsPostDatMap(scannedBarcode);
-    var completer = Completer<bool>();
-    try {
-      ElssService.elssSubmitPartsRequest(dataMap).listen((event) {
-        if (event != null) {
-          elssPartSubmitResponse = event;
-          if (event.isSuccess ?? false) {
-            completer.complete(true);
-          } else {
-            completer.complete(false);
-          }
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Some error occurred";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-
-    return completer.future;
-  }
-
-  Future<bool> rejectAndRetestElss(String scannedBarcode, {bool? isRetesting}) {
-    var completer = Completer<bool>();
-    try {
-      ElssService.retestOrRejectElss(scannedBarcode, isRetest: isRetesting).listen((event) {
-        if (event != null && event.isSuccess == true) {
-          completer.complete(true);
-        } else {
-          completer.complete(false);
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-
-    return completer.future;
+    dataMap["pnaList"] = listDataMap;
+    return dataMap;
   }
 
   Future<bool> markPNAStatus(String barcode) {
     var completer = Completer<bool>();
+    Map<String, dynamic> bodyData = getBodyDataMapForPNA();
     try {
-      ElssService.markPnaStatus(barcode).listen((event) {
+      ElssService.markPnaStatus(barcode, bodyData).listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
-          completer.complete(false);
+          completer.completeError("Something Went Wrong!!");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
@@ -395,5 +196,143 @@ class ELssProviderQc extends CshChangeNotifier {
       completer.completeError(e.toString());
     }
     return completer.future;
+  }
+
+  Future<bool> rejectElss(String barcode) {
+    var completer = Completer<bool>();
+    try {
+      ElssService.rejectElss(barcode).listen((event) {
+        if (event != null) {
+          completer.complete(true);
+        } else {
+          completer.completeError("Something Went Wrong!!");
+        }
+      }, onError: (error) {
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
+        completer.completeError(errorMessage);
+      }, onDone: () {
+        notifyListeners();
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  Future<bool> retestElss(String barcode) {
+    var completer = Completer<bool>();
+    try {
+      ElssService.retestingElss(barcode).listen((event) {
+        if (event != null) {
+          completer.complete(true);
+        } else {
+          completer.completeError("Something Went Wrong");
+        }
+      }, onError: (error) {
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+        completer.completeError(errorMessage);
+      }, onDone: () {
+        notifyListeners();
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  Future<bool> submitPartsForLogic(String barcode) {
+    Map<String, dynamic> bodyData = getDetailsPostDatMap(barcode);
+    var completer = Completer<bool>();
+    try {
+      ElssService.submitPartsForLogic(bodyData).listen((event) {
+        if (event != null) {
+          submitPatsLogicData = event;
+          if (event.isSuccess != null && event.isSuccess!) {
+            completer.complete(true);
+          } else {
+            completer.completeError("Something Went Wrong");
+          }
+        }
+      }, onError: (error) {
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
+        completer.completeError(errorMessage);
+      }, onDone: () {
+        notifyListeners();
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  checkIsItemSelectedForPNA() {
+    if (elssPartList.isNotEmpty) {
+      for (var element in elssPartList) {
+        if (element.isPnaSelected == true) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  checkIfImageIsAttachedToAllSkus(List<ElssPart> dataList) {
+    if (dataList.isNotEmpty) {
+      for (var element in dataList) {
+        if (Validator.isNullOrEmpty(element.imageS3Url)) {
+          notifyListeners();
+          return false;
+        }
+      }
+    }
+    notifyListeners();
+    return true;
+  }
+
+  List<Map<String, dynamic>> getPostDataMapForElssOptionData() {
+    List<Map<String, dynamic>> listDataMap = [];
+    if (elssPartList.isNotEmpty) {
+      for (var element in elssPartList) {
+        listDataMap.add({
+          "sku": element.sku,
+          "pn": element.partName,
+          "img": element.imageS3Url,
+        });
+      }
+    }
+
+    return listDataMap;
+  }
+
+  Future<bool> submitElssAcceptData(String barcode, {int? optionId, bool? isRubbingAllowed}) {
+    var completer = Completer<bool>();
+    var partsDataList = getPostDataMapForElssOptionData();
+    try {
+      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId, isRubbingAllowed: isRubbingAllowed)
+          .listen((event) {
+        if (event != null && event.isSuccess == true) {
+          completer.complete(true);
+        } else {
+          completer.completeError("Something Went Wrong");
+        }
+      }, onError: (error) {
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+        Logger.debug('mydebug------ChannelOptionProvider.submitElssAccpetData', [errorMessage]);
+        completer.completeError(errorMessage);
+      }, onDone: () {
+        notifyListeners();
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  removePNASelectedItem() {
+    if (elssPartList.isNotEmpty) {
+      for (var element in elssPartList) {
+        element.isPnaSelected = false;
+      }
+    }
   }
 }

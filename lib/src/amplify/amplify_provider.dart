@@ -1,5 +1,7 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/modules/elss/common_resources/elss_service.dart';
+import '../modules/elss/common_models/qc_s3_details_config.dart';
 import '../resources/models/s3_details_response.dart';
 import '../services/s3_details.dart';
 import '../utils/misc.dart';
@@ -13,6 +15,29 @@ class AmplifyProvider extends CshChangeNotifier {
   }
 
   S3DetailsResponse? configResponse;
+  QcS3DetailsResponse? qcConfigResponse;
+
+  getS3DetailsForQcAndConfigAmplify() {
+    ElssService.fetchS3Details().listen(
+      (event) {
+        if (event != null) {
+          qcConfigResponse = event;
+          Logger.log('mydebug configResponse?.cognitoPoolId', [qcConfigResponse?.bucketName, qcConfigResponse?.poolId]);
+          if (!Validator.isNullOrEmpty(qcConfigResponse?.bucketName) &&
+              !Validator.isNullOrEmpty(qcConfigResponse?.poolId)) {
+            _setAmplifierDetails(qcConfigResponse!.bucketName!, qcConfigResponse!.poolId!);
+          }
+        }
+      },
+      onError: (error) {
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
+        Logger.debug('mydebug------AmplifyProvider.getS3DetailsAndConfigureAmplify', [errorMessage]);
+      },
+      onDone: () {
+        notifyListeners();
+      },
+    );
+  }
 
   getS3DetailsAndConfigureAmplify() {
     S3DetailsService.fetchS3Details().listen((event) {
@@ -52,6 +77,10 @@ class AmplifyProvider extends CshChangeNotifier {
     if (file != null) {
       Amplifier().uploadFile(filePath, file, onFileUploaded, onFailed, onProgress: onProgress);
     }
+  }
+
+  String? getQcFolderName() {
+    return qcConfigResponse?.folderName;
   }
 
   String? getFolderName() {

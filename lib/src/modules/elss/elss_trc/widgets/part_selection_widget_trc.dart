@@ -147,10 +147,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
           onTap: () async {
             var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: widget.barcode);
             if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
-              for (var element in data!) {
-                Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
-              }
-              provider.addNewPartsFromAddParts(data);
+              provider.addNewPartsFromAddParts(data!);
             }
           },
           child: Row(
@@ -286,16 +283,12 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
     var provider = ELssProviderTrc.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.submitElssPartRequest(barcode).then((value) {
+      CshLoading().hideLoading(context);
       if (value) {
-        CshLoading().hideLoading(context);
         CshSnackBar.success(
             context: context,
             message: provider.elssPartSubmitResponse?.successMessage ?? l10n.dataSubmittedSuccessfully);
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false);
-      } else {
-        CshLoading().hideLoading(context);
-        CshSnackBar.error(
-            context: context, message: provider.elssPartSubmitResponse?.errorMessage ?? l10n.errorInSubmittingDetails);
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
