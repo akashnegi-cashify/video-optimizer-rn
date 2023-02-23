@@ -12,8 +12,9 @@ import '../../../../../../screens/barcode_scanner_screen.dart';
 
 class ReturnPartButtonWidget extends StatelessWidget {
   final EngineerPartInfo partInfo;
+  final VoidCallback? onRequestCompletion;
 
-  const ReturnPartButtonWidget({Key? key, required this.partInfo}) : super(key: key);
+  const ReturnPartButtonWidget({Key? key, required this.partInfo, this.onRequestCompletion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,8 @@ class ReturnPartButtonWidget extends StatelessWidget {
           } else {
             Navigator.pushNamed(context, BarcodeScanWidget.route,
                 arguments: (String barcode, {BarcodeScannerController? controller}) {
-              returnPart(context, l10n, barcode);
-            });
+                  returnPart(context, l10n, barcode);
+                });
           }
         });
   }
@@ -52,6 +53,9 @@ class ReturnPartButtonWidget extends StatelessWidget {
               }
 
               if (event.isSuccess) {
+                if (onRequestCompletion != null) {
+                  onRequestCompletion!();
+                }
                 CshSnackBar.success(context: context, message: l10n.partSentToReturn);
                 return;
               }
@@ -74,15 +78,15 @@ class ReturnPartButtonWidget extends StatelessWidget {
   Future<dynamic> askForTheReasonOfReturn(BuildContext context, List<String> returnReasons) async {
     final TextEditingController controller = TextEditingController();
     return await showDialog(
-            useRootNavigator: false,
-            builder: (context) {
-              L10n l10n = L10n(context);
+        useRootNavigator: false,
+        builder: (context) {
+          L10n l10n = L10n(context);
 
-              return ChangeNotifierProvider(create: (context) {
-                return ReturnPartProvider();
-              }, builder: (context, widget) {
-                return Dialog(
-                    child: Padding(
+          return ChangeNotifierProvider(create: (context) {
+            return ReturnPartProvider();
+          }, builder: (context, widget) {
+            return Dialog(
+                child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_16),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -95,10 +99,14 @@ class ReturnPartButtonWidget extends StatelessWidget {
                       ),
                       CshDropDown(
                           hintText: l10n.chooseYourResponse,
-                          selectedItem: Provider.of<ReturnPartProvider>(context, listen: false).selectedReason,
+                          selectedItem: Provider
+                              .of<ReturnPartProvider>(context, listen: false)
+                              .selectedReason,
                           items: returnReasons.map((e) => DropDownItem<String>(e, e)).toList(),
                           onChanged: (DropDownItem<String> item) {
-                            Provider.of<ReturnPartProvider>(context, listen: false).selectedReason = item;
+                            Provider
+                                .of<ReturnPartProvider>(context, listen: false)
+                                .selectedReason = item;
                           }),
                       const SizedBox(
                         height: Dimens.space_16,
@@ -108,8 +116,12 @@ class ReturnPartButtonWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CshMediumOutlineButton(
-                            textColor: Theme.of(context).errorColor,
-                            bgColor: Theme.of(context).errorColor,
+                            textColor: Theme
+                                .of(context)
+                                .errorColor,
+                            bgColor: Theme
+                                .of(context)
+                                .errorColor,
                             text: l10n.cancel,
                             onPressed: () => Navigator.of(context).pop(),
                           ),
@@ -120,10 +132,15 @@ class ReturnPartButtonWidget extends StatelessWidget {
                             children: [
                               CshMediumButton(
                                 text: l10n.confirm,
-                                onPressed: Provider.of<ReturnPartProvider>(context, listen: true).selectedReason == null
+                                onPressed: Provider
+                                    .of<ReturnPartProvider>(context, listen: true)
+                                    .selectedReason == null
                                     ? null
-                                    : () => Navigator.of(context).pop(ReasonDialogData(
-                                        Provider.of<ReturnPartProvider>(context, listen: false).selectedReason!,
+                                    : () =>
+                                    Navigator.of(context).pop(ReasonDialogData(
+                                        Provider
+                                            .of<ReturnPartProvider>(context, listen: false)
+                                            .selectedReason!,
                                         controller.text)),
                               ),
                             ],
@@ -133,9 +150,9 @@ class ReturnPartButtonWidget extends StatelessWidget {
                     ],
                   ),
                 ));
-              });
-            },
-            context: context)
+          });
+        },
+        context: context)
         .whenComplete(() => controller.dispose());
   }
 }

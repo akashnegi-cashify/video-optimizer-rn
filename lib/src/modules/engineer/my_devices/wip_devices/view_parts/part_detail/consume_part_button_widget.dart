@@ -12,8 +12,9 @@ import '../../../../../../amplify/amplify_provider.dart';
 
 class ConsumePartButtonWidget extends StatelessWidget {
   final EngineerPartInfo partInfo;
+  final VoidCallback? onRequestCompletion;
 
-  const ConsumePartButtonWidget({Key? key, required this.partInfo}) : super(key: key);
+  const ConsumePartButtonWidget({Key? key, required this.partInfo, this.onRequestCompletion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +44,14 @@ class ConsumePartButtonWidget extends StatelessWidget {
                         (event) {
                       if (event?.isSuccess == true) {
                         CshSnackBar.success(context: context, message: l10n.consumePartSuccess(partInfo.partName));
+                        if (onRequestCompletion != null){
+                          onRequestCompletion!();
+                        }
                       } else {
                         CshSnackBar.error(context: context, message: event?.errorMsg ?? l10n.somethingWentWrong);
                       }
                     }, onDone: () {
                       CshLoading().hideLoading(context);
-                      Navigator.pop(context);
                     });
                   } else {
                     displayGenericErrorMessage(context, l10n);
