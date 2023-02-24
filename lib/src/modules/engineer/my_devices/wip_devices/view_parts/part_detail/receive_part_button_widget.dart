@@ -30,7 +30,9 @@ class ReceivePartButtonWidget extends StatelessWidget {
       context.showConfirmationDialog(l10n.areYouSureYouWantToReceive, negativeButtonData: (BuildContext context) {
         return ButtonData(() {
           Navigator.pop(context);
+          CshLoading().showLoading(context);
           EngineerAPIService.getReceivePartByEngineer(partBarcode, partId, prId).listen((event) {
+            CshLoading().hideLoading(context);
             if (event == null) {
               CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
               return;
@@ -42,6 +44,7 @@ class ReceivePartButtonWidget extends StatelessWidget {
             }
 
             if (event.isSuccess) {
+              onRequestCompletion();
               CshSnackBar.success(context: context, message: l10n.deviceReceivedSuccessfully);
               return;
             } else {
@@ -49,9 +52,10 @@ class ReceivePartButtonWidget extends StatelessWidget {
               return;
             }
           }, onError: (error, stackTrace) {
+            CshLoading().hideLoading(context);
             CshSnackBar.error(
                 context: context, message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
-          }, onDone: onRequestCompletion);
+          });
         }, l10n.confirm);
       }, positiveButtonData: (BuildContext context) {
         return ButtonData(() {
@@ -63,8 +67,7 @@ class ReceivePartButtonWidget extends StatelessWidget {
     if (partInfo.isBulk ?? false) {
       receiveDevice(partInfo.partBarcode, partInfo.partId, partInfo.prId);
     } else {
-      Navigator.pushNamed(context, BarcodeScanWidget.route,
-          arguments: (String barcode, {BarcodeScannerController? controller}) {
+      Navigator.pushNamed(context, BarcodeScanWidget.route, arguments: (String barcode) {
         receiveDevice(barcode, null, partInfo.prId);
       });
     }

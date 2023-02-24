@@ -5,7 +5,7 @@ part 'logout_response.g.dart';
 @JsonSerializable()
 class LogoutResponse {
   @JsonKey(name: "r_id")
-  String referenceId;
+  String? referenceId;
   @JsonKey(name: "s")
   int? status;
   @JsonKey(name: "msg")

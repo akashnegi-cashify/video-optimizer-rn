@@ -28,8 +28,8 @@ class UserRoles {
       amplifyPro.getS3DetailsForQcAndConfigAmplify();
       Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
     } else {
+      amplifyPro.getS3DetailsAndConfigureAmplify();
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
-        amplifyPro.getS3DetailsAndConfigureAmplify();
         Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
       } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
         Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeWidget.route, (route) => false);

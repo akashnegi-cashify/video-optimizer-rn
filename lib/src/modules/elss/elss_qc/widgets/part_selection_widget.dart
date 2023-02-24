@@ -363,7 +363,11 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
 
           Navigator.of(context).pushReplacementNamed(AllowedOptionScreen.route, arguments: args);
         } else {
-          _showOptionNotAllowedModal(l10n);
+          if (Validator.isListNullOrEmpty(provider.elssPartList)) {
+            _submitElssAccept();
+          } else {
+            _showOptionNotAllowedModal(l10n);
+          }
         }
       }
     }, onError: (error) {
