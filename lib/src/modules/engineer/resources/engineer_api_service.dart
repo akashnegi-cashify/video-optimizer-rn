@@ -74,7 +74,7 @@ class EngineerAPIService {
       if (partBarcode != null) "pbr": [partBarcode],
       if (partId != null) "pid": [partId.toString()],
       if (productId != null) "prid": [productId.toString()],
-      "imgUrl": [partId.toString()],
+      "imgUrl": [imageUrl],
     };
     return TrcService().get("/engineer/consume-part", SendToTlResponse.fromJson, params: paramData);
   }

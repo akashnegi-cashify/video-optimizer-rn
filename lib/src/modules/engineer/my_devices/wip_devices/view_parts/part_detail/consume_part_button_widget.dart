@@ -42,16 +42,31 @@ class ConsumePartButtonWidget extends StatelessWidget {
                   if (!Validator.isNullOrEmpty(s3Url)) {
                     EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, s3Url).listen(
                         (event) {
+                      CshLoading().hideLoading(context);
                       if (event?.isSuccess == true) {
-                        CshSnackBar.success(context: context, message: l10n.consumePartSuccess(partInfo.partName));
-                        if (onRequestCompletion != null){
+                        if (onRequestCompletion != null) {
                           onRequestCompletion!();
                         }
+                        CshSnackBar.success(
+                          context: context,
+                          message: l10n.consumePartSuccess(partInfo.partName),
+                          snackBarPosition: SnackBarPosition.TOP,
+                        );
                       } else {
-                        CshSnackBar.error(context: context, message: event?.errorMsg ?? l10n.somethingWentWrong);
+                        CshSnackBar.error(
+                          context: context,
+                          message: event?.errorMsg ?? l10n.somethingWentWrong,
+                          snackBarPosition: SnackBarPosition.TOP,
+                        );
                       }
-                    }, onDone: () {
+                    }, onError: (error) {
                       CshLoading().hideLoading(context);
+                      String? errorMessage = ApiErrorHelper.getErrorMessage(error);
+                      CshSnackBar.error(
+                        context: context,
+                        message: errorMessage ?? l10n.somethingWentWrong,
+                        snackBarPosition: SnackBarPosition.TOP,
+                      );
                     });
                   } else {
                     displayGenericErrorMessage(context, l10n);
@@ -62,13 +77,13 @@ class ConsumePartButtonWidget extends StatelessWidget {
               },
               onFailed: (String errorMsg) {
                 CshLoading().hideLoading(context);
-                CshSnackBar.error(context: context, message: errorMsg);
+                CshSnackBar.error(context: context, message: errorMsg, snackBarPosition: SnackBarPosition.TOP);
               },
             );
           }
         } catch (e) {
           CshLoading().hideLoading(context);
-          CshSnackBar.error(context: context, message: e.toString());
+          CshSnackBar.error(context: context, message: e.toString(), snackBarPosition: SnackBarPosition.TOP);
         }
       },
     );
@@ -76,6 +91,6 @@ class ConsumePartButtonWidget extends StatelessWidget {
 
   void displayGenericErrorMessage(BuildContext context, L10n l10n) {
     CshLoading().hideLoading(context);
-    CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
+    CshSnackBar.error(context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
   }
 }

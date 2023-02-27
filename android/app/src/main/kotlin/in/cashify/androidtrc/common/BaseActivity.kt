@@ -21,8 +21,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
@@ -38,8 +37,8 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Deferred
 import okhttp3.Response
-import java.util.*
 import javax.inject.Inject
+import kotlin.math.log
 
 
 abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
@@ -216,7 +215,8 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
 
         service.execute(object : BaseAPICallback<LoginModuleApi, LogOutResponse>() {
             override fun onSuccess(response: LogOutResponse, rawResponse: Response) {
-                if (response.success) {
+                if (response.success == 1) {
+                    showLoading(false)
                     destroyLoginSession()
                 } else {
                     showLogOutAlert()
@@ -235,8 +235,6 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
                 return api.logoutAsync()
             }
         })
-
-        destroyLoginSession()
     }
 
     fun getErrorMsg(apiError: APIException?): String? {

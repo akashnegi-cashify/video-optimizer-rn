@@ -3,8 +3,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/your_channel_suggestion.dart';
-import '../../../../screens/barcode_scanner_screen.dart';
-import '../../common_models/channel_option_response.dart';
+
 import '../../common_models/elss_device_details_response.dart';
 import '../../common_models/elss_part.dart';
 import '../../common_models/part_device_list.dart';
@@ -14,9 +13,7 @@ import '../providers/channel_option_provider.dart';
 import '../screens/part_selection_screen_qc.dart';
 import 'channel_option_modal_widget.dart';
 import 'channel_options_card_widget.dart';
-import 'default_channel_widget.dart';
 import 'elss_device_details_widget.dart';
-import 'initial_or_default_option_widget.dart';
 
 class ChannelOptionWidget extends StatefulWidget {
   final String scannedBarcode;
@@ -68,7 +65,11 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                                   Navigator.of(context).pop(true);
                                   _onPNAOptionModal(index, l10n, theme);
                                 } else {
-                                  CshSnackBar.error(context: context, message: l10n.noPartsAvailableForPna);
+                                  CshSnackBar.error(
+                                    context: context,
+                                    message: l10n.noPartsAvailableForPna,
+                                    snackBarPosition: SnackBarPosition.TOP,
+                                  );
                                 }
                               },
                               onDone: () {
