@@ -7,8 +7,10 @@ import `in`.reglobe.api.kotlin.response.APIResponse
 import `in`.reglobe.api.kotlin.service.AuthAPIService
 import `in`.reglobe.api.kotlin.service.AuthRequestData
 import android.content.Context
+import androidx.annotation.Keep
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 
+@Keep
 abstract class BaseAuthService<U, L : APIResponse>(private val appContext: Context) : AuthAPIService<U, L>() {
 
     init {

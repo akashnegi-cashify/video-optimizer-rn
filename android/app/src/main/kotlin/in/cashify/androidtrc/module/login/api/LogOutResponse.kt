@@ -10,7 +10,11 @@ import com.google.gson.annotations.SerializedName
 class LogOutResponse : BaseResponse() {
 
     @SerializedName("s")
-    var success: Boolean = false
+    var success: Int = 0
     @SerializedName("em")
     var errorMsg: String? = null
+
+    override fun isValid(condition: String?, isStrict: Boolean): Boolean {
+        return true
+    }
 }

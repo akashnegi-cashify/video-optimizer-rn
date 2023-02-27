@@ -1,8 +1,10 @@
 package `in`.cashify.androidtrc.module.inventory_manager.api.response
 
 import `in`.cashify.androidtrc.common.api.BaseResponse
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 class AssignedDeviceListResponse : BaseResponse() {
 
     @SerializedName("r_id")
@@ -16,6 +18,7 @@ class AssignedDeviceListResponse : BaseResponse() {
     @SerializedName("s")
     var success: Boolean? = null
 
+    @Keep
     class Data : BaseResponse() {
         @SerializedName("dl")
         var dataList: List<DataList>? = null
@@ -33,6 +36,11 @@ class AssignedDeviceListResponse : BaseResponse() {
 
     }
 
+    override fun isValid(condition: String?, isStrict: Boolean): Boolean {
+        return true
+    }
+
+    @Keep
     class DataList : BaseResponse() {
 
         @SerializedName("did")

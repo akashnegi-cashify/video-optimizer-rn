@@ -21,6 +21,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
@@ -37,6 +38,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.Deferred
 import okhttp3.Response
 import javax.inject.Inject
+import kotlin.math.log
 
 
 abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
@@ -213,7 +215,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
 
         service.execute(object : BaseAPICallback<LoginModuleApi, LogOutResponse>() {
             override fun onSuccess(response: LogOutResponse, rawResponse: Response) {
-                if (response.success) {
+                if (response.success == 1) {
                     showLoading(false)
                     destroyLoginSession()
                 } else {
