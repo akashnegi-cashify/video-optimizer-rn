@@ -5,6 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 
 class DeviceUtil {
   static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
+
   // TODO Dev action required: Update the xOSApp value
   static const String xOSApp = 'CMSITE-1.0';
 
@@ -27,7 +28,7 @@ class DeviceUtil {
       return xOSApp;
     } else if (isAndroid()) {
       AndroidDeviceInfo androidInfo = await _deviceInfoPlugin.androidInfo;
-      return androidInfo.androidId;
+      return androidInfo.id;
     } else if (isIOS()) {
       IosDeviceInfo iosInfo = await _deviceInfoPlugin.iosInfo;
       return iosInfo.identifierForVendor;
