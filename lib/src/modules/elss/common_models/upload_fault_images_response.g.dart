@@ -6,16 +6,12 @@ part of 'upload_fault_images_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UploadFaultImagesResponse _$UploadFaultImagesResponseFromJson(
-        Map<String, dynamic> json) =>
-    UploadFaultImagesResponse(
+UploadFaultImagesResponse _$UploadFaultImagesResponseFromJson(Map<String, dynamic> json) => UploadFaultImagesResponse(
       json['r_id'] as String?,
       json['s'] as bool?,
     );
 
-Map<String, dynamic> _$UploadFaultImagesResponseToJson(
-        UploadFaultImagesResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$UploadFaultImagesResponseToJson(UploadFaultImagesResponse instance) => <String, dynamic>{
       'r_id': instance.referenceId,
       's': instance.success,
     };

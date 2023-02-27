@@ -11,8 +11,7 @@ class RubbingDeviceListRequest {
   @JsonKey(name: "fp")
   SearchQuery? searchQuery;
 
-  static RubbingDeviceListRequest fromJson(Map<String, dynamic> data) =>
-      _$RubbingDeviceListRequestFromJson(data);
+  static RubbingDeviceListRequest fromJson(Map<String, dynamic> data) => _$RubbingDeviceListRequestFromJson(data);
 
   Map<String, dynamic> toJson() => _$RubbingDeviceListRequestToJson(this);
 }

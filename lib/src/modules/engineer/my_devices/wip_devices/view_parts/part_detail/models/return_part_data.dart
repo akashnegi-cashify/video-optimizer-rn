@@ -3,7 +3,6 @@ part 'return_part_data.g.dart';
 
 @JsonSerializable()
 class ReturnPartData {
-
   @JsonKey(name: "pbr")
   String? partBarcode;
   @JsonKey(name: "pid")
@@ -19,5 +18,4 @@ class ReturnPartData {
 
   static ReturnPartData fromJson(Map<String, dynamic> json) => _$ReturnPartDataFromJson(json);
   Map<String, dynamic> toJson() => _$ReturnPartDataToJson(this);
-
 }

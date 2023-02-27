@@ -3,8 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'device_return_reasons_response.g.dart';
 
 @JsonSerializable()
-class DeviceReturnReasonsResponse extends BaseResponse{
-
+class DeviceReturnReasonsResponse extends BaseResponse {
   @JsonKey(name: "r_id")
   late String rId;
 
@@ -18,7 +17,6 @@ class DeviceReturnReasonsResponse extends BaseResponse{
   Map<String, String>? reasons;
 
   DeviceReturnReasonsResponse(super.cashifyAlert, super.trackUrl);
-
 
   static DeviceReturnReasonsResponse fromJson(Map<String, dynamic> json) => _$DeviceReturnReasonsResponseFromJson(json);
 

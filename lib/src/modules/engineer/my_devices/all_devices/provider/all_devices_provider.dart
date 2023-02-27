@@ -5,7 +5,6 @@ import '../../../models/engineer_device_info.dart';
 import '../models/mark_in_progress_response.dart';
 
 class AllDevicesProvider extends CshChangeNotifier {
-
   EngineerDeviceInfo? _selectedDevice;
 
   EngineerDeviceInfo? get selectedDevice => _selectedDevice;

@@ -23,13 +23,11 @@ class _DeliveryDeliverWidgetState extends State<DeliveryDeliverWidget> with Auto
 
     return ChangeNotifierProvider(create: (context) {
       return DeliveryDeliverProvider((error) {
-        String errorMessage =
-            ApiErrorHelper.getErrorMessage(error) ?? l10.somethingWentWrong;
+        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? l10.somethingWentWrong;
         CshSnackBar.error(context: context, message: errorMessage);
       });
     }, builder: (context, child) {
-      var provider =
-          Provider.of<DeliveryDeliverProvider>(context, listen: false);
+      var provider = Provider.of<DeliveryDeliverProvider>(context, listen: false);
       return Column(
         children: [
           SearchBarWidget(

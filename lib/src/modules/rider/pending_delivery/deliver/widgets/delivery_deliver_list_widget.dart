@@ -12,15 +12,13 @@ class DeliveryDeliverListWidget extends StatefulWidget {
   const DeliveryDeliverListWidget({Key? key}) : super(key: key);
 
   @override
-  State<DeliveryDeliverListWidget> createState() =>
-      _DeliveryDeliverListWidgetState();
+  State<DeliveryDeliverListWidget> createState() => _DeliveryDeliverListWidgetState();
 }
 
 class _DeliveryDeliverListWidgetState extends State<DeliveryDeliverListWidget> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<DeliveryDeliverProvider>(
-        builder: (context, provider, widget) {
+    return Consumer<DeliveryDeliverProvider>(builder: (context, provider, widget) {
       var list = provider.displayList;
       if (!Validator.isListNullOrEmpty(list)) {
         return CshList<EngineerDetail>(

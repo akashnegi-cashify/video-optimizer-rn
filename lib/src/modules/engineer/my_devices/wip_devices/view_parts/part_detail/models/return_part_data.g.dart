@@ -6,8 +6,7 @@ part of 'return_part_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ReturnPartData _$ReturnPartDataFromJson(Map<String, dynamic> json) =>
-    ReturnPartData(
+ReturnPartData _$ReturnPartDataFromJson(Map<String, dynamic> json) => ReturnPartData(
       json['pbr'] as String?,
       json['pid'] as String?,
       json['rr'] as String?,
@@ -15,8 +14,7 @@ ReturnPartData _$ReturnPartDataFromJson(Map<String, dynamic> json) =>
       json['prid'] as int?,
     );
 
-Map<String, dynamic> _$ReturnPartDataToJson(ReturnPartData instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ReturnPartDataToJson(ReturnPartData instance) => <String, dynamic>{
       'pbr': instance.partBarcode,
       'pid': instance.partId,
       'rr': instance.returnReason,

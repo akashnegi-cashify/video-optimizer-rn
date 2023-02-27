@@ -6,7 +6,6 @@ part 'lead_engineer_part_report_response.g.dart';
 
 @JsonSerializable()
 class LeadEngineerPartReportResponse extends BaseResponse {
-
   @JsonKey(name: "r_id")
   String? requestId;
 
@@ -15,10 +14,9 @@ class LeadEngineerPartReportResponse extends BaseResponse {
 
   LeadEngineerPartReportResponse(super.cashifyAlert, super.trackUrl);
 
-
-  static LeadEngineerPartReportResponse fromJson(Map<String, dynamic> data) => _$LeadEngineerPartReportResponseFromJson(data);
+  static LeadEngineerPartReportResponse fromJson(Map<String, dynamic> data) =>
+      _$LeadEngineerPartReportResponseFromJson(data);
 
   @override
   Map<String, dynamic> toJson() => _$LeadEngineerPartReportResponseToJson(this);
-
 }

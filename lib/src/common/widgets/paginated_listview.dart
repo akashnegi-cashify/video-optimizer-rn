@@ -131,7 +131,7 @@ abstract class PaginatedListState<TItem, TStatefulWidget extends StatefulWidget>
       isLoading = true;
     });
 
-    requestApi(++pageNo, pageSize,  onSuccess: (List<TItem>? list) {
+    requestApi(++pageNo, pageSize, onSuccess: (List<TItem>? list) {
       setState(() {
         _isMoreDataToLoad = list!.length == pageSize;
         _items.addAll(list);
@@ -145,7 +145,8 @@ abstract class PaginatedListState<TItem, TStatefulWidget extends StatefulWidget>
   }
 
   void requestApi(
-    int pageNo, int pageSize, {
+    int pageNo,
+    int pageSize, {
     Function(List<TItem>? list)? onSuccess,
     Function(String? errorMessage)? onError,
   });

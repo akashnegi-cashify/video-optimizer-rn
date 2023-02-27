@@ -92,17 +92,15 @@ class ViewPartDetailWidget extends StatelessWidget {
                   onRequestCompletion: () {
                     Navigator.pop(context);
                   },
-
                 )),
           if (isReturnAvailable())
             Padding(
                 padding: const EdgeInsets.all(Dimens.space_8),
                 child: ReturnPartButtonWidget(
-                  partInfo: data.partInfo,
-                  onRequestCompletion: () {
-                    Navigator.pop(context);
-                  }
-                ))
+                    partInfo: data.partInfo,
+                    onRequestCompletion: () {
+                      Navigator.pop(context);
+                    }))
         ],
       ),
     );

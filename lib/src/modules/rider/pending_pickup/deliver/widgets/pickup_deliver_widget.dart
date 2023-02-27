@@ -12,8 +12,7 @@ class PickupDeliverWidget extends StatefulWidget {
   State<PickupDeliverWidget> createState() => _PickupDeliverWidgetState();
 }
 
-class _PickupDeliverWidgetState extends State<PickupDeliverWidget>
-    with AutomaticKeepAliveClientMixin {
+class _PickupDeliverWidgetState extends State<PickupDeliverWidget> with AutomaticKeepAliveClientMixin {
   bool isUrgentRequest = false;
 
   @override

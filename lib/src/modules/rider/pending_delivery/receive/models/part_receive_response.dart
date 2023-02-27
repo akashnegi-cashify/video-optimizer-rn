@@ -10,8 +10,7 @@ class PartReceiveResponse {
   @JsonKey(name: "s", defaultValue: false)
   late bool success;
 
-  static PartReceiveResponse fromJson(Map<String, dynamic> data) =>
-      _$PartReceiveResponseFromJson(data);
+  static PartReceiveResponse fromJson(Map<String, dynamic> data) => _$PartReceiveResponseFromJson(data);
 
   Map<String, dynamic> toJson() => _$PartReceiveResponseToJson(this);
 }

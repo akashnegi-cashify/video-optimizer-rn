@@ -10,8 +10,7 @@ class DeliveryResponse {
   @JsonKey(name: "dt")
   List<EngineerDetail>? data;
 
-  static DeliveryResponse fromJson(Map<String, dynamic> data) =>
-      _$DeliveryResponseFromJson(data);
+  static DeliveryResponse fromJson(Map<String, dynamic> data) => _$DeliveryResponseFromJson(data);
 
   Map<String, dynamic> toJson() => _$DeliveryResponseToJson(this);
 }

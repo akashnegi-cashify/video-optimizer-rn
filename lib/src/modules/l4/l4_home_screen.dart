@@ -37,7 +37,6 @@ class L4HomeWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(Dimens.space_16),
           child: Column(
-
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Spacer(),

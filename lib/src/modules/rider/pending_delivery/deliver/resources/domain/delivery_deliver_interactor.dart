@@ -1,4 +1,3 @@
-
 import '../../models/delivery_response.dart';
 
 abstract class DeliveryDeliverInteractor {

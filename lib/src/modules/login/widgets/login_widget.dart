@@ -106,7 +106,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                         _isEmployeeIdValidated = true;
                         setState(() {});
                       } else {
-                        CshSnackBar.error(context: context, message: l10n.pleaseEnterYourEmployeeId,snackBarPosition: SnackBarPosition.TOP);
+                        CshSnackBar.error(
+                            context: context,
+                            message: l10n.pleaseEnterYourEmployeeId,
+                            snackBarPosition: SnackBarPosition.TOP);
                       }
                     },
             ),

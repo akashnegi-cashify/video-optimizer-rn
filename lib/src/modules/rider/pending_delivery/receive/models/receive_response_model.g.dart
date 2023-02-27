@@ -8,9 +8,7 @@ part of 'receive_response_model.dart';
 
 Response _$ResponseFromJson(Map<String, dynamic> json) => Response()
   ..rid = json['r_id'] as String?
-  ..data = json['dt'] == null
-      ? null
-      : Data.fromJson(json['dt'] as Map<String, dynamic>);
+  ..data = json['dt'] == null ? null : Data.fromJson(json['dt'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ResponseToJson(Response instance) => <String, dynamic>{
       'r_id': instance.rid,
@@ -18,9 +16,7 @@ Map<String, dynamic> _$ResponseToJson(Response instance) => <String, dynamic>{
     };
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data()
-  ..partList = (json['pl'] as List<dynamic>?)
-      ?.map((e) => Part.fromJson(e as Map<String, dynamic>))
-      .toList()
+  ..partList = (json['pl'] as List<dynamic>?)?.map((e) => Part.fromJson(e as Map<String, dynamic>)).toList()
   ..totalPage = json['tp'] as int?;
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{

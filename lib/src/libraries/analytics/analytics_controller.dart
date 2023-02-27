@@ -1,6 +1,5 @@
 import 'package:core/core.dart';
 
-
 import '../../environments/environment_config.dart';
 import '../../environments/environments.dart';
 import 'base_tracking_event.dart';
@@ -34,7 +33,7 @@ class AnalyticsController {
           // await FirebaseAnalyticsHelper.initialize();
           break;
         case AnalyticTrackers.CASHIFY:
-        // TODO initialize cashify analytics
+          // TODO initialize cashify analytics
           // await CashifyAnalyticsHelper.init();
           break;
         default:

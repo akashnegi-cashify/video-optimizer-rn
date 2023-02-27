@@ -6,8 +6,7 @@ import 'package:flutter_trc/src/modules/rider/urgent_request.dart';
 import '../resources/domain/delivery_receive_interactor.dart';
 import '../resources/domain/delivery_receive_interactor_impl.dart';
 
-class DeliveryReceiveProvider extends CshChangeNotifier
-    with Searchable, UrgentRequest {
+class DeliveryReceiveProvider extends CshChangeNotifier with Searchable, UrgentRequest {
   late DeliveryReceiveInteractor interactor;
 
   DeliveryReceiveProvider() {

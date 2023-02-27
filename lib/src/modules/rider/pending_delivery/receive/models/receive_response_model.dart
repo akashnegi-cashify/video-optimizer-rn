@@ -10,8 +10,7 @@ class Response {
   @JsonKey(name: "dt")
   Data? data;
 
-  static Response fromJson(Map<String, dynamic> data) =>
-      _$ResponseFromJson(data);
+  static Response fromJson(Map<String, dynamic> data) => _$ResponseFromJson(data);
 
   Map<String, dynamic> toJson() => _$ResponseToJson(this);
 }
@@ -61,8 +60,7 @@ class Part {
   @JsonKey(name: "im", defaultValue: "")
   late String inventoryManageName;
 
-  static Part fromJson(Map<String, dynamic> data) =>
-      _$PartFromJson(data);
+  static Part fromJson(Map<String, dynamic> data) => _$PartFromJson(data);
 
   Map<String, dynamic> toJson() => _$PartToJson(this);
 }

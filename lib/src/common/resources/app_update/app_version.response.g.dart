@@ -6,21 +6,17 @@ part of 'app_version.response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AppVersionResponse _$AppVersionResponseFromJson(Map<String, dynamic> json) =>
-    AppVersionResponse(
+AppVersionResponse _$AppVersionResponseFromJson(Map<String, dynamic> json) => AppVersionResponse(
       json['maj'] as bool?,
       json['min'] as bool?,
       json['majm'] as String?,
       json['minm'] as String?,
       json['lav'] as String?,
-      json['__ca'] == null
-          ? null
-          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+      json['__ca'] == null ? null : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
     );
 
-Map<String, dynamic> _$AppVersionResponseToJson(AppVersionResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$AppVersionResponseToJson(AppVersionResponse instance) => <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'maj': instance.majorUpdate,

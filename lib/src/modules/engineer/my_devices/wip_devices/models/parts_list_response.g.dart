@@ -6,22 +6,17 @@ part of 'parts_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PartsListResponse _$PartsListResponseFromJson(Map<String, dynamic> json) =>
-    PartsListResponse(
-      json['__ca'] == null
-          ? null
-          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+PartsListResponse _$PartsListResponseFromJson(Map<String, dynamic> json) => PartsListResponse(
+      json['__ca'] == null ? null : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
     )
       ..refId = json['r_id'] as String
       ..isSuccess = json['s'] as bool? ?? false
       ..errorMsg = json['em'] as String?
-      ..partDataList = (json['dt'] as List<dynamic>?)
-          ?.map((e) => EngineerPartInfo.fromJson(e as Map<String, dynamic>))
-          .toList();
+      ..partDataList =
+          (json['dt'] as List<dynamic>?)?.map((e) => EngineerPartInfo.fromJson(e as Map<String, dynamic>)).toList();
 
-Map<String, dynamic> _$PartsListResponseToJson(PartsListResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PartsListResponseToJson(PartsListResponse instance) => <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'r_id': instance.refId,

@@ -16,5 +16,4 @@ class LeadEngineerData {
   static LeadEngineerData fromJson(Map<String, dynamic> data) => _$LeadEngineerDataFromJson(data);
 
   Map<String, dynamic> toJson() => _$LeadEngineerDataToJson(this);
-
 }

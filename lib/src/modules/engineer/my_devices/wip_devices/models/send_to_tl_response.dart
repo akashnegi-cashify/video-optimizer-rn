@@ -4,13 +4,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'send_to_tl_response.g.dart';
 
 @JsonSerializable()
-class SendToTlResponse extends BaseActionResponse{
-
+class SendToTlResponse extends BaseActionResponse {
   SendToTlResponse(super.cashifyAlert, super.trackUrl);
 
   static SendToTlResponse fromJson(Map<String, dynamic> json) => _$SendToTlResponseFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$SendToTlResponseToJson(this);
-
 }

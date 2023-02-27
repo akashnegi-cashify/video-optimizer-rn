@@ -10,9 +10,7 @@ Request _$RequestFromJson(Map<String, dynamic> json) => Request()
   ..pageNo = json['pno'] as int?
   ..listNo = json['ln'] as int?
   ..barcode = json['br'] as String?
-  ..fp = json['fp'] == null
-      ? null
-      : FacilityPart.fromJson(json['fp'] as Map<String, dynamic>);
+  ..fp = json['fp'] == null ? null : FacilityPart.fromJson(json['fp'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$RequestToJson(Request instance) => <String, dynamic>{
       'pno': instance.pageNo,
@@ -24,7 +22,6 @@ Map<String, dynamic> _$RequestToJson(Request instance) => <String, dynamic>{
 FacilityPart _$FacilityPartFromJson(Map<String, dynamic> json) =>
     FacilityPart()..isUrgent = json['is_urgent'] as bool? ?? false;
 
-Map<String, dynamic> _$FacilityPartToJson(FacilityPart instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$FacilityPartToJson(FacilityPart instance) => <String, dynamic>{
       'is_urgent': instance.isUrgent,
     };

@@ -6,8 +6,7 @@ part of 'order_engineer_part.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrderEngineerPart _$OrderEngineerPartFromJson(Map<String, dynamic> json) =>
-    OrderEngineerPart(
+OrderEngineerPart _$OrderEngineerPartFromJson(Map<String, dynamic> json) => OrderEngineerPart(
       json['qty'] as int?,
       version: json['_v'] as int? ?? 0,
     )
@@ -24,8 +23,7 @@ OrderEngineerPart _$OrderEngineerPartFromJson(Map<String, dynamic> json) =>
       ..status = json['st'] as String?
       ..statusCode = json['stc'] as int?;
 
-Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) => <String, dynamic>{
       'sku': instance.sku,
       'pn': instance.partName,
       'pbr': instance.partBarcode,

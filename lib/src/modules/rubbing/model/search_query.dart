@@ -6,10 +6,7 @@ class SearchQuery {
   @JsonKey(name: "br")
   String? br;
 
-
-
-  static SearchQuery fromJson(Map<String, dynamic> data) =>
-      _$SearchQueryFromJson(data);
+  static SearchQuery fromJson(Map<String, dynamic> data) => _$SearchQueryFromJson(data);
 
   Map<String, dynamic> toJson() => _$SearchQueryToJson(this);
 }

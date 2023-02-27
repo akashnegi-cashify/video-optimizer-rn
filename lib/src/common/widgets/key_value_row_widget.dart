@@ -5,8 +5,7 @@ class KeyValueRowWidget extends StatelessWidget {
   final String title;
   final String value;
 
-  const KeyValueRowWidget({Key? key, required this.title, required this.value})
-      : super(key: key);
+  const KeyValueRowWidget({Key? key, required this.title, required this.value}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

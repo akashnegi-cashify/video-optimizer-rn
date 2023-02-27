@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 
 import 'device_info_handler.dart';
 
-class ImageUtil{
+class ImageUtil {
   static String getImageUrl(String? cdnUrl, String? imagePath, {bool isThumb = false, String folder = 'xhdpi'}) {
     String type = isThumb ? 'thumb' : 'img';
     if (cdnUrl != null && !cdnUrl.endsWith('/')) {
@@ -11,7 +11,7 @@ class ImageUtil{
     return '$cdnUrl$type/$folder/$imagePath';
   }
 
-  static String getDensitySpecificUrl(String? baseUrl, String? imageName, String imageFolder,{String? imgUri=''}) {
+  static String getDensitySpecificUrl(String? baseUrl, String? imageName, String imageFolder, {String? imgUri = ''}) {
     var densityDrawable = DeviceInfoHandler().densityFolder;
     if (imageFolder.isNotEmpty && imageFolder.contains('/')) {
       imageFolder = imageFolder.replaceAll('/', '');

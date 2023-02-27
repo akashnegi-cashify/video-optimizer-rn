@@ -270,9 +270,10 @@ class RepairReasonListWidget extends StatelessWidget {
       primary: false,
       itemBuilder: (BuildContext context, int index) {
         return CshTextNew(repairReasons[index]);
-      }, separatorBuilder: (BuildContext context, int index) {
+      },
+      separatorBuilder: (BuildContext context, int index) {
         return const SizedBox(height: Dimens.space_8);
-    },
+      },
     );
   }
 }

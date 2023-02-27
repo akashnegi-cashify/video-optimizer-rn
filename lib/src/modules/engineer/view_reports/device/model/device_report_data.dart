@@ -21,7 +21,6 @@ class DeviceReportData {
   @JsonKey(name: "avgrt")
   int? avgRepairTime;
 
-
   static DeviceReportData fromJson(Map<String, dynamic> data) => _$DeviceReportDataFromJson(data);
 
   Map<String, dynamic> toJson() => _$DeviceReportDataToJson(this);

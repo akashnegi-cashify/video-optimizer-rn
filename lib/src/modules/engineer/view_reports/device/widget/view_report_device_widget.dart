@@ -38,10 +38,8 @@ class _ViewReportDeviceWidgetState extends State<ViewReportDeviceWidget> with Au
     super.build(context);
     return StreamBuilder<EngineerDeviceReportResponse?>(
       builder: (context, asyncSnapshot) {
-
         // handling loading and error states
         WidgetsBinding.instance.addPostFrameCallback((_) {
-
           if (asyncSnapshot.connectionState == ConnectionState.waiting) {
             CshLoading().showLoading(context);
           } else {

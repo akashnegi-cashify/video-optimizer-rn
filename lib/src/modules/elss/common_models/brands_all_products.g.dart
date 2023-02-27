@@ -6,35 +6,26 @@ part of 'brands_all_products.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BrandsAllProductResponse _$BrandsAllProductResponseFromJson(
-        Map<String, dynamic> json) =>
-    BrandsAllProductResponse(
+BrandsAllProductResponse _$BrandsAllProductResponseFromJson(Map<String, dynamic> json) => BrandsAllProductResponse(
       isSuccess: json['s'] as bool?,
       listOfAllProducts: (json['dt'] as List<dynamic>?)
-          ?.map((e) =>
-              BrandsAllProductDataList.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => BrandsAllProductDataList.fromJson(e as Map<String, dynamic>))
           .toList(),
       refId: json['r_id'] as String?,
     );
 
-Map<String, dynamic> _$BrandsAllProductResponseToJson(
-        BrandsAllProductResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$BrandsAllProductResponseToJson(BrandsAllProductResponse instance) => <String, dynamic>{
       'r_id': instance.refId,
       's': instance.isSuccess,
       'dt': instance.listOfAllProducts,
     };
 
-BrandsAllProductDataList _$BrandsAllProductDataListFromJson(
-        Map<String, dynamic> json) =>
-    BrandsAllProductDataList(
+BrandsAllProductDataList _$BrandsAllProductDataListFromJson(Map<String, dynamic> json) => BrandsAllProductDataList(
       productName: json['pn'] as String?,
       pid: json['pid'] as int?,
     );
 
-Map<String, dynamic> _$BrandsAllProductDataListToJson(
-        BrandsAllProductDataList instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$BrandsAllProductDataListToJson(BrandsAllProductDataList instance) => <String, dynamic>{
       'pid': instance.pid,
       'pn': instance.productName,
     };

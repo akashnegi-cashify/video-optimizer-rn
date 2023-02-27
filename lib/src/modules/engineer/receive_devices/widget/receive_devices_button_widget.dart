@@ -82,7 +82,7 @@ class _ReceiveDevicesButtonWidgetState extends State<ReceiveDevicesButtonWidget>
 
   @override
   handleLoading(bool loading) {
-    if(loading) {
+    if (loading) {
       CshLoading().showLoading(context);
     } else {
       CshLoading().hideLoading(context);

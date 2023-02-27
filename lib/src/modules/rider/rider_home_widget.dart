@@ -56,7 +56,7 @@ class _RiderWidgetState extends State<RiderWidget> with TickerProviderStateMixin
             appBar: CshHeader(
               snapshot.data ?? l10n.cashify,
               showBackBtn: false,
-              actions:  [
+              actions: [
                 LogoutActionWidget(),
               ],
             ),

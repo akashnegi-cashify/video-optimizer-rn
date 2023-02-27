@@ -2,7 +2,6 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/e
 import 'package:json_annotation/json_annotation.dart';
 part 'order_engineer_part.g.dart';
 
-
 @JsonSerializable()
 class OrderEngineerPart extends EngineerPartInfo {
   @JsonKey(name: "qty")

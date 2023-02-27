@@ -6,27 +6,21 @@ import '../../../pending_delivery/deliver/models/engineer_parts_response.dart';
 
 class PickupReceiveAPIService {
   static Stream<DeliveryResponse?> getData() {
-    return TrcService()
-        .get("/rider/return/pending/engineer-list", DeliveryResponse.fromJson);
+    return TrcService().get("/rider/return/pending/engineer-list", DeliveryResponse.fromJson);
   }
 
   static Stream<EngineerPartsResponse?> getEngineerParts(int engineerId) {
     Map<String, List<String>> paramData = {
       "eId": [engineerId.toString()]
     };
-    return TrcService().get(
-        "/rider/return/pending/parts", EngineerPartsResponse.fromJson,
-        params: paramData);
+    return TrcService().get("/rider/return/pending/parts", EngineerPartsResponse.fromJson, params: paramData);
   }
 
-  static Stream<PartReceiveResponse?> receivePart(
-      int partId, String partBarcode) {
+  static Stream<PartReceiveResponse?> receivePart(int partId, String partBarcode) {
     Map<String, List<String>> paramData = {
       "prid": [partId.toString()],
       "pbr": [partBarcode]
     };
-    return TrcService().put(
-        "/rider/return/receive-part", PartReceiveResponse.fromJson,
-        params: paramData);
+    return TrcService().put("/rider/return/receive-part", PartReceiveResponse.fromJson, params: paramData);
   }
 }
