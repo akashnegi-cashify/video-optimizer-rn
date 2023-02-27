@@ -127,7 +127,7 @@ class _OptionNotAllowedModalState extends State<OptionNotAllowedModal> {
     );
   }
 
-  _checkIfImageAttachedWithEverySKU() {
+  bool _checkIfImageAttachedWithEverySKU() {
     if (!Validator.isListNullOrEmpty(widget.dataList)) {
       for (var element in widget.dataList!) {
         if (Validator.isNullOrEmpty(element.imageS3Url)) {
@@ -135,8 +135,9 @@ class _OptionNotAllowedModalState extends State<OptionNotAllowedModal> {
           return false;
         }
       }
+      setState(() {});
+      return true;
     }
-    setState(() {});
-    return true;
+    return false;
   }
 }

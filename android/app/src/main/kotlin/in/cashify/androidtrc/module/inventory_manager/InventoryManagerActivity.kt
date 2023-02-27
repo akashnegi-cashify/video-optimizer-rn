@@ -6,7 +6,6 @@ import `in`.cashify.androidtrc.analytics.helper.AnalyticsEventHelper
 import `in`.cashify.androidtrc.common.BaseActivity
 import `in`.cashify.androidtrc.databinding.ActivityInventoryManagerBinding
 import `in`.cashify.androidtrc.module.inventory_manager.adapter.GroupListAdapter
-import `in`.cashify.androidtrc.module.inventory_manager.fragment.InventoryManagerSummaryFragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -15,6 +14,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.Keep
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -22,23 +22,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amazonaws.util.StringUtils
 import com.google.android.material.navigation.NavigationView
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.collections.LinkedHashMap
 
+@Keep
 class InventoryManagerActivity : BaseActivity() {
     private lateinit var binding: ActivityInventoryManagerBinding
     private lateinit var viewModel: InventoryManagerViewModel
-private var group:String = ""
+    private var group: String = ""
 
 
     private var filteredGroupList = ArrayList<String>()
     private var groupMAp = LinkedHashMap<String, Boolean>()
-
-
 
 
     override fun getLayoutResId(): Int {
@@ -57,7 +52,14 @@ private var group:String = ""
 
 
         setTitle(resources.getString(R.string.delivery))
-        AnalyticsEventHelper.fireScreenEvent(this, AnalyticsController.AnalyticEventKey.EVENT_ONCREATE, AnalyticsController.AnalyticScreen.SCREEN_INVENTORY_MANAGER, null, null, true)
+        AnalyticsEventHelper.fireScreenEvent(
+            this,
+            AnalyticsController.AnalyticEventKey.EVENT_ONCREATE,
+            AnalyticsController.AnalyticScreen.SCREEN_INVENTORY_MANAGER,
+            null,
+            null,
+            true
+        )
 
 
         viewModel.isShowNoDataDialog.observe(this, Observer {
@@ -95,19 +97,15 @@ private var group:String = ""
         viewModel?.groupListResponse?.observe(this, Observer {
 
 
+            filterList(LinkedHashMap<String, Boolean>().apply {
+                viewModel?.groupListResponse?.value?.groupList?.onEach {
 
+                    put(it, false)
 
+                }
 
-
-          filterList( LinkedHashMap<String, Boolean>().apply {
-              viewModel?.groupListResponse?.value?.groupList?.onEach {
-
-                  put(it, false)
-
-              }
-
-          }
-          )
+            }
+            )
 
 
 
@@ -130,7 +128,6 @@ private var group:String = ""
         viewModel?.groupList()
 
 
-
     }
 
 
@@ -149,13 +146,13 @@ private var group:String = ""
     }
 
 
-   override  fun isShowNavDrawer():Boolean{
+    override fun isShowNavDrawer(): Boolean {
         return true
     }
 
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
-        if (actionBarDrawerToggle?.onOptionsItemSelected(menuItem)?:false) {
+        if (actionBarDrawerToggle?.onOptionsItemSelected(menuItem) ?: false) {
             return true;
         }
         return super.onOptionsItemSelected(menuItem);
@@ -166,38 +163,46 @@ private var group:String = ""
         super.initNavDrawer()
         baseBinding.navView.menu.clear()
         baseBinding.navView.inflateMenu(R.menu.inventory_manager_menu)
-        baseBinding.navView.setNavigationItemSelectedListener (object : NavigationView.OnNavigationItemSelectedListener
-        {
+        baseBinding.navView.setNavigationItemSelectedListener(object :
+            NavigationView.OnNavigationItemSelectedListener {
             override fun onNavigationItemSelected(item: MenuItem): Boolean {
-               when(item.itemId){
-                   R.id.item_delivery ->{
-                       setTitle(resources.getString(R.string.delivery))
-                       mActivityHelper.replaceFragment(
-                           this@InventoryManagerActivity,
-                           InventoryManagerTabFragment.newInstance(InventoryManagerEnum.DELIVERY.value),
-                           getContainerId(),
-                           true
-                       )
-                   }
-                   R.id.item_return ->{
+                when (item.itemId) {
+                    R.id.item_delivery -> {
+                        setTitle(resources.getString(R.string.delivery))
+                        mActivityHelper.replaceFragment(
+                            this@InventoryManagerActivity,
+                            InventoryManagerTabFragment.newInstance(InventoryManagerEnum.DELIVERY.value),
+                            getContainerId(),
+                            true
+                        )
+                    }
+                    R.id.item_return -> {
 
 
-                       startActivity(Intent(this@InventoryManagerActivity, InventoryManagerReturnActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@InventoryManagerActivity,
+                                InventoryManagerReturnActivity::class.java
+                            )
+                        )
 
 
-                   }
-                   R.id.item_summary ->{
+                    }
+                    R.id.item_summary -> {
 
 
+                        startActivity(
+                            Intent(
+                                this@InventoryManagerActivity,
+                                InventoryManagerSummaryActivity::class.java
+                            )
+                        )
 
-                       startActivity(Intent(this@InventoryManagerActivity, InventoryManagerSummaryActivity::class.java))
+
+                    }
 
 
-
-                   }
-
-
-               }
+                }
 
 
                 baseBinding.myDrawerLayout.closeDrawer(GravityCompat.START)
@@ -207,7 +212,7 @@ private var group:String = ""
         })
 
 
-           }
+    }
 
 
     override fun isShowLogoutButton(): Boolean {
@@ -215,78 +220,75 @@ private var group:String = ""
     }
 
 
-
-    fun groupClick(data: Pair<List<String>, LinkedHashMap<String, Boolean>>){
-    filteredGroupList.clear()
+    fun groupClick(data: Pair<List<String>, LinkedHashMap<String, Boolean>>) {
+        filteredGroupList.clear()
         groupMAp.clear()
 
         filterList(data.second)
         dialogSubmitButton?.isEnabled = groupMAp.values.toTypedArray().get(0)
-        if(groupMAp.values.toTypedArray().get(0)){
+        if (groupMAp.values.toTypedArray().get(0)) {
             dialogSubmitButton?.background = resources.getDrawable(R.drawable.teal_bg_round_corner)
 
+        } else {
+            dialogSubmitButton?.background =
+                resources.getDrawable(R.drawable.dark_grey_bg_round_corner)
         }
-
-        else{
-            dialogSubmitButton?.background = resources.getDrawable(R.drawable.dark_grey_bg_round_corner)
-        }
-        groupListAdapter?.setData(Pair(filteredGroupList,groupMAp))
+        groupListAdapter?.setData(Pair(filteredGroupList, groupMAp))
 
 
     }
-var dialog:AlertDialog? = null
-    var groupListAdapter:GroupListAdapter? = null
 
-    var dialogSubmitButton :Button? = null
+    var dialog: AlertDialog? = null
+    var groupListAdapter: GroupListAdapter? = null
 
-     fun groupListDialog( submitClick :()-> Unit){
+    var dialogSubmitButton: Button? = null
 
-         if(viewModel?.groupListResponse.value == null){
-             viewModel?.groupList()
-             return
-         }
+    fun groupListDialog(submitClick: () -> Unit) {
 
-         dialog?.dismiss()
+        if (viewModel?.groupListResponse.value == null) {
+            viewModel?.groupList()
+            return
+        }
+
+        dialog?.dismiss()
 
 
 
-          groupListAdapter = GroupListAdapter(this::groupClick)
+        groupListAdapter = GroupListAdapter(this::groupClick)
         val rootView: View = layoutInflater.inflate(R.layout.dialog_group_list, null)
 
-         val alertDialog = AlertDialog.Builder(this)
+        val alertDialog = AlertDialog.Builder(this)
         alertDialog?.setCancelable(false)
         alertDialog?.setView(rootView)
 
-      dialogSubmitButton =    rootView.findViewById<Button>(R.id.btn_submit).apply {
+        dialogSubmitButton = rootView.findViewById<Button>(R.id.btn_submit).apply {
 
-if(groupMAp.values.toTypedArray().get(0)){
-    this.background = resources.getDrawable(R.drawable.teal_bg_round_corner)
+            if (groupMAp.values.toTypedArray().get(0)) {
+                this.background = resources.getDrawable(R.drawable.teal_bg_round_corner)
 
-}
+            } else {
+                this.background = resources.getDrawable(R.drawable.dark_grey_bg_round_corner)
+            }
+            isEnabled = groupMAp.values.toTypedArray().get(0)
 
-          else{
-    this.background = resources.getDrawable(R.drawable.dark_grey_bg_round_corner)
-          }
-             isEnabled = groupMAp.values.toTypedArray().get(0)
+            setOnClickListener {
 
-             setOnClickListener {
-
-                 submitClick()
+                submitClick()
 
 
-                 dialog?.dismiss()
-                 dialog = null
+                dialog?.dismiss()
+                dialog = null
 
-             }
-         }
+            }
+        }
 
 
 
 
-         groupListAdapter?.setData(Pair(filteredGroupList , groupMAp))
+        groupListAdapter?.setData(Pair(filteredGroupList, groupMAp))
 
         rootView.findViewById<RecyclerView>(R.id.recl_grp_list).apply {
-            layoutManager  = LinearLayoutManager(this@InventoryManagerActivity)
+            layoutManager = LinearLayoutManager(this@InventoryManagerActivity)
             adapter = groupListAdapter
 
         }
@@ -297,34 +299,32 @@ if(groupMAp.values.toTypedArray().get(0)){
 
 
 
-         dialog = alertDialog.create()
+        dialog = alertDialog.create()
         dialog?.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-         dialog?.show()
+        dialog?.show()
 
         return
     }
 
 
-
-    private fun filterList(map:LinkedHashMap<String, Boolean>){
+    private fun filterList(map: LinkedHashMap<String, Boolean>) {
 
         groupMAp.clear()
         filteredGroupList.clear()
         viewModel?.selectedGroups = ""
 
 
+        val selectedList = ArrayList<String>()
 
-        val selectedList =  ArrayList<String>()
-
-map.keys.toTypedArray().forEach {
-if(map.get(it)?:false){
-    selectedList.add(it)
-}
-}
-
+        map.keys.toTypedArray().forEach {
+            if (map.get(it) ?: false) {
+                selectedList.add(it)
+            }
+        }
 
 
-        viewModel.selectedGroups = selectedList.joinToString (",")
+
+        viewModel.selectedGroups = selectedList.joinToString(",")
 
 
         groupMAp.putAll(map.filter {
@@ -338,19 +338,9 @@ if(map.get(it)?:false){
         })
 
 
-        groupMAp?.forEach{
+        groupMAp?.forEach {
             filteredGroupList.add(it.key)
         }
-
-
-
-
-
-
-
-
-
-
 
 
     }

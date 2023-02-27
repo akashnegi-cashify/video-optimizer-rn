@@ -5,19 +5,20 @@ import `in`.cashify.androidtrc.common.OnResult
 import `in`.cashify.androidtrc.common.api.UserModuleService
 import `in`.cashify.androidtrc.common.api.callback.SessionBaseAPICallback
 import `in`.cashify.androidtrc.module.inventory_manager.api.InventoryManagerApi
-import `in`.cashify.androidtrc.module.inventory_manager.api.request.*
+import `in`.cashify.androidtrc.module.inventory_manager.api.request.AssignedDeviceListRequest
+import `in`.cashify.androidtrc.module.inventory_manager.api.request.EngineerListRequest
+import `in`.cashify.androidtrc.module.inventory_manager.api.request.PendingDeliveryDevicePartRequest
+import `in`.cashify.androidtrc.module.inventory_manager.api.request.RiderAssignRequest
 import `in`.cashify.androidtrc.module.inventory_manager.api.response.*
 import `in`.reglobe.api.kotlin.exception.APIException
-import android.os.Handler
-import android.os.Looper
+import androidx.annotation.Keep
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import kotlinx.coroutines.Deferred
 import okhttp3.Response
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
+@Keep
 class InventoryManagerViewModel @Inject constructor() : BaseViewModel() {
 
 
