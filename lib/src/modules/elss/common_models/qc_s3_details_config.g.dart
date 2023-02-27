@@ -16,6 +16,7 @@ QcS3DetailsResponse _$QcS3DetailsResponseFromJson(Map<String, dynamic> json) =>
       json['s3p'] as String?,
       json['sk'] as String?,
       json['vf'] as String?,
+      json['eif'] as String?,
     );
 
 Map<String, dynamic> _$QcS3DetailsResponseToJson(
@@ -29,4 +30,5 @@ Map<String, dynamic> _$QcS3DetailsResponseToJson(
       'ak': instance.accessKey,
       'sk': instance.secretKey,
       's3p': instance.poolId,
+      'eif': instance.elssFolderName,
     };
