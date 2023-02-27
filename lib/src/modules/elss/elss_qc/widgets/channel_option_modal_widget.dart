@@ -126,7 +126,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                                 CshLoading().showLoading(context);
                                 amplifyProvider.uploadFile(
                                   fileName: fileName,
-                                  folderName: amplifyProvider.qcConfigResponse?.folderName,
+                                  folderName: amplifyProvider.qcConfigResponse?.elssFolderName,
                                   file: imageFile,
                                   onProgress: (int currentBytes, int totalBytes) {},
                                   onFileUploaded: (String imagePath) async {

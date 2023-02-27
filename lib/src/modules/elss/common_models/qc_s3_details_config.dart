@@ -20,6 +20,8 @@ class QcS3DetailsResponse {
   String? secretKey;
   @JsonKey(name: "s3p")
   String? poolId;
+  @JsonKey(name: "eif")
+  String? elssFolderName;
 
   QcS3DetailsResponse(
     this.accessKey,
@@ -30,6 +32,7 @@ class QcS3DetailsResponse {
     this.poolId,
     this.secretKey,
     this.videoFolderName,
+    this.elssFolderName,
   );
 
   static QcS3DetailsResponse fromJson(Map<String, dynamic> data) => _$QcS3DetailsResponseFromJson(data);

@@ -26,7 +26,7 @@ class AdvertiserIdHelper {
     }
     if (isAndroid()) {
       AndroidDeviceInfo androidInfo = await _deviceInfoPlugin.androidInfo;
-      _advertisingId = androidInfo.androidId;
+      _advertisingId = androidInfo.id;
     } else if (isIOS()) {
       IosDeviceInfo iosInfo = await _deviceInfoPlugin.iosInfo;
       _advertisingId = iosInfo.identifierForVendor;
