@@ -31,7 +31,7 @@ class _AssignedPartsWidget extends StatelessWidget {
 
     return Scaffold(
       appBar: CshHeader(l10n.viewParts),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
         child: Column(
           children: [
