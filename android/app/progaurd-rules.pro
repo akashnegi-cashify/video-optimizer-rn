@@ -413,8 +413,6 @@
 
 
 
-
--keep class in.cashify.super_sales.jscommunication.** { *; }
 -keep class in.cashify.cashify_js_communication.** { *; }
 
 
@@ -426,4 +424,5 @@
 -keep public enum in.reglobe.api.kotlin.exception.APIException.Kind{ *;}
 -keep public class in.reglobe.api.kotlin.exception.APIError{ *;}
 -keep public class in.reglobe.api.kotlin.exception.ApiErrorCode{ *;}
+
 

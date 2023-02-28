@@ -71,7 +71,7 @@ class ViewPartDetailWidget extends StatelessWidget {
               child: ReceivePartButtonWidget(
                 partInfo: data.partInfo,
                 onRequestCompletion: () {
-                  Navigator.pop(context);
+                  Navigator.popUntil(context, (route) => route is PageRoute);
                 },
               ),
             ),
@@ -81,7 +81,7 @@ class ViewPartDetailWidget extends StatelessWidget {
                 child: CancelPartButtonWidget(
                   partInfo: data.partInfo,
                   onRequestCompletion: () {
-                    Navigator.pop(context);
+                    Navigator.popUntil(context, (route) => route is PageRoute);
                   },
                 )),
           if (isConsumeAvailable())

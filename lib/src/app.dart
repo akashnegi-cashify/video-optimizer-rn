@@ -92,6 +92,9 @@ class _CashifyAppState extends State<CashifyApp> {
           break;
         case ConnectivityResult.vpn:
           break;
+        case ConnectivityResult.other:
+          // TODO: Handle this case.
+          break;
       }
     });
   }
