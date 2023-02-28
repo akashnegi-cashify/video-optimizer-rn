@@ -443,7 +443,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ActivityListener {
 
         val taskList: List<ActivityManager.RunningTaskInfo> = am.getRunningTasks(10)
 
-        if (taskList.size == 2 && taskList[0].topActivity!!.className.contains("HomeActivity")) {
+        if (taskList.size == 1 && taskList[0].topActivity!!.className.contains("InventoryManagerActivity")) {
             return true;
         }
         return false;
