@@ -4,8 +4,9 @@ import `in`.cashify.androidtrc.common.api.BaseResponse
 import `in`.cashify.androidtrc.module.qc.data.response.QCPendingListResponse
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-
+@Keep
 class ListReturnPartsResponse() : BaseResponse(), Parcelable {
 
     @SerializedName("r_id")
@@ -25,6 +26,7 @@ class ListReturnPartsResponse() : BaseResponse(), Parcelable {
     }
 
 
+    @Keep
     class PartListResponse() : BaseResponse(), Parcelable {
 
 
@@ -108,6 +110,7 @@ class ListReturnPartsResponse() : BaseResponse(), Parcelable {
 
     }
 
+    @Keep
     class Data() : BaseResponse(), Parcelable {
         @SerializedName("tr")
         var totalRecord: Int? = null

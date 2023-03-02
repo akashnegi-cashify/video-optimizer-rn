@@ -1,7 +1,9 @@
 package `in`.cashify.androidtrc.module.inventory_manager.api.request
 
 import `in`.reglobe.api.kotlin.request.APIRequest
+import androidx.annotation.Keep
 
+@Keep
 class PaginationRequest:APIRequest() {
 
     var pno:Int?   = null
