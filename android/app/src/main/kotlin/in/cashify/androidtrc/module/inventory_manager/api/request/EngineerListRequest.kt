@@ -1,7 +1,9 @@
 package `in`.cashify.androidtrc.module.inventory_manager.api.request
 
 import `in`.cashify.androidtrc.common.api.BaseRequest
+import androidx.annotation.Keep
 
+@Keep
 class EngineerListRequest: BaseRequest() {
 
     var pno:Int?   = null

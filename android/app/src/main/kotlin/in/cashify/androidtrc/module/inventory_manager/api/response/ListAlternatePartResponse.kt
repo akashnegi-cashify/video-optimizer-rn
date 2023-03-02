@@ -1,8 +1,10 @@
 package `in`.cashify.androidtrc.module.inventory_manager.api.response
 
 import `in`.cashify.androidtrc.common.api.BaseResponse
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 class ListAlternatePartResponse:BaseResponse() {
 
 
@@ -19,6 +21,7 @@ class ListAlternatePartResponse:BaseResponse() {
     var  status: Boolean? = null
 
 
+    @Keep
     class Data : BaseResponse() {
 
         @SerializedName("sku")

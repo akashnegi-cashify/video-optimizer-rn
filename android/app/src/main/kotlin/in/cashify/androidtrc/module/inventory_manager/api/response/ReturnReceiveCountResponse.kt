@@ -1,14 +1,15 @@
 package `in`.cashify.androidtrc.module.inventory_manager.api.response
 
 import `in`.cashify.androidtrc.common.api.BaseResponse
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 class ReturnReceiveCountResponse : BaseResponse() {
 
 
-
     @SerializedName("r_id")
-    var reqId:String = ""
+    var reqId: String = ""
 
 
     @SerializedName("s")
@@ -16,15 +17,13 @@ class ReturnReceiveCountResponse : BaseResponse() {
 
 
     @SerializedName("dt")
-    var data:Data? = null
+    var data: Data? = null
 
 
-
-    class Data: BaseResponse(){
+    @Keep
+    class Data : BaseResponse() {
         @SerializedName("rc")
         var receivedCount = 0
-
-
 
 
     }

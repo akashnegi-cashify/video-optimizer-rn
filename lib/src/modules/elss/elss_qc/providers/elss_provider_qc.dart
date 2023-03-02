@@ -247,7 +247,7 @@ class ELssProviderQc extends CshChangeNotifier {
       ElssService.submitPartsForLogic(bodyData).listen((event) {
         if (event != null) {
           submitPatsLogicData = event;
-          if (event.isSuccess != null && event.isSuccess!) {
+          if (Validator.isTrue(event.isSuccess)) {
             completer.complete(true);
           } else {
             completer.completeError("Something Went Wrong");
@@ -276,19 +276,6 @@ class ELssProviderQc extends CshChangeNotifier {
     return false;
   }
 
-  checkIfImageIsAttachedToAllSkus(List<ElssPart> dataList) {
-    if (dataList.isNotEmpty) {
-      for (var element in dataList) {
-        if (Validator.isNullOrEmpty(element.imageS3Url)) {
-          notifyListeners();
-          return false;
-        }
-      }
-    }
-    notifyListeners();
-    return true;
-  }
-
   List<Map<String, dynamic>> getPostDataMapForElssOptionData() {
     List<Map<String, dynamic>> listDataMap = [];
     if (elssPartList.isNotEmpty) {
@@ -296,36 +283,11 @@ class ELssProviderQc extends CshChangeNotifier {
         listDataMap.add({
           "sku": element.sku,
           "pn": element.partName,
-          "img": element.imageS3Url,
         });
       }
     }
 
     return listDataMap;
-  }
-
-  Future<bool> submitElssAcceptData(String barcode, {int? optionId, bool? isRubbingAllowed}) {
-    var completer = Completer<bool>();
-    var partsDataList = getPostDataMapForElssOptionData();
-    try {
-      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId, isRubbingAllowed: isRubbingAllowed)
-          .listen((event) {
-        if (event != null && event.isSuccess == true) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        Logger.debug('mydebug------ChannelOptionProvider.submitElssAccpetData', [errorMessage]);
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
   }
 
   removePNASelectedItem() {

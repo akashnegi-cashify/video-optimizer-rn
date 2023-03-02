@@ -30,7 +30,7 @@ class Environments {
     cashifyUrl: "https://www.beta.cashify.in",
     casIdentifier: "qr6y",
     authUri: "/v1/oauth/token",
-    apiUrl: "api.cashify.in",
+    apiUrl: "api.beta.cashify.in",
     enableAlice: true,
     sourceIds: SourceIds(android: 218, iOS: 219),
   );
