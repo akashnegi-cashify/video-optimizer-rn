@@ -276,19 +276,6 @@ class ELssProviderQc extends CshChangeNotifier {
     return false;
   }
 
-  checkIfImageIsAttachedToAllSkus(List<ElssPart> dataList) {
-    if (dataList.isNotEmpty) {
-      for (var element in dataList) {
-        if (Validator.isNullOrEmpty(element.imageS3Url)) {
-          notifyListeners();
-          return false;
-        }
-      }
-    }
-    notifyListeners();
-    return true;
-  }
-
   List<Map<String, dynamic>> getPostDataMapForElssOptionData() {
     List<Map<String, dynamic>> listDataMap = [];
     if (elssPartList.isNotEmpty) {
@@ -296,7 +283,6 @@ class ELssProviderQc extends CshChangeNotifier {
         listDataMap.add({
           "sku": element.sku,
           "pn": element.partName,
-          "img": element.imageS3Url,
         });
       }
     }

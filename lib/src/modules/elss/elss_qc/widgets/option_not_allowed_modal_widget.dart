@@ -14,14 +14,12 @@ class OptionNotAllowedModal extends StatefulWidget {
   final List<ElssPart>? dataList;
   final Function() onSubmitCallback;
   final Function() onResetButtonCallback;
-  final Function(int, String)? onAttachS3UrlToSku;
 
   const OptionNotAllowedModal({
     Key? key,
     this.dataList,
     required this.onResetButtonCallback,
     required this.onSubmitCallback,
-    this.onAttachS3UrlToSku,
   }) : super(key: key);
 
   @override
@@ -54,57 +52,6 @@ class _OptionNotAllowedModalState extends State<OptionNotAllowedModal> {
                       return OptionSkuTileWidget(
                         (index + 1),
                         dataModel: widget.dataList![index],
-                        onImageUpload: () async {
-                          try {
-                            XFile? imageFilex = await picker.pickImage(source: ImageSource.camera);
-                            if (imageFilex != null) {
-                              AmplifyProvider amplifyProvider = AmplifyProvider.of(context, listen: false);
-                              File imageFile = File(imageFilex.path);
-                              String fileName = Amplifier.fileNameFromPath(imageFile.path);
-                              CshLoading().showLoading(context);
-                              amplifyProvider.uploadFile(
-                                fileName: fileName,
-                                folderName: amplifyProvider.qcConfigResponse?.elssFolderName,
-                                file: imageFile,
-                                onProgress: (int currentBytes, int totalBytes) {},
-                                onFileUploaded: (String imagePath) async {
-                                  CshLoading().hideLoading(context);
-
-                                  String s3Key = imagePath;
-                                  if (!Validator.isNullOrEmpty(s3Key)) {
-                                    String s3Url =
-                                        await amplifyProvider.getS3FileUrlFromS3Key(filePath: s3Key, fullPath: false);
-                                    CshSnackBar.success(
-                                      context: context,
-                                      message: l10n.imageUploadedSuccessfully,
-                                      snackBarPosition: SnackBarPosition.TOP,
-                                    );
-                                    if (widget.onAttachS3UrlToSku != null) {
-                                      widget.onAttachS3UrlToSku!(index, s3Url);
-                                    }
-                                    widget.dataList![index].imageS3Url = s3Url;
-
-                                    setState(() {});
-                                  }
-                                },
-                                onFailed: (String errorMsg) {
-                                  CshLoading().hideLoading(context);
-                                  CshSnackBar.error(
-                                    context: context,
-                                    message: errorMsg,
-                                    snackBarPosition: SnackBarPosition.TOP,
-                                  );
-                                },
-                              );
-                            }
-                          } catch (e) {
-                            CshSnackBar.error(
-                              context: context,
-                              message: e.toString(),
-                              snackBarPosition: SnackBarPosition.TOP,
-                            );
-                          }
-                        },
                       );
                     },
                     separatorBuilder: (context, index) {
@@ -120,24 +67,10 @@ class _OptionNotAllowedModalState extends State<OptionNotAllowedModal> {
             isFirstPrimary: true,
             buttonType: ButtonType.mini,
             firstBtnClick: widget.onResetButtonCallback,
-            secondBtnClick: _checkIfImageAttachedWithEverySKU() ? widget.onSubmitCallback : null,
+            secondBtnClick: widget.onSubmitCallback,
           ),
         ],
       ),
     );
-  }
-
-  bool _checkIfImageAttachedWithEverySKU() {
-    if (!Validator.isListNullOrEmpty(widget.dataList)) {
-      for (var element in widget.dataList!) {
-        if (Validator.isNullOrEmpty(element.imageS3Url)) {
-          setState(() {});
-          return false;
-        }
-      }
-      setState(() {});
-      return true;
-    }
-    return false;
   }
 }

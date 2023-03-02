@@ -3,6 +3,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
+
 import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_action.dart';
 import '../l10n.dart';
@@ -401,23 +402,13 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         onWillPop: () async => false,
         child: OptionNotAllowedModal(
           dataList: provider.elssPartList,
-          onAttachS3UrlToSku: (int point, String s3Url) {
-            provider.elssPartList[point].imageS3Url = s3Url;
-          },
           onResetButtonCallback: () {
             Navigator.of(context).pop();
             Navigator.of(context).pushReplacementNamed(PartSelectionScreenQc.route, arguments: widget.barcode);
           },
           onSubmitCallback: () {
-            Logger.debug('mydebug------_PartSelectionWidgetState._showOptionNotAllowedModal',
-                [provider.checkIfImageIsAttachedToAllSkus(provider.elssPartList)]);
-            if (provider.checkIfImageIsAttachedToAllSkus(provider.elssPartList)) {
-              Navigator.of(context).pop(true);
-              _submitElssAccept();
-            } else {
-              CshSnackBar.error(
-                  context: context, message: l10n.attachImageEverySku, snackBarPosition: SnackBarPosition.TOP);
-            }
+            Navigator.of(context).pop(true);
+            _submitElssAccept();
           },
         ),
       ),

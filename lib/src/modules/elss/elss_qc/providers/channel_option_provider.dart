@@ -5,6 +5,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/common_resources/elss_service.dart';
 import 'package:provider/provider.dart';
+
 import '../../common_models/channel_option_response.dart';
 import '../../common_models/elss_part.dart';
 
@@ -35,6 +36,8 @@ class ChannelOptionProvider extends CshChangeNotifier {
       notifyListeners();
     });
   }
+
+  List<ChannelOptionData>? get channelOptions => channelOptionResponse?.channelOptionData?.listOfChannelOption;
 
   Future<bool> rejectElss(String barcode) {
     var completer = Completer<bool>();
@@ -106,24 +109,12 @@ class ChannelOptionProvider extends CshChangeNotifier {
     return false;
   }
 
-  checkIfImageIsAttachedToAllSkus(List<ElssPart> dataList) {
-    if (dataList.isNotEmpty) {
-      for (var element in dataList) {
-        if (Validator.isNullOrEmpty(element.imageS3Url)) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
   List<Map<String, dynamic>> getPostDataMapForElssOptionData(List<ElssPart> dataList) {
     List<Map<String, dynamic>> listDataMap = [];
     for (var element in dataList) {
       listDataMap.add({
         "sku": element.sku,
         "pn": element.partName,
-        "img": element.imageS3Url,
       });
     }
     return listDataMap;
@@ -162,14 +153,6 @@ class ChannelOptionProvider extends CshChangeNotifier {
     if (dataList.isNotEmpty) {
       for (var element in dataList) {
         element.isPnaSelected = false;
-      }
-    }
-  }
-
-  removeAttachedImageOverBack(List<ElssPart> dataList) {
-    if (dataList.isNotEmpty) {
-      for (var element in dataList) {
-        element.imageS3Url = null;
       }
     }
   }

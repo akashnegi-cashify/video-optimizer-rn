@@ -1,4 +1,3 @@
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
@@ -46,8 +45,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                 children: [
                   ElssDeviceDetailsWidget(dataModel: widget.detailsDataModel?.deviceDetailsData),
                   const SizedBox(height: Dimens.space_16),
-                  if (!Validator.isListNullOrEmpty(
-                      provider.channelOptionResponse?.channelOptionData?.listOfChannelOption)) ...[
+                  if (!Validator.isListNullOrEmpty(provider.channelOptions)) ...[
                     Text(l10n.channelOptions, style: theme.primaryTextTheme.headline4),
                     const SizedBox(height: Dimens.space_16),
                     ListView.separated(
@@ -55,7 +53,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                       primary: false,
                       itemBuilder: (context, index) {
                         return ChannelOptionCardWidget(
-                          dataModel: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index],
+                          dataModel: provider.channelOptions![index],
                           onCardTap: () {
                             _showModalForImages(
                               index,
@@ -73,31 +71,14 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                                 }
                               },
                               onDone: () {
-                                if (provider.checkIfImageIsAttachedToAllSkus(provider.channelOptionResponse!
-                                    .channelOptionData!.listOfChannelOption![index].requestedParts!)) {
-                                  Navigator.of(context).pop(true);
-                                  if (provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                                          .optionId !=
-                                      null) {
-                                    var dataMap = provider.getPostDataMapForElssOptionData(provider
-                                        .channelOptionResponse!
-                                        .channelOptionData!
-                                        .listOfChannelOption![index]
-                                        .requestedParts!);
-                                    _submitElssAccept(
-                                      dataMap,
-                                      provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                                          .optionId!,
-                                      isRubAllowed: provider.channelOptionResponse!.channelOptionData!
-                                          .listOfChannelOption![index].isRubbingAllowed,
-                                    );
-                                    Logger.debug('mydebug------_ChannelOptionWidgetState.build', [dataMap]);
-                                  }
-                                } else {
-                                  CshSnackBar.error(
-                                    context: context,
-                                    message: l10n.attachImageEverySku,
-                                    snackBarPosition: SnackBarPosition.TOP,
+                                Navigator.of(context).pop(true);
+                                if (provider.channelOptions![index].optionId != null) {
+                                  var dataMap = provider
+                                      .getPostDataMapForElssOptionData(provider.channelOptions![index].requestedParts!);
+                                  _submitElssAccept(
+                                    dataMap,
+                                    provider.channelOptions![index].optionId!,
+                                    isRubAllowed: provider.channelOptions![index].isRubbingAllowed,
                                   );
                                 }
                               },
@@ -108,7 +89,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                       separatorBuilder: (context, index) {
                         return const SizedBox(height: Dimens.space_8);
                       },
-                      itemCount: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption!.length,
+                      itemCount: provider.channelOptions!.length,
                     )
                   ],
                   const SizedBox(height: Dimens.space_20),
@@ -176,8 +157,8 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
 
   _showModalForImages(
     int index, {
-    Function()? onDone,
-    Function()? onPna,
+    required Function() onDone,
+    required Function() onPna,
   }) {
     var provider = ChannelOptionProvider.of(context, listen: false);
     showCshBottomSheet(
@@ -189,13 +170,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
         onDoneCallback: onDone,
         onPnaCallback: onPna,
       ),
-    ).then((value) {
-      if (!Validator.isListNullOrEmpty(
-          provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts)) {
-        provider.removeAttachedImageOverBack(
-            provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!);
-      }
-    });
+    );
   }
 
   _onRejectElss() {
