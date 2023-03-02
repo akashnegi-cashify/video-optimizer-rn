@@ -1,8 +1,10 @@
 package `in`.cashify.androidtrc.module.inventory_manager.api.response
 
 import `in`.cashify.androidtrc.common.api.BaseResponse
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 class PendingDeviceListResponse : BaseResponse() {
 
     @SerializedName("r_id")
@@ -16,6 +18,7 @@ class PendingDeviceListResponse : BaseResponse() {
     @SerializedName("s")
     var success: Boolean? = null
 
+    @Keep
     class Data : BaseResponse() {
         @SerializedName("dl")
         var dataList: List<DataList>? = null
@@ -31,6 +34,7 @@ class PendingDeviceListResponse : BaseResponse() {
 
     }
 
+    @Keep
     class DataList : BaseResponse() {
 
         @SerializedName("did")

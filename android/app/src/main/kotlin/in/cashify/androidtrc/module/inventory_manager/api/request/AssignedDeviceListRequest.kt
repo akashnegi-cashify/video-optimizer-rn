@@ -2,7 +2,9 @@ package `in`.cashify.androidtrc.module.inventory_manager.api.request
 
 import `in`.cashify.androidtrc.common.api.BaseRequest
 import `in`.reglobe.api.kotlin.request.APIRequest
+import androidx.annotation.Keep
 
+@Keep
 class AssignedDeviceListRequest : APIRequest() {
 
     var pno:Int?   = null

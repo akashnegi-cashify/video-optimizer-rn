@@ -1,9 +1,11 @@
 package `in`.cashify.androidtrc.module.inventory_manager.api.response
 
 import `in`.cashify.androidtrc.common.api.BaseResponse
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
-class RiderListResponse : BaseResponse(){
+@Keep
+class RiderListResponse : BaseResponse() {
     @SerializedName("r_id")
     var rid: String? = null
 
@@ -12,8 +14,7 @@ class RiderListResponse : BaseResponse(){
     var data: ArrayList<Data>? = null
 
 
-
-
+    @Keep
     class Data : BaseResponse() {
 
 
@@ -23,7 +24,6 @@ class RiderListResponse : BaseResponse(){
 
         @SerializedName("rid")
         var riderId: Int? = null
-
 
 
     }

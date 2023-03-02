@@ -3,8 +3,10 @@ package `in`.cashify.androidtrc.module.inventory_manager.api.response
 import `in`.cashify.androidtrc.common.api.BaseResponse
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 class ListReceivePendingPartResponse:BaseResponse() {
     @SerializedName("r_id")
     var rid: String? = null
@@ -18,6 +20,7 @@ class ListReceivePendingPartResponse:BaseResponse() {
 
 
 
+    @Keep
     class Data() : BaseResponse(), Parcelable {
 
         @SerializedName("prid")
