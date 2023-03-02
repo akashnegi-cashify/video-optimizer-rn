@@ -247,7 +247,7 @@ class ELssProviderQc extends CshChangeNotifier {
       ElssService.submitPartsForLogic(bodyData).listen((event) {
         if (event != null) {
           submitPatsLogicData = event;
-          if (event.isSuccess != null && event.isSuccess!) {
+          if (Validator.isTrue(event.isSuccess)) {
             completer.complete(true);
           } else {
             completer.completeError("Something Went Wrong");
@@ -288,30 +288,6 @@ class ELssProviderQc extends CshChangeNotifier {
     }
 
     return listDataMap;
-  }
-
-  Future<bool> submitElssAcceptData(String barcode, {int? optionId, bool? isRubbingAllowed}) {
-    var completer = Completer<bool>();
-    var partsDataList = getPostDataMapForElssOptionData();
-    try {
-      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId, isRubbingAllowed: isRubbingAllowed)
-          .listen((event) {
-        if (event != null && event.isSuccess == true) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        Logger.debug('mydebug------ChannelOptionProvider.submitElssAccpetData', [errorMessage]);
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
   }
 
   removePNASelectedItem() {

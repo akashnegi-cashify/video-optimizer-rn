@@ -3,6 +3,8 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
 
 import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_action.dart';
@@ -10,12 +12,10 @@ import '../l10n.dart';
 import '../providers/elss_provider_qc.dart';
 import '../screens/add_part_screen_qc.dart';
 import '../screens/allowed_option_screen.dart';
-import '../screens/part_selection_screen_qc.dart';
 import 'discard_modal_widget.dart';
 import 'elss_device_details_widget.dart';
 import 'elss_part_widget.dart';
 import 'elss_pna_modal_widget_qc.dart';
-import 'option_not_allowed_modal_widget.dart';
 
 class PartSelectionWidget extends StatefulWidget {
   final String barcode;
@@ -233,8 +233,11 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     provider.rejectElss(widget.barcode).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
-        CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.pushReplacementNamed(
+          context,
+          ElssStatusScreen.routeName,
+          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject),
+        );
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
@@ -352,23 +355,22 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     provider.submitPartsForLogic(widget.barcode).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
-        CshSnackBar.success(
-            context: context,
-            message: l10n.partsSubmittedSuccessfully,
-            duration: SnackBarDuration.SHORT,
-            snackBarPosition: SnackBarPosition.TOP);
-        if (provider.submitPatsLogicData?.data?.optionsAllowed != null &&
-            provider.submitPatsLogicData!.data!.optionsAllowed == true) {
+        if (Validator.isTrue(provider.submitPatsLogicData?.data?.optionsAllowed)) {
+          CshSnackBar.success(
+              context: context,
+              message: l10n.partsSubmittedSuccessfully,
+              duration: SnackBarDuration.SHORT,
+              snackBarPosition: SnackBarPosition.TOP);
           AllowedOptionScreeArguments args =
               AllowedOptionScreeArguments(widget.barcode, detailsDataModel: provider.elssDeviceDetails);
 
           Navigator.of(context).pushReplacementNamed(AllowedOptionScreen.route, arguments: args);
         } else {
-          if (Validator.isListNullOrEmpty(provider.elssPartList)) {
-            _submitElssAccept();
-          } else {
-            _showOptionNotAllowedModal(l10n);
-          }
+          Navigator.pushReplacementNamed(
+            context,
+            ElssStatusScreen.routeName,
+            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit),
+          );
         }
       }
     }, onError: (error) {
@@ -382,51 +384,15 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     CshLoading().showLoading(context);
     provider.markPNAStatus(widget.barcode).then((value) {
       if (value) {
-        CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.pushReplacementNamed(
+          context,
+          ElssStatusScreen.routeName,
+          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna),
+        );
       }
     }, onError: (error) {
       Navigator.of(context).pop(true);
       CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
-      CshLoading().hideLoading(context);
-    });
-  }
-
-  _showOptionNotAllowedModal(L10n l10n) {
-    var provider = ELssProviderQc.of(context, listen: false);
-    showCshBottomSheet(
-      isDismissible: false,
-      isScrollControlled: true,
-      context: context,
-      child: WillPopScope(
-        onWillPop: () async => false,
-        child: OptionNotAllowedModal(
-          dataList: provider.elssPartList,
-          onResetButtonCallback: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed(PartSelectionScreenQc.route, arguments: widget.barcode);
-          },
-          onSubmitCallback: () {
-            Navigator.of(context).pop(true);
-            _submitElssAccept();
-          },
-        ),
-      ),
-    );
-  }
-
-  _submitElssAccept() {
-    var provider = ELssProviderQc.of(context, listen: false);
-    CshLoading().showLoading(context);
-    provider.submitElssAcceptData(widget.barcode, isRubbingAllowed: _isRubbingApplicable).then((value) {
-      CshLoading().hideLoading(context);
-      if (value) {
-        CshSnackBar.success(
-            context: context, message: "Elss Submitted Successfully!!", duration: SnackBarDuration.SHORT);
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      }
-    }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
       CshLoading().hideLoading(context);
     });
   }

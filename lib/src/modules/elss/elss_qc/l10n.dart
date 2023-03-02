@@ -181,4 +181,12 @@ class L10n extends BaseL10n {
   String get profit => Intl.message("Profit", locale: localName, name: "profit");
 
   String get reset => Intl.message("Reset", locale: localName, name: "reset");
+
+  String get pnaDescription => Intl.message("Device part marked PNA", locale: localName, name: "pnaDescription");
+
+  String get rejectDescription => Intl.message("ELSS Request rejected", locale: localName, name: "rejectDescription");
+
+  String get elssSubmitDescription => Intl.message("ELSS Request submitted successfully", locale: localName, name: "elssSubmitDescription");
+
+  String get elssStatus => Intl.message("ELSS Status", locale: localName, name: "elssStatus");
 }

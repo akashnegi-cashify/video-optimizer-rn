@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/your_channel_suggestion.dart';
 
 import '../../common_models/elss_device_details_response.dart';
@@ -177,9 +178,11 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     var provider = ChannelOptionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.rejectElss(widget.scannedBarcode).then((value) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.success(context: context, message: "Elss Rejected Successfully!!!");
-      Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
+      Navigator.pushReplacementNamed(
+        context,
+        ElssStatusScreen.routeName,
+        arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject),
+      );
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
       CshLoading().hideLoading(context);
@@ -270,8 +273,11 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     provider.markPNAStatus(widget.scannedBarcode, dataList).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
-        CshSnackBar.success(context: context, message: l10n.pnaStatusAppliedToSelectedParts);
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.pushReplacementNamed(
+          context,
+          ElssStatusScreen.routeName,
+          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna),
+        );
       }
     }, onError: (error) {
       Navigator.of(context).pop(true);
@@ -288,8 +294,11 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
         .then((value) {
       CshLoading().hideLoading(context);
       if (value) {
-        CshSnackBar.success(context: context, message: "Elss Submitted Successfully!!");
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
+        Navigator.pushReplacementNamed(
+          context,
+          ElssStatusScreen.routeName,
+          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit),
+        );
       }
     }, onError: (error) {
       Navigator.of(context).pop(true);
