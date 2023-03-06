@@ -1,8 +1,10 @@
 enum ElssAction {
   REPAIRABLE("Required"),
+  REPAIRABLE_SERVER("Repairable"),
   NOT_REPAIRABLE("Not Repairable"),
-  NOT_REQUIRED("Not Required"),
-  REPAIRABLE_SERVER("Repairable");
+  NOT_REQUIRED("Not Required");
+
+
 
   final String value;
 

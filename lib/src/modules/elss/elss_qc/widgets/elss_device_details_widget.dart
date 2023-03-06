@@ -5,10 +5,12 @@ import '../l10n.dart';
 
 class ElssDeviceDetailsWidget extends StatelessWidget {
   final DeviceDetailsData? dataModel;
+  final String? gradeLabel;
 
   const ElssDeviceDetailsWidget({
     Key? key,
     this.dataModel,
+    this.gradeLabel,
   }) : super(key: key);
 
   @override
@@ -57,7 +59,7 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
                     : const SizedBox(),
                 const SizedBox(width: Dimens.space_20),
                 (!Validator.isNullOrEmpty(dataModel?.deviceGrade))
-                    ? Expanded(child: _labelAndValueWidget(theme, l10n.grade, dataModel!.deviceGrade!))
+                    ? Expanded(child: _labelAndValueWidget(theme, gradeLabel ?? l10n.grade, dataModel!.deviceGrade!))
                     : const SizedBox(),
               ],
             ),

@@ -6,16 +6,21 @@ part of 'rubbing_device_receive_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-RubbingDeviceReceiveResponse _$RubbingDeviceReceiveResponseFromJson(Map<String, dynamic> json) =>
+RubbingDeviceReceiveResponse _$RubbingDeviceReceiveResponseFromJson(
+        Map<String, dynamic> json) =>
     RubbingDeviceReceiveResponse(
       json['s'] as bool? ?? false,
       json['sm'] as String?,
       json['em'] as String?,
-      json['__ca'] == null ? null : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+      json['__ca'] == null
+          ? null
+          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
     );
 
-Map<String, dynamic> _$RubbingDeviceReceiveResponseToJson(RubbingDeviceReceiveResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$RubbingDeviceReceiveResponseToJson(
+        RubbingDeviceReceiveResponse instance) =>
+    <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       's': instance.isSuccess,

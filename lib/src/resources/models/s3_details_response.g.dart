@@ -6,19 +6,24 @@ part of 's3_details_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-S3DetailsResponse _$S3DetailsResponseFromJson(Map<String, dynamic> json) => S3DetailsResponse(
+S3DetailsResponse _$S3DetailsResponseFromJson(Map<String, dynamic> json) =>
+    S3DetailsResponse(
       json['s'] as bool?,
       json['r_id'] as String?,
-      json['dt'] == null ? null : S3DataResponse.fromJson(json['dt'] as Map<String, dynamic>),
+      json['dt'] == null
+          ? null
+          : S3DataResponse.fromJson(json['dt'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$S3DetailsResponseToJson(S3DetailsResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$S3DetailsResponseToJson(S3DetailsResponse instance) =>
+    <String, dynamic>{
       'r_id': instance.refId,
       'dt': instance.data,
       's': instance.isSuccess,
     };
 
-S3DataResponse _$S3DataResponseFromJson(Map<String, dynamic> json) => S3DataResponse(
+S3DataResponse _$S3DataResponseFromJson(Map<String, dynamic> json) =>
+    S3DataResponse(
       json['ak'] as String?,
       json['bn'] as String?,
       json['fn'] as String?,
@@ -26,7 +31,8 @@ S3DataResponse _$S3DataResponseFromJson(Map<String, dynamic> json) => S3DataResp
       json['sk'] as String?,
     )..poolId = json['cid'] as String?;
 
-Map<String, dynamic> _$S3DataResponseToJson(S3DataResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$S3DataResponseToJson(S3DataResponse instance) =>
+    <String, dynamic>{
       'url': instance.s3Url,
       'ak': instance.accessKey,
       'sk': instance.secretKey,

@@ -12,7 +12,8 @@ DeviceInfo _$DeviceInfoFromJson(Map<String, dynamic> json) => DeviceInfo()
   ..deviceBarcode = json['dbr'] as String?
   ..status = json['st'] as String?;
 
-Map<String, dynamic> _$DeviceInfoToJson(DeviceInfo instance) => <String, dynamic>{
+Map<String, dynamic> _$DeviceInfoToJson(DeviceInfo instance) =>
+    <String, dynamic>{
       'did': instance.deviceId,
       'pt': instance.productTitle,
       'dbr': instance.deviceBarcode,

@@ -33,7 +33,7 @@ class _OptionSkuTileWidgetState extends State<OptionSkuTileWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.indexing.toString(),
+            "${widget.indexing}. ",
             style: theme.primaryTextTheme.overline,
           ),
           const SizedBox(width: Dimens.space_1),

@@ -1,19 +1,18 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/screens/qr_barcode_scanner.dart';
 import 'l10n.dart';
 
-class BarcodeScanWidget extends StatefulWidget {
-  static const route = "/barcode_scanner";
+class BarcodeScannerControllerWidget extends StatefulWidget {
+  static const route = "/barcode_scanner_controller";
 
-  const BarcodeScanWidget({Key? key}) : super(key: key);
+  const BarcodeScannerControllerWidget({Key? key}) : super(key: key);
 
   @override
-  State<BarcodeScanWidget> createState() => _BarcodeScanWidgetState();
+  State<BarcodeScannerControllerWidget> createState() => _BarcodeScannerControllerWidgetState();
 }
 
-class _BarcodeScanWidgetState extends State<BarcodeScanWidget> {
+class _BarcodeScannerControllerWidgetState extends State<BarcodeScannerControllerWidget> {
   final TextEditingController _barcodeController = TextEditingController();
   bool _fieldActive = false;
 
@@ -36,14 +35,16 @@ class _BarcodeScanWidgetState extends State<BarcodeScanWidget> {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
-    var callback = ModalRoute.of(context)?.settings.arguments as Function(String)?;
+    var callback =
+        ModalRoute.of(context)?.settings.arguments as Function(String result, {BarcodeScannerController? controller})?;
     return Scaffold(
       appBar: CshHeader(l10n.barcodeScanner),
       body: Column(
         children: [
           Expanded(
-            child: QrBarcodeScanner(
-              onResultantCallback: callback ?? (String data) {},
+            child: AppBarcodeScannerWidget.defaultStyle(
+              resultCallback: callback,
+              label: '',
             ),
           ),
           Container(

@@ -32,10 +32,9 @@ class ElssPart {
   @JsonKey(name: "_v")
   int? version;
 
-  @JsonKey(name: "ac")
   ElssPart({
     this.version = 0,
-    this.action,
+    this.action = "Repairable",
     this.isManualAdded = false,
     this.isPnaSelected = false,
     this.isVisibleForPna = false,

@@ -6,15 +6,21 @@ part of 'lead_engineer_device_report_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LeadEngineerDeviceReportResponse _$LeadEngineerDeviceReportResponseFromJson(Map<String, dynamic> json) =>
+LeadEngineerDeviceReportResponse _$LeadEngineerDeviceReportResponseFromJson(
+        Map<String, dynamic> json) =>
     LeadEngineerDeviceReportResponse(
-      json['__ca'] == null ? null : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+      json['__ca'] == null
+          ? null
+          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
     )
       ..requestId = json['r_id'] as String?
-      ..data = json['dt'] == null ? null : LeadEngineerData.fromJson(json['dt'] as Map<String, dynamic>);
+      ..data = json['dt'] == null
+          ? null
+          : LeadEngineerData.fromJson(json['dt'] as Map<String, dynamic>);
 
-Map<String, dynamic> _$LeadEngineerDeviceReportResponseToJson(LeadEngineerDeviceReportResponse instance) =>
+Map<String, dynamic> _$LeadEngineerDeviceReportResponseToJson(
+        LeadEngineerDeviceReportResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,

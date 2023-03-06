@@ -6,7 +6,8 @@ part of 'qc_s3_details_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QcS3DetailsResponse _$QcS3DetailsResponseFromJson(Map<String, dynamic> json) => QcS3DetailsResponse(
+QcS3DetailsResponse _$QcS3DetailsResponseFromJson(Map<String, dynamic> json) =>
+    QcS3DetailsResponse(
       json['ak'] as String?,
       json['bn'] as String?,
       json['aif'] as String?,
@@ -18,7 +19,9 @@ QcS3DetailsResponse _$QcS3DetailsResponseFromJson(Map<String, dynamic> json) => 
       json['eif'] as String?,
     );
 
-Map<String, dynamic> _$QcS3DetailsResponseToJson(QcS3DetailsResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$QcS3DetailsResponseToJson(
+        QcS3DetailsResponse instance) =>
+    <String, dynamic>{
       'bu': instance.baseUrl,
       'bn': instance.bucketName,
       'aif': instance.auditImageFolderName,

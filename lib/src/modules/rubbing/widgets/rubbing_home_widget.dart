@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../common/widgets/app_version_widget.dart';
 import '../../../common/widgets/user_name_widget.dart';
 import '../../../screens/barcode_scanner_screen.dart';
+import '../../../screens/barcode_scanner_with_controller.dart';
 import '../providers/received_devices_provider.dart';
 
 class RubbingHomeWidget extends StatelessWidget {
@@ -35,19 +36,40 @@ class RubbingHomeWidget extends StatelessWidget {
                   CshBigButton(
                     text: l10n.scanBarcode,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(BarcodeScanWidget.route,
-                          arguments: (String barcode, {BarcodeScannerController? controller}) {
-                        Provider.of<ReceivedDevicesProvider>(context, listen: false)
-                            .receiveDeviceViaScanning(barcode)
-                            .listen((event) {
-                          CshSnackBar.success(context: context, message: l10n.deviceReceivedSuccessfully);
-                          Navigator.pushReplacementNamed(context, ReceivedRubbingDevicesWidget.route,
-                              arguments: barcode);
-                        }).onError((e) {
-                          CshSnackBar.error(
-                              context: context, message: ApiErrorHelper.getErrorMessage(e) ?? l10n.somethingWentWrong);
-                        });
-                      });
+                      Navigator.of(context).pushNamed(
+                        BarcodeScannerControllerWidget.route,
+                        arguments: (String barcode, {BarcodeScannerController? controller}) {
+                          Provider.of<ReceivedDevicesProvider>(context, listen: false)
+                              .receiveDeviceViaScanning(barcode)
+                              .listen((event) {
+                            if (controller != null) {
+                              controller.pauseCamera();
+                            }
+                            CshSnackBar.success(context: context, message: l10n.deviceReceivedSuccessfully);
+                            Navigator.pushReplacementNamed(context, ReceivedRubbingDevicesWidget.route,
+                                arguments: barcode);
+                          })
+                            ..onError(
+                              (e) {
+                                if (controller != null) {
+                                  controller.pauseCamera();
+                                }
+                                CshSnackBar.error(
+                                    context: context,
+                                    message: ApiErrorHelper.getErrorMessage(e) ?? l10n.somethingWentWrong);
+                              },
+                            )
+                            ..onDone(
+                              () {
+                                if (controller != null) {
+                                  Future.delayed(const Duration(milliseconds: 300), () {
+                                    controller.resumeCamera();
+                                  });
+                                }
+                              },
+                            );
+                        },
+                      );
                     },
                   ),
                   const SizedBox(

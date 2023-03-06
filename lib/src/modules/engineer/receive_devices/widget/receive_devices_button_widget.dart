@@ -6,6 +6,7 @@ import 'package:flutter_trc/src/modules/engineer/receive_devices/providers/engin
 
 import '../../../../common/widgets/title_value_row_widget.dart';
 import '../../../../screens/barcode_scanner_screen.dart';
+import '../../../../screens/barcode_scanner_with_controller.dart';
 
 class ReceiveDevicesButtonWidget extends StatefulWidget {
   const ReceiveDevicesButtonWidget({Key? key}) : super(key: key);
@@ -33,10 +34,15 @@ class _ReceiveDevicesButtonWidgetState extends State<ReceiveDevicesButtonWidget>
   @override
   Widget build(BuildContext context) {
     return CshBigButton(
-        text: l10n.receiveDevices,
-        onPressed: () {
-          Navigator.pushNamed(context, BarcodeScanWidget.route, arguments: presenter.barcodeResult());
-        });
+      text: l10n.receiveDevices,
+      onPressed: () {
+        Navigator.pushNamed(
+          context,
+          BarcodeScannerControllerWidget.route,
+          arguments: presenter.barcodeResult(),
+        );
+      },
+    );
   }
 
   @override

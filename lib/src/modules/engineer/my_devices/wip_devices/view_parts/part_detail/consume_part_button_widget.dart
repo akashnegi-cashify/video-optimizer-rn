@@ -80,6 +80,8 @@ class ConsumePartButtonWidget extends StatelessWidget {
                 CshSnackBar.error(context: context, message: errorMsg, snackBarPosition: SnackBarPosition.TOP);
               },
             );
+          } else {
+            CshLoading().hideLoading(context);
           }
         } catch (e) {
           CshLoading().hideLoading(context);

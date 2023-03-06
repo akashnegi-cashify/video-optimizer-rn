@@ -82,6 +82,8 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                   title: Text(
                     widget.dataModel?.partName ?? "",
                     style: theme.primaryTextTheme.overline,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   children: <Widget>[
                     Padding(

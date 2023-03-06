@@ -8,6 +8,8 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/all_devices/widget/i
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../utils/app_constants.dart';
+
 class AllDevicesWidget extends StatefulWidget {
   const AllDevicesWidget({Key? key}) : super(key: key);
 
@@ -21,6 +23,7 @@ class _AllDevicesWidgetState extends State<AllDevicesWidget> with AutomaticKeepA
   @override
   void initState() {
     stream = EngineerAPIService.getAllDevices();
+    refreshAllDeviceList = refreshList;
     super.initState();
   }
 
@@ -46,11 +49,7 @@ class _AllDevicesWidgetState extends State<AllDevicesWidget> with AutomaticKeepA
                   if (list != null) {
                     return CshList(
                       rowCount: list.length,
-                      onRefresh: () {
-                        setState(() {
-                          stream = EngineerAPIService.getAllDevices();
-                        });
-                      },
+                      onRefresh: refreshList,
                       getRowWidget: (index) {
                         return ItemAllDevicesWidget(list[index]);
                       },
@@ -65,6 +64,12 @@ class _AllDevicesWidgetState extends State<AllDevicesWidget> with AutomaticKeepA
         ],
       ),
     );
+  }
+
+  refreshList() {
+    setState(() {
+      stream = EngineerAPIService.getAllDevices();
+    });
   }
 
   @override

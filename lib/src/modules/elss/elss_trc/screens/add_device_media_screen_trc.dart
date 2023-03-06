@@ -111,7 +111,9 @@ class _AddDeviceMediaState extends State<_AddDeviceMedia> {
               width: double.infinity,
               child: CshMediumButton(
                 text: l10n.done,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
               ),
             )
           ],

@@ -24,10 +24,19 @@ class IMPartReturnDetailActivity : BaseActivity() {
         mainContainer: LinearLayout,
         addToParent: Boolean
     ) {
-        binding = DataBindingUtil.inflate(layoutInflater, getLayoutResId(), mainContainer, addToParent)
-        viewModel = ViewModelProviders.of(this, factory).get(IMPartReturnDetailViewModel::class.java)
+        binding =
+            DataBindingUtil.inflate(layoutInflater, getLayoutResId(), mainContainer, addToParent)
+        viewModel =
+            ViewModelProviders.of(this, factory).get(IMPartReturnDetailViewModel::class.java)
         viewModel.activityListener = this
-        AnalyticsEventHelper.fireScreenEvent(this, AnalyticsController.AnalyticEventKey.EVENT_ONCREATE, AnalyticsController.AnalyticScreen.SCREEN_IM_PART_RETURN, null, null, true)
+        AnalyticsEventHelper.fireScreenEvent(
+            this,
+            AnalyticsController.AnalyticEventKey.EVENT_ONCREATE,
+            AnalyticsController.AnalyticScreen.SCREEN_IM_PART_RETURN,
+            null,
+            null,
+            true
+        )
         binding.tvPartName.setText(intent.getStringExtra("name"))
         binding.tvPartSku.setText(intent.getStringExtra("sku"))
         binding.tvPartBarcode.setText(intent.getStringExtra("barcode"))
@@ -39,7 +48,7 @@ class IMPartReturnDetailActivity : BaseActivity() {
                     intent?.getStringExtra("barcode")
                 )
             ) {
-                viewModel.returnPart(intent?.getIntExtra("prid", 0).toString() , true)
+                viewModel.returnPart(intent?.getIntExtra("prid", 0).toString(), true)
             }
         }
 
@@ -51,7 +60,7 @@ class IMPartReturnDetailActivity : BaseActivity() {
                     intent?.getStringExtra("barcode")
                 )
             ) {
-                viewModel.returnPart(intent?.getIntExtra("prid" , 0).toString() , true)
+                viewModel.returnPart(intent?.getIntExtra("prid", 0).toString(), false)
             }
         }
 
@@ -63,11 +72,11 @@ class IMPartReturnDetailActivity : BaseActivity() {
 
 
     override fun getLayoutResId(): Int {
-    return R.layout.activity_i_m_part_return_detail
+        return R.layout.activity_i_m_part_return_detail
     }
 
 
-    fun showConfirmDialog(text: String , returnPart:()->Unit) {
+    fun showConfirmDialog(text: String, returnPart: () -> Unit) {
 
 
         val inflater = this.layoutInflater
@@ -86,17 +95,15 @@ class IMPartReturnDetailActivity : BaseActivity() {
         txt.text = text
 
 
-
         val alertDialog = builder.create()
 
         confirm.setOnClickListener {
-returnPart()
+            returnPart()
 //            if (isFaulty) {
 //                viewModel?.submitPartData(data?.prid ?: 0, true)
 //            } else {
 //                viewModel?.submitPartData(data?.prid ?: 0, false)
 //            }
-
 
 
             alertDialog.dismiss()
@@ -114,6 +121,7 @@ returnPart()
 
 
     }
+
     fun showSubmittedSuccessDialog() {
 
 
@@ -132,7 +140,7 @@ returnPart()
         yes.text = resources.getString(R.string.ok)
         txt.text = String.format(
             resources.getString(R.string.barcode_successfully_submitted),
-       intent?.getStringExtra("barcode")
+            intent?.getStringExtra("barcode")
 
         )
 

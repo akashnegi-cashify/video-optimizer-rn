@@ -6,10 +6,12 @@ part of 'send_otp_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SendOTPResponse _$SendOTPResponseFromJson(Map<String, dynamic> json) => SendOTPResponse(
+SendOTPResponse _$SendOTPResponseFromJson(Map<String, dynamic> json) =>
+    SendOTPResponse(
       requestId: json['rid'] as String?,
     );
 
-Map<String, dynamic> _$SendOTPResponseToJson(SendOTPResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$SendOTPResponseToJson(SendOTPResponse instance) =>
+    <String, dynamic>{
       'rid': instance.requestId,
     };

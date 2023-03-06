@@ -19,4 +19,5 @@ class AllDevicesProvider extends CshChangeNotifier {
         "Device is not selected to mark for progress!");
     return EngineerAPIService.sendToInProgress(selectedDevice!.deviceBarcode!);
   }
+
 }

@@ -11,10 +11,12 @@ class ChannelOptionModalWidget extends StatefulWidget {
   final ChannelOptionData? dataModel;
   final Function() onPnaCallback;
   final Function() onDoneCallback;
+  final String modalHeading;
 
   const ChannelOptionModalWidget({
     Key? key,
     this.dataModel,
+    required this.modalHeading,
     required this.onDoneCallback,
     required this.onPnaCallback,
   }) : super(key: key);
@@ -42,7 +44,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(l10n.channelSuggestion, style: theme.primaryTextTheme.headline3),
+                Text(widget.modalHeading, style: theme.primaryTextTheme.headline3),
                 CshIcon(
                   FeatherIcons.x,
                   iconSize: MobileIconSize.large,
@@ -89,7 +91,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
             if (widget.dataModel?.isRubbingAllowed != null)
               RichText(
                 text: TextSpan(
-                  text: "${l10n.isRubbingAllowed}: ",
+                  text: "${l10n.rubbingAllowed}: ",
                   style: theme.primaryTextTheme.overline,
                   children: <TextSpan>[
                     TextSpan(

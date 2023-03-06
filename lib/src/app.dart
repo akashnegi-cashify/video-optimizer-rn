@@ -11,6 +11,7 @@ import 'package:flutter_trc/src/modules/home/home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/login_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
+import 'package:flutter_trc/src/screens/barcode_scanner_with_controller.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
 import 'package:localization/localization/csh_localization.dart';
@@ -27,6 +28,7 @@ import 'modules/elss/common_providers/user_session_provider.dart';
 import 'modules/elss/common_screen/elss_home_screen.dart';
 import 'modules/elss/elss_qc/screens/add_part_screen_qc.dart';
 import 'modules/elss/elss_qc/screens/allowed_option_screen.dart';
+import 'modules/elss/elss_qc/screens/elss_status_screen.dart';
 import 'modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'modules/elss/elss_trc/screens/add_device_media_screen_trc.dart';
 import 'modules/elss/elss_trc/screens/add_part_screen_trc.dart';
@@ -161,11 +163,13 @@ class _CashifyAppState extends State<CashifyApp> {
                   RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
                   ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
                   ElssHomeScreen.route: (_) => const ElssHomeScreen(),
+                  BarcodeScannerControllerWidget.route: (_) => const BarcodeScannerControllerWidget(),
                   //ELSS_TRC_ROUTES
                   AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),
                   AddPartScreenTrc.route: (_) => const AddPartScreenTrc(),
                   PartSelectionScreenTrc.route: (_) => const PartSelectionScreenTrc(),
                   BrandsDetailsListingScreen.route: (_) => const BrandsDetailsListingScreen(),
+                  ElssStatusScreen.routeName: (_) => const ElssStatusScreen(),
                   //ELSS_QC_ROUTES
                   AddPartScreenQc.route: (_) => const AddPartScreenQc(),
 

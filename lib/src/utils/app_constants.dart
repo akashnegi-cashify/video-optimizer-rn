@@ -1,3 +1,5 @@
+
+
 class AppConstants {
   static String ENGINEER = "Give to Engineer";
 
@@ -40,3 +42,5 @@ class AppConstants {
   static String STORE_OUT = "Store Out";
   static String LOGIN_TOKEN = 'login_token';
 }
+
+Function()? refreshAllDeviceList;

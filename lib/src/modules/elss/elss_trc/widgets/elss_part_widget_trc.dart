@@ -29,13 +29,9 @@ class ElssPartWidgetTrc extends StatefulWidget {
 }
 
 class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
-  final List<String> actionList = [
-    ElssAction.NOT_REQUIRED.value,
-    ElssAction.NOT_REPAIRABLE.value,
-    ElssAction.REPAIRABLE.value,
-  ];
+  final List<String> actionList = ["Not Required", "Required", "Not Repairable"];
 
-  String _optionSelected = ElssAction.NOT_REQUIRED.value;
+  String _optionSelected = "Required";
 
   @override
   void initState() {
@@ -92,48 +88,57 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                   ],
                 ),
                 const SizedBox(width: Dimens.space_4),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (!Validator.isNullOrEmpty(widget.dataModel?.partName)) ...[
-                      Text(
-                        widget.dataModel!.partName!,
-                        style: theme.primaryTextTheme.subtitle2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: Dimens.space_4)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.partName)) ...[
+                        Text(
+                          widget.dataModel!.partName!,
+                          style: theme.primaryTextTheme.subtitle2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: Dimens.space_4)
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
+                        Row(
+                          children: [
+                            Text("${l10n.sku}: ", style: theme.primaryTextTheme.headline4),
+                            Expanded(
+                              child: Text(
+                                widget.dataModel!.sku!,
+                                maxLines: 1,
+                                style: theme.primaryTextTheme.bodyText2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: Dimens.space_4)
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.partColour)) ...[
+                        Row(
+                          children: [
+                            Text("${l10n.colour}: ", style: theme.primaryTextTheme.headline4),
+                            Expanded(
+                              child: Text(
+                                widget.dataModel!.partColour!,
+                                style: theme.primaryTextTheme.bodyText2,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: Dimens.space_4)
+                      ],
                     ],
-                    if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
-                      Row(
-                        children: [
-                          Text("${l10n.sku}: ", style: theme.primaryTextTheme.subtitle2),
-                          Text(
-                            widget.dataModel!.sku!,
-                            style: theme.primaryTextTheme.bodyText2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: Dimens.space_4)
-                    ],
-                    if (!Validator.isNullOrEmpty(widget.dataModel?.partColour)) ...[
-                      Row(
-                        children: [
-                          Text("${l10n.colour}: ", style: theme.primaryTextTheme.headline4),
-                          Text(
-                            widget.dataModel!.partColour!,
-                            style: theme.primaryTextTheme.bodyText2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: Dimens.space_4)
-                    ],
-                  ],
+                  ),
                 )
               ],
             ),
           ),
+          const SizedBox(width: Dimens.space_2),
           Row(
             children: [
               if (!Validator.isNullOrEmpty(widget.dataModel?.action))
@@ -160,7 +165,7 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                     }).toList(),
                     onChanged: (String? value) {
                       if (!Validator.isNullOrEmpty(value)) {
-                        widget.onActionChanged(value!);
+                        widget.onActionChanged(_getValueOfDropDown(value!));
                         _optionSelected = value;
                         setState(() {});
                       }
@@ -172,8 +177,9 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
               GestureDetector(
                 onTap: () {
                   AddDeviceMediaArgumentsTrc args = AddDeviceMediaArgumentsTrc(
-                      partsImage: widget.dataModel?.partsImageList,
-                      onImageUploadCallback: widget.onImageUploadCallback);
+                    partsImage: widget.dataModel?.partsImageList,
+                    onImageUploadCallback: widget.onImageUploadCallback,
+                  );
                   Navigator.of(context).pushNamed(AddDeviceMediaScreenTrc.route, arguments: args);
                 },
                 child: CshIcon(
@@ -187,5 +193,15 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
         ],
       ),
     );
+  }
+
+  _getValueOfDropDown(String value) {
+    if (value == "Not Required") {
+      return "Not Required";
+    } else if (value == "Required") {
+      return "Repairable";
+    } else {
+      return "Not Repairable";
+    }
   }
 }

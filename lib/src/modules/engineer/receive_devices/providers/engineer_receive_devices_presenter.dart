@@ -16,6 +16,9 @@ class EngineerReceiveDevicePresenter {
   void receiveDevice(String barcode, BarcodeScannerController? controller) {
     view.handleLoading(true);
     EngineerAPIService.receiveDevice(barcode).listen((receiveDevicesResponse) {
+      if (controller != null) {
+        controller.pauseCamera();
+      }
       view.handleLoading(false);
       if (receiveDevicesResponse == null) {
         view.displayErrorBottomSheet(() {
@@ -34,11 +37,22 @@ class EngineerReceiveDevicePresenter {
           view.resumeScanner(controller);
         });
       }
-    }).onError((e) {
-      view.handleLoading(false);
-      view.displayErrorBottomSheet(() {
-        view.resumeScanner(controller);
-      }, message: ApiErrorHelper.getErrorMessage(e));
-    });
+    })
+      ..onError((e) {
+        if (controller != null) {
+          controller.pauseCamera();
+        }
+        view.handleLoading(false);
+        view.displayErrorBottomSheet(() {
+          view.resumeScanner(controller);
+        }, message: ApiErrorHelper.getErrorMessage(e));
+      })
+      ..onDone(() {
+        if (controller != null) {
+          Future.delayed(const Duration(milliseconds: 200), () {
+            controller.resumeCamera();
+          });
+        }
+      });
   }
 }

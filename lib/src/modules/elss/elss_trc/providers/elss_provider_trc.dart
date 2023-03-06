@@ -51,10 +51,11 @@ class ELssProviderTrc extends CshChangeNotifier {
           }
         } else {
           if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
-            int k = 0;
+            int k = 1;
             for (var element in event.deviceDetailsData!.repairPartList!) {
               element.elssPartId = k;
               element.partsImageList = ["", "", "", "", "", ""];
+              element.action = "Repairable";
               elssPartList.add(element);
               k++;
             }
@@ -223,7 +224,7 @@ class ELssProviderTrc extends CshChangeNotifier {
 
   getDetailsPostDatMap(String scannedBarcode) {
     Map<String, dynamic> dataMap = {};
-    _addPartsFromPnaFlow();
+
     if (selectedOptionKey != -1) {
       dataMap["ac"] = selectedOptionKey;
       if (selectedOptionKey == 1 || selectedOptionKey == 2 || selectedOptionKey == 3) {
@@ -248,6 +249,9 @@ class ELssProviderTrc extends CshChangeNotifier {
       }
     }
     List<Map<String, dynamic>> rprlList = [];
+    for (var data in elssPartList) {
+      Logger.debug('mydebug------_PartSelectionWidgetTrcState._showElssOptionsModal', [data.toJson()]);
+    }
     if (elssPartList.isNotEmpty) {
       rprlList = List.generate(elssPartList.length, (index) {
         return {
@@ -366,19 +370,22 @@ class ELssProviderTrc extends CshChangeNotifier {
     return false;
   }
 
-  _addPartsFromPnaFlow() {
-    if (!Validator.isListNullOrEmpty(elssPartList)) {
-      elssPartList.removeWhere((element) => element.isManualAdded ?? false);
-      if (!Validator.isListNullOrEmpty(manualAddedPartsList)) {
-        for (var element in manualAddedPartsList) {
-          elssPartList.add(element);
+  checkIsSkuIsMarkedForPna(List<ElssPart> dataList) {
+    if (!Validator.isListNullOrEmpty(dataList)) {
+      for (var element in dataList) {
+        if (element.isPnaSelected == true) {
+          return true;
         }
       }
-    } else {
-      if (!Validator.isListNullOrEmpty(manualAddedPartsList)) {
-        for (var element in manualAddedPartsList) {
-          elssPartList.add(element);
-        }
+    }
+
+    return false;
+  }
+
+  clearPnaStatusWhenPop() {
+    if (!Validator.isListNullOrEmpty(elssPartList)) {
+      for (var element in elssPartList) {
+        element.isPnaSelected = false;
       }
     }
   }

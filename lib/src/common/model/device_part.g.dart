@@ -18,7 +18,8 @@ DevicePart _$DevicePartFromJson(Map<String, dynamic> json) => DevicePart()
   ..isUrgent = json['isUrgent'] as bool?
   ..prId = json['prid'] as int?;
 
-Map<String, dynamic> _$DevicePartToJson(DevicePart instance) => <String, dynamic>{
+Map<String, dynamic> _$DevicePartToJson(DevicePart instance) =>
+    <String, dynamic>{
       'sku': instance.sku,
       'pn': instance.partName,
       'pbr': instance.partBarcode,

@@ -9,9 +9,22 @@ class TitleValueRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [CshTextNew.bodyText2(title), CshTextNew.h3(value)],
+      children: [
+        CshTextNew.bodyText1("$title:"),
+        const SizedBox(width: Dimens.space_4),
+        Expanded(
+          child: Text(
+            value,
+            style: theme.primaryTextTheme.headline4,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        )
+      ],
     );
   }
 }
