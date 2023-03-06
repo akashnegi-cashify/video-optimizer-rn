@@ -11,7 +11,6 @@ class RubbingListData {
   @JsonKey(name: "dl")
   late List<RubbingDeviceData> deviceList;
 
-
   static RubbingListData fromJson(Map<String, dynamic> data) => _$RubbingListDataFromJson(data);
   Map<String, dynamic> toJson() => _$RubbingListDataToJson(this);
 }

@@ -5,6 +5,5 @@ import '../delivery_deliver_api_service.dart';
 
 class DeliveryDeliverInteractorImpl extends DeliveryDeliverInteractor {
   @override
-  Stream<DeliveryResponse?> getEngineersList(bool isUrgent) =>
-      DeliveryDeliverAPIService.getData(isUrgent);
+  Stream<DeliveryResponse?> getEngineersList(bool isUrgent) => DeliveryDeliverAPIService.getData(isUrgent);
 }

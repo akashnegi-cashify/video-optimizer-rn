@@ -1,6 +1,4 @@
 import 'dart:io';
-// import 'dart:html';
-
 import 'package:core/core.dart';
 import 'package:s3_file_uploader/s3_file_uploader.dart';
 import 'package:s3_file_uploader_interface/s3_file_uploader_interface.dart';
@@ -12,7 +10,8 @@ class Amplifier {
   init(String bucketName, String poolId) async {
     S3FileUploaderPlatform.instance = S3FileUploader();
     bool isConfigured = await S3FileUploaderPlatform.instance.configure(amplifyconfig(bucketName, poolId));
-    Logger.log(isConfigured == true ? 'S3FileUploader configured successfully!' : 'S3FileUploader failed to configure');
+    Logger.debug(
+        isConfigured == true ? 'S3FileUploader configured successfully!' : 'S3FileUploader failed to configure');
   }
 
   uploadFile(String filePath, File file, Function(String) onFileUploaded, Function(String) onFailed,

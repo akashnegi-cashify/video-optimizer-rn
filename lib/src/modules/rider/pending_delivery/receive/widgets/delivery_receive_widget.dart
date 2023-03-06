@@ -22,8 +22,7 @@ class _DeliveryReceiveWidgetState extends State<DeliveryReceiveWidget> with Auto
     return ChangeNotifierProvider(create: (context) {
       return DeliveryReceiveProvider();
     }, builder: (context, child) {
-      var provider =
-          Provider.of<DeliveryReceiveProvider>(context, listen: false);
+      var provider = Provider.of<DeliveryReceiveProvider>(context, listen: false);
 
       L10n l10 = L10n(context);
       return Column(

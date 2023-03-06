@@ -14,8 +14,7 @@ class ShimmerListWidget extends StatelessWidget {
       this.itemCount,
       this.itemWidth = double.infinity,
       this.itemHeight = Dimens.space_120,
-      this.itemPadding = const EdgeInsets.symmetric(
-          vertical: Dimens.space_8, horizontal: Dimens.space_16)})
+      this.itemPadding = const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16)})
       : super(key: key);
 
   @override
@@ -24,12 +23,10 @@ class ShimmerListWidget extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         int maxHeight = constraints.maxHeight.toInt();
 
-        int maxItems =
-            maxHeight ~/ (itemHeight + itemPadding.top + itemPadding.bottom);
+        int maxItems = maxHeight ~/ (itemHeight + itemPadding.top + itemPadding.bottom);
 
         if (itemCount != null && maxItems < itemCount!) {
-          throw Exception(
-              "No of items can't fit in the view, try reducing item count!");
+          throw Exception("No of items can't fit in the view, try reducing item count!");
         } else {
           return ListView.builder(
               itemBuilder: (context, _) {

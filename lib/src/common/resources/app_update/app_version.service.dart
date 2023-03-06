@@ -1,4 +1,3 @@
-
 import 'package:core_widgets/core_widgets.dart';
 
 import 'app_version.response.dart';

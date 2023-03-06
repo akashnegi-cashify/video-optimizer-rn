@@ -8,17 +8,15 @@ class DeliveryDeliverAPIService {
     Map<String, List<String>> paramData = {
       "isUrgent": [isUrgent.toString()]
     };
-    return TrcService().get("/rider/delivery/pending/received/engineer-list",
-        DeliveryResponse.fromJson,
-        params: paramData);
+    return TrcService()
+        .get("/rider/delivery/pending/received/engineer-list", DeliveryResponse.fromJson, params: paramData);
   }
 
   static Stream<EngineerPartsResponse?> getEngineerParts(int engineerId) {
     Map<String, List<String>> paramData = {
       "eId": [engineerId.toString()]
     };
-    return TrcService().get("/rider/delivery/pending/received/parts",
-        EngineerPartsResponse.fromJson,
-        params: paramData);
+    return TrcService()
+        .get("/rider/delivery/pending/received/parts", EngineerPartsResponse.fromJson, params: paramData);
   }
 }

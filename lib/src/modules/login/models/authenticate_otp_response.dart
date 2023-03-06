@@ -22,6 +22,6 @@ class AuthenticateOTPResponse {
     this.isPublic,
     this.refreshToken,
   );
-  static AuthenticateOTPResponse fromJson(Map<String, dynamic> data)=> _$AuthenticateOTPResponseFromJson(data);
-  Map<String, dynamic> toJson()=> _$AuthenticateOTPResponseToJson(this);
+  static AuthenticateOTPResponse fromJson(Map<String, dynamic> data) => _$AuthenticateOTPResponseFromJson(data);
+  Map<String, dynamic> toJson() => _$AuthenticateOTPResponseToJson(this);
 }

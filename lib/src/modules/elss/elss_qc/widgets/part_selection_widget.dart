@@ -55,7 +55,10 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.space_8),
-                  child: ElssDeviceDetailsWidget(dataModel: provider.elssDeviceDetails?.deviceDetailsData),
+                  child: ElssDeviceDetailsWidget(
+                    dataModel: provider.elssDeviceDetails?.deviceDetailsData,
+                    gradeLabel: l10n.initialGrade,
+                  ),
                 ),
                 const SizedBox(height: Dimens.space_20),
                 if (provider.elssDeviceDetails?.deviceDetailsData?.partAdditionAllowed ?? false)
@@ -147,16 +150,21 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
               child: SizedBox(
                 width: double.infinity,
                 height: Dimens.space_60,
-                child: Row(
-                  children: [
-                    CshCheckbox(
-                      isSelected: _isRubbingApplicable,
-                    ),
-                    Text(
-                      l10n.deviceRubbing,
-                      style: theme.primaryTextTheme.overline,
-                    )
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(left: Dimens.space_16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          l10n.sendDeviceForRubbing,
+                          style: theme.primaryTextTheme.overline,
+                        ),
+                      ),
+                      CshSwitch(
+                        isSelected: _isRubbingApplicable,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -236,7 +244,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject),
+          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject, barcode: widget.barcode),
         );
       }
     }, onError: (error) {
@@ -369,7 +377,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
           Navigator.pushReplacementNamed(
             context,
             ElssStatusScreen.routeName,
-            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit),
+            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: widget.barcode),
           );
         }
       }
@@ -387,7 +395,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna),
+          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna, barcode: widget.barcode),
         );
       }
     }, onError: (error) {

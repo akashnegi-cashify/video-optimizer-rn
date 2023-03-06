@@ -8,7 +8,6 @@ part 'engineer_device_report_response.g.dart';
 
 @JsonSerializable()
 class EngineerDeviceReportResponse extends BaseActionResponse {
-
   @JsonKey(name: "dt")
   DeviceReportData? data;
 

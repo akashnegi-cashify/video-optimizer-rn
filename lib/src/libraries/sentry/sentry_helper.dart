@@ -26,7 +26,7 @@ class SentryHelper {
 
     List<SentryException>? exceptionList = event.exceptions;
     if (exceptionList == null) {
-        return null;
+      return null;
     }
     if (exceptionList.isNotEmpty) {
       for (int i = 0; i < exceptionList.length; i++) {

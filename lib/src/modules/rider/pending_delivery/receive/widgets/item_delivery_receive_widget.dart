@@ -15,24 +15,20 @@ class ItemDeliveryReceiveWidget extends StatelessWidget {
   // returned success confirmation to refresh main list
   final Function onReceiveConfirm;
 
-  const ItemDeliveryReceiveWidget(
-      {Key? key, required this.item, required this.onReceiveConfirm})
-      : super(key: key);
+  const ItemDeliveryReceiveWidget({Key? key, required this.item, required this.onReceiveConfirm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     L10n l10 = L10n(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: Dimens.space_16, vertical: Dimens.space_8),
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
       child: CshCard(
           child: Column(
         children: [
           KeyValueRowWidget(title: l10.partName, value: item.partName),
           KeyValueRowWidget(title: l10.partBarcode, value: item.partBarcode),
           KeyValueRowWidget(title: l10.partSku, value: item.partSku),
-          KeyValueRowWidget(
-              title: l10.pickFrom, value: item.inventoryManageName),
+          KeyValueRowWidget(title: l10.pickFrom, value: item.inventoryManageName),
           CshMediumOutlineButton(
               text: l10.receiveAllCaps,
               onPressed: () {
@@ -50,17 +46,12 @@ class ItemDeliveryReceiveWidget extends StatelessWidget {
 
   void confirmReceiveRequest(int itemId, BuildContext context) {
     L10n l10 = L10n(context);
-    Provider.of<DeliveryReceiveProvider>(context, listen: false)
-        .confirmReceive(itemId)
-        .listen((event) {
+    Provider.of<DeliveryReceiveProvider>(context, listen: false).confirmReceive(itemId).listen((event) {
       Navigator.pop(context);
       onReceiveConfirm();
-      CshSnackBar.success(
-          context: context, message: l10.partReceivedSuccessfully);
+      CshSnackBar.success(context: context, message: l10.partReceivedSuccessfully);
     }).onError((e, s) {
-      CshSnackBar.error(
-          context: context,
-          message: ApiErrorHelper.getErrorMessage(e) ?? l10.somethingWentWrong);
+      CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(e) ?? l10.somethingWentWrong);
     });
   }
 }

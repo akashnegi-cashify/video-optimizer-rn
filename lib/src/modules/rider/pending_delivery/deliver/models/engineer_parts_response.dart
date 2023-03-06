@@ -14,8 +14,7 @@ class EngineerPartsResponse {
   @JsonKey(name: "dt")
   List<Part>? parts;
 
-  static EngineerPartsResponse fromJson(Map<String, dynamic> data) =>
-      _$EngineerPartsResponseFromJson(data);
+  static EngineerPartsResponse fromJson(Map<String, dynamic> data) => _$EngineerPartsResponseFromJson(data);
 
   Map<String, dynamic> toJson() => _$EngineerPartsResponseToJson(this);
 }

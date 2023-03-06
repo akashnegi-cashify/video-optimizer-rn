@@ -50,4 +50,3 @@ DateTime lastMonthEnd() {
   DateTime currentDateTime = DateTime.now();
   return DateTime(currentDateTime.year, currentDateTime.month).subtract(const Duration(seconds: 1));
 }
-

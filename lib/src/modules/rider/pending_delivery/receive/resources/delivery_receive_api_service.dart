@@ -8,17 +8,13 @@ import '../models/receive_response_model.dart';
 
 class DeliveryReceiveAPIService {
   static Stream<Response?> getData(Request request) {
-    return TrcService().post(
-        "/rider/delivery/pickup/pending", Response.fromJson,
-        body: jsonEncode(request.toJson()));
+    return TrcService().post("/rider/delivery/pickup/pending", Response.fromJson, body: jsonEncode(request.toJson()));
   }
 
   static Stream<PartReceiveResponse?> receivePart(int receivedPartId) {
     Map<String, List<String>> paramData = {
       "prid": [receivedPartId.toString()]
     };
-    return TrcService().put(
-        "/rider/delivery/receive-part", PartReceiveResponse.fromJson,
-        params: paramData);
+    return TrcService().put("/rider/delivery/receive-part", PartReceiveResponse.fromJson, params: paramData);
   }
 }

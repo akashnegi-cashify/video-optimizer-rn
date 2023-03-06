@@ -156,4 +156,8 @@ class ElssService {
     };
     return QcServiceElss().post("/device/elss/elss-accept", ElssSuccessResponse.fromJson, body: jsonEncode(dataMap));
   }
+
+  static Stream<ElssDeviceDetailsResponse?> getElssStatusDeviceDetails(String barcode) {
+    return QcServiceElss().get("/device/elss/details/$barcode", ElssDeviceDetailsResponse.fromJson);
+  }
 }

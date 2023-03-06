@@ -6,7 +6,7 @@ import 'device_info.dart';
 part 'receive_devices_response.g.dart';
 
 @JsonSerializable()
-class ReceiveDevicesResponse extends BaseActionResponse{
+class ReceiveDevicesResponse extends BaseActionResponse {
   @JsonKey(name: "dt")
   DeviceInfo? deviceInfo;
 
@@ -17,5 +17,3 @@ class ReceiveDevicesResponse extends BaseActionResponse{
   @override
   Map<String, dynamic> toJson() => _$ReceiveDevicesResponseToJson(this);
 }
-
-

@@ -16,7 +16,6 @@ class Request {
   @JsonKey(name: "fp")
   FacilityPart? fp;
 
-
   static Request fromJson(Map<String, dynamic> data) => _$RequestFromJson(data);
 
   Map<String, dynamic> toJson() => _$RequestToJson(this);
@@ -27,8 +26,7 @@ class FacilityPart {
   @JsonKey(name: "is_urgent", defaultValue: false)
   late bool isUrgent;
 
-  static FacilityPart fromJson(Map<String, dynamic> data) =>
-      _$FacilityPartFromJson(data);
+  static FacilityPart fromJson(Map<String, dynamic> data) => _$FacilityPartFromJson(data);
 
   Map<String, dynamic> toJson() => _$FacilityPartToJson(this);
 }

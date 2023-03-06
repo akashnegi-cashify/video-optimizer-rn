@@ -6,16 +6,14 @@ import '../delivery_receive_api_service.dart';
 import 'delivery_receive_interactor.dart';
 
 class DeliveryReceiveInteractorImpl implements DeliveryReceiveInteractor {
-  static final DeliveryReceiveInteractorImpl _instance =
-      DeliveryReceiveInteractorImpl._internal();
+  static final DeliveryReceiveInteractorImpl _instance = DeliveryReceiveInteractorImpl._internal();
 
   factory DeliveryReceiveInteractorImpl() => _instance;
 
   DeliveryReceiveInteractorImpl._internal();
 
   @override
-  Stream<Response?> getData(int pageIndex, int pageSize, bool isUrgentRequests,
-      {String? searchQuery}) {
+  Stream<Response?> getData(int pageIndex, int pageSize, bool isUrgentRequests, {String? searchQuery}) {
     Request request = Request();
     request.fp = FacilityPart()..isUrgent = isUrgentRequests;
     request.pageNo = pageIndex;
@@ -25,6 +23,5 @@ class DeliveryReceiveInteractorImpl implements DeliveryReceiveInteractor {
   }
 
   @override
-  Stream<PartReceiveResponse?> receivePart(int partId) =>
-      DeliveryReceiveAPIService.receivePart(partId);
+  Stream<PartReceiveResponse?> receivePart(int partId) => DeliveryReceiveAPIService.receivePart(partId);
 }

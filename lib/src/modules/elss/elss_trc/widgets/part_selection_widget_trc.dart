@@ -258,6 +258,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                             if (imagesDataMap.isNotEmpty) {
                               provider.submitPartsFaultImages(widget.barcode, imagesDataMap);
                             }
+
                             _submitElssPartRequest(widget.barcode, l10n);
                           }
                         },
@@ -317,7 +318,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
                 child: Text(
-                  (Validator.isListNullOrEmpty(provider.manualAddedPartsList))
+                  (Validator.isListNullOrEmpty(provider.elssPartList))
                       ? l10n.noPartAddedForPna
                       : l10n.selectedPartsForPna,
                   style: theme.primaryTextTheme.headline3,
@@ -332,54 +333,54 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                     itemBuilder: (context, index) {
                       return AddPartItemList(
                         dataModel: PartItemDataResponse(
-                          provider.manualAddedPartsList[index].sku,
-                          provider.manualAddedPartsList[index].partColour,
-                          provider.manualAddedPartsList[index].partName,
+                          provider.elssPartList[index].sku,
+                          provider.elssPartList[index].partColour,
+                          provider.elssPartList[index].partName,
                           isCardSelected: false,
                         ),
                         onPartSelected: (bool data) {
-                          provider.manualAddedPartsList[index].isPnaSelected = data;
+                          provider.elssPartList[index].isPnaSelected = data;
                         },
                       );
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(height: Dimens.space_8);
                     },
-                    itemCount: provider.manualAddedPartsList.length),
+                    itemCount: provider.elssPartList.length),
               ),
               const SizedBox(height: Dimens.space_8),
               ComboButton(
-                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-                firstBtnText: l10n.cancel,
-                secondBtnText:
-                    (Validator.isListNullOrEmpty(provider.manualAddedPartsList)) ? l10n.selectParts : l10n.submit,
-                isFirstPrimary: true,
-                buttonType: ButtonType.mini,
-                firstBtnClick: () {
-                  Navigator.of(context).pop(true);
-                },
-                secondBtnClick: (Validator.isListNullOrEmpty(provider.manualAddedPartsList))
-                    ? () async {
-                        Navigator.of(context).pop(true);
-                        var data =
-                            await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: widget.barcode);
-                        if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
-                          for (var element in data!) {
-                            Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
-                          }
-                          provider.addNewPartsFromAddParts(data);
-                        }
+                  padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+                  firstBtnText: l10n.selectParts,
+                  secondBtnText: l10n.submit,
+                  isFirstPrimary: true,
+                  buttonType: ButtonType.mini,
+                  firstBtnClick: () async {
+                    Navigator.of(context).pop(true);
+                    var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: widget.barcode);
+                    if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
+                      for (var element in data!) {
+                        Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
                       }
-                    : () {
-                        Navigator.of(context).pop(true);
-                        _submitPopUpAfterPNA(l10n, theme, selectedKey, provider);
-                      },
-              )
+                      provider.addNewPartsFromAddParts(data);
+                    }
+                  },
+                  secondBtnClick: () {
+                    if (provider.checkIsSkuIsMarkedForPna(provider.elssPartList)) {
+                      _submitPopUpAfterPNA(l10n, theme, selectedKey, provider);
+                    } else {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      CshSnackBar.error(context: context, message: "No Part Marked of PNA");
+                    }
+                  })
             ],
           ),
         );
       },
-    );
+    ).then((value) {
+      provider.clearPnaStatusWhenPop();
+    });
   }
 
   _submitPopUpAfterPNA(L10n l10n, ThemeData theme, int selectedKey, ELssProviderTrc provider) {

@@ -7,7 +7,6 @@ part 'lead_engineer_data.g.dart';
 
 @JsonSerializable()
 class LeadEngineerData {
-
   @JsonKey(name: "leff")
   LeadEngineerEfficiency? leadEngineerEfficiency;
 
@@ -17,10 +16,7 @@ class LeadEngineerData {
   @JsonKey(name: "lv")
   LeadEngineerVolume? leadEngineerVolume;
 
-
   static LeadEngineerData fromJson(Map<String, dynamic> json) => _$LeadEngineerDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$LeadEngineerDataToJson(this);
-
-
 }

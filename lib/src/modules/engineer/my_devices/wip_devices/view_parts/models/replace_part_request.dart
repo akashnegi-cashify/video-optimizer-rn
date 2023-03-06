@@ -4,7 +4,6 @@ part 'replace_part_request.g.dart';
 
 @JsonSerializable()
 class ReplacePartRequest {
-
   @JsonKey(name: "pbr")
   String? partBarcode;
 

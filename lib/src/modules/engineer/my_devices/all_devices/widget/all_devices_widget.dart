@@ -8,6 +8,8 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/all_devices/widget/i
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../utils/app_constants.dart';
+
 class AllDevicesWidget extends StatefulWidget {
   const AllDevicesWidget({Key? key}) : super(key: key);
 
@@ -21,50 +23,56 @@ class _AllDevicesWidgetState extends State<AllDevicesWidget> with AutomaticKeepA
   @override
   void initState() {
     stream = EngineerAPIService.getAllDevices();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) {
-        return AllDevicesProvider();
-      },
-      child: Column(
-        children: [
-          const _Header(),
-          Expanded(
-            child: StreamBuilder<EngineerDeviceListResponse?>(
-              builder: (context, asyncSnapshot) {
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  return const ShimmerListWidget(
-                    itemHeight: Dimens.space_60,
-                  );
-                }
-                if (asyncSnapshot.hasData && asyncSnapshot.data != null) {
-                  var list = asyncSnapshot.data!.deviceList;
-                  if (list != null) {
-                    return CshList(
-                      rowCount: list.length,
-                      onRefresh: () {
-                        setState(() {
-                          stream = EngineerAPIService.getAllDevices();
-                        });
-                      },
-                      getRowWidget: (index) {
-                        return ItemAllDevicesWidget(list[index]);
-                      },
+    return ChangeNotifierProvider<AllDevicesProvider>(
+      create: (_) => AllDevicesProvider(),
+      lazy: false,
+      builder: (BuildContext insideContext, __) {
+        var provider = AllDevicesProvider.of(insideContext);
+        provider.refreshAllDeviceList = refreshList;
+        return Column(
+          children: [
+            const _Header(),
+            Expanded(
+              child: StreamBuilder<EngineerDeviceListResponse?>(
+                builder: (context, asyncSnapshot) {
+                  if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+                    return const ShimmerListWidget(
+                      itemHeight: Dimens.space_60,
                     );
                   }
-                }
-                return const SizedBox.shrink();
-              },
-              stream: stream,
-            ),
-          )
-        ],
-      ),
+                  if (asyncSnapshot.hasData && asyncSnapshot.data != null) {
+                    var list = asyncSnapshot.data!.deviceList;
+                    if (list != null) {
+                      return CshList(
+                        rowCount: list.length,
+                        onRefresh: refreshList,
+                        getRowWidget: (index) {
+                          return ItemAllDevicesWidget(list[index]);
+                        },
+                      );
+                    }
+                  }
+                  return const SizedBox.shrink();
+                },
+                stream: stream,
+              ),
+            )
+          ],
+        );
+      },
     );
+  }
+
+  refreshList() {
+    setState(() {
+      stream = EngineerAPIService.getAllDevices();
+    });
   }
 
   @override

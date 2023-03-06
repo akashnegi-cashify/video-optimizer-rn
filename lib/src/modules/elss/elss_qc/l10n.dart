@@ -97,6 +97,10 @@ class L10n extends BaseL10n {
 
   String get grade => Intl.message("Grade", locale: localName, name: "grade");
 
+  String get suggestedGrade => Intl.message("Suggested grade", locale: localName, name: "suggestedGrade");
+
+  String get profit => Intl.message("Profit", locale: localName, name: "profit");
+
   String get addParts => Intl.message("Add parts", locale: localName, name: "addParts");
 
   String get required => Intl.message("Required", locale: localName, name: "required");
@@ -137,6 +141,9 @@ class L10n extends BaseL10n {
 
   String get deviceRubbing => Intl.message("Device Rubbing", locale: localName, name: "deviceRubbing");
 
+  String get sendDeviceForRubbing =>
+      Intl.message("Send Device for rubbing", locale: localName, name: "sendDeviceForRubbing");
+
   String get partsSubmittedSuccessfully =>
       Intl.message("Parts Submitted Successfully!!", locale: localName, name: "partsSubmittedSuccessfully");
 
@@ -152,9 +159,14 @@ class L10n extends BaseL10n {
 
   String get previousSuggestion => Intl.message("Previous Suggestion", locale: localName, name: "previousSuggestion");
 
+  String get initialPlatformSuggestion =>
+      Intl.message("Initial Platform Suggestion", locale: localName, name: "initialPlatformSuggestion");
+
   String get price => Intl.message("Price", locale: localName, name: "price");
 
   String get channelName => Intl.message("Channel Name", locale: localName, name: "channelName");
+
+  String get channel => Intl.message("Channel", locale: localName, name: "channel");
 
   String get channelSuggestionCost =>
       Intl.message("Channel Suggestion Cost", locale: localName, name: "channelSuggestionCost");
@@ -162,9 +174,16 @@ class L10n extends BaseL10n {
   String get defaultChannelOption =>
       Intl.message("Default Channel Option", locale: localName, name: "defaultChannelOption");
 
+  String get nonRepairSuggestion =>
+      Intl.message("Non-Repair Suggestion", locale: localName, name: "nonRepairSuggestion");
+
   String get yourChannelOption => Intl.message("Your Channel Option", locale: localName, name: "yourChannelOption");
 
+  String get yourSuggestion => Intl.message("Your Suggestion", locale: localName, name: "yourSuggestion");
+
   String get isRubbingAllowed => Intl.message("Is Rubbing Allowed", locale: localName, name: "isRubbingAllowed");
+
+  String get rubbingAllowed => Intl.message("Rubbing Allowed", locale: localName, name: "rubbingAllowed");
 
   String get listOfSkUs => Intl.message("List Of SKUs", locale: localName, name: "listOfSkUs");
 
@@ -178,15 +197,18 @@ class L10n extends BaseL10n {
 
   String get channelSuggestion => Intl.message("Channel Suggestion", locale: localName, name: "channelSuggestion");
 
-  String get profit => Intl.message("Profit", locale: localName, name: "profit");
-
   String get reset => Intl.message("Reset", locale: localName, name: "reset");
 
   String get pnaDescription => Intl.message("Device part marked PNA", locale: localName, name: "pnaDescription");
 
   String get rejectDescription => Intl.message("ELSS Request rejected", locale: localName, name: "rejectDescription");
 
-  String get elssSubmitDescription => Intl.message("ELSS Request submitted successfully", locale: localName, name: "elssSubmitDescription");
+  String get elssSubmitDescription =>
+      Intl.message("ELSS Request submitted successfully", locale: localName, name: "elssSubmitDescription");
 
   String get elssStatus => Intl.message("ELSS Status", locale: localName, name: "elssStatus");
+
+  String get initialGrade => Intl.message("Initial Grade", locale: localName, name: "initialGrade");
+
+  String get home => Intl.message("Home", locale: localName, name: "home");
 }

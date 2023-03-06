@@ -64,6 +64,7 @@ ChannelOptionData _$ChannelOptionDataFromJson(Map<String, dynamic> json) =>
       requestedParts: (json['rp'] as List<dynamic>?)
           ?.map((e) => ElssPart.fromJson(e as Map<String, dynamic>))
           .toList(),
+      repairType: json['rt'] as String?,
     );
 
 Map<String, dynamic> _$ChannelOptionDataToJson(ChannelOptionData instance) =>
@@ -74,4 +75,5 @@ Map<String, dynamic> _$ChannelOptionDataToJson(ChannelOptionData instance) =>
       'gr': instance.grade,
       'isr': instance.isRubbingAllowed,
       'rp': instance.requestedParts,
+      'rt': instance.repairType,
     };

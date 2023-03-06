@@ -36,11 +36,7 @@ class PickupReceiveProvider extends CshChangeNotifier with Searchable {
 
   applySearch() {
     displayList = _response?.data
-        ?.where((element) =>
-            element.name
-                ?.toLowerCase()
-                .contains(searchQuery?.toLowerCase() ?? "") ??
-            false)
+        ?.where((element) => element.name?.toLowerCase().contains(searchQuery?.toLowerCase() ?? "") ?? false)
         .toList();
     notifyListeners();
   }

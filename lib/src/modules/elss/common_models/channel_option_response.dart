@@ -66,6 +66,8 @@ class ChannelOptionData {
   bool? isRubbingAllowed;
   @JsonKey(name: "rp")
   List<ElssPart>? requestedParts;
+  @JsonKey(name: "rt")
+  String? repairType;
 
   ChannelOptionData({
     this.optionId,
@@ -74,6 +76,7 @@ class ChannelOptionData {
     this.grade,
     this.isRubbingAllowed,
     this.requestedParts,
+    this.repairType,
   });
 
   static ChannelOptionData fromJson(Map<String, dynamic> data) => _$ChannelOptionDataFromJson(data);

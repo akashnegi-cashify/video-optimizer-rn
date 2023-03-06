@@ -25,7 +25,7 @@ Environment getEnvironment() {
   }
 }
 
-String? addAuthUriQueryParams(String? authUri){
+String? addAuthUriQueryParams(String? authUri) {
   if (authUri == null) {
     return authUri;
   }

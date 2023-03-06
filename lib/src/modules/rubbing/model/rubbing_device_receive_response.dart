@@ -21,5 +21,4 @@ class RubbingDeviceReceiveResponse extends BaseResponse {
 
   @override
   Map<String, dynamic> toJson() => _$RubbingDeviceReceiveResponseToJson(this);
-
 }

@@ -1,14 +1,11 @@
-
-
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'return_reason_response.g.dart';
 
 @JsonSerializable()
-class ReturnReasonResponse extends BaseActionResponse{
-
-  @JsonKey(name:"dt")
+class ReturnReasonResponse extends BaseActionResponse {
+  @JsonKey(name: "dt")
   List<String>? reasons;
 
   ReturnReasonResponse(super.cashifyAlert, super.trackUrl);
@@ -17,5 +14,4 @@ class ReturnReasonResponse extends BaseActionResponse{
 
   @override
   Map<String, dynamic> toJson() => _$ReturnReasonResponseToJson(this);
-
 }

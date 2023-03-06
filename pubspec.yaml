@@ -42,7 +42,6 @@ dependencies:
       path: localization
 
   components:
-
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
       ref: main
@@ -61,7 +60,6 @@ dependencies:
       path: calculator_ui
 
   s3_file_uploader_interface:
-
     git:
       url: https://github.com/reglobe/flutter_plugins.git
       ref: prod

@@ -3,8 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'base_action_response.g.dart';
 
 @JsonSerializable()
-class BaseActionResponse extends BaseResponse{
-
+class BaseActionResponse extends BaseResponse {
   @JsonKey(name: "r_id")
   String? refId;
 
@@ -16,10 +15,8 @@ class BaseActionResponse extends BaseResponse{
 
   BaseActionResponse(super.cashifyAlert, super.trackUrl);
 
-
   static BaseActionResponse fromJson(Map<String, dynamic> json) => _$BaseActionResponseFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$BaseActionResponseToJson(this);
-
 }
