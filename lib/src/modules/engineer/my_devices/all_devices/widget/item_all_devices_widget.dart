@@ -20,7 +20,7 @@ class ItemAllDevicesWidget extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     L10n l10n = L10n(context);
 
-    AllDevicesProvider reader = Provider.of<AllDevicesProvider>(context, listen: false);
+    AllDevicesProvider reader = AllDevicesProvider.of(context, listen: false);
 
     return GestureDetector(
       onTap: () {
@@ -71,8 +71,9 @@ class ItemAllDevicesWidget extends StatelessWidget {
                                   message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
                             }, onDone: () {
                               // hide loading
-                              if (refreshAllDeviceList != null) {
-                                refreshAllDeviceList!();
+
+                              if (reader.refreshAllDeviceList != null) {
+                                reader.refreshAllDeviceList!();
                               }
                               CshLoading().hideLoading(context);
                               // popping of bottom sheet after the request completion

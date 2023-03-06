@@ -43,4 +43,4 @@ class AppConstants {
   static String LOGIN_TOKEN = 'login_token';
 }
 
-Function()? refreshAllDeviceList;
+

@@ -23,46 +23,49 @@ class _AllDevicesWidgetState extends State<AllDevicesWidget> with AutomaticKeepA
   @override
   void initState() {
     stream = EngineerAPIService.getAllDevices();
-    refreshAllDeviceList = refreshList;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) {
-        return AllDevicesProvider();
-      },
-      child: Column(
-        children: [
-          const _Header(),
-          Expanded(
-            child: StreamBuilder<EngineerDeviceListResponse?>(
-              builder: (context, asyncSnapshot) {
-                if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-                  return const ShimmerListWidget(
-                    itemHeight: Dimens.space_60,
-                  );
-                }
-                if (asyncSnapshot.hasData && asyncSnapshot.data != null) {
-                  var list = asyncSnapshot.data!.deviceList;
-                  if (list != null) {
-                    return CshList(
-                      rowCount: list.length,
-                      onRefresh: refreshList,
-                      getRowWidget: (index) {
-                        return ItemAllDevicesWidget(list[index]);
-                      },
+    return ChangeNotifierProvider<AllDevicesProvider>(
+      create: (_) => AllDevicesProvider(),
+      lazy: false,
+      builder: (BuildContext insideContext, __) {
+        var provider = AllDevicesProvider.of(insideContext);
+        provider.refreshAllDeviceList = refreshList;
+        return Column(
+          children: [
+            const _Header(),
+            Expanded(
+              child: StreamBuilder<EngineerDeviceListResponse?>(
+                builder: (context, asyncSnapshot) {
+                  if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+                    return const ShimmerListWidget(
+                      itemHeight: Dimens.space_60,
                     );
                   }
-                }
-                return const SizedBox.shrink();
-              },
-              stream: stream,
-            ),
-          )
-        ],
-      ),
+                  if (asyncSnapshot.hasData && asyncSnapshot.data != null) {
+                    var list = asyncSnapshot.data!.deviceList;
+                    if (list != null) {
+                      return CshList(
+                        rowCount: list.length,
+                        onRefresh: refreshList,
+                        getRowWidget: (index) {
+                          return ItemAllDevicesWidget(list[index]);
+                        },
+                      );
+                    }
+                  }
+                  return const SizedBox.shrink();
+                },
+                stream: stream,
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 
