@@ -8,7 +8,7 @@ part of 'elss_part.dart';
 
 ElssPart _$ElssPartFromJson(Map<String, dynamic> json) => ElssPart(
       version: json['_v'] as int? ?? 0,
-      action: json['ac'] as String?,
+      action: json['ac'] as String? ?? "Repairable",
       isManualAdded: json['isManualAdded'] as bool? ?? false,
       isPnaSelected: json['isPnaSelected'] as bool? ?? false,
       isVisibleForPna: json['isVisibleForPna'] as bool? ?? false,
