@@ -39,29 +39,6 @@ class ChannelOptionProvider extends CshChangeNotifier {
 
   List<ChannelOptionData>? get channelOptions => channelOptionResponse?.channelOptionData?.listOfChannelOption;
 
-  Future<bool> rejectElss(String barcode) {
-    var completer = Completer<bool>();
-    try {
-      ElssService.rejectElss(barcode).listen((event) {
-        if (event != null) {
-          if (event.isSuccess == true) {
-            completer.complete(true);
-          } else {
-            completer.completeError("Something Went Wrong!!");
-          }
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
-
   getBodyDataMapForPNA(List<ElssPart> dataList) {
     Map<String, dynamic> dataMap = {};
     List<Map<String, dynamic>> listDataMap = [];
