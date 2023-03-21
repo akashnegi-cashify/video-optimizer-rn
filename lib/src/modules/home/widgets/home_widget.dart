@@ -3,7 +3,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/home/providers/home_provider.dart';
-import 'package:flutter_trc/src/modules/login/login_screen.dart';
+import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({Key? key}) : super(key: key);

@@ -73,10 +73,8 @@ class PendingDeviceListResponse : BaseResponse() {
         var isUrgent: Boolean = false
 
 
-
         @SerializedName("rt")
         var repairType: String? = ""
-
 
 
         @SerializedName("gr")

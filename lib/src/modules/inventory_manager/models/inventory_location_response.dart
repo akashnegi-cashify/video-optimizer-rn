@@ -18,3 +18,13 @@ class InventoryLocationResponse {
 
   Map<String, dynamic> toJson() => _$InventoryLocationResponseToJson(this);
 }
+
+class GroupLocationModel {
+  String? locationName;
+  bool? isSelected;
+
+  GroupLocationModel({
+    this.isSelected,
+    this.locationName,
+  });
+}

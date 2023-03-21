@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/login/providers/login_provider.dart';
 import 'package:flutter_trc/src/modules/login/widgets/login_widget.dart';
 import 'package:provider/provider.dart';
-import 'l10n.dart';
-import 'widgets/qc_login_widget.dart';
+import '../l10n.dart';
+import '../widgets/qc_login_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = '/login';

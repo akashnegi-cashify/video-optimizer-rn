@@ -26,7 +26,7 @@ class UserDetails {
     userDetailsData = UserDetailsResponse.fromJson(decodedUserAuth);
   }
 
-  void setAppVerison(int? appV) {
+  void setAppVersion(int? appV) {
     print('UserDetails.setAppVerison $appV');
     appVersion = appV;
   }
