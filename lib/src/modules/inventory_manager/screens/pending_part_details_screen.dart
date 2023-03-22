@@ -190,14 +190,15 @@ class PendingPartDetailsScreen extends StatelessWidget {
                             CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
                           }
                         },
-                        alternatePartBtnOnPressed: () {
+                        alternatePartBtnOnPressed: () async {
                           if (args.prid != null) {
                             AlternatePartArguments arg = AlternatePartArguments(
                               prid: args.prid,
                               detailsModelData: args.detailsModelData,
                               itemDataModel: provider.partsDetailsResponse?.partsDetails,
                             );
-                            Navigator.of(context).pushNamed(AlternatePartScreen.route, arguments: arg);
+                            await Navigator.of(context).pushNamed(AlternatePartScreen.route, arguments: arg);
+                            provider.syncData();
                           } else {
                             CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
                           }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_trc/src/services/trc_service.dart';
 
+import '../models/alternate_part_request_response.dart';
 import '../models/assigned_device_details.dart';
 import '../models/assigned_part_details_response.dart';
 import '../models/cancel_part_request_response.dart';
@@ -229,5 +230,24 @@ class InventoryService {
       "prid": [prid.toString()],
     };
     return TrcService().get('/part/list-alternate-parts', ListAlternatePartsResponse.fromJson, params: paramData);
+  }
+
+  static Stream<AlternatePartRequestResponse?> alternatePartRequest(
+      int partId, String productName, String sku, int did) {
+    Map<String, dynamic> mapData = {
+      "partId": partId,
+      "pn": productName,
+      "sku": sku,
+      "version": 0,
+    };
+    Map<String, List<String>> paramData = {
+      "did": [did.toString()],
+    };
+    return TrcService().post(
+      "/part/init-alternate-part-request",
+      AlternatePartRequestResponse.fromJson,
+      body: jsonEncode(mapData),
+      params: paramData,
+    );
   }
 }

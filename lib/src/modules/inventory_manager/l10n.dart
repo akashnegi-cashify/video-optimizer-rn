@@ -184,4 +184,15 @@ class L10n extends BaseL10n {
       Intl.message("Dead part linked successfully", locale: localName, name: "deadPartLinkedSuccessfully");
 
   String get alternatePartList => Intl.message("Alternate Part List", locale: localName, name: "alternatePartList");
+
+  String get originalPartRequest =>
+      Intl.message("Original Part Request", locale: localName, name: "originalPartRequest");
+
+  String get alternatePartsAvailable =>
+      Intl.message("Alternate Parts Available", locale: localName, name: "alternatePartsAvailable");
+
+  String get request => Intl.message("Request", locale: localName, name: "request");
+
+  String get alternatePartDataFetched =>
+      Intl.message("Alternate part data fetched!!", locale: localName, name: "alternatePartDataFetched");
 }
