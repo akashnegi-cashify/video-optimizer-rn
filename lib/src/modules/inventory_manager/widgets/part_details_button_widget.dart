@@ -1,10 +1,22 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import '../l10n.dart';
+import '../resources/part_status_enum.dart';
+
+class _DisableAndVisible {
+  bool disable;
+  bool isVisible;
+
+  _DisableAndVisible({
+    required this.disable,
+    required this.isVisible,
+  });
+}
 
 class PartDetailsButtonWidget extends StatefulWidget {
-  final bool cancelBtnEnable, assignBtnEnable, deadPartBtnEnable, alternativePartBtnEnable, goBackBtnEnable;
-  final bool cancelBtnVisible, assignBtnVisible, deadPartBtnVisible, alternativePartBtnVisible, goBackBtnVisible;
+  final int statusCode;
   final Function()? cancelBtnOnPressed,
       assignBtnOnPressed,
       deadPartOnPressed,
@@ -13,20 +25,11 @@ class PartDetailsButtonWidget extends StatefulWidget {
 
   const PartDetailsButtonWidget({
     Key? key,
-    required this.alternativePartBtnEnable,
-    required this.assignBtnEnable,
-    required this.cancelBtnEnable,
-    required this.deadPartBtnEnable,
-    required this.goBackBtnEnable,
-    required this.alternativePartBtnVisible,
-    required this.assignBtnVisible,
-    required this.cancelBtnVisible,
-    required this.deadPartBtnVisible,
-    required this.goBackBtnVisible,
+    required this.statusCode,
     this.alternatePartBtnOnPressed,
+    this.deadPartOnPressed,
     this.assignBtnOnPressed,
     this.cancelBtnOnPressed,
-    this.deadPartOnPressed,
     this.goBackBtnOnPressed,
   }) : super(key: key);
 
@@ -35,62 +38,76 @@ class PartDetailsButtonWidget extends StatefulWidget {
 }
 
 class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
+  _DisableAndVisible? _cancelButtonState;
+  _DisableAndVisible? _assignButtonState;
+  _DisableAndVisible? _deadButtonState;
+  _DisableAndVisible? _alternativeButtonState;
+  _DisableAndVisible? _goBackButtonState;
+
+  @override
+  void initState() {
+    scheduleMicrotask(() {
+      _checkStatusAndDisplayButton(widget.statusCode);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
     return Row(
       children: [
-        if (widget.cancelBtnVisible) ...[
+        if (_cancelButtonState?.isVisible ?? false) ...[
           Flexible(
             child: _buttonWidget(
               theme,
               label: l10n.cancel,
-              isEnable: widget.cancelBtnEnable,
+              isEnable: _cancelButtonState!.disable,
               onPressed: widget.cancelBtnOnPressed ?? () {},
             ),
           ),
           const SizedBox(width: Dimens.space_6),
         ],
-        if (widget.assignBtnVisible) ...[
+        if (_assignButtonState?.isVisible ?? false) ...[
           Flexible(
             child: _buttonWidget(
               theme,
               label: l10n.assign,
-              isEnable: widget.assignBtnEnable,
+              isEnable: _assignButtonState!.disable,
               onPressed: widget.assignBtnOnPressed ?? () {},
             ),
           ),
           const SizedBox(width: Dimens.space_6),
         ],
-        if (widget.deadPartBtnVisible) ...[
+        if (_deadButtonState?.isVisible ?? false) ...[
           Flexible(
             child: _buttonWidget(
               theme,
               label: l10n.deadPart,
-              isEnable: widget.deadPartBtnEnable,
+              isEnable: _deadButtonState!.disable,
               onPressed: widget.deadPartOnPressed ?? () {},
             ),
           ),
           const SizedBox(width: Dimens.space_6),
         ],
-        if (widget.alternativePartBtnVisible) ...[
+        if (_alternativeButtonState?.isVisible ?? false) ...[
           Flexible(
             child: _buttonWidget(
               theme,
               label: l10n.alternatePart,
-              isEnable: widget.alternativePartBtnEnable,
+              isEnable: _alternativeButtonState!.disable,
               onPressed: widget.alternatePartBtnOnPressed ?? () {},
             ),
           ),
           const SizedBox(width: Dimens.space_6),
         ],
-        if (widget.goBackBtnVisible) ...[
+        if (_goBackButtonState?.isVisible ?? false) ...[
           Flexible(
             child: _buttonWidget(
               theme,
               label: l10n.goBack,
-              isEnable: widget.goBackBtnEnable,
+              isEnable: _goBackButtonState!.disable,
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
@@ -100,6 +117,29 @@ class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
         ]
       ],
     );
+  }
+
+  _checkStatusAndDisplayButton(int statusCode) {
+    if (PartStatus.getEnumByValue(statusCode) == PartStatus.OTHER) {
+      _cancelButtonState = _DisableAndVisible(disable: false, isVisible: true);
+      _assignButtonState = _DisableAndVisible(disable: false, isVisible: true);
+      _deadButtonState = _DisableAndVisible(disable: false, isVisible: true);
+      _alternativeButtonState = _DisableAndVisible(disable: false, isVisible: true);
+      _goBackButtonState = _DisableAndVisible(disable: false, isVisible: false);
+    } else if (PartStatus.getEnumByValue(statusCode) == PartStatus.AVAILABLE) {
+      _cancelButtonState = _DisableAndVisible(disable: true, isVisible: true);
+      _assignButtonState = _DisableAndVisible(disable: true, isVisible: true);
+      _deadButtonState = _DisableAndVisible(disable: false, isVisible: false);
+      _alternativeButtonState = _DisableAndVisible(disable: false, isVisible: false);
+      _goBackButtonState = _DisableAndVisible(disable: false, isVisible: false);
+    } else if (PartStatus.getEnumByValue(statusCode) == PartStatus.NOT_AVAILABLE) {
+      _cancelButtonState = _DisableAndVisible(disable: true, isVisible: true);
+      _assignButtonState = _DisableAndVisible(disable: false, isVisible: false);
+      _deadButtonState = _DisableAndVisible(disable: true, isVisible: true);
+      _alternativeButtonState = _DisableAndVisible(disable: true, isVisible: true);
+      _goBackButtonState = _DisableAndVisible(disable: false, isVisible: false);
+    }
+    setState(() {});
   }
 
   _buttonWidget(ThemeData theme, {required String label, required bool isEnable, required Function() onPressed}) {

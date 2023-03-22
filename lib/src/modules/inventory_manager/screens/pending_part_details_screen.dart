@@ -108,103 +108,47 @@ class PendingPartDetailsScreen extends StatelessWidget {
                   const Expanded(
                     child: SizedBox.shrink(),
                   ),
-                  if (!Validator.isNullOrEmpty(provider.partsDetailsResponse?.partsDetails?.partStatus) &&
-                      provider.partsDetailsResponse!.partsDetails!.partStatus == "Cancelled") ...[
-                    SizedBox(
-                      width: double.infinity,
-                      child: CshMediumButton(
-                        text: l10n.goBack,
-                        onPressed: () {
-                          Navigator.of(context).pop(true);
-                        },
-                      ),
-                    )
-                  ] else ...[
-                    if (PartStatus.getEnumByValue(args.statusCode) == PartStatus.OTHER)
-                      const PartDetailsButtonWidget(
-                        cancelBtnEnable: false,
-                        cancelBtnVisible: true,
-                        assignBtnEnable: false,
-                        assignBtnVisible: true,
-                        deadPartBtnEnable: false,
-                        deadPartBtnVisible: true,
-                        alternativePartBtnEnable: false,
-                        alternativePartBtnVisible: true,
-                        goBackBtnEnable: false,
-                        goBackBtnVisible: false,
-                      ),
-                    if (PartStatus.getEnumByValue(args.statusCode) == PartStatus.AVAILABLE)
-                      PartDetailsButtonWidget(
-                        cancelBtnEnable: true,
-                        cancelBtnVisible: true,
-                        assignBtnEnable: true,
-                        assignBtnVisible: true,
-                        deadPartBtnEnable: false,
-                        deadPartBtnVisible: false,
-                        alternativePartBtnEnable: false,
-                        alternativePartBtnVisible: false,
-                        goBackBtnEnable: false,
-                        goBackBtnVisible: false,
-                        cancelBtnOnPressed: () {
-                          if (args.prid != null) {
-                            _showCancelModal(insideContext, theme, l10n, args.prid);
-                          } else {
-                            CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                          }
-                        },
-                        assignBtnOnPressed: () {
-                          if (provider.partsDetailsResponse?.partsDetails?.prid != null) {
-                            AssignBarcodeScannerArguments arguments = AssignBarcodeScannerArguments(
-                                pendingDeviceDetailData: args.detailsModelData,
-                                detailsData: provider.partsDetailsResponse?.partsDetails,
-                                prid: provider.partsDetailsResponse!.partsDetails!.prid!);
-                            Navigator.of(context).pushNamed(AssignBarcodeScannerScreen.route, arguments: arguments);
-                          } else {
-                            CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                          }
-                        },
-                      ),
-                    if (PartStatus.getEnumByValue(args.statusCode) == PartStatus.NOT_AVAILABLE)
-                      PartDetailsButtonWidget(
-                        cancelBtnEnable: true,
-                        cancelBtnVisible: true,
-                        assignBtnEnable: false,
-                        assignBtnVisible: false,
-                        deadPartBtnEnable: true,
-                        deadPartBtnVisible: true,
-                        alternativePartBtnEnable: true,
-                        alternativePartBtnVisible: true,
-                        goBackBtnEnable: false,
-                        goBackBtnVisible: false,
-                        cancelBtnOnPressed: () {
-                          if (args.prid != null) {
-                            _showCancelModal(insideContext, theme, l10n, args.prid);
-                          } else {
-                            CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                          }
-                        },
-                        deadPartOnPressed: () {
-                          if (args.prid != null) {
-                            _showLinkDeadPartModal(insideContext, theme, l10n, args.prid, args);
-                          } else {
-                            CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                          }
-                        },
-                        alternatePartBtnOnPressed: () async {
-                          if (args.prid != null) {
-                            AlternatePartArguments arg = AlternatePartArguments(
-                              prid: args.prid,
-                              detailsModelData: args.detailsModelData,
-                              itemDataModel: provider.partsDetailsResponse?.partsDetails,
-                            );
-                            await Navigator.of(context).pushNamed(AlternatePartScreen.route, arguments: arg);
-                            provider.syncData();
-                          } else {
-                            CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                          }
-                        },
-                      ),
-                  ]
+                  PartDetailsButtonWidget(
+                    statusCode: args.statusCode,
+                    cancelBtnOnPressed: () {
+                      if (args.prid != null) {
+                        _showCancelModal(insideContext, theme, l10n, args.prid);
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                      }
+                    },
+                    assignBtnOnPressed: () {
+                      if (provider.partsDetailsResponse?.partsDetails?.prid != null) {
+                        AssignBarcodeScannerArguments arguments = AssignBarcodeScannerArguments(
+                            pendingDeviceDetailData: args.detailsModelData,
+                            detailsData: provider.partsDetailsResponse?.partsDetails,
+                            prid: provider.partsDetailsResponse!.partsDetails!.prid!);
+                        Navigator.of(context).pushNamed(AssignBarcodeScannerScreen.route, arguments: arguments);
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                      }
+                    },
+                    deadPartOnPressed: () {
+                      if (args.prid != null) {
+                        _showLinkDeadPartModal(insideContext, theme, l10n, args.prid, args);
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                      }
+                    },
+                    alternatePartBtnOnPressed: () async {
+                      if (args.prid != null) {
+                        AlternatePartArguments arg = AlternatePartArguments(
+                          prid: args.prid,
+                          detailsModelData: args.detailsModelData,
+                          itemDataModel: provider.partsDetailsResponse?.partsDetails,
+                        );
+                        await Navigator.of(context).pushNamed(AlternatePartScreen.route, arguments: arg);
+                        provider.syncData();
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                      }
+                    },
+                  ),
                 ],
               ),
             ),

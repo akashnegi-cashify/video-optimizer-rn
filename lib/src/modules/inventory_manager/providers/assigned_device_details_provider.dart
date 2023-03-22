@@ -48,6 +48,7 @@ class AssignedDeviceDetailsProvider extends CshChangeNotifier {
     }, onError: (error) {
       String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
       Logger.debug('mydebug------AssignedDeviceDetailsProvider._getAllottedPartsList', [em]);
+      listErrorMessage = em;
     }, onDone: () {
       isListDataLoading = false;
       notifyListeners();
