@@ -2,9 +2,9 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
 
 import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_action.dart';
@@ -55,10 +55,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.space_8),
-                  child: ElssDeviceDetailsWidget(
-                    dataModel: provider.elssDeviceDetails?.deviceDetailsData,
-                    gradeLabel: l10n.initialGrade,
-                  ),
+                  child: ElssDeviceDetailsWidget(dataModel: provider.elssDeviceDetails?.deviceDetailsData),
                 ),
                 const SizedBox(height: Dimens.space_20),
                 if (provider.elssDeviceDetails?.deviceDetailsData?.partAdditionAllowed ?? false)
@@ -223,11 +220,11 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       builder: (BuildContext innerContext) {
         return DiscardModalWidget(
           onRejectCallback: () {
-            Navigator.of(context).pop(true);
+            Navigator.of(context).pop();
             _onRejectElss();
           },
           onRetestCallback: () {
-            Navigator.of(context).pop(true);
+            Navigator.of(context).pop();
             _onRetestingElss();
           },
         );
@@ -236,36 +233,11 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
   }
 
   _onRejectElss() {
-    var provider = ELssProviderQc.of(context, listen: false);
-    CshLoading().showLoading(context);
-    provider.rejectElss(widget.barcode).then((value) {
-      CshLoading().hideLoading(context);
-      if (value) {
-        Navigator.pushReplacementNamed(
-          context,
-          ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject, barcode: widget.barcode),
-        );
-      }
-    }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
-      CshLoading().hideLoading(context);
-    });
+    showRejectRetestBottomSheetModal(context, ReasonType.reject, widget.barcode);
   }
 
   _onRetestingElss() {
-    var provider = ELssProviderQc.of(context, listen: false);
-    CshLoading().showLoading(context);
-    provider.retestElss(widget.barcode).then((value) {
-      CshLoading().hideLoading(context);
-      if (value) {
-        CshSnackBar.success(context: context, message: "Moved to Retesting successfully!!");
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      }
-    }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
-      CshLoading().hideLoading(context);
-    });
+    showRejectRetestBottomSheetModal(context, ReasonType.retest, widget.barcode);
   }
 
   _bottomHandlingButtons(

@@ -198,48 +198,6 @@ class ELssProviderQc extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<bool> rejectElss(String barcode) {
-    var completer = Completer<bool>();
-    try {
-      ElssService.rejectElss(barcode).listen((event) {
-        if (event != null) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong!!");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
-
-  Future<bool> retestElss(String barcode) {
-    var completer = Completer<bool>();
-    try {
-      ElssService.retestingElss(barcode).listen((event) {
-        if (event != null) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
-
   Future<bool> submitPartsForLogic(String barcode) {
     Map<String, dynamic> bodyData = getDetailsPostDatMap(barcode);
     var completer = Completer<bool>();

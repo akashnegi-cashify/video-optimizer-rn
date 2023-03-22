@@ -1,17 +1,13 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+
 import '../../common_models/elss_device_details_response.dart';
 import '../l10n.dart';
 
 class ElssDeviceDetailsWidget extends StatelessWidget {
   final DeviceDetailsData? dataModel;
-  final String? gradeLabel;
 
-  const ElssDeviceDetailsWidget({
-    Key? key,
-    this.dataModel,
-    this.gradeLabel,
-  }) : super(key: key);
+  const ElssDeviceDetailsWidget({Key? key, this.dataModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +55,15 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
                     : const SizedBox(),
                 const SizedBox(width: Dimens.space_20),
                 (!Validator.isNullOrEmpty(dataModel?.deviceGrade))
-                    ? Expanded(child: _labelAndValueWidget(theme, gradeLabel ?? l10n.grade, dataModel!.deviceGrade!))
+                    ? Expanded(
+                        child: _labelAndValueWidget(theme, l10n.currentGrade, dataModel!.deviceGrade!))
                     : const SizedBox(),
               ],
             ),
+            if (dataModel?.suggestedGrade != null) ...[
+              const SizedBox(height: Dimens.space_16),
+              _labelAndValueWidget(theme, l10n.suggestedGrade, dataModel!.suggestedGrade!)
+            ],
           ],
         ),
       ),
