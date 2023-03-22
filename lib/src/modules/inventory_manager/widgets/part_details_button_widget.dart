@@ -2,6 +2,15 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import '../l10n.dart';
 
+
+// mixin PartDetailButtonListener {
+//   void assignBtnOnPressed();
+//   void deadPartOnPressed();
+//   void alternatePartBtnOnPressed();
+//   void goBackBtnOnPressed();
+//   void cancelBtnOnPressed();
+// }
+
 class PartDetailsButtonWidget extends StatefulWidget {
   final bool cancelBtnEnable, assignBtnEnable, deadPartBtnEnable, alternativePartBtnEnable, goBackBtnEnable;
   final bool cancelBtnVisible, assignBtnVisible, deadPartBtnVisible, alternativePartBtnVisible, goBackBtnVisible;
@@ -10,6 +19,8 @@ class PartDetailsButtonWidget extends StatefulWidget {
       deadPartOnPressed,
       alternatePartBtnOnPressed,
       goBackBtnOnPressed;
+
+  // final PartDetailButtonListener? listener;
 
   const PartDetailsButtonWidget({
     Key? key,
@@ -28,11 +39,21 @@ class PartDetailsButtonWidget extends StatefulWidget {
     this.cancelBtnOnPressed,
     this.deadPartOnPressed,
     this.goBackBtnOnPressed,
+    // this.listener,
   }) : super(key: key);
 
   @override
   State<PartDetailsButtonWidget> createState() => _PartDetailsButtonWidgetState();
 }
+
+// class _ButtonState {
+//   bool? isDisabled;
+//   bool? isVisible;
+//
+//   _ButtonState(this.isDisabled, this.isVisible) {
+//     assert();
+//   }
+// }
 
 class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
   @override
