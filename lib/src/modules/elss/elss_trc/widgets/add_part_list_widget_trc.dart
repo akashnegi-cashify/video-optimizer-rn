@@ -20,7 +20,7 @@ class _AddPartListWidgetTrcState extends State<AddPartListWidgetTrc> {
   final TextEditingController _searchController = TextEditingController();
   bool _isFieldActive = false, _searchedActive = false;
   List<PartItemDataResponse> _searchedData = [];
-  Timer? _timer;
+  TextInputDebounce _timer = TextInputDebounce();
 
   @override
   void initState() {
@@ -55,19 +55,15 @@ class _AddPartListWidgetTrcState extends State<AddPartListWidgetTrc> {
                       maxLength: 50,
                       hintText: l10n.searchPart,
                       onChanged: (data) {
-                        if (_timer?.isActive ?? false) _timer?.cancel();
-                        _timer = Timer(
-                          const Duration(milliseconds: 500),
-                          () {
-                            if (!Validator.isNullOrEmpty(data)) {
-                              _searchPartsByProductName(provider.addPartsDataList, data.trim());
-                            } else {
-                              _searchedActive = false;
-                              _searchedData.clear();
-                              setState(() {});
-                            }
-                          },
-                        );
+                        _timer.start(() {
+                          if (!Validator.isNullOrEmpty(data)) {
+                            _searchPartsByProductName(provider.addPartsDataList, data.trim());
+                          } else {
+                            _searchedActive = false;
+                            _searchedData.clear();
+                            setState(() {});
+                          }
+                        });
                       },
                     ),
                     if (_isFieldActive)
@@ -181,5 +177,11 @@ class _AddPartListWidgetTrcState extends State<AddPartListWidgetTrc> {
     _searchedActive = true;
 
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _timer.stop();
+    super.dispose();
   }
 }

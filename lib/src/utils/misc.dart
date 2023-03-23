@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 mayBe(Function exp, [dynamic defaultValue]) {
   try {
     return exp();
@@ -16,4 +18,7 @@ String appendPath(String? path1, String path2) {
   } else {
     return '$path1/$path2';
   }
+}
+bool isScrollPositionMeet(ScrollNotification scrollInfo, int initialScrollOffset, double maxExtent) {
+  return scrollInfo.metrics.pixels > (initialScrollOffset + maxExtent);
 }
