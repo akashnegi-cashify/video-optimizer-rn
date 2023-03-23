@@ -52,7 +52,7 @@ class _AssignedDeviceDetailsScreenState extends State<AssignedDeviceDetailsScree
                   child: AssignedDeviceAllottedPartsList(
                     dataModel: provider.deviceAllottedPartsResponse,
                     isLoading: provider.isListDataLoading,
-                    errorMessage: provider.errMessage,
+                    errorMessage: provider.listErrorMessage,
                   ),
                 )
               ],

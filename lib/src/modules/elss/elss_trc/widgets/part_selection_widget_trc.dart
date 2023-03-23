@@ -32,7 +32,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
 
   List<PartItemDataResponse> additionalRequiredPartList = [];
 
-  Timer? _timer;
+  TextInputDebounce _timer = TextInputDebounce();
 
   @override
   void initState() {
@@ -62,20 +62,16 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
               maxLength: 50,
               hintText: l10n.searchPart,
               onChanged: (data) {
-                if (_timer?.isActive ?? false) _timer?.cancel();
-                _timer = Timer(
-                  const Duration(milliseconds: 500),
-                  () {
-                    if (data.isNotEmpty) {
-                      var dt = data.trim();
-                      provider.getSearchResults(dt);
-                      _isSearching = true;
-                    } else {
-                      _isSearching = false;
-                      provider.clearSearchResults();
-                    }
-                  },
-                );
+                _timer.start(() {
+                  if (data.isNotEmpty) {
+                    var dt = data.trim();
+                    provider.getSearchResults(dt);
+                    _isSearching = true;
+                  } else {
+                    _isSearching = false;
+                    provider.clearSearchResults();
+                  }
+                });
               },
             ),
           ),
@@ -422,5 +418,11 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _timer.stop();
+    super.dispose();
   }
 }

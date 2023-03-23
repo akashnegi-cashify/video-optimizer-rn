@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:core_widgets/core_widgets.dart' as core;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -21,8 +19,9 @@ class _ReturnTabWidgetState extends PaginatedListState<ReturnItemData, ReturnTab
   _ReturnTabWidgetState() : super(pageSize: 10, initialScrollOffset: 10);
 
   final TextEditingController _searchController = TextEditingController();
+  final core.TextInputDebounce _deBouncer = core.TextInputDebounce();
 
-  Timer? _deBouncer;
+  // Timer? _deBouncer;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +41,7 @@ class _ReturnTabWidgetState extends PaginatedListState<ReturnItemData, ReturnTab
             hintText: l10n.searchBarcode,
             keyboardType: TextInputType.text,
             onChanged: (data) {
-              if (_deBouncer?.isActive ?? false) _deBouncer?.cancel();
-              _deBouncer = Timer(const Duration(milliseconds: 500), () {
+              _deBouncer.start(() {
                 if (!core.Validator.isNullOrEmpty(data)) {
                   provider.barcode = data.trim();
                   resetAndRefreshScreen(pageNumber: 0);
@@ -108,6 +106,12 @@ class _ReturnTabWidgetState extends PaginatedListState<ReturnItemData, ReturnTab
         )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _deBouncer.stop();
   }
 
   @override

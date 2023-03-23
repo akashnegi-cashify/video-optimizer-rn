@@ -7,6 +7,7 @@ import '../l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:core_widgets/core_widgets.dart' as core;
 import '../models/pending_device_list_response.dart';
+import '../models/rider_list_response.dart';
 import '../providers/inventory_home_provider.dart';
 import '../screens/assigned_device_details_screen.dart';
 import 'assigned_tab_item_widget.dart';
@@ -22,10 +23,10 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
   _InventoryAssignedWidgetState() : super(initialScrollOffset: 10, pageSize: 10);
   bool _showUrgentRequestOnly = false;
   final TextEditingController _searchBarController = TextEditingController();
-  Timer? _deBouncer;
-  bool _isSearchingRiderList = false;
+
+  final core.TextInputDebounce _deBouncer = core.TextInputDebounce();
   final TextEditingController _searchRiderController = TextEditingController();
-  Timer? _searchTimer;
+  final core.TextInputDebounce _searchTimer = core.TextInputDebounce();
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +65,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
               },
             ),
             onChanged: (data) {
-              if (_deBouncer?.isActive ?? false) _deBouncer?.cancel();
-              _deBouncer = Timer(const Duration(milliseconds: 500), () {
+              _deBouncer.start(() {
                 if (data.isNotEmpty) {
                   provider.barcode = data.trim();
                   provider.resetDataList();
@@ -188,6 +188,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
 
   _listOfRider(ThemeData theme, L10n l10n) {
     var provider = InventoryHomeProvider.of(context, listen: false);
+    List<RiderListDataResponse> dataList = provider.getSearchResults(pattern: "");
 
     core
         .showCshBottomSheet(
@@ -237,25 +238,14 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                       maxLength: 50,
                       keyboardType: TextInputType.name,
                       onChanged: (data) {
-                        if (_searchTimer?.isActive ?? false) {
-                          _searchTimer?.cancel();
-                        }
-                        _searchTimer = Timer(
-                          const Duration(milliseconds: 500),
-                          () {
-                            if (!core.Validator.isNullOrEmpty(data)) {
-                              provider.searchingList.clear();
-                              provider.searchingList = provider.riderListResponse!.riderDataList!.where((element) {
-                                return element.riderName?.toLowerCase().contains(data.trim()) ?? false;
-                              }).toList();
-                              _isSearchingRiderList = true;
-                            } else {
-                              _isSearchingRiderList = false;
-                              provider.searchingList.clear();
-                            }
-                            setState(() {});
-                          },
-                        );
+                        _searchTimer.start(() {
+                          if (!core.Validator.isNullOrEmpty(data)) {
+                            dataList = provider.getSearchResults(pattern: data.trim());
+                          } else {
+                            dataList = provider.getSearchResults(pattern: "");
+                          }
+                          setState(() {});
+                        });
                       },
                     ),
                   ),
@@ -263,76 +253,36 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                     height: core.Dimens.space_8,
                   ),
                   Expanded(
-                    child: _isSearchingRiderList
-                        ? (provider.searchingList.isNotEmpty)
-                            ? ListView.separated(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: core.Dimens.space_8, horizontal: core.Dimens.space_16),
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      provider.selectedRider = provider.searchingList[index];
-                                      setState(() {});
-                                    },
-                                    child: Row(
-                                      children: [
-                                        core.CshCheckbox(
-                                          isSelected:
-                                              provider.searchingList[index].riderId == provider.selectedRider?.riderId,
-                                          visualDensity: VisualDensity.compact,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            provider.searchingList[index].riderName ?? "",
-                                            style: theme.primaryTextTheme.headline4,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return const SizedBox(height: core.Dimens.space_8);
-                                },
-                                itemCount: provider.searchingList.length,
-                              )
-                            : Center(
+                    child: ListView.separated(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: core.Dimens.space_8, horizontal: core.Dimens.space_16),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            provider.selectedRider = dataList[index];
+                            setState(() {});
+                          },
+                          child: Row(
+                            children: [
+                              core.CshCheckbox(
+                                isSelected: dataList[index].riderId == provider.selectedRider?.riderId,
+                                visualDensity: VisualDensity.compact,
+                              ),
+                              Expanded(
                                 child: Text(
-                                  l10n.noDataFound,
+                                  dataList[index].riderName ?? "",
                                   style: theme.primaryTextTheme.headline4,
                                 ),
                               )
-                        : ListView.separated(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: core.Dimens.space_8, horizontal: core.Dimens.space_16),
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  provider.selectedRider = provider.riderListResponse!.riderDataList![index];
-                                  setState(() {});
-                                },
-                                child: Row(
-                                  children: [
-                                    core.CshCheckbox(
-                                      isSelected: provider.riderListResponse!.riderDataList![index].riderId ==
-                                          provider.selectedRider?.riderId,
-                                      visualDensity: VisualDensity.compact,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        provider.riderListResponse!.riderDataList![index].riderName ?? "",
-                                        style: theme.primaryTextTheme.headline4,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: core.Dimens.space_8);
-                            },
-                            itemCount: provider.riderListResponse!.riderDataList!.length,
+                            ],
                           ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: core.Dimens.space_8);
+                      },
+                      itemCount: dataList.length,
+                    ),
                   ),
                   const SizedBox(height: core.Dimens.space_8),
                   core.CshMediumButton(
@@ -360,7 +310,6 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
     )
         .then((value) {
       _searchRiderController.clear();
-      _isSearchingRiderList = false;
     });
   }
 
@@ -399,8 +348,8 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
   void dispose() {
     _searchBarController.dispose();
     _searchRiderController.dispose();
-    _deBouncer?.cancel();
-    _searchTimer?.cancel();
+    _deBouncer.stop();
+    _searchTimer.stop();
     super.dispose();
   }
 }

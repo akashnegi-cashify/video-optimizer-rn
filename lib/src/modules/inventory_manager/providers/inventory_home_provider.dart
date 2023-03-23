@@ -18,8 +18,7 @@ class InventoryHomeProvider extends CshChangeNotifier {
     _getInventoryLocations();
   }
 
-  bool isDataLoading = true,
-      allowPendingWidget = false;
+  bool isDataLoading = true, allowPendingWidget = false;
   List<GroupLocationModel> listOfGroupLocation = [];
   InventoryLocationResponse? inventoryLocationResponse;
   int offsetLength = 10;
@@ -29,7 +28,6 @@ class InventoryHomeProvider extends CshChangeNotifier {
   String? errorMessage;
   RiderListResponse? riderListResponse;
   RiderListDataResponse? selectedRider;
-  List<RiderListDataResponse> searchingList = [];
 
   _getInventoryLocations() {
     InventoryService.getInventoryLocation().listen((event) {
@@ -54,13 +52,13 @@ class InventoryHomeProvider extends CshChangeNotifier {
     var completer = Completer<EngineerListResponse?>();
     try {
       InventoryService.getAssignmentPendingEngineerList(getLocationsString() ?? "", pageNumber, offsetLength).listen(
-              (event) {
-            if (event != null && event.isSuccess == true) {
-              completer.complete(event);
-            } else {
-              completer.completeError("Something went wrong!!");
-            }
-          }, onError: (error) {
+          (event) {
+        if (event != null && event.isSuccess == true) {
+          completer.complete(event);
+        } else {
+          completer.completeError("Something went wrong!!");
+        }
+      }, onError: (error) {
         String apiErrorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
         Logger.debug('mydebug------InventoryHomeProvider.getAssignmentPendingEngineerList', [apiErrorMessage]);
         completer.completeError(apiErrorMessage);
@@ -100,6 +98,7 @@ class InventoryHomeProvider extends CshChangeNotifier {
   }
 
   Future<bool> getListOfRiders() {
+    selectedRider = null;
     var completer = Completer<bool>();
     try {
       InventoryService.geListOfRider("").listen((event) {
@@ -126,13 +125,13 @@ class InventoryHomeProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.assignRider(getListIfAssignedRiderDId(), selectedRider?.riderId ?? -1).listen((event) {
-        if(event!=null && event.isSuccess == true){
+        if (event != null && event.isSuccess == true) {
           completer.complete(true);
-        }else{
+        } else {
           completer.completeError("Something went wrong");
         }
-      }, onError: (error){
-        String errMessage = ApiErrorHelper.getErrorMessage(error)??"Something went wrong";
+      }, onError: (error) {
+        String errMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         Logger.debug('mydebug------InventoryHomeProvider.assignRider', [errMessage]);
         completer.completeError(errMessage);
       });
@@ -215,5 +214,25 @@ class InventoryHomeProvider extends CshChangeNotifier {
       }
     }
     return dataList;
+  }
+
+  List<RiderListDataResponse> getSearchResults({String? pattern}) {
+    if (Validator.isNullOrEmpty(pattern)) {
+      return (!Validator.isListNullOrEmpty(riderListResponse?.riderDataList)) ? riderListResponse!.riderDataList! : [];
+    } else {
+      List<RiderListDataResponse> searchingList = [];
+      if (!Validator.isListNullOrEmpty(riderListResponse?.riderDataList)) {
+        searchingList = riderListResponse!.riderDataList!.where((element) {
+          if ((!Validator.isNullOrEmpty(element.riderName)) &&
+              element.riderName!.toLowerCase().contains(pattern!.toLowerCase())) {
+            return true;
+          } else {
+            return false;
+          }
+        }).toList();
+      }
+
+      return searchingList;
+    }
   }
 }

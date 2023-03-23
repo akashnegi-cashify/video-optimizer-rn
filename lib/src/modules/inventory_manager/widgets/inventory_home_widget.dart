@@ -1,15 +1,11 @@
 import 'dart:async';
-
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/modules/inventory_manager/screens/return_page.dart';
-import 'package:flutter_trc/src/modules/inventory_manager/screens/summary_screen.dart';
 import '../../../common/user/widget/logout_action_widget.dart';
-import '../../../resources/user_details.dart';
 import '../l10n.dart';
 import '../providers/inventory_home_provider.dart';
-import '../screens/inventory_home_screen.dart';
 import 'inventory_assigned_widget.dart';
+import 'inventory_drawer_widget.dart';
 import 'inventory_pending_delivery_widget.dart';
 
 class InventoryHomeWidget extends StatefulWidget {
@@ -40,85 +36,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        drawer: Drawer(
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: Dimens.space_60,
-                  width: double.infinity,
-                  color: theme.primaryColor,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: Dimens.space_40,
-                        width: Dimens.space_40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: theme.backgroundColor),
-                        ),
-                      ),
-                      const SizedBox(width: Dimens.space_16),
-                      if (!Validator.isNullOrEmpty(UserDetails().userDetailsData?.userName))
-                        Expanded(
-                          child: Text(
-                            "Hi ${UserDetails().userDetailsData!.userName!}",
-                            style: theme.primaryTextTheme.headline3?.copyWith(color: theme.backgroundColor),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: Dimens.space_10),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      ListTile(
-                        title: Text(l10n.delivery, style: theme.primaryTextTheme.headline4),
-                        onTap: () {
-                          Navigator.of(context).pushReplacementNamed(InventoryHomeScreen.route);
-                        },
-                      ),
-                      Divider(color: theme.shadowColor),
-                      ListTile(
-                        title: Text(l10n.returns, style: theme.primaryTextTheme.headline4),
-                        onTap: () {
-                          Navigator.of(context).pop(true);
-                          Navigator.of(context).pushNamed(ReturnScreen.route);
-                        },
-                      ),
-                      Divider(color: theme.shadowColor),
-                      ListTile(
-                        title: Text(l10n.summary, style: theme.primaryTextTheme.headline4),
-                        onTap: () {
-                          Navigator.of(context).pop(true);
-                          Navigator.of(context).pushNamed(SummaryScreen.route);
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                Divider(color: theme.shadowColor),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      l10n.appVersion,
-                      style: theme.primaryTextTheme.headline5,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: Dimens.space_30),
-              ],
-            ),
-          ),
-        ),
+        drawer: const InventoryDrawerWidget(),
         appBar: CshHeader(
           l10n.delivery,
           showBackBtn: false,

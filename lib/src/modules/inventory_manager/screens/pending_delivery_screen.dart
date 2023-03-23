@@ -44,7 +44,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
   _PendingDeliveryScreenState() : super(initialScrollOffset: 10, pageSize: 10);
   final TextEditingController _searchBarController = TextEditingController();
   bool _showUrgentRequestOnly = false;
-  Timer? _deBouncer;
+  final core.TextInputDebounce _deBouncer = core.TextInputDebounce();
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +87,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                 },
               ),
               onChanged: (data) {
-                if (_deBouncer?.isActive ?? false) _deBouncer?.cancel();
-                _deBouncer = Timer(const Duration(milliseconds: 500), () {
+                _deBouncer.start(() {
                   if (data.isNotEmpty) {
                     provider.barcode = data.trim();
                     resetAndRefreshScreen(pageNumber: 0);
@@ -195,8 +194,6 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
   void dispose() {
     super.dispose();
     _searchBarController.dispose();
-    if (_deBouncer != null) {
-      _deBouncer!.cancel();
-    }
+    _deBouncer.stop();
   }
 }
