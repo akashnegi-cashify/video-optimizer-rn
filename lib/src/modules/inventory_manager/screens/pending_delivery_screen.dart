@@ -78,7 +78,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                 iconSize: core.MobileIconSize.medium,
                 onClick: () {
                   Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
-                    Navigator.of(context).pop(true);
+                    Navigator.of(context).pop();
                     provider.barcode = data.trim();
                     _searchBarController.text = data.trim();
                     resetAndRefreshScreen(pageNumber: 0);

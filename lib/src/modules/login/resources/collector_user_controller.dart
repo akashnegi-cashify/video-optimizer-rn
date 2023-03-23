@@ -9,6 +9,7 @@ import '../../../utils/trc_method_channels.dart';
 import '../../elss/common_screen/elss_home_screen.dart';
 import '../../engineer/widgets/engineer_home_widget.dart';
 import '../../inventory_manager/screens/inventory_home_screen.dart';
+import '../../part_qc/screens/pq_home_screen.dart';
 import '../../rubbing/widgets/rubbing_home_widget.dart';
 
 class UserRoles {
@@ -42,6 +43,8 @@ class UserRoles {
         Navigator.of(context).pushNamedAndRemoveUntil(L4HomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.ROLE_INVENTORY_MANAGER)) {
         Navigator.of(context).pushNamedAndRemoveUntil(InventoryHomeScreen.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.ROLE_QC)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(PartQCHomeScreen.route, (route) => false);
       } else {
         NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
         await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));

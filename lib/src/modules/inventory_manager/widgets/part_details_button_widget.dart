@@ -15,6 +15,14 @@ class _DisableAndVisible {
   });
 }
 
+// mixin PartDetailButtonListener {
+//   void assignBtnOnPressed();
+//   void deadPartOnPressed();
+//   void alternatePartBtnOnPressed();
+//   void goBackBtnOnPressed();
+//   void cancelBtnOnPressed();
+// }
+
 class PartDetailsButtonWidget extends StatefulWidget {
   final int statusCode;
   final Function()? cancelBtnOnPressed,
@@ -22,6 +30,8 @@ class PartDetailsButtonWidget extends StatefulWidget {
       deadPartOnPressed,
       alternatePartBtnOnPressed,
       goBackBtnOnPressed;
+
+  // final PartDetailButtonListener? listener;
 
   const PartDetailsButtonWidget({
     Key? key,
@@ -31,11 +41,21 @@ class PartDetailsButtonWidget extends StatefulWidget {
     this.assignBtnOnPressed,
     this.cancelBtnOnPressed,
     this.goBackBtnOnPressed,
+    // this.listener,
   }) : super(key: key);
 
   @override
   State<PartDetailsButtonWidget> createState() => _PartDetailsButtonWidgetState();
 }
+
+// class _ButtonState {
+//   bool? isDisabled;
+//   bool? isVisible;
+//
+//   _ButtonState(this.isDisabled, this.isVisible) {
+//     assert();
+//   }
+// }
 
 class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
   _DisableAndVisible? _cancelButtonState;
@@ -109,7 +129,7 @@ class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
               label: l10n.goBack,
               isEnable: _goBackButtonState!.disable,
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
               },
             ),
           ),
