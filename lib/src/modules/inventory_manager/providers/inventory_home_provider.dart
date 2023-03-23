@@ -223,7 +223,8 @@ class InventoryHomeProvider extends CshChangeNotifier {
       List<RiderListDataResponse> searchingList = [];
       if (!Validator.isListNullOrEmpty(riderListResponse?.riderDataList)) {
         searchingList = riderListResponse!.riderDataList!.where((element) {
-          if (element.riderName?.toLowerCase() == pattern!.toLowerCase()) {
+          if ((!Validator.isNullOrEmpty(element.riderName)) &&
+              element.riderName!.toLowerCase().contains(pattern!.toLowerCase())) {
             return true;
           } else {
             return false;
