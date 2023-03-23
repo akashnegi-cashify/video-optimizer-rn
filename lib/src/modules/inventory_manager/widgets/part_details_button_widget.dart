@@ -15,7 +15,6 @@ class _DisableAndVisible {
   });
 }
 
-
 // mixin PartDetailButtonListener {
 //   void assignBtnOnPressed();
 //   void deadPartOnPressed();
@@ -130,7 +129,7 @@ class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
               label: l10n.goBack,
               isEnable: _goBackButtonState!.disable,
               onPressed: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
               },
             ),
           ),

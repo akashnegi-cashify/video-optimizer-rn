@@ -99,7 +99,7 @@ class ReturnStatusScreen extends StatelessWidget {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: l10n.statusChangedSuccessfully);
-        Navigator.of(context).pop(true);
+        Navigator.of(context).pop();
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);

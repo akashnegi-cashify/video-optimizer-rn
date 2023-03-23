@@ -219,7 +219,7 @@ class _AlternatePartScreenState extends State<AlternatePartScreen> {
               buttonType: ButtonType.mini,
               isFirstPrimary: true,
               firstBtnClick: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
               },
               secondBtnClick: () {
                 Navigator.of(context).pop();

@@ -27,7 +27,7 @@ class ReaderTabWidget extends StatelessWidget {
                     BarcodeScanWidget.route,
                     arguments: (String data) {
                       if (!Validator.isNullOrEmpty(data)) {
-                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop();
                         _getParticularCodeData(context, data.trim());
                       }
                     },

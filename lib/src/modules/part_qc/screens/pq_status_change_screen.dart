@@ -77,7 +77,7 @@ class PartQcPartStatusScreen extends StatelessWidget {
               buttonType: ButtonType.mini,
               isFirstPrimary: true,
               firstBtnClick: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
               },
               secondBtnClick: () {
                 Navigator.of(context).pop();
@@ -99,7 +99,7 @@ class PartQcPartStatusScreen extends StatelessWidget {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: l10n.statusUpdatedSuccessfully);
-        Navigator.of(context).pop(true);
+        Navigator.of(context).pop();
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
