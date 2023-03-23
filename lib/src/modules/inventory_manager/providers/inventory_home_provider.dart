@@ -218,7 +218,6 @@ class InventoryHomeProvider extends CshChangeNotifier {
 
   List<RiderListDataResponse> getSearchResults({String? pattern}) {
     if (Validator.isNullOrEmpty(pattern)) {
-      notifyListeners();
       return (!Validator.isListNullOrEmpty(riderListResponse?.riderDataList)) ? riderListResponse!.riderDataList! : [];
     } else {
       List<RiderListDataResponse> searchingList = [];
@@ -231,7 +230,7 @@ class InventoryHomeProvider extends CshChangeNotifier {
           }
         }).toList();
       }
-      notifyListeners();
+
       return searchingList;
     }
   }
