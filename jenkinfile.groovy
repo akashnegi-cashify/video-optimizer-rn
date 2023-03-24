@@ -1,4 +1,4 @@
-@Library('jenkins-build-pipeline@dev')
+@Library('jenkins-build-pipeline')
 import in.cashify.build.FlutterBuilder
 
 def builder = new FlutterBuilder(this, [slackChannels: '#console-flutter'])
