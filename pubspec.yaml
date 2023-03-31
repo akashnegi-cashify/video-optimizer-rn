@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.2.0+2
 web_version: 1.0.0
 
 environment:
@@ -76,7 +76,7 @@ dependencies:
   device_info_plus: ^8.1.0
   sentry_flutter: ^6.5.1
   alice: ^0.2.5
-  connectivity_plus: ^2.3.2
+  connectivity_plus: ^3.0.3
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.0
@@ -118,16 +118,12 @@ dependency_overrides:
   file_picker: ^4.5.1
   intl: ^0.18.0
   ffi: ^2.0.1
-
-
+  visibility_detector: ^0.3.3
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
       ref: main
       path: core_widgets
-
-
-  visibility_detector: ^0.3.3
 
 
 
