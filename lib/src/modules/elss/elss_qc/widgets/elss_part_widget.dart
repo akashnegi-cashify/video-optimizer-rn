@@ -29,7 +29,7 @@ class ElssPartWidget extends StatefulWidget {
 }
 
 class _ElssPartWidgetState extends State<ElssPartWidget> {
-  bool _isRequiredSelected = true;
+  bool _isRequiredSelected = false;
 
   @override
   void initState() {

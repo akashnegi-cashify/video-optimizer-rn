@@ -59,6 +59,7 @@ class ELssProviderQc extends CshChangeNotifier {
           int k = 0;
           for (var element in event.deviceDetailsData!.repairPartList!) {
             element.elssPartId = k;
+            element.action = ElssAction.NOT_REQUIRED.value;
             elssPartList.add(element);
             k++;
           }
