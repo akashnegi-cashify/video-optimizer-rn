@@ -5,7 +5,7 @@
 import FlutterMacOS
 import Foundation
 
-import connectivity_plus
+import connectivity_plus_macos
 import device_info_plus
 import firebase_analytics
 import firebase_core
