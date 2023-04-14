@@ -97,6 +97,8 @@ class L10n extends BaseL10n {
 
   String get grade => Intl.message("Grade", locale: localName, name: "grade");
 
+  String get currentGrade => Intl.message("Current Grade", locale: localName, name: "currentGrade");
+
   String get suggestedGrade => Intl.message("Suggested grade", locale: localName, name: "suggestedGrade");
 
   String get profit => Intl.message("Profit", locale: localName, name: "profit");
@@ -211,4 +213,11 @@ class L10n extends BaseL10n {
   String get initialGrade => Intl.message("Initial Grade", locale: localName, name: "initialGrade");
 
   String get home => Intl.message("Home", locale: localName, name: "home");
+
+  String get qty => Intl.message("Qty", locale: localName, name: "qty");
+
+  get selectRejectReasons => Intl.message("Please select rejection reason", locale: localName, name: "selectRejectReasons");
+
+  get selectRetestReasons => Intl.message("Please select retesting reason", locale: localName, name: "selectRetestReasons");
+
 }

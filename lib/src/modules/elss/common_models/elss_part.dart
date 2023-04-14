@@ -28,6 +28,8 @@ class ElssPart {
   List<String>? partsImageList;
   @JsonKey(includeFromJson: false, includeToJson: false)
   int? elssPartId;
+  @JsonKey(name: "qt")
+  int? quantity;
 
   @JsonKey(name: "_v")
   int? version;
@@ -46,6 +48,7 @@ class ElssPart {
     this.elssPartId,
     this.partsImageList,
     this.actionConstant,
+    this.quantity,
   });
 
   static ElssPart fromJson(Map<String, dynamic> data) => _$ElssPartFromJson(data);

@@ -59,6 +59,7 @@ class ELssProviderQc extends CshChangeNotifier {
           int k = 0;
           for (var element in event.deviceDetailsData!.repairPartList!) {
             element.elssPartId = k;
+            element.action = ElssAction.NOT_REQUIRED.value;
             elssPartList.add(element);
             k++;
           }
@@ -188,48 +189,6 @@ class ELssProviderQc extends CshChangeNotifier {
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
-
-  Future<bool> rejectElss(String barcode) {
-    var completer = Completer<bool>();
-    try {
-      ElssService.rejectElss(barcode).listen((event) {
-        if (event != null) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong!!");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
-
-  Future<bool> retestElss(String barcode) {
-    var completer = Completer<bool>();
-    try {
-      ElssService.retestingElss(barcode).listen((event) {
-        if (event != null) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         completer.completeError(errorMessage);
       }, onDone: () {
         notifyListeners();
