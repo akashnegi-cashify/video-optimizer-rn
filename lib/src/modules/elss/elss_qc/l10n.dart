@@ -220,4 +220,8 @@ class L10n extends BaseL10n {
 
   get selectRetestReasons => Intl.message("Please select retesting reason", locale: localName, name: "selectRetestReasons");
 
+  get rubbingEnabled => Intl.message("Rubbing Enabled", locale: localName, name: "rubbingEnabled");
+
+  get rubbingDisabled => Intl.message("Rubbing Disabled", locale: localName, name: "rubbingDisabled");
+
 }

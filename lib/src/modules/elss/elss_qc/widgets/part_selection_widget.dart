@@ -30,14 +30,7 @@ class PartSelectionWidget extends StatefulWidget {
 }
 
 class _PartSelectionWidgetState extends State<PartSelectionWidget> {
-  bool _isRubbingApplicable = false;
-
   List<PartItemDataResponse> additionalRequiredPartList = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,10 +62,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                           var data =
                               await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
                           if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
-                            for (var element in data!) {
-                              Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
-                            }
-                            provider.addNewPartsFromAddParts(data);
+                            provider.addNewPartsFromAddParts(data!);
                           }
                         },
                         prefixIcon: CshIcon(
@@ -134,34 +124,35 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-          child: GestureDetector(
-            onTap: () {
-              _isRubbingApplicable = !_isRubbingApplicable;
-              provider.isRubbingApplicable = _isRubbingApplicable;
-              setState(() {});
-            },
-            child: CshCard(
-              padding: EdgeInsets.zero,
-              radius: CshRadius.rad4,
-              elevation: CardElevation.dimen_10,
-              child: SizedBox(
-                width: double.infinity,
-                height: Dimens.space_60,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: Dimens.space_16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          l10n.sendDeviceForRubbing,
-                          style: theme.primaryTextTheme.overline,
-                        ),
+          child: CshCard(
+            padding: EdgeInsets.zero,
+            radius: CshRadius.rad4,
+            elevation: CardElevation.dimen_10,
+            child: SizedBox(
+              width: double.infinity,
+              height: Dimens.space_60,
+              child: Padding(
+                padding: const EdgeInsets.only(left: Dimens.space_16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.sendDeviceForRubbing,
+                        style: theme.primaryTextTheme.overline,
                       ),
-                      CshSwitch(
-                        isSelected: _isRubbingApplicable,
-                      ),
-                    ],
-                  ),
+                    ),
+                    CshSwitch(
+                      isSelected: provider.isRubbingApplicable,
+                      onChanged: (value) {
+                        provider.setIsRubbingValue(value);
+                        CshSnackBar.success(
+                          context: context,
+                          message: value ? l10n.rubbingEnabled : l10n.rubbingDisabled,
+                          snackBarPosition: SnackBarPosition.TOP,
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),

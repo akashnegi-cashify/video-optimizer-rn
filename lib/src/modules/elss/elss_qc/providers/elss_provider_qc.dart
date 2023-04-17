@@ -256,4 +256,9 @@ class ELssProviderQc extends CshChangeNotifier {
       }
     }
   }
+
+  setIsRubbingValue(bool value) {
+    isRubbingApplicable = value;
+    notifyListeners();
+  }
 }
