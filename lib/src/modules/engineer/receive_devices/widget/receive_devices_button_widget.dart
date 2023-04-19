@@ -73,25 +73,22 @@ class _ReceiveDevicesButtonWidgetState extends State<ReceiveDevicesButtonWidget>
   }
 
   @override
-  displayErrorBottomSheet(
-    VoidCallback onBottomSheetClosed, {
-    String? message,
-  }) {
-    showCshBottomSheet(
-        context: context,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: Dimens.space_48, horizontal: Dimens.space_16),
-          child: CshTextNew.h4(message ?? l10n.somethingWentWrong),
-        )).whenComplete(onBottomSheetClosed);
-  }
-
-  @override
   handleLoading(bool loading) {
     if (loading) {
       CshLoading().showLoading(context);
     } else {
       CshLoading().hideLoading(context);
     }
+  }
+
+  @override
+  displayErrorBottomSheet({VoidCallback? onBottomSheetClosed, String? message}) {
+    showCshBottomSheet(
+        context: context,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Dimens.space_48, horizontal: Dimens.space_16),
+          child: CshTextNew.h4(message ?? l10n.somethingWentWrong),
+        )).whenComplete(onBottomSheetClosed ?? () {});
   }
 }
 
@@ -102,7 +99,7 @@ mixin ViewActions {
 
   displayDataInBottomSheet(ReceiveDevicesResponse receiveDevicesResponse, VoidCallback onBottomSheetClosed);
 
-  displayErrorBottomSheet(VoidCallback onBottomSheetClosed, {String? message});
+  displayErrorBottomSheet({VoidCallback? onBottomSheetClosed, String? message});
 
   resumeScanner(MlScannerController? controller);
 }

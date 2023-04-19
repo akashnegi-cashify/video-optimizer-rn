@@ -22,11 +22,11 @@ class EngineerReceiveDevicePresenter {
       }
       view.handleLoading(false);
       if (receiveDevicesResponse == null) {
-        view.displayErrorBottomSheet(() {});
+        view.displayErrorBottomSheet();
         return;
       }
       if (receiveDevicesResponse.errorMsg != null) {
-        view.displayErrorBottomSheet(() {}, message: receiveDevicesResponse.errorMsg!);
+        view.displayErrorBottomSheet(message: receiveDevicesResponse.errorMsg!);
         return;
       }
       if (receiveDevicesResponse.deviceInfo != null) {
@@ -38,7 +38,7 @@ class EngineerReceiveDevicePresenter {
           controller.stop();
         }
         view.handleLoading(false);
-        view.displayErrorBottomSheet(() {}, message: ApiErrorHelper.getErrorMessage(e));
+        view.displayErrorBottomSheet(message: ApiErrorHelper.getErrorMessage(e));
       })
       ..onDone(() {
         if (controller != null) {
