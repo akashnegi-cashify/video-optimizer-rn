@@ -1,13 +1,14 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_widget.dart';
+import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/app_version_widget.dart';
 import '../../../common/widgets/user_name_widget.dart';
-import '../../../screens/barcode_scanner_screen.dart';
+
 import '../../../screens/barcode_scanner_with_controller.dart';
 import '../providers/received_devices_provider.dart';
 
@@ -22,10 +23,10 @@ class RubbingHomeWidget extends StatelessWidget {
         create: (context) => ReceivedDevicesProvider(),
         builder: (context, widget) {
           return Scaffold(
-            appBar: CshHeader(
+            appBar: TrcHeader(
               l10n.home,
               showBackBtn: false,
-              actions: [LogoutActionWidget()],
+              showLogoutButton: true,
             ),
             body: SafeArea(
               child: Column(
@@ -38,12 +39,12 @@ class RubbingHomeWidget extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pushNamed(
                         BarcodeScannerControllerWidget.route,
-                        arguments: (String barcode, {BarcodeScannerController? controller}) {
+                        arguments: (String barcode, {MlScannerController? controller}) {
                           Provider.of<ReceivedDevicesProvider>(context, listen: false)
                               .receiveDeviceViaScanning(barcode)
                               .listen((event) {
                             if (controller != null) {
-                              controller.pauseCamera();
+                              controller.stop();
                             }
                             CshSnackBar.success(context: context, message: l10n.deviceReceivedSuccessfully);
                             Navigator.pushReplacementNamed(context, ReceivedRubbingDevicesWidget.route,
@@ -52,7 +53,7 @@ class RubbingHomeWidget extends StatelessWidget {
                             ..onError(
                               (e) {
                                 if (controller != null) {
-                                  controller.pauseCamera();
+                                  controller.stop();
                                 }
                                 CshSnackBar.error(
                                     context: context,
@@ -63,7 +64,7 @@ class RubbingHomeWidget extends StatelessWidget {
                               () {
                                 if (controller != null) {
                                   Future.delayed(const Duration(milliseconds: 300), () {
-                                    controller.resumeCamera();
+                                    controller.start();
                                   });
                                 }
                               },

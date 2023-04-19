@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/login/providers/login_provider.dart';
 import 'package:flutter_trc/src/modules/login/widgets/login_widget.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
       lazy: false,
       builder: (BuildContext innerContext, __) {
         return Scaffold(
-          appBar: CshHeader(l10n.login, showBackBtn: false),
+          appBar: TrcHeader(l10n.login, showBackBtn: false),
           resizeToAvoidBottomInset: false,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

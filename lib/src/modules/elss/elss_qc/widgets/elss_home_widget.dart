@@ -39,7 +39,7 @@ class ElssHomeWidget extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).pushNamed(
                     BarcodeScanWidget.route,
-                    arguments: (String data, {BarcodeScannerController? controller}) {
+                    arguments: (String data) {
                       if (!Validator.isNullOrEmpty(data)) {
                         Navigator.of(context).pushReplacementNamed(
                           PartSelectionScreenTrc.route,
@@ -57,7 +57,7 @@ class ElssHomeWidget extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).pushNamed(
                     BarcodeScanWidget.route,
-                    arguments: (String data, {BarcodeScannerController? controller}) {
+                    arguments: (String data) {
                       if (!Validator.isNullOrEmpty(data)) {
                         Navigator.of(context).pushReplacementNamed(
                           PartSelectionScreenQc.route,
