@@ -89,11 +89,16 @@ dependencies:
   jwt_decoder: ^2.0.1
   cached_network_image: ^3.2.3
   image_picker: ^0.8.6+3
-  qr_code_scanner: ^1.0.1
   #  open_filex: ^4.3.2
   fl_chart: ^0.61.0
   visibility_detector: ^0.3.3
   file_picker: ^5.2.5
+  ml_barcode_scanner:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui
+      ref: stable
+      path: ml_barcode_scanner
+
 
 
 
@@ -119,6 +124,7 @@ dependency_overrides:
   intl: ^0.18.0
   ffi: ^2.0.1
   visibility_detector: ^0.3.3
+
 
 
 

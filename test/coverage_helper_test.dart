@@ -49,7 +49,6 @@ import 'package:flutter_trc/src/amplify/amplify_provider.dart';
 import 'package:flutter_trc/src/amplify/amplify_configuration.dart';
 import 'package:flutter_trc/src/amplify/amplifier.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
-import 'package:flutter_trc/src/screens/qr_barcode_scanner.dart';
 import 'package:flutter_trc/src/screens/l10n.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_with_controller.dart';
 import 'package:flutter_trc/src/channel/channel.dart';
@@ -291,4 +290,5 @@ import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 import 'package:flutter_trc/src/analytics/firebase_analytics.dart';
-void main(){}
+
+void main() {}

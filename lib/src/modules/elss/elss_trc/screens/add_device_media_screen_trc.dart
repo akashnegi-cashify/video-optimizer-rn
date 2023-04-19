@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import '../l10n.dart';
 import '../../widgets/add_media_card.dart';
 
@@ -44,7 +45,7 @@ class _AddDeviceMediaState extends State<_AddDeviceMedia> {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     return Scaffold(
-      appBar: CshHeader(l10n.captureImages),
+      appBar: TrcHeader(l10n.captureImages),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: Dimens.space_16, horizontal: Dimens.space_8),
         child: Column(

@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:provider/provider.dart';
 import '../../common_models/elss_device_details_response.dart';
 import '../l10n.dart';
@@ -29,7 +30,7 @@ class _PartSelectionScreenTrcState extends State<PartSelectionScreenTrc> {
         var provider = ELssProviderTrc.of(innerContext);
 
         return Scaffold(
-          appBar: CshHeader(l10n.partSelection),
+          appBar: TrcHeader(l10n.partSelection),
           resizeToAvoidBottomInset: false,
           body: (provider.isDetailsDataLoading)
               ? const Center(

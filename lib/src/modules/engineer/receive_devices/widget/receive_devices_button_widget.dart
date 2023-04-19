@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_devices_response.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/providers/engineer_receive_devices_presenter.dart';
-
+import 'package:ml_barcode_scanner/widgets/index.dart';
 import '../../../../common/widgets/title_value_row_widget.dart';
-import '../../../../screens/barcode_scanner_screen.dart';
 import '../../../../screens/barcode_scanner_with_controller.dart';
 
 class ReceiveDevicesButtonWidget extends StatefulWidget {
@@ -69,8 +68,8 @@ class _ReceiveDevicesButtonWidgetState extends State<ReceiveDevicesButtonWidget>
   }
 
   @override
-  resumeScanner(BarcodeScannerController? controller) {
-    controller?.resumeCamera();
+  resumeScanner(MlScannerController? controller) {
+    controller?.start();
   }
 
   @override
@@ -105,5 +104,5 @@ mixin ViewActions {
 
   displayErrorBottomSheet(VoidCallback onBottomSheetClosed, {String? message});
 
-  resumeScanner(BarcodeScannerController? controller);
+  resumeScanner(MlScannerController? controller);
 }
