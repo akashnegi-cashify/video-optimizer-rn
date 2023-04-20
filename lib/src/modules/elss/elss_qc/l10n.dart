@@ -153,7 +153,7 @@ class L10n extends BaseL10n {
       Intl.message("PNA status applied to selected parts", locale: localName, name: "pnaStatusAppliedToSelectedParts");
 
   String get checkMarkPartForPna =>
-      Intl.message("Check Mark part for PNA", locale: localName, name: "checkMarkPartForPna");
+      Intl.message("Please select parts to mark PNA", locale: localName, name: "checkMarkPartForPna");
 
   String get deviceParts => Intl.message("Device Parts", locale: localName, name: "deviceParts");
 

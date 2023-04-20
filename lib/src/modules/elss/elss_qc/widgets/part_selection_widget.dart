@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/modules/elss/common_models/elss_part.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
@@ -149,6 +150,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                           context: context,
                           message: value ? l10n.rubbingEnabled : l10n.rubbingDisabled,
                           snackBarPosition: SnackBarPosition.TOP,
+                          duration: SnackBarDuration.SHORT,
                         );
                       },
                     ),
@@ -290,34 +292,20 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     showCshBottomSheet(
       context: context,
       child: ElssPnaModalWidgetQC(
-        arePartsAdded: (!Validator.isListNullOrEmpty(provider.elssPartList)),
-        listOfSelectedParts: provider.elssPartList,
-        onCardSelectedCallback: (int index, bool data) {
-          provider.elssPartList[index].isPnaSelected = data;
-        },
-        onSubmitCallback: (Validator.isListNullOrEmpty(provider.elssPartList))
-            ? () async {
-                var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
-                if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
-                  for (var element in data!) {
-                    Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
-                  }
-                  provider.addNewPartsFromAddParts(data);
-                }
+          listOfSelectedParts: provider.getPartListForPna(),
+          onAddPartButtonClicked: () async {
+            var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
+            if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
+              for (var element in data!) {
+                Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
               }
-            : () {
-                if (provider.checkIsItemSelectedForPNA()) {
-                  _marPnaStatusToParts(l10n);
-                } else {
-                  Navigator.of(context).pop(true);
-                  CshSnackBar.error(
-                      context: context, message: l10n.checkMarkPartForPna, snackBarPosition: SnackBarPosition.TOP);
-                }
-              },
-      ),
-    ).then((value) {
-      provider.removePNASelectedItem();
-    });
+              provider.addNewPartsFromAddParts(data);
+            }
+          },
+          onSubmitCallback: (List<ElssPart> markedPnaList) {
+            _marPnaStatusToParts(l10n, markedPnaList);
+          }),
+    );
   }
 
   _submitDataForPartsLogic(L10n l10n) {
@@ -350,10 +338,10 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     });
   }
 
-  _marPnaStatusToParts(L10n l10n) {
+  _marPnaStatusToParts(L10n l10n, List<ElssPart> markedPnaList) {
     var provider = ELssProviderQc.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.markPNAStatus(widget.barcode).then((value) {
+    provider.markPNAStatus(widget.barcode, markedPnaList).then((value) {
       if (value) {
         Navigator.pushReplacementNamed(
           context,

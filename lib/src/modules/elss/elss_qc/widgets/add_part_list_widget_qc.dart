@@ -18,22 +18,7 @@ class AddPartListWidgetQc extends StatefulWidget {
 
 class _AddPartListWidgetQcState extends State<AddPartListWidgetQc> {
   final TextEditingController _searchController = TextEditingController();
-  bool _isFieldActive = false, _searchedActive = false;
-  List<PartItemDataResponse> _searchedData = [];
   Timer? _timer;
-
-  @override
-  void initState() {
-    _searchController.addListener(() {
-      if (_searchController.text.isNotEmpty) {
-        _isFieldActive = true;
-      } else {
-        _isFieldActive = false;
-      }
-      setState(() {});
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,24 +45,17 @@ class _AddPartListWidgetQcState extends State<AddPartListWidgetQc> {
                           const Duration(milliseconds: 500),
                           () {
                             if (!Validator.isNullOrEmpty(data)) {
-                              _searchPartsByProductName(provider.addPartsDataList, data.trim());
-                            } else {
-                              _searchedActive = false;
-                              _searchedData.clear();
-                              setState(() {});
+                              provider.searchedQuery = data.trim();
                             }
                           },
                         );
                       },
                     ),
-                    if (_isFieldActive)
+                    if (!Validator.isNullOrEmpty(provider.searchedQuery))
                       GestureDetector(
                         onTap: () {
+                          provider.searchedQuery = null;
                           _searchController.clear();
-                          _isFieldActive = false;
-                          _searchedActive = false;
-                          _searchedData.clear();
-                          setState(() {});
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: Dimens.space_12),
@@ -90,49 +68,26 @@ class _AddPartListWidgetQcState extends State<AddPartListWidgetQc> {
                   ],
                 ),
                 const SizedBox(height: Dimens.space_8),
-                if (_searchedActive)
-                  Expanded(
-                    child: (_searchedData.isNotEmpty)
-                        ? ListView.separated(
-                            itemBuilder: (context, index) {
-                              return AddPartItemList(
-                                dataModel: _searchedData[index],
-                                onPartSelected: (bool data) {
-                                  provider.selectedPartFromList(_searchedData[index].partId!, data);
-                                },
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: Dimens.space_8);
-                            },
-                            itemCount: _searchedData.length,
-                          )
-                        : Center(
-                            child: Text(
-                              l10n.noResultsFound,
-                              style: theme.primaryTextTheme.headline3,
-                            ),
-                          ),
+                Expanded(
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+
+                      if (provider.addPartsDataList[index] != null) {
+                        var addPartsData = provider.addPartsDataList[index];
+                        return AddPartItemList(
+                            dataModel: provider.addPartsDataList[index],
+                            onPartSelected: (bool data) {
+                              provider.onPartItemSelected(addPartsData, data);
+                            });
+                      }
+                      return const SizedBox.shrink();
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: Dimens.space_8);
+                    },
+                    itemCount: provider.addPartsDataList.length,
                   ),
-                if (!_searchedActive)
-                  Expanded(
-                    child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        if (provider.addPartsDataList[index] != null) {
-                          return AddPartItemList(
-                              dataModel: provider.addPartsDataList[index],
-                              onPartSelected: (bool data) {
-                                provider.addPartsDataList[index].isCardSelected = data;
-                              });
-                        }
-                        return const SizedBox.shrink();
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: Dimens.space_8);
-                      },
-                      itemCount: provider.addPartsDataList.length,
-                    ),
-                  ),
+                ),
                 const SizedBox(height: Dimens.space_8),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
@@ -168,18 +123,5 @@ class _AddPartListWidgetQcState extends State<AddPartListWidgetQc> {
               style: theme.primaryTextTheme.headline3,
             ),
           );
-  }
-
-  _searchPartsByProductName(List<PartItemDataResponse> dataList, String productName) {
-    _searchedData = dataList.where((element) {
-      if (!Validator.isNullOrEmpty(element.productName)) {
-        return element.productName!.toLowerCase().contains(productName.toLowerCase());
-      } else {
-        return false;
-      }
-    }).toList();
-    _searchedActive = true;
-
-    setState(() {});
   }
 }
