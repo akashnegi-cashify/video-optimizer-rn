@@ -64,7 +64,7 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                         style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
                         children: [
                           TextSpan(
-                            text: " ${widget.dataModel?.partCount}",
+                            text: " ${widget.dataModel?.quantity}",
                             style: theme.primaryTextTheme.overline,
                           )
                         ]),

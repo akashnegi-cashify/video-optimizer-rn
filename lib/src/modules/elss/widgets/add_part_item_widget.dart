@@ -22,47 +22,79 @@ class _AddPartItemListState extends State<AddPartItemList> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
-    return GestureDetector(
-      onTap: () {
-        widget.dataModel!.isCardSelected = !widget.dataModel!.isCardSelected!;
-        widget.onPartSelected(widget.dataModel!.isCardSelected!);
-        setState(() {});
-      },
-      child: CshCard(
-        radius: CshRadius.rad4,
-        elevation: CardElevation.dimen_10,
-        padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!Validator.isNullOrEmpty(widget.dataModel?.productName)) ...[
-                    Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.headline3),
-                    const SizedBox(height: Dimens.space_8),
-                  ],
-                  if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
-                    _labelAndValueWidget(theme, l10n.sku, widget.dataModel!.sku!),
-                    const SizedBox(height: Dimens.space_8),
-                  ],
-                  if (!Validator.isNullOrEmpty(widget.dataModel?.productColour)) ...[
-                    _labelAndValueWidget(theme, l10n.colour, widget.dataModel!.productColour!),
-                    const SizedBox(height: Dimens.space_8),
-                  ],
-                  if (widget.dataModel?.partQuantity != null) ...[
-                    _labelAndValueWidget(theme, l10n.quantity, widget.dataModel!.partQuantity!.toString()),
-                  ]
-                ],
-              ),
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () {
+            widget.dataModel!.isCardSelected = !widget.dataModel!.isCardSelected!;
+            widget.onPartSelected(widget.dataModel!.isCardSelected!);
+            setState(() {});
+          },
+          child: CshCard(
+            radius: CshRadius.rad4,
+            elevation: CardElevation.dimen_10,
+            padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.productName)) ...[
+                        Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.headline3),
+                        const SizedBox(height: Dimens.space_8),
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
+                        _labelAndValueWidget(theme, l10n.sku, widget.dataModel!.sku!),
+                        const SizedBox(height: Dimens.space_8),
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.productColour)) ...[
+                        _labelAndValueWidget(theme, l10n.colour, widget.dataModel!.productColour!),
+                        const SizedBox(height: Dimens.space_8),
+                      ],
+                      if (widget.dataModel?.partQuantity != null) ...[
+                        _labelAndValueWidget(theme, l10n.quantity, widget.dataModel!.partQuantity!.toString()),
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.errorMessage))
+                        _buildErrorWidget(widget.dataModel!.errorMessage!, theme)
+                    ],
+                  ),
+                ),
+                const SizedBox(width: Dimens.space_10),
+                CshCheckbox(
+                  isSelected: widget.dataModel?.isCardSelected ?? false,
+                ),
+              ],
             ),
-            const SizedBox(width: Dimens.space_10),
-            CshCheckbox(
-              isSelected: widget.dataModel?.isCardSelected ?? false,
-            ),
-          ],
+          ),
         ),
+        if (!Validator.isNullOrEmpty(widget.dataModel?.errorMessage))
+          Positioned.fill(child: Container(color: Colors.white54)),
+      ],
+    );
+  }
+
+  _buildErrorWidget(String errorMessage, theme) {
+    return Container(
+      margin: const EdgeInsets.only(top: Dimens.space_8),
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8, vertical: Dimens.space_4),
+      decoration: BoxDecoration(
+        color: theme.errorColor.withAlpha(100),
+        borderRadius: BorderRadius.circular(Dimens.space_4),
+      ),
+      child: Row(
+        children: [
+          CshIcon(Icons.info_outline, iconColor: theme.errorColor, padding: EdgeInsets.zero),
+          const SizedBox(width: Dimens.space_8),
+          Expanded(
+            child: Text(
+              errorMessage,
+              maxLines: 2,
+              style: theme.textTheme.bodyMedium?.copyWith(color: theme.errorColor),
+            ),
+          ),
+        ],
       ),
     );
   }
