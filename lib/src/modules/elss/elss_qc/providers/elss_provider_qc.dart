@@ -58,7 +58,6 @@ class ELssProviderQc extends CshChangeNotifier {
           int k = 0;
           for (var element in event.deviceDetailsData!.repairPartList!) {
             element.elssPartId = k;
-            element.action = ElssAction.NOT_REQUIRED.value;
             elssPartList.add(element);
             k++;
           }
@@ -155,6 +154,7 @@ class ELssProviderQc extends CshChangeNotifier {
   Future<bool> markPNAStatus(String barcode, List<ElssPart> markedPnaList) {
     var completer = Completer<bool>();
     Map<String, dynamic> bodyData = _getBodyDataMapForPNA(markedPnaList);
+
     try {
       ElssService.markPnaStatus(barcode, bodyData).listen((event) {
         if (event != null && event.isSuccess == true) {

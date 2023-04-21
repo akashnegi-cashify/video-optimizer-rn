@@ -88,6 +88,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                         key: const Key("Master_List"),
                         onImageUploadCallback: (int imageIndex, String s3Url) {},
                         indexData: provider.elssPartList[index].elssPartId ?? -1,
+                        actionConstantValue: provider.elssPartList[index].actionConstant ?? -1,
                         onPartRemoved: (int id) {
                           provider.removeExternalAddedPart(id);
                         },

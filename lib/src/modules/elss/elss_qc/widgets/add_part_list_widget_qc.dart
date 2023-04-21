@@ -25,53 +25,52 @@ class _AddPartListWidgetQcState extends State<AddPartListWidgetQc> {
     var l10n = L10n(context);
     var theme = Theme.of(context);
     var provider = AddPartListProviderQc.of(context);
-    return (!Validator.isListNullOrEmpty(provider.addPartsDataList))
-        ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_8),
-            child: Column(
-              children: [
-                Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    CshTextFormField(
-                      controller: _searchController,
-                      maxLines: 1,
-                      counterText: "",
-                      maxLength: 50,
-                      hintText: l10n.searchPart,
-                      onChanged: (data) {
-                        if (_timer?.isActive ?? false) _timer?.cancel();
-                        _timer = Timer(
-                          const Duration(milliseconds: 500),
-                          () {
-                            if (!Validator.isNullOrEmpty(data)) {
-                              provider.searchedQuery = data.trim();
-                            }
-                          },
-                        );
-                      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_8),
+      child: Column(
+        children: [
+          Stack(
+            alignment: Alignment.centerRight,
+            children: [
+              CshTextFormField(
+                controller: _searchController,
+                maxLines: 1,
+                counterText: "",
+                maxLength: 50,
+                hintText: l10n.searchPart,
+                onChanged: (data) {
+                  if (_timer?.isActive ?? false) _timer?.cancel();
+                  _timer = Timer(
+                    const Duration(milliseconds: 500),
+                    () {
+                      if (!Validator.isNullOrEmpty(data)) {
+                        provider.searchedQuery = data.trim();
+                      }
+                    },
+                  );
+                },
+              ),
+              if (!Validator.isNullOrEmpty(provider.searchedQuery))
+                GestureDetector(
+                  onTap: () {
+                    provider.searchedQuery = null;
+                    _searchController.clear();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: Dimens.space_12),
+                    child: CshIcon(
+                      FeatherIcons.xCircle,
+                      iconSize: MobileIconSize.medium,
                     ),
-                    if (!Validator.isNullOrEmpty(provider.searchedQuery))
-                      GestureDetector(
-                        onTap: () {
-                          provider.searchedQuery = null;
-                          _searchController.clear();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: Dimens.space_12),
-                          child: CshIcon(
-                            FeatherIcons.xCircle,
-                            iconSize: MobileIconSize.medium,
-                          ),
-                        ),
-                      ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: Dimens.space_8),
-                Expanded(
-                  child: ListView.separated(
+            ],
+          ),
+          const SizedBox(height: Dimens.space_8),
+          Expanded(
+            child: (!Validator.isListNullOrEmpty(provider.addPartsDataList))
+                ? ListView.separated(
                     itemBuilder: (context, index) {
-
                       if (provider.addPartsDataList[index] != null) {
                         var addPartsData = provider.addPartsDataList[index];
                         return AddPartItemList(
@@ -86,42 +85,42 @@ class _AddPartListWidgetQcState extends State<AddPartListWidgetQc> {
                       return const SizedBox(height: Dimens.space_8);
                     },
                     itemCount: provider.addPartsDataList.length,
+                  )
+                : Center(
+                    child: Text(
+                      l10n.noPartsFound,
+                      style: theme.primaryTextTheme.headline3,
+                    ),
+                  ),
+          ),
+          const SizedBox(height: Dimens.space_8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CshMediumButton(
+                    text: l10n.cancel,
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
                   ),
                 ),
-                const SizedBox(height: Dimens.space_8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CshMediumButton(
-                          text: l10n.cancel,
-                          onPressed: () {
-                            Navigator.of(context).pop(true);
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: Dimens.space_10),
-                      Expanded(
-                        child: CshMediumButton(
-                          text: l10n.addPart,
-                          onPressed: () {
-                            List<PartItemDataResponse> dataList = provider.getSelectedParts();
-                            Navigator.of(context).pop(dataList);
-                          },
-                        ),
-                      ),
-                    ],
+                const SizedBox(width: Dimens.space_10),
+                Expanded(
+                  child: CshMediumButton(
+                    text: l10n.addPart,
+                    onPressed: () {
+                      List<PartItemDataResponse> dataList = provider.getSelectedParts();
+                      Navigator.of(context).pop(dataList);
+                    },
                   ),
-                )
+                ),
               ],
             ),
           )
-        : Center(
-            child: Text(
-              l10n.noPartsFound,
-              style: theme.primaryTextTheme.headline3,
-            ),
-          );
+        ],
+      ),
+    );
   }
 }

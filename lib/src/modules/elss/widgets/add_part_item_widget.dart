@@ -34,37 +34,41 @@ class _AddPartItemListState extends State<AddPartItemList> {
             radius: CshRadius.rad4,
             elevation: CardElevation.dimen_10,
             padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (!Validator.isNullOrEmpty(widget.dataModel?.productName)) ...[
-                        Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.headline3),
-                        const SizedBox(height: Dimens.space_8),
-                      ],
-                      if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
-                        _labelAndValueWidget(theme, l10n.sku, widget.dataModel!.sku!),
-                        const SizedBox(height: Dimens.space_8),
-                      ],
-                      if (!Validator.isNullOrEmpty(widget.dataModel?.productColour)) ...[
-                        _labelAndValueWidget(theme, l10n.colour, widget.dataModel!.productColour!),
-                        const SizedBox(height: Dimens.space_8),
-                      ],
-                      if (widget.dataModel?.partQuantity != null) ...[
-                        _labelAndValueWidget(theme, l10n.quantity, widget.dataModel!.partQuantity!.toString()),
-                      ],
-                      if (!Validator.isNullOrEmpty(widget.dataModel?.errorMessage))
-                        _buildErrorWidget(widget.dataModel!.errorMessage!, theme)
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (!Validator.isNullOrEmpty(widget.dataModel?.productName)) ...[
+                            Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.headline3),
+                            const SizedBox(height: Dimens.space_8),
+                          ],
+                          if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
+                            _labelAndValueWidget(theme, l10n.sku, widget.dataModel!.sku!),
+                            const SizedBox(height: Dimens.space_8),
+                          ],
+                          if (!Validator.isNullOrEmpty(widget.dataModel?.productColour)) ...[
+                            _labelAndValueWidget(theme, l10n.colour, widget.dataModel!.productColour!),
+                            const SizedBox(height: Dimens.space_8),
+                          ],
+                          if (widget.dataModel?.partQuantity != null) ...[
+                            _labelAndValueWidget(theme, l10n.quantity, widget.dataModel!.partQuantity!.toString()),
+                          ],
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: Dimens.space_10),
+                    CshCheckbox(
+                      isSelected: widget.dataModel?.isCardSelected ?? false,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: Dimens.space_10),
-                CshCheckbox(
-                  isSelected: widget.dataModel?.isCardSelected ?? false,
-                ),
+                if (!Validator.isNullOrEmpty(widget.dataModel?.errorMessage))
+                  _buildErrorWidget(widget.dataModel!.errorMessage!, theme)
               ],
             ),
           ),
