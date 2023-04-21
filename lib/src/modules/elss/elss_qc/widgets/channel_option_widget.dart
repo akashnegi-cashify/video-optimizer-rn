@@ -293,7 +293,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                 if (provider.checkIsItemSelectedForPNA(
                   provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!.requestedParts!,
                 )) {
-                  _marPnaStatusToParts(
+                  _markPnaStatusToParts(
                       l10n, provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!.requestedParts!);
                 } else {
                   Navigator.of(context).pop(true);
@@ -346,6 +346,8 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                           .requestedParts![indexing].partName,
                       isCardSelected: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
                           .requestedParts![indexing].isPnaSelected,
+                      partQuantity: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
+                          .requestedParts![indexing].quantity,
                     ),
                     onPartSelected: (bool data) {
                       provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
@@ -374,7 +376,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               secondBtnClick: () {
                 if (provider.checkIsItemSelectedForPNA(
                     provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!)) {
-                  _marPnaStatusToParts(l10n,
+                  _markPnaStatusToParts(l10n,
                       provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!);
                 } else {
                   Navigator.of(context).pop(true);
@@ -391,7 +393,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     });
   }
 
-  _marPnaStatusToParts(L10n l10n, List<ElssPart> dataList) {
+  _markPnaStatusToParts(L10n l10n, List<ElssPart> dataList) {
     var provider = ChannelOptionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.markPNAStatus(widget.scannedBarcode, dataList).then((value) {

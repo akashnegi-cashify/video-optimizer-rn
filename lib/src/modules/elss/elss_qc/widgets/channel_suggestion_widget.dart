@@ -50,40 +50,43 @@ class ChannelSuggestionWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  title,
-                  style: theme.primaryTextTheme.headline5,
-                ),
-                Row(
-                  children: [
-                    if (dataModel?.channelOptionPrice != null)
-                      RichText(
-                        text: TextSpan(
-                          text: "${l10n.profit}: ",
-                          style: theme.primaryTextTheme.overline,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: dataModel!.channelOptionPrice!.toString(),
-                              style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
-                            )
-                          ],
+            Container(
+              color: theme.primaryColor.withAlpha(125),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: theme.primaryTextTheme.headline5,
+                  ),
+                  Row(
+                    children: [
+                      if (dataModel?.channelOptionPrice != null)
+                        RichText(
+                          text: TextSpan(
+                            text: "${l10n.profit}: ",
+                            style: theme.primaryTextTheme.overline,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: l10n.formatPrice(dataModel!.channelOptionPrice, defaultValue: 0),
+                                style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    if (onCardSelected != null) ...[
-                      const SizedBox(width: Dimens.space_6),
-                      CshIcon(
-                        FeatherIcons.chevronRight,
-                        iconSize: MobileIconSize.medium,
-                        padding: EdgeInsets.zero,
-                        iconColor: theme.primaryColor,
-                      )
-                    ]
-                  ],
-                )
-              ],
+                      if (onCardSelected != null) ...[
+                        const SizedBox(width: Dimens.space_6),
+                        CshIcon(
+                          FeatherIcons.chevronRight,
+                          iconSize: MobileIconSize.medium,
+                          padding: EdgeInsets.zero,
+                          iconColor: theme.primaryColor,
+                        )
+                      ]
+                    ],
+                  )
+                ],
+              ),
             ),
             if (dataModel != null && (!Validator.isListNullOrEmpty(dataModel?.requestedParts))) ...[
               const SizedBox(height: Dimens.space_8),

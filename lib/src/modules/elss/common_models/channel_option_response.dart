@@ -59,7 +59,7 @@ class ChannelOptionData {
   @JsonKey(name: "ch")
   String? channelName;
   @JsonKey(name: "pr")
-  double? channelOptionPrice;
+  int? channelOptionPrice;
   @JsonKey(name: "gr")
   String? grade;
   @JsonKey(name: "isr")

@@ -61,7 +61,7 @@ class DefaultChannelOptionWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     (dataModel?.channelOptionPrice != null)
-                        ? _labelValueWidget(theme, l10n.price, "₹${dataModel!.channelOptionPrice!}")
+                        ? _labelValueWidget(theme, l10n.price, l10n.formatPrice(dataModel?.channelOptionPrice, defaultValue: 0))
                         : const SizedBox.shrink(),
                     (!Validator.isNullOrEmpty(dataModel?.channelName))
                         ? _labelValueWidget(theme, l10n.repairType, dataModel!.channelName!)
