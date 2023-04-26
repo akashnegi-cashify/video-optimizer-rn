@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:provider/provider.dart';
 import '../l10n.dart';
 import '../providers/elss_provider_qc.dart';
@@ -22,7 +23,7 @@ class PartSelectionScreenQc extends StatelessWidget {
         var provider = ELssProviderQc.of(innerContext);
 
         return Scaffold(
-          appBar: CshHeader(l10n.deviceDetails),
+          appBar: TrcHeader(l10n.deviceDetails),
           resizeToAvoidBottomInset: false,
           body: (provider.isDetailsDataLoading)
               ? const Center(

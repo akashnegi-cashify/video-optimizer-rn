@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/channel_suggestion_widget.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
 
 import '../../common_models/elss_device_details_response.dart';
 import '../../common_models/elss_part.dart';
@@ -43,10 +44,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ElssDeviceDetailsWidget(
-                    dataModel: widget.detailsDataModel?.deviceDetailsData,
-                    gradeLabel: l10n.initialGrade,
-                  ),
+                  ElssDeviceDetailsWidget(dataModel: widget.detailsDataModel?.deviceDetailsData),
                   const SizedBox(height: Dimens.space_16),
                   const SizedBox(height: Dimens.space_20),
                   ChannelSuggestionWidget(
@@ -230,19 +228,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
   }
 
   _onRejectElss() {
-    var provider = ChannelOptionProvider.of(context, listen: false);
-    CshLoading().showLoading(context);
-    provider.rejectElss(widget.scannedBarcode).then((value) {
-      CshLoading().hideLoading(context);
-      Navigator.pushReplacementNamed(
-        context,
-        ElssStatusScreen.routeName,
-        arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject, barcode: widget.scannedBarcode),
-      );
-    }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
-      CshLoading().hideLoading(context);
-    });
+    showRejectRetestBottomSheetModal(context, ReasonType.reject, widget.scannedBarcode);
   }
 
   _onYourSuggestionPNAModal(L10n l10n, ThemeData theme) {
@@ -307,7 +293,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                 if (provider.checkIsItemSelectedForPNA(
                   provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!.requestedParts!,
                 )) {
-                  _marPnaStatusToParts(
+                  _markPnaStatusToParts(
                       l10n, provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!.requestedParts!);
                 } else {
                   Navigator.of(context).pop(true);
@@ -360,6 +346,8 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                           .requestedParts![indexing].partName,
                       isCardSelected: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
                           .requestedParts![indexing].isPnaSelected,
+                      partQuantity: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
+                          .requestedParts![indexing].quantity,
                     ),
                     onPartSelected: (bool data) {
                       provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
@@ -388,7 +376,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               secondBtnClick: () {
                 if (provider.checkIsItemSelectedForPNA(
                     provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!)) {
-                  _marPnaStatusToParts(l10n,
+                  _markPnaStatusToParts(l10n,
                       provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!);
                 } else {
                   Navigator.of(context).pop(true);
@@ -405,7 +393,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     });
   }
 
-  _marPnaStatusToParts(L10n l10n, List<ElssPart> dataList) {
+  _markPnaStatusToParts(L10n l10n, List<ElssPart> dataList) {
     var provider = ChannelOptionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.markPNAStatus(widget.scannedBarcode, dataList).then((value) {

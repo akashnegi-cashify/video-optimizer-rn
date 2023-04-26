@@ -44,7 +44,7 @@ class ChannelOptionCardWidget extends StatelessWidget {
                             style: theme.primaryTextTheme.headline5,
                             children: <TextSpan>[
                               TextSpan(
-                                text: "₹${dataModel!.channelOptionPrice!}",
+                                text: l10n.formatPrice(dataModel?.channelOptionPrice, defaultValue: 0),
                                 style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
                               ),
                             ],

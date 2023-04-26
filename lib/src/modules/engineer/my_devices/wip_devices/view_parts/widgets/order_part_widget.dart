@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
@@ -36,7 +37,7 @@ class _OrderPartWidget extends StatelessWidget {
       },
       builder: (context, widget) {
         return Scaffold(
-          appBar: CshHeader(l10n.orderPart),
+          appBar: TrcHeader(l10n.orderPart),
           body: Column(
             children: [
               SearchbarWidget(

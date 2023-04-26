@@ -58,7 +58,7 @@ ChannelOptionData _$ChannelOptionDataFromJson(Map<String, dynamic> json) =>
     ChannelOptionData(
       optionId: json['oid'] as int?,
       channelName: json['ch'] as String?,
-      channelOptionPrice: (json['pr'] as num?)?.toDouble(),
+      channelOptionPrice: json['pr'] as int?,
       grade: json['gr'] as String?,
       isRubbingAllowed: json['isr'] as bool?,
       requestedParts: (json['rp'] as List<dynamic>?)

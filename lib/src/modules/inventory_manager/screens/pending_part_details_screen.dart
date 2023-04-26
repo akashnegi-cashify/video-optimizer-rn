@@ -104,6 +104,7 @@ class PendingPartDetailsScreen extends StatelessWidget {
                   PendingPartDetailsInfoWidget(
                     detailsData: provider.partsDetailsResponse?.partsDetails,
                     suggestedBarcode: provider.recommendedPartResponse?.dataResponse?.barcode,
+                    statusCode: args.statusCode,
                   ),
                   const Expanded(
                     child: SizedBox.shrink(),

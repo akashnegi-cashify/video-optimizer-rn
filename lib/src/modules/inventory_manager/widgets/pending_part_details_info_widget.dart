@@ -7,10 +7,12 @@ import '../providers/pending_parts_details_provider.dart';
 class PendingPartDetailsInfoWidget extends StatefulWidget {
   final PartDetailsData? detailsData;
   final String? suggestedBarcode;
+  final int? statusCode;
 
   const PendingPartDetailsInfoWidget({
     Key? key,
     this.detailsData,
+    this.statusCode,
     this.suggestedBarcode,
   }) : super(key: key);
 
@@ -48,12 +50,21 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
               _labelValueWidget(theme, l10n.partColor, widget.detailsData!.partColor!),
               const SizedBox(height: Dimens.space_8),
             ],
-            _fetchQuantityWidget(
-              theme,
-              l10n.availableQuantity,
-              l10n.getQuantity,
-              value: provider.availableQuantityResponse?.quantityData?.availableQuantity,
-            ),
+            if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartSku)) ...[
+              _labelValueWidget(theme, l10n.alternatePartSku, widget.detailsData!.alternatePartSku!),
+              const SizedBox(height: Dimens.space_8),
+            ],
+            if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartStatus)) ...[
+              _labelValueWidget(theme, l10n.alternatePartStatus, widget.detailsData!.alternatePartStatus!),
+              const SizedBox(height: Dimens.space_8),
+            ],
+            if (!(widget.statusCode != null && widget.statusCode == 13))
+              _fetchQuantityWidget(
+                theme,
+                l10n.availableQuantity,
+                l10n.getQuantity,
+                value: provider.availableQuantityResponse?.quantityData?.availableQuantity,
+              ),
             const SizedBox(height: Dimens.space_8),
             if (widget.detailsData!.requestQuantity != null) ...[
               _labelValueWidget(

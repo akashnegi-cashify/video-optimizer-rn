@@ -91,7 +91,7 @@ class _InitialOrDefaultWidgetState extends State<InitialOrDefaultWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               (widget.channelData?.channelOptionPrice != null)
-                  ? _labelValueWidget(theme, l10n.price, "₹${widget.channelData!.channelOptionPrice!}")
+                  ? _labelValueWidget(theme, l10n.price, l10n.formatPrice(widget.channelData?.channelOptionPrice, defaultValue: 0))
                   : const SizedBox.shrink(),
               (!Validator.isNullOrEmpty(widget.channelData?.channelName))
                   ? _labelValueWidget(theme, l10n.repairType, widget.channelData!.channelName!)

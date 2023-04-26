@@ -2,6 +2,9 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
+import 'package:flutter_trc/src/resources/user_details.dart';
+import 'package:flutter_trc/src/utils/trc_method_channels.dart';
 
 import '../l10n.dart';
 import '../providers/login_provider.dart';
@@ -98,7 +101,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                       if (_detailsVerification(l10n)) {
                         String empId = _empIdController.text.trim();
                         String pw = _passwordController.text.trim();
-                        _submitLoginCredentials(empId, pw, l10n.loggedInSuccessfully, l10n.somethingWentWrong);
+                        String location = _locationController.text.trim();
+                        _submitLoginCredentials(
+                            empId, pw, l10n.loggedInSuccessfully, l10n.somethingWentWrong, location);
                       }
                     }
                   : () {
@@ -127,18 +132,24 @@ class _LoginWidgetState extends State<LoginWidget> {
     return true;
   }
 
-  _submitLoginCredentials(String employeeId, String password, String successMessage, String errorMessage) {
+  _submitLoginCredentials(
+    String employeeId,
+    String password,
+    String successMessage,
+    String errorMessage,
+    String location,
+  ) {
     var provider = TRCLoginProvider.of(context, listen: false);
 
     CshLoading().showLoading(context);
-    provider.userLogin(employeeId, password, context).then((value) {
-      if (value) {
-        CshSnackBar.success(context: context, message: successMessage, snackBarPosition: SnackBarPosition.TOP);
-        CshLoading().hideLoading(context);
-      } else {
-        CshSnackBar.error(context: context, message: errorMessage, snackBarPosition: SnackBarPosition.TOP);
-      }
+    provider.userLogin(employeeId, password, location).then((String token) async {
       CshLoading().hideLoading(context);
+      CshSnackBar.success(context: context, message: successMessage, snackBarPosition: SnackBarPosition.TOP);
+      await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+          loginToken: token, loginFromQC: false);
+      if (context.mounted) {
+        await NativeCall.registerLogout(context);
+      }
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);

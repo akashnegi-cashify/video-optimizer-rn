@@ -1,6 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/pending_delivery_widget.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/pending_pickup_widget.dart';
@@ -53,12 +53,10 @@ class _RiderWidgetState extends State<RiderWidget> with TickerProviderStateMixin
     return FutureBuilder(
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         return Scaffold(
-            appBar: CshHeader(
+            appBar: TrcHeader(
               snapshot.data ?? l10n.cashify,
               showBackBtn: false,
-              actions: [
-                LogoutActionWidget(),
-              ],
+              showLogoutButton: true,
             ),
             body: SafeArea(
               child: Column(

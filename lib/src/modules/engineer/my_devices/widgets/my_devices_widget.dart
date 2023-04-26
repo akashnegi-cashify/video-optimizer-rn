@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/all_devices/widget/all_devices_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_widget.dart';
@@ -34,7 +35,7 @@ class _MyDevicesWidgetState extends State<_MyDevicesWidget> with SingleTickerPro
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
     return Scaffold(
-      appBar: CshHeader(l10n.myDevices),
+      appBar: TrcHeader(l10n.myDevices),
       body: Column(
         children: [
           CshTabBar(
