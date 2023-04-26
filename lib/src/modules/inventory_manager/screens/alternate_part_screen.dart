@@ -136,7 +136,7 @@ class _AlternatePartScreenState extends State<AlternatePartScreen> {
                         return AlternatePartItemWidget(
                           dataModel: provider.listAlternatePartsResponse!.dataList![index],
                           onRequestCallback: () {
-                            _showLinkDeadPartModal(
+                            _showRequestAlternatePartRequest(
                               context,
                               theme,
                               l10n,
@@ -200,8 +200,8 @@ class _AlternatePartScreenState extends State<AlternatePartScreen> {
     );
   }
 
-  _showLinkDeadPartModal(BuildContext context, ThemeData theme, L10n l10n, int partId, String productName, String sku,
-      AlternatePartArguments args) {
+  _showRequestAlternatePartRequest(BuildContext context, ThemeData theme, L10n l10n, int partId, String productName,
+      String sku, AlternatePartArguments args) {
     showCshBottomSheet(
       context: context,
       child: Padding(
@@ -209,7 +209,7 @@ class _AlternatePartScreenState extends State<AlternatePartScreen> {
         child: Column(
           children: [
             Text(
-              l10n.areYouSureYouWantToLinkDeadPart,
+              "Are you sure you want to request part $sku",
               style: theme.primaryTextTheme.headline3,
             ),
             const SizedBox(height: Dimens.space_16),

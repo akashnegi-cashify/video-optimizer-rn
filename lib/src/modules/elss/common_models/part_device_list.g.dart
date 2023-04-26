@@ -31,7 +31,7 @@ PartItemDataResponse _$PartItemDataResponseFromJson(
       json['pcl'] as String?,
       json['pn'] as String?,
       partQuantity: json['qty'] as int?,
-      errorMessage: json['emsg'] as String?
+      errorMessage: json['emsg'] as String?,
     );
 
 Map<String, dynamic> _$PartItemDataResponseToJson(

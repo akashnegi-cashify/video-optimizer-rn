@@ -1,8 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:provider/provider.dart';
-import '../../../screens/qr_barcode_scanner.dart';
 import '../l10n.dart';
 import '../models/assigned_device_details.dart';
 import '../models/parts_details_response.dart';
@@ -37,6 +37,21 @@ class _AssignBarcodeScannerScreenState extends State<AssignBarcodeScannerScreen>
   bool _fieldActive = false;
 
   @override
+  void initState() {
+    _barcodeController.addListener(
+      () {
+        if (_barcodeController.text.isNotEmpty) {
+          _fieldActive = true;
+        } else {
+          _fieldActive = false;
+        }
+        setState(() {});
+      },
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
@@ -57,10 +72,11 @@ class _AssignBarcodeScannerScreenState extends State<AssignBarcodeScannerScreen>
                 _partDetailsWidget(theme, l10n, args),
                 const SizedBox(height: Dimens.space_8),
                 Expanded(
-                  child: QrBarcodeScanner(
-                    onResultantCallback: (String data) {
-                      if (data.isNotEmpty) {
-                        _assignBarcode(insideContext, data.trim(), args);
+                  child: MlBarcodeScannerWidget(
+                    allowDuplicateScan: false,
+                    onScannerDetected: (String value, MlScannerController controller) {
+                      if (value.isNotEmpty) {
+                        _assignBarcode(insideContext, value.trim(), args);
                       }
                     },
                   ),

@@ -48,7 +48,7 @@ class AlternatePartItemWidget extends StatelessWidget {
                         child: Text(
                           dataModel!.sku!,
                           style: theme.primaryTextTheme.headline4,
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
