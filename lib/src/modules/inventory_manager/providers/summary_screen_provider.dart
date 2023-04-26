@@ -12,12 +12,14 @@ class SummaryProvider extends CshChangeNotifier {
     return Provider.of<SummaryProvider>(context, listen: listen);
   }
 
-  bool isDataLoading = true;
+  bool isPiechartDataLoading = true;
+  bool isNumbersDataLoading = true;
   ReturnCountResponse? returnCountResponse;
   PartSummaryResponse? partSummaryResponse;
 
   SummaryProvider() {
     _fetchReturnCountResponse();
+    _fetchPartSummaryResponse();
   }
 
   _fetchReturnCountResponse() {
@@ -29,7 +31,8 @@ class SummaryProvider extends CshChangeNotifier {
       String er = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
       Logger.debug('mydebug------SummaryProvider._fetchReturnCountResponse', [er]);
     }, onDone: () {
-      _fetchPartSummaryResponse();
+      isPiechartDataLoading = false;
+
       notifyListeners();
     });
   }
@@ -46,7 +49,7 @@ class SummaryProvider extends CshChangeNotifier {
         Logger.debug('mydebug------SummaryProvider._fetchPartSummaryResponse', [erm]);
       },
       onDone: () {
-        isDataLoading = false;
+        isNumbersDataLoading = false;
         notifyListeners();
       },
     );
