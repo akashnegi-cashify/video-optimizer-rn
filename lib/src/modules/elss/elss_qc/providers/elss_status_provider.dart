@@ -15,14 +15,14 @@ class ElssStatusProvider extends CshChangeNotifier {
     _fetchDeviceDetails(barcode);
   }
 
-  ElssDeviceDetailsResponse? elssDeviceDetailsResponse;
+  ElssDeviceDetailsResponse? _elssDeviceDetailsResponse;
   bool isDataLoading = true;
   String? errMessage;
 
   _fetchDeviceDetails(String barcode) {
     ElssService.getElssStatusDeviceDetails(barcode).listen((event) {
       if (event != null) {
-        elssDeviceDetailsResponse = event;
+        _elssDeviceDetailsResponse = event;
       }
     }, onError: (error) {
       String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
@@ -33,4 +33,6 @@ class ElssStatusProvider extends CshChangeNotifier {
       notifyListeners();
     });
   }
+
+  DeviceDetailsData? get deviceDetails => _elssDeviceDetailsResponse?.deviceDetailsData;
 }

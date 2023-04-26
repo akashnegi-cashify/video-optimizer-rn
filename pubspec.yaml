@@ -17,11 +17,11 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.2.0+2
 web_version: 1.0.0
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=2.19.2 <3.0.0"
   flutter: '>=1.17.1'
 
 dependencies:
@@ -32,31 +32,31 @@ dependencies:
   core:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: master
+      ref: stable
       path: core
 
   localization:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: master
+      ref: stable
       path: localization
 
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: stable
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: stable
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: stable
       path: calculator_ui
 
   s3_file_uploader_interface:
@@ -76,7 +76,7 @@ dependencies:
   device_info_plus: ^8.1.0
   sentry_flutter: ^6.5.1
   alice: ^0.2.5
-  connectivity_plus: ^2.3.2
+  connectivity_plus: ^3.0.4
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.0
@@ -89,11 +89,16 @@ dependencies:
   jwt_decoder: ^2.0.1
   cached_network_image: ^3.2.3
   image_picker: ^0.8.6+3
-  qr_code_scanner: ^1.0.1
-#  open_filex: ^4.3.2
+  #  open_filex: ^4.3.2
   fl_chart: ^0.61.0
   visibility_detector: ^0.3.3
   file_picker: ^5.2.5
+  ml_barcode_scanner:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui
+      ref: stable
+      path: ml_barcode_scanner
+
 
 
 
@@ -112,26 +117,13 @@ dependency_overrides:
   permission_handler: ^10.2.0
   webview_flutter: ^3.0.4
   device_info_plus: ^8.1.0
-#  open_filex: ^4.3.2
+  #  open_filex: ^4.3.2
   package_info_plus: ^3.0.1
   flutter_html: ^2.2.1
   file_picker: ^4.5.1
   intl: ^0.18.0
   ffi: ^2.0.1
-
-
-  core_widgets:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
-      path: core_widgets
-
-
   visibility_detector: ^0.3.3
-
-
-
-
 
 
 
@@ -160,5 +152,4 @@ flutter:
           weight: 600
         - asset: assets/fonts/montserrat_regular.ttf
           weight: 400
-
 

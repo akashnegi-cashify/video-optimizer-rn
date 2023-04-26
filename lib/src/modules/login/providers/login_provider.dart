@@ -23,24 +23,16 @@ class TRCLoginProvider extends CshChangeNotifier {
     return Provider.of<TRCLoginProvider>(context, listen: listen);
   }
 
-  Future<bool> userLogin(String employeeId, String password, BuildContext context) {
-    var completer = Completer<bool>();
+  Future<String> userLogin(String employeeId, String password, String location) async {
+    var completer = Completer<String>();
     try {
-      TRCLoginService.userLogin(employeeId, password).listen((event) async {
-        if (event != null) {
-          if (!Validator.isNullOrEmpty(event.data?.token)) {
-            AuthHandler().setUserAuth(event.data!.token!);
-            UserDetails().setUserDetailsData(event.data!.token!);
-
-            await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                loginToken: event.data?.token!, loginFromQC: false);
-            if (mounted) {
-              await NativeCall.registerLogout(context);
-            }
-          }
-          completer.complete(true);
-        } else {
-          completer.complete(false);
+      String? deviceId = await DeviceUtil.getDeviceId();
+      TRCLoginService.userLogin(employeeId, password, location, deviceId).listen((event) async {
+        var token = event?.data?.token;
+        if (!Validator.isNullOrEmpty(token)) {
+          AuthHandler().setUserAuth(token!);
+          UserDetails().setUserDetailsData(token);
+          completer.complete(token);
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";

@@ -1,13 +1,16 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import '../../common_models/elss_part.dart';
 import '../l10n.dart';
 
 class ElssPartWidget extends StatefulWidget {
   final ElssPart? dataModel;
   final int indexData;
-
+  final int actionConstantValue;
   final Function(int)? onPartRemoved;
   final Function(int, String) onImageUploadCallback;
   final Function()? onRequiredSelected;
@@ -17,6 +20,7 @@ class ElssPartWidget extends StatefulWidget {
     Key? key,
     required this.onImageUploadCallback,
     required this.indexData,
+    required this.actionConstantValue,
     this.onPartRemoved,
     this.dataModel,
     this.onNotRequiredSelected,
@@ -28,11 +32,19 @@ class ElssPartWidget extends StatefulWidget {
 }
 
 class _ElssPartWidgetState extends State<ElssPartWidget> {
-  bool _isRequiredSelected = true;
+  bool _isRequiredSelected = false;
 
   @override
   void initState() {
     super.initState();
+    scheduleMicrotask(() {
+      if (widget.actionConstantValue == -1) {
+        _isRequiredSelected = false;
+      } else {
+        _isRequiredSelected = true;
+      }
+      setState(() {});
+    });
   }
 
   @override
@@ -57,6 +69,18 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                       style: theme.primaryTextTheme.overline,
                     ),
                   ),
+                  RichText(
+                    text: TextSpan(
+                        text: l10n.qty,
+                        style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
+                        children: [
+                          TextSpan(
+                            text: " ${widget.dataModel?.quantity}",
+                            style: theme.primaryTextTheme.overline,
+                          )
+                        ]),
+                  ),
+                  const SizedBox(width: Dimens.space_16),
                   GestureDetector(
                     onTap: () {
                       if (widget.onPartRemoved != null) {
@@ -79,11 +103,46 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                 dense: true,
                 child: ExpansionTile(
                   tilePadding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-                  title: Text(
-                    widget.dataModel?.partName ?? "",
-                    style: theme.primaryTextTheme.overline,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.dataModel?.partName ?? "",
+                        style: theme.primaryTextTheme.overline,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: Dimens.space_8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          !Validator.isNullOrEmpty(widget.dataModel?.partColour)
+                              ? RichText(
+                                  text: TextSpan(
+                                      text: l10n.colour,
+                                      style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
+                                      children: [
+                                        TextSpan(
+                                          text: " ${widget.dataModel?.partColour}",
+                                          style: theme.primaryTextTheme.overline,
+                                        )
+                                      ]),
+                                )
+                              : const SizedBox.shrink(),
+                          RichText(
+                            text: TextSpan(
+                                text: l10n.qty,
+                                style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
+                                children: [
+                                  TextSpan(
+                                    text: " ${widget.dataModel?.quantity}",
+                                    style: theme.primaryTextTheme.overline,
+                                  )
+                                ]),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   children: <Widget>[
                     Padding(

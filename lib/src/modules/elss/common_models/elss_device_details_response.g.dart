@@ -45,6 +45,7 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
       json['dgr'] as String?,
       json['paal'] as bool?,
       json['isr'] as bool?,
+      json['sgr'] as String?,
     );
 
 Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
@@ -63,4 +64,5 @@ Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
       'rrs': instance.repairReasonList,
       'rp': instance.repairPartList,
       'isr': instance.isRubbingRequired,
+      'sgr': instance.suggestedGrade,
     };

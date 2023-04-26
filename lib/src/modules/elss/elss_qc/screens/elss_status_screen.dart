@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/providers/elss_status_provider.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
@@ -28,10 +29,9 @@ class ElssStatusScreen extends StatelessWidget {
     assert(arg != null);
     var l10n = L10n(context);
     ThemeData theme = Theme.of(context);
-    var statusData = _getStatusData(arg!.elssStatus, l10n);
 
     return ChangeNotifierProvider<ElssStatusProvider>(
-      create: (_) => ElssStatusProvider(arg.barcode),
+      create: (_) => ElssStatusProvider(arg!.barcode),
       lazy: false,
       builder: (BuildContext innerContext, __) {
         var provider = ElssStatusProvider.of(innerContext);
@@ -47,7 +47,7 @@ class ElssStatusScreen extends StatelessWidget {
           );
         } else if (provider.isDataLoading == false && !Validator.isNullOrEmpty(provider.errMessage)) {
           return Scaffold(
-            appBar: CshHeader(l10n.elssStatus),
+            appBar: TrcHeader(l10n.elssStatus),
             body: Center(
               child: Row(
                 children: [
@@ -64,14 +64,15 @@ class ElssStatusScreen extends StatelessWidget {
             ),
           );
         } else {
-          return _body(innerContext, theme, l10n, statusData);
+          return _body(innerContext, theme, l10n, arg!);
         }
       },
     );
   }
 
-  _body(BuildContext context, ThemeData theme, L10n l10n, _ElssStatusData statusData) {
+  _body(BuildContext context, ThemeData theme, L10n l10n, ElssStatusScreenArg arg) {
     var provider = ElssStatusProvider.of(context);
+    var statusData = _getStatusData(arg.elssStatus, l10n);
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.elssStatus, style: theme.primaryTextTheme.headline3),
@@ -115,7 +116,7 @@ class ElssStatusScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: Dimens.space_20),
                     if (Validator.isNullOrEmpty(provider.errMessage))
-                      ElssDeviceDetailsWidget(dataModel: provider.elssDeviceDetailsResponse?.deviceDetailsData),
+                      ElssDeviceDetailsWidget(dataModel: provider.deviceDetails),
                   ],
                 ),
               ),

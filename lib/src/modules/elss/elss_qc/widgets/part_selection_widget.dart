@@ -2,9 +2,10 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
+import 'package:flutter_trc/src/modules/elss/common_models/elss_part.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
 
 import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_action.dart';
@@ -30,14 +31,7 @@ class PartSelectionWidget extends StatefulWidget {
 }
 
 class _PartSelectionWidgetState extends State<PartSelectionWidget> {
-  bool _isRubbingApplicable = false;
-
   List<PartItemDataResponse> additionalRequiredPartList = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +49,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.space_8),
-                  child: ElssDeviceDetailsWidget(
-                    dataModel: provider.elssDeviceDetails?.deviceDetailsData,
-                    gradeLabel: l10n.initialGrade,
-                  ),
+                  child: ElssDeviceDetailsWidget(dataModel: provider.elssDeviceDetails?.deviceDetailsData),
                 ),
                 const SizedBox(height: Dimens.space_20),
                 if (provider.elssDeviceDetails?.deviceDetailsData?.partAdditionAllowed ?? false)
@@ -72,10 +63,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                           var data =
                               await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
                           if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
-                            for (var element in data!) {
-                              Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
-                            }
-                            provider.addNewPartsFromAddParts(data);
+                            provider.addNewPartsFromAddParts(data!);
                           }
                         },
                         prefixIcon: CshIcon(
@@ -100,6 +88,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                         key: const Key("Master_List"),
                         onImageUploadCallback: (int imageIndex, String s3Url) {},
                         indexData: provider.elssPartList[index].elssPartId ?? -1,
+                        actionConstantValue: provider.elssPartList[index].actionConstant ?? -1,
                         onPartRemoved: (int id) {
                           provider.removeExternalAddedPart(id);
                         },
@@ -137,34 +126,36 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-          child: GestureDetector(
-            onTap: () {
-              _isRubbingApplicable = !_isRubbingApplicable;
-              provider.isRubbingApplicable = _isRubbingApplicable;
-              setState(() {});
-            },
-            child: CshCard(
-              padding: EdgeInsets.zero,
-              radius: CshRadius.rad4,
-              elevation: CardElevation.dimen_10,
-              child: SizedBox(
-                width: double.infinity,
-                height: Dimens.space_60,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: Dimens.space_16),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          l10n.sendDeviceForRubbing,
-                          style: theme.primaryTextTheme.overline,
-                        ),
+          child: CshCard(
+            padding: EdgeInsets.zero,
+            radius: CshRadius.rad4,
+            elevation: CardElevation.dimen_10,
+            child: SizedBox(
+              width: double.infinity,
+              height: Dimens.space_60,
+              child: Padding(
+                padding: const EdgeInsets.only(left: Dimens.space_16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.sendDeviceForRubbing,
+                        style: theme.primaryTextTheme.overline,
                       ),
-                      CshSwitch(
-                        isSelected: _isRubbingApplicable,
-                      ),
-                    ],
-                  ),
+                    ),
+                    CshSwitch(
+                      isSelected: provider.isRubbingApplicable,
+                      onChanged: (value) {
+                        provider.setIsRubbingValue(value);
+                        CshSnackBar.success(
+                          context: context,
+                          message: value ? l10n.rubbingEnabled : l10n.rubbingDisabled,
+                          snackBarPosition: SnackBarPosition.TOP,
+                          duration: SnackBarDuration.SHORT,
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -223,11 +214,11 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
       builder: (BuildContext innerContext) {
         return DiscardModalWidget(
           onRejectCallback: () {
-            Navigator.of(context).pop(true);
+            Navigator.of(context).pop();
             _onRejectElss();
           },
           onRetestCallback: () {
-            Navigator.of(context).pop(true);
+            Navigator.of(context).pop();
             _onRetestingElss();
           },
         );
@@ -236,36 +227,11 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
   }
 
   _onRejectElss() {
-    var provider = ELssProviderQc.of(context, listen: false);
-    CshLoading().showLoading(context);
-    provider.rejectElss(widget.barcode).then((value) {
-      CshLoading().hideLoading(context);
-      if (value) {
-        Navigator.pushReplacementNamed(
-          context,
-          ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject, barcode: widget.barcode),
-        );
-      }
-    }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
-      CshLoading().hideLoading(context);
-    });
+    showRejectRetestBottomSheetModal(context, ReasonType.reject, widget.barcode);
   }
 
   _onRetestingElss() {
-    var provider = ELssProviderQc.of(context, listen: false);
-    CshLoading().showLoading(context);
-    provider.retestElss(widget.barcode).then((value) {
-      CshLoading().hideLoading(context);
-      if (value) {
-        CshSnackBar.success(context: context, message: "Moved to Retesting successfully!!");
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
-      }
-    }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
-      CshLoading().hideLoading(context);
-    });
+    showRejectRetestBottomSheetModal(context, ReasonType.retest, widget.barcode);
   }
 
   _bottomHandlingButtons(
@@ -327,34 +293,20 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     showCshBottomSheet(
       context: context,
       child: ElssPnaModalWidgetQC(
-        arePartsAdded: (!Validator.isListNullOrEmpty(provider.elssPartList)),
-        listOfSelectedParts: provider.elssPartList,
-        onCardSelectedCallback: (int index, bool data) {
-          provider.elssPartList[index].isPnaSelected = data;
-        },
-        onSubmitCallback: (Validator.isListNullOrEmpty(provider.elssPartList))
-            ? () async {
-                var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
-                if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
-                  for (var element in data!) {
-                    Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
-                  }
-                  provider.addNewPartsFromAddParts(data);
-                }
+          listOfSelectedParts: provider.getPartListForPna(),
+          onAddPartButtonClicked: () async {
+            var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
+            if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
+              for (var element in data!) {
+                Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
               }
-            : () {
-                if (provider.checkIsItemSelectedForPNA()) {
-                  _marPnaStatusToParts(l10n);
-                } else {
-                  Navigator.of(context).pop(true);
-                  CshSnackBar.error(
-                      context: context, message: l10n.checkMarkPartForPna, snackBarPosition: SnackBarPosition.TOP);
-                }
-              },
-      ),
-    ).then((value) {
-      provider.removePNASelectedItem();
-    });
+              provider.addNewPartsFromAddParts(data);
+            }
+          },
+          onSubmitCallback: (List<ElssPart> markedPnaList) {
+            _marPnaStatusToParts(l10n, markedPnaList);
+          }),
+    );
   }
 
   _submitDataForPartsLogic(L10n l10n) {
@@ -387,10 +339,10 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     });
   }
 
-  _marPnaStatusToParts(L10n l10n) {
+  _marPnaStatusToParts(L10n l10n, List<ElssPart> markedPnaList) {
     var provider = ELssProviderQc.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.markPNAStatus(widget.barcode).then((value) {
+    provider.markPNAStatus(widget.barcode, markedPnaList).then((value) {
       if (value) {
         Navigator.pushReplacementNamed(
           context,

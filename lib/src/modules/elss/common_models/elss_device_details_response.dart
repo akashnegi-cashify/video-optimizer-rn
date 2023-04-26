@@ -60,6 +60,9 @@ class DeviceDetailsData {
   @JsonKey(name: "isr")
   bool? isRubbingRequired;
 
+  @JsonKey(name: "sgr")
+  String? suggestedGrade;
+
   DeviceDetailsData(
     this.deviceBarcode,
     this.requestReason,
@@ -75,6 +78,7 @@ class DeviceDetailsData {
     this.deviceGrade,
     this.partAdditionAllowed,
     this.isRubbingRequired,
+    this.suggestedGrade,
   );
 
   static DeviceDetailsData fromJson(Map<String, dynamic> data) => _$DeviceDetailsDataFromJson(data);

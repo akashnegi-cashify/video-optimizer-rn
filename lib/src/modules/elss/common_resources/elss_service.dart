@@ -1,7 +1,10 @@
 import 'dart:convert';
+
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/reject_retest_reason_list_response.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
-import '../../../resources/models/s3_details_response.dart';
+
 import '../../home/models/logout_response.dart';
 import '../common_models/brands_all_products.dart';
 import '../common_models/brands_listing_models.dart';
@@ -115,16 +118,18 @@ class ElssService {
     return QcServiceElss().get("/device/elss/actions", PartsElssActionResponse.fromJson);
   }
 
-  static Stream<ElssSuccessResponse?> retestingElss(String barcode) {
+  static Stream<ElssSuccessResponse?> retestingElss(String barcode, int? reasonId) {
     Map<String, List<String>> paramsData = {
       "qr": [barcode],
+      "rid": [reasonId.toString()],
     };
     return QcServiceElss().get("/device/elss/re-testing", ElssSuccessResponse.fromJson, params: paramsData);
   }
 
-  static Stream<ElssSuccessResponse?> rejectElss(String barcode) {
+  static Stream<ElssSuccessResponse?> rejectElss(String barcode, int? reasonId) {
     Map<String, List<String>> paramsData = {
       "qr": [barcode],
+      "rid": [reasonId.toString()],
       "isDefault": ["false"],
     };
     return QcServiceElss().get("/device/elss/reject", ElssSuccessResponse.fromJson, params: paramsData);
@@ -159,5 +164,16 @@ class ElssService {
 
   static Stream<ElssDeviceDetailsResponse?> getElssStatusDeviceDetails(String barcode) {
     return QcServiceElss().get("/device/elss/details/$barcode", ElssDeviceDetailsResponse.fromJson);
+  }
+
+  static Stream<RejectRetestReasonListResponse?> getElssRejectReasonList(ReasonType reasonType) {
+    String? baseUrl;
+    if (reasonType == ReasonType.reject) {
+      baseUrl = "/device/elss/return-reason/elss_reject";
+    } else {
+      baseUrl = "/device/elss/return-reason/retesting";
+    }
+
+    return QcServiceElss().get(baseUrl, RejectRetestReasonListResponse.fromJson);
   }
 }

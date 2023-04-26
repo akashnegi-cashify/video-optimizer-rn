@@ -78,7 +78,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                           style: theme.primaryTextTheme.overline,
                           children: <TextSpan>[
                             TextSpan(
-                              text: "₹${widget.dataModel!.channelOptionPrice!}",
+                              text: l10n.formatPrice(widget.dataModel?.channelOptionPrice, defaultValue: 0),
                               style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
                             )
                           ],

@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/manage_parts/pending_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/manage_parts/received_widget.dart';
@@ -37,7 +38,7 @@ class _ManagePartsWidgetState extends State<ManagePartsWidget> with SingleTicker
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
     return Scaffold(
-        appBar: CshHeader(l10n.manageParts),
+        appBar: TrcHeader(l10n.manageParts),
         body: Column(
           children: [
             CshTabBar(
