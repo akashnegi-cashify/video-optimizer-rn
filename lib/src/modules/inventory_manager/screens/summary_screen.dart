@@ -25,7 +25,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
       lazy: false,
       builder: (BuildContext innerContext, __) {
         var provider = SummaryProvider.of(innerContext);
-        if (provider.isDataLoading) {
+        if (provider.isPiechartDataLoading) {
           return const Scaffold(
             body: Center(
               child: SizedBox(
@@ -80,31 +80,40 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     ],
                   ),
                   const SizedBox(height: Dimens.space_20),
-                  ChartDescriptionWidget(
-                    title: l10n.assignedForDelivery,
-                    description: l10n.aodDesc,
-                    number: (provider.partSummaryResponse?.summaryData?.assignedCount != null)
-                        ? provider.partSummaryResponse!.summaryData!.assignedCount!
-                        : 0,
-                    tileColor: theme.primaryColor,
+                  CshShimmer(
+                    show: provider.isNumbersDataLoading,
+                    child: ChartDescriptionWidget(
+                      title: l10n.assignedForDelivery,
+                      description: l10n.aodDesc,
+                      number: (provider.partSummaryResponse?.summaryData?.assignedCount != null)
+                          ? provider.partSummaryResponse!.summaryData!.assignedCount!
+                          : 0,
+                      tileColor: theme.primaryColor,
+                    ),
                   ),
                   const SizedBox(height: Dimens.space_8),
-                  ChartDescriptionWidget(
-                    title: l10n.pendingDelivery,
-                    description: l10n.pdDesc,
-                    number: (provider.partSummaryResponse?.summaryData?.pendingCount != null)
-                        ? provider.partSummaryResponse!.summaryData!.pendingCount!
-                        : 0,
-                    tileColor: theme.primaryColor.withOpacity(0.50),
+                  CshShimmer(
+                    show: provider.isNumbersDataLoading,
+                    child: ChartDescriptionWidget(
+                      title: l10n.pendingDelivery,
+                      description: l10n.pdDesc,
+                      number: (provider.partSummaryResponse?.summaryData?.pendingCount != null)
+                          ? provider.partSummaryResponse!.summaryData!.pendingCount!
+                          : 0,
+                      tileColor: theme.primaryColor.withOpacity(0.50),
+                    ),
                   ),
                   const SizedBox(height: Dimens.space_8),
-                  ChartDescriptionWidget(
-                    title: l10n.pendingReturn,
-                    description: l10n.prDesc,
-                    number: (provider.returnCountResponse?.data?.pendingReturnCount != null)
-                        ? provider.returnCountResponse!.data!.pendingReturnCount!
-                        : 0,
-                    tileColor: theme.primaryColor.withOpacity(0.25),
+                  CshShimmer(
+                    show: provider.isNumbersDataLoading,
+                    child: ChartDescriptionWidget(
+                      title: l10n.pendingReturn,
+                      description: l10n.prDesc,
+                      number: (provider.returnCountResponse?.data?.pendingReturnCount != null)
+                          ? provider.returnCountResponse!.data!.pendingReturnCount!
+                          : 0,
+                      tileColor: theme.primaryColor.withOpacity(0.25),
+                    ),
                   ),
                 ],
               ],

@@ -97,6 +97,8 @@ class L10n extends BaseL10n {
 
   String get grade => Intl.message("Grade", locale: localName, name: "grade");
 
+  String get currentGrade => Intl.message("Current Grade", locale: localName, name: "currentGrade");
+
   String get suggestedGrade => Intl.message("Suggested grade", locale: localName, name: "suggestedGrade");
 
   String get profit => Intl.message("Profit", locale: localName, name: "profit");
@@ -151,7 +153,7 @@ class L10n extends BaseL10n {
       Intl.message("PNA status applied to selected parts", locale: localName, name: "pnaStatusAppliedToSelectedParts");
 
   String get checkMarkPartForPna =>
-      Intl.message("Check Mark part for PNA", locale: localName, name: "checkMarkPartForPna");
+      Intl.message("Please select parts to mark PNA", locale: localName, name: "checkMarkPartForPna");
 
   String get deviceParts => Intl.message("Device Parts", locale: localName, name: "deviceParts");
 
@@ -211,4 +213,16 @@ class L10n extends BaseL10n {
   String get initialGrade => Intl.message("Initial Grade", locale: localName, name: "initialGrade");
 
   String get home => Intl.message("Home", locale: localName, name: "home");
+
+  String get qty => Intl.message("Qty", locale: localName, name: "qty");
+
+  get selectRejectReasons =>
+      Intl.message("Please select rejection reason", locale: localName, name: "selectRejectReasons");
+
+  get selectRetestReasons =>
+      Intl.message("Please select retesting reason", locale: localName, name: "selectRetestReasons");
+
+  get rubbingEnabled => Intl.message("Rubbing Enabled", locale: localName, name: "rubbingEnabled");
+
+  get rubbingDisabled => Intl.message("Rubbing Disabled", locale: localName, name: "rubbingDisabled");
 }

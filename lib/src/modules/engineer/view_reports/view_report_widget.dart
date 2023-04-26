@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/view_reports/device/widget/view_report_device_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/view_reports/parts/widget/view_reports_parts_widget.dart';
@@ -41,7 +42,7 @@ class _ViewReportWidgetState extends State<ViewReportWidget> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CshHeader(l10n.viewReport),
+      appBar: TrcHeader(l10n.viewReport),
       body: Column(
         children: [
           CshTabBar(controller: controller, tabs: [

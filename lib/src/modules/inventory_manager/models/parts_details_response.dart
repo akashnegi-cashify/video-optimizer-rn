@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'parts_details_response.g.dart';
 
 @JsonSerializable()
@@ -37,6 +38,12 @@ class PartDetailsData {
   int? requestQuantity;
   @JsonKey(name: "pbr")
   String? barcode;
+  @JsonKey(name: "apn")
+  String? alternatePartName;
+  @JsonKey(name: "asku")
+  String? alternatePartSku;
+  @JsonKey(name: "ast")
+  String? alternatePartStatus;
 
   PartDetailsData({
     this.barcode,
@@ -46,6 +53,9 @@ class PartDetailsData {
     this.partName,
     this.partColor,
     this.requestQuantity,
+    this.alternatePartName,
+    this.alternatePartSku,
+    this.alternatePartStatus,
   });
 
   static PartDetailsData fromJson(Map<String, dynamic> data) => _$PartDetailsDataFromJson(data);

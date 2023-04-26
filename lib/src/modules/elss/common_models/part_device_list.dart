@@ -36,6 +36,8 @@ class PartItemDataResponse {
   bool? isCardSelected;
   @JsonKey(includeFromJson: false, includeToJson: false)
   int? partId;
+  @JsonKey(name: "emsg")
+  String? errorMessage;
 
   PartItemDataResponse(
     this.sku,
@@ -44,6 +46,7 @@ class PartItemDataResponse {
     this.isCardSelected = false,
     this.partId,
     this.partQuantity,
+    this.errorMessage,
   });
 
   static PartItemDataResponse fromJson(Map<String, dynamic> data) => _$PartItemDataResponseFromJson(data);

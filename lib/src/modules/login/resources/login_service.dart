@@ -4,13 +4,9 @@ import '../../../services/trc_service.dart';
 import '../models/login_success_response.dart';
 
 class TRCLoginService {
-  static Stream<LoginSuccessResponse?> userLogin(String employeeCode, String password) {
-    Map<String, dynamic> data = {
-      "did": "null",
-      "empCo": employeeCode,
-      "ps": password,
-      "version": 0,
-    };
+  static Stream<LoginSuccessResponse?> userLogin(
+      String employeeCode, String password, String? location, String? deviceId) {
+    Map<String, dynamic> data = {"did": deviceId, "empCo": employeeCode, "ps": password, "version": 0, "lc": location};
     var bodyData = jsonEncode(data);
 
     return TrcService()

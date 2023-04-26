@@ -30,7 +30,6 @@ class ELssProviderQc extends CshChangeNotifier {
   ElssOptionResponse? elssOptionResponse;
   List<OptionResponse> productOptionList = [];
   List<ElssPart> elssPartList = [];
-  List<ElssPart> searchedElssPartList = [];
   UploadFaultImagesResponse? uploadFaultImagesResponse;
   ElssPartSubmitResponse? elssPartSubmitResponse;
   PartsElssActionResponse? elssPartActionResponse;
@@ -89,18 +88,6 @@ class ELssProviderQc extends CshChangeNotifier {
     notifyListeners();
   }
 
-  getSearchResults(String data) {
-    if (!Validator.isListNullOrEmpty(elssPartList)) {
-      searchedElssPartList = elssPartList.where((element) {
-        if (!Validator.isNullOrEmpty(element.partName)) {
-          return element.partName!.toLowerCase().contains(data.toLowerCase());
-        }
-        return false;
-      }).toList();
-      notifyListeners();
-    }
-  }
-
   addNewPartsFromAddParts(List<PartItemDataResponse> dataList) {
     for (var element in dataList) {
       ElssPart data = ElssPart(
@@ -110,7 +97,7 @@ class ELssProviderQc extends CshChangeNotifier {
         sku: element.sku,
         isManualAdded: true,
         partColour: element.productColour,
-        partCount: element.partQuantity,
+        quantity: element.partQuantity,
       );
       data.elssPartId = elssPartList.length + 1;
       data.partsImageList = ["", "", "", "", "", ""];
@@ -130,17 +117,7 @@ class ELssProviderQc extends CshChangeNotifier {
     notifyListeners();
   }
 
-  removeAddedDataFromSearchAndMasterList(int id) {
-    searchedElssPartList.removeWhere((element) => element.elssPartId == id);
-    removeExternalAddedPart(id);
-  }
-
-  clearSearchResults() {
-    searchedElssPartList.clear();
-    notifyListeners();
-  }
-
-  getDetailsPostDatMap(String scannedBarcode) {
+  _getDetailsPostDatMap(String scannedBarcode) {
     Map<String, dynamic> dataMap = {};
 
     List<Map<String, dynamic>> rprlList = [];
@@ -162,23 +139,22 @@ class ELssProviderQc extends CshChangeNotifier {
     return dataMap;
   }
 
-  getBodyDataMapForPNA() {
+  _getBodyDataMapForPNA(List<ElssPart> markedPnaList) {
     Map<String, dynamic> dataMap = {};
     List<Map<String, dynamic>> listDataMap = [];
-    if (elssPartList.isNotEmpty) {
-      for (var element in elssPartList) {
-        if (element.isPnaSelected == true) {
-          listDataMap.add({"sku": element.sku, "pn": element.partName, "pcl": element.partColour});
-        }
+    if (markedPnaList.isNotEmpty) {
+      for (var element in markedPnaList) {
+        listDataMap.add({"sku": element.sku, "pn": element.partName, "pcl": element.partColour});
       }
     }
     dataMap["pnaList"] = listDataMap;
     return dataMap;
   }
 
-  Future<bool> markPNAStatus(String barcode) {
+  Future<bool> markPNAStatus(String barcode, List<ElssPart> markedPnaList) {
     var completer = Completer<bool>();
-    Map<String, dynamic> bodyData = getBodyDataMapForPNA();
+    Map<String, dynamic> bodyData = _getBodyDataMapForPNA(markedPnaList);
+
     try {
       ElssService.markPnaStatus(barcode, bodyData).listen((event) {
         if (event != null && event.isSuccess == true) {
@@ -198,50 +174,8 @@ class ELssProviderQc extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<bool> rejectElss(String barcode) {
-    var completer = Completer<bool>();
-    try {
-      ElssService.rejectElss(barcode).listen((event) {
-        if (event != null) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong!!");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
-
-  Future<bool> retestElss(String barcode) {
-    var completer = Completer<bool>();
-    try {
-      ElssService.retestingElss(barcode).listen((event) {
-        if (event != null) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
-
   Future<bool> submitPartsForLogic(String barcode) {
-    Map<String, dynamic> bodyData = getDetailsPostDatMap(barcode);
+    Map<String, dynamic> bodyData = _getDetailsPostDatMap(barcode);
     var completer = Completer<bool>();
     try {
       ElssService.submitPartsForLogic(bodyData).listen((event) {
@@ -265,36 +199,12 @@ class ELssProviderQc extends CshChangeNotifier {
     return completer.future;
   }
 
-  checkIsItemSelectedForPNA() {
-    if (elssPartList.isNotEmpty) {
-      for (var element in elssPartList) {
-        if (element.isPnaSelected == true) {
-          return true;
-        }
-      }
-    }
-    return false;
+  setIsRubbingValue(bool value) {
+    isRubbingApplicable = value;
+    notifyListeners();
   }
 
-  List<Map<String, dynamic>> getPostDataMapForElssOptionData() {
-    List<Map<String, dynamic>> listDataMap = [];
-    if (elssPartList.isNotEmpty) {
-      for (var element in elssPartList) {
-        listDataMap.add({
-          "sku": element.sku,
-          "pn": element.partName,
-        });
-      }
-    }
-
-    return listDataMap;
-  }
-
-  removePNASelectedItem() {
-    if (elssPartList.isNotEmpty) {
-      for (var element in elssPartList) {
-        element.isPnaSelected = false;
-      }
-    }
+  List<ElssPart> getPartListForPna() {
+    return elssPartList.where((element) => element.action == ElssAction.REPAIRABLE.value).toList();
   }
 }

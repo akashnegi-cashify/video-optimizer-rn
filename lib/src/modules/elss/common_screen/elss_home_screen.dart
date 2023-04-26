@@ -2,6 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';
 
+import '../../../header/trc_header.dart';
 import '../elss_qc/l10n.dart';
 import '../elss_qc/widgets/elss_home_widget.dart';
 
@@ -21,10 +22,10 @@ class _ElssHomeScreenState extends State<ElssHomeScreen> {
     bool? arg = ModalRoute.of(context)?.settings.arguments as bool?;
 
     return Scaffold(
-      appBar: CshHeader(
+      appBar: TrcHeader(
         l10n.elssHome,
         showBackBtn: false,
-        actions: [LogoutActionWidget()],
+        showLogoutButton: true,
       ),
       body: ElssHomeWidget(
         isLoginFromQC: arg ?? false,

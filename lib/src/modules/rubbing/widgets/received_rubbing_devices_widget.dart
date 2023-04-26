@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/providers/received_devices_provider.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_devices_list_widget.dart';
@@ -22,7 +23,7 @@ class ReceivedRubbingDevicesWidget extends StatelessWidget {
         ReceivedDevicesProvider provider = Provider.of<ReceivedDevicesProvider>(context, listen: false);
 
         return Scaffold(
-          appBar: CshHeader(l10n.receivedDevice),
+          appBar: TrcHeader(l10n.receivedDevice),
           body: SafeArea(
             child: Column(
               children: [

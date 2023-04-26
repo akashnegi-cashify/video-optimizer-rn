@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/replace_part_request.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/self_assign_presenter.dart';
@@ -45,7 +46,7 @@ class _SelfAssignPartWidgetState extends State<_SelfAssignPartWidget> with ViewA
     String? previousDeviceBarcode = ModalRoute.of(context)?.settings.arguments as String?;
 
     return Scaffold(
-      appBar: CshHeader(l10n.viewParts),
+      appBar: TrcHeader(l10n.viewParts),
       body: Padding(
         padding: const EdgeInsets.all(Dimens.space_16),
         child: Column(
