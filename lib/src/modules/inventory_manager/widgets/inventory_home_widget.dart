@@ -144,7 +144,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
                             _inventoryPendingWidgetKey.currentState?.resetAndRefreshScreen();
                           }
                         } else {
-                          Navigator.of(context).pop(true);
+                          Navigator.of(context).pop();
                           CshSnackBar.error(context: context, message: l10n.pleaseSelectAtleastOneGroupLocation);
                         }
                       },

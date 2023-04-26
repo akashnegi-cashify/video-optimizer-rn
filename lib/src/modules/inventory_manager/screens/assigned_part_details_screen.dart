@@ -97,7 +97,7 @@ class _AssignedPartDetailsScreenState extends State<AssignedPartDetailsScreen> {
                             _showCancelModal(innerContext, theme, l10n, arguments.prid);
                           },
                     secondBtnClick: () {
-                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pop();
                     },
                   )
                 ],
@@ -127,7 +127,7 @@ class _AssignedPartDetailsScreenState extends State<AssignedPartDetailsScreen> {
               buttonType: ButtonType.mini,
               isFirstPrimary: true,
               firstBtnClick: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
               },
               secondBtnClick: () {
                 Navigator.of(context).pop();

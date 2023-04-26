@@ -61,7 +61,7 @@ class InventoryDrawerWidget extends StatelessWidget {
                   ListTile(
                     title: Text(l10n.returns, style: theme.primaryTextTheme.headline4),
                     onTap: () {
-                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pop();
                       Navigator.of(context).pushNamed(ReturnScreen.route);
                     },
                   ),
@@ -69,7 +69,7 @@ class InventoryDrawerWidget extends StatelessWidget {
                   ListTile(
                     title: Text(l10n.summary, style: theme.primaryTextTheme.headline4),
                     onTap: () {
-                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pop();
                       Navigator.of(context).pushNamed(SummaryScreen.route);
                     },
                   )

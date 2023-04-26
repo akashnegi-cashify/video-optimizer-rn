@@ -205,7 +205,7 @@ class PendingPartDetailsScreen extends StatelessWidget {
               buttonType: ButtonType.mini,
               isFirstPrimary: true,
               firstBtnClick: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
               },
               secondBtnClick: () {
                 Navigator.of(context).pop();
@@ -236,7 +236,7 @@ class PendingPartDetailsScreen extends StatelessWidget {
               buttonType: ButtonType.mini,
               isFirstPrimary: true,
               firstBtnClick: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
               },
               secondBtnClick: () {
                 Navigator.of(context).pop();

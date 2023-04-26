@@ -24,7 +24,7 @@ class ReceiveTabWidget extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
                     if (!Validator.isNullOrEmpty(data)) {
-                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pop();
                       _getListingDataFromPbr(context, data.trim(), l10n);
                     }
                   });

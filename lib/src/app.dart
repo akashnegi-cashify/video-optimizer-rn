@@ -12,6 +12,7 @@ import 'package:flutter_trc/src/modules/inventory_manager/screens/return_page.da
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
+import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_with_controller.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
@@ -52,6 +53,7 @@ import 'modules/inventory_manager/screens/pending_delivery_screen.dart';
 import 'modules/inventory_manager/screens/pending_part_details_screen.dart';
 import 'modules/inventory_manager/screens/return_item_status_screeen.dart';
 import 'modules/inventory_manager/screens/summary_screen.dart';
+import 'modules/part_qc/screens/pq_status_change_screen.dart';
 import 'modules/rider/pending_delivery/deliver/widgets/delivery_deliver_engineer_parts_widget.dart';
 import 'modules/rider/pending_pickup/receive/widgets/pickup_receive_engineer_parts_widget.dart';
 import 'modules/rider/rider_home_widget.dart';
@@ -175,8 +177,8 @@ class _CashifyAppState extends State<CashifyApp> {
                   BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
                   RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
                   ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
-                  ElssHomeScreen.route: (_) => const ElssHomeScreen(),
                   BarcodeScannerControllerWidget.route: (_) => const BarcodeScannerControllerWidget(),
+                  ElssHomeScreen.route: (_) => const ElssHomeScreen(),
                   //ELSS_TRC_ROUTES
                   AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),
                   AddPartScreenTrc.route: (_) => const AddPartScreenTrc(),
@@ -185,7 +187,6 @@ class _CashifyAppState extends State<CashifyApp> {
                   ElssStatusScreen.routeName: (_) => const ElssStatusScreen(),
                   //ELSS_QC_ROUTES
                   AddPartScreenQc.route: (_) => const AddPartScreenQc(),
-
                   PartSelectionScreenQc.route: (_) => const PartSelectionScreenQc(),
                   AllowedOptionScreen.route: (_) => const AllowedOptionScreen(),
                   // engineer routes
@@ -214,6 +215,9 @@ class _CashifyAppState extends State<CashifyApp> {
                   ReturnStatusScreen.route: (_) => const ReturnStatusScreen(),
                   SummaryScreen.route: (_) => const SummaryScreen(),
                   AlternatePartScreen.route: (_) => const AlternatePartScreen(),
+                  //Part qc routes
+                  PartQCHomeScreen.route: (_) => const PartQCHomeScreen(),
+                  PartQcPartStatusScreen.route: (_) => const PartQcPartStatusScreen(),
                 },
                 initialRoute: SplashScreen.route,
               );

@@ -55,7 +55,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
               iconSize: core.MobileIconSize.medium,
               onClick: () {
                 Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop();
                   _searchBarController.text = data.trim();
                   provider.barcode = data.trim();
                   provider.resetDataList();
@@ -290,7 +290,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                     onPressed: () {
                       if (provider.selectedRider != null) {
                         _assignRider(l10n);
-                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop();
                       } else {
                         core.CshSnackBar.error(
                           context: context,
