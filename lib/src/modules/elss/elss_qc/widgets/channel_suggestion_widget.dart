@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import '../../../../utils/dotted_divider_line.dart';
 import '../../common_models/channel_option_response.dart';
 import '../l10n.dart';
@@ -42,7 +43,7 @@ class ChannelSuggestionWidget extends StatelessWidget {
       onTap: onCardSelected ?? () {},
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(vertical: Dimens.space_10, horizontal: Dimens.space_16),
+        // padding: const EdgeInsets.symmetric(vertical: Dimens.space_10, horizontal: Dimens.space_16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimens.space_8),
           color: theme.cardColor,
@@ -51,7 +52,8 @@ class ChannelSuggestionWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              color: theme.primaryColor.withAlpha(125),
+              padding: const EdgeInsets.symmetric(vertical: Dimens.space_10, horizontal: Dimens.space_16),
+              color: (Validator.isTrue(isCardElevated)) ? theme.primaryColor.withAlpha(125) : theme.cardColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -88,87 +90,96 @@ class ChannelSuggestionWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (dataModel != null && (!Validator.isListNullOrEmpty(dataModel?.requestedParts))) ...[
-              const SizedBox(height: Dimens.space_8),
-              DottedLineDivider(
-                dashWidth: Dimens.space_2,
-                width: 0.5,
-                color: theme.shadowColor,
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                child: ListTileTheme(
-                  dense: true,
-                  child: ExpansionTile(
-                    tilePadding: EdgeInsets.zero,
-                    title: Text(
-                      l10n.listOfSkUs,
-                      style: theme.primaryTextTheme.headline5,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: Dimens.space_10, horizontal: Dimens.space_16),
+              child: Column(
+                children: [
+                  if (dataModel != null && (!Validator.isListNullOrEmpty(dataModel?.requestedParts))) ...[
+                    const SizedBox(height: Dimens.space_8),
+                    DottedLineDivider(
+                      dashWidth: Dimens.space_2,
+                      width: 0.5,
+                      color: theme.shadowColor,
                     ),
+                    Theme(
+                      data: Theme.of(context)
+                          .copyWith(dividerColor: Colors.transparent, visualDensity: VisualDensity.compact),
+                      child: ListTileTheme(
+                        dense: true,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: Dimens.space_6),
+                        child: ExpansionTile(
+                          tilePadding: EdgeInsets.zero,
+                          title: Text(
+                            l10n.listOfSkUs,
+                            style: theme.primaryTextTheme.headline5,
+                          ),
+                          children: [
+                            ListView.separated(
+                              shrinkWrap: true,
+                              primary: false,
+                              itemCount: dataModel!.requestedParts!.length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        "${index + 1}. ${dataModel!.requestedParts![index].sku}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox.shrink(),
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: Dimens.space_8);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    DottedLineDivider(
+                      dashWidth: Dimens.space_2,
+                      width: 0.5,
+                      color: theme.shadowColor,
+                    ),
+                    const SizedBox(height: Dimens.space_8),
+                  ] else
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_10),
+                      child: DottedLineDivider(
+                        dashWidth: Dimens.space_2,
+                        width: 0.5,
+                        color: theme.shadowColor,
+                      ),
+                    ),
+                  Row(
                     children: [
-                      ListView.separated(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: dataModel!.requestedParts!.length,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  "${index + 1}. ${dataModel!.requestedParts![index].sku}",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              const SizedBox.shrink(),
-                            ],
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(height: Dimens.space_8);
-                        },
+                      Expanded(
+                        child: (dataModel?.isRubbingAllowed != null)
+                            ? _labelValueWidget(theme, l10n.rubbingAllowed, dataModel!.isRubbingAllowed!.toString())
+                            : const SizedBox.shrink(),
+                      ),
+                      Expanded(
+                        child: (dataModel?.grade != null)
+                            ? _labelValueWidget(theme, l10n.suggestedGrade, dataModel!.grade!)
+                            : const SizedBox.shrink(),
                       ),
                     ],
                   ),
-                ),
+                  if (!Validator.isNullOrEmpty(dataModel?.channelName)) ...[
+                    const SizedBox(height: Dimens.space_8),
+                    _labelValueWidget(theme, l10n.channel, dataModel!.channelName!)
+                  ],
+                  if (!Validator.isNullOrEmpty(dataModel?.repairType)) ...[
+                    const SizedBox(height: Dimens.space_8),
+                    _labelValueWidget(theme, l10n.repairType, dataModel!.repairType!),
+                  ]
+                ],
               ),
-              DottedLineDivider(
-                dashWidth: Dimens.space_2,
-                width: 0.5,
-                color: theme.shadowColor,
-              ),
-              const SizedBox(height: Dimens.space_8),
-            ] else
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: Dimens.space_10),
-                child: DottedLineDivider(
-                  dashWidth: Dimens.space_2,
-                  width: 0.5,
-                  color: theme.shadowColor,
-                ),
-              ),
-            Row(
-              children: [
-                Expanded(
-                  child: (dataModel?.isRubbingAllowed != null)
-                      ? _labelValueWidget(theme, l10n.rubbingAllowed, dataModel!.isRubbingAllowed!.toString())
-                      : const SizedBox.shrink(),
-                ),
-                Expanded(
-                  child: (dataModel?.grade != null)
-                      ? _labelValueWidget(theme, l10n.suggestedGrade, dataModel!.grade!)
-                      : const SizedBox.shrink(),
-                ),
-              ],
             ),
-            if (!Validator.isNullOrEmpty(dataModel?.channelName)) ...[
-              const SizedBox(height: Dimens.space_8),
-              _labelValueWidget(theme, l10n.channel, dataModel!.channelName!)
-            ],
-            if (!Validator.isNullOrEmpty(dataModel?.repairType)) ...[
-              const SizedBox(height: Dimens.space_8),
-              _labelValueWidget(theme, l10n.repairType, dataModel!.repairType!),
-            ]
           ],
         ),
       ),
