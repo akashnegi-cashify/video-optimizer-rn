@@ -1,5 +1,19 @@
 # TRC Releases
 
+# v1.2.1+3 (XX-04-2023)
+
+### Improvements:
+
+* `Switch UI improvements` [(SCM-3149)](https://reglobe.atlassian.net/browse/SCM-3149)
+* `QC-ELSS - The parts which are not mapped with defects should not be selected` [(SCM-3084)](https://reglobe.atlassian.net/browse/SCM-3084)
+* `QC-ELSS - Highlight yours suggestions card` [(SCM-3075)](https://reglobe.atlassian.net/browse/SCM-3075)
+* `QC-ELSS - Round-off profit amount` [(SCM-3074)](https://reglobe.atlassian.net/browse/SCM-3074)
+* `QC-ELSS - The PNA parts list shown should be as per Required Parts` [(SCM-3073)](https://reglobe.atlassian.net/browse/SCM-3073)
+* `QC-ELSS - To display quantity for the parts` [(SCM-3072)](https://reglobe.atlassian.net/browse/SCM-3072)
+* `Change library for barcode scanner` [(SCM-3059)](https://reglobe.atlassian.net/browse/SCM-3059)
+// TODO: merge inventory and partQC role branch
+
+
 # v1.2.0+2 (03-04-2023)
 
 ### Improvements:
