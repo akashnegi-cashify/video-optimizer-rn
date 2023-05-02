@@ -264,6 +264,8 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                           .requestedParts![indexing].partName,
                       isCardSelected: provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
                           .requestedParts![indexing].isPnaSelected,
+                      partQuantity: provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
+                          .requestedParts![indexing].quantity,
                     ),
                     onPartSelected: (bool data) {
                       provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
