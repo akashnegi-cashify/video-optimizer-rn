@@ -32,31 +32,31 @@ dependencies:
   core:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: stable
+      ref: v1.0.7
       path: core
 
   localization:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: stable
+      ref: v1.0.7
       path: localization
 
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: stable
+      ref: v1.0.9
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: stable
+      ref: v1.0.9
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: stable
+      ref: v1.0.9
       path: calculator_ui
 
   s3_file_uploader_interface:
@@ -75,7 +75,7 @@ dependencies:
 
   device_info_plus: ^8.1.0
   sentry_flutter: ^6.5.1
-  alice: ^0.2.5
+  alice: ^0.3.2
   connectivity_plus: ^3.0.4
   flutter_localizations:
     sdk: flutter
@@ -96,7 +96,7 @@ dependencies:
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui
-      ref: stable
+      ref: v1.0.9
       path: ml_barcode_scanner
 
 
@@ -115,15 +115,30 @@ dev_dependencies:
 
 dependency_overrides:
   permission_handler: ^10.2.0
-  webview_flutter: ^3.0.4
+  #  webview_flutter: ^3.0.4
   device_info_plus: ^8.1.0
   #  open_filex: ^4.3.2
   package_info_plus: ^3.0.1
-  flutter_html: ^2.2.1
-  file_picker: ^4.5.1
+  #  flutter_html: ^2.2.1
+  file_picker: ^5.2.2
   intl: ^0.18.0
-  ffi: ^2.0.1
+  #  ffi: ^2.0.1
   visibility_detector: ^0.3.3
+  csh_annotation:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: v1.0.7
+      path: csh_annotation
+  core:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: v1.0.7
+      path: core
+  localization:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: v1.0.7
+      path: localization
 
 
 
@@ -152,4 +167,3 @@ flutter:
           weight: 600
         - asset: assets/fonts/montserrat_regular.ttf
           weight: 400
-
