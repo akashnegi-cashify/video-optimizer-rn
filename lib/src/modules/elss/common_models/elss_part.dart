@@ -30,7 +30,6 @@ class ElssPart {
   int? elssPartId;
   @JsonKey(name: "qt")
   int? quantity;
-
   @JsonKey(name: "_v")
   int? version;
 

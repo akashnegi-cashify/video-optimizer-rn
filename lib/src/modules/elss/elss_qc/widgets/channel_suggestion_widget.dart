@@ -128,7 +128,10 @@ class ChannelSuggestionWidget extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    const SizedBox.shrink(),
+                                    if (dataModel!.requestedParts![index].quantity != null) ...[
+                                      const SizedBox(width: Dimens.space_12),
+                                      Text("Qty. ${dataModel!.requestedParts![index].quantity!}")
+                                    ]
                                   ],
                                 );
                               },
