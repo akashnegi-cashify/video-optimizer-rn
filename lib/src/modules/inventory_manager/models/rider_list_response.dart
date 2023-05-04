@@ -1,0 +1,36 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'rider_list_response.g.dart';
+
+@JsonSerializable()
+class RiderListResponse {
+  @JsonKey(name: "r_id")
+  String? rid;
+  @JsonKey(name: "s")
+  bool? isSuccess;
+  @JsonKey(name: "dt")
+  List<RiderListDataResponse>? riderDataList;
+
+  RiderListResponse({this.isSuccess, this.rid, this.riderDataList});
+
+  static RiderListResponse fromJson(Map<String, dynamic> data) => _$RiderListResponseFromJson(data);
+
+  Map<String, dynamic> toJson() => _$RiderListResponseToJson(this);
+}
+
+@JsonSerializable()
+class RiderListDataResponse {
+  @JsonKey(name: "rn")
+  String? riderName;
+  @JsonKey(name: "rid")
+  int? riderId;
+
+  RiderListDataResponse({
+    this.riderId,
+    this.riderName,
+  });
+
+  static RiderListDataResponse fromJson(Map<String, dynamic> data) => _$RiderListDataResponseFromJson(data);
+
+  Map<String, dynamic> toJson() => _$RiderListDataResponseToJson(this);
+}

@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
 
@@ -30,7 +31,7 @@ class _AssignedPartsWidget extends StatelessWidget {
     L10n l10n = L10n(context);
 
     return Scaffold(
-      appBar: CshHeader(l10n.viewParts),
+      appBar: TrcHeader(l10n.viewParts),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
         child: Column(

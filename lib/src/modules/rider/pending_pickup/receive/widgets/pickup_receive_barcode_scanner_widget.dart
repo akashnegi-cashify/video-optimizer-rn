@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/key_value_row_widget.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 
 import '../../../pending_delivery/receive/models/receive_response_model.dart';
@@ -17,7 +18,7 @@ class PickupReceiveBarcodeScannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
     return Scaffold(
-      appBar: CshHeader(l10n.engineerReceiveDevice),
+      appBar: TrcHeader(l10n.engineerReceiveDevice),
       body: Column(
         children: [
           CshCard(

@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../../header/trc_header.dart';
 import '../../common_models/elss_device_details_response.dart';
 import '../l10n.dart';
 import '../providers/channel_option_provider.dart';
@@ -34,7 +35,7 @@ class _AllowedOptionScreenState extends State<AllowedOptionScreen> {
       builder: (BuildContext innerContext, __) {
         var provider = ChannelOptionProvider.of(innerContext);
         return Scaffold(
-          appBar: CshHeader(
+          appBar: TrcHeader(
             l10n.channelOptions,
             showBackBtn: true,
           ),

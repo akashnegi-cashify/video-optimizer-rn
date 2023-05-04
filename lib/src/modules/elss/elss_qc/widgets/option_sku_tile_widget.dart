@@ -45,6 +45,13 @@ class _OptionSkuTileWidgetState extends State<OptionSkuTileWidget> {
               style: theme.primaryTextTheme.overline,
             ),
           ),
+          if (widget.dataModel?.quantity != null) ...[
+            const SizedBox(width: Dimens.space_8),
+            Text(
+              "Qty. ${widget.dataModel!.quantity!}",
+              style: theme.primaryTextTheme.overline,
+            ),
+          ]
         ],
       ),
     );

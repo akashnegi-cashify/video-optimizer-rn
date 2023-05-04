@@ -4,7 +4,7 @@ import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart'
 import 'package:flutter_trc/src/modules/elss/common_providers/user_session_provider.dart';
 
 import 'widget/logout_modal_widget.dart';
-import '../../modules/login/login_screen.dart';
+import '../../modules/login/screens/login_screen.dart';
 
 class UserUtil {
   static applicationLogout(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -8,7 +10,7 @@ import '../l10n.dart';
 class ElssPartWidget extends StatefulWidget {
   final ElssPart? dataModel;
   final int indexData;
-
+  final int actionConstantValue;
   final Function(int)? onPartRemoved;
   final Function(int, String) onImageUploadCallback;
   final Function()? onRequiredSelected;
@@ -18,6 +20,7 @@ class ElssPartWidget extends StatefulWidget {
     Key? key,
     required this.onImageUploadCallback,
     required this.indexData,
+    required this.actionConstantValue,
     this.onPartRemoved,
     this.dataModel,
     this.onNotRequiredSelected,
@@ -34,6 +37,14 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
   @override
   void initState() {
     super.initState();
+    scheduleMicrotask(() {
+      if (widget.actionConstantValue == -1) {
+        _isRequiredSelected = false;
+      } else {
+        _isRequiredSelected = true;
+      }
+      setState(() {});
+    });
   }
 
   @override
@@ -64,7 +75,7 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                         style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
                         children: [
                           TextSpan(
-                            text: " ${widget.dataModel?.partCount}",
+                            text: " ${widget.dataModel?.quantity}",
                             style: theme.primaryTextTheme.overline,
                           )
                         ]),
