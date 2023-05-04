@@ -1,14 +1,14 @@
 class Environments {
   static Environment test = Environment(
-    appVersion: "1.2.1-test.1",
-    mode: "test",
+    appVersion: "1.2.1",
+    mode: "prodTest",
     baseUrl: "http://localhost",
-    cashifyUrl: "https://www.test.cashify.in",
-    casIdentifier: "cas",
+    cashifyUrl: "https://www.cashify.in",
+    casIdentifier: "qr6y",
     authUri: "/v1/oauth/token",
-    apiUrl: "api.test.cashify.in",
+    apiUrl: "api.cashify.in",
     enableAlice: true,
-    sourceIds: SourceIds(android: 309, iOS: 312),
+    sourceIds: SourceIds(android: 20, iOS: 219),
   );
 
   static Environment stage = Environment(
