@@ -1,18 +1,18 @@
 class Environments {
   static Environment test = Environment(
-    appVersion: "1.2.0-test.1",
-    mode: "test",
+    appVersion: "1.2.1",
+    mode: "prodTest",
     baseUrl: "http://localhost",
-    cashifyUrl: "https://www.test.cashify.in",
-    casIdentifier: "cas",
+    cashifyUrl: "https://www.cashify.in",
+    casIdentifier: "qr6y",
     authUri: "/v1/oauth/token",
-    apiUrl: "api.test.cashify.in",
+    apiUrl: "api.cashify.in",
     enableAlice: true,
-    sourceIds: SourceIds(android: 309, iOS: 312),
+    sourceIds: SourceIds(android: 20, iOS: 219),
   );
 
   static Environment stage = Environment(
-    appVersion: "1.2.0-stage.1",
+    appVersion: "1.2.1-stage.1",
     mode: "stage",
     baseUrl: "https://localhost",
     cashifyUrl: "https://www.stage.cashify.in",
@@ -24,7 +24,7 @@ class Environments {
   );
 
   static Environment beta = Environment(
-    appVersion: "1.2.0-beta.1",
+    appVersion: "1.2.1-beta.1",
     mode: "beta",
     baseUrl: "http://localhost",
     cashifyUrl: "https://www.beta.cashify.in",
@@ -36,7 +36,7 @@ class Environments {
   );
 
   static Environment prod = Environment(
-    appVersion: "1.2.0",
+    appVersion: "1.2.1",
     mode: "prod",
     baseUrl: "http://localhost",
     cashifyUrl: "https://www.cashify.in",

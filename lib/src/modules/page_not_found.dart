@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 
 class PageNotFoundScreen extends StatelessWidget {
   static const route = '/no_page_found';
@@ -9,7 +10,7 @@ class PageNotFoundScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: CshHeader("No Page Found"),
+      appBar: TrcHeader("No Page Found"),
       body: Center(
         child: Text("No Page Route Found"),
       ),

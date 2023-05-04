@@ -25,8 +25,7 @@ class ReturnPartButtonWidget extends StatelessWidget {
           if (partInfo.isBulk ?? false) {
             returnPart(context, l10n, partInfo.partBarcode);
           } else {
-            Navigator.pushNamed(context, BarcodeScanWidget.route,
-                arguments: (String barcode, {BarcodeScannerController? controller}) {
+            Navigator.pushNamed(context, BarcodeScanWidget.route, arguments: (String barcode) {
               returnPart(context, l10n, barcode);
             });
           }

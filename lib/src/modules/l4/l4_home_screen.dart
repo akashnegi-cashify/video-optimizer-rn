@@ -8,6 +8,8 @@ import 'package:flutter_trc/src/modules/engineer/manage_parts/manage_parts_widge
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/my_devices_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/widget/receive_devices_button_widget.dart';
 
+import '../../header/trc_header.dart';
+
 class L4HomeScreen extends StatelessWidget {
   const L4HomeScreen({Key? key}) : super(key: key);
 
@@ -26,12 +28,10 @@ class L4HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
     return Scaffold(
-      appBar: CshHeader(
+      appBar: TrcHeader(
         l10n.home,
         showBackBtn: false,
-        actions: [
-          LogoutActionWidget(),
-        ],
+        showLogoutButton: true,
       ),
       body: SafeArea(
         child: Padding(

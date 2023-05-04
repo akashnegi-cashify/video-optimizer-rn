@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/delivery_response.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/providers/pickup_receive_engineer_parts_presenter.dart';
@@ -37,7 +38,7 @@ class _PickupReceiveEngineerPartsWidgetState extends State<_PickupReceiveEnginee
     assert(detail != null, "Couldn't retrieve Engineer Detail");
 
     return Scaffold(
-      appBar: CshHeader(l10n.engineerParts),
+      appBar: TrcHeader(l10n.engineerParts),
       body: Column(
         children: [
           EngineerCardWidget(detail: detail!),

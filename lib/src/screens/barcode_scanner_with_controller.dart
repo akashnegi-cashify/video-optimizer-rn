@@ -1,6 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
+import 'package:ml_barcode_scanner/widgets/index.dart';
 import 'l10n.dart';
 
 class BarcodeScannerControllerWidget extends StatefulWidget {
@@ -36,15 +38,19 @@ class _BarcodeScannerControllerWidgetState extends State<BarcodeScannerControlle
     var l10n = L10n(context);
     var theme = Theme.of(context);
     var callback =
-        ModalRoute.of(context)?.settings.arguments as Function(String result, {BarcodeScannerController? controller})?;
+        ModalRoute.of(context)?.settings.arguments as Function(String result, {MlScannerController? controller})?;
     return Scaffold(
-      appBar: CshHeader(l10n.barcodeScanner),
+      appBar: TrcHeader(l10n.barcodeScanner),
       body: Column(
         children: [
           Expanded(
-            child: AppBarcodeScannerWidget.defaultStyle(
-              resultCallback: callback,
-              label: '',
+            child: MlBarcodeScannerWidget(
+              allowDuplicateScan: false,
+              onScannerDetected: (String value, MlScannerController mlController) {
+                if (callback != null) {
+                  callback(value, controller: mlController);
+                }
+              },
             ),
           ),
           Container(
@@ -95,7 +101,9 @@ class _BarcodeScannerControllerWidgetState extends State<BarcodeScannerControlle
                         ? () {
                             if (_barcodeController.text.isNotEmpty) {
                               String data = _barcodeController.text.trim();
-                              callback!(data);
+                              if (callback != null) {
+                                callback(data);
+                              }
                             }
                           }
                         : null,

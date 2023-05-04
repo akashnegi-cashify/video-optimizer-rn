@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'package:provider/provider.dart';
 import '../../common_models/elss_device_details_response.dart';
@@ -41,7 +42,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
       builder: (BuildContext innerContext, __) {
         var provider = BrandsListingProvider.of(innerContext);
         return Scaffold(
-          appBar: CshHeader(
+          appBar: TrcHeader(
             l10n.deviceDetails,
             showBackBtn: true,
           ),

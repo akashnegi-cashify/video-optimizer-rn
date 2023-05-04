@@ -38,6 +38,7 @@
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:theme="@style/LaunchTheme"
@@ -63,153 +64,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".module.inventory_manager.InventoryManagerReturnActivity"></activity>
-        <activity android:name=".module.inventory_manager.InventoryManagerSummaryActivity" />
-        <activity android:name=".module.engineer.ui.activity.EngineerPartInfoActivity" />
-        <activity android:name=".module.engineer.ui.activity.WIPPartInfoActivity" />
-        <activity android:name=".module.engineer.ui.activity.EngineerMyDevicesTabActivity" />
-        <activity android:name=".module.engineer.ui.activity.EngineerViewPartScannerActivity" />
-        <activity android:name=".module.inventory_manager.InventoryManagerScannerActivity" />
-        <activity
-            android:name=".module.inventory_manager.fragment.return_parts.IMPartReturnDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.inventory_manager.fragment.receive.IMReceiveScanAcitity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.rider.ui.pickup.PickupPartFromEngineerScanActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.rider.ui.pickup.PickupPartListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.rider.ui.delivery.PendingPartsDelivertoEngineerActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.rider.ui.RiderActivity"
-            android:screenOrientation="portrait">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".module.inventory_manager.fragment.assigned.IMDeviceAssignedActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.qc.ui.QCPendingPartByBarcodeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.qc.QCPartBarcodeScanActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.qc.ui.QCPendingPartDetailsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.qc.QCActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".module.rubbing_engineer.ui.activity.RubbingActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".module.login.ScanLocationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.inventory_manager.fragment.pending.InventoryManagerPendingPartActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.inventory_manager.InventoryManagerActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.view_report.ui.activity.ViewReportTabActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.ui.activity.EngineerDevicePartAssignedListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.elss.ui.activity.ElssCaptureImageActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.ui.activity.SelfAssignPartActivity"
-            android:screenOrientation="portrait" />
-        <!--        <activity-->
-        <!--            android:name=".module.splash.SplashActivity"-->
-        <!--            android:screenOrientation="portrait">-->
-        <!--        </activity>-->
-        <activity
-            android:name=".module.login.LoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.runner.HomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.runner.ui.activity.GivenDeviceActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.runner.ui.activity.TrayListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.runner.ui.activity.MarkOkActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.runner.ui.activity.MarkL4Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.runner.ui.activity.EngineerTrayScanActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.runner.ui.activity.PickMarkOkDeviceActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.runner.ui.activity.MoveMarkOkDeviceActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.ui.activity.ReceiveDeviceActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".module.engineer.ui.activity.EngPartListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.ui.activity.WipOptionActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.ui.activity.OrderPartActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.ui.activity.ReceivePartsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.ui.activity.ScanAllowedPartsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.engineer.ui.activity.ViewPartActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.elss.ui.activity.ScanElssBarcodeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.elss.ui.activity.ElssPartSelectionActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".module.login.ChangePasswordActivity" />
-        <activity
-            android:name=".module.storageManager.ui.activity.StoreInActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.storageManager.ui.activity.StoreOutActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.storageManager.ui.activity.VirtualStore"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".module.inventory_manager.InventoryRequestsActivity"
-            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -223,16 +77,6 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
-        </provider>
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
         </provider>
 
 

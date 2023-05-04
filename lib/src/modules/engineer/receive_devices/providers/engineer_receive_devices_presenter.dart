@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
+import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 
 import '../widget/receive_devices_button_widget.dart';
 
@@ -8,49 +9,41 @@ class EngineerReceiveDevicePresenter {
 
   EngineerReceiveDevicePresenter(this.view);
 
-  void Function(String barcode, {BarcodeScannerController? controller}) barcodeResult() =>
-      (String barcode, {BarcodeScannerController? controller}) {
+  void Function(String barcode, {MlScannerController? controller}) barcodeResult() =>
+      (String barcode, {MlScannerController? controller}) {
         receiveDevice(barcode, controller);
       };
 
-  void receiveDevice(String barcode, BarcodeScannerController? controller) {
+  void receiveDevice(String barcode, MlScannerController? controller) {
     view.handleLoading(true);
     EngineerAPIService.receiveDevice(barcode).listen((receiveDevicesResponse) {
       if (controller != null) {
-        controller.pauseCamera();
+        controller.stop();
       }
       view.handleLoading(false);
       if (receiveDevicesResponse == null) {
-        view.displayErrorBottomSheet(() {
-          view.resumeScanner(controller);
-        });
+        view.displayErrorBottomSheet();
         return;
       }
       if (receiveDevicesResponse.errorMsg != null) {
-        view.displayErrorBottomSheet(() {
-          view.resumeScanner(controller);
-        }, message: receiveDevicesResponse.errorMsg!);
+        view.displayErrorBottomSheet(message: receiveDevicesResponse.errorMsg!);
         return;
       }
       if (receiveDevicesResponse.deviceInfo != null) {
-        view.displayDataInBottomSheet(receiveDevicesResponse, () {
-          view.resumeScanner(controller);
-        });
+        view.displayDataInBottomSheet(receiveDevicesResponse, () {});
       }
     })
       ..onError((e) {
         if (controller != null) {
-          controller.pauseCamera();
+          controller.stop();
         }
         view.handleLoading(false);
-        view.displayErrorBottomSheet(() {
-          view.resumeScanner(controller);
-        }, message: ApiErrorHelper.getErrorMessage(e));
+        view.displayErrorBottomSheet(message: ApiErrorHelper.getErrorMessage(e));
       })
       ..onDone(() {
         if (controller != null) {
-          Future.delayed(const Duration(milliseconds: 200), () {
-            controller.resumeCamera();
+          Future.delayed(const Duration(milliseconds: 300), () {
+            controller.start();
           });
         }
       });

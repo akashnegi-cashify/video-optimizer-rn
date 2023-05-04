@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/delivery_response.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/engineer_parts_response.dart';
@@ -30,7 +31,7 @@ class _DeliveryDeliverEngineerPartsWidget extends StatelessWidget {
     assert(detail != null, "Engineer detail couldn't be retrieved");
 
     return Scaffold(
-      appBar: CshHeader(l10n.engineerParts),
+      appBar: TrcHeader(l10n.engineerParts),
       body: SafeArea(
         child: Column(
           children: [

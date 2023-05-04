@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/providers/elss_status_provider.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
@@ -46,7 +47,7 @@ class ElssStatusScreen extends StatelessWidget {
           );
         } else if (provider.isDataLoading == false && !Validator.isNullOrEmpty(provider.errMessage)) {
           return Scaffold(
-            appBar: CshHeader(l10n.elssStatus),
+            appBar: TrcHeader(l10n.elssStatus),
             body: Center(
               child: Row(
                 children: [

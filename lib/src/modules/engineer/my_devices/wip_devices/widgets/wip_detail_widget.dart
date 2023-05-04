@@ -2,6 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/loading_dialog_widget.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_widget.dart';
@@ -44,7 +45,7 @@ class _WIPDetailWidgetState extends State<_WIPDetailWidget> {
     L10n l10n = L10n(context);
 
     return Scaffold(
-      appBar: CshHeader(l10n.wipOption),
+      appBar: TrcHeader(l10n.wipOption),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),

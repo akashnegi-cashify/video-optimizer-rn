@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:provider/provider.dart';
 import '../l10n.dart';
 import '../providers/add_part_list_provider_qc.dart';
@@ -21,7 +22,7 @@ class AddPartScreenQc extends StatelessWidget {
         var provider = AddPartListProviderQc.of(innerContext);
 
         return Scaffold(
-          appBar: CshHeader(l10n.addPart),
+          appBar: TrcHeader(l10n.addPart),
           body: (provider.isPartListLoading)
               ? const Center(
                   child: SizedBox(
