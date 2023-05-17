@@ -18,7 +18,7 @@ showRejectRetestBottomSheetModal(
 ) {
   showCshBottomSheet(
       isDismissible: true,
-      isScrollControlled: false,
+      isScrollControlled: true,
       context: context,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -81,27 +81,31 @@ class _RejectRetestReasonSelectionListState extends State<_RejectRetestReasonSel
                             child: CircularProgressIndicator(),
                           ),
                         )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            var item = provider.reasonList?[index];
-                            return _ReasonListItems(
-                              item,
-                              onItemSelected: (value) {
-                                provider.onReasonItemSelected(value, item!.id!);
-                              },
-                            );
-                          },
-                          itemCount: provider.reasonList?.length ?? 0,
+                      : Container(
+                          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              var item = provider.reasonList?[index];
+                              return _ReasonListItems(
+                                item,
+                                onItemSelected: (value) {
+                                  provider.onReasonItemSelected(value, item!.id!);
+                                },
+                              );
+                            },
+                            itemCount: provider.reasonList?.length ?? 0,
+                          ),
                         ),
               const SizedBox(height: Dimens.space_16),
-              SizedBox(
-                width: double.infinity,
-                child: CshMediumButton(
-                  text: l10n.submit,
-                  onPressed: () => _onSubmitButtonClicked(providerContext),
-                ),
-              )
+              if (!provider.isScreenLoading)
+                SizedBox(
+                  width: double.infinity,
+                  child: CshMediumButton(
+                    text: l10n.submit,
+                    onPressed: () => _onSubmitButtonClicked(providerContext),
+                  ),
+                )
             ],
           ),
         );
