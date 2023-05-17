@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/common_models/elss_success_response.dart';
@@ -34,15 +35,20 @@ class ElssRejectRetestReasonSelectionProvider extends CshChangeNotifier {
     });
   }
 
-  Future<bool> submitElssRejectRetest(String barcode, int selectedIndex) {
+  Future<bool> submitElssRejectRetest(String barcode) {
     var completer = Completer<bool>();
     try {
-      var reasonItem = reasonList![selectedIndex];
+      List<int?> selectedReasonsList = [];
+      reasonList?.forEach((element) {
+        if (element.isSelected) {
+          selectedReasonsList.add(element.id);
+        }
+      });
       Stream<ElssSuccessResponse?>? apiStream;
       if (type == ReasonType.reject) {
-        apiStream = ElssService.rejectElss(barcode, reasonItem.id);
+        apiStream = ElssService.rejectElss(barcode, selectedReasonsList);
       } else {
-        apiStream = ElssService.retestingElss(barcode, reasonItem.id);
+        apiStream = ElssService.retestingElss(barcode, selectedReasonsList);
       }
       apiStream.listen((event) {
         if (event != null) {
@@ -66,5 +72,19 @@ class ElssRejectRetestReasonSelectionProvider extends CshChangeNotifier {
 
   bool isShowErrorScreen() {
     return !Validator.isTrue(isScreenLoading) && !Validator.isNullOrEmpty(screenErrorMessage);
+  }
+
+  bool isReasonSelected() {
+    var item = reasonList?.firstWhereOrNull((element) => element.isSelected);
+    if (item == null) {
+      return false;
+    }
+    return true;
+  }
+
+  void onReasonItemSelected(bool? value, int id) {
+    var item = reasonList?.firstWhereOrNull((element) => element.id == id);
+    item?.isSelected = value ?? false;
+    notifyListeners();
   }
 }

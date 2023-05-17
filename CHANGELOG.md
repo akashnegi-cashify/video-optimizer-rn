@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v1.2.2+4 (XX-05-2023)
+
+### Improvements:
+
+* `QC-ELSS - Allow multi-selection for ELSS Reject reasons` [(SCM-3331)](https://reglobe.atlassian.net/browse/SCM-3331)
+
+
 # v1.2.1+3 (03-05-2023)
 
 ### Improvements:

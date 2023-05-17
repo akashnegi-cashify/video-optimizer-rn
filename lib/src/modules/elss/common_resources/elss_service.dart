@@ -118,21 +118,21 @@ class ElssService {
     return QcServiceElss().get("/device/elss/actions", PartsElssActionResponse.fromJson);
   }
 
-  static Stream<ElssSuccessResponse?> retestingElss(String barcode, int? reasonId) {
-    Map<String, List<String>> paramsData = {
-      "qr": [barcode],
-      "rid": [reasonId.toString()],
+  static Stream<ElssSuccessResponse?> retestingElss(String barcode, List<int?> reasonIdList) {
+    Map<String, dynamic> req = {
+      "res": reasonIdList,
     };
-    return QcServiceElss().get("/device/elss/re-testing", ElssSuccessResponse.fromJson, params: paramsData);
+    return QcServiceElss()
+        .post("/device/elss/re-testing?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
   }
 
-  static Stream<ElssSuccessResponse?> rejectElss(String barcode, int? reasonId) {
-    Map<String, List<String>> paramsData = {
-      "qr": [barcode],
-      "rid": [reasonId.toString()],
-      "isDefault": ["false"],
+  static Stream<ElssSuccessResponse?> rejectElss(String barcode, List<int?> reasonIdList) {
+    Map<String, dynamic> req = {
+      "res": reasonIdList,
+      "isDefault": "false",
     };
-    return QcServiceElss().get("/device/elss/reject", ElssSuccessResponse.fromJson, params: paramsData);
+    return QcServiceElss()
+        .post("/device/elss/reject?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<SubmitPartsLogicResponse?> submitPartsForLogic(Map<String, dynamic> bodyData) {
