@@ -8,11 +8,9 @@ enum PartStatus {
   const PartStatus(this.value);
 
   static PartStatus getEnumByValue(int value) {
-    if (value == 12) {
-      return PartStatus.AVAILABLE;
-    }
-    if (value == 13) {
-      return PartStatus.NOT_AVAILABLE;
+    int index = PartStatus.values.indexWhere((element) => element.value == value);
+    if (index > -1 ) {
+      return PartStatus.values[index];
     }
     return PartStatus.OTHER;
   }
