@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart' as core;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
 import '../models/engineer_list_response.dart';
@@ -55,8 +56,21 @@ class InventoryPendingDeliveryWidgetState
                 dataModel: item,
               );
             },
+            onRefresh: () async {},
             onNoDataFound: () {
-              return Center(child: Text(l10n.noDataFound, style: theme.primaryTextTheme.subtitle1));
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(l10n.noDataFound, style: theme.primaryTextTheme.subtitle1),
+                  const SizedBox(height: core.Dimens.space_12),
+                  core.CshMediumButton(
+                    text: l10n.refresh,
+                    onPressed: () {
+                      resetAndRefreshScreen();
+                    },
+                  )
+                ],
+              );
             },
             onError: (String error) {
               return Center(
@@ -74,9 +88,7 @@ class InventoryPendingDeliveryWidgetState
                 ),
               );
             },
-            separator: const SizedBox(
-              height: core.Dimens.space_8,
-            ),
+            separator: const SizedBox(height: core.Dimens.space_8),
             padding: const EdgeInsets.all(core.Dimens.space_16),
           ),
         ),

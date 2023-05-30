@@ -131,6 +131,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
               );
             },
             separator: const SizedBox(height: core.Dimens.space_8),
+            onRefresh: () async {},
             onNoDataFound: () {
               return Center(
                 child: Text(
