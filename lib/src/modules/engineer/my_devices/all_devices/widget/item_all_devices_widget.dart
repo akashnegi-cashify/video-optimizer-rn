@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../utils/app_constants.dart';
 import '../../../models/engineer_device_info.dart';
-import '../../wip_devices/view_parts/widgets/assigned_parts_widget.dart';
+import '../../wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import '../provider/all_devices_provider.dart';
 import 'all_devices_widget.dart';
 

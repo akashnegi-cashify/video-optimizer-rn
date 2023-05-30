@@ -5,11 +5,14 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/return_page.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
-import 'package:flutter_trc/src/modules/login/login_screen.dart';
+import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dart';
+import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
+import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_with_controller.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
@@ -36,10 +39,21 @@ import 'modules/elss/elss_trc/screens/brand_details_listing_screen.dart';
 import 'modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'modules/engineer/manage_parts/manage_parts_widget.dart';
 import 'modules/engineer/my_devices/widgets/my_devices_widget.dart';
-import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_widget.dart';
+import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
 import 'modules/engineer/view_reports/view_report_widget.dart';
+import 'modules/inventory_manager/screens/alternate_part_screen.dart';
+import 'modules/inventory_manager/screens/assign_part_barcode_scanner.dart';
+import 'modules/inventory_manager/screens/assigned_device_details_screen.dart';
+import 'modules/inventory_manager/screens/assigned_part_details_screen.dart';
+import 'modules/inventory_manager/screens/inventory_home_screen.dart';
+import 'modules/inventory_manager/screens/pending_part_list_screen.dart';
+import 'modules/inventory_manager/screens/pending_delivery_screen.dart';
+import 'modules/inventory_manager/screens/pending_part_details_screen.dart';
+import 'modules/inventory_manager/screens/return_item_status_screeen.dart';
+import 'modules/inventory_manager/screens/summary_screen.dart';
+import 'modules/part_qc/screens/pq_status_change_screen.dart';
 import 'modules/rider/pending_delivery/deliver/widgets/delivery_deliver_engineer_parts_widget.dart';
 import 'modules/rider/pending_pickup/receive/widgets/pickup_receive_engineer_parts_widget.dart';
 import 'modules/rider/rider_home_widget.dart';
@@ -159,11 +173,12 @@ class _CashifyAppState extends State<CashifyApp> {
                   SplashScreen.route: (_) => const SplashScreen(),
                   LoginScreen.route: (_) => const LoginScreen(),
                   HomeScreen.route: (_) => const HomeScreen(),
+                  ChangePasswordScreen.route: (_) => const ChangePasswordScreen(),
                   BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
                   RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
                   ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
-                  ElssHomeScreen.route: (_) => const ElssHomeScreen(),
                   BarcodeScannerControllerWidget.route: (_) => const BarcodeScannerControllerWidget(),
+                  ElssHomeScreen.route: (_) => const ElssHomeScreen(),
                   //ELSS_TRC_ROUTES
                   AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),
                   AddPartScreenTrc.route: (_) => const AddPartScreenTrc(),
@@ -172,7 +187,6 @@ class _CashifyAppState extends State<CashifyApp> {
                   ElssStatusScreen.routeName: (_) => const ElssStatusScreen(),
                   //ELSS_QC_ROUTES
                   AddPartScreenQc.route: (_) => const AddPartScreenQc(),
-
                   PartSelectionScreenQc.route: (_) => const PartSelectionScreenQc(),
                   AllowedOptionScreen.route: (_) => const AllowedOptionScreen(),
                   // engineer routes
@@ -188,6 +202,22 @@ class _CashifyAppState extends State<CashifyApp> {
                   DeliveryDeliverEngineerPartsScreen.route: (_) => const DeliveryDeliverEngineerPartsScreen(),
                   PickupReceiveEngineerPartsScreen.route: (_) => const PickupReceiveEngineerPartsScreen(),
                   L4HomeScreen.route: (_) => const L4HomeScreen(),
+
+                  //Inventory routes
+                  InventoryHomeScreen.route: (_) => const InventoryHomeScreen(),
+                  PendingDeliveryScreen.route: (_) => const PendingDeliveryScreen(),
+                  PendingPartListScreen.route: (_) => const PendingPartListScreen(),
+                  PendingPartDetailsScreen.route: (_) => const PendingPartDetailsScreen(),
+                  AssignBarcodeScannerScreen.route: (_) => const AssignBarcodeScannerScreen(),
+                  AssignedDeviceDetailsScreen.route: (_) => const AssignedDeviceDetailsScreen(),
+                  AssignedPartDetailsScreen.route: (_) => const AssignedPartDetailsScreen(),
+                  ReturnScreen.route: (_) => const ReturnScreen(),
+                  ReturnStatusScreen.route: (_) => const ReturnStatusScreen(),
+                  SummaryScreen.route: (_) => const SummaryScreen(),
+                  AlternatePartScreen.route: (_) => const AlternatePartScreen(),
+                  //Part qc routes
+                  PartQCHomeScreen.route: (_) => const PartQCHomeScreen(),
+                  PartQcPartStatusScreen.route: (_) => const PartQcPartStatusScreen(),
                 },
                 initialRoute: SplashScreen.route,
               );

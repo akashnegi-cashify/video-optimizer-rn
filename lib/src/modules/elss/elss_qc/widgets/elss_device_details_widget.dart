@@ -60,10 +60,20 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
                     : const SizedBox(),
               ],
             ),
-            if (dataModel?.suggestedGrade != null) ...[
-              const SizedBox(height: Dimens.space_16),
-              _labelAndValueWidget(theme, l10n.suggestedGrade, dataModel!.suggestedGrade!)
-            ],
+            const SizedBox(height: Dimens.space_16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                (!Validator.isNullOrEmpty(dataModel?.suggestedGrade))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.suggestedGrade, dataModel!.suggestedGrade!))
+                    : const SizedBox(),
+                const SizedBox(width: Dimens.space_20),
+                (!Validator.isNullOrEmpty(dataModel?.suggestedChannel))
+                    ? Expanded(
+                    child: _labelAndValueWidget(theme, l10n.suggestedChannel, dataModel!.suggestedChannel!))
+                    : const SizedBox(),
+              ],
+            ),
           ],
         ),
       ),

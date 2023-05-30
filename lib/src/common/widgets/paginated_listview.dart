@@ -113,17 +113,6 @@ abstract class PaginatedListState<TItem, TStatefulWidget extends StatefulWidget>
     return const Text(
       "No Result found",
     );
-    // return Padding(
-    //   padding: EdgeInsets.all(Dimens.space_16),
-    //   child: Container(
-    //     // constraints: BoxConstraints.expand(),
-    //     child: Text(
-    //       l10n.dataNotFound,
-    //       style: theme.accentTextTheme.bodyText2,
-    //       textAlign: TextAlign.start,
-    //     ),
-    //   ),
-    // );
   }
 
   void _requestData() {

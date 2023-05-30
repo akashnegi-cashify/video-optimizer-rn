@@ -23,6 +23,8 @@ class DevicePart {
   bool? isUrgent;
   @JsonKey(name: "prid")
   int? prId;
+  @JsonKey(name: "isService")
+  bool? isService;
 
   static DevicePart fromJson(Map<String, dynamic> data) => _$DevicePartFromJson(data);
 

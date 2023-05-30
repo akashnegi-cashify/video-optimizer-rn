@@ -1,37 +1,25 @@
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/modules/elss/common_models/elss_part.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
 
 import '../../common_models/part_device_list.dart';
-import '../../common_resources/elss_action.dart';
 import '../l10n.dart';
 import '../providers/elss_provider_qc.dart';
 import '../screens/add_part_screen_qc.dart';
 import '../screens/allowed_option_screen.dart';
-import 'discard_modal_widget.dart';
 import 'elss_device_details_widget.dart';
 import 'elss_part_widget.dart';
-import 'elss_pna_modal_widget_qc.dart';
 
-class PartSelectionWidget extends StatefulWidget {
+class PartSelectionWidget extends StatelessWidget {
   final String barcode;
 
   const PartSelectionWidget({
     Key? key,
     required this.barcode,
   }) : super(key: key);
-
-  @override
-  State<PartSelectionWidget> createState() => _PartSelectionWidgetState();
-}
-
-class _PartSelectionWidgetState extends State<PartSelectionWidget> {
-  List<PartItemDataResponse> additionalRequiredPartList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +48,7 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                       child: CshIconButton(
                         text: l10n.addParts,
                         onPressed: () async {
-                          var data =
-                              await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
+                          var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: barcode);
                           if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
                             provider.addNewPartsFromAddParts(data!);
                           }
@@ -80,42 +67,21 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                   ),
                   const SizedBox(height: Dimens.space_4),
                   ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8, vertical: Dimens.space_12),
+                    padding: const EdgeInsets.all(Dimens.space_16),
                     shrinkWrap: true,
                     primary: false,
                     itemBuilder: (context, index) {
+                      var item = provider.elssPartList[index];
                       return ElssPartWidget(
-                        key: const Key("Master_List"),
-                        onImageUploadCallback: (int imageIndex, String s3Url) {},
-                        indexData: provider.elssPartList[index].elssPartId ?? -1,
-                        actionConstantValue: provider.elssPartList[index].actionConstant ?? -1,
-                        onPartRemoved: (int id) {
-                          provider.removeExternalAddedPart(id);
-                        },
-                        dataModel: provider.elssPartList[index],
-                        onNotRequiredSelected: () {
-                          provider.searchItemDataUpdate(
-                            provider.elssPartList[index].elssPartId!,
-                            action: ElssAction.NOT_REQUIRED.value,
-                            actionConstant: (provider.elssPartActionResponse?.actionsData?.notRequired != null)
-                                ? provider.elssPartActionResponse!.actionsData!.notRequired!
-                                : -99,
-                          );
-                        },
-                        onRequiredSelected: () {
-                          provider.searchItemDataUpdate(
-                            provider.elssPartList[index].elssPartId!,
-                            action: ElssAction.REPAIRABLE.value,
-                            actionConstant: (provider.elssPartActionResponse?.actionsData?.required != null)
-                                ? provider.elssPartActionResponse!.actionsData!.required!
-                                : -99,
-                          );
+                        dataModel: item,
+                        onOptionSelected: (int actionId) {
+                          provider.searchItemDataUpdate(item.elssPartId!, actionConstant: actionId);
                         },
                       );
                     },
                     itemCount: provider.elssPartList.length,
                     separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(height: Dimens.space_8);
+                      return const SizedBox(height: Dimens.space_16);
                     },
                   ),
                 ] else
@@ -124,44 +90,6 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-          child: CshCard(
-            padding: EdgeInsets.zero,
-            radius: CshRadius.rad4,
-            elevation: CardElevation.dimen_10,
-            child: SizedBox(
-              width: double.infinity,
-              height: Dimens.space_60,
-              child: Padding(
-                padding: const EdgeInsets.only(left: Dimens.space_16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        l10n.sendDeviceForRubbing,
-                        style: theme.primaryTextTheme.overline,
-                      ),
-                    ),
-                    CshSwitch(
-                      isSelected: provider.isRubbingApplicable,
-                      onChanged: (value) {
-                        provider.setIsRubbingValue(value);
-                        CshSnackBar.success(
-                          context: context,
-                          message: value ? l10n.rubbingEnabled : l10n.rubbingDisabled,
-                          snackBarPosition: SnackBarPosition.TOP,
-                          duration: SnackBarDuration.SHORT,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: Dimens.space_8),
         CshCard(
           radius: CshRadius.none,
           padding: const EdgeInsets.all(Dimens.space_16),
@@ -173,26 +101,10 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
                 topRight: Radius.circular(Dimens.space_6),
               ),
             ),
-            child: _bottomHandlingButtons(
-              l10n,
-              theme,
-              onDiscard: () {
-                _showOnDiscardModalBottomSheet();
-              },
-              onPNA: provider.elssPartList.isEmpty
-                  ? () {
-                      CshSnackBar.error(
-                        context: context,
-                        message: l10n.noPartsAvailableForPna,
-                        snackBarPosition: SnackBarPosition.TOP,
-                      );
-                    }
-                  : () {
-                      _onPnaOptionModal(l10n);
-                    },
-              onAccept: () {
-                _submitDataForPartsLogic(l10n);
-              },
+            child: _BottomButtons(
+              onAcceptClicked: _isEnableAcceptButton(provider) ? () => _submitDataForPartsLogic(l10n, context) : null,
+              onRejectClicked: () => _onRejectElss(context),
+              onRetestClicked: () => _onRetestingElss(context),
             ),
           ),
         ),
@@ -200,160 +112,101 @@ class _PartSelectionWidgetState extends State<PartSelectionWidget> {
     );
   }
 
-  _showOnDiscardModalBottomSheet() async {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: true,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(Dimens.space_8),
-          topRight: Radius.circular(Dimens.space_8),
-        ),
-      ),
-      builder: (BuildContext innerContext) {
-        return DiscardModalWidget(
-          onRejectCallback: () {
-            Navigator.of(context).pop();
-            _onRejectElss();
-          },
-          onRetestCallback: () {
-            Navigator.of(context).pop();
-            _onRetestingElss();
-          },
-        );
-      },
-    );
+  _isEnableAcceptButton(ELssProviderQc provider) {
+    if (provider.isNonRepairTypeDevice()) {
+      return true;
+    }
+
+    if (provider.isRepairTypeDevice()) {
+      return provider.isElssPartsSelectedForRepair();
+    }
+
+    return false;
   }
 
-  _onRejectElss() {
-    showRejectRetestBottomSheetModal(context, ReasonType.reject, widget.barcode);
+  _onRejectElss(BuildContext context) {
+    showRejectRetestBottomSheetModal(context, ReasonType.reject, barcode);
   }
 
-  _onRetestingElss() {
-    showRejectRetestBottomSheetModal(context, ReasonType.retest, widget.barcode);
+  _onRetestingElss(BuildContext context) {
+    showRejectRetestBottomSheetModal(context, ReasonType.retest, barcode);
   }
 
-  _bottomHandlingButtons(
-    L10n l10n,
-    ThemeData theme, {
-    Function()? onDiscard,
-    Function()? onPNA,
-    Function()? onAccept,
-  }) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: CshMediumOutlineButton(
-                text: l10n.discard,
-                textColor: theme.errorColor,
-                borderColor: theme.errorColor,
-                onPressed: () {
-                  if (onDiscard != null) {
-                    onDiscard();
-                  }
-                },
-              ),
-            ),
-            const SizedBox(width: Dimens.space_26),
-            Expanded(
-              child: CshMediumOutlineButton(
-                text: l10n.pna,
-                textColor: theme.primaryColor,
-                borderColor: theme.primaryColor,
-                onPressed: () {
-                  if (onPNA != null) {
-                    onPNA();
-                  }
-                },
-              ),
-            )
-          ],
-        ),
-        const SizedBox(height: Dimens.space_14),
-        SizedBox(
-          width: double.infinity,
-          child: CshMediumButton(
-            text: l10n.accept,
-            onPressed: () {
-              if (onAccept != null) {
-                onAccept();
-              }
-            },
-          ),
-        )
-      ],
-    );
-  }
-
-  _onPnaOptionModal(L10n l10n) {
-    var provider = ELssProviderQc.of(context, listen: false);
-    showCshBottomSheet(
-      context: context,
-      child: ElssPnaModalWidgetQC(
-          listOfSelectedParts: provider.getPartListForPna(),
-          onAddPartButtonClicked: () async {
-            var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: widget.barcode);
-            if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
-              for (var element in data!) {
-                Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);
-              }
-              provider.addNewPartsFromAddParts(data);
-            }
-          },
-          onSubmitCallback: (List<ElssPart> markedPnaList) {
-            _marPnaStatusToParts(l10n, markedPnaList);
-          }),
-    );
-  }
-
-  _submitDataForPartsLogic(L10n l10n) {
+  _submitDataForPartsLogic(L10n l10n, BuildContext context) {
     var provider = ELssProviderQc.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.submitPartsForLogic(widget.barcode).then((value) {
+    provider.submitPartsForLogic(barcode).then((isOptionsAllowed) {
       CshLoading().hideLoading(context);
-      if (value) {
-        if (Validator.isTrue(provider.submitPatsLogicData?.data?.optionsAllowed)) {
-          CshSnackBar.success(
-              context: context,
-              message: l10n.partsSubmittedSuccessfully,
-              duration: SnackBarDuration.SHORT,
-              snackBarPosition: SnackBarPosition.TOP);
-          AllowedOptionScreeArguments args =
-              AllowedOptionScreeArguments(widget.barcode, detailsDataModel: provider.elssDeviceDetails);
+      if (Validator.isTrue(isOptionsAllowed)) {
+        CshSnackBar.success(
+            context: context,
+            message: l10n.partsSubmittedSuccessfully,
+            duration: SnackBarDuration.SHORT,
+            snackBarPosition: SnackBarPosition.TOP);
+        AllowedOptionScreeArguments args =
+            AllowedOptionScreeArguments(barcode, detailsDataModel: provider.elssDeviceDetails);
 
-          Navigator.of(context).pushReplacementNamed(AllowedOptionScreen.route, arguments: args);
-        } else {
-          Navigator.pushReplacementNamed(
-            context,
-            ElssStatusScreen.routeName,
-            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: widget.barcode),
-          );
-        }
+        Navigator.of(context).pushReplacementNamed(AllowedOptionScreen.route, arguments: args);
+      } else {
+        Navigator.pushReplacementNamed(
+          context,
+          ElssStatusScreen.routeName,
+          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: barcode),
+        );
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);
       CshLoading().hideLoading(context);
     });
   }
+}
 
-  _marPnaStatusToParts(L10n l10n, List<ElssPart> markedPnaList) {
-    var provider = ELssProviderQc.of(context, listen: false);
-    CshLoading().showLoading(context);
-    provider.markPNAStatus(widget.barcode, markedPnaList).then((value) {
-      if (value) {
-        Navigator.pushReplacementNamed(
-          context,
-          ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna, barcode: widget.barcode),
-        );
-      }
-    }, onError: (error) {
-      Navigator.of(context).pop(true);
-      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
-      CshLoading().hideLoading(context);
-    });
+class _BottomButtons extends StatelessWidget {
+  final VoidCallback onRejectClicked;
+  final VoidCallback onRetestClicked;
+  final VoidCallback? onAcceptClicked;
+
+  const _BottomButtons({
+    Key? key,
+    required this.onRejectClicked,
+    required this.onRetestClicked,
+    required this.onAcceptClicked,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var l10n = L10n(context);
+    var theme = Theme.of(context);
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: CshMediumOutlineButton(
+                text: l10n.reject,
+                borderColor: theme.errorColor,
+                onPressed: onRejectClicked,
+                textColor: theme.errorColor,
+              ),
+            ),
+            const SizedBox(width: Dimens.space_20),
+            Expanded(
+              child: CshMediumOutlineButton(
+                text: l10n.retest,
+                onPressed: onRetestClicked,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: Dimens.space_16),
+        SizedBox(
+          width: double.infinity,
+          child: CshMediumButton(
+            text: l10n.accept,
+            onPressed: onAcceptClicked,
+          ),
+        )
+      ],
+    );
   }
 }

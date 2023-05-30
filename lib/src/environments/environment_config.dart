@@ -12,7 +12,7 @@ initEnvironment() {
 
 Environment getEnvironment() {
   const String envName = RUNNING_SYSTEM_ENV;
-  if (EnvironmentTypes.TEST.value == envName) {
+  if (EnvironmentTypes.PROD_TEST.value == envName) {
     return Environments.test;
   } else if (EnvironmentTypes.STAGE.value == envName) {
     return Environments.stage;
@@ -39,7 +39,7 @@ String? addAuthUriQueryParams(String? authUri) {
 String getAuthUrl(Environment environment) {
   String authUri = addAuthUriQueryParams(environment.authUri)!;
   return buildUrl(
-    (environment.mode == EnvironmentTypes.BETA.value || environment.mode == EnvironmentTypes.PROD.value),
+    true,
     true,
     environment.casIdentifier!,
     authUri,

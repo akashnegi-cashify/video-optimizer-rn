@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../resources/user_details.dart';
 import '../../utils/trc_method_channels.dart';
-import '../login/login_screen.dart';
+import '../login/screens/login_screen.dart';
 import '../login/resources/collector_user_controller.dart';
 
 class SplashScreen extends StatefulWidget {

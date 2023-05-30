@@ -18,7 +18,6 @@ class ConsumePartButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ImagePicker picker = ImagePicker();
     L10n l10n = L10n(context);
     AmplifyProvider amplifyProvider = AmplifyProvider.of(context, listen: false);
     return CshBigOutlineButton(
@@ -26,8 +25,17 @@ class ConsumePartButtonWidget extends StatelessWidget {
       onPressed: () async {
         try {
           CshLoading().showLoading(context);
-          XFile? imageFilex = await picker.pickImage(source: ImageSource.camera);
-          if (imageFilex != null) {
+          if (Validator.isTrue(partInfo.isService)) {
+            _callConsumeApi(context, l10n, "");
+          } else {
+            final ImagePicker picker = ImagePicker();
+            XFile? imageFilex = await picker.pickImage(source: ImageSource.camera);
+
+            if (imageFilex == null) {
+              if (context.mounted) CshLoading().hideLoading(context);
+              return;
+            }
+
             File imageFile = File(imageFilex.path);
             String fileName = Amplifier.fileNameFromPath(imageFile.path);
             amplifyProvider.uploadFile(
@@ -40,34 +48,7 @@ class ConsumePartButtonWidget extends StatelessWidget {
                 if (!Validator.isNullOrEmpty(s3Key)) {
                   String s3Url = await amplifyProvider.getS3FileUrlFromS3Key(filePath: s3Key, fullPath: true);
                   if (!Validator.isNullOrEmpty(s3Url)) {
-                    EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, s3Url).listen(
-                        (event) {
-                      CshLoading().hideLoading(context);
-                      if (event?.isSuccess == true) {
-                        if (onRequestCompletion != null) {
-                          onRequestCompletion!();
-                        }
-                        CshSnackBar.success(
-                          context: context,
-                          message: l10n.consumePartSuccess(partInfo.partName),
-                          snackBarPosition: SnackBarPosition.TOP,
-                        );
-                      } else {
-                        CshSnackBar.error(
-                          context: context,
-                          message: event?.errorMsg ?? l10n.somethingWentWrong,
-                          snackBarPosition: SnackBarPosition.TOP,
-                        );
-                      }
-                    }, onError: (error) {
-                      CshLoading().hideLoading(context);
-                      String? errorMessage = ApiErrorHelper.getErrorMessage(error);
-                      CshSnackBar.error(
-                        context: context,
-                        message: errorMessage ?? l10n.somethingWentWrong,
-                        snackBarPosition: SnackBarPosition.TOP,
-                      );
-                    });
+                    _callConsumeApi(context, l10n, s3Url);
                   } else {
                     displayGenericErrorMessage(context, l10n);
                   }
@@ -80,8 +61,6 @@ class ConsumePartButtonWidget extends StatelessWidget {
                 CshSnackBar.error(context: context, message: errorMsg, snackBarPosition: SnackBarPosition.TOP);
               },
             );
-          } else {
-            CshLoading().hideLoading(context);
           }
         } catch (e) {
           CshLoading().hideLoading(context);
@@ -94,5 +73,35 @@ class ConsumePartButtonWidget extends StatelessWidget {
   void displayGenericErrorMessage(BuildContext context, L10n l10n) {
     CshLoading().hideLoading(context);
     CshSnackBar.error(context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
+  }
+
+  _callConsumeApi(BuildContext context, L10n l10n, String s3ImageUrl) {
+    EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, s3ImageUrl).listen((event) {
+      CshLoading().hideLoading(context);
+      if (event?.isSuccess == true) {
+        if (onRequestCompletion != null) {
+          onRequestCompletion!();
+        }
+        CshSnackBar.success(
+          context: context,
+          message: l10n.consumePartSuccess(partInfo.partName),
+          snackBarPosition: SnackBarPosition.TOP,
+        );
+      } else {
+        CshSnackBar.error(
+          context: context,
+          message: event?.errorMsg ?? l10n.somethingWentWrong,
+          snackBarPosition: SnackBarPosition.TOP,
+        );
+      }
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      String? errorMessage = ApiErrorHelper.getErrorMessage(error);
+      CshSnackBar.error(
+        context: context,
+        message: errorMessage ?? l10n.somethingWentWrong,
+        snackBarPosition: SnackBarPosition.TOP,
+      );
+    });
   }
 }
