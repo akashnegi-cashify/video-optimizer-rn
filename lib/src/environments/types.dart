@@ -1,10 +1,10 @@
-enum EnvironmentTypes { TEST, STAGE, BETA, PROD }
+enum EnvironmentTypes { PROD_TEST, STAGE, BETA, PROD }
 
 extension EnvironmentTypesExtension on EnvironmentTypes {
   get value {
     switch (this) {
-      case EnvironmentTypes.TEST:
-        return 'test';
+      case EnvironmentTypes.PROD_TEST:
+        return 'prodTest';
       case EnvironmentTypes.STAGE:
         return 'stage';
       case EnvironmentTypes.BETA:

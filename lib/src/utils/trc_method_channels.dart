@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
-import 'package:flutter_trc/src/modules/login/login_screen.dart';
+import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 
 class NativeCall {
   static MethodChannel platformMethodChannel = const MethodChannel('in.cashify.trc/plugin');

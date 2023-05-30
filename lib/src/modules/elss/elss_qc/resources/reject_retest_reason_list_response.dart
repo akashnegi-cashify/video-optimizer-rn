@@ -24,6 +24,9 @@ class RejectRetestReasonListItem {
   @JsonKey(name: "v")
   String? label;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool isSelected = false;
+
   RejectRetestReasonListItem(this.id, this.label);
 
   static RejectRetestReasonListItem fromJson(Map<String, dynamic> json) => _$RejectRetestReasonListItemFromJson(json);

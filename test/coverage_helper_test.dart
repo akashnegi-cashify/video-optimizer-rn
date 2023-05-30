@@ -211,7 +211,6 @@ import 'package:flutter_trc/src/modules/login/models/authenticate_otp_response.d
 import 'package:flutter_trc/src/modules/login/models/user_details_response.dart';
 import 'package:flutter_trc/src/modules/login/models/send_otp_response.dart';
 import 'package:flutter_trc/src/modules/login/models/login_success_response.dart';
-import 'package:flutter_trc/src/modules/login/login_screen.dart';
 import 'package:flutter_trc/src/modules/login/l10n.dart';
 import 'package:flutter_trc/src/modules/login/widgets/login_widget.dart';
 import 'package:flutter_trc/src/modules/login/widgets/qc_login_widget.dart';
@@ -276,10 +275,10 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_part_list_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_tab.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/send_to_tl_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/my_devices_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/page_not_found.dart';

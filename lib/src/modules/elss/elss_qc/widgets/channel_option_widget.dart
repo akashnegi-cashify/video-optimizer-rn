@@ -11,9 +11,10 @@ import '../../common_models/part_device_list.dart';
 import '../../widgets/add_part_item_widget.dart';
 import '../l10n.dart';
 import '../providers/channel_option_provider.dart';
-import '../screens/part_selection_screen_qc.dart';
 import 'channel_option_modal_widget.dart';
 import 'elss_device_details_widget.dart';
+
+const int _YOUR_SUGGESTION_OPTION_ID = 101;
 
 class ChannelOptionWidget extends StatefulWidget {
   final String scannedBarcode;
@@ -49,45 +50,28 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                   const SizedBox(height: Dimens.space_20),
                   ChannelSuggestionWidget(
                     title: l10n.initialPlatformSuggestion,
-                    dataModel: provider.channelOptionResponse?.channelOptionData?.initialChannelOption,
+                    dataModel: provider.initialChannelSuggestion,
                   ),
                   const SizedBox(height: Dimens.space_20),
                   ChannelSuggestionWidget(
                     title: l10n.yourSuggestion,
-                    dataModel: provider.channelOptionResponse?.channelOptionData?.yourChannelSuggestion,
+                    dataModel: provider.yourChannelSuggestion,
                     isCardElevated: true,
                     onCardSelected: () {
                       _showModalForYourSuggestion(
                         modalHeading: l10n.yourSuggestion,
-                        onPna: () {
-                          if (!Validator.isListNullOrEmpty(provider
-                              .channelOptionResponse?.channelOptionData?.yourChannelSuggestion?.requestedParts)) {
-                            Navigator.of(context).pop(true);
-                            _onYourSuggestionPNAModal(l10n, theme);
-                          } else {
-                            CshSnackBar.error(
-                              context: context,
-                              message: l10n.noPartsAvailableForPna,
-                              snackBarPosition: SnackBarPosition.TOP,
-                            );
-                          }
-                        },
+                        onPna: () => _onYourSuggestionPNAModal(l10n, theme, _YOUR_SUGGESTION_OPTION_ID, provider),
                         onDone: () {
-                          Navigator.of(context).pop(true);
-                          var dataMap = provider.getPostDataMapForElssOptionData(provider
-                                  .channelOptionResponse?.channelOptionData?.yourChannelSuggestion?.requestedParts ??
-                              []);
-                          _submitElssAccept(
-                            dataMap,
-                            101,
-                            isRubAllowed: provider
-                                .channelOptionResponse?.channelOptionData?.yourChannelSuggestion?.isRubbingAllowed,
-                          );
+                          Navigator.of(context).pop();
+                          // TODO: remove this dataMap as it is not used by backend
+                          var dataMap = provider
+                              .getPostDataMapForElssOptionData(provider.yourChannelSuggestion?.requestedParts ?? []);
+                          _submitElssAccept(dataMap, _YOUR_SUGGESTION_OPTION_ID);
                         },
                       );
                     },
                   ),
-                  if (!Validator.isListNullOrEmpty(provider.channelOptions)) ...[
+                  if (!Validator.isListNullOrEmpty(provider.otherChannelOptions)) ...[
                     const SizedBox(height: Dimens.space_20),
                     ListView.separated(
                       shrinkWrap: true,
@@ -95,34 +79,18 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                       itemBuilder: (context, index) {
                         return ChannelSuggestionWidget(
                           title: l10n.channelSuggestion,
-                          dataModel: provider.channelOptions![index],
+                          dataModel: provider.otherChannelOptions![index],
                           onCardSelected: () {
-                            _showModalForImages(
+                            _showModalForOtherChannelOptions(
                               index,
                               modalHeading: l10n.channelSuggestion,
-                              onPna: () {
-                                if (!Validator.isListNullOrEmpty(provider.channelOptionResponse!.channelOptionData!
-                                    .listOfChannelOption![index].requestedParts)) {
-                                  Navigator.of(context).pop(true);
-                                  _onPNAOptionModal(index, l10n, theme);
-                                } else {
-                                  CshSnackBar.error(
-                                    context: context,
-                                    message: l10n.noPartsAvailableForPna,
-                                    snackBarPosition: SnackBarPosition.TOP,
-                                  );
-                                }
-                              },
+                              onPna: () => _onOtherChannelOptionsPNAModal(index, l10n, theme, provider),
                               onDone: () {
                                 Navigator.of(context).pop(true);
-                                if (provider.channelOptions![index].optionId != null) {
-                                  var dataMap = provider
-                                      .getPostDataMapForElssOptionData(provider.channelOptions![index].requestedParts!);
-                                  _submitElssAccept(
-                                    dataMap,
-                                    provider.channelOptions![index].optionId!,
-                                    isRubAllowed: provider.channelOptions![index].isRubbingAllowed,
-                                  );
+                                if (provider.otherChannelOptions![index].optionId != null) {
+                                  var dataMap = provider.getPostDataMapForElssOptionData(
+                                      provider.otherChannelOptions![index].requestedParts!);
+                                  _submitElssAccept(dataMap, provider.otherChannelOptions![index].optionId!);
                                 }
                               },
                             );
@@ -132,13 +100,13 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                       separatorBuilder: (context, index) {
                         return const SizedBox(height: Dimens.space_8);
                       },
-                      itemCount: provider.channelOptions!.length,
+                      itemCount: provider.otherChannelOptions!.length,
                     )
                   ],
                   const SizedBox(height: Dimens.space_20),
                   ChannelSuggestionWidget(
                     title: l10n.nonRepairSuggestion,
-                    dataModel: provider.channelOptionResponse?.channelOptionData?.defaultChannelOption,
+                    dataModel: provider.defaultChannelSuggestion,
                   ),
                 ],
               ),
@@ -158,26 +126,19 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
             ),
             child: Row(
               children: [
-                //Reject ELSS option
                 Expanded(
                   child: CshMediumOutlineButton(
                     text: l10n.reject,
-                    onPressed: () {
-                      _onRejectElss();
-                    },
+                    onPressed: () => _onRejectElss(),
                     borderColor: theme.errorColor,
                     textColor: theme.errorColor,
                   ),
                 ),
                 const SizedBox(width: Dimens.space_20),
-                //Retest ELSS
                 Expanded(
                   child: CshMediumButton(
-                    text: l10n.reset,
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(PartSelectionScreenQc.route, arguments: widget.scannedBarcode);
-                    },
+                    text: l10n.retest,
+                    onPressed: () => _onRetestElss(),
                   ),
                 )
               ],
@@ -200,14 +161,14 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       context: context,
       child: ChannelOptionModalWidget(
         modalHeading: modalHeading,
-        dataModel: provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion,
+        dataModel: provider.yourChannelSuggestion,
         onDoneCallback: onDone,
         onPnaCallback: onPna,
       ),
     );
   }
 
-  _showModalForImages(
+  _showModalForOtherChannelOptions(
     int index, {
     required String modalHeading,
     required Function() onDone,
@@ -220,7 +181,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       context: context,
       child: ChannelOptionModalWidget(
         modalHeading: modalHeading,
-        dataModel: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index],
+        dataModel: provider.otherChannelOptions![index],
         onDoneCallback: onDone,
         onPnaCallback: onPna,
       ),
@@ -231,8 +192,17 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     showRejectRetestBottomSheetModal(context, ReasonType.reject, widget.scannedBarcode);
   }
 
-  _onYourSuggestionPNAModal(L10n l10n, ThemeData theme) {
-    var provider = ChannelOptionProvider.of(context, listen: false);
+  _onRetestElss() {
+    showRejectRetestBottomSheetModal(context, ReasonType.retest, widget.scannedBarcode);
+  }
+
+  _onYourSuggestionPNAModal(L10n l10n, ThemeData theme, int optionId, ChannelOptionProvider provider) {
+    var repairableDevicePartList = provider.getDevicePartsForPna(provider.yourChannelSuggestion?.requestedParts);
+    if (Validator.isTrue(repairableDevicePartList?.isEmpty)) {
+      CshSnackBar.error(context: context, message: l10n.noPartsAvailableForPna, snackBarPosition: SnackBarPosition.TOP);
+      return;
+    }
+    Navigator.of(context).pop();
     showCshBottomSheet(
       context: context,
       child: Padding(
@@ -252,35 +222,26 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               width: double.infinity,
               height: 400.0,
               child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
-                itemBuilder: (context, indexing) {
-                  return AddPartItemList(
-                    dataModel: PartItemDataResponse(
-                      provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
-                          .requestedParts![indexing].sku,
-                      provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
-                          .requestedParts![indexing].partColour,
-                      provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
-                          .requestedParts![indexing].partName,
-                      isCardSelected: provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
-                          .requestedParts![indexing].isPnaSelected,
-                      partQuantity: provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
-                          .requestedParts![indexing].quantity,
-                    ),
-                    onPartSelected: (bool data) {
-                      provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!
-                          .requestedParts![indexing].isPnaSelected = data;
-                    },
-                  );
-                },
-                separatorBuilder: (context, ind) {
-                  return const SizedBox(
-                    height: Dimens.space_8,
-                  );
-                },
-                itemCount:
-                    provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!.requestedParts!.length,
-              ),
+                  padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
+                  itemCount: repairableDevicePartList!.length,
+                  itemBuilder: (context, index) {
+                    var item = repairableDevicePartList[index];
+                    return AddPartItemList(
+                      dataModel: PartItemDataResponse(
+                        item.sku,
+                        item.partColour,
+                        item.partName,
+                        isCardSelected: item.isPnaSelected,
+                        partQuantity: item.quantity,
+                      ),
+                      onPartSelected: (bool data) {
+                        provider.updateYourChannelSuggestionPNA(data, item);
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, ind) {
+                    return const SizedBox(height: Dimens.space_8);
+                  }),
             ),
             ComboButton(
               padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_8, Dimens.space_16, 0.0),
@@ -289,16 +250,13 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               isFirstPrimary: true,
               buttonType: ButtonType.mini,
               firstBtnClick: () {
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
               },
               secondBtnClick: () {
-                if (provider.checkIsItemSelectedForPNA(
-                  provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!.requestedParts!,
-                )) {
-                  _markPnaStatusToParts(
-                      l10n, provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!.requestedParts!);
+                if (provider.checkIsItemSelectedForPNA(provider.yourChannelSuggestion!.requestedParts!)) {
+                  _markPnaStatusToParts(l10n, provider.yourChannelSuggestion!.requestedParts!, optionId);
                 } else {
-                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop();
                   CshSnackBar.error(context: context, message: l10n.noPartSelectedForPna);
                 }
               },
@@ -308,15 +266,19 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
       ),
     ).then(
       (value) {
-        provider.removePNASelectedItem(
-          provider.channelOptionResponse!.channelOptionData!.yourChannelSuggestion!.requestedParts!,
-        );
+        provider.removePNASelectedItem(provider.yourChannelSuggestion!.requestedParts!);
       },
     );
   }
 
-  _onPNAOptionModal(int index, L10n l10n, ThemeData theme) {
-    var provider = ChannelOptionProvider.of(context, listen: false);
+  _onOtherChannelOptionsPNAModal(int index, L10n l10n, ThemeData theme, ChannelOptionProvider provider) {
+    var channelOptionData = provider.otherChannelOptions![index];
+    var repairableDevicePartList = provider.getDevicePartsForPna(channelOptionData.requestedParts);
+    if (Validator.isTrue(repairableDevicePartList?.isEmpty)) {
+      CshSnackBar.error(context: context, message: l10n.noPartsAvailableForPna, snackBarPosition: SnackBarPosition.TOP);
+      return;
+    }
+    Navigator.of(context).pop();
     showCshBottomSheet(
       context: context,
       child: Padding(
@@ -338,22 +300,17 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
                 itemBuilder: (context, indexing) {
+                  var item = repairableDevicePartList[indexing];
                   return AddPartItemList(
                     dataModel: PartItemDataResponse(
-                      provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                          .requestedParts![indexing].sku,
-                      provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                          .requestedParts![indexing].partColour,
-                      provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                          .requestedParts![indexing].partName,
-                      isCardSelected: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                          .requestedParts![indexing].isPnaSelected,
-                      partQuantity: provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                          .requestedParts![indexing].quantity,
+                      item.sku,
+                      item.partColour,
+                      item.partName,
+                      isCardSelected: item.isPnaSelected,
+                      partQuantity: item.quantity,
                     ),
                     onPartSelected: (bool data) {
-                      provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index]
-                          .requestedParts![indexing].isPnaSelected = data;
+                      provider.updateOthersChannelSuggestionPNA(item, data, index);
                     },
                   );
                 },
@@ -362,8 +319,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                     height: Dimens.space_8,
                   );
                 },
-                itemCount: provider
-                    .channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!.length,
+                itemCount: repairableDevicePartList!.length,
               ),
             ),
             ComboButton(
@@ -376,10 +332,12 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                 Navigator.of(context).pop(true);
               },
               secondBtnClick: () {
-                if (provider.checkIsItemSelectedForPNA(
-                    provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!)) {
-                  _markPnaStatusToParts(l10n,
-                      provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!);
+                if (provider.checkIsItemSelectedForPNA(provider.otherChannelOptions![index].requestedParts!)) {
+                  _markPnaStatusToParts(
+                    l10n,
+                    provider.otherChannelOptions![index].requestedParts!,
+                    provider.otherChannelOptions![index].optionId,
+                  );
                 } else {
                   Navigator.of(context).pop(true);
                   CshSnackBar.error(context: context, message: l10n.noPartSelectedForPna);
@@ -390,15 +348,14 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
         ),
       ),
     ).then((value) {
-      provider.removePNASelectedItem(
-          provider.channelOptionResponse!.channelOptionData!.listOfChannelOption![index].requestedParts!);
+      provider.removePNASelectedItem(provider.otherChannelOptions![index].requestedParts!);
     });
   }
 
-  _markPnaStatusToParts(L10n l10n, List<ElssPart> dataList) {
+  _markPnaStatusToParts(L10n l10n, List<ElssPart> dataList, int? optionId) {
     var provider = ChannelOptionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.markPNAStatus(widget.scannedBarcode, dataList).then((value) {
+    provider.markPNAStatus(widget.scannedBarcode, dataList, optionId).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         Navigator.pushReplacementNamed(
@@ -414,12 +371,10 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     });
   }
 
-  _submitElssAccept(List<Map<String, dynamic>> dataList, int optionId, {bool? isRubAllowed}) {
+  _submitElssAccept(List<Map<String, dynamic>> dataList, int optionId) {
     var provider = ChannelOptionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider
-        .submitElssAcceptData(dataList, widget.scannedBarcode, optionId: optionId, isRubbingAllowed: isRubAllowed)
-        .then((value) {
+    provider.submitElssAcceptData(dataList, widget.scannedBarcode, optionId: optionId).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         Navigator.pushReplacementNamed(

@@ -1,30 +1,22 @@
-import 'dart:async';
-
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
 
 import '../../common_models/elss_part.dart';
 import '../l10n.dart';
 
 class ElssPartWidget extends StatefulWidget {
   final ElssPart? dataModel;
-  final int indexData;
-  final int actionConstantValue;
-  final Function(int)? onPartRemoved;
-  final Function(int, String) onImageUploadCallback;
+  final Function(int actionId) onOptionSelected;
   final Function()? onRequiredSelected;
   final Function()? onNotRequiredSelected;
 
   const ElssPartWidget({
     Key? key,
-    required this.onImageUploadCallback,
-    required this.indexData,
-    required this.actionConstantValue,
-    this.onPartRemoved,
     this.dataModel,
     this.onNotRequiredSelected,
     this.onRequiredSelected,
+    required this.onOptionSelected,
   }) : super(key: key);
 
   @override
@@ -32,19 +24,18 @@ class ElssPartWidget extends StatefulWidget {
 }
 
 class _ElssPartWidgetState extends State<ElssPartWidget> {
-  bool _isRequiredSelected = false;
+  late List<DropDownItem> _selectionOptionsList;
+  DropDownItem? _selectedOption;
+
+  _ElssPartWidgetState() {
+    _selectionOptionsList = _getElssPartsSelectionOptions();
+  }
 
   @override
   void initState() {
+    _selectedOption = _selectionOptionsList
+        .firstWhere((element) => element.id == widget.dataModel?.actionConstant.toString());
     super.initState();
-    scheduleMicrotask(() {
-      if (widget.actionConstantValue == -1) {
-        _isRequiredSelected = false;
-      } else {
-        _isRequiredSelected = true;
-      }
-      setState(() {});
-    });
   }
 
   @override
@@ -56,190 +47,73 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
       radius: CshRadius.rad4,
       elevation: CardElevation.dimen_10,
       padding: const EdgeInsets.all(Dimens.space_8),
-      child: (widget.dataModel?.isManualAdded ?? false)
-          ? Container(
-              height: Dimens.space_50,
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.dataModel?.partName ?? "",
-                      style: theme.primaryTextTheme.overline,
-                    ),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                        text: l10n.qty,
-                        style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
-                        children: [
-                          TextSpan(
-                            text: " ${widget.dataModel?.quantity}",
-                            style: theme.primaryTextTheme.overline,
-                          )
-                        ]),
-                  ),
-                  const SizedBox(width: Dimens.space_16),
-                  GestureDetector(
-                    onTap: () {
-                      if (widget.onPartRemoved != null) {
-                        widget.onPartRemoved!(widget.dataModel?.elssPartId ?? 100);
-                      }
-                    },
-                    child: CshIcon(
-                      FeatherIcons.trash,
-                      iconColor: theme.errorColor,
-                      iconSize: MobileIconSize.large,
-                      padding: EdgeInsets.zero,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: ListTileTheme(
-                dense: true,
-                child: ExpansionTile(
-                  tilePadding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.dataModel?.partName ?? "",
-                        style: theme.primaryTextTheme.overline,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: Dimens.space_8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          !Validator.isNullOrEmpty(widget.dataModel?.partColour)
-                              ? RichText(
-                                  text: TextSpan(
-                                      text: l10n.colour,
-                                      style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
-                                      children: [
-                                        TextSpan(
-                                          text: " ${widget.dataModel?.partColour}",
-                                          style: theme.primaryTextTheme.overline,
-                                        )
-                                      ]),
-                                )
-                              : const SizedBox.shrink(),
-                          RichText(
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ListTileTheme(
+          dense: true,
+          child: ExpansionTile(
+            childrenPadding: const EdgeInsets.symmetric(vertical: Dimens.space_8),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.dataModel?.partName ?? "",
+                  style: theme.primaryTextTheme.overline,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: Dimens.space_8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    !Validator.isNullOrEmpty(widget.dataModel?.partColour)
+                        ? RichText(
                             text: TextSpan(
-                                text: l10n.qty,
+                                text: l10n.colour,
                                 style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
                                 children: [
                                   TextSpan(
-                                    text: " ${widget.dataModel?.quantity}",
+                                    text: " ${widget.dataModel?.partColour}",
                                     style: theme.primaryTextTheme.overline,
                                   )
                                 ]),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _requiredWidget(
-                            theme,
-                            l10n.required,
-                            () {
-                              _isRequiredSelected = true;
-
-                              if (widget.onRequiredSelected != null) {
-                                widget.onRequiredSelected!();
-                              }
-                              setState(() {});
-                            },
-                          ),
-                          Container(width: Dimens.space_1, height: Dimens.space_12, color: theme.shadowColor),
-                          _notRequiredWidget(
-                            theme,
-                            l10n.notRequired,
-                            () {
-                              _isRequiredSelected = false;
-
-                              if (widget.onNotRequiredSelected != null) {
-                                widget.onNotRequiredSelected!();
-                              }
-                              setState(() {});
-                            },
                           )
-                        ],
-                      ),
+                        : const SizedBox.shrink(),
+                    RichText(
+                      text: TextSpan(
+                          text: l10n.qty,
+                          style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
+                          children: [
+                            TextSpan(
+                              text: " ${widget.dataModel?.quantity}",
+                              style: theme.primaryTextTheme.overline,
+                            )
+                          ]),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-    );
-  }
-
-  _notRequiredWidget(ThemeData theme, String label, Function() onPressed) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: Dimens.space_6, horizontal: Dimens.space_6),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimens.space_4),
-          border: (_isRequiredSelected == false) ? Border.all(color: theme.errorColor, width: Dimens.space_1) : null,
-        ),
-        child: Row(
-          children: [
-            Image.asset(
-              "assets/images/ic_error.png",
-              height: Dimens.space_16,
-              width: Dimens.space_16,
-            ),
-            const SizedBox(width: Dimens.space_10),
-            Text(
-              label,
-              style: theme.primaryTextTheme.headline5?.copyWith(
-                color: theme.errorColor,
-              ),
-            )
-          ],
+            children: <Widget>[
+              CshDropDown(
+                items: _selectionOptionsList,
+                selectedItem: _selectedOption,
+                onChanged: (DropDownItem? value) {
+                  setState(() {
+                    _selectedOption = value;
+                  });
+                  int actionId = int.parse(value!.id!);
+                  widget.onOptionSelected(actionId);
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  _requiredWidget(ThemeData theme, String label, Function() onPressed) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: Dimens.space_6, horizontal: Dimens.space_6),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Dimens.space_4),
-          border: (_isRequiredSelected) ? Border.all(color: theme.primaryColor, width: Dimens.space_1) : null,
-        ),
-        child: Row(
-          children: [
-            Image.asset(
-              "assets/images/ic_check.png",
-              height: Dimens.space_16,
-              width: Dimens.space_16,
-            ),
-            const SizedBox(width: Dimens.space_10),
-            Text(
-              label,
-              style: theme.primaryTextTheme.headline5?.copyWith(
-                color: theme.primaryColor,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+  List<DropDownItem> _getElssPartsSelectionOptions() {
+    return ElssPartsSelectionOptions.values.map((e) => DropDownItem(e.id.toString(), e.value)).toList();
   }
 }

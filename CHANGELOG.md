@@ -1,6 +1,20 @@
 # TRC Releases
 
-# v1.2.1+3 (XX-04-2023)
+# v1.3.0+5 (XX-05-2023)
+
+### Improvements:
+
+* `QC-ELSS - ELSS flow changes` [(SCM-3303)](https://reglobe.atlassian.net/browse/SCM-3303)
+
+
+# v1.2.2+4 (17-05-2023)
+
+### Improvements:
+
+* `QC-ELSS - Allow multi-selection for ELSS Reject reasons` [(SCM-3331)](https://reglobe.atlassian.net/browse/SCM-3331)
+
+
+# v1.2.1+3 (03-05-2023)
 
 ### Improvements:
 
@@ -11,7 +25,8 @@
 * `QC-ELSS - The PNA parts list shown should be as per Required Parts` [(SCM-3073)](https://reglobe.atlassian.net/browse/SCM-3073)
 * `QC-ELSS - To display quantity for the parts` [(SCM-3072)](https://reglobe.atlassian.net/browse/SCM-3072)
 * `Change library for barcode scanner` [(SCM-3059)](https://reglobe.atlassian.net/browse/SCM-3059)
-// TODO: merge inventory and partQC role branch
+* `Migrate PartQC and Inventory role` [(SCM-3059)](https://reglobe.atlassian.net/browse/SCM-3059)
+* `Remove Android code` [(SCM-2814)](https://reglobe.atlassian.net/browse/SCM-2814)
 
 
 # v1.2.0+2 (03-04-2023)

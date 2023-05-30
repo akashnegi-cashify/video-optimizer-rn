@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/providers/elss_reject_retest_reason_selection_provider.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/reject_retest_reason_list_response.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ showRejectRetestBottomSheetModal(
 ) {
   showCshBottomSheet(
       isDismissible: true,
-      isScrollControlled: false,
+      isScrollControlled: true,
       context: context,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -38,8 +39,6 @@ class _RejectRetestReasonSelectionList extends StatefulWidget {
 }
 
 class _RejectRetestReasonSelectionListState extends State<_RejectRetestReasonSelectionList> {
-  int? _selectedIndex;
-
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
@@ -82,36 +81,31 @@ class _RejectRetestReasonSelectionListState extends State<_RejectRetestReasonSel
                             child: CircularProgressIndicator(),
                           ),
                         )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            var item = provider.reasonList?[index];
-                            return CshRadio<int>(
-                              value: index,
-                              groupValue: _selectedIndex,
-                              title: GestureDetector(
-                                  onTap: () {
-                                    _updateSelectedIndex(index);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(Dimens.space_8),
-                                    child: CshTextNew.bodyText2(item?.label ?? ""),
-                                  )),
-                              onChanged: (value) {
-                                _updateSelectedIndex(value);
-                              },
-                            );
-                          },
-                          itemCount: provider.reasonList?.length ?? 0,
+                      : Container(
+                          constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.7),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              var item = provider.reasonList?[index];
+                              return _ReasonListItems(
+                                item,
+                                onItemSelected: (value) {
+                                  provider.onReasonItemSelected(value, item!.id!);
+                                },
+                              );
+                            },
+                            itemCount: provider.reasonList?.length ?? 0,
+                          ),
                         ),
               const SizedBox(height: Dimens.space_16),
-              SizedBox(
-                width: double.infinity,
-                child: CshMediumButton(
-                  text: l10n.submit,
-                  onPressed: _selectedIndex != null ? () => _onSubmitButtonClicked(providerContext) : null,
-                ),
-              )
+              if (!provider.isScreenLoading)
+                SizedBox(
+                  width: double.infinity,
+                  child: CshMediumButton(
+                    text: l10n.submit,
+                    onPressed: () => _onSubmitButtonClicked(providerContext),
+                  ),
+                )
             ],
           ),
         );
@@ -119,16 +113,15 @@ class _RejectRetestReasonSelectionListState extends State<_RejectRetestReasonSel
     );
   }
 
-  _updateSelectedIndex(int? index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   _onSubmitButtonClicked(BuildContext providerContext) {
     var provider = ElssRejectRetestReasonSelectionProvider.of(providerContext, listen: false);
+    if (!provider.isReasonSelected()) {
+      CshSnackBar.error(context: context, message: "Select atleast one reason", snackBarPosition: SnackBarPosition.TOP);
+      return;
+    }
+
     CshLoading().showLoading(context);
-    provider.submitElssRejectRetest(widget.barcode, _selectedIndex!).then((value) {
+    provider.submitElssRejectRetest(widget.barcode).then((value) {
       CshLoading().hideLoading(context);
       if (provider.isReasonTypeReject) {
         Navigator.pushReplacementNamed(
@@ -144,5 +137,39 @@ class _RejectRetestReasonSelectionListState extends State<_RejectRetestReasonSel
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: errorMessage.toString(), snackBarPosition: SnackBarPosition.TOP);
     });
+  }
+}
+
+class _ReasonListItems extends StatelessWidget {
+  final RejectRetestReasonListItem? item;
+  final Function(bool? value)? onItemSelected;
+
+  const _ReasonListItems(this.item, {Key? key, this.onItemSelected}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CshCheckbox(
+          isSelected: item?.isSelected ?? false,
+          visualDensity: VisualDensity.standard,
+          onChanged: (value) {
+            if (onItemSelected != null) {
+              onItemSelected!(value);
+            }
+          },
+        ),
+        GestureDetector(
+            onTap: () {
+              if (onItemSelected != null) {
+                onItemSelected!(!(item!.isSelected));
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(Dimens.space_8),
+              child: CshTextNew.bodyText2(item?.label ?? ""),
+            )),
+      ],
+    );
   }
 }

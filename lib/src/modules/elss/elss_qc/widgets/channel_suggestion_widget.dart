@@ -2,6 +2,8 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
+
 import '../../../../utils/dotted_divider_line.dart';
 import '../../common_models/channel_option_response.dart';
 import '../l10n.dart';
@@ -119,18 +121,28 @@ class ChannelSuggestionWidget extends StatelessWidget {
                               primary: false,
                               itemCount: dataModel!.requestedParts!.length,
                               itemBuilder: (context, index) {
+                                var elssPart = dataModel!.requestedParts![index];
+                                String serviceType =
+                                    ElssPartsSelectionOptions.getEnumById(elssPart.actionConstant).value;
                                 return Row(
                                   children: [
                                     Expanded(
-                                      child: Text(
-                                        "${index + 1}. ${dataModel!.requestedParts![index].sku}",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            "${index + 1}. ${elssPart.sku}",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(height: Dimens.space_8),
+                                          Text("Service Type. $serviceType"),
+                                        ],
                                       ),
                                     ),
-                                    if (dataModel!.requestedParts![index].quantity != null) ...[
+                                    if (elssPart.quantity != null) ...[
                                       const SizedBox(width: Dimens.space_12),
-                                      Text("Qty. ${dataModel!.requestedParts![index].quantity!}")
+                                      Text("Qty. ${elssPart.quantity!}")
                                     ]
                                   ],
                                 );
