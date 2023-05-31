@@ -45,10 +45,6 @@ class DefaultChannelOptionWidget extends StatelessWidget {
                   _detailAndLabelWidget(theme, l10n.grade, dataModel!.grade!),
                   const SizedBox(height: Dimens.space_8)
                 ],
-                if (dataModel?.isRubbingAllowed != null) ...[
-                  _detailAndLabelWidget(theme, l10n.isRubbingAllowed, dataModel!.isRubbingAllowed!.toString()),
-                  const SizedBox(height: Dimens.space_8)
-                ],
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: Dimens.space_8),
                   child: DottedLineDivider(

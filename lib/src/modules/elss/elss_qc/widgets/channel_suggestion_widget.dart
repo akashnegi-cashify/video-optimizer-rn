@@ -1,7 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
 
 import '../../../../utils/dotted_divider_line.dart';
@@ -45,7 +44,6 @@ class ChannelSuggestionWidget extends StatelessWidget {
       onTap: onCardSelected ?? () {},
       child: Container(
         width: MediaQuery.of(context).size.width,
-        // padding: const EdgeInsets.symmetric(vertical: Dimens.space_10, horizontal: Dimens.space_16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimens.space_8),
           color: theme.cardColor,
@@ -55,14 +53,11 @@ class ChannelSuggestionWidget extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(vertical: Dimens.space_10, horizontal: Dimens.space_16),
-              color: (Validator.isTrue(isCardElevated)) ? theme.primaryColor.withAlpha(125) : theme.cardColor,
+              color: (Validator.isTrue(isCardElevated)) ? theme.primaryColor.withAlpha(125) : null,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: theme.primaryTextTheme.headline5,
-                  ),
+                  Text(title, style: theme.primaryTextTheme.headline5),
                   Row(
                     children: [
                       if (dataModel?.channelOptionPrice != null)
@@ -98,23 +93,18 @@ class ChannelSuggestionWidget extends StatelessWidget {
                 children: [
                   if (dataModel != null && (!Validator.isListNullOrEmpty(dataModel?.requestedParts))) ...[
                     const SizedBox(height: Dimens.space_8),
-                    DottedLineDivider(
-                      dashWidth: Dimens.space_2,
-                      width: 0.5,
-                      color: theme.shadowColor,
-                    ),
+                    DottedLineDivider(dashWidth: Dimens.space_2, width: 0.5, color: theme.shadowColor),
                     Theme(
-                      data: Theme.of(context)
-                          .copyWith(dividerColor: Colors.transparent, visualDensity: VisualDensity.compact),
+                      data: Theme.of(context).copyWith(
+                        dividerColor: Colors.transparent,
+                        visualDensity: VisualDensity.compact,
+                      ),
                       child: ListTileTheme(
                         dense: true,
                         contentPadding: const EdgeInsets.symmetric(horizontal: Dimens.space_6),
                         child: ExpansionTile(
                           tilePadding: EdgeInsets.zero,
-                          title: Text(
-                            l10n.listOfSkUs,
-                            style: theme.primaryTextTheme.headline5,
-                          ),
+                          title: Text(l10n.listOfSkUs, style: theme.primaryTextTheme.headline5),
                           children: [
                             ListView.separated(
                               shrinkWrap: true,
@@ -122,59 +112,70 @@ class ChannelSuggestionWidget extends StatelessWidget {
                               itemCount: dataModel!.requestedParts!.length,
                               itemBuilder: (context, index) {
                                 var elssPart = dataModel!.requestedParts![index];
-                                String serviceType =
-                                    ElssPartsSelectionOptions.getEnumById(elssPart.actionConstant).value;
+                                var serviceType = ElssPartsSelectionOptions.getEnumById(elssPart.actionConstant).value;
                                 return Row(
                                   children: [
                                     Expanded(
                                       child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(
                                             "${index + 1}. ${elssPart.sku}",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
+                                            style: theme.textTheme.subtitle2,
                                           ),
-                                          const SizedBox(height: Dimens.space_8),
-                                          Text("Service Type. $serviceType"),
+                                          const SizedBox(height: Dimens.space_2),
+                                          RichText(
+                                            text: TextSpan(
+                                                text: "Service Type:  ",
+                                                style: theme.primaryTextTheme.overline?.copyWith(
+                                                  color: theme.shadowColor,
+                                                ),
+                                                children: [
+                                                  TextSpan(text: serviceType, style: theme.textTheme.subtitle2)
+                                                ]),
+                                          ),
                                         ],
                                       ),
                                     ),
                                     if (elssPart.quantity != null) ...[
                                       const SizedBox(width: Dimens.space_12),
-                                      Text("Qty. ${elssPart.quantity!}")
+                                      RichText(
+                                        text: TextSpan(
+                                            text: "Qty:  ",
+                                            style: theme.primaryTextTheme.overline?.copyWith(
+                                              color: theme.shadowColor,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: "${elssPart.quantity ?? 0}",
+                                                style: theme.textTheme.subtitle2,
+                                              )
+                                            ]),
+                                      ),
                                     ]
                                   ],
                                 );
                               },
                               separatorBuilder: (context, index) {
-                                return const SizedBox(height: Dimens.space_8);
+                                return const SizedBox(height: Dimens.space_12);
                               },
                             ),
                           ],
                         ),
                       ),
                     ),
-                    DottedLineDivider(
-                      dashWidth: Dimens.space_2,
-                      width: 0.5,
-                      color: theme.shadowColor,
-                    ),
-                    const SizedBox(height: Dimens.space_8),
-                  ] else
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_10),
-                      child: DottedLineDivider(
-                        dashWidth: Dimens.space_2,
-                        width: 0.5,
-                        color: theme.shadowColor,
-                      ),
-                    ),
+                  ],
+                  const SizedBox(height: Dimens.space_4),
+                  DottedLineDivider(dashWidth: Dimens.space_2, width: 0.5, color: theme.shadowColor),
+                  const SizedBox(height: Dimens.space_8),
                   Row(
                     children: [
                       Expanded(
-                        child: (dataModel?.isRubbingAllowed != null)
-                            ? _labelValueWidget(theme, l10n.rubbingAllowed, dataModel!.isRubbingAllowed!.toString())
+                        child: (!Validator.isNullOrEmpty(dataModel?.channelName))
+                            ? _labelValueWidget(theme, l10n.channel, dataModel!.channelName!)
                             : const SizedBox.shrink(),
                       ),
                       Expanded(
@@ -184,10 +185,6 @@ class ChannelSuggestionWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (!Validator.isNullOrEmpty(dataModel?.channelName)) ...[
-                    const SizedBox(height: Dimens.space_8),
-                    _labelValueWidget(theme, l10n.channel, dataModel!.channelName!)
-                  ],
                   if (!Validator.isNullOrEmpty(dataModel?.repairType)) ...[
                     const SizedBox(height: Dimens.space_8),
                     _labelValueWidget(theme, l10n.repairType, dataModel!.repairType!),
