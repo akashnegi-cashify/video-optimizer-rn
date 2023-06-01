@@ -88,19 +88,6 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
               ],
             ),
             const SizedBox(height: Dimens.space_8),
-            if (widget.dataModel?.isRubbingAllowed != null)
-              RichText(
-                text: TextSpan(
-                  text: "${l10n.rubbingAllowed}: ",
-                  style: theme.primaryTextTheme.overline,
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "${widget.dataModel!.isRubbingAllowed!}",
-                      style: theme.primaryTextTheme.headline5,
-                    )
-                  ],
-                ),
-              ),
             Expanded(
               child: (!Validator.isListNullOrEmpty(widget.dataModel?.requestedParts))
                   ? ListView.separated(

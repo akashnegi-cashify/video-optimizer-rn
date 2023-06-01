@@ -60,6 +60,7 @@ import 'modules/rider/rider_home_widget.dart';
 import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
 import 'modules/rubbing/widgets/rubbing_home_widget.dart';
 import 'modules/splash/splash_screen.dart';
+import './l10n.dart';
 
 class CashifyApp extends StatefulWidget {
   final String appName;
@@ -162,7 +163,7 @@ class _CashifyAppState extends State<CashifyApp> {
                   CshRouteObserver().instance,
                   SentryNavigatorObserver(),
                 ],
-                title: BaseL10n(context).appName,
+                title: L10n(context).appName,
                 localizationsDelegates: const [
                   CshLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,
