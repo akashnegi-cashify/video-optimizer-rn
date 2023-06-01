@@ -25,6 +25,8 @@ class DevicePart {
   int? prId;
   @JsonKey(name: "isService")
   bool? isService;
+  @JsonKey(name: "ac")
+  String? action;
 
   static DevicePart fromJson(Map<String, dynamic> data) => _$DevicePartFromJson(data);
 

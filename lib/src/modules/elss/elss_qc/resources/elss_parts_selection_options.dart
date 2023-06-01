@@ -1,8 +1,8 @@
 enum ElssPartsSelectionOptions {
   notRequired(-1, "Not Required"),
-  repairRequired(1, "Repair Required"),
+  repairRequired(1, "Part Required"),
   serviceRequired(2, "Service Required"),
-  optimizationRequired(3, "Optimization Required");
+  optimizationRequired(3, "Upgrade without repair");
 
   final int id;
   final String value;
