@@ -88,7 +88,8 @@ class ItemPartWidget extends StatelessWidget {
             TitleValueRowWidget(title: l10n.partName, value: part.partName ?? ""),
             TitleValueRowWidget(title: l10n.partBarcode, value: part.partBarcode ?? ""),
             TitleValueRowWidget(title: l10n.partSku, value: part.sku ?? ""),
-            if (Validator.isNullOrEmpty(part.action)) TitleValueRowWidget(title: l10n.action, value: part.action ?? ""),
+            if (!Validator.isNullOrEmpty(part.action))
+              TitleValueRowWidget(title: l10n.action, value: part.action ?? ""),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
