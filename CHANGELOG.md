@@ -1,5 +1,14 @@
 # TRC Releases
 
+# v1.3.0+5 (01-06-2023)
+
+### Improvements:
+
+* `QC-ELSS - ELSS flow changes` [(SCM-3303)](https://reglobe.atlassian.net/browse/SCM-3303)
+* `TRC changes for service consumption` [(SCM-3591)](https://reglobe.atlassian.net/browse/SCM-3591)
+* `TRC - Bug fixes and Improvements` [(SCM-3592)](https://reglobe.atlassian.net/browse/SCM-3592)
+
+
 # v1.2.2+4 (17-05-2023)
 
 ### Improvements:

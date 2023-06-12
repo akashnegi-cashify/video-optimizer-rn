@@ -53,7 +53,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
     var provider = PendingDeliveryProvider.of(context);
     return Scaffold(
       appBar: core.CshHeader(
-        l10n.pendingDelivery,
+        l10n.requestedParts,
         showBackBtn: true,
       ),
       body: Column(
@@ -141,6 +141,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                   },
                 );
               },
+              onRefresh: () async {},
               separator: const SizedBox(height: core.Dimens.space_8),
               onNoDataFound: () {
                 return Center(

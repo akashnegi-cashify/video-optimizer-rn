@@ -62,8 +62,6 @@ class ChannelOptionData {
   int? channelOptionPrice;
   @JsonKey(name: "gr")
   String? grade;
-  @JsonKey(name: "isr")
-  bool? isRubbingAllowed;
   @JsonKey(name: "rp")
   List<ElssPart>? requestedParts;
   @JsonKey(name: "rt")
@@ -74,7 +72,6 @@ class ChannelOptionData {
     this.channelName,
     this.channelOptionPrice,
     this.grade,
-    this.isRubbingAllowed,
     this.requestedParts,
     this.repairType,
   });

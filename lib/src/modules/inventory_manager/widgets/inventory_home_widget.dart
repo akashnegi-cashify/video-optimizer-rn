@@ -46,7 +46,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
             unselectedLabelStyle: theme.primaryTextTheme.bodyText2,
             labelStyle: theme.primaryTextTheme.headline4,
             tabs: [
-              Text(l10n.pendingDelivery.toUpperCase()),
+              Text(l10n.requestedParts.toUpperCase()),
               Text(l10n.assigned.toUpperCase()),
             ],
           ),
@@ -110,19 +110,22 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
                                 !(provider.listOfGroupLocation[index].isSelected ?? false));
                             setState(() {});
                           },
-                          child: Row(
-                            children: [
-                              CshCheckbox(
-                                isSelected: provider.listOfGroupLocation[index].isSelected ?? false,
-                                visualDensity: VisualDensity.compact,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  provider.listOfGroupLocation[index].locationName ?? "",
-                                  style: theme.primaryTextTheme.headline3,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: Dimens.space_6),
+                            child: Row(
+                              children: [
+                                CshCheckbox(
+                                  isSelected: provider.listOfGroupLocation[index].isSelected ?? false,
+                                  visualDensity: VisualDensity.compact,
                                 ),
-                              )
-                            ],
+                                Expanded(
+                                  child: Text(
+                                    provider.listOfGroupLocation[index].locationName ?? "",
+                                    style: theme.primaryTextTheme.headline3,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -144,8 +147,11 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
                             _inventoryPendingWidgetKey.currentState?.resetAndRefreshScreen();
                           }
                         } else {
-                          Navigator.of(context).pop();
-                          CshSnackBar.error(context: context, message: l10n.pleaseSelectAtleastOneGroupLocation);
+                          CshSnackBar.error(
+                            context: context,
+                            message: l10n.pleaseSelectAtleastOneGroupLocation,
+                            snackBarPosition: SnackBarPosition.TOP,
+                          );
                         }
                       },
                     ),

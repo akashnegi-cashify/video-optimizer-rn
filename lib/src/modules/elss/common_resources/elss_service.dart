@@ -131,8 +131,7 @@ class ElssService {
       "res": reasonIdList,
       "isDefault": "false",
     };
-    return QcServiceElss()
-        .post("/device/elss/reject?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
+    return QcServiceElss().post("/device/elss/reject?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<SubmitPartsLogicResponse?> submitPartsForLogic(Map<String, dynamic> bodyData) {
@@ -152,11 +151,10 @@ class ElssService {
   }
 
   static Stream<ElssSuccessResponse?> submitAcceptElss(List<Map<String, dynamic>> partsDataList, String barcode,
-      {int? optionId, bool? isRubbingAllowed = false}) {
+      {int? optionId}) {
     Map<String, dynamic> dataMap = {
       "dbr": barcode,
       "opid": optionId,
-      "isr": isRubbingAllowed,
       "rprl": partsDataList,
     };
     return QcServiceElss().post("/device/elss/elss-accept", ElssSuccessResponse.fromJson, body: jsonEncode(dataMap));

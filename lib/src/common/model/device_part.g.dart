@@ -16,7 +16,9 @@ DevicePart _$DevicePartFromJson(Map<String, dynamic> json) => DevicePart()
   ..partColor = json['pcl'] as String?
   ..isBulk = json['isBulk'] as bool?
   ..isUrgent = json['isUrgent'] as bool?
-  ..prId = json['prid'] as int?;
+  ..prId = json['prid'] as int?
+  ..isService = json['isService'] as bool?
+  ..action = json['ac'] as String?;
 
 Map<String, dynamic> _$DevicePartToJson(DevicePart instance) =>
     <String, dynamic>{
@@ -30,4 +32,6 @@ Map<String, dynamic> _$DevicePartToJson(DevicePart instance) =>
       'isBulk': instance.isBulk,
       'isUrgent': instance.isUrgent,
       'prid': instance.prId,
+      'isService': instance.isService,
+      'ac': instance.action,
     };

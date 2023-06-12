@@ -5,7 +5,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/return_page.dart';
@@ -39,7 +39,7 @@ import 'modules/elss/elss_trc/screens/brand_details_listing_screen.dart';
 import 'modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'modules/engineer/manage_parts/manage_parts_widget.dart';
 import 'modules/engineer/my_devices/widgets/my_devices_widget.dart';
-import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_widget.dart';
+import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
 import 'modules/engineer/view_reports/view_report_widget.dart';
@@ -60,6 +60,7 @@ import 'modules/rider/rider_home_widget.dart';
 import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
 import 'modules/rubbing/widgets/rubbing_home_widget.dart';
 import 'modules/splash/splash_screen.dart';
+import './l10n.dart';
 
 class CashifyApp extends StatefulWidget {
   final String appName;
@@ -162,7 +163,7 @@ class _CashifyAppState extends State<CashifyApp> {
                   CshRouteObserver().instance,
                   SentryNavigatorObserver(),
                 ],
-                title: BaseL10n(context).appName,
+                title: L10n(context).appName,
                 localizationsDelegates: const [
                   CshLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,

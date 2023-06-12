@@ -8,6 +8,8 @@ class L10n extends BaseL10n {
 
   String get pendingDelivery => Intl.message("Pending Delivery", locale: localName, name: "pendingDelivery");
 
+  String get requestedParts => Intl.message("Requested Parts", locale: localName, name: "requestedParts");
+
   String get assigned => Intl.message("Assigned", locale: localName, name: "assigned");
 
   String get selectGroupNameS => Intl.message("Select Group Name(s)", locale: localName, name: "selectGroupNameS");
@@ -200,4 +202,6 @@ class L10n extends BaseL10n {
 
   String get alternatePartStatus =>
       Intl.message("Alternate Part Status", locale: localName, name: "alternatePartStatus");
+
+  String get refresh => Intl.message("Refresh", locale: localName, name: "refresh");
 }

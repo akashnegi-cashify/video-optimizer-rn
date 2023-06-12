@@ -7,8 +7,8 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 
 import '../../../../../../common/widgets/shimmer_list_widget.dart';
 import '../../../../resources/engineer_api_service.dart';
-import '../../models/parts_list_response.dart';
 import '../../models/engineer_part_info.dart';
+import '../../models/parts_list_response.dart';
 
 class AssignedPartListWidget extends StatefulWidget {
   final EngineerDeviceInfo deviceInfo;
@@ -83,23 +83,26 @@ class ItemPartWidget extends StatelessWidget {
         });
       },
       child: CshCard(
-          child: Column(
-        children: [
-          TitleValueRowWidget(title: l10n.partName, value: part.partName ?? ""),
-          TitleValueRowWidget(title: l10n.partBarcode, value: part.partBarcode ?? ""),
-          TitleValueRowWidget(title: l10n.partSku, value: part.sku ?? ""),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CshTextNew.bodyText2(l10n.status),
-              CshTextNew(
-                "${part.status}",
-                textStyle: getStatusStyle(part.statusCode),
-              )
-            ],
-          )
-        ],
-      )),
+        child: Column(
+          children: [
+            TitleValueRowWidget(title: l10n.partName, value: part.partName ?? ""),
+            TitleValueRowWidget(title: l10n.partBarcode, value: part.partBarcode ?? ""),
+            TitleValueRowWidget(title: l10n.partSku, value: part.sku ?? ""),
+            if (!Validator.isNullOrEmpty(part.action))
+              TitleValueRowWidget(title: l10n.action, value: part.action ?? ""),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CshTextNew.bodyText2(l10n.status),
+                CshTextNew(
+                  "${part.status}",
+                  textStyle: getStatusStyle(part.statusCode),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
