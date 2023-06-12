@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/all_devices/widget/all_devices_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_tab.dart';
 
 class MyDevicesScreen extends StatelessWidget {
   const MyDevicesScreen({Key? key}) : super(key: key);
@@ -52,7 +52,7 @@ class _MyDevicesWidgetState extends State<_MyDevicesWidget> with SingleTickerPro
           Expanded(
               child: TabBarView(
             controller: _controller,
-            children: const [AllDevicesWidget(), WIPProgressWidget()],
+            children: const [AllDevicesWidget(), WIPTab()],
           ))
         ],
       ),

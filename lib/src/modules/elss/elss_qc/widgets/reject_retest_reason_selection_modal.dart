@@ -142,9 +142,9 @@ class _RejectRetestReasonSelectionListState extends State<_RejectRetestReasonSel
 
 class _ReasonListItems extends StatelessWidget {
   final RejectRetestReasonListItem? item;
-  Function(bool? value)? onItemSelected;
+  final Function(bool? value)? onItemSelected;
 
-  _ReasonListItems(this.item, {Key? key, this.onItemSelected}) : super(key: key);
+  const _ReasonListItems(this.item, {Key? key, this.onItemSelected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

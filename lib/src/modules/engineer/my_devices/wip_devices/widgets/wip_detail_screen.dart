@@ -5,7 +5,7 @@ import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 

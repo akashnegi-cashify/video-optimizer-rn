@@ -60,7 +60,6 @@ ChannelOptionData _$ChannelOptionDataFromJson(Map<String, dynamic> json) =>
       channelName: json['ch'] as String?,
       channelOptionPrice: json['pr'] as int?,
       grade: json['gr'] as String?,
-      isRubbingAllowed: json['isr'] as bool?,
       requestedParts: (json['rp'] as List<dynamic>?)
           ?.map((e) => ElssPart.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -73,7 +72,6 @@ Map<String, dynamic> _$ChannelOptionDataToJson(ChannelOptionData instance) =>
       'ch': instance.channelName,
       'pr': instance.channelOptionPrice,
       'gr': instance.grade,
-      'isr': instance.isRubbingAllowed,
       'rp': instance.requestedParts,
       'rt': instance.repairType,
     };

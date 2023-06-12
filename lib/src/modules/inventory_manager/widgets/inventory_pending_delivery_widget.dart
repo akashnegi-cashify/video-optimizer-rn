@@ -55,8 +55,21 @@ class InventoryPendingDeliveryWidgetState
                 dataModel: item,
               );
             },
+            onRefresh: () async {},
             onNoDataFound: () {
-              return Center(child: Text(l10n.noDataFound, style: theme.primaryTextTheme.subtitle1));
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(l10n.noDataFound, style: theme.primaryTextTheme.subtitle1),
+                  const SizedBox(height: core.Dimens.space_12),
+                  core.CshMediumButton(
+                    text: l10n.refresh,
+                    onPressed: () {
+                      resetAndRefreshScreen();
+                    },
+                  )
+                ],
+              );
             },
             onError: (String error) {
               return Center(
@@ -74,9 +87,7 @@ class InventoryPendingDeliveryWidgetState
                 ),
               );
             },
-            separator: const SizedBox(
-              height: core.Dimens.space_8,
-            ),
+            separator: const SizedBox(height: core.Dimens.space_8),
             padding: const EdgeInsets.all(core.Dimens.space_16),
           ),
         ),

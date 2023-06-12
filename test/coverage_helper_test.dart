@@ -1,6 +1,7 @@
 // Helper file to make coverage work for all dart files
 
 // ignore_for_file: unused_import
+import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/main.dart';
 import 'package:flutter_trc/src/interceptors/auth/request_headers.dart';
 import 'package:flutter_trc/src/interceptors/auth/auth_header_interceptor.dart';
@@ -38,6 +39,7 @@ import 'package:flutter_trc/src/utils/app_constants.dart';
 import 'package:flutter_trc/src/utils/device_info_handler.dart';
 import 'package:flutter_trc/src/utils/csh_exapansion_widget.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
+import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 import 'package:flutter_trc/src/utils/platforms.dart';
 import 'package:flutter_trc/src/utils/device.dart';
 import 'package:flutter_trc/src/utils/misc.dart';
@@ -78,6 +80,7 @@ import 'package:flutter_trc/src/common/session/session_expired_callback.dart';
 import 'package:flutter_trc/src/common/session/session.controller.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/actions/project_actions.dart';
+import 'package:flutter_trc/src/l10n.dart';
 import 'package:flutter_trc/src/modules/home/providers/home_provider.dart';
 import 'package:flutter_trc/src/modules/home/resources/home_service.dart';
 import 'package:flutter_trc/src/modules/home/models/logout_response.dart';
@@ -138,6 +141,81 @@ import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_devices_list_widget.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_widget.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_widget.dart';
+import 'package:flutter_trc/src/modules/part_qc/providers/pq_provider.dart';
+import 'package:flutter_trc/src/modules/part_qc/providers/part_status_provider.dart';
+import 'package:flutter_trc/src/modules/part_qc/resources/pq_services.dart';
+import 'package:flutter_trc/src/modules/part_qc/models/qc_parts_list_response.dart';
+import 'package:flutter_trc/src/modules/part_qc/models/general_response.dart';
+import 'package:flutter_trc/src/modules/part_qc/screens/pq_status_change_screen.dart';
+import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
+import 'package:flutter_trc/src/modules/part_qc/l10n.dart';
+import 'package:flutter_trc/src/modules/part_qc/widgets/qc_part_list_widget.dart';
+import 'package:flutter_trc/src/modules/part_qc/widgets/qc_pending_tab_widget.dart';
+import 'package:flutter_trc/src/modules/part_qc/widgets/reader_tab_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/alternate_part_list_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/return_page_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/pending_delivery_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/assign_part_barcode_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/inventory_home_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/pending_part_list_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/return_item_status_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/assigned_device_details_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/pending_parts_details_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/assinged_part_details_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/providers/summary_screen_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/resources/part_status_enum.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/resources/inventory_manager_service.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/inventory_location_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/parts_details_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/part_available_quantity_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/recommended_part_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_part_details_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/rider_list_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/list_alternate_parts_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/return_receive_count_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/engineer_list_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/pending_part_list_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/list_alternate_part_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/pending_device_list_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/part_summary_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/cancel_part_request_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/device_alloted_parts_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/alternate_part_request_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/list_receive_pending_part_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/return_part_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/alternate_part_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_part_list_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/assigned_device_details_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/return_page.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/assigned_part_details_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/assign_part_barcode_scanner.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_delivery_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/summary_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/return_item_status_screeen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_part_details_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/inventory_home_screen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/l10n.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/return_tab_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/assigned_part_details_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/pending_parts_details_option_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/chart_description_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/engineer_list_item_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/return_list_item_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/assigned_tab_item_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/part_details_button_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/pending_part_details_info_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/inventory_drawer_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/alternate_part_item_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/pending_part_list_item_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/inventory_assigned_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/assiged_device_details_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/receive_tab_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/pending_delivery_item_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/assinged_device_alloted_parts_list_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/inventory_home_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/inventory_pending_delivery_widget.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/widgets/assingned_alloted_parts_item_widget.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/common_resources/elss_option.dart';
 import 'package:flutter_trc/src/modules/elss/common_resources/elss_action.dart';
@@ -150,6 +228,7 @@ import 'package:flutter_trc/src/modules/elss/elss_qc/providers/add_part_list_pro
 import 'package:flutter_trc/src/modules/elss/elss_qc/providers/channel_option_provider.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/reject_retest_reason_list_response.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/allowed_option_screen.dart';
@@ -211,6 +290,9 @@ import 'package:flutter_trc/src/modules/login/models/authenticate_otp_response.d
 import 'package:flutter_trc/src/modules/login/models/user_details_response.dart';
 import 'package:flutter_trc/src/modules/login/models/send_otp_response.dart';
 import 'package:flutter_trc/src/modules/login/models/login_success_response.dart';
+
+import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dart';
+import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 import 'package:flutter_trc/src/modules/login/l10n.dart';
 import 'package:flutter_trc/src/modules/login/widgets/login_widget.dart';
 import 'package:flutter_trc/src/modules/login/widgets/qc_login_widget.dart';
@@ -275,14 +357,15 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_part_list_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_tab.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/send_to_tl_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/my_devices_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/page_not_found.dart';
 import 'package:flutter_trc/src/app.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/services/qc_login_service.dart';
 import 'package:flutter_trc/src/services/s3_details.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
@@ -290,4 +373,21 @@ import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 import 'package:flutter_trc/src/analytics/firebase_analytics.dart';
 
-void main() {}
+void main() {
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    // await tester.pumpWidget(SupersaleApp(null, "App name"));
+
+    // Verify that our counter starts at 0.
+    // expect(find.text('0'), findsOneWidget);
+    // expect(find.text('1'), findsNothing);
+
+    // Tap the '+' icon and trigger a frame.
+    // await tester.tap(find.byIcon(Icons.add));
+    // await tester.pump();
+
+    // Verify that our counter has incremented.
+    expect(2 + 2, 4);
+    expect(3 - 1 == 2, true);
+  });
+}

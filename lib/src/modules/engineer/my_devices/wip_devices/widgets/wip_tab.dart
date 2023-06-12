@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../common/widgets/shimmer_list_widget.dart';
 import '../../../resources/engineer_api_service.dart';
 
-class WIPProgressWidget extends StatefulWidget {
-  const WIPProgressWidget({Key? key}) : super(key: key);
+class WIPTab extends StatefulWidget {
+  const WIPTab({Key? key}) : super(key: key);
 
   @override
-  State<WIPProgressWidget> createState() => _WIPProgressWidgetState();
+  State<WIPTab> createState() => _WIPTabState();
 }
 
-class _WIPProgressWidgetState extends State<WIPProgressWidget> {
+class _WIPTabState extends State<WIPTab> {
   Stream<EngineerDeviceListResponse?>? stream;
 
   @override
@@ -34,7 +34,7 @@ class _WIPProgressWidgetState extends State<WIPProgressWidget> {
                 rowCount: list.length,
                 onRefresh: _refreshStream,
                 getRowWidget: (index) {
-                  return _ItemWIP(deviceData: list[index]);
+                  return SizedBox(width: double.infinity, child: _ItemWIP(deviceData: list[index]));
                 },
               );
             }
@@ -73,22 +73,23 @@ class _ItemWIP extends StatelessWidget {
         Navigator.pushNamed(context, WIPDetailScreen.route, arguments: deviceData);
       },
       child: CshCard(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CshTextNew.h3("${l10n.deviceBarcode} - ${deviceData.deviceBarcode}"),
-          Container(
-            height: Dimens.space_2,
-            width: Dimens.space_28,
-            color: Theme.of(context).colorScheme.onBackground,
-          ),
-          const SizedBox(
-            height: Dimens.space_8,
-          ),
-          CshTextNew.h5("${l10n.productTitle} - ${deviceData.productTitle}"),
-          CshTextNew.h5("${l10n.status} - ${deviceData.status}")
-        ],
-      )),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CshTextNew.h3("${l10n.deviceBarcode} - ${deviceData.deviceBarcode}"),
+            Container(
+              height: Dimens.space_2,
+              width: Dimens.space_28,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            const SizedBox(
+              height: Dimens.space_8,
+            ),
+            CshTextNew.h5("${l10n.productTitle} - ${deviceData.productTitle}"),
+            CshTextNew.h5("${l10n.status} - ${deviceData.status}")
+          ],
+        ),
+      ),
     );
   }
 }

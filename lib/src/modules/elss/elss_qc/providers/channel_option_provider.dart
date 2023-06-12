@@ -4,6 +4,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/common_resources/elss_service.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_models/channel_option_response.dart';
@@ -37,25 +38,32 @@ class ChannelOptionProvider extends CshChangeNotifier {
     });
   }
 
-  List<ChannelOptionData>? get channelOptions => channelOptionResponse?.channelOptionData?.listOfChannelOption;
+  List<ChannelOptionData>? get otherChannelOptions => channelOptionResponse?.channelOptionData?.listOfChannelOption;
 
-  getBodyDataMapForPNA(List<ElssPart> dataList) {
+  ChannelOptionData? get yourChannelSuggestion => channelOptionResponse?.channelOptionData?.yourChannelSuggestion;
+
+  ChannelOptionData? get defaultChannelSuggestion => channelOptionResponse?.channelOptionData?.defaultChannelOption;
+
+  ChannelOptionData? get initialChannelSuggestion => channelOptionResponse?.channelOptionData?.initialChannelOption;
+
+  _getBodyDataMapForPNA(List<ElssPart> dataList, int? optionId) {
     Map<String, dynamic> dataMap = {};
-    List<Map<String, dynamic>> listDataMap = [];
+    List<Map<String, dynamic>> pnaMarkedMap = [];
     if (dataList.isNotEmpty) {
       for (var element in dataList) {
         if (element.isPnaSelected == true) {
-          listDataMap.add({"sku": element.sku, "pn": element.partName, "pcl": element.partColour});
+          pnaMarkedMap.add({"sku": element.sku, "pn": element.partName, "pcl": element.partColour});
         }
       }
     }
-    dataMap["pnaList"] = listDataMap;
+    dataMap["pnaList"] = pnaMarkedMap;
+    dataMap["oid"] = optionId;
     return dataMap;
   }
 
-  Future<bool> markPNAStatus(String barcode, List<ElssPart> dataList) {
+  Future<bool> markPNAStatus(String barcode, List<ElssPart> dataList, int? optionId) {
     var completer = Completer<bool>();
-    Map<String, dynamic> bodyData = getBodyDataMapForPNA(dataList);
+    Map<String, dynamic> bodyData = _getBodyDataMapForPNA(dataList, optionId);
     try {
       ElssService.markPnaStatus(barcode, bodyData).listen((event) {
         if (event != null && event.isSuccess == true) {
@@ -97,17 +105,11 @@ class ChannelOptionProvider extends CshChangeNotifier {
     return listDataMap;
   }
 
-  Future<bool> submitElssAcceptData(
-    List<Map<String, dynamic>> partsDataList,
-    String barcode, {
-    int? optionId,
-    bool? isRubbingAllowed,
-  }) {
+  Future<bool> submitElssAcceptData(List<Map<String, dynamic>> partsDataList, String barcode, {int? optionId}) {
     var completer = Completer<bool>();
 
     try {
-      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId, isRubbingAllowed: isRubbingAllowed)
-          .listen((event) {
+      ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId).listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
@@ -131,6 +133,33 @@ class ChannelOptionProvider extends CshChangeNotifier {
       for (var element in dataList) {
         element.isPnaSelected = false;
       }
+    }
+  }
+
+  List<ElssPart>? getDevicePartsForPna(List<ElssPart>? requestedPartList) {
+    var repairPartList = requestedPartList
+        ?.where((element) => element.actionConstant == ElssPartsSelectionOptions.repairRequired.id)
+        .toList();
+    return repairPartList;
+  }
+
+  void updateYourChannelSuggestionPNA(bool data, ElssPart item) {
+    var requestedPartList = yourChannelSuggestion?.requestedParts;
+    var selectedItemIndex =
+        requestedPartList?.indexWhere((element) => element.sku == item.sku && element.partColour == item.partColour);
+    if (selectedItemIndex != null && selectedItemIndex > -1) {
+      requestedPartList![selectedItemIndex].isPnaSelected = data;
+      notifyListeners();
+    }
+  }
+
+  void updateOthersChannelSuggestionPNA(ElssPart item, bool data, int index) {
+    var channelOption = otherChannelOptions?[index];
+    var selectedIndex = channelOption?.requestedParts
+        ?.indexWhere((element) => element.partColour == item.partColour && element.sku == item.sku);
+    if (selectedIndex != null && selectedIndex > -1) {
+      channelOption?.requestedParts?[selectedIndex].isPnaSelected = data;
+      notifyListeners();
     }
   }
 }

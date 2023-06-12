@@ -22,7 +22,7 @@ class ReturnPartButtonWidget extends StatelessWidget {
     return CshBigOutlineButton(
         text: l10n.return_,
         onPressed: () async {
-          if (partInfo.isBulk ?? false) {
+          if (Validator.isTrue(partInfo.isBulk) || Validator.isTrue(partInfo.isService)) {
             returnPart(context, l10n, partInfo.partBarcode);
           } else {
             Navigator.pushNamed(context, BarcodeScanWidget.route, arguments: (String barcode) {
