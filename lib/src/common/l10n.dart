@@ -25,4 +25,8 @@ class L10n extends BaseL10n {
   String get yes => Intl.message("Yes", locale: localName, name: "yes");
 
   String get cancel => Intl.message("Cancel", locale: localName, name: "cancel");
+
+  String get submit => Intl.message("Submit", locale: localName, name: "submit");
+
+  String get enterBarcode => Intl.message("Enter Barcode", locale: localName, name: "Enter Barcode");
 }

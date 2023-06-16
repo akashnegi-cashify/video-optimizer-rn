@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v1.3.1+6 (16-06-2023)
+
+### Feature:
+
+* `TRC - Device transfer flow` [(SCM-3674)](https://reglobe.atlassian.net/browse/SCM-3674)
+
+
 # v1.3.0+5 (01-06-2023)
 
 ### Improvements:

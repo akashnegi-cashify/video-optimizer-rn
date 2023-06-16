@@ -1,8 +1,11 @@
 import 'dart:convert';
+
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
+import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
+
 import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
 import '../../../utils/trc_method_channels.dart';
@@ -22,6 +25,7 @@ class UserRoles {
   static const String ROLE_L4 = "L4_ENGINEER";
   static const String ROLE_ELSS = "ELSS";
   static const String ROLE_RUBBING = "RUBBING_ENGINEER";
+  static const String TRC_EXECUTIVE = "TRC_EXECUTIVE";
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
       {String? loginToken, bool? loginFromQC = false}) async {
@@ -45,6 +49,8 @@ class UserRoles {
         Navigator.of(context).pushNamedAndRemoveUntil(InventoryHomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.ROLE_QC)) {
         Navigator.of(context).pushNamedAndRemoveUntil(PartQCHomeScreen.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.TRC_EXECUTIVE)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(TRCExecutiveScreen.route, (route) => false);
       } else {
         NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
         await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));

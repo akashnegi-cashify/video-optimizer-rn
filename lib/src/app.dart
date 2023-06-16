@@ -13,6 +13,8 @@ import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
+import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_screen.dart';
+import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_with_controller.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
@@ -219,6 +221,8 @@ class _CashifyAppState extends State<CashifyApp> {
                   //Part qc routes
                   PartQCHomeScreen.route: (_) => const PartQCHomeScreen(),
                   PartQcPartStatusScreen.route: (_) => const PartQcPartStatusScreen(),
+                  TRCExecutiveScreen.route: (_) => const TRCExecutiveScreen(),
+                  DeviceScannerScreen.route: (_) => const DeviceScannerScreen(),
                 },
                 initialRoute: SplashScreen.route,
               );

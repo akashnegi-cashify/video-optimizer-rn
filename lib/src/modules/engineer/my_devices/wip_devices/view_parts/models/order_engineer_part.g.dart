@@ -21,10 +21,10 @@ OrderEngineerPart _$OrderEngineerPartFromJson(Map<String, dynamic> json) =>
       ..isBulk = json['isBulk'] as bool?
       ..isUrgent = json['isUrgent'] as bool?
       ..prId = json['prid'] as int?
-      ..status = json['st'] as String?
-      ..statusCode = json['stc'] as int?
       ..isService = json['isService'] as bool?
-      ..action = json['ac'] as String?;
+      ..action = json['ac'] as String?
+      ..status = json['st'] as String?
+      ..statusCode = json['stc'] as int?;
 
 Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) =>
     <String, dynamic>{
@@ -38,10 +38,10 @@ Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) =>
       'isBulk': instance.isBulk,
       'isUrgent': instance.isUrgent,
       'prid': instance.prId,
+      'isService': instance.isService,
+      'ac': instance.action,
       'st': instance.status,
       'stc': instance.statusCode,
       'qty': instance.orderQuantity,
       '_v': instance.version,
-      'isService': instance.isService,
-      'ac': instance.action,
     };
