@@ -123,6 +123,8 @@ class L10n extends l10n_common.L10n {
 
   String get chooseYourResponse => Intl.message("Choose your response", locale: localName, name: "chooseYourResponse");
 
+  String get deviceDetails => Intl.message("Device Details", locale: localName, name: "deviceDetails");
+
   String cancelPartRequestSuccess(String? partName) =>
       Intl.message("Part request for part name $partName is successfully cancelled!",
           locale: localName, name: "cancelPartRequestSuccess");
@@ -197,4 +199,6 @@ class L10n extends l10n_common.L10n {
   String get partsReturned => Intl.message("Parts Returned", locale: localName, name: "partsReturned");
 
   String get partsRequested => Intl.message("Parts Requested", locale: localName, name: "partsRequested");
+
+  String get partAction => Intl.message("Part Action", locale: localName, name: "partAction");
 }

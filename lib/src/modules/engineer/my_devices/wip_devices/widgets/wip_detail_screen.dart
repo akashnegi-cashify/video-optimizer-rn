@@ -110,7 +110,11 @@ class _WIPDetailWidgetState extends State<_WIPDetailWidget> {
                   text: l10n.viewParts,
                   onPressed: () {
                     Navigator.pushNamed(context, AssignedPartsScreen.route,
-                        arguments: AssignedPartsData(true, deviceInfo));
+                        arguments: AssignedPartsData(
+                          true,
+                          deviceBarcode: deviceInfo.deviceBarcode,
+                          deviceInfo: deviceInfo,
+                        ));
                   },
                 ),
                 const SizedBox(height: Dimens.space_16),

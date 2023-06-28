@@ -1,14 +1,11 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/common/widgets/loading_dialog_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../utils/app_constants.dart';
 import '../../../models/engineer_device_info.dart';
 import '../../wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import '../provider/all_devices_provider.dart';
-import 'all_devices_widget.dart';
 
 class ItemAllDevicesWidget extends StatelessWidget {
   final EngineerDeviceInfo _deviceInfo;
@@ -24,7 +21,8 @@ class ItemAllDevicesWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AssignedPartsScreen.route, arguments: AssignedPartsData(false, _deviceInfo));
+        Navigator.pushNamed(context, AssignedPartsScreen.route,
+            arguments: AssignedPartsData(false, deviceBarcode: _deviceInfo.deviceBarcode, deviceInfo: _deviceInfo));
       },
       child: CshCard(
           child: Row(

@@ -1,6 +1,6 @@
 class Environments {
   static Environment test = Environment(
-    appVersion: "1.3.1",
+    appVersion: "1.3.2",
     mode: "prodTest",
     baseUrl: "http://localhost",
     cashifyUrl: "https://www.cashify.in",
@@ -12,7 +12,7 @@ class Environments {
   );
 
   static Environment stage = Environment(
-    appVersion: "1.3.1-stage.2",
+    appVersion: "1.3.2-stage.2",
     mode: "stage",
     baseUrl: "https://localhost",
     cashifyUrl: "https://www.stage.cashify.in",
@@ -24,7 +24,7 @@ class Environments {
   );
 
   static Environment beta = Environment(
-    appVersion: "1.3.1-beta.1",
+    appVersion: "1.3.2-beta.1",
     mode: "beta",
     baseUrl: "http://localhost",
     cashifyUrl: "https://www.beta.cashify.in",
@@ -36,7 +36,7 @@ class Environments {
   );
 
   static Environment prod = Environment(
-    appVersion: "1.3.1",
+    appVersion: "1.3.2",
     mode: "prod",
     baseUrl: "http://localhost",
     cashifyUrl: "https://www.cashify.in",

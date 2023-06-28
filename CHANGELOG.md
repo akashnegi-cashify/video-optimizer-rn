@@ -1,5 +1,13 @@
 # TRC Releases
 
+
+# v1.3.2+7 (29-06-2023)
+
+### Feature:
+
+* `TRC - Job card display` [(SCM-3654)](https://reglobe.atlassian.net/browse/SCM-3654)
+
+
 # v1.3.1+6 (20-06-2023)
 
 ### Feature:

@@ -9,6 +9,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../common/widgets/searchbar_widget.dart';
 
+class OrderPartScreenArg {
+  final String? deviceBarcode;
+
+  OrderPartScreenArg(this.deviceBarcode);
+}
+
 class OrderPartScreen extends StatelessWidget {
   const OrderPartScreen({Key? key}) : super(key: key);
   static const route = "engineer/part/order-part";
@@ -24,7 +30,7 @@ class _OrderPartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EngineerDeviceInfo deviceInfo = ModalRoute.of(context)?.settings.arguments as EngineerDeviceInfo;
+    OrderPartScreenArg deviceInfo = ModalRoute.of(context)?.settings.arguments as OrderPartScreenArg;
 
     L10n l10n = L10n(context);
 

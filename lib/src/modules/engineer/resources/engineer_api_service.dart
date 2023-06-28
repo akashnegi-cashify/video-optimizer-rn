@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/send_to_tl_response.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/job_card_summary_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_part_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/replace_part_request.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/return_part_data.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_devices_response.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
 
 import '../../../services/trc_service.dart';
 import '../my_devices/all_devices/models/mark_in_progress_response.dart';
@@ -162,5 +164,16 @@ class EngineerAPIService {
 
   static Stream<LeadEngineerPartReportResponse?> leadEngineerPartReport() {
     return TrcService().get("/report/lead/engineer/part", LeadEngineerPartReportResponse.fromJson);
+  }
+
+  static Stream<JobCardSummaryResponse?> getJobCardDetails(String? deviceBarcode) {
+    return TrcService().get("/job/card/summary?dbr=$deviceBarcode", JobCardSummaryResponse.fromJson);
+  }
+
+  static Stream<AssignedDeviceDetails?> getDeviceDetails(String? deviceBarcode) {
+    Map<String, List<String>> paramData = {
+      "dbr": [deviceBarcode.toString()]
+    };
+    return TrcService().get("/device/detail", AssignedDeviceDetails.fromJson, params: paramData);
   }
 }
