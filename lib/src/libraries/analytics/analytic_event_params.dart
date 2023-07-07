@@ -1,6 +1,8 @@
 class AnalyticEventParams {
   static const PLATFORM = 'platform';
-  static const HIT_TIMESTAMP = 'hitTimestamp';
-  static const UTMRG = 'utmrg';
-  static const DEVICE_ID = 'deviceId';
+  static const HIT_TIMESTAMP = 'timeStamp';
+  static const USER_ID = 'userId';
+  static const APP_VERSION = 'appVersion';
+  static const OS_VERSION = 'osVersion';
+  static const DEVICE_MODEL = 'deviceModel';
 }

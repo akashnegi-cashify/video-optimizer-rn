@@ -3,6 +3,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/libraries/firebase/firebase_helper.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
+import 'package:flutter_trc/src/utils/device_info_util.dart';
 import 'package:localization/localization.dart';
 
 import 'actions/project_actions.dart';
@@ -19,11 +20,12 @@ import 'libraries/analytics/analytics_controller.dart';
 const RUNNING_SYSTEM_ENV = String.fromEnvironment('env', defaultValue: 'prod');
 
 class AppInitializer {
-  static init({required List<AnalyticTrackers> trackers, Map<String, HttpInterceptorFactory>? interceptors}) async {
+  static init({Map<String, HttpInterceptorFactory>? interceptors}) async {
     await AuthHandler().syncAuth();
     await FirebaseHelper().initFirebase();
     await RemoteConfigHelper().initialize();
-    await AnalyticsController.init(trackers);
+    await DeviceInfoUtil.init();
+    await AnalyticsController.init();
     await _initApp(interceptors: interceptors);
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app.dart';
 import 'package:flutter_trc/src/interceptors/interceptors_helper.dart';
-import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/sentry/sentry_helper.dart';
 import 'package:flutter_trc/src/utils/app_util.dart';
 
@@ -11,8 +10,7 @@ void main() async {
   await SentryHelper.init(RUNNING_SYSTEM_ENV, () async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    await AppInitializer.init(
-        trackers: AnalyticsController.getTrackers(), interceptors: InterceptorsHelper.getGlobalInterceptors());
+    await AppInitializer.init(interceptors: InterceptorsHelper.getGlobalInterceptors());
 
     String appName = await AppUtil.getAppName();
 
