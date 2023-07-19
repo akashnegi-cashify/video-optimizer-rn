@@ -6,7 +6,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../modules/login/models/user_details_response.dart';
 
 class UserDetails {
-  UserDetailsResponse? userDetailsData;
+  UserDetailsResponse? _userDetailsData;
   String? authToken;
   int? appVersion;
 
@@ -18,12 +18,14 @@ class UserDetails {
     return _instance;
   }
 
+  UserDetailsResponse? get userDetailsData => _userDetailsData;
+
   void setUserDetailsData(String userAuthToken) {
     print('UserDetails.setUserDetailsData $userAuthToken');
     Map<String, dynamic> decodedUserAuth = JwtDecoder.decode(userAuthToken);
     Logger.debug('mydebug------UserDetails.setUserDetailsData-------------', [decodedUserAuth]);
     authToken = userAuthToken;
-    userDetailsData = UserDetailsResponse.fromJson(decodedUserAuth);
+    _userDetailsData = UserDetailsResponse.fromJson(decodedUserAuth);
   }
 
   void setAppVersion(int? appV) {

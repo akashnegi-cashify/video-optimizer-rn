@@ -20,7 +20,7 @@ class PartQcProvider extends CshChangeNotifier {
   Future<QcPartsListResponse?> fetchQcPartList({String? pbr}) {
     var completer = Completer<QcPartsListResponse?>();
     try {
-      PartQCService.getQcPartList(pbr: pbr).listen(
+      PartQcServiceElss.getQcPartList(pbr: pbr).listen(
         (event) {
           if (event != null && event.isSuccess == true) {
             qcPartsListResponse = event;

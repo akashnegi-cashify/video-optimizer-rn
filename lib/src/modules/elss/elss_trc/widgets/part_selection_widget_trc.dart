@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
+
 import '../../common_models/part_device_list.dart';
 import '../../widgets/add_part_item_widget.dart';
 import '../l10n.dart';
@@ -141,7 +141,8 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
           ),
         GestureDetector(
           onTap: () async {
-            var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: widget.barcode);
+            AddPartScreenTrcArguments args = AddPartScreenTrcArguments(barcode: widget.barcode);
+            var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: args);
             if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
               provider.addNewPartsFromAddParts(data!);
             }
@@ -285,6 +286,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
         CshSnackBar.success(
             context: context,
             message: provider.elssPartSubmitResponse?.successMessage ?? l10n.dataSubmittedSuccessfully);
+
         Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false);
       }
     }, onError: (error) {
@@ -353,7 +355,8 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                   buttonType: ButtonType.mini,
                   firstBtnClick: () async {
                     Navigator.of(context).pop(true);
-                    var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: widget.barcode);
+                    AddPartScreenTrcArguments args = AddPartScreenTrcArguments(barcode: widget.barcode);
+                    var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: args);
                     if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
                       for (var element in data!) {
                         Logger.debug('mydebug------_PartSelectionWidgetState.build', [element.toJson()]);

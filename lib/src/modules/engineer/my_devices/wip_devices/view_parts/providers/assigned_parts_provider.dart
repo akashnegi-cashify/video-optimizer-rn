@@ -15,7 +15,7 @@ class AssignedPartsProvider extends CshChangeNotifier {
 
   AssignedPartsProvider(String? deviceBarcode, {this.deviceInfo}) {
     _getJobCardDetails(deviceBarcode);
-    if (deviceInfo == null) _getDeviceDetails(deviceBarcode);
+    _getDeviceDetails(deviceBarcode);
   }
 
   _getJobCardDetails(String? deviceBarcode) {
@@ -31,6 +31,7 @@ class AssignedPartsProvider extends CshChangeNotifier {
     EngineerAPIService.getDeviceDetails(deviceBarcode).listen((event) {
       if (event?.detailsData != null) {
         deviceInfo = EngineerDeviceInfo.fromJson(event!.detailsData!.toJson());
+        deviceInfo?.deadRemark = event.detailsData?.deadRemark;
         notifyListeners();
       }
     }, onError: (error) {

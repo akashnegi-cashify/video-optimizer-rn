@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../l10n.dart';
 import '../models/pending_device_list_response.dart';
 import '../models/pending_part_list_response.dart';
@@ -26,12 +27,14 @@ class PendingPartListItemWidget extends StatelessWidget {
       return GestureDetector(
         onTap: () async {
           if (dataModel?.prid != null && dataModel?.statusCode != null) {
-            PendingPartDetailsScreenArguments args = PendingPartDetailsScreenArguments(
+            PendingPartDetailsCompScreenArguments arguments = PendingPartDetailsCompScreenArguments(
+                arguments: PendingPartDetailsScreenArguments(
               prid: dataModel!.prid!,
               statusCode: dataModel!.statusCode!,
               detailsModelData: detailsModelData,
-            );
-            await Navigator.of(context).pushNamed(PendingPartDetailsScreen.route, arguments: args);
+            ));
+
+            await Navigator.of(context).pushNamed(PendingPartDetailsScreen.route, arguments: arguments);
             provider.refreshList();
           } else {
             CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);

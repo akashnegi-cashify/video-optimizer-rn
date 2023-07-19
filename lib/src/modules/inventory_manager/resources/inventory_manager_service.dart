@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 
 import '../models/alternate_part_request_response.dart';
@@ -249,5 +250,12 @@ class InventoryService {
       body: jsonEncode(mapData),
       params: paramData,
     );
+  }
+
+  static Stream<SuccessResponse?> syncPartRequest(int? prid) {
+    Map<String, List<String>> paramData = {
+      "prid": [prid.toString()],
+    };
+    return TrcService().get('/part/sync-part-request', SuccessResponse.fromJson, params: paramData);
   }
 }

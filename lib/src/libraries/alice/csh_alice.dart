@@ -25,7 +25,10 @@ class CshAlice {
   CshAlice._internal({bool showNotification = false, bool showInspectorOnShake = false}) {
     Environment environment = getEnvironment();
     if (!isWeb() && environment.enableAlice!) {
-      alice = Alice(showNotification: showNotification, showInspectorOnShake: showInspectorOnShake);
+      alice = Alice(
+          showNotification: showNotification,
+          showInspectorOnShake: showInspectorOnShake,
+          notificationIcon: "@drawable/ic_notification");
     }
   }
 

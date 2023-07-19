@@ -50,6 +50,17 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
     _fetchPartsDetailsData();
   }
 
+  syncPartRequest() {
+    InventoryService.syncPartRequest(prid).listen((event) {
+      Logger.debug('mydebug-----PendingPartDetailsProvider._syncPartRequest', [event]);
+    }, onError: (error) {
+      Logger.debug(
+          'mydebug---error--PendingPartDetailsProvider._syncPartRequest', [ApiErrorHelper.getErrorMessage(error)]);
+    }, onDone: () {
+      syncData();
+    });
+  }
+
   Future<bool> fetchAvailableQuantity(int prid) {
     var completer = Completer<bool>();
     try {

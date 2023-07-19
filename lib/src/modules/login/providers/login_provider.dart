@@ -49,7 +49,7 @@ class TRCLoginProvider extends CshChangeNotifier {
   Future<String> qcSendOTP(String mobileNumber, String notificationType) {
     var completer = Completer<String>();
     try {
-      QcService.sendOtp(mobileNumber, "qc", "v1", notificationType, "on_site").listen((event) {
+      QcServiceElss.sendOtp(mobileNumber, "qc", "v1", notificationType, "on_site").listen((event) {
         if (event != null) {
           otpResponse = event;
           startTimer();
@@ -73,7 +73,7 @@ class TRCLoginProvider extends CshChangeNotifier {
       String referenceId, bool loginFromQc) {
     var completer = Completer<bool>();
     try {
-      QcService.authenticateOTP(mobileNumber, "qc", "v1", notificationType, "on_site", otp, referenceId).listen(
+      QcServiceElss.authenticateOTP(mobileNumber, "qc", "v1", notificationType, "on_site", otp, referenceId).listen(
           (event) async {
         if (event != null) {
           if (!Validator.isNullOrEmpty(event.accessToken)) {

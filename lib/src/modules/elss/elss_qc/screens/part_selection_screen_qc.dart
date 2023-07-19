@@ -1,89 +1,40 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/header/trc_header.dart';
-import 'package:provider/provider.dart';
-import '../l10n.dart';
-import '../providers/elss_provider_qc.dart';
-import '../widgets/part_selection_widget.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-class PartSelectionScreenQc extends StatelessWidget {
-  static const route = '/part_selection_screen_qc';
+import '../../common_models/part_selection_qc_comp_param.dart';
 
-  const PartSelectionScreenQc({Key? key}) : super(key: key);
+part 'part_selection_screen_qc.g.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    var l10n = L10n(context);
-    var theme = Theme.of(context);
-    String scannedBarcode = ModalRoute.of(context)?.settings.arguments as String;
-    return ChangeNotifierProvider<ELssProviderQc>(
-      create: (_) => ELssProviderQc(scannedBarcode),
-      lazy: false,
-      builder: (BuildContext innerContext, __) {
-        var provider = ELssProviderQc.of(innerContext);
+@CshPage(
+    key: PartSelectionScreenQc.pageKey,
+    params: PartSelectionQCCompParamKeys.values,
+    pageGroup: PageGroup.partSelectionQCPageKey)
+class PartSelectionScreenArguments extends BaseArguments {
+  final String? scannedBarcode;
 
-        return Scaffold(
-          appBar: TrcHeader(l10n.deviceDetails),
-          resizeToAvoidBottomInset: false,
-          body: (provider.isDetailsDataLoading)
-              ? const Center(
-                  child: SizedBox(
-                    height: Dimens.space_30,
-                    width: Dimens.space_30,
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : (provider.isDetailsDataLoading == false && provider.elssDeviceDetails == null)
-                  ? Center(
-                      child: Text(
-                        (provider.detailsApiErrorMessage.isNotEmpty)
-                            ? provider.detailsApiErrorMessage
-                            : l10n.noDataFound,
-                        textAlign: TextAlign.center,
-                        style: theme.primaryTextTheme.headline3,
-                      ),
-                    )
-                  : _PartSelection(scannedBarCode: scannedBarcode),
-        );
-      },
-    );
+  PartSelectionScreenArguments({this.scannedBarcode}) : super(PartSelectionScreenQc.pageKey);
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[PartSelectionQCCompParamKeys.scannedBarcode.value] = scannedBarcode;
+    return data;
   }
 }
 
-class _PartSelection extends StatelessWidget {
-  final String scannedBarCode;
+class PartSelectionScreenQc extends BaseScreen<PartSelectionScreenArguments> {
+  static const String pageKey = "TRC_part_selection_qc";
+  static const route = '/part_selection_screen_qc';
 
-  const _PartSelection({
-    Key? key,
-    required this.scannedBarCode,
-  }) : super(key: key);
+  const PartSelectionScreenQc({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var provider = ELssProviderQc.of(context);
-    var theme = Theme.of(context);
-    if (!Validator.isNullOrEmpty(provider.elssDeviceDetails?.errorMessage)) {
-      return Padding(
-        padding: const EdgeInsets.all(Dimens.space_16),
-        child: Center(
-          child: Row(
-            children: [
-              const SizedBox(),
-              Expanded(
-                child: Text(
-                  provider.elssDeviceDetails!.errorMessage!,
-                  style: theme.primaryTextTheme.headline3,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return PartSelectionWidget(
-      barcode: scannedBarCode,
+  Widget buildView(BuildContext context) {
+    var args = getArguments(context);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: args?.toJson(),
     );
   }
 }

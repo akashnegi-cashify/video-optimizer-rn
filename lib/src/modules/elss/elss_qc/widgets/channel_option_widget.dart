@@ -358,10 +358,12 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     provider.markPNAStatus(widget.scannedBarcode, dataList, optionId).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
+        ElssStatusCompArguments args = ElssStatusCompArguments(
+            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna, barcode: widget.scannedBarcode));
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna, barcode: widget.scannedBarcode),
+          arguments: args,
         );
       }
     }, onError: (error) {
@@ -377,10 +379,12 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     provider.submitElssAcceptData(dataList, widget.scannedBarcode, optionId: optionId).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
+        ElssStatusCompArguments args = ElssStatusCompArguments(
+            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: widget.scannedBarcode));
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: widget.scannedBarcode),
+          arguments: args,
         );
       }
     }, onError: (error) {

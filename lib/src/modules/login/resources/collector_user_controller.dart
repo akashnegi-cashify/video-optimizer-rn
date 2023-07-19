@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
-import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 
 import '../../../amplify/amplify_provider.dart';
@@ -13,7 +13,8 @@ import '../../elss/common_screen/elss_home_screen.dart';
 import '../../engineer/widgets/engineer_home_widget.dart';
 import '../../inventory_manager/screens/inventory_home_screen.dart';
 import '../../part_qc/screens/pq_home_screen.dart';
-import '../../rubbing/widgets/rubbing_home_widget.dart';
+import '../../rider/rider_home_screen.dart';
+import '../../rubbing/widgets/rubbing_home_screen.dart';
 
 class UserRoles {
   static const String ROLE_STORAGE_MANAGER = "STORAGE_MANAGER";
@@ -32,13 +33,14 @@ class UserRoles {
     var amplifyPro = AmplifyProvider.of(context, listen: false);
     if (loginFromQC == true) {
       amplifyPro.getS3DetailsForQcAndConfigAmplify();
-      Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
+      Navigator.of(context).pushNamedAndRemoveUntil(QcActionScreen.route, (route) => false);
     } else {
-      amplifyPro.getS3DetailsAndConfigureAmplify();
+      amplifyPro.getS3DetailsForTrcAndConfigureAmplify();
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
-        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: loginFromQC);
+        ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: loginFromQC);
+        Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: args);
       } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
-        Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeWidget.route, (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {
         Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {

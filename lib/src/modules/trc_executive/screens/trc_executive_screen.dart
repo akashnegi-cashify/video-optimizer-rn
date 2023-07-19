@@ -1,29 +1,19 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/header/trc_header.dart';
-import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_screen.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-import '../l10n.dart';
+part 'trc_executive_screen.g.dart';
 
-class TRCExecutiveScreen extends StatelessWidget {
-  static String route = "/trc_executive";
+@CshPage(key: TRCExecutiveScreen.pageKey, pageGroup: PageGroup.trcExecutivePageKey)
+class TRCExecutiveScreen extends BaseScreen {
+  static const String pageKey = "TRC_trc_executive";
+  static const String route = "/trc_executive_screen";
 
-  const TRCExecutiveScreen({Key? key}) : super(key: key);
+  const TRCExecutiveScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var l10n = L10n(context);
-    return Scaffold(
-      appBar: TrcHeader(l10n.fieldExecutive, showLogoutButton: true),
-      body: Container(
-        width: double.infinity,
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(Dimens.space_16),
-        child: CshMediumButton(
-          text: l10n.receiveDevice,
-          onPressed: () => Navigator.pushNamed(context, DeviceScannerScreen.route),
-        ),
-      ),
-    );
+  Widget buildView(BuildContext context) {
+    return const PageWidget(pageKey: pageKey);
   }
 }

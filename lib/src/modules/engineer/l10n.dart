@@ -201,4 +201,6 @@ class L10n extends l10n_common.L10n {
   String get partsRequested => Intl.message("Parts Requested", locale: localName, name: "partsRequested");
 
   String get partAction => Intl.message("Part Action", locale: localName, name: "partAction");
+
+  String get deadRemark => Intl.message("Dead Remark", locale: localName, name: "deadRemark");
 }

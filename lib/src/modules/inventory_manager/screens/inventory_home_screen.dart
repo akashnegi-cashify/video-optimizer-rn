@@ -1,60 +1,19 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../l10n.dart';
-import '../providers/inventory_home_provider.dart';
-import '../widgets/inventory_home_widget.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-class InventoryHomeScreen extends StatelessWidget {
+part 'inventory_home_screen.g.dart';
+
+@CshPage(key: InventoryHomeScreen.pageKey, pageGroup: PageGroup.inventoryHomePageKey)
+class InventoryHomeScreen extends BaseScreen {
+  static const String pageKey = "TRC_inventory_home_screen";
   static const String route = '/inventory_home_screen';
 
-  const InventoryHomeScreen({Key? key}) : super(key: key);
+  const InventoryHomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var l10n = L10n(context);
-    var theme = Theme.of(context);
-
-    return ChangeNotifierProvider<InventoryHomeProvider>(
-      create: (_) => InventoryHomeProvider(),
-      lazy: false,
-      builder: (BuildContext insideContext, __) {
-        var provider = InventoryHomeProvider.of(insideContext);
-        if (provider.isDataLoading) {
-          return const Scaffold(
-            body: Center(
-              child: SizedBox(
-                height: Dimens.space_30,
-                width: Dimens.space_30,
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
-        } else if (provider.isDataLoading == false && !Validator.isNullOrEmpty(provider.errorMessage)) {
-          return Scaffold(
-            appBar: CshHeader(
-              l10n.delivery,
-              showBackBtn: true,
-            ),
-            body: Center(
-              child: Row(
-                children: [
-                  const SizedBox.shrink(),
-                  Expanded(
-                    child: Text(
-                      provider.errorMessage!,
-                      style: theme.primaryTextTheme.headline4,
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        } else {
-          return const InventoryHomeWidget();
-        }
-      },
-    );
+  Widget buildView(BuildContext context) {
+    return const PageWidget(pageKey: pageKey);
   }
 }

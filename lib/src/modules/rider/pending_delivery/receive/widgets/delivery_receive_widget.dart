@@ -18,41 +18,43 @@ class _DeliveryReceiveWidgetState extends State<DeliveryReceiveWidget> with Auto
 
   @override
   Widget build(BuildContext context) {
+    L10n l10 = L10n(context);
     super.build(context);
-    return ChangeNotifierProvider(create: (context) {
-      return DeliveryReceiveProvider();
-    }, builder: (context, child) {
-      var provider = Provider.of<DeliveryReceiveProvider>(context, listen: false);
+    return ChangeNotifierProvider(
+      create: (_) => DeliveryReceiveProvider(),
+      lazy: false,
+      builder: (BuildContext insideContext, child) {
+        var provider = Provider.of<DeliveryReceiveProvider>(insideContext, listen: false);
 
-      L10n l10 = L10n(context);
-      return Column(
-        children: [
-          SearchBarWidget(
-            hintText: l10.search,
-            onQuery: (query) {
-              provider.searchQuery = query;
-            },
-          ),
-          Row(
-            children: [
-              CshCheckbox(
-                onChanged: (check) {
-                  setState(() {
-                    isUrgentRequest = check ?? false;
-                    provider.isUrgent = check ?? false;
-                  });
-                },
-                isSelected: isUrgentRequest,
-              ),
-              CshTextNew.h4(l10.showUrgentRequestsOnly)
-            ],
-          ),
-          const Expanded(
-            child: DeliveryReceiveListWidget(),
-          )
-        ],
-      );
-    });
+        return Column(
+          children: [
+            SearchBarWidget(
+              hintText: l10.search,
+              onQuery: (query) {
+                provider.searchQuery = query;
+              },
+            ),
+            Row(
+              children: [
+                CshCheckbox(
+                  onChanged: (check) {
+                    setState(() {
+                      isUrgentRequest = check ?? false;
+                      provider.isUrgent = check ?? false;
+                    });
+                  },
+                  isSelected: isUrgentRequest,
+                ),
+                CshTextNew.h4(l10.showUrgentRequestsOnly)
+              ],
+            ),
+            const Expanded(
+              child: DeliveryReceiveListWidget(),
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override

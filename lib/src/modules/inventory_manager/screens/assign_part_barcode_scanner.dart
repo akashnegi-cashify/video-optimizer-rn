@@ -1,14 +1,53 @@
+import 'package:builder_project/builder_project.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:provider/provider.dart';
+
 import '../l10n.dart';
+import '../models/assign_part_barcode_scanner_param.dart';
 import '../models/assigned_device_details.dart';
 import '../models/parts_details_response.dart';
 import '../models/pending_device_list_response.dart';
 import '../providers/assign_part_barcode_provider.dart';
 import 'assigned_part_details_screen.dart';
+
+part 'assign_part_barcode_scanner.g.dart';
+
+@CshPage(
+    key: AssignPartBarcodeScreen.pageKey,
+    params: AssignPartBarcodeScannerParamKeys.values,
+    pageGroup: PageGroup.assignPartBarcodeScannerPageKey)
+class AssignPartBarcodeCompArguments extends BaseArguments {
+  final AssignBarcodeScannerArguments? arguments;
+
+  AssignPartBarcodeCompArguments({this.arguments}) : super(AssignPartBarcodeScreen.pageKey);
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[AssignPartBarcodeScannerParamKeys.arguments.value] = arguments;
+    return data;
+  }
+}
+
+class AssignPartBarcodeScreen extends BaseScreen<AssignPartBarcodeCompArguments> {
+  static const String pageKey = "TRC_assign_part_barcode_screen";
+  static const String route = "/assign_part_barcode_screen";
+
+  const AssignPartBarcodeScreen({super.key});
+
+  @override
+  Widget buildView(BuildContext context) {
+    var args = getArguments(context);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: args?.toJson(),
+    );
+  }
+}
 
 class AssignBarcodeScannerArguments {
   final PartDetailsData? detailsData;
@@ -22,16 +61,19 @@ class AssignBarcodeScannerArguments {
   });
 }
 
-class AssignBarcodeScannerScreen extends StatefulWidget {
-  static const String route = "/assign_barcode_scanner_screen";
+class AssignBarcodeScannerCompWidget extends StatefulWidget {
+  final AssignBarcodeScannerArguments? args;
 
-  const AssignBarcodeScannerScreen({Key? key}) : super(key: key);
+  const AssignBarcodeScannerCompWidget({
+    Key? key,
+    this.args,
+  }) : super(key: key);
 
   @override
-  State<AssignBarcodeScannerScreen> createState() => _AssignBarcodeScannerScreenState();
+  State<AssignBarcodeScannerCompWidget> createState() => _AssignBarcodeScannerCompWidgetState();
 }
 
-class _AssignBarcodeScannerScreenState extends State<AssignBarcodeScannerScreen> {
+class _AssignBarcodeScannerCompWidgetState extends State<AssignBarcodeScannerCompWidget> {
   final TextEditingController _barcodeController = TextEditingController();
 
   bool _fieldActive = false;
@@ -55,119 +97,116 @@ class _AssignBarcodeScannerScreenState extends State<AssignBarcodeScannerScreen>
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
-    var args = ModalRoute.of(context)?.settings.arguments as AssignBarcodeScannerArguments;
+
     return ChangeNotifierProvider<AssignPartBarcodeProvider>(
-      create: (_) => AssignPartBarcodeProvider(args.prid),
+      create: (_) => AssignPartBarcodeProvider(widget.args?.prid),
       lazy: false,
       builder: (BuildContext insideContext, __) {
-        return Scaffold(
-          appBar: CshHeader(
-            l10n.assignBarcodeScreen,
-            showBackBtn: true,
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(Dimens.space_8),
-            child: Column(
-              children: [
-                _partDetailsWidget(theme, l10n, args),
-                const SizedBox(height: Dimens.space_8),
-                Expanded(
-                  child: MlBarcodeScannerWidget(
-                    allowDuplicateScan: false,
-                    onScannerDetected: (String value, MlScannerController controller) {
-                      if (value.isNotEmpty) {
-                        _assignBarcode(insideContext, value.trim(), args);
-                      }
-                    },
-                  ),
+        return Padding(
+          padding: const EdgeInsets.all(Dimens.space_8),
+          child: Column(
+            children: [
+              _partDetailsWidget(theme, l10n, widget.args),
+              const SizedBox(height: Dimens.space_8),
+              Expanded(
+                child: MlBarcodeScannerWidget(
+                  allowDuplicateScan: false,
+                  onScannerDetected: (String value, MlScannerController controller) {
+                    if (value.isNotEmpty) {
+                      _assignBarcode(insideContext, value.trim(), widget.args);
+                    }
+                  },
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: Dimens.space_120,
-                  color: theme.backgroundColor,
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          alignment: Alignment.centerRight,
-                          children: [
-                            CshTextFormField(
-                              controller: _barcodeController,
-                              counterText: "",
-                              autofocus: false,
-                              maxLength: 50,
-                              maxLines: 1,
-                              hintText: l10n.enterBarcode,
-                            ),
-                            if (_fieldActive)
-                              GestureDetector(
-                                onTap: () {
-                                  _barcodeController.clear();
-                                  _fieldActive = false;
-                                  setState(() {});
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: Dimens.space_12),
-                                  child: CshIcon(
-                                    FeatherIcons.xCircle,
-                                    iconSize: MobileIconSize.medium,
-                                  ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: Dimens.space_120,
+                color: theme.colorScheme.background,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Stack(
+                        alignment: Alignment.centerRight,
+                        children: [
+                          CshTextFormField(
+                            controller: _barcodeController,
+                            counterText: "",
+                            autofocus: false,
+                            maxLength: 50,
+                            maxLines: 1,
+                            hintText: l10n.enterBarcode,
+                          ),
+                          if (_fieldActive)
+                            GestureDetector(
+                              onTap: () {
+                                _barcodeController.clear();
+                                _fieldActive = false;
+                                setState(() {});
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: Dimens.space_12),
+                                child: CshIcon(
+                                  FeatherIcons.xCircle,
+                                  iconSize: MobileIconSize.medium,
                                 ),
                               ),
-                          ],
-                        ),
+                            ),
+                        ],
                       ),
-                      const SizedBox(width: Dimens.space_8),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: Dimens.space_16),
-                        child: CshMediumButton(
-                          text: l10n.next,
-                          onPressed: _fieldActive
-                              ? () {
-                                  if (_barcodeController.text.isNotEmpty) {
-                                    String data = _barcodeController.text.trim();
-                                    _assignBarcode(insideContext, data, args);
-                                  }
+                    ),
+                    const SizedBox(width: Dimens.space_8),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: Dimens.space_16),
+                      child: CshMediumButton(
+                        text: l10n.next,
+                        onPressed: _fieldActive
+                            ? () {
+                                if (_barcodeController.text.isNotEmpty) {
+                                  String data = _barcodeController.text.trim();
+                                  _assignBarcode(insideContext, data, widget.args);
                                 }
-                              : null,
-                        ),
-                      )
-                    ],
-                  ),
+                              }
+                            : null,
+                      ),
+                    )
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
     );
   }
 
-  _assignBarcode(BuildContext context, String barcode, AssignBarcodeScannerArguments arg) {
+  _assignBarcode(BuildContext context, String barcode, AssignBarcodeScannerArguments? arg) {
     var provider = AssignPartBarcodeProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.assignPartBarcode(barcode).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "$barcode assigned successfully");
-        AssignedPartDetailsArguments args = AssignedPartDetailsArguments(
-          prid: arg.prid,
+        AssignedPartDetailsCompArguments arguments = AssignedPartDetailsCompArguments(
+            args: AssignedPartDetailsArguments(
+          prid: arg?.prid ?? 0,
           assignDeviceDetailsData: AssignDeviceDetailsData(
-            did: arg.pendingDeviceDetailData?.did,
-            lc: arg.pendingDeviceDetailData?.lc,
-            engineerName: arg.pendingDeviceDetailData?.engineerName,
-            deviceBarcode: arg.pendingDeviceDetailData?.deviceBarcode,
-            grade: arg.pendingDeviceDetailData?.grade,
-            repairType: arg.pendingDeviceDetailData?.repairType,
-            productName: arg.pendingDeviceDetailData?.pt,
+            did: arg?.pendingDeviceDetailData?.did,
+            lc: arg?.pendingDeviceDetailData?.lc,
+            engineerName: arg?.pendingDeviceDetailData?.engineerName,
+            deviceBarcode: arg?.pendingDeviceDetailData?.deviceBarcode,
+            grade: arg?.pendingDeviceDetailData?.grade,
+            repairType: arg?.pendingDeviceDetailData?.repairType,
+            productName: arg?.pendingDeviceDetailData?.pt,
           ),
-        );
+        ));
+
         Navigator.of(context).pop();
         Navigator.of(context).pop();
-        Navigator.of(context).pushNamed(AssignedPartDetailsScreen.route, arguments: args);
+
+        Navigator.of(context).pushNamed(AssignedPartDetailsScreen.route, arguments: arguments);
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
@@ -175,23 +214,23 @@ class _AssignBarcodeScannerScreenState extends State<AssignBarcodeScannerScreen>
     });
   }
 
-  _partDetailsWidget(ThemeData theme, L10n l10n, AssignBarcodeScannerArguments data) {
+  _partDetailsWidget(ThemeData theme, L10n l10n, AssignBarcodeScannerArguments? data) {
     return CshCard(
       radius: CshRadius.rad8,
       elevation: CardElevation.dimen_10,
       padding: const EdgeInsets.all(Dimens.space_8),
       child: Column(
         children: [
-          if (!Validator.isNullOrEmpty(data.detailsData?.partName)) ...[
-            _labelValueWidget(theme, l10n.partName, data.detailsData!.partName!),
+          if (!Validator.isNullOrEmpty(data?.detailsData?.partName)) ...[
+            _labelValueWidget(theme, l10n.partName, data!.detailsData!.partName!),
             const SizedBox(height: Dimens.space_8),
           ],
-          if (!Validator.isNullOrEmpty(data.detailsData?.sku)) ...[
-            _labelValueWidget(theme, l10n.partSku, data.detailsData!.sku!),
+          if (!Validator.isNullOrEmpty(data?.detailsData?.sku)) ...[
+            _labelValueWidget(theme, l10n.partSku, data!.detailsData!.sku!),
             const SizedBox(height: Dimens.space_8),
           ],
-          if (!Validator.isNullOrEmpty(data.detailsData?.partColor)) ...[
-            _labelValueWidget(theme, l10n.partColor, data.detailsData!.partColor!),
+          if (!Validator.isNullOrEmpty(data?.detailsData?.partColor)) ...[
+            _labelValueWidget(theme, l10n.partColor, data!.detailsData!.partColor!),
           ],
         ],
       ),

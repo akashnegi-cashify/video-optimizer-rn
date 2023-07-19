@@ -1,39 +1,37 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/header/trc_header.dart';
-import 'package:provider/provider.dart';
-import '../l10n.dart';
-import '../providers/add_part_list_provider_qc.dart';
-import '../widgets/add_part_list_widget_qc.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-class AddPartScreenQc extends StatelessWidget {
+import '../../common_models/add_parts_qc_comp_param.dart';
+
+part 'add_part_screen_qc.g.dart';
+
+@CshPage(key: AddPartScreenQc.pageKey, params: AddPartsQCCompParamKeys.values, pageGroup: PageGroup.addPartsQCPageKey)
+class AddPartScreenQcArguments extends BaseArguments {
+  final String? scannedBarcode;
+
+  AddPartScreenQcArguments({this.scannedBarcode}) : super(AddPartScreenQc.pageKey);
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[AddPartsQCCompParamKeys.scannedBarcode.value] = scannedBarcode;
+    return data;
+  }
+}
+
+class AddPartScreenQc extends BaseScreen<AddPartScreenQcArguments> {
+  static const String pageKey = "TRC_add_part_screen_qc";
   static const route = '/add_part_screen_qc';
 
-  const AddPartScreenQc({Key? key}) : super(key: key);
+  const AddPartScreenQc({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var l10n = L10n(context);
-    var scannedBarcode = ModalRoute.of(context)?.settings.arguments as String;
-    return ChangeNotifierProvider<AddPartListProviderQc>(
-      create: (_) => AddPartListProviderQc(scannedBarcode),
-      lazy: false,
-      builder: (BuildContext innerContext, __) {
-        var provider = AddPartListProviderQc.of(innerContext);
-
-        return Scaffold(
-          appBar: TrcHeader(l10n.addPart),
-          body: (provider.isPartListLoading)
-              ? const Center(
-                  child: SizedBox(
-                    height: Dimens.space_30,
-                    width: Dimens.space_30,
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : const AddPartListWidgetQc(),
-        );
-      },
+  Widget buildView(BuildContext context) {
+    var args = getArguments(context);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: args?.toJson(),
     );
   }
 }

@@ -212,7 +212,7 @@ abstract class PaginatedListState<TItem, TStatefulWidget extends StatefulWidget>
                 scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
               },
               child: Image.asset(
-                ImageAssetHelper.imagePath("ic_fab_button.png"),
+                ImageAssetHelper.iconPath("ic_fab_button.png"),
                 height: Dimens.space_44,
                 width: Dimens.space_44,
               ),

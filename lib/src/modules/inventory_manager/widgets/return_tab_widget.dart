@@ -6,7 +6,7 @@ import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
 import '../models/return_part_response.dart';
 import '../providers/return_page_provider.dart';
-import '../screens/return_item_status_screeen.dart';
+import '../screens/return_item_status_screen.dart';
 
 class ReturnTabWidget extends StatefulWidget {
   const ReturnTabWidget({Key? key}) : super(key: key);

@@ -1,16 +1,14 @@
-import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/home/providers/home_provider.dart';
-import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
+import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var provider = HomeScreenProviders.of(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +33,7 @@ class HomeWidget extends StatelessWidget {
       if (value) {
         CshLoading().hideLoading(context);
         AppPreferences().resetAndClearAll();
-        Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
       } else {
         CshLoading().hideLoading(context);
         CshSnackBar.error(context: context, message: "Something went wrong");

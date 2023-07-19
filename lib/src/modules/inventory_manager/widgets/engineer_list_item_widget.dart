@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+
 import '../l10n.dart';
 import '../models/engineer_list_response.dart';
 import '../screens/pending_delivery_screen.dart';
@@ -22,7 +23,8 @@ class EngineerListItemWidget extends StatelessWidget {
       return GestureDetector(
         onTap: () {
           if (dataModel?.id != null) {
-            PendingDeliveryScreenArguments args = PendingDeliveryScreenArguments(id: dataModel!.id!);
+            PendingDeliveryScreenCompArguments args = PendingDeliveryScreenCompArguments(id: dataModel!.id!);
+
             Navigator.of(context).pushNamed(PendingDeliveryScreen.route, arguments: args);
           } else {
             CshSnackBar.error(context: context, message: l10n.idNotFound);

@@ -1,11 +1,10 @@
-import 'dart:async';
-
+import 'package:core_widgets/core_widgets.dart' as core;
+import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import '../../../screens/barcode_scanner_screen.dart';
 import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
-import 'package:flutter/material.dart';
-import 'package:core_widgets/core_widgets.dart' as core;
 import '../models/pending_device_list_response.dart';
 import '../models/rider_list_response.dart';
 import '../providers/inventory_home_provider.dart';
@@ -118,7 +117,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                 dataModel: item,
                 onCardClicked: () {
                   if (item.did != null) {
-                    AssignedDeviceDetailsArguments args = AssignedDeviceDetailsArguments(did: item.did!);
+                    AssignedDeviceDetailsScreenArguments args = AssignedDeviceDetailsScreenArguments(did: item.did!);
                     Navigator.of(context).pushNamed(AssignedDeviceDetailsScreen.route, arguments: args);
                   } else {
                     core.CshSnackBar.error(context: context, message: l10n.noDidPresent);
@@ -334,7 +333,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
   void requestApi(int pageNo,
       {Function(List<PendingDeviceDetailData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = InventoryHomeProvider.of(context, listen: false);
-    provider.getListOfAssignmentPendingDevices(pageNo++).then((value) {
+    provider.getListOfAssignmentPendingDevices(pageNo++, pageSize).then((value) {
       if (onSuccess != null) {
         onSuccess(value.data?.dataList);
       }

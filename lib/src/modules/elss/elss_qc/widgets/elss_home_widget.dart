@@ -2,6 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
+
 import '../../../../screens/barcode_scanner_screen.dart';
 import '../../elss_trc/screens/part_selection_screen_trc.dart';
 import '../l10n.dart';
@@ -41,9 +42,10 @@ class ElssHomeWidget extends StatelessWidget {
                     BarcodeScanWidget.route,
                     arguments: (String data) {
                       if (!Validator.isNullOrEmpty(data)) {
+                        PartSelectionScreenTrcArguments args = PartSelectionScreenTrcArguments(barcode: data.trim());
                         Navigator.of(context).pushReplacementNamed(
                           PartSelectionScreenTrc.route,
-                          arguments: data.trim(),
+                          arguments: args,
                         );
                       }
                     },
@@ -59,9 +61,10 @@ class ElssHomeWidget extends StatelessWidget {
                     BarcodeScanWidget.route,
                     arguments: (String data) {
                       if (!Validator.isNullOrEmpty(data)) {
+                        PartSelectionScreenArguments args = PartSelectionScreenArguments(scannedBarcode: data.trim());
                         Navigator.of(context).pushReplacementNamed(
                           PartSelectionScreenQc.route,
-                          arguments: data.trim(),
+                          arguments: args,
                         );
                       }
                     },

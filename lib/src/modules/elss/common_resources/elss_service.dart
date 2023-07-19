@@ -58,7 +58,7 @@ class ElssService {
 
   static Stream<LogoutResponse?> logoutAndClearSession(bool loginFromQC) {
     return loginFromQC
-        ? QcServiceElss().post("/user/destroy", LogoutResponse.fromJson)
+        ? QcService().post("/user/destroy", LogoutResponse.fromJson)
         : TrcService().post("/logout", LogoutResponse.fromJson);
   }
 
@@ -99,7 +99,7 @@ class ElssService {
       "qr": [scannedCode],
     };
 
-    return QcServiceElss()
+    return QcService()
         .post("/device/elss/mark-pna", ElssSuccessResponse.fromJson, params: params, body: jsonEncode(bodyData));
   }
 
@@ -107,22 +107,22 @@ class ElssService {
     Map<String, List<String>> paramData = {
       "qr": [scannedBarcode],
     };
-    return QcServiceElss().get("/device/elss/product/part-list", PartDeviceListResponse.fromJson, params: paramData);
+    return QcService().get("/device/elss/product/part-list", PartDeviceListResponse.fromJson, params: paramData);
   }
 
   static Stream<ElssDeviceDetailsResponse?> getDeviceDetailsWithParts(String scannedBarcode) {
-    return QcServiceElss().get("/device/elss/$scannedBarcode", ElssDeviceDetailsResponse.fromJson);
+    return QcService().get("/device/elss/$scannedBarcode", ElssDeviceDetailsResponse.fromJson);
   }
 
   static Stream<PartsElssActionResponse?> getElssActionForParts() {
-    return QcServiceElss().get("/device/elss/actions", PartsElssActionResponse.fromJson);
+    return QcService().get("/device/elss/actions", PartsElssActionResponse.fromJson);
   }
 
   static Stream<ElssSuccessResponse?> retestingElss(String barcode, List<int?> reasonIdList) {
     Map<String, dynamic> req = {
       "res": reasonIdList,
     };
-    return QcServiceElss()
+    return QcService()
         .post("/device/elss/re-testing?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
   }
 
@@ -131,11 +131,11 @@ class ElssService {
       "res": reasonIdList,
       "isDefault": "false",
     };
-    return QcServiceElss().post("/device/elss/reject?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
+    return QcService().post("/device/elss/reject?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<SubmitPartsLogicResponse?> submitPartsForLogic(Map<String, dynamic> bodyData) {
-    return QcServiceElss()
+    return QcService()
         .post("/device/elss/submit-parts", SubmitPartsLogicResponse.fromJson, body: jsonEncode(bodyData));
   }
 
@@ -143,11 +143,11 @@ class ElssService {
     Map<String, List<String>> paramData = {
       "qr": [barcode]
     };
-    return QcServiceElss().get("/device/elss/channel-options", ChannelOptionResponse.fromJson, params: paramData);
+    return QcService().get("/device/elss/channel-options", ChannelOptionResponse.fromJson, params: paramData);
   }
 
   static Stream<QcS3DetailsResponse?> fetchS3Details() {
-    return QcServiceElss().get("/v2/s3/config", QcS3DetailsResponse.fromJson);
+    return QcService().get("/v2/s3/config", QcS3DetailsResponse.fromJson);
   }
 
   static Stream<ElssSuccessResponse?> submitAcceptElss(List<Map<String, dynamic>> partsDataList, String barcode,
@@ -157,11 +157,11 @@ class ElssService {
       "opid": optionId,
       "rprl": partsDataList,
     };
-    return QcServiceElss().post("/device/elss/elss-accept", ElssSuccessResponse.fromJson, body: jsonEncode(dataMap));
+    return QcService().post("/device/elss/elss-accept", ElssSuccessResponse.fromJson, body: jsonEncode(dataMap));
   }
 
   static Stream<ElssDeviceDetailsResponse?> getElssStatusDeviceDetails(String barcode) {
-    return QcServiceElss().get("/device/elss/details/$barcode", ElssDeviceDetailsResponse.fromJson);
+    return QcService().get("/device/elss/details/$barcode", ElssDeviceDetailsResponse.fromJson);
   }
 
   static Stream<RejectRetestReasonListResponse?> getElssRejectReasonList(ReasonType reasonType) {
@@ -172,6 +172,6 @@ class ElssService {
       baseUrl = "/device/elss/return-reason/retesting";
     }
 
-    return QcServiceElss().get(baseUrl, RejectRetestReasonListResponse.fromJson);
+    return QcService().get(baseUrl, RejectRetestReasonListResponse.fromJson);
   }
 }

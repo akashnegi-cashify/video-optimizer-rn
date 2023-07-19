@@ -1,11 +1,12 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../../header/trc_header.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+
+import '../../common_models/allowed_option_comp_param.dart';
 import '../../common_models/elss_device_details_response.dart';
-import '../l10n.dart';
-import '../providers/channel_option_provider.dart';
-import '../widgets/channel_option_widget.dart';
+
+part 'allowed_option_screen.g.dart';
 
 class AllowedOptionScreeArguments {
   final String scannedBarcode;
@@ -14,52 +15,34 @@ class AllowedOptionScreeArguments {
   AllowedOptionScreeArguments(this.scannedBarcode, {this.detailsDataModel});
 }
 
-class AllowedOptionScreen extends StatefulWidget {
-  static const String route = "/allowed_options_screen.dart";
+@CshPage(
+    key: AllowedOptionScreen.pageKey,
+    params: AllowedOptionCompParamKeys.values,
+    pageGroup: PageGroup.allowedOptionPageKey)
+class AllowedOptionCompScreenArguments extends BaseArguments {
+  final AllowedOptionScreeArguments? arguments;
 
-  const AllowedOptionScreen({Key? key}) : super(key: key);
+  AllowedOptionCompScreenArguments({this.arguments}) : super(AllowedOptionScreen.pageKey);
 
-  @override
-  State<AllowedOptionScreen> createState() => _AllowedOptionScreenState();
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[AllowedOptionCompParamKeys.arguments.value] = arguments;
+    return data;
+  }
 }
 
-class _AllowedOptionScreenState extends State<AllowedOptionScreen> {
+class AllowedOptionScreen extends BaseScreen<AllowedOptionCompScreenArguments> {
+  static const String pageKey = "TRC_allowed_option_screen";
+  static const String route = "/allowed_option_screen";
+
+  const AllowedOptionScreen({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    var l10n = L10n(context);
-    var args = ModalRoute.of(context)?.settings.arguments as AllowedOptionScreeArguments;
-    var theme = Theme.of(context);
-    return ChangeNotifierProvider<ChannelOptionProvider>(
-      create: (_) => ChannelOptionProvider(args.scannedBarcode),
-      lazy: false,
-      builder: (BuildContext innerContext, __) {
-        var provider = ChannelOptionProvider.of(innerContext);
-        return Scaffold(
-          appBar: TrcHeader(
-            l10n.channelOptions,
-            showBackBtn: true,
-          ),
-          body: (provider.isOptionDataLoading)
-              ? const Center(
-                  child: SizedBox(
-                    height: Dimens.space_30,
-                    width: Dimens.space_30,
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : (provider.isOptionDataLoading == false && provider.channelOptionResponse == null)
-                  ? Center(
-                      child: Text(
-                        (provider.errorOfChannel.isNotEmpty) ? provider.errorOfChannel : l10n.noDataFound,
-                        style: theme.primaryTextTheme.headline3,
-                      ),
-                    )
-                  : ChannelOptionWidget(
-                      args.scannedBarcode,
-                      detailsDataModel: args.detailsDataModel,
-                    ),
-        );
-      },
+  Widget buildView(BuildContext context) {
+    var args = getArguments(context);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: args?.toJson(),
     );
   }
 }

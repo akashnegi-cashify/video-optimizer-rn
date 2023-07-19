@@ -2,9 +2,9 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/elss/common_providers/user_session_provider.dart';
+import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 
 import 'widget/logout_modal_widget.dart';
-import '../../modules/login/screens/login_screen.dart';
 
 class UserUtil {
   static applicationLogout(BuildContext context) {
@@ -26,7 +26,7 @@ class UserUtil {
       if (value) {
         CshLoading().hideLoading(context);
         AppPreferences().resetAndClearAll();
-        Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);

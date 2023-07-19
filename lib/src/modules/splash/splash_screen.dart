@@ -1,78 +1,19 @@
-import 'dart:async';
-
-import 'package:components/auth/handler/auth_handler.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-import '../../resources/user_details.dart';
-import '../../utils/trc_method_channels.dart';
-import '../login/screens/login_screen.dart';
-import '../login/resources/collector_user_controller.dart';
+part 'splash_screen.g.dart';
 
-class SplashScreen extends StatefulWidget {
-  static const route = '/';
+@CshPage(key: SplashScreen.pageKey, pageGroup: PageGroup.splashPageKey)
+class SplashScreen extends BaseScreen {
+  static const String pageKey = "TRC_splash_screen";
+  static const String route = "/splash_screen";
 
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-  AnimationController? _lottieAnimationController;
-
-  @override
-  void initState() {
-    scheduleMicrotask(() {
-      _lottieAnimationController = AnimationController(vsync: this);
-      _lottieAnimationController?.addStatusListener((status) async {
-        if (status == AnimationStatus.completed) {
-          if (mounted) {
-            _checkAuth(context);
-          }
-        }
-      });
-    });
-
-    super.initState();
-  }
-
-  void playAnimation(LottieComposition composition) {
-    if (_lottieAnimationController != null) {
-      _lottieAnimationController!
-        ..duration = composition.duration
-        ..forward();
-    }
-  }
-
-  void _checkAuth(BuildContext context) async {
-    if (AuthHandler().userAuth == null) {
-      Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
-    } else {
-      UserDetails().setUserDetailsData(AuthHandler().userAuth!);
-      bool? isLoginFromQC = await AppPreferences().getIsLoginFromQC();
-      await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-          loginToken: AuthHandler().userAuth!, loginFromQC: isLoginFromQC);
-      if (mounted) {
-        await NativeCall.registerLogout(context);
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Lottie.asset(
-        'assets/json/cashify_splash.json',
-        frameRate: FrameRate.composition,
-        controller: _lottieAnimationController,
-        onLoaded: (LottieComposition composition) {
-          playAnimation(composition);
-        },
-      ),
-    );
+  Widget buildView(BuildContext context) {
+    return const PageWidget(pageKey: pageKey);
   }
 }

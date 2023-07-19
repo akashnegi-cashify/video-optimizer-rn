@@ -4,6 +4,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:localization/localization.dart';
 
 import 'actions/project_actions.dart';
+import 'app_builder/app_builder.dart';
 import 'environments/environment_config.dart';
 import 'environments/environments.dart';
 import 'environments/types.dart';
@@ -29,6 +30,7 @@ class AppInitializer {
 
     _setLogLevel(environment);
     _registerProjectActions();
+    AppComponentBuilder();
 
     interceptors ??= <String, HttpInterceptorFactory>{};
     if (!isWeb() && environment?.enableAlice == true) {

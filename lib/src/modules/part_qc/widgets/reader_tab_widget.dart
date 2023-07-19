@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_status_change_screen.dart';
+
 import '../../../screens/barcode_scanner_screen.dart';
 import '../l10n.dart';
 import '../providers/pq_provider.dart';
@@ -46,7 +47,7 @@ class ReaderTabWidget extends StatelessWidget {
     CshLoading().showLoading(context);
     provider.fetchQcPartList(pbr: pbr).then((value) {
       CshLoading().hideLoading(context);
-      PartQcPartStatusArguments arg = PartQcPartStatusArguments(
+      PartQcPartStatusScreenArguments arg = PartQcPartStatusScreenArguments(
         partDetails: value!.dataList?.first,
       );
       Navigator.of(context).pushNamed(PartQcPartStatusScreen.route, arguments: arg);

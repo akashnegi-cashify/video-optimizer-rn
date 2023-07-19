@@ -48,7 +48,8 @@ class PartSelectionWidget extends StatelessWidget {
                       child: CshIconButton(
                         text: l10n.addParts,
                         onPressed: () async {
-                          var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: barcode);
+                          AddPartScreenQcArguments args = AddPartScreenQcArguments(scannedBarcode: barcode);
+                          var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: args);
                           if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
                             provider.addNewPartsFromAddParts(data!);
                           }
@@ -143,15 +144,17 @@ class PartSelectionWidget extends StatelessWidget {
             message: l10n.partsSubmittedSuccessfully,
             duration: SnackBarDuration.SHORT,
             snackBarPosition: SnackBarPosition.TOP);
-        AllowedOptionScreeArguments args =
-            AllowedOptionScreeArguments(barcode, detailsDataModel: provider.elssDeviceDetails);
+        AllowedOptionCompScreenArguments args = AllowedOptionCompScreenArguments(
+            arguments: AllowedOptionScreeArguments(barcode, detailsDataModel: provider.elssDeviceDetails));
 
         Navigator.of(context).pushReplacementNamed(AllowedOptionScreen.route, arguments: args);
       } else {
+        ElssStatusCompArguments args =
+            ElssStatusCompArguments(arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: barcode));
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: barcode),
+          arguments: args,
         );
       }
     }, onError: (error) {

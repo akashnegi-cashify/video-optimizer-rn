@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
-import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/job_card_summary_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/assigned_parts_provider.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
@@ -20,7 +19,7 @@ class AssignedPartsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AssignedPartsData? assignedPartsData = ModalRoute.of(context)?.settings.arguments as AssignedPartsData?;
     return ChangeNotifierProvider(
-      create: (_) => AssignedPartsProvider(assignedPartsData?.deviceBarcode, deviceInfo: assignedPartsData?.deviceInfo),
+      create: (_) => AssignedPartsProvider(assignedPartsData?.deviceBarcode),
       child: const _AssignedPartsWidget(),
     );
   }
@@ -49,6 +48,8 @@ class _AssignedPartsWidget extends StatelessWidget {
             TitleValueRowWidget(title: l10n.deviceBarcode, value: provider.deviceInfo?.deviceBarcode ?? ""),
             TitleValueRowWidget(title: l10n.status, value: provider.deviceInfo?.status ?? ""),
             TitleValueRowWidget(title: l10n.productTitle, value: provider.deviceInfo?.productTitle ?? ""),
+            if (!Validator.isNullOrEmpty(provider.deviceInfo?.deadRemark))
+              TitleValueRowWidget(title: l10n.deadRemark, value: provider.deviceInfo?.deadRemark ?? ""),
             const SizedBox(height: Dimens.space_16),
             if (!Validator.isListNullOrEmpty(provider.jobCardList))
               Container(
@@ -117,7 +118,6 @@ class _AssignedPartsWidget extends StatelessWidget {
 class AssignedPartsData {
   final bool displayBottomActions;
   final String? deviceBarcode;
-  EngineerDeviceInfo? deviceInfo;
 
-  AssignedPartsData(this.displayBottomActions, {this.deviceBarcode, this.deviceInfo});
+  AssignedPartsData(this.displayBottomActions, {this.deviceBarcode});
 }

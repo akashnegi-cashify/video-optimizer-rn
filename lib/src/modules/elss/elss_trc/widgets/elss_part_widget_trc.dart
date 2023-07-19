@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:core/core.dart';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import '../../common_models/elss_part.dart';
 import '../l10n.dart';
-import '../../common_resources/elss_action.dart';
 import '../screens/add_device_media_screen_trc.dart';
 
 class ElssPartWidgetTrc extends StatefulWidget {
@@ -180,7 +180,8 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                     partsImage: widget.dataModel?.partsImageList,
                     onImageUploadCallback: widget.onImageUploadCallback,
                   );
-                  Navigator.of(context).pushNamed(AddDeviceMediaScreenTrc.route, arguments: args);
+                  AddDeviceMediaScreenTrcArguments arg = AddDeviceMediaScreenTrcArguments(argumentsData: args);
+                  Navigator.of(context).pushNamed(AddDeviceMediaScreenTrc.route, arguments: arg);
                 },
                 child: CshIcon(
                   FeatherIcons.camera,

@@ -18,7 +18,7 @@ class PartStatusProvider extends CshChangeNotifier {
   Future<bool> updatePartStatus(bool isFaulty) {
     var completer = Completer<bool>();
     try {
-      PartQCService.submitPartStatus(isFaulty, prid!).listen((event) {
+      PartQcServiceElss.submitPartStatus(isFaulty, prid!).listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {

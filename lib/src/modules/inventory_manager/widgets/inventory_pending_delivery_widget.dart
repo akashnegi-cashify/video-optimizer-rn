@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart' as core;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
 import '../models/engineer_list_response.dart';
@@ -21,7 +22,7 @@ class InventoryPendingDeliveryWidget extends StatefulWidget {
 
 class InventoryPendingDeliveryWidgetState
     extends PaginatedListState<EngineerDataResponse, InventoryPendingDeliveryWidget> {
-  InventoryPendingDeliveryWidgetState() : super(initialScrollOffset: 10, pageSize: 10);
+  InventoryPendingDeliveryWidgetState() : super(initialScrollOffset: 20, pageSize: 20);
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +51,7 @@ class InventoryPendingDeliveryWidgetState
         Expanded(
           child: iterate(
             (item, index) {
-              return EngineerListItemWidget(
-                index: index + 1,
-                dataModel: item,
-              );
+              return EngineerListItemWidget(index: index + 1, dataModel: item);
             },
             onRefresh: () async {},
             onNoDataFound: () {
@@ -76,13 +74,7 @@ class InventoryPendingDeliveryWidgetState
                 child: Row(
                   children: [
                     const SizedBox.shrink(),
-                    Expanded(
-                      child: Text(
-                        error,
-                        style: theme.primaryTextTheme.headline3,
-                        textAlign: TextAlign.center,
-                      ),
-                    )
+                    Expanded(child: Text(error, style: theme.primaryTextTheme.headline3, textAlign: TextAlign.center))
                   ],
                 ),
               );
@@ -99,7 +91,7 @@ class InventoryPendingDeliveryWidgetState
   void requestApi(int pageNo,
       {Function(List<EngineerDataResponse>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = InventoryHomeProvider.of(context, listen: false);
-    provider.getAssignmentPendingEngineerList(pageNo++).then((value) {
+    provider.getAssignmentPendingEngineerList(pageNo++, pageSize).then((value) {
       if (onSuccess != null) {
         onSuccess(value?.data?.engineerDataList);
       }

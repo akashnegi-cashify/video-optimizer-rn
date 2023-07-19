@@ -7,8 +7,10 @@ import '../l10n.dart';
 
 class TRCScannerWidget extends StatefulWidget {
   final Function(String scannedData, MlScannerController? controller) onScanDetected;
+  final List<ScanFormats> scanFormatList;
 
-  const TRCScannerWidget({Key? key, required this.onScanDetected}) : super(key: key);
+  const TRCScannerWidget({Key? key, required this.onScanDetected, this.scanFormatList = const [ScanFormats.barcode]})
+      : super(key: key);
 
   @override
   State<TRCScannerWidget> createState() => _TRCScannerWidgetState();
@@ -42,7 +44,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
             child: CshCard(
               elevation: CardElevation.dimen_10,
               child: MlBarcodeScannerWidget(
-                scanFormatList: const [ScanFormats.barcode],
+                scanFormatList: widget.scanFormatList,
                 onScannerDetected: (String value, MlScannerController controller) {
                   widget.onScanDetected(value, controller);
                 },

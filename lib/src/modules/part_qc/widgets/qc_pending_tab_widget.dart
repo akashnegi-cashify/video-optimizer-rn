@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:flutter_trc/src/modules/part_qc/widgets/qc_part_list_widget.dart';
 
-import '../l10n.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/part_qc/providers/pq_provider.dart';
+import 'package:flutter_trc/src/modules/part_qc/widgets/qc_part_list_widget.dart';
 
+import '../l10n.dart';
 import '../screens/pq_status_change_screen.dart';
 
 class QcPendingTabWidget extends StatefulWidget {
@@ -66,8 +66,8 @@ class _QcPendingTabWidgetState extends State<QcPendingTabWidget> {
                         dataModel: provider.qcPartsListResponse!.dataList![index],
                         onCardClicked: () async {
                           if (provider.qcPartsListResponse!.dataList![index].prid != null) {
-                            PartQcPartStatusArguments arg =
-                                PartQcPartStatusArguments(partDetails: provider.qcPartsListResponse!.dataList![index]);
+                            PartQcPartStatusScreenArguments arg = PartQcPartStatusScreenArguments(
+                                partDetails: provider.qcPartsListResponse!.dataList![index]);
                             await Navigator.of(context).pushNamed(PartQcPartStatusScreen.route, arguments: arg);
                             provider.fetchQcPartList(pbr: "");
                           } else {

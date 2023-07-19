@@ -1,6 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import '../l10n.dart';
+
 import '../models/device_alloted_parts_response.dart';
 import '../providers/assigned_device_details_provider.dart';
 import '../screens/assigned_part_details_screen.dart';
@@ -45,11 +45,13 @@ class AssignedDeviceAllottedPartsList extends StatelessWidget {
                     return AssignedAllottedDeviceListItem(
                       dataModel: dataModel!.allottedPartsList![index],
                       onCardClicked: () async {
-                        AssignedPartDetailsArguments args = AssignedPartDetailsArguments(
+                        AssignedPartDetailsCompArguments arguments = AssignedPartDetailsCompArguments(
+                            args: AssignedPartDetailsArguments(
                           assignDeviceDetailsData: provider.assignedDeviceDetails?.detailsData,
                           prid: dataModel!.allottedPartsList![index].prid ?? -1,
-                        );
-                        await Navigator.of(context).pushNamed(AssignedPartDetailsScreen.route, arguments: args);
+                        ));
+
+                        await Navigator.of(context).pushNamed(AssignedPartDetailsScreen.route, arguments: arguments);
                         provider.refreshDataOnPage();
                       },
                     );

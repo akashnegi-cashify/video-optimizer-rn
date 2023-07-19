@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_barcode_scanner_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_summary_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/barcode_scanner_module/components/barcode_scanner_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator_scanner_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/disputed_question_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/submit_device_quote_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_device_scanner_component.dart';
+import 'modules/device_receive_module/components/device_receive_component.dart';
+import 'modules/qc_actions/component/qc_action_component.dart';
+import 'modules/qc_tester/calculator_media_capture/components/calculator_media_capture_component.dart';
+import 'modules/qc_tester/disputed_image_capture/components/disputed_image_barcode_scanner_component.dart';
+import 'modules/qc_tester/disputed_image_capture/components/disputed_image_capture_component.dart';
+import 'modules/qc_tester/home/component/qc_tester_home_component.dart';
+
+class QcComponentRegistry {
+  static Widget? getRegisteredComponent(String? componentKey, Map<String, dynamic>? jsonConfig) {
+    switch (componentKey) {
+      case DisputedImageCaptureComponent.COMP_KEY:
+        return DisputedImageCaptureComponent(jsonConfig);
+      case DisputedImageBarcodeScannerComponent.COMP_KEY:
+        return DisputedImageBarcodeScannerComponent(jsonConfig);
+      case CalculatorMediaCaptureComponent.COMP_KEY:
+        return CalculatorMediaCaptureComponent(jsonConfig);
+      case QcTesterHomeComponent.COMP_KEY:
+        return QcTesterHomeComponent(jsonConfig);
+      case QcActionComponent.COMP_KEY:
+        return QcActionComponent(jsonConfig);
+      case DeviceReceiveComponent.COMP_KEY:
+        return DeviceReceiveComponent(jsonConfig);
+      case CalculatorComponent.COMP_KEY:
+        return CalculatorComponent(jsonConfig);
+      case DisputedQuestionsComponent.COMP_KEY:
+        return DisputedQuestionsComponent(jsonConfig);
+      case BarcodeScannerComponent.COMP_KEY:
+        return BarcodeScannerComponent(jsonConfig);
+      case AuditQuestionSummaryComponent.COMP_KEY:
+        return AuditQuestionSummaryComponent(jsonConfig);
+      case AuditQuestionComponent.COMP_KEY:
+        return AuditQuestionComponent(jsonConfig);
+      case AuditBarcodeScannedComponent.COMP_KEY:
+        return AuditBarcodeScannedComponent(jsonConfig);
+      case CalculatorScannerComponent.COMP_KEY:
+        return CalculatorScannerComponent(jsonConfig);
+      case SubmitDeviceQuoteComponent.COMP_KEY:
+        return SubmitDeviceQuoteComponent(jsonConfig);
+      case LobDeviceScannerComponent.COMP_KEY:
+        return LobDeviceScannerComponent(jsonConfig);
+      default:
+        return null;
+    }
+  }
+}

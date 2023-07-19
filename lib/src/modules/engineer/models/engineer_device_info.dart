@@ -34,6 +34,9 @@ class EngineerDeviceInfo {
   @JsonKey(name: "rrs")
   List<String>? repairReasonList;
 
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? deadRemark;
+
   static EngineerDeviceInfo fromJson(Map<String, dynamic> json) => _$EngineerDeviceInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$EngineerDeviceInfoToJson(this);

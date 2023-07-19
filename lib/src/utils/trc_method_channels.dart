@@ -2,7 +2,7 @@ import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
-import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
+import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 
 class NativeCall {
   static MethodChannel platformMethodChannel = const MethodChannel('in.cashify.trc/plugin');
@@ -20,6 +20,6 @@ class NativeCall {
 
   static void onLogout(BuildContext context) async {
     await AppPreferences().resetAndClearAll();
-    Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
   }
 }

@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v1.3.3+8 (07-07-2023)
+
+### Feature:
+
+* `TRC - Inventory roll bug fix` [(SCM-3654)](https://reglobe.atlassian.net/browse/SCM-3654)
+
+
 # v1.3.2+7 (29-06-2023)
 
 ### Feature:

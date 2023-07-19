@@ -1,10 +1,10 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
-class QcServiceElss extends BaseService {
+class QcService extends BaseService {
   final bool addAuthorization;
 
-  QcServiceElss({this.addAuthorization = false});
+  QcService({this.addAuthorization = false});
 
   @override
   TRCServiceGroups getServiceGroup() {

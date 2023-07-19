@@ -36,6 +36,7 @@ AssignDeviceDetailsData _$AssignDeviceDetailsDataFromJson(
       grade: json['gr'] as String?,
       repairType: json['rt'] as String?,
       productName: json['pt'] as String?,
+      deadRemark: json['dr'] as String?,
     );
 
 Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
@@ -49,4 +50,5 @@ Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
       'rt': instance.repairType,
       'gr': instance.grade,
       'lc': instance.lc,
+      'dr': instance.deadRemark,
     };

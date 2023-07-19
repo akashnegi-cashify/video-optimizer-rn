@@ -39,7 +39,7 @@ class AmplifyProvider extends CshChangeNotifier {
     );
   }
 
-  getS3DetailsAndConfigureAmplify() {
+  getS3DetailsForTrcAndConfigureAmplify() {
     S3DetailsService.fetchS3Details().listen((event) {
       if (event != null) {
         configResponse = event;

@@ -1,11 +1,18 @@
+import 'package:builder_project/builder_project.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:provider/provider.dart';
+
 import '../l10n.dart';
 import '../models/assigned_device_details.dart';
+import '../models/assigned_part_details_comp_param.dart';
 import '../providers/assinged_part_details_provider.dart';
 import '../widgets/assiged_device_details_widget.dart';
 import '../widgets/assigned_part_details_widget.dart';
+
+part 'assigned_part_details_screen.g.dart';
 
 class AssignedPartDetailsArguments {
   final AssignDeviceDetailsData? assignDeviceDetailsData;
@@ -14,24 +21,59 @@ class AssignedPartDetailsArguments {
   AssignedPartDetailsArguments({this.assignDeviceDetailsData, required this.prid});
 }
 
-class AssignedPartDetailsScreen extends StatefulWidget {
-  static const String route = "/assigned_part_details_screen";
+@CshPage(
+  key: AssignedPartDetailsScreen.pageKey,
+  pageGroup: PageGroup.assignedPartDetailsPageKey,
+  params: AssignedPartDetailsCompParamKeys.values,
+)
+class AssignedPartDetailsCompArguments extends BaseArguments {
+  final AssignedPartDetailsArguments? args;
 
-  const AssignedPartDetailsScreen({Key? key}) : super(key: key);
+  AssignedPartDetailsCompArguments({this.args}) : super(AssignedPartDetailsScreen.pageKey);
 
-  @override
-  State<AssignedPartDetailsScreen> createState() => _AssignedPartDetailsScreenState();
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[AssignedPartDetailsCompParamKeys.arguments.value] = args;
+    return data;
+  }
 }
 
-class _AssignedPartDetailsScreenState extends State<AssignedPartDetailsScreen> {
+class AssignedPartDetailsScreen extends BaseScreen<AssignedPartDetailsCompArguments> {
+  static const String pageKey = "TRC_assigned_part_details_screen";
+  static const String route = "/assigned_part_details_screen";
+
+  const AssignedPartDetailsScreen({super.key});
+
+  @override
+  Widget buildView(BuildContext context) {
+    var args = getArguments(context);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: args?.toJson(),
+    );
+  }
+}
+
+class AssignedPartDetailsCompWidget extends StatefulWidget {
+  final AssignedPartDetailsArguments? arguments;
+
+  const AssignedPartDetailsCompWidget({
+    Key? key,
+    this.arguments,
+  }) : super(key: key);
+
+  @override
+  State<AssignedPartDetailsCompWidget> createState() => _AssignedPartDetailsCompWidgetState();
+}
+
+class _AssignedPartDetailsCompWidgetState extends State<AssignedPartDetailsCompWidget> {
   @override
   Widget build(BuildContext context) {
-    var arguments = ModalRoute.of(context)?.settings.arguments as AssignedPartDetailsArguments;
     var theme = Theme.of(context);
     var l10n = L10n(context);
 
     return ChangeNotifierProvider<AssignedPartDetailsProvider>(
-      create: (_) => AssignedPartDetailsProvider(arguments.prid),
+      create: (_) => AssignedPartDetailsProvider(widget.arguments?.prid),
       lazy: false,
       builder: (BuildContext innerContext, __) {
         var provider = AssignedPartDetailsProvider.of(innerContext);
@@ -76,12 +118,13 @@ class _AssignedPartDetailsScreenState extends State<AssignedPartDetailsScreen> {
               child: Column(
                 children: [
                   AssignedDeviceDetailsWidget(
-                    dataModel: arguments.assignDeviceDetailsData,
+                    dataModel: widget.arguments?.assignDeviceDetailsData,
                     isLoading: false,
                     errorMessage: "",
                   ),
                   const SizedBox(height: Dimens.space_8),
-                  AssignedPartDetailsWidget(prid: arguments.prid, detailsData: provider.assignedPartsDetails),
+                  AssignedPartDetailsWidget(
+                      prid: widget.arguments?.prid ?? 0, detailsData: provider.assignedPartsDetails),
                   const Expanded(
                     child: SizedBox.shrink(),
                   ),
@@ -94,7 +137,7 @@ class _AssignedPartDetailsScreenState extends State<AssignedPartDetailsScreen> {
                             provider.assignedPartsDetails!.data!.status == "Cancelled")
                         ? null
                         : () {
-                            _showCancelModal(innerContext, theme, l10n, arguments.prid);
+                            _showCancelModal(innerContext, theme, l10n, widget.arguments?.prid ?? 0);
                           },
                     secondBtnClick: () {
                       Navigator.of(context).pop();

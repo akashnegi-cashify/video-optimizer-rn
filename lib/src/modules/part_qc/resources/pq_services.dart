@@ -5,7 +5,7 @@ import 'package:flutter_trc/src/services/trc_service.dart';
 import '../models/general_response.dart';
 import '../models/qc_parts_list_response.dart';
 
-class PartQCService {
+class PartQcServiceElss {
   static Stream<QcPartsListResponse?> getQcPartList({String? pbr = ""}) {
     Map<String, List<String>> paramData = {
       "pbr": [pbr ?? ""]

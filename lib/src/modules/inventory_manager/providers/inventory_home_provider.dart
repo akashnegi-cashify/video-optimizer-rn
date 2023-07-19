@@ -21,7 +21,6 @@ class InventoryHomeProvider extends CshChangeNotifier {
   bool isDataLoading = true, allowPendingWidget = false;
   List<GroupLocationModel> listOfGroupLocation = [];
   InventoryLocationResponse? inventoryLocationResponse;
-  int offsetLength = 10;
   String barcode = "";
   bool isUrgent = false;
   List<PendingDeviceDetailData> assignedTabListData = [];
@@ -48,10 +47,10 @@ class InventoryHomeProvider extends CshChangeNotifier {
     });
   }
 
-  Future<EngineerListResponse?> getAssignmentPendingEngineerList(int pageNumber) {
+  Future<EngineerListResponse?> getAssignmentPendingEngineerList(int pageNumber, int pageSize) {
     var completer = Completer<EngineerListResponse?>();
     try {
-      InventoryService.getAssignmentPendingEngineerList(getLocationsString() ?? "", pageNumber, offsetLength).listen(
+      InventoryService.getAssignmentPendingEngineerList(getLocationsString() ?? "", pageNumber, pageSize).listen(
           (event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(event);
@@ -71,10 +70,10 @@ class InventoryHomeProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<PendingDeviceListResponse> getListOfAssignmentPendingDevices(int pageNo) {
+  Future<PendingDeviceListResponse> getListOfAssignmentPendingDevices(int pageNo, int pageSize) {
     var completer = Completer<PendingDeviceListResponse>();
     try {
-      InventoryService.getListOfAssignmentPendingDevices(pageNo, offsetLength, isUrgent: isUrgent, barcode: barcode)
+      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize, isUrgent: isUrgent, barcode: barcode)
           .listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(event);

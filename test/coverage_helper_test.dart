@@ -21,7 +21,6 @@ import 'package:flutter_trc/src/environments/environment_config.dart';
 import 'package:flutter_trc/src/environments/types.dart';
 import 'package:flutter_trc/src/environments/environments.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
-import 'package:flutter_trc/src/resources/user_role.dart';
 import 'package:flutter_trc/src/resources/models/s3_details_response.dart';
 import 'package:flutter_trc/src/resources/models/send_native_data.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
@@ -139,8 +138,8 @@ import 'package:flutter_trc/src/modules/rubbing/model/rubbing_done_response.dart
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_data.dart';
 import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_devices_list_widget.dart';
-import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_widget.dart';
-import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_widget.dart';
+import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_screen.dart';
+import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/providers/pq_provider.dart';
 import 'package:flutter_trc/src/modules/part_qc/providers/part_status_provider.dart';
 import 'package:flutter_trc/src/modules/part_qc/resources/pq_services.dart';
@@ -192,7 +191,7 @@ import 'package:flutter_trc/src/modules/inventory_manager/screens/assigned_part_
 import 'package:flutter_trc/src/modules/inventory_manager/screens/assign_part_barcode_scanner.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_delivery_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/summary_screen.dart';
-import 'package:flutter_trc/src/modules/inventory_manager/screens/return_item_status_screeen.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/screens/return_item_status_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_part_details_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/inventory_home_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/l10n.dart';
@@ -360,7 +359,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_tab.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/send_to_tl_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/my_devices_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/page_not_found.dart';
