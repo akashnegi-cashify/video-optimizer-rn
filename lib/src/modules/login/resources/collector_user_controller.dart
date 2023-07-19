@@ -4,10 +4,10 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
+import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 
-import '../../../../shipex/shipex_home/screens/shipex_home_screen.dart';
 import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
 import '../../../utils/trc_method_channels.dart';

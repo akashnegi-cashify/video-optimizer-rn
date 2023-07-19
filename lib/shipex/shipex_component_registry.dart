@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/shipex/shipex_home/components/shipex_home_component.dart';
+import 'package:flutter_trc/shipex/modules/shipex_home/components/shipex_home_component.dart';
 
 class ShipexComponentRegistry {
   static Widget? getRegisteredComponent(String? componentKey, Map<String, dynamic>? jsonConfig) {
