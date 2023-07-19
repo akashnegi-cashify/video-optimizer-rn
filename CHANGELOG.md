@@ -1,6 +1,16 @@
 # TRC Releases
 
 
+# v2.0.0+9 (19-07-2023)
+
+### Feature:
+
+* `TRC - Code base migration to builder pattern` [(SCM-3887)](https://reglobe.atlassian.net/browse/SCM-3887)
+* `TRC - Direct Reapir` [(SCM-3925)](https://reglobe.atlassian.net/browse/SCM-3925)
+* `QC - Migrate Qc tester module` [(SCM-3885)](https://reglobe.atlassian.net/browse/SCM-3885)
+* `QC - Implement Calculator for all LOBs` [(SCM-3241)](https://reglobe.atlassian.net/browse/SCM-3241)
+
+
 # v1.3.3+8 (07-07-2023)
 
 ### Feature:
