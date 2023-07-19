@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_screen.dart';
+part of 'shipex_home_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,14 +9,10 @@ part of 'login_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "TRC_Login_screen",
-      "pageGroup": "Login",
-      "title": "Login Screen Arguments",
+      "key": "shipex_home_screen",
+      "pageGroup": "Shipex Home",
+      "title": "Shipex Home Screen",
       "isActive": true,
-      "params": [
-        {"key": "sl", "value": null},
-        {"key": "qcl", "value": null}
-      ]
-
+      "params": null
       //#adminscreen
     };

@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/qc_component_registry.dart';
 import 'package:flutter_trc/trc/trc_component_registry.dart';
 
+import '../../shipex/shipex_component_registry.dart';
 import '../common/widgets/not_registred_component_widget.dart';
 import 'app_headers/general_app_header/component/general_header_component.dart';
 import 'app_headers/qc_general_header/component/qc_general_header_component.dart';
+import 'app_headers/shipex_general_header/component/shipex_general_header_component.dart';
 
 class AppComponentBuilder {
   static void Function(int index)? onClick;
@@ -33,6 +35,10 @@ class AppComponentBuilder {
     if (componentWidget != null) {
       return componentWidget;
     }
+    componentWidget = ShipexComponentRegistry.getRegisteredComponent(componentKey, jsonConfig);
+    if (componentWidget != null) {
+      return componentWidget;
+    }
 
     return const NotRegistered();
   }
@@ -43,6 +49,8 @@ class AppComponentBuilder {
         return GeneralHeaderComponent(jsonConfig);
       case QcGeneralHeaderComponent.COMP_KEY:
         return QcGeneralHeaderComponent(jsonConfig);
+      case ShipexGeneralHeaderComponent.COMP_KEY:
+        return ShipexGeneralHeaderComponent(jsonConfig);
       default:
         return null;
     }

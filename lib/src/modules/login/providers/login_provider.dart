@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
+
 import '../../../utils/trc_method_channels.dart';
 import '../models/send_otp_response.dart';
 import '../resources/collector_user_controller.dart';
@@ -46,10 +47,12 @@ class TRCLoginProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<String> qcSendOTP(String mobileNumber, String notificationType) {
+  Future<String> qcSendOTP(String mobileNumber, String notificationType, {bool? loginForShipex = false}) {
     var completer = Completer<String>();
     try {
-      QcServiceElss.sendOtp(mobileNumber, "qc", "v1", notificationType, "on_site").listen((event) {
+      QcServiceElss.sendOtp(mobileNumber, Validator.isTrue(loginForShipex) ? "supersales-oms" : "qc", "v1",
+              notificationType, "on_site")
+          .listen((event) {
         if (event != null) {
           otpResponse = event;
           startTimer();
@@ -70,19 +73,27 @@ class TRCLoginProvider extends CshChangeNotifier {
   }
 
   Future<bool> authenticateSentOTP(BuildContext context, String mobileNumber, String notificationType, String otp,
-      String referenceId, bool loginFromQc) {
+      String referenceId, bool loginFromQc,
+      {bool? loginForShipex = false}) {
     var completer = Completer<bool>();
     try {
-      QcServiceElss.authenticateOTP(mobileNumber, "qc", "v1", notificationType, "on_site", otp, referenceId).listen(
-          (event) async {
+      QcServiceElss.authenticateOTP(mobileNumber, Validator.isTrue(loginForShipex) ? "supersales-oms" : "qc", "v1",
+              notificationType, "on_site", otp, referenceId)
+          .listen((event) async {
         if (event != null) {
           if (!Validator.isNullOrEmpty(event.accessToken)) {
             AuthHandler().setUserAuth(event.accessToken!);
             UserDetails().setUserDetailsData(event.accessToken!);
-            AppPreferences().setIsLoginFromQC(true);
+            if (Validator.isTrue(loginFromQc)) {
+              AppPreferences().setIsLoginFromQC(true);
+              await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+                  loginToken: event.accessToken!, loginFromQC: true, loginFromShipex: false);
+            } else if (Validator.isTrue(loginForShipex)) {
+              AppPreferences().setIsLoginFromShipex(true);
+              await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+                  loginToken: event.accessToken!, loginFromQC: false, loginFromShipex: true);
+            }
 
-            await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                loginToken: event.accessToken!, loginFromQC: true);
             if (mounted) {
               await NativeCall.registerLogout(context);
             }

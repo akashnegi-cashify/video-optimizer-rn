@@ -26,6 +26,7 @@ class LoginComponent extends StatelessComponent {
     return paramBuilder((param) {
       return CombinedLoginWidget(
         isLoginFromQC: param.isLoginFromQC ?? false,
+        isLoginFromShipex: param.isLoginFromShipex ?? false,
       );
     });
   }

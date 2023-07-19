@@ -58,5 +58,5 @@ class L10n extends BaseL10n {
 
   String get changePassword => Intl.message("Change Password", locale: localName, name: "changePassword");
 
-
+  String get shipexLogin => Intl.message("Shipex Login", locale: localName, name: "shipexLogin");
 }

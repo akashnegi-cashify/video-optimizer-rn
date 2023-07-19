@@ -17,11 +17,16 @@ part 'login_screen.g.dart';
 @CshPage(key: LoginScreen.pageKey, pageGroup: PageGroup.loginPageKey, params: LoginCompParamKeys.values)
 class LoginScreenArguments extends BaseArguments {
   final bool? isLoginFromQc;
+  final bool? isLoginFromShipex;
 
-  LoginScreenArguments({this.isLoginFromQc}) : super(LoginScreen.pageKey);
+  LoginScreenArguments({
+    this.isLoginFromQc,
+    this.isLoginFromShipex,
+  }) : super(LoginScreen.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
+    data[LoginCompParamKeys.isLoginFromShipex.value] = isLoginFromShipex;
     data[LoginCompParamKeys.isLoginFromQC.value] = isLoginFromQc;
     return data;
   }
@@ -45,10 +50,12 @@ class LoginScreen extends BaseScreen<LoginScreenArguments> {
 
 class CombinedLoginWidget extends StatefulWidget {
   final bool? isLoginFromQC;
+  final bool? isLoginFromShipex;
 
   const CombinedLoginWidget({
     Key? key,
     this.isLoginFromQC,
+    this.isLoginFromShipex,
   }) : super(key: key);
 
   @override
@@ -76,24 +83,45 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(Validator.isTrue(widget.isLoginFromQC) ? l10n.qcLogin : l10n.trcLogin,
-                            style: theme.primaryTextTheme.headline1),
-                        const SizedBox(height: Dimens.space_2),
-                        Text(
-                            Validator.isTrue(widget.isLoginFromQC)
-                                ? l10n.pleaseEnterYourMobileNumber
-                                : l10n.pleaseEnterYourEmployeeId,
-                            style: theme.primaryTextTheme.bodyText2),
-                        const SizedBox(height: Dimens.space_16),
-                      ],
-                    ),
+                    if (Validator.isTrue(widget.isLoginFromQC) == false &&
+                        Validator.isTrue(widget.isLoginFromShipex) == false)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.trcLogin, style: theme.primaryTextTheme.headline1),
+                          const SizedBox(height: Dimens.space_2),
+                          Text(l10n.pleaseEnterYourEmployeeId, style: theme.primaryTextTheme.bodyText2),
+                          const SizedBox(height: Dimens.space_16),
+                        ],
+                      ),
+                    if (Validator.isTrue(widget.isLoginFromQC))
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.qcLogin, style: theme.primaryTextTheme.headline1),
+                          const SizedBox(height: Dimens.space_2),
+                          Text(l10n.pleaseEnterMobileNumber, style: theme.primaryTextTheme.bodyText2),
+                          const SizedBox(height: Dimens.space_16),
+                        ],
+                      ),
+                    if (Validator.isTrue(widget.isLoginFromShipex))
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.shipexLogin, style: theme.primaryTextTheme.headline1),
+                          const SizedBox(height: Dimens.space_2),
+                          Text(l10n.pleaseEnterMobileNumber, style: theme.primaryTextTheme.bodyText2),
+                          const SizedBox(height: Dimens.space_16),
+                        ],
+                      ),
                   ],
                 ),
               ),
-              Validator.isTrue(widget.isLoginFromQC) ? const QcLoginWidget() : const LoginWidget(),
+              if (Validator.isTrue(widget.isLoginFromQC)) const QcLoginWidget(isLoginForShipex: false),
+              if (Validator.isTrue(widget.isLoginFromQC) == false &&
+                  Validator.isTrue(widget.isLoginFromShipex) == false)
+                const LoginWidget(),
+              if (Validator.isTrue(widget.isLoginFromShipex)) const QcLoginWidget(isLoginForShipex: true),
             ],
           ),
         );

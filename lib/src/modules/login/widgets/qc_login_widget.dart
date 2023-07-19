@@ -2,12 +2,18 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../l10n.dart';
 import '../providers/login_provider.dart';
 import '../resources/notification_type.dart';
 
 class QcLoginWidget extends StatefulWidget {
-  const QcLoginWidget({Key? key}) : super(key: key);
+  final bool isLoginForShipex;
+
+  const QcLoginWidget({
+    Key? key,
+    required this.isLoginForShipex,
+  }) : super(key: key);
 
   @override
   State<QcLoginWidget> createState() => _QcLoginWidgetState();
@@ -69,7 +75,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                     !Validator.isNullOrEmpty(provider.otpResponse?.requestId)) {
                   String otp = _otpController.text.trim();
                   _verifyEnteredOTP(_mobileNumberController.text.trim(), NotificationType.notificationTypeSMS.value,
-                      otp, provider.otpResponse!.requestId!, true);
+                      otp, provider.otpResponse!.requestId!, Validator.isTrue(widget.isLoginForShipex) ? false : true);
                 } else {
                   CshSnackBar.error(context: context, message: l10n.pleaseEnterOtpSentToNumber);
                 }
@@ -130,7 +136,8 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
   _sendOtpToUser(String mobileNumber, String notificationType, String successMessage, {bool isResendFlow = false}) {
     var provider = TRCLoginProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.qcSendOTP(mobileNumber, notificationType).then((value) {
+    provider.qcSendOTP(mobileNumber, notificationType, loginForShipex: Validator.isTrue(widget.isLoginForShipex)).then(
+        (value) {
       CshLoading().hideLoading(context);
       if (!Validator.isNullOrEmpty(value)) {
         if (isResendFlow) {
@@ -151,7 +158,10 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
   _verifyEnteredOTP(String mobileNumber, String notificationType, String otp, String referenceId, bool loginFromQC) {
     var provider = TRCLoginProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.authenticateSentOTP(context, mobileNumber, notificationType, otp, referenceId, loginFromQC).then((value) {
+    provider
+        .authenticateSentOTP(context, mobileNumber, notificationType, otp, referenceId, loginFromQC,
+            loginForShipex: Validator.isTrue(widget.isLoginForShipex))
+        .then((value) {
       if (!value) {
         CshSnackBar.error(context: context, message: "Unable to authenticate!!");
       }

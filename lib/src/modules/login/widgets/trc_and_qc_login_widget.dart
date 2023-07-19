@@ -23,7 +23,7 @@ class TrcAndQcLoginWidget extends StatelessWidget {
             child: CshMediumButton(
               text: l10n.trcLogin,
               onPressed: () {
-                LoginScreenArguments args = LoginScreenArguments(isLoginFromQc: false);
+                LoginScreenArguments args = LoginScreenArguments(isLoginFromQc: false, isLoginFromShipex: false);
                 Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
               },
             ),
@@ -35,6 +35,17 @@ class TrcAndQcLoginWidget extends StatelessWidget {
               text: l10n.qcLogin,
               onPressed: () {
                 LoginScreenArguments args = LoginScreenArguments(isLoginFromQc: true);
+                Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
+              },
+            ),
+          ),
+          const SizedBox(height: Dimens.space_20),
+          SizedBox(
+            width: double.infinity,
+            child: CshMediumButton(
+              text: l10n.shipexLogin,
+              onPressed: () {
+                LoginScreenArguments args = LoginScreenArguments(isLoginFromShipex: true);
                 Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
               },
             ),
