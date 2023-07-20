@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v2.0.1+10 (20-07-2023)
+
+### Bug fix:
+
+* `QC - Calculator - service group in recalculate`
+
+
 # v2.0.0+9 (19-07-2023)
 
 ### Feature:

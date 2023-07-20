@@ -15,6 +15,7 @@ class ItemAllDevicesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
+    var theme = Theme.of(context);
 
     AllDevicesProvider reader = AllDevicesProvider.of(context, listen: false);
 
@@ -92,17 +93,19 @@ class ItemAllDevicesWidget extends StatelessWidget {
               )
             else
               const SizedBox(width: Dimens.space_36),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _titleValueWidget(l10n.barcode, _deviceInfo.deviceBarcode ?? ""),
-                const SizedBox(height: Dimens.space_4),
-                _titleValueWidget(l10n.productTitle, _deviceInfo.productTitle ?? ""),
-                const SizedBox(height: Dimens.space_4),
-                _titleValueWidget(l10n.status, _deviceInfo.status ?? ""),
-                const SizedBox(height: Dimens.space_4),
-                _titleValueWidget(l10n.repairType, _deviceInfo.repairType ?? ""),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _titleValueWidget(l10n.barcode, _deviceInfo.deviceBarcode ?? "", theme),
+                  const SizedBox(height: Dimens.space_4),
+                  _titleValueWidget(l10n.productTitle, _deviceInfo.productTitle ?? "", theme),
+                  const SizedBox(height: Dimens.space_4),
+                  _titleValueWidget(l10n.status, _deviceInfo.status ?? "", theme),
+                  const SizedBox(height: Dimens.space_4),
+                  _titleValueWidget(l10n.repairType, _deviceInfo.repairType ?? "", theme),
+                ],
+              ),
             ),
           ],
         ),
@@ -110,12 +113,17 @@ class ItemAllDevicesWidget extends StatelessWidget {
     );
   }
 
-  Widget _titleValueWidget(String title, String value) {
+  Widget _titleValueWidget(String title, String value, ThemeData theme) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CshTextNew.caption("$title : "),
+        Flexible(flex: 1, fit: FlexFit.tight, child: CshTextNew.caption("$title : ")),
         const SizedBox(width: Dimens.space_8),
-        CshTextNew.subTitle2(value),
+        Flexible(
+          flex: 3,
+          fit: FlexFit.tight,
+          child: Text(value, maxLines: 2, style: theme.textTheme.titleSmall, overflow: TextOverflow.ellipsis),
+        ),
       ],
     );
   }
