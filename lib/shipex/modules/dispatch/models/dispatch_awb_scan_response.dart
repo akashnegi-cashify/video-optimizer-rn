@@ -11,7 +11,7 @@ class DispatchAwbScanResponse extends BaseResponse {
   @JsonKey(name: "awb")
   String? awbNumber;
 
-  @JsonKey(name: "isVal")
+  @JsonKey(name: "isVl")
   bool? isValid;
 
   DispatchAwbScanResponse(this.name, this.awbNumber, this.isValid, super.cashifyAlert, super.trackUrl);

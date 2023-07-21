@@ -2,17 +2,18 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 
 import '../l10n.dart';
 import '../providers/login_provider.dart';
 import '../resources/notification_type.dart';
 
 class QcLoginWidget extends StatefulWidget {
-  final bool isLoginForShipex;
+  final LoginTypes loginType;
 
   const QcLoginWidget({
     Key? key,
-    required this.isLoginForShipex,
+    required this.loginType,
   }) : super(key: key);
 
   @override
@@ -75,7 +76,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                     !Validator.isNullOrEmpty(provider.otpResponse?.requestId)) {
                   String otp = _otpController.text.trim();
                   _verifyEnteredOTP(_mobileNumberController.text.trim(), NotificationType.notificationTypeSMS.value,
-                      otp, provider.otpResponse!.requestId!, Validator.isTrue(widget.isLoginForShipex) ? false : true);
+                      otp, provider.otpResponse!.requestId!, widget.loginType == LoginTypes.shipexLogin ? false : true);
                 } else {
                   CshSnackBar.error(context: context, message: l10n.pleaseEnterOtpSentToNumber);
                 }
@@ -136,7 +137,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
   _sendOtpToUser(String mobileNumber, String notificationType, String successMessage, {bool isResendFlow = false}) {
     var provider = TRCLoginProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.qcSendOTP(mobileNumber, notificationType, loginForShipex: Validator.isTrue(widget.isLoginForShipex)).then(
+    provider.qcSendOTP(mobileNumber, notificationType, loginForShipex: widget.loginType == LoginTypes.shipexLogin).then(
         (value) {
       CshLoading().hideLoading(context);
       if (!Validator.isNullOrEmpty(value)) {
@@ -160,7 +161,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
     CshLoading().showLoading(context);
     provider
         .authenticateSentOTP(context, mobileNumber, notificationType, otp, referenceId, loginFromQC,
-            loginForShipex: Validator.isTrue(widget.isLoginForShipex))
+            loginForShipex: widget.loginType == LoginTypes.shipexLogin)
         .then((value) {
       if (!value) {
         CshSnackBar.error(context: context, message: "Unable to authenticate!!");

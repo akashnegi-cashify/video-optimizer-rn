@@ -749,6 +749,21 @@
           "type": "component"
         }
       ]
+    },
+    {
+      "pageId": 20002,
+      "pageKey": "dispatch_screen",
+      "hd": {
+        "id": 20004,
+        "key": "shipex_general_header"
+      },
+      "dt": [
+        {
+          "id": 20003,
+          "key": "dispatch_component",
+          "type": "component"
+        }
+      ]
     }
   ],
   "componentData": [
@@ -1721,6 +1736,9 @@
       "locale": "en",
       "key": "shipex_home_component",
       "configJson": {
+        "pad": [
+          16
+        ],
         "config": {
           "none": "none"
         }
@@ -1735,6 +1753,28 @@
           "ht": "Shipex Home",
           "sbb": false,
           "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 20003,
+      "locale": "en",
+      "key": "dispatch_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20004,
+      "locale": "en",
+      "key": "shipex_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Shipex Dispatch",
+          "sbb": true,
+          "slb": false
         }
       }
     }

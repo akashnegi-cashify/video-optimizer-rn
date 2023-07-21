@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_screen.dart';
+part of 'dispatch_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,13 +9,10 @@ part of 'login_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "TRC_Login_screen",
-      "pageGroup": "Login",
-      "title": "Login Screen Arguments",
+      "key": "dispatch_screen",
+      "pageGroup": "Dispatch",
+      "title": "Dispatch Screen",
       "isActive": true,
-      "params": [
-        {"key": "lt", "value": null}
-      ]
-
+      "params": null
       //#adminscreen
     };

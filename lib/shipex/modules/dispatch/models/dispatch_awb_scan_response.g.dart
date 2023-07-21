@@ -11,7 +11,7 @@ DispatchAwbScanResponse _$DispatchAwbScanResponseFromJson(
     DispatchAwbScanResponse(
       json['name'] as String?,
       json['awb'] as String?,
-      json['isVal'] as bool?,
+      json['isVl'] as bool?,
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -25,5 +25,5 @@ Map<String, dynamic> _$DispatchAwbScanResponseToJson(
       'turl': instance.trackUrl,
       'name': instance.name,
       'awb': instance.awbNumber,
-      'isVal': instance.isValid,
+      'isVl': instance.isValid,
     };

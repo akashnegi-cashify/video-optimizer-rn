@@ -8,8 +8,7 @@ part of 'login_component.dart';
 
 LoginCompParam fromMap(Map<String, dynamic> map) {
   LoginCompParam model = LoginCompParam(
-    isLoginFromShipex: map["sl"],
-    isLoginFromQC: map["qcl"],
+    loginType: map["lt"],
   );
   return model;
 }
@@ -17,8 +16,7 @@ LoginCompParam fromMap(Map<String, dynamic> map) {
 Widget paramBuilder(Widget Function(LoginCompParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "sl": provider.data["sl"],
-      "qcl": provider.data["qcl"],
+      "lt": provider.data["lt"],
     },
     builder: (context, data, child) {
       LoginCompParam model = fromMap(data);
@@ -28,10 +26,9 @@ Widget paramBuilder(Widget Function(LoginCompParam model) paramBuilder) {
 }
 
 bool isValid(LoginCompParam model) {
-  var isLoginFromShipex = model.isLoginFromShipex;
-  var isLoginFromQC = model.isLoginFromQC;
+  var loginType = model.loginType;
 
-  return isLoginFromShipex != null && isLoginFromQC != null;
+  return loginType != null;
 }
 
 dynamic schema() => {
@@ -42,8 +39,7 @@ dynamic schema() => {
       "isActive": true,
       "title": "Login Component",
       "cpm": [
-        {"key": "sl", "value": null},
-        {"key": "qcl", "value": null}
+        {"key": "lt", "value": null}
       ],
       "configJson": {
         "config": [

@@ -10,24 +10,22 @@ import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 import '../models/login_comp_param.dart';
+import '../resources/login_types.dart';
 import '../widgets/qc_login_widget.dart';
 
 part 'login_screen.g.dart';
 
 @CshPage(key: LoginScreen.pageKey, pageGroup: PageGroup.loginPageKey, params: LoginCompParamKeys.values)
 class LoginScreenArguments extends BaseArguments {
-  final bool? isLoginFromQc;
-  final bool? isLoginFromShipex;
+  final LoginTypes? loginType;
 
   LoginScreenArguments({
-    this.isLoginFromQc,
-    this.isLoginFromShipex,
+    this.loginType,
   }) : super(LoginScreen.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
-    data[LoginCompParamKeys.isLoginFromShipex.value] = isLoginFromShipex;
-    data[LoginCompParamKeys.isLoginFromQC.value] = isLoginFromQc;
+    data[LoginCompParamKeys.loginTypes.value] = loginType;
     return data;
   }
 }
@@ -49,13 +47,11 @@ class LoginScreen extends BaseScreen<LoginScreenArguments> {
 }
 
 class CombinedLoginWidget extends StatefulWidget {
-  final bool? isLoginFromQC;
-  final bool? isLoginFromShipex;
+  final LoginTypes? loginType;
 
   const CombinedLoginWidget({
     Key? key,
-    this.isLoginFromQC,
-    this.isLoginFromShipex,
+    this.loginType,
   }) : super(key: key);
 
   @override
@@ -83,8 +79,7 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (Validator.isTrue(widget.isLoginFromQC) == false &&
-                        Validator.isTrue(widget.isLoginFromShipex) == false)
+                    if (widget.loginType == LoginTypes.trcLogin)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -94,7 +89,7 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                           const SizedBox(height: Dimens.space_16),
                         ],
                       ),
-                    if (Validator.isTrue(widget.isLoginFromQC))
+                    if (widget.loginType == LoginTypes.ocLogin)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -104,7 +99,7 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                           const SizedBox(height: Dimens.space_16),
                         ],
                       ),
-                    if (Validator.isTrue(widget.isLoginFromShipex))
+                    if (widget.loginType == LoginTypes.shipexLogin)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -117,11 +112,9 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                   ],
                 ),
               ),
-              if (Validator.isTrue(widget.isLoginFromQC)) const QcLoginWidget(isLoginForShipex: false),
-              if (Validator.isTrue(widget.isLoginFromQC) == false &&
-                  Validator.isTrue(widget.isLoginFromShipex) == false)
-                const LoginWidget(),
-              if (Validator.isTrue(widget.isLoginFromShipex)) const QcLoginWidget(isLoginForShipex: true),
+              if (widget.loginType == LoginTypes.ocLogin) const QcLoginWidget(loginType: LoginTypes.ocLogin),
+              if (widget.loginType == LoginTypes.trcLogin) const LoginWidget(),
+              if (widget.loginType == LoginTypes.shipexLogin) const QcLoginWidget(loginType: LoginTypes.shipexLogin),
             ],
           ),
         );

@@ -7,11 +7,10 @@ import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart'
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utils/trc_method_channels.dart';
+import '../../elss/common_resources/elss_service.dart';
 import '../models/send_otp_response.dart';
 import '../resources/collector_user_controller.dart';
 import '../resources/login_service.dart';
-import '../resources/qc_service.dart';
 
 class TRCLoginProvider extends CshChangeNotifier {
   Timer? timer;
@@ -50,7 +49,7 @@ class TRCLoginProvider extends CshChangeNotifier {
   Future<String> qcSendOTP(String mobileNumber, String notificationType, {bool? loginForShipex = false}) {
     var completer = Completer<String>();
     try {
-      QcServiceElss.sendOtp(mobileNumber, Validator.isTrue(loginForShipex) ? "supersales-oms" : "qc", "v1",
+      ElssService.sendOtp(mobileNumber, Validator.isTrue(loginForShipex) ? "supersales-oms" : "qc", "v1",
               notificationType, "on_site")
           .listen((event) {
         if (event != null) {
@@ -77,7 +76,7 @@ class TRCLoginProvider extends CshChangeNotifier {
       {bool? loginForShipex = false}) {
     var completer = Completer<bool>();
     try {
-      QcServiceElss.authenticateOTP(mobileNumber, Validator.isTrue(loginForShipex) ? "supersales-oms" : "qc", "v1",
+      ElssService.authenticateOTP(mobileNumber, Validator.isTrue(loginForShipex) ? "supersales-oms" : "qc", "v1",
               notificationType, "on_site", otp, referenceId)
           .listen((event) async {
         if (event != null) {
@@ -92,10 +91,6 @@ class TRCLoginProvider extends CshChangeNotifier {
               AppPreferences().setIsLoginFromShipex(true);
               await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
                   loginToken: event.accessToken!, loginFromQC: false, loginFromShipex: true);
-            }
-
-            if (mounted) {
-              await NativeCall.registerLogout(context);
             }
           }
           completer.complete(true);

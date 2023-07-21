@@ -1,21 +1,19 @@
 import 'package:csh_annotation/annotation.dart';
 
+import '../resources/login_types.dart';
+
 @CshPageParam()
 class LoginCompParam {
-  @ParamKey(key: LoginCompParamKeys.isLoginFromQC, defaultValue: false)
-  bool? isLoginFromQC;
-  @ParamKey(key: LoginCompParamKeys.isLoginFromShipex, defaultValue: false)
-  bool? isLoginFromShipex;
+  @ParamKey(key: LoginCompParamKeys.loginTypes)
+  LoginTypes? loginType;
 
   LoginCompParam({
-    this.isLoginFromShipex,
-    this.isLoginFromQC,
+    this.loginType,
   });
 }
 
 enum LoginCompParamKeys with AbsParamKey {
-  isLoginFromShipex("sl"),
-  isLoginFromQC("qcl");
+  loginTypes("lt");
 
   @override
   final String value;
