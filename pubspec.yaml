@@ -131,6 +131,7 @@ dependencies:
   video_thumbnail: ^0.5.3
   video_compress: ^3.1.2
   path_provider: ^2.0.15
+  image: ^4.0.17
 
 
 dev_dependencies:
@@ -208,6 +209,7 @@ flutter:
     - assets/json/
     - assets/stage/
     - assets/beta/
+    - assets/prodTest/
     - assets/
 
   fonts:
