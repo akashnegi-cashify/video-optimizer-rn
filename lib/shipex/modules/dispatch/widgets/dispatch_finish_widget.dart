@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/shipex/modules/dispatch/providers/shipex_dispatch_provider.dart';
+import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../l10n.dart';
@@ -46,7 +48,7 @@ class _DispatchFinishedWidgetState extends State<DispatchFinishedWidget> {
               ),
             ],
           ),
-          if (!Validator.isListNullOrEmpty(provider.scannedAwbNumber)) ...[
+          if (!Validator.isListNullOrEmpty(provider.scannedAwbList)) ...[
             const SizedBox(height: Dimens.space_20),
             Container(
               width: double.infinity,
@@ -57,16 +59,16 @@ class _DispatchFinishedWidgetState extends State<DispatchFinishedWidget> {
                 padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_12),
                 itemBuilder: (context, index) {
                   return AWBDataCardWidget(
-                    awbNumber: provider.scannedAwbNumber[index],
+                    awbNumber: provider.scannedAwbList[index],
                     onCrossedPressed: () {
-                      provider.removeScannedAwbNumber(provider.scannedAwbNumber[index]);
+                      provider.removeScannedAwbNumber(provider.scannedAwbList[index]);
                     },
                   );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: Dimens.space_8);
                 },
-                itemCount: provider.scannedAwbNumber.length,
+                itemCount: provider.scannedAwbList.length,
               ),
             )
           ],
@@ -100,7 +102,7 @@ class _DispatchFinishedWidgetState extends State<DispatchFinishedWidget> {
                     return InvoiceImageWidget(
                       imageFile: provider.listOfInvoicePicture[index],
                       onCrossedCallback: (File file) {
-                        provider.removeInvoiceFile(file);
+                        provider.removeInvoiceFile(index);
                       },
                     );
                   },
@@ -117,12 +119,27 @@ class _DispatchFinishedWidgetState extends State<DispatchFinishedWidget> {
             width: double.infinity,
             child: CshMediumButton(
               text: l10n.finishDispatch,
-              onPressed: () {},
+              onPressed: () {
+                _finishDispatch(provider);
+              },
             ),
           )
         ],
       ),
     );
+  }
+
+  _finishDispatch(ShipexDispatchProvider provider) {
+    CshLoading().showLoading(context);
+    provider.finishDispatch().then((value) {
+      CshLoading().hideLoading(context);
+      showAlertDialog(context, title: "Success", desc: "Dispatch Completed", onPosBtnPressed: (context) {
+        Navigator.popUntil(context, (route) => route.settings.name == ShipexHomeScreen.route);
+      });
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error);
+    });
   }
 
   _sendProofOfDispatch(bool isCsvUpload) {
@@ -132,9 +149,9 @@ class _DispatchFinishedWidgetState extends State<DispatchFinishedWidget> {
       CshLoading().hideLoading(context);
       if (value) {
         if (Validator.isTrue(isCsvUpload)) {
-          CshSnackBar.success(context: context, message: "Sent in CSV successfully!!");
+          CshSnackBar.success(context: context, message: "CSV sent successfully!!");
         } else {
-          CshSnackBar.success(context: context, message: "Sent in PDF successfully!!");
+          CshSnackBar.success(context: context, message: "PDF sent successfully!!");
         }
       }
     }, onError: (error) {

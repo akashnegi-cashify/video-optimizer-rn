@@ -11,7 +11,7 @@ class DispatchService {
     return ShipexService().get("/app/delivery/list", DeliveryPartnerListResponse.fromJson, authorization: true);
   }
 
-  static Stream<DispatchAwbScanResponse?> getCalculator(String? awbNumber, String? deliveryPartnerKey) {
+  static Stream<DispatchAwbScanResponse?> validateAwbNumber(String? awbNumber, String? deliveryPartnerKey) {
     Map<String, dynamic> req = {
       "awb": awbNumber,
       "dk": deliveryPartnerKey,
@@ -34,10 +34,20 @@ class DispatchService {
     return ShipexService().post(endPoint, ElssSuccessResponse.fromJson, body: jsonEncode(req));
   }
 
-  // TODO: need to change request for sip
-  static Stream<BaseResponse?> completeDispatch(List<String>? awbList, String? combinedImageUrl, {bool isCsv = false}) {
+  static Stream<BaseResponse?> completeDispatch(
+      List<String>? awbList, String? combinedImageUrl, String? deliveryPartnerKey) {
+    List<Map<String, String>> newAwbList = [];
+
+    for (int i = 0; i < awbList!.length; i++) {
+      Map<String, String> awbListWithDeliveryPartner = {
+        "awb": awbList[i],
+        "dk": deliveryPartnerKey.toString(),
+      };
+      newAwbList.add(awbListWithDeliveryPartner);
+    }
+
     Map<String, dynamic> req = {
-      "sip": awbList,
+      "sip": newAwbList,
       "pod": combinedImageUrl,
     };
     return ShipexService().post("/app/dispatch/complete", BaseResponse.fromJson, body: jsonEncode(req));

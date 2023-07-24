@@ -61,8 +61,7 @@ class MediaUploadUtil {
     });
   }
 
-  Future<String> uploadMedia(BuildContext context,
-      {required File mediaFile, required String fileName, bool? isVideoFile = false}) {
+  Future<String> uploadMedia({required File mediaFile, required String fileName, bool? isVideoFile = false}) {
     var completer = Completer<String>();
     String fileFormat = mediaFile.path.split(".").last;
     try {
@@ -111,8 +110,7 @@ class MediaUploadUtil {
               completer.completeError(e.toString());
             }
           } else {
-            CshSnackBar.error(
-                context: context, message: "No Pre-Signed URL found", snackBarPosition: SnackBarPosition.TOP);
+            completer.completeError("No Pre-Signed URL found");
           }
         },
         onError: (error) {

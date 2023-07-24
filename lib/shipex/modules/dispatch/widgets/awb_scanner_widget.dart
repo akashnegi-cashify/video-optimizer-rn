@@ -17,7 +17,7 @@ class AwbScannerWidget extends StatefulWidget {
   State<AwbScannerWidget> createState() => _AwbScannerWidgetState();
 }
 
-class _AwbScannerWidgetState extends State<AwbScannerWidget> with AutomaticKeepAliveClientMixin {
+class _AwbScannerWidgetState extends State<AwbScannerWidget>{
   String _lastScannedAWB = "";
 
   @override
@@ -34,7 +34,7 @@ class _AwbScannerWidgetState extends State<AwbScannerWidget> with AutomaticKeepA
             Row(
               children: [
                 Text(
-                  "${l10n.selectDeliveryPartner}: ",
+                  "${l10n.selectedDeliveryPartner}: ",
                   style: theme.primaryTextTheme.bodyMedium,
                 ),
                 const SizedBox(width: Dimens.space_4),
@@ -48,26 +48,34 @@ class _AwbScannerWidgetState extends State<AwbScannerWidget> with AutomaticKeepA
                 ),
               ],
             ),
-          const SizedBox(height: Dimens.space_20),
+          const SizedBox(height: Dimens.space_16),
           CshCard(
+            padding: const EdgeInsets.all(Dimens.space_4),
             child: Column(
               children: [
                 Text(
                   l10n.scanOrEnterAwb,
                   style: theme.primaryTextTheme.displaySmall,
                 ),
+                const SizedBox(height: Dimens.space_8),
+                Text(
+                  "${provider.scannedAwbList.length} Awb barcode scanned",
+                  style: theme.primaryTextTheme.displaySmall,
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.60,
-                  child: TRCScannerWidget(onScanDetected: (scannedData, controller) {
-                    if (scannedData.isNotEmpty) {
-                      controller?.stop();
-                      _checkValidityOfAwbNumber(context, scannedData.trim(), onScanner: () {
-                        Future.delayed(const Duration(milliseconds: 300), () {
-                          controller?.start();
-                        });
-                      });
-                    }
-                  }),
+                  child: TRCScannerWidget(
+                      isEditTextSubmitButtonDirectionHorizontal: true,
+                      onScanDetected: (scannedData, controller) {
+                        if (scannedData.isNotEmpty) {
+                          controller?.stop();
+                          _checkValidityOfAwbNumber(context, scannedData.trim(), onScanner: () {
+                            Future.delayed(const Duration(milliseconds: 300), () {
+                              controller?.start();
+                            });
+                          });
+                        }
+                      }),
                 ),
               ],
             ),
@@ -98,7 +106,7 @@ class _AwbScannerWidgetState extends State<AwbScannerWidget> with AutomaticKeepA
             width: double.infinity,
             child: CshMediumButton(
               text: l10n.proceed,
-              onPressed: (Validator.isListNullOrEmpty(provider.scannedAwbNumber))
+              onPressed: (Validator.isListNullOrEmpty(provider.scannedAwbList))
                   ? null
                   : () {
                       widget.onSubmitPressed();
@@ -133,7 +141,4 @@ class _AwbScannerWidgetState extends State<AwbScannerWidget> with AutomaticKeepA
       CshSnackBar.error(context: context, message: error);
     });
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

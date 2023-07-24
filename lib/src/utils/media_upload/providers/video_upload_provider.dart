@@ -32,7 +32,7 @@ class VideoUploadProvider extends CshChangeNotifier {
     }
 
     String fileName = path.basename(file.path);
-    MediaUploadUtil().uploadMedia(context, mediaFile: file, fileName: fileName, isVideoFile: true).then((value) async {
+    MediaUploadUtil().uploadMedia(mediaFile: file, fileName: fileName, isVideoFile: true).then((value) async {
       if (value.isNotEmpty) {
         videoS3Url = value;
         videoThumbnailImagePath = await _getVideoThumbnail(videoS3Url!);

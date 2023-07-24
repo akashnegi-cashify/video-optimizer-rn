@@ -18,8 +18,8 @@ class L10n extends BaseL10n {
 
   String get scanOrEnterAwb => Intl.message("Scan Or Enter AWB", locale: localName, name: "scanOrEnterAwb");
 
-  String get selectDeliveryPartner =>
-      Intl.message("Select Delivery Partner", locale: localName, name: "selectDeliveryPartner");
+  String get selectedDeliveryPartner =>
+      Intl.message("Selected Delivery Partner", locale: localName, name: "selectedDeliveryPartner");
 
   String get lastAwb => Intl.message("Last AWB", locale: localName, name: "lastAwb");
 

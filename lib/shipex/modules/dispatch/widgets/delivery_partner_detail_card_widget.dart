@@ -31,15 +31,12 @@ class DeliveryPartnerDetailCardWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_10),
         child: Row(
           children: [
-            Text(
-              "${l10n.name}: ",
-              style: theme.primaryTextTheme.headlineMedium,
-            ),
+            Text("${l10n.name}: ", style: theme.primaryTextTheme.bodyMedium),
             const SizedBox(width: Dimens.space_4),
             Expanded(
               child: Text(
                 dataModel?.name ?? "",
-                style: theme.primaryTextTheme.bodyMedium,
+                style: theme.primaryTextTheme.headlineMedium,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
