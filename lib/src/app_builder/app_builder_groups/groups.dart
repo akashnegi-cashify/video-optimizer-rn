@@ -1,6 +1,8 @@
 import 'package:csh_annotation/annotation.dart';
 
 enum ComponentGroup with AbsComponentGroup {
+  packagingProcessComponentKey("Packaging Process"),
+  shipexPackingComponentKey("Packing"),
   dispatchComponentKey("Dispatch"),
   shipexHomeComponentKey("Shipex Home"),
   shipexGeneralHeaderComponentKey("Shipex General Header"),
@@ -64,6 +66,8 @@ enum ComponentGroup with AbsComponentGroup {
 }
 
 enum PageGroup with AbsPageGroup {
+  packagingProcessPageKey("Packaging Process"),
+  shipexPackingPageKey("Packing"),
   dispatchPageKey("Dispatch"),
   shipexHomePageKey("Shipex Home"),
   disputedImageCapturePageKey("Disputed Image Capture"),

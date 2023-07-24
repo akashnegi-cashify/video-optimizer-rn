@@ -1,6 +1,10 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/shipex/modules/dispatch/dispatch_screen.dart';
+import 'package:flutter_trc/shipex/modules/packaging/shipex_packing_screen.dart';
+
+import '../../l10n.dart';
+import 'package:flutter_trc/shipex/modules/dispatch/dispatch_screen.dart';
 
 import '../../l10n.dart';
 
@@ -28,7 +32,9 @@ class ShipexHomeWidget extends StatelessWidget {
             width: double.infinity,
             child: CshMediumButton(
               text: l10n.shipexPackaging,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(ShipexPackingScreen.route);
+              },
             ),
           ),
         ],
