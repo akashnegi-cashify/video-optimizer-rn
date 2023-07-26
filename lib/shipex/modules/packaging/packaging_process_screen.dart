@@ -3,7 +3,7 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-import 'models/group_list_repsonse_data_model.dart';
+import 'models/group_lot_list_repsonse.dart';
 import 'models/packaging_process_comp_param.dart';
 
 part 'packaging_process_screen.g.dart';
@@ -14,13 +14,16 @@ part 'packaging_process_screen.g.dart';
   params: PackagingProcessCompParamKeys.values,
 )
 class PackagingProcessScreenArguments extends BaseArguments {
-  final GroupListDataResponse? dataModel;
+  final GroupLotListData? dataModel;
+  final bool isPendingGroupLot;
 
-  PackagingProcessScreenArguments({this.dataModel}) : super(PackagingProcessScreen.pageKey);
+  PackagingProcessScreenArguments({this.dataModel, this.isPendingGroupLot = false})
+      : super(PackagingProcessScreen.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
     data[PackagingProcessCompParamKeys.dataModel.value] = dataModel;
+    data[PackagingProcessCompParamKeys.isPending.value] = isPendingGroupLot;
     return data;
   }
 }

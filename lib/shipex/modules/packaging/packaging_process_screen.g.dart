@@ -14,7 +14,8 @@ dynamic schema() => {
       "title": "Packaging Process Screen Arguments",
       "isActive": true,
       "params": [
-        {"key": "dm", "value": null}
+        {"key": "dm", "value": null},
+        {"key": "ip", "value": null}
       ]
 
       //#adminscreen

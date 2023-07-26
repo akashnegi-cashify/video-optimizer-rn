@@ -6,9 +6,9 @@ part 'packaging_sub_order_list_response.g.dart';
 @JsonSerializable()
 class PackagingSubOrderListResponse extends BaseResponse {
   @JsonKey(name: "dt")
-  List<PackagingSubOrderListData>? invoiceList;
+  List<PackagingSubOrderListData>? subOrderList;
 
-  PackagingSubOrderListResponse(this.invoiceList, super.cashifyAlert, super.trackUrl);
+  PackagingSubOrderListResponse(this.subOrderList, super.cashifyAlert, super.trackUrl);
 
   static PackagingSubOrderListResponse fromJson(Map<String, dynamic> json) =>
       _$PackagingSubOrderListResponseFromJson(json);

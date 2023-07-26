@@ -7,7 +7,7 @@ import 'package:flutter_trc/shipex/modules/packaging/providers/group_list_provid
 
 import '../../../../src/utils/paginate_list_abstract.dart';
 import '../l10n.dart';
-import '../models/group_list_repsonse_data_model.dart';
+import '../models/group_lot_list_repsonse.dart';
 import '../packaging_process_screen.dart';
 import 'group_list_data_card_widget.dart';
 
@@ -18,7 +18,7 @@ class NewOrderDataList extends StatefulWidget {
   State<NewOrderDataList> createState() => _NewOrderDataListState();
 }
 
-class _NewOrderDataListState extends PaginatedListState<GroupListDataResponse, NewOrderDataList> {
+class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrderDataList> {
   _NewOrderDataListState() : super(initialScrollOffset: 10, pageSize: 10);
   final TextEditingController _searchController = TextEditingController();
   bool _isSearchActive = false;
@@ -138,11 +138,11 @@ class _NewOrderDataListState extends PaginatedListState<GroupListDataResponse, N
 
   @override
   void requestApi(int pageNo,
-      {Function(List<GroupListDataResponse>? list)? onSuccess, Function(String errorMessage)? onError}) {
+      {Function(List<GroupLotListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = GroupListProvider.of(context, listen: false);
     provider.fetchNewDataListData(pageNo++, query: _query).then((value) {
       if (onSuccess != null) {
-        onSuccess(value.groupDataList);
+        onSuccess(value.groupLotList);
       }
     }, onError: (error) {
       if (onError != null) {

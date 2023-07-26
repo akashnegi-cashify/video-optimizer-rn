@@ -5,15 +5,15 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/group_list_repsonse_data_model.dart';
+import '../models/group_lot_list_repsonse.dart';
 import '../resouces/packing_service.dart';
 
 class GroupListProvider extends CshChangeNotifier {
   //Pending list properties
   bool pendingDataLoading = false;
   String? pendingErrorListMessage;
-  List<GroupListDataResponse>? groupDataPendingList;
-  List<GroupListDataResponse> localSearchResultsData = [];
+  List<GroupLotListData>? groupDataPendingList;
+  List<GroupLotListData> localSearchResultsData = [];
 
   static GroupListProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<GroupListProvider>(context, listen: listen);
@@ -23,8 +23,8 @@ class GroupListProvider extends CshChangeNotifier {
     pendingDataLoading = true;
     notifyListeners();
     PackingService.getGroupPendingDataList().listen((event) {
-      if (!Validator.isListNullOrEmpty(event?.groupDataList)) {
-        groupDataPendingList = event!.groupDataList!;
+      if (!Validator.isListNullOrEmpty(event?.groupLotList)) {
+        groupDataPendingList = event!.groupLotList!;
       }
     }, onError: (error) {
       String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
@@ -36,11 +36,11 @@ class GroupListProvider extends CshChangeNotifier {
     });
   }
 
-  Future<GroupListResponseModel> fetchNewDataListData(int pageNumber, {String? query}) {
-    var completer = Completer<GroupListResponseModel>();
+  Future<GroupLotListResponse> fetchNewDataListData(int pageNumber, {String? query}) {
+    var completer = Completer<GroupLotListResponse>();
     try {
       PackingService.getGroupNewDataList(pageNumber, query: query).listen((event) {
-        if (event != null && !Validator.isListNullOrEmpty(event.groupDataList)) {
+        if (event != null && !Validator.isListNullOrEmpty(event.groupLotList)) {
           completer.complete(event);
         } else {
           completer.completeError("Something went wrong");

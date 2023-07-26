@@ -26,7 +26,7 @@ class L10n extends BaseL10n {
   String get lotName => Intl.message("Lot Name", locale: localName, name: "lotName");
 
   String get scanOrEnterAwbToProceed =>
-      Intl.message("Scan or Enter AWB to proceed", locale: localName, name: "scanOrEnterAwbToProceed");
+      Intl.message("Scan AWB to proceed", locale: localName, name: "scanOrEnterAwbToProceed");
 
   String get scanOrEnterInvoiceNumber =>
       Intl.message("Scan or Enter Invoice Number", locale: localName, name: "scanOrEnterInvoiceNumber");
@@ -44,5 +44,8 @@ class L10n extends BaseL10n {
   String get enterDeviceBarcode => Intl.message("Enter Device Barcode", locale: localName, name: "enterDeviceBarcode");
 
   String get scanOrEnterAnyDeviceBarcode =>
-      Intl.message("Scan or enter any device barcode", locale: localName, name: "scanOrEnterAnyDeviceBarcode");
+      Intl.message("Scan any device of the lot", locale: localName, name: "scanOrEnterAnyDeviceBarcode");
+
+  String get scanBarcodeToStartRecording =>
+      Intl.message("Scan Barcode to start Recording", locale: localName, name: "scanBarcodeToStartRecording");
 }

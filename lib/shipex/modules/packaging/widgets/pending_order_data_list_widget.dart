@@ -137,8 +137,8 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
                             return GroupListDataCardWidget(
                               dataModel: provider.localSearchResultsData[index],
                               onCardTap: () {
-                                PackagingProcessScreenArguments args =
-                                    PackagingProcessScreenArguments(dataModel: provider.localSearchResultsData[index]);
+                                PackagingProcessScreenArguments args = PackagingProcessScreenArguments(
+                                    dataModel: provider.localSearchResultsData[index], isPendingGroupLot: true);
                                 Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args);
                               },
                             );
@@ -162,8 +162,8 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
                         return GroupListDataCardWidget(
                           dataModel: provider.groupDataPendingList![index],
                           onCardTap: () {
-                            PackagingProcessScreenArguments args =
-                                PackagingProcessScreenArguments(dataModel: provider.groupDataPendingList![index]);
+                            PackagingProcessScreenArguments args = PackagingProcessScreenArguments(
+                                dataModel: provider.groupDataPendingList![index], isPendingGroupLot: true);
                             Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args);
                           },
                         );

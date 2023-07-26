@@ -66,9 +66,9 @@ class PackagingHeaderWidget extends StatelessWidget {
   _horizontalKeyValuePair(ThemeData theme, String label, String value) {
     return Row(
       children: [
-        Text("$label: ", style: theme.primaryTextTheme.headlineSmall),
+        Flexible(flex: 2, fit: FlexFit.tight, child: Text("$label: ", style: theme.primaryTextTheme.headlineSmall)),
         const SizedBox(width: Dimens.space_8),
-        Text(value, style: theme.primaryTextTheme.headlineSmall)
+        Flexible(flex: 5, fit: FlexFit.tight, child: Text(value, style: theme.primaryTextTheme.headlineSmall))
       ],
     );
   }

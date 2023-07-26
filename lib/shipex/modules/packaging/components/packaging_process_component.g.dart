@@ -9,6 +9,7 @@ part of 'packaging_process_component.dart';
 PackagingProcessCompParam fromMap(Map<String, dynamic> map) {
   PackagingProcessCompParam model = PackagingProcessCompParam(
     dataModel: map["dm"],
+    isGroupLotPending: map["ip"],
   );
   return model;
 }
@@ -18,6 +19,7 @@ Widget paramBuilder(
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "dm": provider.data["dm"],
+      "ip": provider.data["ip"],
     },
     builder: (context, data, child) {
       PackagingProcessCompParam model = fromMap(data);
@@ -28,8 +30,9 @@ Widget paramBuilder(
 
 bool isValid(PackagingProcessCompParam model) {
   var dataModel = model.dataModel;
+  var isGroupLotPending = model.isGroupLotPending;
 
-  return dataModel != null;
+  return dataModel != null && isGroupLotPending != null;
 }
 
 dynamic schema() => {
@@ -40,7 +43,8 @@ dynamic schema() => {
       "isActive": true,
       "title": "Packaging Process Component",
       "cpm": [
-        {"key": "dm", "value": null}
+        {"key": "dm", "value": null},
+        {"key": "ip", "value": null}
       ],
       "configJson": {
         "config": [

@@ -24,7 +24,7 @@ Map<String, dynamic> _$PackagingSubOrderListResponseToJson(
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'dt': instance.invoiceList,
+      'dt': instance.subOrderList,
     };
 
 PackagingSubOrderListData _$PackagingSubOrderListDataFromJson(

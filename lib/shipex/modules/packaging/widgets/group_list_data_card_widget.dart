@@ -2,10 +2,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 
 import '../l10n.dart';
-import '../models/group_list_repsonse_data_model.dart';
+import '../models/group_lot_list_repsonse.dart';
 
 class GroupListDataCardWidget extends StatelessWidget {
-  final GroupListDataResponse? dataModel;
+  final GroupLotListData? dataModel;
   final Function()? onCardTap;
 
   const GroupListDataCardWidget({
@@ -39,8 +39,8 @@ class GroupListDataCardWidget extends StatelessWidget {
                 height: Dimens.space_8,
               )
             ],
-            if (!Validator.isNullOrEmpty(dataModel?.shipmentDescription)) ...[
-              _horizontalKeyValuePair(theme, l10n.status, dataModel!.shipmentDescription!),
+            if (!Validator.isNullOrEmpty(dataModel?.statusDescription)) ...[
+              _horizontalKeyValuePair(theme, l10n.status, dataModel!.statusDescription!),
             ],
           ],
         ),
@@ -51,12 +51,14 @@ class GroupListDataCardWidget extends StatelessWidget {
   _horizontalKeyValuePair(ThemeData theme, String label, String value) {
     return Row(
       children: [
-        Text("$label:", style: theme.primaryTextTheme.headlineMedium),
+        Flexible(flex: 2, fit: FlexFit.tight, child: Text("$label:", style: theme.primaryTextTheme.bodyMedium)),
         const SizedBox(width: Dimens.space_8),
-        Expanded(
+        Flexible(
+          flex: 6,
+          fit: FlexFit.tight,
           child: Text(
             value,
-            style: theme.primaryTextTheme.bodyMedium,
+            style: theme.primaryTextTheme.headlineMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
