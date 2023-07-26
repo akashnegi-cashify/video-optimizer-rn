@@ -85,6 +85,7 @@ class MediaUploadUtil {
                     completer.completeError(error);
                   },
                   onSuccess: () {
+                    Logger.debug('mydebug-----MediaUploadUtil.uploadMedia---url-----', [_uploadedImageUrl]);
                     completer.complete(_uploadedImageUrl ?? "");
                   },
                 );

@@ -126,7 +126,7 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
               padding: EdgeInsets.zero,
               buttonType: ButtonType.mini,
               firstBtnClick: () {
-                Navigator.of(context);
+                Navigator.of(context).pop();
               },
               secondBtnClick: () async {
                 Navigator.of(context).pop();
