@@ -1,6 +1,7 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/libraries/firebase/firebase_helper.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:localization/localization.dart';
 
@@ -19,6 +20,7 @@ const RUNNING_SYSTEM_ENV = String.fromEnvironment('env', defaultValue: 'prod');
 class AppInitializer {
   static init({required List<AnalyticTrackers> trackers, Map<String, HttpInterceptorFactory>? interceptors}) async {
     await AuthHandler().syncAuth();
+    await FirebaseHelper().initFirebase();
     await RemoteConfigHelper().initialize();
     await AnalyticsController.init(trackers);
     await _initApp(interceptors: interceptors);
