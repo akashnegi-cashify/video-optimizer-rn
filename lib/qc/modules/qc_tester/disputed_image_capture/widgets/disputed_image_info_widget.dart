@@ -1,6 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/widgets/general_image_upload_card.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../src/utils/media_upload/widgets/general_video_upload_card.dart';
 import '../models/disputed_media_data_response.dart';
@@ -96,14 +98,17 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
                 spacing: Dimens.space_8,
                 children: List.generate(
                   widget.dataModel!.imageCount!,
-                  (index) => GeneralImageUploadCard(
-                    cardHeight: 100.0,
-                    cardWidth: 100.0,
-                    onMediaUploaded: (String? url) {
-                      widget.dataModel?.imageS3Urls?[index] = url ?? "";
-                      provider.checkSubmitButtonStatus();
-                      provider.notifyListeners();
-                    },
+                  (index) => ChangeNotifierProvider<ImageUploadProvider>(
+                    create: (_) => ImageUploadProvider(),
+                    child: GeneralImageUploadCard(
+                      cardHeight: 100.0,
+                      cardWidth: 100.0,
+                      onMediaUploaded: (String? url) {
+                        widget.dataModel?.imageS3Urls?[index] = url ?? "";
+                        provider.checkSubmitButtonStatus();
+                        provider.notifyListeners();
+                      },
+                    ),
                   ),
                 ),
               ),

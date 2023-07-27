@@ -77,7 +77,7 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier {
       stepperItem.title = "Quote Obtained : Grade is";
       stepperItem.subTitle = event?.grade ?? "";
       iDeviceQuote?.onSubmitCalculatorSuccess(event?.grade, event?.cautionMessage);
-      if (isDeviceTypeLob) {
+      if (isDeviceTypeLob || !CalculatorDataHolderModel().isCaptureMediaMandatory) {
         _proceedAfterImageSubmission();
       } else {
         _submitDeviceImages();
