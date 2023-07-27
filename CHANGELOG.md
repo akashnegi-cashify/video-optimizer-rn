@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v2.0.2+11 (26-07-2023)
+
+### Improvements:
+
+* `QC - Calculator - Make Media capture configurable after calculator`[(SCM-4021)](https://reglobe.atlassian.net/browse/SCM-4021)
+
+
 # v2.0.1+10 (20-07-2023)
 
 ### Bug fix:

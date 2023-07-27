@@ -1,0 +1,180 @@
+import 'dart:io';
+import 'dart:ui' as ui;
+
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
+import 'package:path_provider/path_provider.dart';
+
+class SquareMetric {
+  final Offset offset;
+  double height;
+  double width;
+
+  SquareMetric(this.offset, {this.height = 0, this.width = 0});
+}
+
+mixin DisputedImageEditorListener {
+  void onImageEditComplete(File editedFile);
+}
+
+class DisputeImageEditorScreenArg {
+  final File imageFile;
+  final DisputedImageEditorListener listener;
+
+  DisputeImageEditorScreenArg(this.imageFile, this.listener);
+}
+
+class DisputeImageEditorScreen extends StatefulWidget {
+  static String route = "/image_editor";
+
+  const DisputeImageEditorScreen({super.key});
+
+  @override
+  DisputeImageEditorScreenState createState() => DisputeImageEditorScreenState();
+}
+
+class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
+  final List<SquareMetric> _squares = [];
+  DisputedImageEditorListener? _listener;
+
+  Future<void> _drawSquareOnImage(File imageFile) async {
+    CshLoading().showLoading(context);
+    Uint8List bytes = imageFile.readAsBytesSync();
+    ui.Codec codec = await ui.instantiateImageCodec(bytes);
+    ui.FrameInfo frameInfo = await codec.getNextFrame();
+    ui.Image image = frameInfo.image;
+
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder, Rect.fromPoints(const Offset(0, 0), const Offset(300, 300)));
+    canvas.drawImage(image, Offset.zero, Paint());
+
+    final paint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5;
+
+    for (final square in _squares) {
+      canvas.drawRect(Rect.fromLTWH(square.offset.dx, square.offset.dy, square.width, square.height), paint);
+    }
+
+    final picture = recorder.endRecording();
+    final ui.Image modifiedImage = await picture.toImage(image.width, image.height);
+
+    ByteData? byteData = await modifiedImage.toByteData(format: ui.ImageByteFormat.png);
+
+    if (byteData != null) {
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+      var file = await _saveImageToFile(pngBytes);
+      if (mounted) CshLoading().hideLoading(context);
+      _sendFileToListener(file);
+    }
+  }
+
+  _sendFileToListener(File file) {
+    _listener?.onImageEditComplete(file);
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    DisputeImageEditorScreenArg? arg = ModalRoute.of(context)?.settings.arguments as DisputeImageEditorScreenArg?;
+    assert(arg != null);
+    _listener ??= arg!.listener;
+    return Scaffold(
+      appBar: const QcGeneralHeader("Image Editing"),
+      body: Padding(
+        padding: const EdgeInsets.all(Dimens.space_16),
+        child: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Center(child: Image.file(arg!.imageFile)),
+                  CustomPaint(
+                    painter: SquarePainter(_squares),
+                    child: GestureDetector(
+                      onPanStart: (details) {
+                        setState(() {
+                          _squares.add(SquareMetric(details.localPosition));
+                        });
+                      },
+                      onPanUpdate: (details) {
+                        var lastSquareMetric = _squares.last;
+                        var currentOffset = details.localPosition;
+                        lastSquareMetric.width = currentOffset.dx - lastSquareMetric.offset.dx;
+                        lastSquareMetric.height = currentOffset.dy - lastSquareMetric.offset.dy;
+                        setState(() {});
+                      },
+                      onPanEnd: (details) async {
+                        var lastSquareMetric = _squares.last;
+                        if (lastSquareMetric.height < 10 || lastSquareMetric.width < 10) {
+                          _squares.removeLast();
+                        }
+                        setState(() {});
+                      },
+                      child: Container(color: Colors.black12),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: Dimens.space_16),
+            ComboButton(
+              firstBtnText: "Undo",
+              secondBtnText: "Proceed",
+              buttonType: ButtonType.big,
+              firstBtnClick: _squares.isNotEmpty
+                  ? () {
+                      setState(() {
+                        _squares.removeLast();
+                      });
+                    }
+                  : null,
+              secondBtnClick: () {
+                if (_squares.isEmpty) {
+                  _sendFileToListener(arg.imageFile);
+                } else {
+                  _drawSquareOnImage(arg.imageFile);
+                }
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<File> _saveImageToFile(Uint8List bytes) async {
+    final Directory tempDir = await getTemporaryDirectory();
+    File outputFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg');
+    outputFile.createSync();
+    outputFile.writeAsBytesSync(bytes);
+    print('Image combined successfully and saved as: ${outputFile.path}');
+    return outputFile;
+  }
+}
+
+class SquarePainter extends CustomPainter {
+  final List<SquareMetric> squares;
+
+  SquarePainter(this.squares);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    for (final square in squares) {
+      canvas.drawRect(Rect.fromLTWH(square.offset.dx, square.offset.dy, square.width, square.height), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}

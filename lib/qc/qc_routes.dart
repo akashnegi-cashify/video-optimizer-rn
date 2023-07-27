@@ -9,6 +9,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_que
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_device_quote_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
+import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
 import 'modules/qc_actions/qc_action_screen.dart';
@@ -34,6 +35,7 @@ class QcRoutes {
       DisputedImageCaptureBarcodeScanner.route: (_) => const DisputedImageCaptureBarcodeScanner(),
       DisputedImageCaptureScreen.route: (_) => const DisputedImageCaptureScreen(),
       LobDeviceScannerScreen.route: (_) => const LobDeviceScannerScreen(),
+      DisputeImageEditorScreen.route: (_) => const DisputeImageEditorScreen(),
     };
   }
 }
