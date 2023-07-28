@@ -1,6 +1,4 @@
 import 'package:core_widgets/core_widgets.dart';
-import 'package:flutter_trc/shipex/modules/create_shipment/models/address_response.dart';
-import 'package:flutter_trc/shipex/modules/create_shipment/models/vendor_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'suborder_group_list_response.g.dart';
@@ -35,7 +33,15 @@ class SubOrderGroupListData {
   @JsonKey(name: 'pbar')
   String? packagingBarcode;
 
-  SubOrderGroupListData(this.id, this.name, this.lotType, this.lotTypeName, this.packagingBarcode);
+  @JsonKey(name: 'qty')
+  int? totalQty;
+
+  @JsonKey(name: 'si')
+  String? shipmentId;
+
+
+  SubOrderGroupListData(
+      this.id, this.name, this.lotType, this.lotTypeName, this.packagingBarcode, this.totalQty, this.shipmentId);
 
   static SubOrderGroupListData fromJson(Map<String, dynamic> json) => _$SubOrderGroupListDataFromJson(json);
 

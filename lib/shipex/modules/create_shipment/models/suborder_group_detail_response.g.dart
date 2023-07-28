@@ -14,6 +14,8 @@ SubOrderGroupDetailResponse _$SubOrderGroupDetailResponseFromJson(
       json['lt'] as int?,
       json['ltn'] as String?,
       json['pbar'] as String?,
+      json['qty'] as int?,
+      json['si'] as String?,
     )
       ..invoiceLink = json['il'] as String?
       ..courierName = json['cn'] as String?
@@ -26,7 +28,6 @@ SubOrderGroupDetailResponse _$SubOrderGroupDetailResponseFromJson(
       ..status = json['s'] as int?
       ..statusDesc = json['sd'] as String?
       ..totalAmt = (json['ta'] as num?)?.toDouble()
-      ..totalQty = json['qty'] as int?
       ..billingAddress = json['billAddr'] == null
           ? null
           : AddressResponse.fromJson(json['billAddr'] as Map<String, dynamic>)
@@ -38,7 +39,9 @@ SubOrderGroupDetailResponse _$SubOrderGroupDetailResponseFromJson(
           : AddressResponse.fromJson(json['shipAddr'] as Map<String, dynamic>)
       ..vendorDetails = json['vd'] == null
           ? null
-          : VendorResponse.fromJson(json['vd'] as Map<String, dynamic>);
+          : VendorResponse.fromJson(json['vd'] as Map<String, dynamic>)
+      ..pin = json['pin'] as String?
+      ..state = json['state'] as String?;
 
 Map<String, dynamic> _$SubOrderGroupDetailResponseToJson(
         SubOrderGroupDetailResponse instance) =>
@@ -48,6 +51,8 @@ Map<String, dynamic> _$SubOrderGroupDetailResponseToJson(
       'lt': instance.lotType,
       'ltn': instance.lotTypeName,
       'pbar': instance.packagingBarcode,
+      'qty': instance.totalQty,
+      'si': instance.shipmentId,
       'il': instance.invoiceLink,
       'cn': instance.courierName,
       'ca': instance.courierAwb,
@@ -58,9 +63,10 @@ Map<String, dynamic> _$SubOrderGroupDetailResponseToJson(
       's': instance.status,
       'sd': instance.statusDesc,
       'ta': instance.totalAmt,
-      'qty': instance.totalQty,
       'billAddr': instance.billingAddress,
       'shprAddr': instance.shipperAddress,
       'shipAddr': instance.shippingAddress,
       'vd': instance.vendorDetails,
+      'pin': instance.pin,
+      'state': instance.state,
     };

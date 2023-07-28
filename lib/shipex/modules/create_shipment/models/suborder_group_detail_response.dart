@@ -38,9 +38,6 @@ class SubOrderGroupDetailResponse extends SubOrderGroupListData {
   @JsonKey(name: 'ta')
   double? totalAmt;
 
-  @JsonKey(name: 'qty')
-  int? totalQty;
-
   @JsonKey(name: 'billAddr')
   AddressResponse? billingAddress;
 
@@ -53,7 +50,13 @@ class SubOrderGroupDetailResponse extends SubOrderGroupListData {
   @JsonKey(name: 'vd')
   VendorResponse? vendorDetails;
 
-  SubOrderGroupDetailResponse(super.id, super.name, super.lotType, super.lotTypeName, super.packagingBarcode);
+  @JsonKey(name: "pin")
+  String? pin;
+
+  @JsonKey(name: "state")
+  String? state;
+
+  SubOrderGroupDetailResponse(super.id, super.name, super.lotType, super.lotTypeName, super.packagingBarcode, super.totalQty, super.shipmentId);
 
   static SubOrderGroupDetailResponse fromJson(Map<String, dynamic> json) => _$SubOrderGroupDetailResponseFromJson(json);
 
