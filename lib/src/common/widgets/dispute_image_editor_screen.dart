@@ -9,10 +9,14 @@ import 'package:path_provider/path_provider.dart';
 
 class SquareMetric {
   final Offset offset;
+  Offset? normalizeOffset;
   double height;
   double width;
+  double? normalizeWidth;
+  double? normalizeHeight;
 
-  SquareMetric(this.offset, {this.height = 0, this.width = 0});
+  SquareMetric(this.offset,
+      {this.height = 0, this.width = 0, this.normalizeOffset, this.normalizeWidth, this.normalizeHeight});
 }
 
 mixin DisputedImageEditorListener {
@@ -39,6 +43,10 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
   final List<SquareMetric> _squares = [];
   DisputedImageEditorListener? _listener;
 
+  double _height = 0;
+  double _width = 0;
+  final _imageWidgetKey = GlobalKey();
+
   Future<void> _drawSquareOnImage(File imageFile) async {
     CshLoading().showLoading(context);
     Uint8List bytes = imageFile.readAsBytesSync();
@@ -47,16 +55,19 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
     ui.Image image = frameInfo.image;
 
     final recorder = ui.PictureRecorder();
-    final canvas = Canvas(recorder, Rect.fromPoints(const Offset(0, 0), const Offset(300, 300)));
+    final canvas = Canvas(recorder);
     canvas.drawImage(image, Offset.zero, Paint());
-
     final paint = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.stroke
       ..strokeWidth = 5;
 
     for (final square in _squares) {
-      canvas.drawRect(Rect.fromLTWH(square.offset.dx, square.offset.dy, square.width, square.height), paint);
+      var normalizeOffset = square.normalizeOffset!;
+      canvas.drawRect(
+          Rect.fromLTWH(normalizeOffset.dx * image.width, normalizeOffset.dy * image.height,
+              square.normalizeWidth! * image.width, square.normalizeHeight! * image.height),
+          paint);
     }
 
     final picture = recorder.endRecording();
@@ -78,70 +89,96 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
   }
 
   @override
+  void initState() {
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        var size = _imageWidgetKey.currentContext?.size;
+        if (size == null) return;
+
+        setState(() {
+          _width = size.width;
+          _height = size.height;
+        });
+      },
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     DisputeImageEditorScreenArg? arg = ModalRoute.of(context)?.settings.arguments as DisputeImageEditorScreenArg?;
     assert(arg != null);
     _listener ??= arg!.listener;
     return Scaffold(
       appBar: const QcGeneralHeader("Image Editing"),
-      body: Padding(
-        padding: const EdgeInsets.all(Dimens.space_16),
-        child: Column(
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  Center(child: Image.file(arg!.imageFile)),
-                  CustomPaint(
-                    painter: SquarePainter(_squares),
-                    child: GestureDetector(
-                      onPanStart: (details) {
-                        setState(() {
-                          _squares.add(SquareMetric(details.localPosition));
-                        });
-                      },
-                      onPanUpdate: (details) {
-                        var lastSquareMetric = _squares.last;
-                        var currentOffset = details.localPosition;
-                        lastSquareMetric.width = currentOffset.dx - lastSquareMetric.offset.dx;
-                        lastSquareMetric.height = currentOffset.dy - lastSquareMetric.offset.dy;
-                        setState(() {});
-                      },
-                      onPanEnd: (details) async {
-                        var lastSquareMetric = _squares.last;
-                        if (lastSquareMetric.height < 10 || lastSquareMetric.width < 10) {
-                          _squares.removeLast();
-                        }
-                        setState(() {});
-                      },
-                      child: Container(color: Colors.black12),
+      body: Column(
+        children: [
+          Expanded(
+            child: Stack(
+              children: [
+                Image.file(key: _imageWidgetKey, arg!.imageFile, fit: BoxFit.fitHeight),
+                SizedBox(
+                  height: _height,
+                  width: _width,
+                  child: ClipRect(
+                    child: CustomPaint(
+                      painter: SquarePainter(_squares),
+                      child: GestureDetector(
+                        onTapDown: (details) {
+                          setState(() {
+                            var squareMetric = SquareMetric(details.localPosition);
+                            squareMetric.normalizeOffset =
+                                Offset(details.localPosition.dx / _width, details.localPosition.dy / _height);
+                            _squares.add(squareMetric);
+                          });
+                        },
+                        onPanUpdate: (details) {
+                          var lastSquareMetric = _squares.last;
+                          var currentOffset = details.localPosition;
+                          lastSquareMetric.width = currentOffset.dx - lastSquareMetric.offset.dx;
+                          lastSquareMetric.height = currentOffset.dy - lastSquareMetric.offset.dy;
+
+                          lastSquareMetric.normalizeWidth = lastSquareMetric.width / _width;
+                          lastSquareMetric.normalizeHeight = lastSquareMetric.height / _height;
+                          setState(() {});
+                        },
+                        onPanEnd: (details) async {
+                          var lastSquareMetric = _squares.last;
+                          // if (lastSquareMetric.height < 10 || lastSquareMetric.width < 10) {
+                          //   _squares.removeLast();
+                          // }
+                          // setState(() {});
+                        },
+                        child: Container(color: Colors.black12),
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(height: Dimens.space_16),
-            ComboButton(
-              firstBtnText: "Undo",
-              secondBtnText: "Proceed",
-              buttonType: ButtonType.big,
-              firstBtnClick: _squares.isNotEmpty
-                  ? () {
-                      setState(() {
-                        _squares.removeLast();
-                      });
-                    }
-                  : null,
-              secondBtnClick: () {
-                if (_squares.isEmpty) {
-                  _sendFileToListener(arg.imageFile);
-                } else {
-                  _drawSquareOnImage(arg.imageFile);
-                }
-              },
-            )
-          ],
-        ),
+          ),
+          const SizedBox(height: Dimens.space_16),
+          ComboButton(
+            firstBtnText: "Undo",
+            secondBtnText: "Proceed",
+            buttonType: ButtonType.big,
+            firstBtnClick: _squares.isNotEmpty
+                ? () {
+                    setState(() {
+                      _squares.removeLast();
+                    });
+                  }
+                : null,
+            secondBtnClick: () {
+              if (_squares.isEmpty) {
+                _sendFileToListener(arg.imageFile);
+              } else {
+                _drawSquareOnImage(arg.imageFile);
+              }
+            },
+          )
+        ],
       ),
     );
   }
