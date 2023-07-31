@@ -75,15 +75,40 @@ class CreateShipmentService {
     return ShipexService().get("/app/provider/list", DeliveryPartnerListResponse.fromJson, authorization: true);
   }
 
-  static Stream<DeliveryPartnerListResponse?> createShipment(
-      String facilityId, int? boxId, int? groupId, String selectedProviderKey) {
+  static Stream<BaseResponse?> createShipment(String facilityId, int? boxId, int? groupId, String selectedProviderKey) {
     Map<String, dynamic> req = {
       "bxId": boxId,
       "sosGrId": groupId,
       "spk": selectedProviderKey,
     };
 
-    return ShipexService().post("/app/shipment/$facilityId/create", DeliveryPartnerListResponse.fromJson,
+    return ShipexService()
+        .post("/app/shipment/$facilityId/create", BaseResponse.fromJson, authorization: true, body: jsonEncode(req));
+  }
+
+  static Stream<BaseResponse?> createManualShipment(
+      String facilityId, int? boxId, int? groupId, String selectedProviderKey, String? awbUrl, String? awbNumber) {
+    Map<String, dynamic> req = {
+      "bxId": boxId,
+      "sosGrId": groupId,
+      "dpn": selectedProviderKey,
+      "an": awbNumber,
+      "au": awbUrl,
+    };
+
+    return ShipexService().post("/app/shipment/$facilityId/create-manual", BaseResponse.fromJson,
+        authorization: true, body: jsonEncode(req));
+  }
+
+  static Stream<BaseResponse?> updateManualShipment(
+      String facilityId, int? shipmentId, String selectedProviderKey, String? awbUrl, String? awbNumber) {
+    Map<String, dynamic> req = {
+      "sId": shipmentId,
+      "dpn": selectedProviderKey,
+      "an": awbNumber,
+      "au": awbUrl,
+    };
+    return ShipexService().post("/app/shipment/$facilityId/update-manual", BaseResponse.fromJson,
         authorization: true, body: jsonEncode(req));
   }
 }
