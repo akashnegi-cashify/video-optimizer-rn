@@ -1,6 +1,7 @@
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
+import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 
 enum DeviceType {
   lob_device,
@@ -34,16 +35,13 @@ class CalculatorDataHolderModel {
     _mediaList = value;
   }
 
-
   bool isDeviceTypeLob() {
     return _deviceType == DeviceType.lob_device;
   }
 
   MyCalculatorResponse? get calculatorResponse => _calculatorResponse;
 
-
   String? get deviceBarcode => _deviceBarcode;
-
 
   MyQuoteRequestData? get quoteRequestData => _quoteRequestData;
 
@@ -62,6 +60,9 @@ class CalculatorDataHolderModel {
     _mediaList = null;
     _deviceType = DeviceType.mobile_device;
   }
+
+  bool get isCaptureMediaMandatory =>
+      RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_QC);
 
   factory CalculatorDataHolderModel() {
     return _instance;

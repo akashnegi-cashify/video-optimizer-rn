@@ -57,7 +57,7 @@ class CalculatorComponent extends StatelessComponent<QcCommonConfigModel> {
   void _moveToNextScreen(BuildContext context, MyQuoteRequestData requestData, String? partialQuoteId, String? udid) {
     CalculatorDataHolderModel().quoteRequestData = requestData;
 
-    if (CalculatorDataHolderModel().isDeviceTypeLob()) {
+    if (CalculatorDataHolderModel().isDeviceTypeLob() || !CalculatorDataHolderModel().isCaptureMediaMandatory) {
       Navigator.of(context).pushReplacementNamed(SubmitDeviceQuoteScreen.route);
     } else {
       Navigator.of(context).pushReplacementNamed(CalculatorMediaCaptureScreen.route);
