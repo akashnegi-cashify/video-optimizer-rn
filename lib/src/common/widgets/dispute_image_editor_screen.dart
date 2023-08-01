@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
@@ -60,7 +61,7 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
     final paint = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 5;
+      ..strokeWidth = 10;
 
     for (final square in _squares) {
       var normalizeOffset = square.normalizeOffset!;
@@ -86,22 +87,37 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
   _sendFileToListener(File file) {
     _listener?.onImageEditComplete(file);
     Navigator.pop(context);
+    // showCshBottomSheet(
+    //     context: context,
+    //     child: Container(
+    //       child: Image.file(file),
+    //     ));
   }
 
   @override
   void initState() {
-    Future.delayed(
-      const Duration(seconds: 1),
-      () {
-        var size = _imageWidgetKey.currentContext?.size;
-        if (size == null) return;
+    scheduleMicrotask(() {
+      setState(() {
+        _height = MediaQuery.of(context).size.height * 0.7;
+        _width = MediaQuery.of(context).size.width;
+      });
+    });
 
-        setState(() {
-          _width = size.width;
-          _height = size.height;
-        });
-      },
-    );
+    // Future.delayed(
+    //   const Duration(seconds: 2),
+    //   () {
+    //     var size = _imageWidgetKey.currentContext?.size;
+    //
+    //     Logger.debug('mydebug-----DisputeImageEditorScreenState.initState', [size?.height, size?.width]);
+    //
+    //     if (size == null) return;
+    //
+    //     setState(() {
+    //       _width = size.width;
+    //       _height = size.height;
+    //     });
+    //   },
+    // );
     super.initState();
   }
 
@@ -114,49 +130,50 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
       appBar: const QcGeneralHeader("Image Editing"),
       body: Column(
         children: [
-          Expanded(
-            child: Stack(
-              children: [
-                Image.file(key: _imageWidgetKey, arg!.imageFile, fit: BoxFit.fitHeight),
-                SizedBox(
+          Stack(
+            children: [
+              SizedBox(
                   height: _height,
                   width: _width,
-                  child: ClipRect(
-                    child: CustomPaint(
-                      painter: SquarePainter(_squares),
-                      child: GestureDetector(
-                        onTapDown: (details) {
-                          setState(() {
-                            var squareMetric = SquareMetric(details.localPosition);
-                            squareMetric.normalizeOffset =
-                                Offset(details.localPosition.dx / _width, details.localPosition.dy / _height);
-                            _squares.add(squareMetric);
-                          });
-                        },
-                        onPanUpdate: (details) {
-                          var lastSquareMetric = _squares.last;
-                          var currentOffset = details.localPosition;
-                          lastSquareMetric.width = currentOffset.dx - lastSquareMetric.offset.dx;
-                          lastSquareMetric.height = currentOffset.dy - lastSquareMetric.offset.dy;
+                  child: Image.file(key: _imageWidgetKey, arg!.imageFile, fit: BoxFit.fitHeight)),
+              SizedBox(
+                height: _height,
+                width: _width,
+                child: ClipRect(
+                  child: CustomPaint(
+                    painter: SquarePainter(_squares),
+                    child: GestureDetector(
+                      onTapDown: (details) {
+                        setState(() {
+                          var squareMetric = SquareMetric(details.localPosition);
+                          squareMetric.normalizeOffset =
+                              Offset(details.localPosition.dx / _width, details.localPosition.dy / _height);
+                          _squares.add(squareMetric);
+                        });
+                      },
+                      onPanUpdate: (details) {
+                        var lastSquareMetric = _squares.last;
+                        var currentOffset = details.localPosition;
+                        lastSquareMetric.width = currentOffset.dx - lastSquareMetric.offset.dx;
+                        lastSquareMetric.height = currentOffset.dy - lastSquareMetric.offset.dy;
 
-                          lastSquareMetric.normalizeWidth = lastSquareMetric.width / _width;
-                          lastSquareMetric.normalizeHeight = lastSquareMetric.height / _height;
-                          setState(() {});
-                        },
-                        onPanEnd: (details) async {
-                          var lastSquareMetric = _squares.last;
-                          // if (lastSquareMetric.height < 10 || lastSquareMetric.width < 10) {
-                          //   _squares.removeLast();
-                          // }
-                          // setState(() {});
-                        },
-                        child: Container(color: Colors.black12),
-                      ),
+                        lastSquareMetric.normalizeWidth = lastSquareMetric.width / _width;
+                        lastSquareMetric.normalizeHeight = lastSquareMetric.height / _height;
+                        setState(() {});
+                      },
+                      onPanEnd: (details) async {
+                        var lastSquareMetric = _squares.last;
+                        // if (lastSquareMetric.height < 10 || lastSquareMetric.width < 10) {
+                        //   _squares.removeLast();
+                        // }
+                        // setState(() {});
+                      },
+                      child: Container(color: Colors.black12),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           const SizedBox(height: Dimens.space_16),
           ComboButton(
