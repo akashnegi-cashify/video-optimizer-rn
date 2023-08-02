@@ -4,6 +4,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -163,7 +164,13 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
                     PlatformFile file = result.files.first;
                     Logger.debug('mydebug------_UploadEwayBillWidgetState._uploadModal', [file.extension]);
                     if (file.extension == "pdf") {
-                      _uploadMediaWithContentType(File(file.path ?? ""));
+                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.pdf.value);
+                    } else if (file.extension == "png") {
+                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.png.value);
+                    } else if (file.extension == "jpeg") {
+                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg.value);
+                    } else if (file.extension == "jpg") {
+                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg.value);
                     } else {
                       _uploadMediaFunc(File(file.path ?? ""));
                     }
@@ -193,11 +200,10 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
     });
   }
 
-  _uploadMediaWithContentType(File data) {
+  _uploadMediaWithContentType(File data, String contentType) {
     CshLoading().showLoading(context);
     String fileName = path.basename(data.path);
-    MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: "application/pdf").then(
-        (value) {
+    MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: contentType).then((value) {
       CshLoading().hideLoading(context);
       if (!Validator.isNullOrEmpty(value)) {
         _docS3Url = value;

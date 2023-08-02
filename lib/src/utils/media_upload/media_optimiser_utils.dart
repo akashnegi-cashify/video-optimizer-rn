@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:http/http.dart' as http;
 
 import 'media_uploader_service.dart';
@@ -124,7 +125,7 @@ class MediaUploadUtil {
     return completer.future;
   }
 
-  Future<String> uploadMediaWithType({required File mediaFile, required String fileName, required String contentType}) {
+  Future<String> uploadMediaWithType({required File mediaFile, required String fileName, String? contentType}) {
     var completer = Completer<String>();
     String fileFormat = mediaFile.path.split(".").last;
     try {
@@ -136,7 +137,8 @@ class MediaUploadUtil {
             try {
               Uri url = Uri.parse(_preSignedUrlData!.preSignedUrl!);
               List<int> mediaBytes = mediaFile.readAsBytesSync();
-              var response = await http.put(url, body: mediaBytes, headers: {"content-type": contentType});
+              var response = await http
+                  .put(url, body: mediaBytes, headers: {"content-type": contentType ?? MediaContentType.jpeg.value});
               if (response.statusCode == 200) {
                 Logger.debug('mydebug------ImageUploadUtil.uploadImage', ["Image Uploaded Successfully"]);
                 _getMediaS3Url(

@@ -14,6 +14,7 @@ dynamic schema() => {
       "title": "Sub Order Group Details Screen Arguments",
       "isActive": true,
       "params": [
+        {"key": "ss", "value": null},
         {"key": "pn", "value": null},
         {"key": "dq", "value": null},
         {"key": "ln", "value": null},

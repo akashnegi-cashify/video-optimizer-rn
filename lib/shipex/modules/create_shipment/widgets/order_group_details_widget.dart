@@ -15,10 +15,12 @@ class OrderGroupDetailsWidget extends StatelessWidget {
   final int? devicesQuantity;
   final String? lotName;
   final String? pinCode;
+  final int shipmentStatus;
 
   const OrderGroupDetailsWidget({
     super.key,
     required this.groupId,
+    required this.shipmentStatus,
     this.shipmentId,
     this.courierAwb,
     this.lotName,
@@ -84,10 +86,11 @@ class OrderGroupDetailsWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
               child: Column(
                 children: [
-                  DocDownloaderWidget(
-                    shipmentId: shipmentId ?? "",
-                    courierAwb: courierAwb ?? "",
-                  ),
+                  if (shipmentStatus == 1)
+                    DocDownloaderWidget(
+                      shipmentId: shipmentId ?? "",
+                      courierAwb: courierAwb ?? "",
+                    ),
                   if (!Validator.isNullOrEmpty(provider.responseData?.invoiceLink)) ...[
                     const SizedBox(height: Dimens.space_12),
                     SizedBox(
@@ -120,7 +123,7 @@ class OrderGroupDetailsWidget extends StatelessWidget {
                           facilityId: provider.responseData?.facilityId,
                           groupId: groupId,
                           pinCode: pinCode,
-                          shipmentId: (!Validator.isNullOrEmpty(shipmentId)) ? int.parse(shipmentId!) : 0,
+                          shipmentId: (!Validator.isNullOrEmpty(shipmentId)) ? int.parse(shipmentId!) : null,
                           lotName: lotName,
                           devicesQuantity: devicesQuantity,
                         );

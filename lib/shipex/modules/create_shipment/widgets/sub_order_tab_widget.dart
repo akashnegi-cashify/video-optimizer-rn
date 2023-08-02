@@ -72,6 +72,7 @@ class _SubOrderGroupTabWidgetState extends PaginatedListState<SubOrderGroupListD
                     lotName: item.name,
                     devicesQuantity: item.totalQty ?? 0,
                     pinCode: item.pinCode,
+                    shipmentStatus: widget.shipmentNumber,
                   );
                   Logger.debug('mydebug------_SubOrderGroupTabWidgetState.build', [args.toJson()]);
                   Navigator.of(context).pushNamed(SubOrderGroupDetailsScreen.route, arguments: args);

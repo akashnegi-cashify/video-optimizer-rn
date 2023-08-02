@@ -27,7 +27,7 @@ class OrderGroupWidget extends StatelessWidget {
       child: CshCard(
         radius: CshRadius.rad8,
         elevation: CardElevation.dimen_10,
-        padding: const EdgeInsets.symmetric(vertical: Dimens.space_6, horizontal: Dimens.space_8),
+        padding: const EdgeInsets.symmetric(vertical: Dimens.space_10, horizontal: Dimens.space_12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

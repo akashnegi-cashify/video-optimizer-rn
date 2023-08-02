@@ -68,22 +68,23 @@ class CreateShipmentWidget extends StatelessWidget {
                 : const SizedBox.shrink(),
           ),
           const Expanded(child: SizedBox.shrink()),
-          SizedBox(
-            width: double.infinity,
-            child: CshMediumButton(
-              text: l10n.update,
-              onPressed: () {
-                CreateManualShipmentScreenArguments args = CreateManualShipmentScreenArguments(
-                    facilityId: paramModel?.facilityId,
-                    boxId: provider.selectedBox?.id,
-                    isManualShipment: true,
-                    pinCode: paramModel?.pinCode ?? "",
-                    shipmentId: paramModel?.shipmentId ?? 0,
-                    groupId: (!Validator.isNullOrEmpty(paramModel?.groupId)) ? int.parse(paramModel!.groupId!) : 0);
-                Navigator.of(context).pushNamed(CreateManualShipmentScreen.route, arguments: args);
-              },
+          if (paramModel?.shipmentId != null)
+            SizedBox(
+              width: double.infinity,
+              child: CshMediumButton(
+                text: l10n.update,
+                onPressed: () {
+                  CreateManualShipmentScreenArguments args = CreateManualShipmentScreenArguments(
+                      facilityId: paramModel?.facilityId,
+                      boxId: provider.selectedBox?.id,
+                      isManualShipment: true,
+                      pinCode: paramModel?.pinCode ?? "",
+                      shipmentId: paramModel?.shipmentId,
+                      groupId: (!Validator.isNullOrEmpty(paramModel?.groupId)) ? int.parse(paramModel!.groupId!) : 0);
+                  Navigator.of(context).pushNamed(CreateManualShipmentScreen.route, arguments: args);
+                },
+              ),
             ),
-          ),
           const SizedBox(height: Dimens.space_8),
           SizedBox(
             width: double.infinity,
@@ -97,7 +98,7 @@ class CreateShipmentWidget extends StatelessWidget {
                       facilityId: paramModel?.facilityId,
                       boxId: provider.selectedBox?.id,
                       isManualShipment: false,
-                      shipmentId: paramModel?.shipmentId ?? 0,
+                      shipmentId: paramModel?.shipmentId,
                       pinCode: paramModel?.pinCode ?? "",
                       groupId: (!Validator.isNullOrEmpty(paramModel?.groupId)) ? int.parse(paramModel!.groupId!) : 0);
                   Navigator.of(context).pushNamed(CreateManualShipmentScreen.route, arguments: args);

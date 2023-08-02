@@ -14,6 +14,7 @@ GroupOrderCompParams fromMap(Map<String, dynamic> map) {
     groupId: map["gi"],
     shipmentId: map["si"],
     courierAwb: map["ca"],
+    shipmentStatus: map["ss"],
   );
   return model;
 }
@@ -27,6 +28,7 @@ Widget paramBuilder(Widget Function(GroupOrderCompParams model) paramBuilder) {
       "gi": provider.data["gi"],
       "si": provider.data["si"],
       "ca": provider.data["ca"],
+      "ss": provider.data["ss"],
     },
     builder: (context, data, child) {
       GroupOrderCompParams model = fromMap(data);
@@ -42,13 +44,15 @@ bool isValid(GroupOrderCompParams model) {
   var groupId = model.groupId;
   var shipmentId = model.shipmentId;
   var courierAwb = model.courierAwb;
+  var shipmentStatus = model.shipmentStatus;
 
   return pinCode != null &&
       devicesQuantity != null &&
       lotName != null &&
       groupId != null &&
       shipmentId != null &&
-      courierAwb != null;
+      courierAwb != null &&
+      shipmentStatus != null;
 }
 
 dynamic schema() => {
@@ -59,6 +63,7 @@ dynamic schema() => {
       "isActive": true,
       "title": "Order Group Details Component",
       "cpm": [
+        {"key": "ss", "value": null},
         {"key": "pn", "value": null},
         {"key": "dq", "value": null},
         {"key": "ln", "value": null},

@@ -19,6 +19,7 @@ class SubOrderGroupDetailsScreenArguments extends BaseArguments {
   final String? lotName;
   final int? devicesQuantity;
   final String? pinCode;
+  final int? shipmentStatus;
 
   SubOrderGroupDetailsScreenArguments({
     this.groupId,
@@ -28,6 +29,7 @@ class SubOrderGroupDetailsScreenArguments extends BaseArguments {
     this.lotName,
     this.devicesQuantity,
     this.pinCode,
+    this.shipmentStatus,
   }) : super(SubOrderGroupDetailsScreen.pageKey);
 
   Map<String, dynamic> toJson() {
@@ -38,6 +40,7 @@ class SubOrderGroupDetailsScreenArguments extends BaseArguments {
       GroupOrderCompParamsKeys.devicesQuantity.value: devicesQuantity,
       GroupOrderCompParamsKeys.lotName.value: lotName,
       GroupOrderCompParamsKeys.pinCode.value: pinCode,
+      GroupOrderCompParamsKeys.shipmentStatus.value: shipmentStatus,
     };
   }
 }

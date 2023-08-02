@@ -14,6 +14,8 @@ class GroupOrderCompParams {
   int? devicesQuantity;
   @ParamKey(key: GroupOrderCompParamsKeys.pinCode)
   String? pinCode;
+  @ParamKey(key: GroupOrderCompParamsKeys.shipmentStatus)
+  int? shipmentStatus;
 
   GroupOrderCompParams({
     this.pinCode,
@@ -22,10 +24,12 @@ class GroupOrderCompParams {
     this.groupId,
     this.shipmentId,
     this.courierAwb,
+    this.shipmentStatus,
   });
 }
 
 enum GroupOrderCompParamsKeys with AbsParamKey {
+  shipmentStatus("ss"),
   pinCode("pn"),
   devicesQuantity("dq"),
   lotName("ln"),

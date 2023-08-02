@@ -1,4 +1,5 @@
 import 'package:builder_component/builder_component.dart';
+import 'package:core/core.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
@@ -24,6 +25,7 @@ class OrderGroupDetailsComponent extends StatelessComponent<NoneConfigModel> {
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((param) {
+      Logger.debug('mydebug------OrderGroupDetailsComponent.buildView', [param.shipmentStatus]);
       return OrderGroupDetailsWidget(
         groupId: param.groupId ?? "",
         shipmentId: param.shipmentId ?? "",
@@ -31,6 +33,7 @@ class OrderGroupDetailsComponent extends StatelessComponent<NoneConfigModel> {
         lotName: param.lotName ?? "",
         devicesQuantity: param.devicesQuantity ?? 0,
         pinCode: param.pinCode ?? "",
+        shipmentStatus: param.shipmentStatus ?? 0,
       );
     });
   }

@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
+import '../../../../src/utils/media_upload/resource/media_content_type.dart';
 import '../l10n.dart';
 import '../providers/upload_eway_bill_provider.dart';
 
@@ -224,7 +225,13 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
                     PlatformFile file = result.files.first;
                     Logger.debug('mydebug------_UploadEwayBillWidgetState._uploadModal', [file.extension]);
                     if (file.extension == "pdf") {
-                      _uploadMediaWithContentType(File(file.path ?? ""));
+                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.pdf.value);
+                    } else if (file.extension == "png") {
+                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.png.value);
+                    } else if (file.extension == "jpeg") {
+                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg.value);
+                    } else if (file.extension == "jpg") {
+                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg.value);
                     } else {
                       _uploadMediaFunc(File(file.path ?? ""));
                     }
@@ -254,11 +261,10 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
     });
   }
 
-  _uploadMediaWithContentType(File data) {
+  _uploadMediaWithContentType(File data, String value) {
     CshLoading().showLoading(context);
     String fileName = path.basename(data.path);
-    MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: "application/pdf").then(
-        (value) {
+    MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: value).then((value) {
       CshLoading().hideLoading(context);
       if (!Validator.isNullOrEmpty(value)) {
         _docS3Url = value;
