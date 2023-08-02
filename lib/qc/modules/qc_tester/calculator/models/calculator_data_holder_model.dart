@@ -26,6 +26,16 @@ class CalculatorDataHolderModel {
   void startCalculatorJourney(MyCalculatorResponse? calculatorResponse, String? deviceBarcode,
       {DeviceType deviceType = DeviceType.mobile_device}) {
     resetAllData();
+
+    // add Experiment for server side rule executor or not
+    if (RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_ENABLE_RULE_EXE_TEST_MODE)) {
+      if (RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_FORCE_SERVER_RULE_EXECUTOR)) {
+        calculatorResponse?.ruleExecutionMode = 1;
+      } else {
+        calculatorResponse?.ruleExecutionMode = 0;
+      }
+    }
+
     _calculatorResponse = calculatorResponse;
     _deviceBarcode = deviceBarcode;
     _deviceType = deviceType;

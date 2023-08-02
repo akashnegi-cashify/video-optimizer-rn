@@ -6,9 +6,13 @@ import 'package:flutter_trc/src/utils/connectivity_util.dart';
 
 class AppRemoteConfig {
   static const KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_QC = "key_is_capture_media_mandatory_in_qc";
+  static const KEY_IS_FORCE_SERVER_RULE_EXECUTOR = "key_is_force_server_rule_executor";
+  static const KEY_IS_ENABLE_RULE_EXE_TEST_MODE = "key_is_enable_rule_exe_test_mode";
 
   static const Map<String, dynamic> DEFAULT_CONFIG = {
     KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_QC: false,
+    KEY_IS_FORCE_SERVER_RULE_EXECUTOR: true,
+    KEY_IS_ENABLE_RULE_EXE_TEST_MODE: true,
   };
 }
 
