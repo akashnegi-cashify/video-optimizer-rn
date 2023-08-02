@@ -24,6 +24,11 @@ class BoxListData {
   @JsonKey(name: "bname")
   String? boxName;
 
+  BoxListData({
+    this.id,
+    this.boxName,
+  });
+
   static BoxListData fromJson(Map<String, dynamic> json) => _$BoxListDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$BoxListDataToJson(this);

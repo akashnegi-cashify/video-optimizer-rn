@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/shipex/modules/dispatch/dispatch_screen.dart';
 import 'package:flutter_trc/shipex/modules/packaging/shipex_packing_screen.dart';
 
-import '../../l10n.dart';
-import 'package:flutter_trc/shipex/modules/dispatch/dispatch_screen.dart';
-
+import '../../create_shipment/screen/sub_order_group_listing_screen.dart';
 import '../../l10n.dart';
 
 class ShipexHomeWidget extends StatelessWidget {
@@ -34,6 +32,16 @@ class ShipexHomeWidget extends StatelessWidget {
               text: l10n.shipexPackaging,
               onPressed: () {
                 Navigator.of(context).pushNamed(ShipexPackingScreen.route);
+              },
+            ),
+          ),
+          const SizedBox(height: Dimens.space_20),
+          SizedBox(
+            width: double.infinity,
+            child: CshMediumButton(
+              text: l10n.createShipment,
+              onPressed: () {
+                Navigator.of(context).pushNamed(SubOrderGroupListingScreen.route);
               },
             ),
           ),

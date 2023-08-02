@@ -24,9 +24,10 @@ Map<String, dynamic> _$BoxListResponseToJson(BoxListResponse instance) =>
       'dt': instance.boxList,
     };
 
-BoxListData _$BoxListDataFromJson(Map<String, dynamic> json) => BoxListData()
-  ..id = json['id'] as int?
-  ..boxName = json['bname'] as String?;
+BoxListData _$BoxListDataFromJson(Map<String, dynamic> json) => BoxListData(
+      id: json['id'] as int?,
+      boxName: json['bname'] as String?,
+    );
 
 Map<String, dynamic> _$BoxListDataToJson(BoxListData instance) =>
     <String, dynamic>{

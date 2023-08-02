@@ -4,6 +4,8 @@ import 'package:localization/index.dart';
 class L10n extends BaseL10n {
   L10n(super.context);
 
+  String get createShipment => Intl.message("Create Shipment", locale: localName, name: "createShipment");
+
   String get shipexDispatch => Intl.message("Shipex Dispatch", locale: localName, name: "shipexDispatch");
 
   String get shipexPackaging => Intl.message("Shipex Packaging", locale: localName, name: "shipexPackaging");

@@ -15,13 +15,13 @@ SubOrderGroupDetailResponse _$SubOrderGroupDetailResponseFromJson(
       json['ltn'] as String?,
       json['pbar'] as String?,
       json['qty'] as int?,
-      json['si'] as String?,
+      json['si'] as int?,
     )
+      ..pinCode = json['pin'] as String?
       ..invoiceLink = json['il'] as String?
       ..courierName = json['cn'] as String?
       ..courierAwb = json['ca'] as String?
-      ..createDate =
-          json['cd'] == null ? null : DateTime.parse(json['cd'] as String)
+      ..createDate = json['cd'] as int?
       ..facilityId = json['fi'] as int?
       ..facilityName = json['fn'] as String?
       ..vendorName = json['vn'] as String?
@@ -40,7 +40,6 @@ SubOrderGroupDetailResponse _$SubOrderGroupDetailResponseFromJson(
       ..vendorDetails = json['vd'] == null
           ? null
           : VendorResponse.fromJson(json['vd'] as Map<String, dynamic>)
-      ..pin = json['pin'] as String?
       ..state = json['state'] as String?;
 
 Map<String, dynamic> _$SubOrderGroupDetailResponseToJson(
@@ -53,10 +52,11 @@ Map<String, dynamic> _$SubOrderGroupDetailResponseToJson(
       'pbar': instance.packagingBarcode,
       'qty': instance.totalQty,
       'si': instance.shipmentId,
+      'pin': instance.pinCode,
       'il': instance.invoiceLink,
       'cn': instance.courierName,
       'ca': instance.courierAwb,
-      'cd': instance.createDate?.toIso8601String(),
+      'cd': instance.createDate,
       'fi': instance.facilityId,
       'fn': instance.facilityName,
       'vn': instance.vendorName,
@@ -67,6 +67,5 @@ Map<String, dynamic> _$SubOrderGroupDetailResponseToJson(
       'shprAddr': instance.shipperAddress,
       'shipAddr': instance.shippingAddress,
       'vd': instance.vendorDetails,
-      'pin': instance.pin,
       'state': instance.state,
     };

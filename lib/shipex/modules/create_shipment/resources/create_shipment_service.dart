@@ -10,6 +10,8 @@ import 'package:flutter_trc/shipex/modules/create_shipment/models/suborder_group
 import 'package:flutter_trc/shipex/modules/dispatch/models/delivery_partner_list_response.dart';
 import 'package:flutter_trc/shipex/shipex_service.dart';
 
+import '../../../../src/common/model/base_action_response.dart';
+
 class CreateShipmentService {
   static Stream<SubOrderGroupListResponse?> getSubOrderGroupList(
     int pageSize,
@@ -38,15 +40,15 @@ class CreateShipmentService {
     return ShipexService().get("/app/sub-order/group/$groupId", SubOrderGroupDetailResponse.fromJson);
   }
 
-  static Stream<BaseResponse?> uploadEWayBill(
-      String? facilityId, String? shipmentId, String? eWayBillNumber, String? fileUrl) {
+  static Stream<BaseActionResponse?> uploadEWayBill(
+      {String? facilityId, String? shipmentId, String? eWayBillNumber, String? fileUrl}) {
     Map<String, dynamic> req = {
       "en": eWayBillNumber.toString(),
       "eu": fileUrl.toString(),
     };
 
     return ShipexService()
-        .post("/app/shipment/$facilityId/upload-ewb/$shipmentId", BaseResponse.fromJson, body: jsonEncode(req));
+        .post("/app/shipment/$facilityId/upload-ewb/$shipmentId", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<BoxListResponse?> getShipmentBoxes() {
@@ -58,8 +60,11 @@ class CreateShipmentService {
       "bxId": boxId,
       "sosGrId": groupId,
     };
+    Map<String, List<String>> queryParam = {
+      "pn": [pinCode ?? ""],
+    };
     return ShipexService()
-        .post("/app/provider/list?pn=$pinCode", ShipmentProviderListResponse.fromJson, body: jsonEncode(req));
+        .post("/app/provider/list", ShipmentProviderListResponse.fromJson, body: jsonEncode(req), params: queryParam);
   }
 
   static Stream<ExpectedShipmentProviderResponse?> getExpectedShipmentProvider(int? boxId, int? groupId) {
@@ -75,18 +80,19 @@ class CreateShipmentService {
     return ShipexService().get("/app/provider/list", DeliveryPartnerListResponse.fromJson, authorization: true);
   }
 
-  static Stream<BaseResponse?> createShipment(String facilityId, int? boxId, int? groupId, String selectedProviderKey) {
+  static Stream<BaseActionResponse?> createShipment(
+      String facilityId, int? boxId, int? groupId, String selectedProviderKey) {
     Map<String, dynamic> req = {
       "bxId": boxId,
       "sosGrId": groupId,
       "spk": selectedProviderKey,
     };
 
-    return ShipexService()
-        .post("/app/shipment/$facilityId/create", BaseResponse.fromJson, authorization: true, body: jsonEncode(req));
+    return ShipexService().post("/app/shipment/$facilityId/create", BaseActionResponse.fromJson,
+        authorization: true, body: jsonEncode(req));
   }
 
-  static Stream<BaseResponse?> createManualShipment(
+  static Stream<BaseActionResponse?> createManualShipment(
       String facilityId, int? boxId, int? groupId, String selectedProviderKey, String? awbUrl, String? awbNumber) {
     Map<String, dynamic> req = {
       "bxId": boxId,
@@ -96,19 +102,23 @@ class CreateShipmentService {
       "au": awbUrl,
     };
 
-    return ShipexService().post("/app/shipment/$facilityId/create-manual", BaseResponse.fromJson,
+    return ShipexService().post("/app/shipment/$facilityId/create-manual", BaseActionResponse.fromJson,
         authorization: true, body: jsonEncode(req));
   }
 
-  static Stream<BaseResponse?> updateManualShipment(
-      String facilityId, int? shipmentId, String selectedProviderKey, String? awbUrl, String? awbNumber) {
+  static Stream<BaseActionResponse?> updateManualShipment(
+      {required String facilityId,
+      int? shipmentId,
+      required String selectedProviderKey,
+      String? awbUrl,
+      String? awbNumber}) {
     Map<String, dynamic> req = {
       "sId": shipmentId,
       "dpn": selectedProviderKey,
       "an": awbNumber,
       "au": awbUrl,
     };
-    return ShipexService().post("/app/shipment/$facilityId/update-manual", BaseResponse.fromJson,
+    return ShipexService().post("/app/shipment/$facilityId/update-manual", BaseActionResponse.fromJson,
         authorization: true, body: jsonEncode(req));
   }
 }

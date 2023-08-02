@@ -16,7 +16,7 @@ part 'assign_part_barcode_scanner_component.g.dart';
     params: AssignPartBarcodeScannerParamKeys.values,
     paramModel: AssignPartBarcodeScannerParam,
     componentGroup: ComponentGroup.assignPartBarcodeScannerComponentKey)
-class AssignPartBarcodeScannerComponent extends StatelessComponent {
+class AssignPartBarcodeScannerComponent extends StatelessComponent<AssignPartBarcodeScannerConfig> {
   static const String COMP_KEY = "TRC_assign_part_barcode_scanner";
 
   const AssignPartBarcodeScannerComponent(super.jsonConfig, {super.key});
