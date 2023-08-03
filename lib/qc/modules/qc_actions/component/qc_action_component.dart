@@ -10,7 +10,7 @@ part 'qc_action_component.g.dart';
 
 @CshComponent(
     key: QcActionComponent.COMP_KEY, configModel: QcActionConfig, componentGroup: ComponentGroup.qcActionComponentKey)
-class QcActionComponent extends StatelessComponent {
+class QcActionComponent extends StatelessComponent<QcActionConfig> {
   static const String COMP_KEY = "QC_qc_action_component";
 
   const QcActionComponent(super.jsonConfig, {super.key});

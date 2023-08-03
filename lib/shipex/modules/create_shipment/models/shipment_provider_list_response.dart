@@ -25,6 +25,11 @@ class ShipmentProviderListData {
   @JsonKey(name: "n")
   String? name;
 
+  ShipmentProviderListData({
+    this.key,
+    this.name,
+  });
+
   static ShipmentProviderListData fromJson(Map<String, dynamic> json) => _$ShipmentProviderListDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$ShipmentProviderListDataToJson(this);

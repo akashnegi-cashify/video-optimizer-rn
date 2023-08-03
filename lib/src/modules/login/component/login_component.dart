@@ -16,7 +16,7 @@ part 'login_component.g.dart';
     componentGroup: ComponentGroup.loginComponentKey,
     params: LoginCompParamKeys.values,
     paramModel: LoginCompParam)
-class LoginComponent extends StatelessComponent {
+class LoginComponent extends StatelessComponent<LoginCompConfig> {
   static const String COMP_KEY = "TRC_login_comp";
 
   const LoginComponent(super.jsonConfig, {super.key});

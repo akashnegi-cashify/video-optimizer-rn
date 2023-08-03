@@ -29,9 +29,10 @@ Map<String, dynamic> _$ShipmentProviderListResponseToJson(
 
 ShipmentProviderListData _$ShipmentProviderListDataFromJson(
         Map<String, dynamic> json) =>
-    ShipmentProviderListData()
-      ..key = json['k'] as String?
-      ..name = json['n'] as String?;
+    ShipmentProviderListData(
+      key: json['k'] as String?,
+      name: json['n'] as String?,
+    );
 
 Map<String, dynamic> _$ShipmentProviderListDataToJson(
         ShipmentProviderListData instance) =>

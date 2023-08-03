@@ -36,7 +36,8 @@ SubOrderGroupListData _$SubOrderGroupListDataFromJson(
       json['ltn'] as String?,
       json['pbar'] as String?,
       json['qty'] as int?,
-      json['si'] as String?,
+      json['si'] as int?,
+      pinCode: json['pin'] as String?,
     );
 
 Map<String, dynamic> _$SubOrderGroupListDataToJson(
@@ -49,4 +50,5 @@ Map<String, dynamic> _$SubOrderGroupListDataToJson(
       'pbar': instance.packagingBarcode,
       'qty': instance.totalQty,
       'si': instance.shipmentId,
+      'pin': instance.pinCode,
     };
