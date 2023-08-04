@@ -16,14 +16,16 @@ part 'packaging_process_screen.g.dart';
 class PackagingProcessScreenArguments extends BaseArguments {
   final GroupLotListData? dataModel;
   final bool isPendingGroupLot;
+  final bool isCCTCCameraSelected;
 
-  PackagingProcessScreenArguments({this.dataModel, this.isPendingGroupLot = false})
+  PackagingProcessScreenArguments({this.dataModel, this.isPendingGroupLot = false, this.isCCTCCameraSelected = false})
       : super(PackagingProcessScreen.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
     data[PackagingProcessCompParamKeys.dataModel.value] = dataModel;
     data[PackagingProcessCompParamKeys.isPending.value] = isPendingGroupLot;
+    data[PackagingProcessCompParamKeys.isCCTVSelected.value] = isCCTCCameraSelected;
     return data;
   }
 }

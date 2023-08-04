@@ -1,10 +1,10 @@
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/shipex/modules/packaging/modal/packaging_video_selection_dialog.dart';
 import 'package:flutter_trc/shipex/modules/packaging/providers/packaging_provider.dart';
 import 'package:flutter_trc/shipex/modules/packaging/widgets/packaging_process_step_one_widget.dart';
 import 'package:flutter_trc/shipex/modules/packaging/widgets/video_creation_process_widget.dart';
-import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../models/group_lot_list_repsonse.dart';
@@ -13,13 +13,16 @@ class PackagingProcessWidget extends StatelessWidget {
   final GroupLotListData? dataModel;
   final bool? isGroupLotPending;
 
-  PackagingProcessWidget({super.key, this.dataModel, this.isGroupLotPending});
+  bool isCCTVCameraSelected;
+
+  PackagingProcessWidget({super.key, this.dataModel, this.isGroupLotPending, this.isCCTVCameraSelected = false});
 
   PageController _pageController = PageController(initialPage: 0);
   final ValueNotifier<int> _currentIndex = ValueNotifier<int>(0);
   final GlobalKey<PackagingProcessStepOneWidgetState> _stepAwbRef = GlobalKey<PackagingProcessStepOneWidgetState>();
   final GlobalKey<PackagingProcessStepOneWidgetState> _stepInvoiceRef = GlobalKey<PackagingProcessStepOneWidgetState>();
   final GlobalKey<PackagingProcessStepOneWidgetState> _stepDeviceRef = GlobalKey<PackagingProcessStepOneWidgetState>();
+  final GlobalKey<VideoCreationProcessWidgetState> _videCreationProcess = GlobalKey<VideoCreationProcessWidgetState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,7 @@ class PackagingProcessWidget extends StatelessWidget {
       _currentIndex.value = 3;
       _pageController = PageController(initialPage: 3);
     }
+
     return WillPopScope(
       onWillPop: () {
         if (_currentIndex.value == 0) {
@@ -75,7 +79,7 @@ class PackagingProcessWidget extends StatelessWidget {
                               },
                             );
                           default:
-                            return VideoCreationProcessWidget();
+                            return VideoCreationProcessWidget(key: _videCreationProcess, isCCTVCameraSelected);
                         }
                       },
                       itemCount: 4,
@@ -128,14 +132,34 @@ class PackagingProcessWidget extends StatelessWidget {
     );
   }
 
+  _showPackagingVideoSelectionDialog(BuildContext context, PackagingProvider provider) {
+    showPackagingVideoSelectionDialog(context, onMonitoringAppSelected: () {
+      _moveToVideoCreationProcess();
+    }, onCCTVCameraSelected: (scannedCameraBarcode) {
+      isCCTVCameraSelected = true;
+      CshLoading().showLoading(context);
+      provider.addCCTVCameraBarcode(scannedCameraBarcode).then((value) {
+        CshLoading().hideLoading(context);
+        _moveToVideoCreationProcess();
+      }, onError: (error) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: error.toString());
+      });
+    });
+  }
+
+  _moveToVideoCreationProcess() {
+    _currentIndex.value = 3;
+    _pageController.animateToPage(_currentIndex.value,
+        duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+  }
+
   _onDeviceScanned(String data, PackagingProvider provider, BuildContext context,
       GlobalKey<PackagingProcessStepOneWidgetState> ref) {
     CshLoading().showLoading(context);
     provider.startPackaging(data).then((value) {
       CshLoading().hideLoading(context);
-      _currentIndex.value = 3;
-      _pageController.animateToPage(_currentIndex.value,
-          duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+      _showPackagingVideoSelectionDialog(context, provider);
     }, onError: (error) {
       CshLoading().hideLoading(context);
       ref.currentState?.resetScannerValue();
@@ -160,7 +184,13 @@ class PackagingProcessWidget extends StatelessWidget {
         actions: [
           CshMediumButton(
             text: "Yes",
-            onPressed: () => Navigator.of(context).popUntil((route) => route.settings.name == ShipexHomeScreen.route),
+            onPressed: () async {
+              if (!isCCTVCameraSelected) {
+                await _videCreationProcess.currentState?.disposeCamera();
+              }
+              Navigator.pop(context); // Dismiss dialog
+              Navigator.pop(context);
+            },
           ),
           CshMediumButton(
             text: "No",

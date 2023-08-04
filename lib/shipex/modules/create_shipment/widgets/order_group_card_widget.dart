@@ -55,9 +55,11 @@ class OrderGroupWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text("$label:- ", style: theme.primaryTextTheme.headlineMedium),
+        Flexible(flex: 1, fit: FlexFit.tight, child: Text("$label:- ", style: theme.primaryTextTheme.headlineMedium)),
         const SizedBox(width: Dimens.space_6),
-        Expanded(
+        Flexible(
+          flex: 3,
+          fit: FlexFit.tight,
           child: Text(
             value,
             style: theme.primaryTextTheme.headlineMedium,

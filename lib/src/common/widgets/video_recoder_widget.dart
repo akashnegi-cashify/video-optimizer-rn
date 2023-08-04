@@ -133,12 +133,7 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     }
   }
 
-  @override
-  Future<void> dispose() async {
-    super.dispose();
-    if (Validator.isTrue(_cameraController.value.isRecordingVideo)) {
-      await _cameraController.stopVideoRecording();
-    }
-    await _cameraController.dispose();
+  Future<void> disposeCamera() async {
+    return await _cameraController.dispose();
   }
 }

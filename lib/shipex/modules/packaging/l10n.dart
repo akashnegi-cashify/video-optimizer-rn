@@ -48,4 +48,15 @@ class L10n extends BaseL10n {
 
   String get scanBarcodeToStartRecording =>
       Intl.message("Scan Barcode to start Recording", locale: localName, name: "scanBarcodeToStartRecording");
+
+  String get selectTheCaptureProcess =>
+      Intl.message("Select the capture process", locale: localName, name: "selectTheCaptureProcess");
+
+  String get monitoringApp => Intl.message("Monitoring App", locale: localName, name: "monitoringApp");
+
+  String get cctv => Intl.message("CCTV", locale: localName, name: "cctv");
+
+  String get submit => Intl.message("Submit", locale: localName, name: "submit");
+
+  get completePackaging => Intl.message("Complete Packaging", locale: localName, name: "completePackaging");
 }

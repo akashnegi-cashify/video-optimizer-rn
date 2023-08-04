@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/shipex/modules/packaging/modal/packaging_video_selection_dialog.dart';
+import 'package:flutter_trc/shipex/modules/packaging/models/group_lot_list_repsonse.dart';
 import 'package:flutter_trc/shipex/modules/packaging/providers/group_list_provider.dart';
 
 import '../l10n.dart';
@@ -134,14 +136,8 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
                         child: ListView.separated(
                           padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
                           itemBuilder: (context, index) {
-                            return GroupListDataCardWidget(
-                              dataModel: provider.localSearchResultsData[index],
-                              onCardTap: () {
-                                PackagingProcessScreenArguments args = PackagingProcessScreenArguments(
-                                    dataModel: provider.localSearchResultsData[index], isPendingGroupLot: true);
-                                Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args);
-                              },
-                            );
+                            var item = provider.localSearchResultsData[index];
+                            return GroupListDataCardWidget(dataModel: item, onCardTap: () => _onItemSelected(item));
                           },
                           separatorBuilder: (context, index) {
                             return const SizedBox(height: Dimens.space_12);
@@ -159,14 +155,8 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
                     child: ListView.separated(
                       padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
                       itemBuilder: (context, index) {
-                        return GroupListDataCardWidget(
-                          dataModel: provider.groupDataPendingList![index],
-                          onCardTap: () {
-                            PackagingProcessScreenArguments args = PackagingProcessScreenArguments(
-                                dataModel: provider.groupDataPendingList![index], isPendingGroupLot: true);
-                            Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args);
-                          },
-                        );
+                        var item = provider.groupDataPendingList![index];
+                        return GroupListDataCardWidget(dataModel: item, onCardTap: () => _onItemSelected(item));
                       },
                       separatorBuilder: (context, index) {
                         return const SizedBox(height: Dimens.space_12);
@@ -178,5 +168,32 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
         );
       }
     }
+  }
+
+  _onItemSelected(GroupLotListData item) {
+    _showPackagingVideoSelectionDialog(item, onProceed: (isCCTCSelected) {
+      PackagingProcessScreenArguments args = PackagingProcessScreenArguments(
+          dataModel: item, isPendingGroupLot: true, isCCTCCameraSelected: isCCTCSelected);
+      Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args).whenComplete(() {
+        var provider = GroupListProvider.of(context, listen: false);
+        provider.fetchPendingDataList();
+      });
+    });
+  }
+
+  _showPackagingVideoSelectionDialog(GroupLotListData item, {required Function(bool isCCTCSelected) onProceed}) {
+    var provider = GroupListProvider.of(context, listen: false);
+    showPackagingVideoSelectionDialog(context, onMonitoringAppSelected: () {
+      onProceed(false);
+    }, onCCTVCameraSelected: (scannedCameraBarcode) {
+      CshLoading().showLoading(context);
+      provider.addCCTVCameraBarcode(scannedCameraBarcode, item.packagingBarcode).then((value) {
+        CshLoading().hideLoading(context);
+        onProceed(true);
+      }, onError: (error) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: error.toString());
+      });
+    });
   }
 }

@@ -15,7 +15,8 @@ dynamic schema() => {
       "isActive": true,
       "params": [
         {"key": "dm", "value": null},
-        {"key": "ip", "value": null}
+        {"key": "ip", "value": null},
+        {"key": "isCCTV", "value": null}
       ]
 
       //#adminscreen

@@ -24,7 +24,11 @@ class PackagingProcessComponent extends StatelessComponent<NoneConfigModel> {
   @override
   Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     return paramBuilder((param) {
-      return PackagingProcessWidget(dataModel: param.dataModel, isGroupLotPending: param.isGroupLotPending);
+      return PackagingProcessWidget(
+        dataModel: param.dataModel,
+        isGroupLotPending: param.isGroupLotPending,
+        isCCTVCameraSelected: param.isCCTVSelected ?? false,
+      );
     });
   }
 

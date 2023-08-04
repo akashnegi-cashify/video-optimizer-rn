@@ -10,15 +10,20 @@ class PackagingProcessCompParam {
   @ParamKey(key: PackagingProcessCompParamKeys.isPending)
   bool? isGroupLotPending;
 
+  @ParamKey(key: PackagingProcessCompParamKeys.isCCTVSelected, defaultValue: false)
+  bool? isCCTVSelected;
+
   PackagingProcessCompParam({
     this.dataModel,
     this.isGroupLotPending,
+    this.isCCTVSelected,
   });
 }
 
 enum PackagingProcessCompParamKeys with AbsParamKey {
   dataModel('dm'),
-  isPending('ip');
+  isPending('ip'),
+  isCCTVSelected("isCCTV");
 
   @override
   final String value;

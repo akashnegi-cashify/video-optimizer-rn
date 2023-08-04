@@ -171,12 +171,14 @@ class PackagingProvider extends CshChangeNotifier {
     return scannedListSize == inProcessListSize;
   }
 
-  Future<bool> onPackagingFinished(File videoFile) async {
+  Future<bool> onPackagingFinished(File? videoFile) async {
     String? videoUrl;
-    try {
-      videoUrl = await _uploadVideo(videoFile);
-    } catch (error) {
-      return Future.error(error);
+    if (videoFile != null) {
+      try {
+        videoUrl = await _uploadVideo(videoFile);
+      } catch (error) {
+        return Future.error(error);
+      }
     }
     var completer = Completer<bool>();
     PackingService.finishPackaging(videoUrl: videoUrl, packagingBarcode: _groupLotListData?.packagingBarcode).listen(
@@ -201,6 +203,18 @@ class PackagingProvider extends CshChangeNotifier {
     }, onError: (error) {
       completer.completeError(error.toString());
     });
+    return completer.future;
+  }
+
+  Future<bool> addCCTVCameraBarcode(String cameraBarcode) {
+    var completer = Completer<bool>();
+    PackingService.addMonitoringCamera(cameraBarcode: cameraBarcode, packagingBarcode: _enteredAwbNumber).listen(
+        (event) {
+      completer.complete(true);
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+
     return completer.future;
   }
 }

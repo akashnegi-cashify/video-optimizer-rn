@@ -65,4 +65,12 @@ class PackingService {
 
     return ShipexService().post("/app/packaging/finish/packaging", BaseResponse.fromJson, body: jsonEncode(req));
   }
+
+  static Stream<BaseResponse?> addMonitoringCamera({String? cameraBarcode, String? packagingBarcode}) {
+    Map<String, dynamic> req = {};
+    req["bar"] = packagingBarcode;
+    req["mcb"] = cameraBarcode;
+
+    return ShipexService().post("/app/packaging/add-monitoring-camera-barcode", BaseResponse.fromJson, body: jsonEncode(req));
+  }
 }

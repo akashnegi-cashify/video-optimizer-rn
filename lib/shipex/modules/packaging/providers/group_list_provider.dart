@@ -21,6 +21,7 @@ class GroupListProvider extends CshChangeNotifier {
 
   fetchPendingDataList() {
     pendingDataLoading = true;
+    groupDataPendingList?.clear();
     notifyListeners();
     PackingService.getGroupPendingDataList().listen((event) {
       if (!Validator.isListNullOrEmpty(event?.groupLotList)) {
@@ -75,5 +76,16 @@ class GroupListProvider extends CshChangeNotifier {
     }
     pendingDataLoading = false;
     notifyListeners();
+  }
+
+  Future<bool> addCCTVCameraBarcode(String cameraBarcode, String? awbNumber) {
+    var completer = Completer<bool>();
+    PackingService.addMonitoringCamera(cameraBarcode: cameraBarcode, packagingBarcode: awbNumber).listen((event) {
+      completer.complete(true);
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+
+    return completer.future;
   }
 }

@@ -9,13 +9,27 @@ import 'package:flutter_trc/src/common/widgets/video_recoder_widget.dart';
 
 import '../l10n.dart';
 
-class VideoCreationProcessWidget extends StatelessWidget {
-  VideoCreationProcessWidget({super.key});
+class VideoCreationProcessWidget extends StatefulWidget {
+  final bool isCCTVCameraSelected;
 
+  const VideoCreationProcessWidget(this.isCCTVCameraSelected, {super.key});
+
+  @override
+  State<VideoCreationProcessWidget> createState() => VideoCreationProcessWidgetState();
+}
+
+class VideoCreationProcessWidgetState extends State<VideoCreationProcessWidget> {
   Timer? _timer;
+
   final TextEditingController _deviceBarcodeController = TextEditingController();
+
   final FocusNode _focusNode = FocusNode();
+
   final GlobalKey<VideoRecorderWidgetState> _videoRef = GlobalKey<VideoRecorderWidgetState>();
+
+  Future<void> disposeCamera() async {
+    return await _videoRef.currentState?.disposeCamera();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +62,7 @@ class VideoCreationProcessWidget extends StatelessWidget {
                     _timer = Timer(
                       const Duration(milliseconds: 500),
                       () {
-                        _onDeviceBarcodeScanned(context, provider, data);
+                        _onDeviceBarcodeScanned(provider, data);
                       },
                     );
                   },
@@ -56,23 +70,28 @@ class VideoCreationProcessWidget extends StatelessWidget {
               ),
               const SizedBox(width: Dimens.space_8),
               CshMediumButton(
-                text: "Submit",
+                text: l10n.submit,
                 onPressed: () {
-                  _onDeviceBarcodeScanned(context, provider, _deviceBarcodeController.text);
+                  _onDeviceBarcodeScanned(provider, _deviceBarcodeController.text);
                 },
               )
             ],
           ),
           const SizedBox(height: Dimens.space_16),
-          Expanded(child: VideoRecorderWidget(key: _videoRef, isCompressionEnabled: true)),
+          if (!widget.isCCTVCameraSelected)
+            Expanded(child: VideoRecorderWidget(key: _videoRef, isCompressionEnabled: true)),
           const SizedBox(height: Dimens.space_16),
           CshBigButton(
-              text: "Complete Packaging",
+              text: l10n.completePackaging,
               onPressed: provider.isAllDeviceScanned()
                   ? () async {
-                      File? videoFile = await _videoRef.currentState?.stopVideoRecording();
-                      if (videoFile != null) {
-                        _onCompletePackagingClicked(context, videoFile, provider);
+                      if (widget.isCCTVCameraSelected) {
+                        _onCompletePackagingClicked(null, provider);
+                      } else {
+                        File? videoFile = await _videoRef.currentState?.stopVideoRecording();
+                        if (videoFile != null) {
+                          _onCompletePackagingClicked(videoFile, provider);
+                        }
                       }
                     }
                   : null)
@@ -81,22 +100,28 @@ class VideoCreationProcessWidget extends StatelessWidget {
     );
   }
 
-  _onDeviceBarcodeScanned(BuildContext context, PackagingProvider provider, String deviceBarcode) {
+  _onDeviceBarcodeScanned(PackagingProvider provider, String deviceBarcode) {
     CshLoading().showLoading(context);
     provider.completeItemPackaging(deviceBarcode).then((value) {
       CshLoading().hideLoading(context);
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
-    }).whenComplete(() => _focusNode.requestFocus());
+    }).whenComplete(() {
+      _deviceBarcodeController.text = "";
+      _focusNode.requestFocus();
+    } );
   }
 
-  void _onCompletePackagingClicked(BuildContext context, File videoFile, PackagingProvider provider) {
+  void _onCompletePackagingClicked(File? videoFile, PackagingProvider provider) {
     CshLoading().showLoading(context);
-    provider.onPackagingFinished(videoFile).then((value) {
+    provider.onPackagingFinished(videoFile).then((value) async {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: "Packaging completed");
-      Navigator.popUntil(context, (route) => route.settings.name == ShipexHomeScreen.route);
+      if (!widget.isCCTVCameraSelected) {
+        await _videoRef.currentState?.disposeCamera();
+      }
+      Navigator.pop(context);
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);

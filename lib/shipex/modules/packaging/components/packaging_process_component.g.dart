@@ -10,6 +10,7 @@ PackagingProcessCompParam fromMap(Map<String, dynamic> map) {
   PackagingProcessCompParam model = PackagingProcessCompParam(
     dataModel: map["dm"],
     isGroupLotPending: map["ip"],
+    isCCTVSelected: map["isCCTV"],
   );
   return model;
 }
@@ -20,6 +21,7 @@ Widget paramBuilder(
     selector: (_, provider) => {
       "dm": provider.data["dm"],
       "ip": provider.data["ip"],
+      "isCCTV": provider.data["isCCTV"],
     },
     builder: (context, data, child) {
       PackagingProcessCompParam model = fromMap(data);
@@ -31,8 +33,11 @@ Widget paramBuilder(
 bool isValid(PackagingProcessCompParam model) {
   var dataModel = model.dataModel;
   var isGroupLotPending = model.isGroupLotPending;
+  var isCCTVSelected = model.isCCTVSelected;
 
-  return dataModel != null && isGroupLotPending != null;
+  return dataModel != null &&
+      isGroupLotPending != null &&
+      isCCTVSelected != null;
 }
 
 dynamic schema() => {
@@ -44,7 +49,8 @@ dynamic schema() => {
       "title": "Packaging Process Component",
       "cpm": [
         {"key": "dm", "value": null},
-        {"key": "ip", "value": null}
+        {"key": "ip", "value": null},
+        {"key": "isCCTV", "value": null}
       ],
       "configJson": {
         "config": [
