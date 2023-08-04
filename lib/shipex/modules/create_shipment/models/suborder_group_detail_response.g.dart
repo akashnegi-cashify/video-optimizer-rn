@@ -18,6 +18,8 @@ SubOrderGroupDetailResponse _$SubOrderGroupDetailResponseFromJson(
       json['si'] as int?,
     )
       ..pinCode = json['pin'] as String?
+      ..monitoringCameraRecordStartDateTime = json['mcrsdt'] as int?
+      ..monitoringCameraBarcode = json['mcb'] as String?
       ..invoiceLink = json['il'] as String?
       ..courierName = json['cn'] as String?
       ..courierAwb = json['ca'] as String?
@@ -53,6 +55,8 @@ Map<String, dynamic> _$SubOrderGroupDetailResponseToJson(
       'qty': instance.totalQty,
       'si': instance.shipmentId,
       'pin': instance.pinCode,
+      'mcrsdt': instance.monitoringCameraRecordStartDateTime,
+      'mcb': instance.monitoringCameraBarcode,
       'il': instance.invoiceLink,
       'cn': instance.courierName,
       'ca': instance.courierAwb,

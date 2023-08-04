@@ -1,11 +1,12 @@
 # TRC Releases
 
 
-# v2.0.3+12 (XX-07-2023)
+# v2.0.3+12 (02-07-2023)
 
 ### Feature:
 
 * `QC - Dispute Images - Create feature for highlight in images`[(SCM-4005)](https://reglobe.atlassian.net/browse/SCM-4005)
+* `QC - Calculator - add config for server side executir`[(SCM-4098)](https://reglobe.atlassian.net/browse/SCM-4098)
 
 
 # v2.0.2+11 (26-07-2023)

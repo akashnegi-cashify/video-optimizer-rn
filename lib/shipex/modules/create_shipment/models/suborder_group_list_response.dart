@@ -38,19 +38,19 @@ class SubOrderGroupListData {
 
   @JsonKey(name: 'si')
   int? shipmentId;
+
   @JsonKey(name: "pin")
   String? pinCode;
 
+  @JsonKey(name: "mcrsdt")
+  int? monitoringCameraRecordStartDateTime;
+
+  @JsonKey(name: "mcb")
+  String? monitoringCameraBarcode;
+
   SubOrderGroupListData(
-    this.id,
-    this.name,
-    this.lotType,
-    this.lotTypeName,
-    this.packagingBarcode,
-    this.totalQty,
-    this.shipmentId, {
-    this.pinCode,
-  });
+      this.id, this.name, this.lotType, this.lotTypeName, this.packagingBarcode, this.totalQty, this.shipmentId,
+      {this.pinCode, this.monitoringCameraBarcode, this.monitoringCameraRecordStartDateTime});
 
   static SubOrderGroupListData fromJson(Map<String, dynamic> json) => _$SubOrderGroupListDataFromJson(json);
 

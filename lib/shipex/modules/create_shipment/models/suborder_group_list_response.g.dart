@@ -38,6 +38,8 @@ SubOrderGroupListData _$SubOrderGroupListDataFromJson(
       json['qty'] as int?,
       json['si'] as int?,
       pinCode: json['pin'] as String?,
+      monitoringCameraBarcode: json['mcb'] as String?,
+      monitoringCameraRecordStartDateTime: json['mcrsdt'] as int?,
     );
 
 Map<String, dynamic> _$SubOrderGroupListDataToJson(
@@ -51,4 +53,6 @@ Map<String, dynamic> _$SubOrderGroupListDataToJson(
       'qty': instance.totalQty,
       'si': instance.shipmentId,
       'pin': instance.pinCode,
+      'mcrsdt': instance.monitoringCameraRecordStartDateTime,
+      'mcb': instance.monitoringCameraBarcode,
     };
