@@ -1,4 +1,5 @@
 import 'package:builder_component/builder_component.dart';
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
@@ -134,11 +135,64 @@ class _AuditSummary extends StatelessWidget {
     CshLoading().showLoading(context);
     provider.submitAuditQuestion(scannedBarcode, dataMap).then((value) {
       CshLoading().hideLoading(context);
-      CshSnackBar.success(context: context, message: l10n.dataSubmittedSuccessfully);
-      Navigator.of(context).pushNamedAndRemoveUntil(AuditBarcodeScannerScreen.route, (route) => false);
+      CshSnackBar.success(
+        context: context,
+        message: l10n.dataSubmittedSuccessfully,
+        snackBarPosition: SnackBarPosition.TOP,
+      );
+      _getDeviceStatus(provider, context);
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
     });
+  }
+
+  _getDeviceStatus(AuditQuestionSubmitProvider provider, BuildContext context) {
+    CshLoading().showLoading(context);
+    provider.getDeviceStatus(scannedBarcode).then((value) {
+      CshLoading().hideLoading(context);
+      _showDeviceStatusDialog(context, value);
+    }, onError: (e) {
+      CshLoading().hideLoading(context);
+      _showRetryDialog(context, provider, e.toString());
+    });
+  }
+
+  _showDeviceStatusDialog(BuildContext context, String deviceStatus) {
+    showAlertDialog(context, title: "Channel", desc: deviceStatus, onPosBtnPressed: (_) {
+      Navigator.pop(context); // dismiss dialog
+      Navigator.of(context).pushNamedAndRemoveUntil(AuditBarcodeScannerScreen.route, (route) => false);
+    });
+  }
+
+  _showRetryDialog(BuildContext context, AuditQuestionSubmitProvider provider, String errorMessage) {
+    showCshBottomSheet(
+        context: context,
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.space_20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CshTextNew.subTitle1("Error!!"),
+              const SizedBox(height: Dimens.space_20),
+              CshTextNew.subTitle2(errorMessage),
+              const SizedBox(height: Dimens.space_20),
+              ComboButton(
+                firstBtnText: "Go back",
+                secondBtnText: "Retry",
+                isFirstPrimary: true,
+                firstBtnClick: () {
+                  Navigator.pop(context); // dismiss dialog
+                  Navigator.of(context).pushNamedAndRemoveUntil(AuditBarcodeScannerScreen.route, (route) => false);
+                },
+                secondBtnClick: () {
+                  Navigator.pop(context); // dismiss dialog
+                  _getDeviceStatus(provider, context);
+                },
+              )
+            ],
+          ),
+        ));
   }
 }
