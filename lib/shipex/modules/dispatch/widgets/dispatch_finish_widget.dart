@@ -133,7 +133,8 @@ class _DispatchFinishedWidgetState extends State<DispatchFinishedWidget> {
     CshLoading().showLoading(context);
     provider.finishDispatch().then((value) {
       CshLoading().hideLoading(context);
-      showAlertDialog(context, title: "Success", desc: "Dispatch Completed", onPosBtnPressed: (context) {
+      showAlertDialog(context, title: "Success", desc: "Dispatch Completed", onPosBtnPressed: (_) {
+        Navigator.pop(context);
         Navigator.popUntil(context, (route) => route.settings.name == ShipexHomeScreen.route);
       });
     }, onError: (error) {

@@ -125,7 +125,8 @@ class MediaUploadUtil {
     return completer.future;
   }
 
-  Future<String> uploadMediaWithType({required File mediaFile, required String fileName, String? contentType}) {
+  Future<String> uploadMediaWithType(
+      {required File mediaFile, required String fileName, MediaContentType contentType = MediaContentType.jpeg}) {
     var completer = Completer<String>();
     String fileFormat = mediaFile.path.split(".").last;
     try {
@@ -137,8 +138,7 @@ class MediaUploadUtil {
             try {
               Uri url = Uri.parse(_preSignedUrlData!.preSignedUrl!);
               List<int> mediaBytes = mediaFile.readAsBytesSync();
-              var response = await http
-                  .put(url, body: mediaBytes, headers: {"content-type": contentType ?? MediaContentType.jpeg.value});
+              var response = await http.put(url, body: mediaBytes, headers: {"content-type": contentType.value});
               if (response.statusCode == 200) {
                 Logger.debug('mydebug------ImageUploadUtil.uploadImage', ["Image Uploaded Successfully"]);
                 _getMediaS3Url(

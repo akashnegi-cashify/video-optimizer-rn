@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -217,24 +216,26 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
               child: CshMediumButton(
                 text: l10n.uploadDocument,
                 onPressed: () async {
-                  Logger.debug('mydebug------_UploadEwayBillWidgetState._uploadModal', ["hgfhfhgfhgfhgf"]);
-                  FilePickerResult? result = await FilePicker.platform
-                      .pickFiles(type: FileType.media, allowedExtensions: ['png', 'jpeg', 'jpg', 'pdf']);
-                  if (result != null) {
-                    Navigator.of(context).pop();
-                    PlatformFile file = result.files.first;
-                    Logger.debug('mydebug------_UploadEwayBillWidgetState._uploadModal', [file.extension]);
-                    if (file.extension == "pdf") {
-                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.pdf.value);
-                    } else if (file.extension == "png") {
-                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.png.value);
-                    } else if (file.extension == "jpeg") {
-                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg.value);
-                    } else if (file.extension == "jpg") {
-                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg.value);
-                    } else {
-                      _uploadMediaFunc(File(file.path ?? ""));
+                  Navigator.of(context).pop();
+                  try {
+                    FilePickerResult? result = await FilePicker.platform
+                        .pickFiles(type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg', 'pdf']);
+                    if (result != null) {
+                      PlatformFile file = result.files.first;
+                      if (file.extension == "pdf") {
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.pdf);
+                      } else if (file.extension == "png") {
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.png);
+                      } else if (file.extension == "jpeg") {
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg);
+                      } else if (file.extension == "jpg") {
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg);
+                      } else {
+                        _uploadMediaFunc(File(file.path ?? ""));
+                      }
                     }
+                  } catch (e) {
+                    CshSnackBar.error(context: context, message: e.toString());
                   }
                 },
               ),
@@ -261,7 +262,7 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
     });
   }
 
-  _uploadMediaWithContentType(File data, String value) {
+  _uploadMediaWithContentType(File data, MediaContentType value) {
     CshLoading().showLoading(context);
     String fileName = path.basename(data.path);
     MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: value).then((value) {

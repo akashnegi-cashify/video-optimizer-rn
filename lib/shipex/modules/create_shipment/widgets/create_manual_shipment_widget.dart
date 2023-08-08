@@ -156,24 +156,26 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
               child: CshMediumButton(
                 text: l10n.uploadDocument,
                 onPressed: () async {
-                  Logger.debug('mydebug------_UploadEwayBillWidgetState._uploadModal', ["hgfhfhgfhgfhgf"]);
-                  FilePickerResult? result = await FilePicker.platform
-                      .pickFiles(type: FileType.media, allowedExtensions: ['png', 'jpeg', 'jpg', 'pdf']);
-                  if (result != null) {
-                    Navigator.of(context).pop();
-                    PlatformFile file = result.files.first;
-                    Logger.debug('mydebug------_UploadEwayBillWidgetState._uploadModal', [file.extension]);
-                    if (file.extension == "pdf") {
-                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.pdf.value);
-                    } else if (file.extension == "png") {
-                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.png.value);
-                    } else if (file.extension == "jpeg") {
-                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg.value);
-                    } else if (file.extension == "jpg") {
-                      _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg.value);
-                    } else {
-                      _uploadMediaFunc(File(file.path ?? ""));
+                  try {
+                    FilePickerResult? result = await FilePicker.platform
+                        .pickFiles(type: FileType.custom, allowedExtensions: ['png', 'jpeg', 'jpg', 'pdf']);
+                    if (result != null) {
+                      if (mounted) Navigator.of(context).pop();
+                      PlatformFile file = result.files.first;
+                      if (file.extension == "pdf") {
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.pdf);
+                      } else if (file.extension == "png") {
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.png);
+                      } else if (file.extension == "jpeg") {
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg);
+                      } else if (file.extension == "jpg") {
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg);
+                      } else {
+                        _uploadMediaFunc(File(file.path ?? ""));
+                      }
                     }
+                  } catch (e) {
+                    CshSnackBar.error(context: context, message: e.toString());
                   }
                 },
               ),
@@ -200,7 +202,7 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
     });
   }
 
-  _uploadMediaWithContentType(File data, String contentType) {
+  _uploadMediaWithContentType(File data, MediaContentType contentType) {
     CshLoading().showLoading(context);
     String fileName = path.basename(data.path);
     MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: contentType).then((value) {
