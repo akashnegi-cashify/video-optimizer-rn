@@ -1,12 +1,13 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../l10n.dart';
 import '../providers/document_download_provider.dart';
 import '../resources/doc_type_enum.dart';
 
-class DocDownloaderWidget extends StatelessWidget {
+class DocDownloaderWidget extends StatefulWidget {
   final String? courierAwb;
   final String? shipmentId;
 
@@ -15,6 +16,19 @@ class DocDownloaderWidget extends StatelessWidget {
     this.courierAwb,
     this.shipmentId,
   });
+
+  @override
+  State<DocDownloaderWidget> createState() => _DocDownloaderWidgetState();
+}
+
+class _DocDownloaderWidgetState extends State<DocDownloaderWidget> {
+  DropDownItem? _selectedValue;
+
+  @override
+  void initState() {
+    _selectedValue = DropDownItem(DocTypeEnum.awbInvoice.value, DocTypeEnum.awbInvoice.value);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +52,16 @@ class DocDownloaderWidget extends StatelessWidget {
             Flexible(
               flex: 2,
               child: CshDropDown(
-                selectedItem: DropDownItem(DocTypeEnum.awbInvoice.value, DocTypeEnum.awbInvoice.value),
+                selectedItem: _selectedValue,
                 items: List.generate(
                   DocTypeEnum.values.length,
                   (index) => DropDownItem(DocTypeEnum.values[index].value, DocTypeEnum.values[index].value),
                 ),
-                onChanged: (DropDownItem data) {},
+                onChanged: (DropDownItem data) {
+                  setState(() {
+                    _selectedValue = data;
+                  });
+                },
               ),
             ),
             const SizedBox(width: Dimens.space_8),
@@ -62,9 +80,16 @@ class DocDownloaderWidget extends StatelessWidget {
   _getDownloadUrl(BuildContext context) {
     CshLoading().showLoading(context);
     var provider = DocumentDownloadProvider.of(context, listen: false);
-    provider.getDocumentDownloadLink(courierAwb: courierAwb, shipmentId: shipmentId).then((value) {
+    provider
+        .getDocumentDownloadLink(
+            courierAwb: widget.courierAwb, shipmentId: widget.shipmentId, documentType: _selectedValue?.label)
+        .then((value) async {
       CshLoading().hideLoading(context);
-      //TODO apply download and open file code here;
+      if (await canLaunchUrlString(value)) {
+        launchUrlString(value, mode: LaunchMode.externalApplication);
+      } else {
+        CshSnackBar.error(context: context, message: "Couldn't open this file");
+      }
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);

@@ -133,6 +133,7 @@ dependencies:
   path_provider: ^2.0.15
   firebase_remote_config: ^4.2.4
   image: ^4.0.17
+  url_launcher: ^6.1.12
 
 
 dev_dependencies:

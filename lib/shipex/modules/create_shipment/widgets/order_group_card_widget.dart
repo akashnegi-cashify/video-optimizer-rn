@@ -32,11 +32,16 @@ class OrderGroupWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (!Validator.isNullOrEmpty(dataModel?.name)) ...[
-              _horizontalLabelValue(theme, l10n.lot, dataModel!.name!),
+              _horizontalLabelValue(theme, l10n.lotName, dataModel!.name!),
               const SizedBox(height: Dimens.space_8),
             ],
             if (dataModel?.totalQty != null) ...[
               _horizontalLabelValue(theme, l10n.devices, dataModel!.totalQty!.toString()),
+            ],
+            if (!Validator.isNullOrEmpty(dataModel?.monitoringCameraBarcode)) ...[
+              const SizedBox(height: Dimens.space_8),
+              _horizontalLabelValue(theme, l10n.cameraQr,
+                  "${dataModel!.monitoringCameraBarcode} - ${_getDateInString(dataModel?.monitoringCameraRecordStartDateTime)}"),
             ],
             if (Validator.isTrue(isCreatedTypeList)) ...[
               const SizedBox(height: Dimens.space_12),
@@ -49,6 +54,10 @@ class OrderGroupWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getDateInString(int? monitoringTime) {
+    return formatDate(timeStamp: monitoringTime, pattern: DateFormats.dd_MMM_yyyy_HH_mm_ss.value);
   }
 
   _horizontalLabelValue(ThemeData theme, String label, String value) {

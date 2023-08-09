@@ -20,7 +20,11 @@ class L10n extends BaseL10n {
 
   String get lot => Intl.message("Lot", locale: localName, name: "lot");
 
+  String get lotName => Intl.message("Lot Name", locale: localName, name: "lotName");
+
   String get devices => Intl.message("Devices", locale: localName, name: "devices");
+
+  String get cameraQr => Intl.message("Camera QR", locale: localName, name: "cameraQr");
 
   String get invoice => Intl.message("Invoice", locale: localName, name: "invoice");
 

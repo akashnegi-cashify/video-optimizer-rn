@@ -1,6 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/pii_info_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../l10n.dart';
 import '../providers/order_group_details_provider.dart';
@@ -65,6 +67,7 @@ class OrderGroupDetailsWidget extends StatelessWidget {
             ),
           );
         }
+        Map<String, String>? listData = provider.responseData?.getLabelAndValueData();
         return Column(
           children: [
             Expanded(
@@ -72,14 +75,12 @@ class OrderGroupDetailsWidget extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
                 itemBuilder: (context, index) {
                   return _verticalKeyValuePair(
-                      theme,
-                      provider.responseData?.getLabelAndValueData().keys.toList()[index] ?? "",
-                      provider.responseData?.getLabelAndValueData().values.toList()[index] ?? "");
+                      theme, listData?.keys.toList()[index] ?? "", listData?.values.toList()[index] ?? "", provider);
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: Dimens.space_12);
                 },
-                itemCount: provider.responseData?.getLabelAndValueData().length ?? 0,
+                itemCount: listData?.length ?? 0,
               ),
             ),
             Padding(
@@ -97,7 +98,13 @@ class OrderGroupDetailsWidget extends StatelessWidget {
                       width: double.infinity,
                       child: CshMediumButton(
                         text: l10n.invoice,
-                        onPressed: () {},
+                        onPressed: () async {
+                          if (await canLaunchUrlString(provider.responseData!.invoiceLink!)) {
+                            launchUrlString(provider.responseData!.invoiceLink!, mode: LaunchMode.externalApplication);
+                          } else {
+                            CshSnackBar.error(context: context, message: "Couldn't open this file");
+                          }
+                        },
                       ),
                     ),
                   ],
@@ -140,12 +147,24 @@ class OrderGroupDetailsWidget extends StatelessWidget {
     );
   }
 
-  _verticalKeyValuePair(ThemeData theme, String label, String value) {
+  _verticalKeyValuePair(ThemeData theme, String label, String value, OrderGroupDetailsProvider provider) {
+    bool isShowPiiFlag = false;
+    String? encryptedKey;
+    if (label == "Billing Address" || label == "Shipping Address") {
+      isShowPiiFlag = true;
+      encryptedKey = value.split(",").first;
+      value = value.split(",").sublist(1).join(",");
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: theme.primaryTextTheme.headlineMedium),
         const SizedBox(height: Dimens.space_8),
+        if (isShowPiiFlag)
+          Padding(
+            padding: const EdgeInsets.only(bottom: Dimens.space_4),
+            child: PiiInfoWidget(encryptedKey!, theme.primaryTextTheme.bodyMedium),
+          ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -153,7 +172,7 @@ class OrderGroupDetailsWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 value,
-                style: theme.primaryTextTheme.bodyText2,
+                style: theme.primaryTextTheme.bodyMedium,
               ),
             )
           ],

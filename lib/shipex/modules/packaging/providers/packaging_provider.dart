@@ -124,7 +124,7 @@ class PackagingProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     PackingService.startPackaging(
       deviceBarcode: deviceBarcode,
-      packagingBarcode: _enteredAwbNumber,
+      packagingBarcode: _groupLotListData?.packagingBarcode,
       invoiceBarcode: _enterInvoiceNumber,
     ).listen((event) {
       completer.complete(true);
@@ -149,8 +149,10 @@ class PackagingProvider extends CshChangeNotifier {
     }
 
     var completer = Completer<bool>();
-    PackingService.finishItemPackaging(deviceBarcode: deviceBarcode, packagingBarcode: _enteredAwbNumber).listen(
-        (event) {
+    PackingService.finishItemPackaging(
+      deviceBarcode: deviceBarcode,
+      packagingBarcode: _groupLotListData?.packagingBarcode,
+    ).listen((event) {
       _deviceBarcodeScannedList.add(deviceBarcode);
       notifyListeners();
       completer.complete(true);
@@ -208,8 +210,10 @@ class PackagingProvider extends CshChangeNotifier {
 
   Future<bool> addCCTVCameraBarcode(String cameraBarcode) {
     var completer = Completer<bool>();
-    PackingService.addMonitoringCamera(cameraBarcode: cameraBarcode, packagingBarcode: _enteredAwbNumber).listen(
-        (event) {
+    PackingService.addMonitoringCamera(
+      cameraBarcode: cameraBarcode,
+      packagingBarcode: _groupLotListData?.packagingBarcode,
+    ).listen((event) {
       completer.complete(true);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

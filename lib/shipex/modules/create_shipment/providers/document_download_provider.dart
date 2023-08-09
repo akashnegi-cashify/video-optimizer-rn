@@ -13,9 +13,7 @@ class DocumentDownloadProvider extends CshChangeNotifier {
     return Provider.of<DocumentDownloadProvider>(context, listen: listen);
   }
 
-  String documentType = DocTypeEnum.awbInvoice.value;
-
-  Future<String> getDocumentDownloadLink({String? courierAwb, String? shipmentId}) {
+  Future<String> getDocumentDownloadLink({String? courierAwb, String? shipmentId, String? documentType}) {
     var completer = Completer<String>();
     try {
       CreateShipmentService.getDocumentLink(documentType, courierAwb, shipmentId).listen((event) {
@@ -35,10 +33,5 @@ class DocumentDownloadProvider extends CshChangeNotifier {
       completer.completeError(e.toString());
     }
     return completer.future;
-  }
-
-  void onDocTypeChange(String data) {
-    documentType = data;
-    notifyListeners();
   }
 }
