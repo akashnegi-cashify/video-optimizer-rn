@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/shipex/modules/packaging/modal/packaging_video_selection_dialog.dart';
 import 'package:flutter_trc/shipex/modules/packaging/models/group_lot_list_repsonse.dart';
 import 'package:flutter_trc/shipex/modules/packaging/providers/group_list_provider.dart';
@@ -19,25 +18,11 @@ class PendingOrderDataList extends StatefulWidget {
 }
 
 class _PendingOrderDataListState extends State<PendingOrderDataList> {
-  final TextEditingController _searchController = TextEditingController();
-  bool _isSearchActive = false;
-  Timer? _timer;
-
   @override
   void initState() {
-    _searchController.addListener(() {
-      if (_searchController.text.isEmpty) {
-        _isSearchActive = false;
-      } else {
-        _isSearchActive = true;
-      }
-      setState(() {});
-    });
     scheduleMicrotask(() {
-      if (mounted) {
-        var provider = GroupListProvider.of(context, listen: false);
-        provider.fetchPendingDataList();
-      }
+      var provider = GroupListProvider.of(context, listen: false);
+      provider.fetchPendingDataList();
     });
     super.initState();
   }
@@ -71,102 +56,53 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
         ),
       );
     } else {
-      if (Validator.isListNullOrEmpty(provider.groupDataPendingList)) {
-        return Center(
-          child: Row(
-            children: [
-              const SizedBox.shrink(),
-              Expanded(
-                child: Text(
-                  l10n.noPendingListDataFound,
-                  style: theme.primaryTextTheme.headlineMedium,
-                  textAlign: TextAlign.center,
-                ),
-              )
-            ],
-          ),
-        );
-      } else {
-        return Column(
-          children: [
-            const SizedBox(height: Dimens.space_12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-              child: CshTextFormField(
-                controller: _searchController,
-                maxLines: 1,
-                maxLength: 50,
-                keyboardType: TextInputType.name,
-                hintText: l10n.name,
-                onChanged: (data) {
-                  if (_timer?.isActive ?? false) _timer?.cancel();
-                  _timer = Timer(
-                    const Duration(milliseconds: 400),
-                    () {
-                      if (!Validator.isNullOrEmpty(data)) {
-                        provider.fetchLocalSearchResultsInPending(data.trim().toLowerCase());
-                      }
-                    },
-                  );
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.primaryColor),
+                borderRadius: BorderRadius.circular(Dimens.space_4),
+              ),
+              child: SearchBarWidget(
+                hintText: "Search by name",
+                onQuery: (query) {
+                  provider.setQuery(query);
                 },
-                prefixIcon: CshIcon(
-                  FeatherIcons.search,
-                  padding: EdgeInsets.zero,
-                  iconSize: MobileIconSize.medium,
-                  iconColor: theme.primaryColor,
-                ),
-                suffixIcon: Validator.isTrue(_isSearchActive)
-                    ? CshIcon(
-                        FeatherIcons.xCircle,
-                        padding: EdgeInsets.zero,
-                        iconSize: MobileIconSize.medium,
-                        iconColor: theme.shadowColor,
-                        onClick: () {
-                          _isSearchActive = false;
-                          _searchController.clear();
-                          setState(() {});
-                        },
-                      )
-                    : null,
               ),
             ),
-            (Validator.isTrue(_isSearchActive))
-                ? (!Validator.isListNullOrEmpty(provider.localSearchResultsData))
-                    ? Expanded(
-                        child: ListView.separated(
-                          padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
-                          itemBuilder: (context, index) {
-                            var item = provider.localSearchResultsData[index];
-                            return GroupListDataCardWidget(dataModel: item, onCardTap: () => _onItemSelected(item));
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(height: Dimens.space_12);
-                          },
-                          itemCount: provider.localSearchResultsData.length,
-                        ),
-                      )
-                    : Center(
+          ),
+          Validator.isListNullOrEmpty(provider.groupDataPendingList)
+              ? Center(
+                  child: Row(
+                    children: [
+                      const SizedBox.shrink(),
+                      Expanded(
                         child: Text(
-                          "No Data Found",
+                          l10n.noPendingListDataFound,
                           style: theme.primaryTextTheme.headlineMedium,
+                          textAlign: TextAlign.center,
                         ),
                       )
-                : Expanded(
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
-                      itemBuilder: (context, index) {
-                        var item = provider.groupDataPendingList![index];
-                        return GroupListDataCardWidget(dataModel: item, onCardTap: () => _onItemSelected(item));
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: Dimens.space_12);
-                      },
-                      itemCount: provider.groupDataPendingList!.length,
-                    ),
-                  )
-          ],
-        );
-      }
+                    ],
+                  ),
+                )
+              : Expanded(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
+                    itemBuilder: (context, index) {
+                      var item = provider.groupDataPendingList![index];
+                      return GroupListDataCardWidget(dataModel: item, onCardTap: () => _onItemSelected(item));
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: Dimens.space_12);
+                    },
+                    itemCount: provider.groupDataPendingList!.length,
+                  ),
+                )
+        ],
+      );
     }
   }
 

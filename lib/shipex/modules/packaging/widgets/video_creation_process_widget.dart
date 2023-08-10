@@ -79,7 +79,7 @@ class VideoCreationProcessWidgetState extends State<VideoCreationProcessWidget> 
           ),
           const SizedBox(height: Dimens.space_16),
           if (!widget.isCCTVCameraSelected)
-            Expanded(child: VideoRecorderWidget(key: _videoRef, isCompressionEnabled: true)),
+            Expanded(child: VideoRecorderWidget(key: _videoRef)),
           const SizedBox(height: Dimens.space_16),
           CshBigButton(
               text: l10n.completePackaging,

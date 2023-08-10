@@ -33,7 +33,7 @@ class CreateShipmentService {
       "pbar": [courierAwb.toString()],
       "sid": [shipmentId.toString()],
     };
-    return ShipexService().post("/app/file/$documentType/details", DocumentLinkResponse.fromJson, params: params);
+    return ShipexService().get("/app/file/$documentType/details", DocumentLinkResponse.fromJson, params: params);
   }
 
   static Stream<SubOrderGroupDetailResponse?> getSubOrderGroupDetails(String? groupId) {

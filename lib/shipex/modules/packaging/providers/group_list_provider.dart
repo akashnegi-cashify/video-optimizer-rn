@@ -12,8 +12,19 @@ class GroupListProvider extends CshChangeNotifier {
   //Pending list properties
   bool pendingDataLoading = false;
   String? pendingErrorListMessage;
-  List<GroupLotListData>? groupDataPendingList;
-  List<GroupLotListData> localSearchResultsData = [];
+  List<GroupLotListData>? _groupDataPendingList;
+
+  String? _query;
+
+  List<GroupLotListData>? get groupDataPendingList => Validator.isNullOrEmpty(_query)
+      ? _groupDataPendingList
+      : _groupDataPendingList?.where((element) {
+          if (!Validator.isNullOrEmpty(element.name)) {
+            return element.name!.toLowerCase().contains(_query!);
+          } else {
+            return false;
+          }
+        }).toList();
 
   static GroupListProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<GroupListProvider>(context, listen: listen);
@@ -21,11 +32,12 @@ class GroupListProvider extends CshChangeNotifier {
 
   fetchPendingDataList() {
     pendingDataLoading = true;
-    groupDataPendingList?.clear();
+    _groupDataPendingList?.clear();
+    _query = null;
     notifyListeners();
     PackingService.getGroupPendingDataList().listen((event) {
       if (!Validator.isListNullOrEmpty(event?.groupLotList)) {
-        groupDataPendingList = event!.groupLotList!;
+        _groupDataPendingList = event!.groupLotList!;
       }
     }, onError: (error) {
       String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
@@ -59,25 +71,6 @@ class GroupListProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  fetchLocalSearchResultsInPending(String query) {
-    pendingDataLoading = true;
-    notifyListeners();
-    localSearchResultsData.clear();
-    if (query.isEmpty) {
-      localSearchResultsData = [];
-    } else {
-      localSearchResultsData = groupDataPendingList!.where((element) {
-        if (!Validator.isNullOrEmpty(element.name)) {
-          return element.name!.toLowerCase().contains(query);
-        } else {
-          return false;
-        }
-      }).toList();
-    }
-    pendingDataLoading = false;
-    notifyListeners();
-  }
-
   Future<bool> addCCTVCameraBarcode(String cameraBarcode, String? awbNumber) {
     var completer = Completer<bool>();
     PackingService.addMonitoringCamera(cameraBarcode: cameraBarcode, packagingBarcode: awbNumber).listen((event) {
@@ -87,5 +80,10 @@ class GroupListProvider extends CshChangeNotifier {
     });
 
     return completer.future;
+  }
+
+  void setQuery(String query) {
+    _query = query;
+    notifyListeners();
   }
 }

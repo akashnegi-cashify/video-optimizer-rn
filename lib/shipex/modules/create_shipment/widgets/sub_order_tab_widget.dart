@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart' as core;
 import 'package:flutter/material.dart';
@@ -25,9 +23,7 @@ class SubOrderGroupTabWidget extends StatefulWidget {
 
 class _SubOrderGroupTabWidgetState extends PaginatedListState<SubOrderGroupListData, SubOrderGroupTabWidget> {
   _SubOrderGroupTabWidgetState() : super(initialScrollOffset: 10, pageSize: 10);
-  final TextEditingController _searchController = TextEditingController();
   String? _query;
-  Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
@@ -36,26 +32,21 @@ class _SubOrderGroupTabWidgetState extends PaginatedListState<SubOrderGroupListD
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: core.Dimens.space_8, horizontal: core.Dimens.space_12),
-          child: core.CshTextFormField(
-            controller: _searchController,
-            hintText: l10n.searchByName,
-            maxLines: 1,
-            maxLength: 50,
-            onChanged: (String data) {
-              if (_timer?.isActive ?? false) _timer?.cancel();
-              _timer = Timer(
-                const Duration(milliseconds: 500),
-                () {
-                  if (data.isEmpty) {
-                    _query = data.trim();
-                  } else {
-                    _query = null;
-                  }
-                },
-              );
-            },
-            keyboardType: TextInputType.name,
+          padding: const EdgeInsets.all(core.Dimens.space_16),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: theme.primaryColor),
+              borderRadius: BorderRadius.circular(core.Dimens.space_4),
+            ),
+            child: core.SearchBarWidget(
+              hintText: "Search by name",
+              onQuery: (query) {
+                setState(() {
+                  _query = query;
+                  resetAndRefreshScreen();
+                });
+              },
+            ),
           ),
         ),
         Expanded(
@@ -117,7 +108,8 @@ class _SubOrderGroupTabWidgetState extends PaginatedListState<SubOrderGroupListD
   void requestApi(int pageNo,
       {Function(List<SubOrderGroupListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = SubOrderGroupListProvider.of(context, listen: false);
-    provider.getSubOrderGroupDataList(10, pageNo, shipmentStatus: widget.shipmentNumber, query: _query).then((value) {
+    provider.getSubOrderGroupDataList(pageSize, ++pageNo, shipmentStatus: widget.shipmentNumber, query: _query).then(
+        (value) {
       if (onSuccess != null) {
         onSuccess(value.subOrderList);
       }
@@ -126,13 +118,5 @@ class _SubOrderGroupTabWidgetState extends PaginatedListState<SubOrderGroupListD
         onError(error);
       }
     });
-  }
-
-  @override
-  void dispose() {
-    if (_timer != null) {
-      _timer!.cancel();
-    }
-    super.dispose();
   }
 }

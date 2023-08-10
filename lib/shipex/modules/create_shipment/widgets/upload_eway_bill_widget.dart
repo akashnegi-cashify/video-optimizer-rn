@@ -167,12 +167,13 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
             child: SizedBox.shrink(),
           ),
           ComboButton(
-            firstBtnText: l10n.save,
-            secondBtnText: l10n.cancel,
+            firstBtnText: l10n.cancel,
+            secondBtnText: l10n.save,
             buttonType: ButtonType.mini,
             isFirstPrimary: true,
             padding: EdgeInsets.zero,
-            firstBtnClick: () {
+            firstBtnClick: () => Navigator.of(context).pop(),
+            secondBtnClick: () {
               if (_awbController.text.isEmpty) {
                 CshSnackBar.error(context: context, message: "AWB Number is required");
               } else if (_docS3Url == null) {
@@ -180,9 +181,6 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
               } else {
                 _uploadEWayBill();
               }
-            },
-            secondBtnClick: () {
-              Navigator.of(context).pop();
             },
           )
         ],

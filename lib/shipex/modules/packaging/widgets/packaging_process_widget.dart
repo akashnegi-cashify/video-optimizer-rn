@@ -132,15 +132,29 @@ class PackagingProcessWidget extends StatelessWidget {
     );
   }
 
-  _showPackagingVideoSelectionDialog(BuildContext context, PackagingProvider provider) {
-    showPackagingVideoSelectionDialog(context, onMonitoringAppSelected: () {
+  _startPackaging(BuildContext context, PackagingProvider provider, String deviceBarcode,
+      GlobalKey<PackagingProcessStepOneWidgetState> ref) {
+    CshLoading().showLoading(context);
+    provider.startPackaging(deviceBarcode).then((value) {
+      CshLoading().hideLoading(context);
       _moveToVideoCreationProcess();
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      ref.currentState?.resetScannerValue();
+      CshSnackBar.error(context: context, message: error);
+    });
+  }
+
+  _showPackagingVideoSelectionDialog(BuildContext context, PackagingProvider provider,
+      {required VoidCallback onProceed}) {
+    showPackagingVideoSelectionDialog(context, onMonitoringAppSelected: () {
+      onProceed();
     }, onCCTVCameraSelected: (scannedCameraBarcode) {
       isCCTVCameraSelected = true;
       CshLoading().showLoading(context);
       provider.addCCTVCameraBarcode(scannedCameraBarcode).then((value) {
         CshLoading().hideLoading(context);
-        _moveToVideoCreationProcess();
+        onProceed();
       }, onError: (error) {
         CshLoading().hideLoading(context);
         CshSnackBar.error(context: context, message: error.toString());
@@ -156,14 +170,8 @@ class PackagingProcessWidget extends StatelessWidget {
 
   _onDeviceScanned(String data, PackagingProvider provider, BuildContext context,
       GlobalKey<PackagingProcessStepOneWidgetState> ref) {
-    CshLoading().showLoading(context);
-    provider.startPackaging(data).then((value) {
-      CshLoading().hideLoading(context);
-      _showPackagingVideoSelectionDialog(context, provider);
-    }, onError: (error) {
-      CshLoading().hideLoading(context);
-      ref.currentState?.resetScannerValue();
-      CshSnackBar.error(context: context, message: error);
+    _showPackagingVideoSelectionDialog(context, provider, onProceed: () {
+      _startPackaging(context, provider, data, ref);
     });
   }
 

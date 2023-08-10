@@ -119,9 +119,11 @@ class _DispatchFinishedWidgetState extends State<DispatchFinishedWidget> {
             width: double.infinity,
             child: CshMediumButton(
               text: l10n.finishDispatch,
-              onPressed: () {
-                _finishDispatch(provider);
-              },
+              onPressed: !Validator.isListNullOrEmpty(provider.listOfInvoicePicture)
+                  ? () {
+                      _finishDispatch(provider);
+                    }
+                  : null,
             ),
           )
         ],

@@ -4,8 +4,9 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -94,8 +95,11 @@ class ShipexDispatchProvider extends CshChangeNotifier {
   }
 
   addInvoiceImageFile(File imageFile) {
-    listOfInvoicePicture.add(imageFile);
-    notifyListeners();
+    ImageUtil.compressImage(imageFile).then((targetFile) {
+      listOfInvoicePicture.add(targetFile);
+    }, onError: (error) {
+      listOfInvoicePicture.add(imageFile);
+    }).whenComplete(() => notifyListeners());
   }
 
   removeInvoiceFile(int index) {
@@ -168,6 +172,9 @@ class ShipexDispatchProvider extends CshChangeNotifier {
   }
 
   Future<File?> _combineImageIntoOne(List<File> imgPathList) async {
+    if (imgPathList.length == 1) {
+      return Future.value(imgPathList.first);
+    }
     List<ui.Image> images = [];
     int w = 0;
     int h = 0;

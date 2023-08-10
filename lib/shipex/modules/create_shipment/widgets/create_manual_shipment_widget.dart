@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -101,12 +100,13 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
           ),
           const Expanded(child: SizedBox.shrink()),
           ComboButton(
-            firstBtnText: l10n.save,
-            secondBtnText: l10n.cancel,
+            firstBtnText: l10n.cancel,
+            secondBtnText: l10n.save,
             buttonType: ButtonType.mini,
             isFirstPrimary: true,
             padding: EdgeInsets.zero,
-            firstBtnClick: () {
+            firstBtnClick: () => Navigator.of(context).pop(),
+            secondBtnClick: () {
               if (_awbController.text.isEmpty) {
                 CshSnackBar.error(context: context, message: "AWB Number is required");
               } else if (_docS3Url == null) {
@@ -120,9 +120,6 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
                   _createManualShipment();
                 }
               }
-            },
-            secondBtnClick: () {
-              Navigator.of(context).pop();
             },
           )
         ],
