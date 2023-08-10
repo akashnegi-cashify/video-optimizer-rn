@@ -19,6 +19,16 @@ class ShipexHomeWidget extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: CshMediumButton(
+              text: l10n.createShipment,
+              onPressed: () {
+                Navigator.of(context).pushNamed(SubOrderGroupListingScreen.route);
+              },
+            ),
+          ),
+          const SizedBox(height: Dimens.space_20),
+          SizedBox(
+            width: double.infinity,
+            child: CshMediumButton(
               text: l10n.shipexDispatch,
               onPressed: () {
                 Navigator.of(context).pushNamed(DispatchScreen.route);
@@ -32,16 +42,6 @@ class ShipexHomeWidget extends StatelessWidget {
               text: l10n.shipexPackaging,
               onPressed: () {
                 Navigator.of(context).pushNamed(ShipexPackingScreen.route);
-              },
-            ),
-          ),
-          const SizedBox(height: Dimens.space_20),
-          SizedBox(
-            width: double.infinity,
-            child: CshMediumButton(
-              text: l10n.createShipment,
-              onPressed: () {
-                Navigator.of(context).pushNamed(SubOrderGroupListingScreen.route);
               },
             ),
           ),

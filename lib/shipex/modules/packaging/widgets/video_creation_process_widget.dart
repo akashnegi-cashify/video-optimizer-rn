@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/shipex/modules/packaging/providers/packaging_provider.dart';
-import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:flutter_trc/src/common/widgets/video_recoder_widget.dart';
+import 'package:flutter_trc/src/utils/csh_tts_util.dart';
 
 import '../l10n.dart';
 
@@ -106,11 +106,12 @@ class VideoCreationProcessWidgetState extends State<VideoCreationProcessWidget> 
       CshLoading().hideLoading(context);
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+      CshTtsUtil().speak(error);
+      // CshSnackBar.error(context: context, message: error);
     }).whenComplete(() {
       _deviceBarcodeController.text = "";
       _focusNode.requestFocus();
-    } );
+    });
   }
 
   void _onCompletePackagingClicked(File? videoFile, PackagingProvider provider) {

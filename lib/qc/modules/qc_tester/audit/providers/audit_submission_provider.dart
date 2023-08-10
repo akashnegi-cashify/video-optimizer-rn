@@ -51,11 +51,12 @@ class AuditQuestionSubmitProvider extends CshChangeNotifier {
         }
 
         String deviceStatus;
+        String subTitle = deviceStatusResponse.stockAge != null ? "Stock Age - ${deviceStatusResponse.stockAge}, " : "";
 
         if (!Validator.isNullOrEmpty(deviceStatusResponse.trcStatus)) {
-          deviceStatus = deviceStatusResponse.trcStatus!;
+          deviceStatus = subTitle + deviceStatusResponse.trcStatus!;
         } else {
-          deviceStatus = deviceStatusResponse.salesChannels!.join(",");
+          deviceStatus = subTitle + deviceStatusResponse.salesChannels!.join(",");
         }
         errorMessage = null;
         return deviceStatus;

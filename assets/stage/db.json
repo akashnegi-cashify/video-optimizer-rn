@@ -865,6 +865,11 @@
   ],
   "componentData": [
     {
+      "componentId": -9999,
+      "locale": "en",
+      "key": "no_internet"
+    },
+    {
       "componentId": 1,
       "locale": "en",
       "key": "TRC_splash_component",
