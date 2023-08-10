@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../modules/elss/widgets/network_image_widget.dart';
@@ -129,10 +130,15 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
   bool get wantKeepAlive => true;
 
   Future<void> _takeImage(BuildContext context) async {
-    XFile? selectedFile = await _picker.pickImage(source: ImageSource.camera);
-    if (selectedFile != null && mounted) {
-      Navigator.pushNamed(context, DisputeImageEditorScreen.route,
-          arguments: DisputeImageEditorScreenArg(File(selectedFile.path), this));
+    XFile? xFile = await _picker.pickImage(source: ImageSource.camera);
+    if (xFile != null && mounted) {
+      File selectedFile = File(xFile.path);
+      ImageUtil.compressImage(selectedFile).then((targetFile) {
+        selectedFile = targetFile;
+      }).whenComplete(() {
+        Navigator.pushNamed(context, DisputeImageEditorScreen.route,
+            arguments: DisputeImageEditorScreenArg(selectedFile, this));
+      });
     }
   }
 

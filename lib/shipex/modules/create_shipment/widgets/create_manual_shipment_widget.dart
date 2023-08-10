@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
@@ -141,8 +142,13 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
                 onPressed: () async {
                   XFile? data = await _picker.pickImage(source: ImageSource.camera);
                   if (data != null) {
-                    Navigator.of(context).pop();
-                    _uploadMediaFunc(File(data.path));
+                    ImageUtil.compressImage(File(data.path)).then((value) {
+                      Navigator.of(context).pop();
+                      _uploadMediaFunc(value);
+                    }, onError: (error) {
+                      Navigator.of(context).pop();
+                      _uploadMediaFunc(File(data.path));
+                    });
                   }
                 },
               ),

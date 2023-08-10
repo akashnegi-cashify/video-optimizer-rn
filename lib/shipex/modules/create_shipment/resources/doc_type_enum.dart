@@ -1,6 +1,6 @@
 enum DocTypeEnum {
   awbInvoice("awb-invoice"),
-  packingVideo("packing-video"),
+  packageVideo("package-video"),
   podImage("pod-image"),
   ewayBill("eway-bill");
 

@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -202,8 +203,13 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
                 onPressed: () async {
                   XFile? data = await _picker.pickImage(source: ImageSource.camera);
                   if (data != null) {
-                    Navigator.of(context).pop();
-                    _uploadMediaFunc(File(data.path));
+                    ImageUtil.compressImage(File(data.path)).then((targetFile) {
+                      Navigator.of(context).pop();
+                      _uploadMediaFunc(targetFile);
+                    }, onError: (error) {
+                      Navigator.of(context).pop();
+                      _uploadMediaFunc(File(data.path));
+                    });
                   }
                 },
               ),

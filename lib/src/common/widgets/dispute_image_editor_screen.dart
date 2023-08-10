@@ -61,7 +61,7 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
     final paint = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 10;
+      ..strokeWidth = 5;
 
     for (final square in _squares) {
       var normalizeOffset = square.normalizeOffset!;
