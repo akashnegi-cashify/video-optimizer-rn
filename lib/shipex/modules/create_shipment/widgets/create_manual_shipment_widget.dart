@@ -142,12 +142,12 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
                 onPressed: () async {
                   XFile? data = await _picker.pickImage(source: ImageSource.camera);
                   if (data != null) {
-                    ImageUtil.compressImage(File(data.path)).then((value) {
+                    File selectedFile = File(data.path);
+                    ImageUtil.compressImage(selectedFile).then((targetFile) {
+                      selectedFile = targetFile;
+                    }).whenComplete(() {
                       Navigator.of(context).pop();
-                      _uploadMediaFunc(value);
-                    }, onError: (error) {
-                      Navigator.of(context).pop();
-                      _uploadMediaFunc(File(data.path));
+                      _uploadMediaFunc(selectedFile);
                     });
                   }
                 },

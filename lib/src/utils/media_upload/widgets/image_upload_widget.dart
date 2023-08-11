@@ -137,7 +137,7 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
                   ImageUtil.compressImage(selectedFile).then((targetFile) {
                     selectedFile = targetFile;
                   }).whenComplete(() {
-                    provider.uploadImage(context, File(xFile.path), s3UrlCallback: (String url) {
+                    provider.uploadImage(context, selectedFile, s3UrlCallback: (String url) {
                       if (widget.onMediaUploaded != null) {
                         widget.onMediaUploaded!(url);
                       }
