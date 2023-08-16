@@ -12,14 +12,24 @@ class PackingService {
     Map<String, List<String>> queryParam = {
       "os": [pageNumber.toString()],
       "ps": ["10"],
-      "gn": !Validator.isNullOrEmpty(query) ? [query!] : [""]
     };
+    if (!Validator.isNullOrEmpty(query)) {
+      queryParam["gn"] = [query!];
+    }
 
     return ShipexService().get("/app/packaging/group/list", GroupLotListResponse.fromJson, params: queryParam);
   }
 
-  static Stream<GroupLotListResponse?> getGroupPendingDataList() {
-    return ShipexService().get("/app/packaging/group/list/in-process", GroupLotListResponse.fromJson);
+  static Stream<GroupLotListResponse?> getGroupPendingDataList(int pageNo, {String? query}) {
+    Map<String, List<String>> queryParam = {
+      "os": [pageNo.toString()],
+      "ps": ["10"],
+    };
+    if (!Validator.isNullOrEmpty(query)) {
+      queryParam["gn"] = [query!];
+    }
+    return ShipexService()
+        .get("/app/packaging/group/list/in-process", GroupLotListResponse.fromJson, params: queryParam);
   }
 
   static Stream<PackagingSubOrderListResponse?> getPackagingSubOrderList(int? lotId) {

@@ -9,44 +9,29 @@ import '../models/group_lot_list_repsonse.dart';
 import '../resouces/packing_service.dart';
 
 class GroupListProvider extends CshChangeNotifier {
-  //Pending list properties
-  bool pendingDataLoading = false;
-  String? pendingErrorListMessage;
-  List<GroupLotListData>? _groupDataPendingList;
-
-  String? _query;
-
-  List<GroupLotListData>? get groupDataPendingList => Validator.isNullOrEmpty(_query)
-      ? _groupDataPendingList
-      : _groupDataPendingList?.where((element) {
-          if (!Validator.isNullOrEmpty(element.name)) {
-            return element.name!.toLowerCase().contains(_query!);
-          } else {
-            return false;
-          }
-        }).toList();
-
   static GroupListProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<GroupListProvider>(context, listen: listen);
   }
 
-  fetchPendingDataList() {
-    pendingDataLoading = true;
-    _groupDataPendingList?.clear();
-    _query = null;
-    notifyListeners();
-    PackingService.getGroupPendingDataList().listen((event) {
-      if (!Validator.isListNullOrEmpty(event?.groupLotList)) {
-        _groupDataPendingList = event!.groupLotList!;
-      }
-    }, onError: (error) {
-      String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-      Logger.debug('mydebug------GroupListProvider.fetchPendingDataList', [em]);
-      pendingErrorListMessage = em;
-    }, onDone: () {
-      pendingDataLoading = false;
-      notifyListeners();
-    });
+  Future<List<GroupLotListData>?> fetchPendingDataList(int pageNo, {String? query}) {
+    var completer = Completer<List<GroupLotListData>?>();
+    try {
+      PackingService.getGroupPendingDataList(pageNo, query: query).listen((event) {
+        if (!Validator.isListNullOrEmpty(event?.groupLotList)) {
+          completer.complete(event?.groupLotList);
+        } else {
+          completer.completeError("No data found...");
+        }
+      }, onError: (error) {
+        String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+        Logger.debug('mydebug------GroupListProvider.fetchPendingDataList', [em]);
+        completer.completeError(em);
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+
+    return completer.future;
   }
 
   Future<GroupLotListResponse> fetchNewDataListData(int pageNumber, {String? query}) {
@@ -56,7 +41,7 @@ class GroupListProvider extends CshChangeNotifier {
         if (event != null && !Validator.isListNullOrEmpty(event.groupLotList)) {
           completer.complete(event);
         } else {
-          completer.completeError("Something went wrong");
+          completer.completeError("No data found...");
         }
       }, onError: (error) {
         String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
@@ -85,11 +70,6 @@ class GroupListProvider extends CshChangeNotifier {
     });
 
     return completer.future;
-  }
-
-  void setQuery(String query) {
-    _query = query;
-    notifyListeners();
   }
 
   Future<bool> resetItemPackaging(String? packagingBarcode) {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -208,6 +209,13 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
     print('Image combined successfully and saved as: ${outputFile.path}');
     return outputFile;
   }
+
+  @override
+  void dispose() {
+    Logger.debug('mydebug-----DisputeImageEditorScreenState.dispose', []);
+    super.dispose();
+  }
+
 }
 
 class SquarePainter extends CustomPainter {

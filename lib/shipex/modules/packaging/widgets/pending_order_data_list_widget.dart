@@ -1,14 +1,13 @@
-import 'dart:async';
-
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/shipex/modules/packaging/modal/packaging_video_selection_dialog.dart';
 import 'package:flutter_trc/shipex/modules/packaging/models/group_lot_list_repsonse.dart';
 import 'package:flutter_trc/shipex/modules/packaging/providers/group_list_provider.dart';
+import 'package:flutter_trc/shipex/modules/packaging/widgets/group_list_data_card_widget.dart';
+import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
 import '../l10n.dart';
 import '../packaging_process_screen.dart';
-import 'group_list_data_card_widget.dart';
 
 class PendingOrderDataList extends StatefulWidget {
   const PendingOrderDataList({super.key});
@@ -17,93 +16,70 @@ class PendingOrderDataList extends StatefulWidget {
   State<PendingOrderDataList> createState() => _PendingOrderDataListState();
 }
 
-class _PendingOrderDataListState extends State<PendingOrderDataList> {
-  @override
-  void initState() {
-    scheduleMicrotask(() {
-      var provider = GroupListProvider.of(context, listen: false);
-      provider.fetchPendingDataList();
-    });
-    super.initState();
-  }
+class _PendingOrderDataListState extends PaginatedListState<GroupLotListData, PendingOrderDataList> {
+  String? _query;
 
   @override
   Widget build(BuildContext context) {
-    var provider = GroupListProvider.of(context);
     var theme = Theme.of(context);
     var l10n = L10n(context);
-    if (Validator.isTrue(provider.pendingDataLoading)) {
-      return const Center(
-        child: SizedBox(
-          height: Dimens.space_30,
-          width: Dimens.space_30,
-          child: CircularProgressIndicator(),
-        ),
-      );
-    } else if (!Validator.isNullOrEmpty(provider.pendingErrorListMessage)) {
-      return Center(
-        child: Row(
-          children: [
-            const SizedBox.shrink(),
-            Expanded(
-              child: Text(
-                provider.pendingErrorListMessage!,
-                style: theme.primaryTextTheme.headlineMedium,
-                textAlign: TextAlign.center,
-              ),
-            )
-          ],
-        ),
-      );
-    } else {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(Dimens.space_16),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: theme.primaryColor),
-                borderRadius: BorderRadius.circular(Dimens.space_4),
-              ),
-              child: SearchBarWidget(
-                hintText: "Search by name",
-                onQuery: (query) {
-                  provider.setQuery(query);
-                },
-              ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(Dimens.space_16),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: theme.primaryColor),
+              borderRadius: BorderRadius.circular(Dimens.space_4),
+            ),
+            child: SearchBarWidget(
+              hintText: "Search by name",
+              onQuery: (query) {
+                setState(() {
+                  _query = query;
+                  resetAndRefreshScreen();
+                });
+              },
             ),
           ),
-          Validator.isListNullOrEmpty(provider.groupDataPendingList)
-              ? Center(
-                  child: Row(
-                    children: [
-                      const SizedBox.shrink(),
-                      Expanded(
-                        child: Text(
-                          l10n.noPendingListDataFound,
-                          style: theme.primaryTextTheme.headlineMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              : Expanded(
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
-                    itemBuilder: (context, index) {
-                      var item = provider.groupDataPendingList![index];
-                      return GroupListDataCardWidget(dataModel: item, onCardTap: () => _onItemSelected(item));
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: Dimens.space_12);
-                    },
-                    itemCount: provider.groupDataPendingList!.length,
-                  ),
-                )
-        ],
-      );
-    }
+        ),
+        Expanded(
+          child: iterate(
+            (item, index) {
+              return GroupListDataCardWidget(dataModel: item, onCardTap: () => _onItemSelected(item));
+            },
+            onRefresh: () async {},
+            separator: const SizedBox(height: Dimens.space_12),
+            onNoDataFound: () {
+              return Center(
+                child: Text(
+                  l10n.noNewDataFound,
+                  style: theme.primaryTextTheme.subtitle1,
+                  textAlign: TextAlign.center,
+                ),
+              );
+            },
+            onError: (String error) {
+              return Center(
+                child: Row(
+                  children: [
+                    const SizedBox.shrink(),
+                    Expanded(
+                      child: Text(
+                        error,
+                        style: theme.primaryTextTheme.headline3,
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
+          ),
+        )
+      ],
+    );
   }
 
   _onItemSelected(GroupLotListData item) {
@@ -111,8 +87,7 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
       PackagingProcessScreenArguments args = PackagingProcessScreenArguments(
           dataModel: item, isPendingGroupLot: true, isCCTCCameraSelected: isCCTCSelected);
       Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args).whenComplete(() {
-        var provider = GroupListProvider.of(context, listen: false);
-        provider.fetchPendingDataList();
+        resetAndRefreshScreen();
       });
     });
   }
@@ -148,5 +123,20 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
         });
       },
     );
+  }
+
+  @override
+  void requestApi(int pageNo,
+      {Function(List<GroupLotListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
+    var provider = GroupListProvider.of(context, listen: false);
+    provider.fetchPendingDataList(++pageNo, query: _query).then((value) {
+      if (onSuccess != null) {
+        onSuccess(value);
+      }
+    }, onError: (error) {
+      if (onError != null) {
+        onError(error);
+      }
+    });
   }
 }

@@ -94,7 +94,7 @@ class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrd
   void requestApi(int pageNo,
       {Function(List<GroupLotListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = GroupListProvider.of(context, listen: false);
-    provider.fetchNewDataListData(pageNo++, query: _query).then((value) {
+    provider.fetchNewDataListData(++pageNo, query: _query).then((value) {
       if (onSuccess != null) {
         onSuccess(value.groupLotList);
       }
