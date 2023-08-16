@@ -1,9 +1,10 @@
 import 'dart:io';
 
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../modules/elss/widgets/network_image_widget.dart';
@@ -14,12 +15,14 @@ class GeneralImageUploadCard extends StatefulWidget {
   final Function(String?)? onMediaUploaded;
   final double? cardHeight;
   final double? cardWidth;
+  final String? imageUrl;
 
   const GeneralImageUploadCard({
     super.key,
     this.onMediaUploaded,
     this.cardHeight,
     this.cardWidth,
+    this.imageUrl,
   });
 
   @override
@@ -28,7 +31,6 @@ class GeneralImageUploadCard extends StatefulWidget {
 
 class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
     with AutomaticKeepAliveClientMixin, DisputedImageEditorListener {
-  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,8 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
                           iconSize: MobileIconSize.large,
                           iconColor: theme.shadowColor,
                         )
-                      : fetchImage(ImageAssetHelper.imagePath("placeholder.png"), provider.s3Url, fit: BoxFit.cover),
+                      : fetchImage(ImageAssetHelper.imagePath("placeholder.png"), widget.imageUrl,
+                          fit: BoxFit.cover, isUseCacheImage: true),
             ),
           ),
         ],
@@ -79,7 +82,6 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
   }
 
   _showRetakeModal(BuildContext innerContext, ThemeData theme) {
-    var provider = ImageUploadProvider.of(innerContext, listen: false);
     showCshBottomSheet(
       context: context,
       child: Container(
@@ -129,10 +131,16 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
   bool get wantKeepAlive => true;
 
   Future<void> _takeImage(BuildContext context) async {
-    XFile? selectedFile = await _picker.pickImage(source: ImageSource.camera);
-    if (selectedFile != null && mounted) {
-      Navigator.pushNamed(context, DisputeImageEditorScreen.route,
-          arguments: DisputeImageEditorScreenArg(File(selectedFile.path), this));
+    final ImagePicker picker = ImagePicker();
+    XFile? xFile = await picker.pickImage(source: ImageSource.camera);
+    if (xFile != null && mounted) {
+      File selectedFile = File(xFile.path);
+      ImageUtil.compressImage(selectedFile).then((targetFile) {
+        selectedFile = targetFile;
+      }).whenComplete(() {
+        Navigator.pushNamed(context, DisputeImageEditorScreen.route,
+            arguments: DisputeImageEditorScreenArg(selectedFile, this));
+      });
     }
   }
 

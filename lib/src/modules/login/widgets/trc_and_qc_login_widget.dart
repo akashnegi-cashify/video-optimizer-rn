@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 
 import '../l10n.dart';
@@ -23,7 +24,7 @@ class TrcAndQcLoginWidget extends StatelessWidget {
             child: CshMediumButton(
               text: l10n.trcLogin,
               onPressed: () {
-                LoginScreenArguments args = LoginScreenArguments(isLoginFromQc: false);
+                LoginScreenArguments args = LoginScreenArguments(loginType: LoginTypes.trcLogin);
                 Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
               },
             ),
@@ -34,7 +35,18 @@ class TrcAndQcLoginWidget extends StatelessWidget {
             child: CshMediumButton(
               text: l10n.qcLogin,
               onPressed: () {
-                LoginScreenArguments args = LoginScreenArguments(isLoginFromQc: true);
+                LoginScreenArguments args = LoginScreenArguments(loginType: LoginTypes.ocLogin);
+                Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
+              },
+            ),
+          ),
+          const SizedBox(height: Dimens.space_20),
+          SizedBox(
+            width: double.infinity,
+            child: CshMediumButton(
+              text: l10n.shipexLogin,
+              onPressed: () {
+                LoginScreenArguments args = LoginScreenArguments(loginType: LoginTypes.shipexLogin);
                 Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
               },
             ),

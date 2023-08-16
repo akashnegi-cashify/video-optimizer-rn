@@ -27,7 +27,7 @@ part 'pending_part_details_component.g.dart';
     params: PendingPartDetailsCompParamKeys.values,
     paramModel: PendingPartDetailsCompParam,
     componentGroup: ComponentGroup.pendingPartDetailsComponentKey)
-class PendingPartDetailsComponents extends StatelessComponent {
+class PendingPartDetailsComponents extends StatelessComponent<PendingPartDetailsCompConfig> {
   static const String COMP_KEY = "TRC_pending_part_details_comp";
 
   const PendingPartDetailsComponents(super.jsonConfig, {super.key});

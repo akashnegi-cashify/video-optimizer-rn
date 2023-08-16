@@ -1,3 +1,4 @@
+import 'package:components/no_internet/no_internet_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_device_media_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_part_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_part_qc_component.dart';
@@ -42,6 +43,8 @@ import 'package:flutter/material.dart';
 class TrcComponentRegistry {
   static Widget? getRegisteredComponent(String? componentKey, Map<String, dynamic>? jsonConfig) {
     switch (componentKey) {
+      case NoInternetComponent.componentKey:
+        return NoInternetComponent(jsonConfig);
       case LoginComponent.COMP_KEY:
         return LoginComponent(jsonConfig);
       case TrcAndQCLoginComponent.COMP_KEY:

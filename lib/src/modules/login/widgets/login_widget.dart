@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
-import 'package:flutter_trc/src/utils/trc_method_channels.dart';
 
 import '../l10n.dart';
 import '../providers/login_provider.dart';
@@ -147,9 +146,6 @@ class _LoginWidgetState extends State<LoginWidget> {
       CshSnackBar.success(context: context, message: successMessage, snackBarPosition: SnackBarPosition.TOP);
       await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
           loginToken: token, loginFromQC: false);
-      if (context.mounted) {
-        await NativeCall.registerLogout(context);
-      }
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);

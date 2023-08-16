@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/reject_retest_reason_list_response.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 
 import '../../home/models/logout_response.dart';
+import '../../login/models/authenticate_otp_response.dart';
+import '../../login/models/send_otp_response.dart';
 import '../common_models/brands_all_products.dart';
 import '../common_models/brands_listing_models.dart';
 import '../common_models/channel_option_response.dart';
@@ -122,8 +125,7 @@ class ElssService {
     Map<String, dynamic> req = {
       "res": reasonIdList,
     };
-    return QcService()
-        .post("/device/elss/re-testing?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
+    return QcService().post("/device/elss/re-testing?qr=$barcode", ElssSuccessResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<ElssSuccessResponse?> rejectElss(String barcode, List<int?> reasonIdList) {
@@ -135,8 +137,7 @@ class ElssService {
   }
 
   static Stream<SubmitPartsLogicResponse?> submitPartsForLogic(Map<String, dynamic> bodyData) {
-    return QcService()
-        .post("/device/elss/submit-parts", SubmitPartsLogicResponse.fromJson, body: jsonEncode(bodyData));
+    return QcService().post("/device/elss/submit-parts", SubmitPartsLogicResponse.fromJson, body: jsonEncode(bodyData));
   }
 
   static Stream<ChannelOptionResponse?> getChannelOptions(String barcode) {
@@ -173,5 +174,40 @@ class ElssService {
     }
 
     return QcService().get(baseUrl, RejectRetestReasonListResponse.fromJson);
+  }
+
+  static Stream<SendOTPResponse?> sendOtp(
+      String mobileNumber, String serviceName, String serviceVersion, String notificationType, String at) {
+    Map<String, List<String>> data = {
+      "mn": [mobileNumber],
+      "sern": [serviceName],
+      "serv": [serviceVersion],
+      "nt": [notificationType],
+      "at": [at],
+    };
+
+    var headers = CasService().getHeaders(true);
+    headers["content-type"] = "application/x-www-form-urlencoded";
+
+    return CasService().post("/v1/auth/otp/send", SendOTPResponse.fromJson,
+        params: data, authorization: true, userAuth: false, headers: headers);
+  }
+
+  static Stream<AuthenticateOTPResponse?> authenticateOTP(String mobileNumber, String serviceName,
+      String serviceVersion, String notificationType, String at, String otp, String rid) {
+    Map<String, List<String>> data = {
+      "mn": [mobileNumber],
+      "sern": [serviceName],
+      "serv": [serviceVersion],
+      "nt": [notificationType],
+      "rid": [rid],
+      "otp": [otp],
+      "at": [at],
+    };
+    var headers = CasService().getHeaders(true);
+    headers["content-type"] = "application/x-www-form-urlencoded";
+
+    return CasService()
+        .post("/v1/auth/otp/authenticate", AuthenticateOTPResponse.fromJson, params: data, headers: headers);
   }
 }

@@ -19,7 +19,7 @@ part 'part_qc_home_component.g.dart';
   configModel: PartQcHomeCompConfig,
   componentGroup: ComponentGroup.partQcHomeComponentKey,
 )
-class PartQcHomeComponent extends StatelessComponent {
+class PartQcHomeComponent extends StatelessComponent<PartQcHomeCompConfig> {
   static const String COMP_KEY = "TRC_part_qc_home_component";
 
   const PartQcHomeComponent(super.jsonConfig, {super.key});

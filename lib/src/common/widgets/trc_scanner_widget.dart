@@ -8,8 +8,11 @@ import '../l10n.dart';
 class TRCScannerWidget extends StatefulWidget {
   final Function(String scannedData, MlScannerController? controller) onScanDetected;
   final List<ScanFormats> scanFormatList;
+  final bool isEditTextSubmitButtonDirectionHorizontal;
 
-  const TRCScannerWidget({Key? key, required this.onScanDetected, this.scanFormatList = const [ScanFormats.barcode]})
+  const TRCScannerWidget({Key? key, required this.onScanDetected, this.scanFormatList = const [
+    ScanFormats.barcode
+  ], this.isEditTextSubmitButtonDirectionHorizontal = false})
       : super(key: key);
 
   @override
@@ -23,7 +26,9 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
   @override
   void initState() {
     _textEditController.addListener(() {
-      if (_textEditController.text.trim().isNotEmpty) {
+      if (_textEditController.text
+          .trim()
+          .isNotEmpty) {
         _enableButton = true;
       } else {
         _enableButton = false;
@@ -53,6 +58,8 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
           ),
           const SizedBox(height: Dimens.space_50),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
             children: [
               Expanded(
                 child: CshTextFormField(
@@ -67,24 +74,35 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
                   ],
                 ),
               ),
+              if (widget.isEditTextSubmitButtonDirectionHorizontal)
+                Padding(
+                  padding: const EdgeInsets.only(left: Dimens.space_4),
+                  child: _buildSubmitWidget(l10n),
+                ),
             ],
           ),
-          SizedBox(
-            width: Dimens.space_120,
-            child: CshBigButton(
-              text: l10n.submit,
-              onPressed: _enableButton
-                  ? () {
-                      FocusScope.of(context).unfocus();
-                      widget.onScanDetected(_textEditController.text, null);
-                      _textEditController.clear();
-                      setState(() {});
-                    }
-                  : null,
+          if (!widget.isEditTextSubmitButtonDirectionHorizontal)
+            SizedBox(
+              width: Dimens.space_120,
+              child: _buildSubmitWidget(l10n),
             ),
-          ),
         ],
       ),
+    );
+  }
+
+
+  Widget _buildSubmitWidget(L10n l10n) {
+    return CshBigButton(
+      text: l10n.submit,
+      onPressed: _enableButton
+          ? () {
+        FocusScope.of(context).unfocus();
+        widget.onScanDetected(_textEditController.text, null);
+        _textEditController.clear();
+        setState(() {});
+      }
+          : null,
     );
   }
 }

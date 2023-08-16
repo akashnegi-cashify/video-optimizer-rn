@@ -15,12 +15,14 @@ class SubmitDeviceQuoteWidget extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => SubmitDeviceQuoteProvider(),
       lazy: false,
-      child: SubmitDeviceQuoteWidgetBody(),
+      child: const SubmitDeviceQuoteWidgetBody(),
     );
   }
 }
 
 class SubmitDeviceQuoteWidgetBody extends StatefulWidget {
+  const SubmitDeviceQuoteWidgetBody({super.key});
+
   @override
   State<SubmitDeviceQuoteWidgetBody> createState() => _SubmitDeviceQuoteWidgetState();
 }
