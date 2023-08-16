@@ -29,18 +29,18 @@ class GroupListDataCardWidget extends StatelessWidget {
           children: [
             if (!Validator.isNullOrEmpty(dataModel?.name)) ...[
               _horizontalKeyValuePair(theme, l10n.name, dataModel!.name!),
-              const SizedBox(
-                height: Dimens.space_8,
-              )
             ],
             if (dataModel?.quantity != null) ...[
+              const SizedBox(height: Dimens.space_8),
               _horizontalKeyValuePair(theme, l10n.qty, dataModel!.quantity!.toString()),
-              const SizedBox(
-                height: Dimens.space_8,
-              )
             ],
             if (!Validator.isNullOrEmpty(dataModel?.statusDescription)) ...[
+              const SizedBox(height: Dimens.space_8),
               _horizontalKeyValuePair(theme, l10n.status, dataModel!.statusDescription!),
+            ],
+            if (!Validator.isNullOrEmpty(dataModel?.monitoringCameraBarcode)) ...[
+              const SizedBox(height: Dimens.space_8),
+              _horizontalKeyValuePair(theme, l10n.cameraCode, dataModel!.monitoringCameraBarcode!),
             ],
           ],
         ),

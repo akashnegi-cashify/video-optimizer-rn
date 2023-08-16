@@ -71,6 +71,11 @@ class PackingService {
     req["bar"] = packagingBarcode;
     req["mcb"] = cameraBarcode;
 
-    return ShipexService().post("/app/packaging/add-monitoring-camera-barcode", BaseResponse.fromJson, body: jsonEncode(req));
+    return ShipexService()
+        .post("/app/packaging/add-monitoring-camera-barcode", BaseResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<BaseResponse?> resetItemPackaging(String? packagingBarcode) {
+    return ShipexService().get("/app/packaging/reset/item/packaging?pbr$packagingBarcode", BaseResponse.fromJson);
   }
 }

@@ -21,6 +21,8 @@ class L10n extends BaseL10n {
 
   String get status => Intl.message("Status", locale: localName, name: "status");
 
+  String get cameraCode => Intl.message("Camera Code", locale: localName, name: "cameraCode");
+
   String get packagingProcedure => Intl.message("Packaging Procedure", locale: localName, name: "packagingProcedure");
 
   String get lotName => Intl.message("Lot Name", locale: localName, name: "lotName");
@@ -58,5 +60,22 @@ class L10n extends BaseL10n {
 
   String get submit => Intl.message("Submit", locale: localName, name: "submit");
 
-  get completePackaging => Intl.message("Complete Packaging", locale: localName, name: "completePackaging");
+  String get completePackaging => Intl.message("Complete Packaging", locale: localName, name: "completePackaging");
+
+  String get no => Intl.message("No", locale: localName, name: "no");
+
+  String get yes => Intl.message("Yes", locale: localName, name: "yes");
+
+  String wrongCameraScannedDesc(String previousCamera, String currentCamera) =>
+      Intl.message("Previous Camera is $previousCamera, Current camera scanned is $currentCamera",
+          locale: localName, name: "wrongCameraScannedDesc", args: [previousCamera, currentCamera]);
+
+  String get wrongCameraScanned =>
+      Intl.message("Wrong camera scanned!!", locale: localName, name: "wrongCameraScanned");
+
+  String get recordingModeChanged =>
+      Intl.message("Recording Mode Changed!!", locale: localName, name: "recordingModeChanged");
+
+  String get allDeviceNeedTpPackageAgain => Intl.message("All devices need to package again. Are you sure to continue?",
+      locale: localName, name: "allDeviceNeedTpPackageAgain");
 }

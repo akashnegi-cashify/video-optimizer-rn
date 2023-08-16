@@ -15,12 +15,14 @@ class GeneralImageUploadCard extends StatefulWidget {
   final Function(String?)? onMediaUploaded;
   final double? cardHeight;
   final double? cardWidth;
+  final String? imageUrl;
 
   const GeneralImageUploadCard({
     super.key,
     this.onMediaUploaded,
     this.cardHeight,
     this.cardWidth,
+    this.imageUrl,
   });
 
   @override
@@ -29,7 +31,6 @@ class GeneralImageUploadCard extends StatefulWidget {
 
 class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
     with AutomaticKeepAliveClientMixin, DisputedImageEditorListener {
-  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,8 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
                           iconSize: MobileIconSize.large,
                           iconColor: theme.shadowColor,
                         )
-                      : fetchImage(ImageAssetHelper.imagePath("placeholder.png"), provider.s3Url, fit: BoxFit.cover),
+                      : fetchImage(ImageAssetHelper.imagePath("placeholder.png"), widget.imageUrl,
+                          fit: BoxFit.cover, isUseCacheImage: true),
             ),
           ),
         ],
@@ -80,7 +82,6 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
   }
 
   _showRetakeModal(BuildContext innerContext, ThemeData theme) {
-    var provider = ImageUploadProvider.of(innerContext, listen: false);
     showCshBottomSheet(
       context: context,
       child: Container(
@@ -130,7 +131,8 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
   bool get wantKeepAlive => true;
 
   Future<void> _takeImage(BuildContext context) async {
-    XFile? xFile = await _picker.pickImage(source: ImageSource.camera);
+    final ImagePicker picker = ImagePicker();
+    XFile? xFile = await picker.pickImage(source: ImageSource.camera);
     if (xFile != null && mounted) {
       File selectedFile = File(xFile.path);
       ImageUtil.compressImage(selectedFile).then((targetFile) {

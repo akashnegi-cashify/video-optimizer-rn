@@ -30,6 +30,7 @@ GroupLotListData _$GroupLotListDataFromJson(Map<String, dynamic> json) =>
       json['sd'] as String?,
       json['qty'] as int?,
       json['pbar'] as String?,
+      json['mcb'] as String?,
     );
 
 Map<String, dynamic> _$GroupLotListDataToJson(GroupLotListData instance) =>
@@ -40,4 +41,5 @@ Map<String, dynamic> _$GroupLotListDataToJson(GroupLotListData instance) =>
       'sd': instance.statusDescription,
       'qty': instance.quantity,
       'pbar': instance.packagingBarcode,
+      'mcb': instance.monitoringCameraBarcode,
     };

@@ -71,8 +71,13 @@ class GroupListProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<bool> addCCTVCameraBarcode(String cameraBarcode, String? awbNumber) {
+  Future<bool> addCCTVCameraBarcode(String cameraBarcode, String? awbNumber, bool? isSelectResetOption) async {
     var completer = Completer<bool>();
+
+    if (Validator.isTrue(isSelectResetOption)) {
+      await resetItemPackaging(awbNumber);
+    }
+
     PackingService.addMonitoringCamera(cameraBarcode: cameraBarcode, packagingBarcode: awbNumber).listen((event) {
       completer.complete(true);
     }, onError: (error) {
@@ -85,5 +90,17 @@ class GroupListProvider extends CshChangeNotifier {
   void setQuery(String query) {
     _query = query;
     notifyListeners();
+  }
+
+  Future<bool> resetItemPackaging(String? packagingBarcode) {
+    var completer = Completer<bool>();
+
+    PackingService.resetItemPackaging(packagingBarcode).listen((event) {
+      completer.complete(true);
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+
+    return completer.future;
   }
 }

@@ -30,9 +30,18 @@ class GroupLotListData {
   int? quantity;
   @JsonKey(name: "pbar")
   String? packagingBarcode;
+  @JsonKey(name: "mcb")
+  String? monitoringCameraBarcode;
 
   GroupLotListData(
-      this.lotId, this.name, this.status, this.statusDescription, this.quantity, this.packagingBarcode);
+    this.lotId,
+    this.name,
+    this.status,
+    this.statusDescription,
+    this.quantity,
+    this.packagingBarcode,
+    this.monitoringCameraBarcode,
+  );
 
   static GroupLotListData fromJson(Map<String, dynamic> data) => _$GroupLotListDataFromJson(data);
 

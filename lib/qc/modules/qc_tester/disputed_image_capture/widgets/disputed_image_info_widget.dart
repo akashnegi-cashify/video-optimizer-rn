@@ -103,6 +103,7 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
                     child: GeneralImageUploadCard(
                       cardHeight: 100.0,
                       cardWidth: 100.0,
+                      imageUrl: widget.dataModel?.imageS3Urls?[index],
                       onMediaUploaded: (String? url) {
                         widget.dataModel?.imageS3Urls?[index] = url ?? "";
                         provider.checkSubmitButtonStatus();

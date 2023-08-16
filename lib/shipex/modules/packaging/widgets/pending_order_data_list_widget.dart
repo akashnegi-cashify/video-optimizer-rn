@@ -119,17 +119,34 @@ class _PendingOrderDataListState extends State<PendingOrderDataList> {
 
   _showPackagingVideoSelectionDialog(GroupLotListData item, {required Function(bool isCCTCSelected) onProceed}) {
     var provider = GroupListProvider.of(context, listen: false);
-    showPackagingVideoSelectionDialog(context, onMonitoringAppSelected: () {
-      onProceed(false);
-    }, onCCTVCameraSelected: (scannedCameraBarcode) {
-      CshLoading().showLoading(context);
-      provider.addCCTVCameraBarcode(scannedCameraBarcode, item.packagingBarcode).then((value) {
-        CshLoading().hideLoading(context);
-        onProceed(true);
-      }, onError: (error) {
-        CshLoading().hideLoading(context);
-        CshSnackBar.error(context: context, message: error.toString());
-      });
-    });
+    showPackagingVideoSelectionDialog(
+      context,
+      isCheckValidation: true,
+      cameraBarcode: item.monitoringCameraBarcode,
+      onMonitoringAppSelected: (bool? isSelectResetOption) {
+        if (Validator.isTrue(isSelectResetOption)) {
+          CshLoading().showLoading(context);
+          provider.resetItemPackaging(item.packagingBarcode).then((value) {
+            CshLoading().hideLoading(context);
+            onProceed(false);
+          }, onError: (error) {
+            CshLoading().hideLoading(context);
+            CshSnackBar.error(context: context, message: error.toString());
+          });
+        } else {
+          onProceed(false);
+        }
+      },
+      onCCTVCameraSelected: (scannedCameraBarcode, {bool? isSelectResetOption}) {
+        CshLoading().showLoading(context);
+        provider.addCCTVCameraBarcode(scannedCameraBarcode, item.packagingBarcode, isSelectResetOption).then((value) {
+          CshLoading().hideLoading(context);
+          onProceed(true);
+        }, onError: (error) {
+          CshLoading().hideLoading(context);
+          CshSnackBar.error(context: context, message: error.toString());
+        });
+      },
+    );
   }
 }

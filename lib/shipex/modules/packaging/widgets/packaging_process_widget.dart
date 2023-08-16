@@ -147,9 +147,9 @@ class PackagingProcessWidget extends StatelessWidget {
 
   _showPackagingVideoSelectionDialog(BuildContext context, PackagingProvider provider,
       {required VoidCallback onProceed}) {
-    showPackagingVideoSelectionDialog(context, onMonitoringAppSelected: () {
+    showPackagingVideoSelectionDialog(context, onMonitoringAppSelected: (_) {
       onProceed();
-    }, onCCTVCameraSelected: (scannedCameraBarcode) {
+    }, onCCTVCameraSelected: (scannedCameraBarcode, {bool? isSelectResetOption}) {
       isCCTVCameraSelected = true;
       CshLoading().showLoading(context);
       provider.addCCTVCameraBarcode(scannedCameraBarcode).then((value) {

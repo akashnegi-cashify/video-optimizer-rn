@@ -54,7 +54,7 @@ class VideoCreationProcessWidgetState extends State<VideoCreationProcessWidget> 
                   controller: _deviceBarcodeController,
                   focusNode: _focusNode,
                   keyboardType: TextInputType.name,
-                  hintText: l10n.enterAwbNo,
+                  hintText: l10n.enterDeviceBarcode,
                   autofocus: true,
                   maxLength: 100,
                   onChanged: (data) {
@@ -127,5 +127,11 @@ class VideoCreationProcessWidgetState extends State<VideoCreationProcessWidget> 
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
     });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 }
