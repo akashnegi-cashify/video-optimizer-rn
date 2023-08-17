@@ -14,7 +14,7 @@ dynamic schema() => {
       "title": "Login Screen Arguments",
       "isActive": true,
       "params": [
-        {"key": "qcl", "value": null}
+        {"key": "lt", "value": null}
       ]
 
       //#adminscreen

@@ -10,7 +10,7 @@ part 'home_component.g.dart';
 
 @CshComponent(
     key: HomeComponent.COMP_KEY, configModel: HomeConfigModel, componentGroup: ComponentGroup.homeComponentKey)
-class HomeComponent extends StatelessComponent {
+class HomeComponent extends StatelessComponent<HomeConfigModel> {
   static const String COMP_KEY = "TRC_home_component";
 
   const HomeComponent(super.jsonConfig, {super.key});

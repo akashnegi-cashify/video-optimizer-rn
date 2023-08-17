@@ -10,19 +10,22 @@ import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 import '../models/login_comp_param.dart';
+import '../resources/login_types.dart';
 import '../widgets/qc_login_widget.dart';
 
 part 'login_screen.g.dart';
 
 @CshPage(key: LoginScreen.pageKey, pageGroup: PageGroup.loginPageKey, params: LoginCompParamKeys.values)
 class LoginScreenArguments extends BaseArguments {
-  final bool? isLoginFromQc;
+  final LoginTypes? loginType;
 
-  LoginScreenArguments({this.isLoginFromQc}) : super(LoginScreen.pageKey);
+  LoginScreenArguments({
+    this.loginType,
+  }) : super(LoginScreen.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
-    data[LoginCompParamKeys.isLoginFromQC.value] = isLoginFromQc;
+    data[LoginCompParamKeys.loginTypes.value] = loginType;
     return data;
   }
 }
@@ -44,11 +47,11 @@ class LoginScreen extends BaseScreen<LoginScreenArguments> {
 }
 
 class CombinedLoginWidget extends StatefulWidget {
-  final bool? isLoginFromQC;
+  final LoginTypes? loginType;
 
   const CombinedLoginWidget({
     Key? key,
-    this.isLoginFromQC,
+    this.loginType,
   }) : super(key: key);
 
   @override
@@ -76,24 +79,42 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(Validator.isTrue(widget.isLoginFromQC) ? l10n.qcLogin : l10n.trcLogin,
-                            style: theme.primaryTextTheme.headline1),
-                        const SizedBox(height: Dimens.space_2),
-                        Text(
-                            Validator.isTrue(widget.isLoginFromQC)
-                                ? l10n.pleaseEnterYourMobileNumber
-                                : l10n.pleaseEnterYourEmployeeId,
-                            style: theme.primaryTextTheme.bodyText2),
-                        const SizedBox(height: Dimens.space_16),
-                      ],
-                    ),
+                    if (widget.loginType == LoginTypes.trcLogin)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.trcLogin, style: theme.primaryTextTheme.headline1),
+                          const SizedBox(height: Dimens.space_2),
+                          Text(l10n.pleaseEnterYourEmployeeId, style: theme.primaryTextTheme.bodyText2),
+                          const SizedBox(height: Dimens.space_16),
+                        ],
+                      ),
+                    if (widget.loginType == LoginTypes.ocLogin)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.qcLogin, style: theme.primaryTextTheme.headline1),
+                          const SizedBox(height: Dimens.space_2),
+                          Text(l10n.pleaseEnterMobileNumber, style: theme.primaryTextTheme.bodyText2),
+                          const SizedBox(height: Dimens.space_16),
+                        ],
+                      ),
+                    if (widget.loginType == LoginTypes.shipexLogin)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.shipexLogin, style: theme.primaryTextTheme.headline1),
+                          const SizedBox(height: Dimens.space_2),
+                          Text(l10n.pleaseEnterMobileNumber, style: theme.primaryTextTheme.bodyText2),
+                          const SizedBox(height: Dimens.space_16),
+                        ],
+                      ),
                   ],
                 ),
               ),
-              Validator.isTrue(widget.isLoginFromQC) ? const QcLoginWidget() : const LoginWidget(),
+              if (widget.loginType == LoginTypes.ocLogin) const QcLoginWidget(loginType: LoginTypes.ocLogin),
+              if (widget.loginType == LoginTypes.trcLogin) const LoginWidget(),
+              if (widget.loginType == LoginTypes.shipexLogin) const QcLoginWidget(loginType: LoginTypes.shipexLogin),
             ],
           ),
         );

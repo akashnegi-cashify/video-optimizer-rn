@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:components/auth/handler/auth_handler.dart';
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../libraries/shared_prefrences/app_prefrences.dart';
 import '../../../resources/user_details.dart';
-import '../../../utils/trc_method_channels.dart';
 import '../../login/resources/collector_user_controller.dart';
 import '../../login/screens/trc_and_qc_login_screen.dart';
 
@@ -50,10 +50,16 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
     } else {
       UserDetails().setUserDetailsData(AuthHandler().userAuth!);
       bool? isLoginFromQC = await AppPreferences().getIsLoginFromQC();
-      await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-          loginToken: AuthHandler().userAuth!, loginFromQC: isLoginFromQC);
-      if (mounted) {
-        await NativeCall.registerLogout(context);
+      bool? isLoginFromShipex = await AppPreferences().getIsLoginFromShipex();
+      if (Validator.isTrue(isLoginFromQC)) {
+        await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+            loginToken: AuthHandler().userAuth!, loginFromQC: true, loginFromShipex: false);
+      } else if (Validator.isTrue(isLoginFromShipex)) {
+        await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+            loginToken: AuthHandler().userAuth!, loginFromQC: false, loginFromShipex: true);
+      } else {
+        await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+            loginToken: AuthHandler().userAuth!, loginFromQC: false, loginFromShipex: false);
       }
     }
   }

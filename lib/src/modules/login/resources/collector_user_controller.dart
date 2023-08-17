@@ -1,14 +1,13 @@
-import 'dart:convert';
-
 import 'package:core/core.dart';
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
+import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 
 import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
-import '../../../utils/trc_method_channels.dart';
 import '../../elss/common_screen/elss_home_screen.dart';
 import '../../engineer/widgets/engineer_home_widget.dart';
 import '../../inventory_manager/screens/inventory_home_screen.dart';
@@ -29,9 +28,11 @@ class UserRoles {
   static const String TRC_EXECUTIVE = "TRC_EXECUTIVE";
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
-      {String? loginToken, bool? loginFromQC = false}) async {
+      {String? loginToken, bool? loginFromQC = false, bool? loginFromShipex = false}) async {
     var amplifyPro = AmplifyProvider.of(context, listen: false);
-    if (loginFromQC == true) {
+    if (Validator.isTrue(loginFromShipex)) {
+      Navigator.of(context).pushNamedAndRemoveUntil(ShipexHomeScreen.route, (route) => false);
+    } else if (loginFromQC == true) {
       amplifyPro.getS3DetailsForQcAndConfigAmplify();
       Navigator.of(context).pushNamedAndRemoveUntil(QcActionScreen.route, (route) => false);
     } else {
@@ -55,7 +56,6 @@ class UserRoles {
         Navigator.of(context).pushNamedAndRemoveUntil(TRCExecutiveScreen.route, (route) => false);
       } else {
         NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
-        await NativeCall.sendUserDataToNativeSide(jsonEncode(obj.toJson()));
       }
     }
   }

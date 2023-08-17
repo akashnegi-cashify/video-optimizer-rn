@@ -19,7 +19,7 @@ part 'pq_status_change_comp.g.dart';
     paramModel: PqStatusChangeCompParam,
     componentGroup: ComponentGroup.pqStatusChangeComponentKey,
     params: PqStatusChangeCompParamKeys.values)
-class PqStatusChangeComp extends StatelessComponent {
+class PqStatusChangeComp extends StatelessComponent<PqStatusChangeCompConfig> {
   static const String COMP_KEY = "TRC_pq_status_change";
 
   const PqStatusChangeComp(super.jsonConfig, {super.key});

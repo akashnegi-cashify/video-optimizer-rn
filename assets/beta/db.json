@@ -734,9 +734,141 @@
           "type": "component"
         }
       ]
+    },
+    {
+      "pageId": 20001,
+      "pageKey": "shipex_home_screen",
+      "hd": {
+        "id": 20002,
+        "key": "shipex_general_header"
+      },
+      "dt": [
+        {
+          "id": 20001,
+          "key": "shipex_home_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20002,
+      "pageKey": "dispatch_screen",
+      "hd": {
+        "id": 20004,
+        "key": "shipex_general_header"
+      },
+      "dt": [
+        {
+          "id": 20003,
+          "key": "dispatch_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20003,
+      "pageKey": "shipex_packing_screen",
+      "dt": [
+        {
+          "id": 20005,
+          "key": "packing_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20004,
+      "pageKey": "packaging_process_screen",
+      "hd": {
+        "id": 20007,
+        "key": "shipex_general_header"
+      },
+      "dt": [
+        {
+          "id": 20006,
+          "key": "packaging_process_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20005,
+      "pageKey": "sub_order_group_listing",
+      "dt": [
+        {
+          "id": 20008,
+          "key": "sub_order_group_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20006,
+      "pageKey": "sub_order_group_details_screen",
+      "hd": {
+        "id": 20010,
+        "key": "shipex_general_header"
+      },
+      "dt": [
+        {
+          "id": 20009,
+          "key": "order_group_details_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20007,
+      "pageKey": "upload_eway_bill_screen",
+      "hd": {
+        "id": 20012,
+        "key": "shipex_general_header"
+      },
+      "dt": [
+        {
+          "id": 20011,
+          "key": "upload_eway_bill_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20008,
+      "pageKey": "create_shipment_screen",
+      "hd": {
+        "id": 20014,
+        "key": "shipex_general_header"
+      },
+      "dt": [
+        {
+          "id": 20013,
+          "key": "create_shipment",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20009,
+      "pageKey": "create_manual_shipment_screen",
+      "hd": {
+        "id": 20016,
+        "key": "shipex_general_header"
+      },
+      "dt": [
+        {
+          "id": 20015,
+          "key": "create_manual_shipment_comp",
+          "type": "component"
+        }
+      ]
     }
   ],
   "componentData": [
+    {
+      "componentId": -9999,
+      "locale": "en",
+      "key": "no_internet"
+    },
     {
       "componentId": 1,
       "locale": "en",
@@ -1696,6 +1828,183 @@
       "configJson": {
         "config": {
           "ht": "Quote Request",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20001,
+      "locale": "en",
+      "key": "shipex_home_component",
+      "configJson": {
+        "pad": [
+          16
+        ],
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20002,
+      "locale": "en",
+      "key": "shipex_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Shipex Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 20003,
+      "locale": "en",
+      "key": "dispatch_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20004,
+      "locale": "en",
+      "key": "shipex_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Shipex Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20005,
+      "locale": "en",
+      "key": "packing_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20006,
+      "locale": "en",
+      "key": "packaging_process_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20007,
+      "locale": "en",
+      "key": "shipex_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Packaging",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20008,
+      "locale": "en",
+      "key": "sub_order_group_comp",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20009,
+      "locale": "en",
+      "key": "order_group_details_comp",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20010,
+      "locale": "en",
+      "key": "shipex_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Order Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20011,
+      "locale": "en",
+      "key": "upload_eway_bill_comp",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20012,
+      "locale": "en",
+      "key": "shipex_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Upload E-Way Bill",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20013,
+      "locale": "en",
+      "key": "create_shipment",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20014,
+      "locale": "en",
+      "key": "shipex_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Create Shipment",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20015,
+      "locale": "en",
+      "key": "create_manual_shipment_comp",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20016,
+      "locale": "en",
+      "key": "shipex_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Create Manual Shipment",
           "sbb": true,
           "slb": false
         }

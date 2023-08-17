@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/widgets/option_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
@@ -15,22 +16,134 @@ class LobDeviceScannerWidget extends StatelessWidget {
     var provider = LobDeviceScannerProvider.of(context);
     return TRCScannerWidget(
       onScanDetected: (scannedData, controller) {
-        controller?.stop();
-        CshLoading().showLoading(context);
-        provider.getProductsList(scannedData).then((value) {
-          CshLoading().hideLoading(context);
-          if (!Validator.isTrue(value)) {
-            CshSnackBar.error(context: context, message: "Product List is empty");
-            return;
-          }
-          _showProductListDialog(context, provider.productList!, scannedData);
-        }, onError: (error) {
-          CshLoading().hideLoading(context);
-          CshSnackBar.error(context: context, message: error);
-          controller?.start();
-        });
+        _showDialogForImeiNumber(
+          context,
+          scannedData,
+          onSearchClicked: (isManual, enteredValue, isImei) {
+            controller?.stop();
+            Navigator.pop(context);
+            CshLoading().showLoading(context);
+            provider.getProductsList(scannedData, enteredValue, isImei, isManual).then((value) {
+              CshLoading().hideLoading(context);
+              if (!Validator.isTrue(value)) {
+                CshSnackBar.error(context: context, message: "Product List is empty");
+                return;
+              }
+              _showProductListDialog(context, provider.productList!, scannedData);
+            }, onError: (error) {
+              CshLoading().hideLoading(context);
+              CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+              controller?.start();
+            });
+          },
+        );
       },
     );
+  }
+
+  void _showDialogForImeiNumber(BuildContext context, String scannedData,
+      {required Function(bool isManual, String enteredValue, bool isImei) onSearchClicked}) {
+    String? imeiOrSerialNo;
+    String selectedRadioValue = "IMEI";
+    showCshBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      child: StatefulBuilder(builder: (innerContext, setState) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
+          child: Container(
+            padding: const EdgeInsets.all(Dimens.space_20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CshTextNew.subTitle1("Enter IMEI or Serial number"),
+                const SizedBox(height: Dimens.space_16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: OptionWidget(
+                          keyValue: "IMEI",
+                          groupValue: selectedRadioValue,
+                          onValueChanged: (p0) {
+                            setState(() {
+                              selectedRadioValue = p0;
+                            });
+                          },
+                          optionData: "IMEI"),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: OptionWidget(
+                          keyValue: "SNO",
+                          groupValue: selectedRadioValue,
+                          onValueChanged: (p0) {
+                            setState(() {
+                              selectedRadioValue = p0;
+                            });
+                          },
+                          optionData: "Serial No."),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: Dimens.space_16),
+                CshTextFormField(
+                  hintText: "Enter IMEI/serial number",
+                  autofocus: true,
+                  onChanged: (value) {
+                    setState(() {
+                      imeiOrSerialNo = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: Dimens.space_16),
+                ComboButton(
+                  firstBtnText: "Manual Search",
+                  padding: EdgeInsets.zero,
+                  secondBtnText: "Search",
+                  isFirstPrimary: true,
+                  buttonType: ButtonType.mini,
+                  firstBtnClick: !Validator.isNullOrEmpty(imeiOrSerialNo)
+                      ? () {
+                          _onSearchButtonClicked(
+                              innerContext, imeiOrSerialNo, selectedRadioValue, true, onSearchClicked);
+                        }
+                      : null,
+                  secondBtnClick: !Validator.isNullOrEmpty(imeiOrSerialNo)
+                      ? () {
+                          _onSearchButtonClicked(
+                              innerContext, imeiOrSerialNo, selectedRadioValue, false, onSearchClicked);
+                        }
+                      : null,
+                )
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  void _onSearchButtonClicked(BuildContext innerContext, String? enteredValue, String selectedRadioValue,
+      bool isManualSearch, Function(bool isManual, String enteredValue, bool isImei) onSearchClicked) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    // if (Validator.isNullOrEmpty(enteredValue)) {
+    //   CshSnackBar.error(context: innerContext, message: "Please enter value", snackBarPosition: SnackBarPosition.TOP);
+    //   return;
+    // }
+    bool isImei = false;
+    if (selectedRadioValue == "IMEI") {
+      isImei = true;
+      if (!Validator.isValidIMEI(enteredValue)) {
+        CshSnackBar.error(
+            context: innerContext, message: "Invalid IMEI number", snackBarPosition: SnackBarPosition.TOP);
+        return;
+      }
+    }
+    onSearchClicked(isManualSearch, enteredValue!, isImei);
   }
 
   void _showProductListDialog(BuildContext context, List<LobProductListData> productList, String deviceBarcode) {

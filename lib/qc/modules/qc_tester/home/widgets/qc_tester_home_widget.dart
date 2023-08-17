@@ -55,10 +55,9 @@ class QcTesterHomeWidget extends StatelessWidget {
               DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
                   onScanDetected: (String scannedData, MlScannerController? controller) {
                 if (scannedData.isNotEmpty) {
-                  Navigator.of(context).pop();
                   DisputedImageCaptureScreenArguments arg =
                       DisputedImageCaptureScreenArguments(barcode: scannedData.trim());
-                  Navigator.of(context).pushNamed(DisputedImageCaptureScreen.route, arguments: arg);
+                  Navigator.of(context).pushReplacementNamed(DisputedImageCaptureScreen.route, arguments: arg);
                 }
               });
               Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);

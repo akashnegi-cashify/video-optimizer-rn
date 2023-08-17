@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../models/engineer_list_response.dart';
 import '../models/inventory_location_response.dart';
 import '../models/pending_device_list_response.dart';
@@ -50,9 +52,9 @@ class InventoryHomeProvider extends CshChangeNotifier {
   Future<EngineerListResponse?> getAssignmentPendingEngineerList(int pageNumber, int pageSize) {
     var completer = Completer<EngineerListResponse?>();
     try {
-      InventoryService.getAssignmentPendingEngineerList(getLocationsString() ?? "", pageNumber, pageSize).listen(
+      InventoryService.getAssignmentPendingEngineerList(getLocationsString() ?? "", ++pageNumber, pageSize).listen(
           (event) {
-        if (event != null && event.isSuccess == true) {
+        if (Validator.isTrue(event?.isSuccess)) {
           completer.complete(event);
         } else {
           completer.completeError("Something went wrong!!");
@@ -73,8 +75,8 @@ class InventoryHomeProvider extends CshChangeNotifier {
   Future<PendingDeviceListResponse> getListOfAssignmentPendingDevices(int pageNo, int pageSize) {
     var completer = Completer<PendingDeviceListResponse>();
     try {
-      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize, isUrgent: isUrgent, barcode: barcode)
-          .listen((event) {
+      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize, isUrgent: isUrgent, barcode: barcode).listen(
+          (event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(event);
           if (!Validator.isListNullOrEmpty(event.data?.dataList)) {

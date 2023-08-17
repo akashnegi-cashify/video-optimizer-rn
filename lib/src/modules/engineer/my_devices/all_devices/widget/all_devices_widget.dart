@@ -20,7 +20,6 @@ class _AllDevicesWidgetState extends State<AllDevicesWidget> with AutomaticKeepA
   @override
   void initState() {
     stream = EngineerAPIService.getAllDevices();
-
     super.initState();
   }
 

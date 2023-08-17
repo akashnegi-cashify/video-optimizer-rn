@@ -13,7 +13,15 @@ class UserUtil {
       child: LogoutModalWidget(
         onLogoutCallback: () async {
           bool? isLoginFromQC = await AppPreferences().getIsLoginFromQC();
-          _onLogout(context, isLoginFromQC ?? false);
+          bool? isLoginFromShipex = await AppPreferences().getIsLoginFromShipex();
+          if (Validator.isTrue(isLoginFromQC)) {
+            _onLogout(context, true);
+          } else if (Validator.isTrue(isLoginFromShipex)) {
+            AppPreferences().resetAndClearAll();
+            Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
+          } else if (Validator.isTrue(isLoginFromQC) == false && Validator.isTrue(isLoginFromShipex) == false) {
+            _onLogout(context, false);
+          }
         },
       ),
     );

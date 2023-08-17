@@ -7,6 +7,8 @@ import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
+part 'lob_device_scanner_component.g.dart';
+
 @CshComponent(
     key: LobDeviceScannerComponent.COMP_KEY,
     configModel: NoneConfigModel,

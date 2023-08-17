@@ -15,9 +15,9 @@ class LobDeviceScannerProvider extends CshChangeNotifier {
 
   List<LobProductListData>? get productList => _productList;
 
-  Future<bool> getProductsList(String deviceBarcode) {
+  Future<bool> getProductsList(String deviceBarcode, String? imeiOrSearialNo, bool isImei, bool isManualSearch) {
     var completer = Completer<bool>();
-    CalculatorService.getProductList(deviceBarcode).listen((event) {
+    CalculatorService.getProductList(deviceBarcode, imeiOrSearialNo, isImei, isManualSearch).listen((event) {
       if (!Validator.isListNullOrEmpty(event?.productList)) {
         _productList = event?.productList;
         completer.complete(true);

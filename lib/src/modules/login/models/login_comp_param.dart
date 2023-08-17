@@ -1,17 +1,19 @@
 import 'package:csh_annotation/annotation.dart';
 
+import '../resources/login_types.dart';
+
 @CshPageParam()
 class LoginCompParam {
-  @ParamKey(key: LoginCompParamKeys.isLoginFromQC)
-  bool? isLoginFromQC;
+  @ParamKey(key: LoginCompParamKeys.loginTypes)
+  LoginTypes? loginType;
 
   LoginCompParam({
-    this.isLoginFromQC,
+    this.loginType,
   });
 }
 
 enum LoginCompParamKeys with AbsParamKey {
-  isLoginFromQC("qcl");
+  loginTypes("lt");
 
   @override
   final String value;

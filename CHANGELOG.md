@@ -1,7 +1,18 @@
 # TRC Releases
 
 
-# v2.0.3+12 (02-07-2023)
+# v2.1.0+13 (16-08-2023)
+
+### Feature:
+
+* `QC - Audit - Need to show device channel once audit is cleared`[(SCM-4004)](https://reglobe.atlassian.net/browse/SCM-4004)
+* `QC - IMEI for Manual calculator`[(SCM-4062)](https://reglobe.atlassian.net/browse/SCM-4062)
+* `Shipex - Migrate Shipment Module`[(SCM-4057)](https://reglobe.atlassian.net/browse/SCM-4057)
+* `Shipex - Camera QR code scanning option for packaging videos for tagging`[(SCM-3967)](https://reglobe.atlassian.net/browse/SCM-3967)
+* `Shipex - Pii Changes in OMS`[(SCM-4175)](https://reglobe.atlassian.net/browse/SCM-4175)
+
+
+# v2.0.3+12 (02-08-2023)
 
 ### Feature:
 

@@ -54,8 +54,19 @@ class CalculatorService {
     return QcService().get("/device/status?qrCode=$deviceBarcode", DeviceStatusResponse.fromJson);
   }
 
-  static Stream<LobProductListResponse?> getProductList(String? deviceBarcode) {
-    return QcService().get("/manual-test/search-device/$deviceBarcode", LobProductListResponse.fromJson);
+  static Stream<LobProductListResponse?> getProductList(
+      String? deviceBarcode, String? imeiOrSerialNo, bool isImei, bool isManualSearch) {
+    Map<String, dynamic> req = {
+      "qr": deviceBarcode,
+      "im": isManualSearch,
+    };
+    if (isImei) {
+      req["imei"] = imeiOrSerialNo;
+    } else {
+      req["sno"] = imeiOrSerialNo;
+    }
+
+    return QcService().post("/manual-test/search-device", LobProductListResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<MyCalculatorResponse?> getLobCalculator(String? deviceBarcode, int? productMasterId, int? productId) {

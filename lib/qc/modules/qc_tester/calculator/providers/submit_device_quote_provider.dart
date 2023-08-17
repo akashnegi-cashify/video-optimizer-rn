@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
@@ -141,10 +140,12 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier {
         var stepperItem = stepperDetails.last;
         stepperItem.title = "Channel";
 
+        String subTitle = deviceStatusResponse.stockAge != null ? "Stock Age - ${deviceStatusResponse.stockAge}, " : "";
+
         if (!Validator.isNullOrEmpty(deviceStatusResponse.trcStatus)) {
-          stepperItem.subTitle = deviceStatusResponse.trcStatus!;
+          stepperItem.subTitle = subTitle + deviceStatusResponse.trcStatus!;
         } else {
-          stepperItem.subTitle = deviceStatusResponse.salesChannels!.join(",");
+          stepperItem.subTitle = subTitle + deviceStatusResponse.salesChannels!.join(",");
         }
         isShowCompleteState = true;
         errorMessage = null;

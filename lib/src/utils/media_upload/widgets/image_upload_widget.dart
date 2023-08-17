@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/utils/fetch_image_widget.dart';
 import 'package:flutter_trc/src/utils/image_assest_helper.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -130,12 +131,17 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
               },
               secondBtnClick: () async {
                 Navigator.of(context).pop();
-                XFile? selectedFile = await _picker.pickImage(source: ImageSource.camera);
-                if (selectedFile != null) {
-                  provider.uploadImage(context, File(selectedFile.path), s3UrlCallback: (String url) {
-                    if (widget.onMediaUploaded != null) {
-                      widget.onMediaUploaded!(url);
-                    }
+                XFile? xFile = await _picker.pickImage(source: ImageSource.camera);
+                if (xFile != null) {
+                  File selectedFile = File(xFile.path);
+                  ImageUtil.compressImage(selectedFile).then((targetFile) {
+                    selectedFile = targetFile;
+                  }).whenComplete(() {
+                    provider.uploadImage(context, selectedFile, s3UrlCallback: (String url) {
+                      if (widget.onMediaUploaded != null) {
+                        widget.onMediaUploaded!(url);
+                      }
+                    });
                   });
                 }
               },

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/utils/string_utils.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
@@ -37,6 +38,7 @@ class OrderPartProvider extends CshChangeNotifier {
         handleError(event!.errorMsg!);
       }
     }, onError: (e, s) {
+      Logger.debug('mydebug-----OrderPartProvider.getListParts', [s]);
       handleError(ApiErrorHelper.getErrorMessage(e) ?? l10n.somethingWentWrong);
     }, onDone: () {
       notifyListeners();
