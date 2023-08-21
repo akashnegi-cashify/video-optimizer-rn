@@ -3,14 +3,14 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-part 'calculation_screen.g.dart';
+part 'trc_tester_screen.g.dart';
 
-@CshPage(key: CalculationScreen.pageKey, pageGroup: PageGroup.calculatorPageKey)
-class CalculationScreen extends BaseScreen {
-  static const String pageKey = "calculation_screen";
-  static const String route = "/calculator-screen";
+@CshPage(key: TrcTesterScreen.pageKey, pageGroup: PageGroup.trcTesterPageKey)
+class TrcTesterScreen extends BaseScreen {
+  static const String pageKey = "TRC_trc_tester";
+  static const String route = "/trc_tester";
 
-  const CalculationScreen({super.key});
+  const TrcTesterScreen({super.key});
 
   @override
   Widget buildView(BuildContext context) {

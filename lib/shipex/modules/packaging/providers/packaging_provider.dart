@@ -12,6 +12,7 @@ import 'package:flutter_trc/shipex/modules/packaging/models/packaging_sub_order_
 import 'package:flutter_trc/shipex/modules/packaging/resouces/packaging_status_code.dart';
 import 'package:flutter_trc/shipex/modules/packaging/resouces/packing_service.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
@@ -195,7 +196,7 @@ class PackagingProvider extends CshChangeNotifier {
   Future<String> _uploadVideo(File file) async {
     var completer = Completer<String>();
     String fileName = path.basename(file.path);
-    MediaUploadUtil().uploadMedia(mediaFile: file, fileName: fileName, isVideoFile: true).then((value) async {
+    MediaUploadUtil().uploadMediaWithType(mediaFile: file, fileName: fileName, contentType: MediaContentType.mp4).then((value) async {
       if (value.isNotEmpty) {
         String videoS3Url = value;
         completer.complete(videoS3Url);

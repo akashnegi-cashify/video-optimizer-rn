@@ -42,6 +42,7 @@ import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_screen.dart
 import 'package:flutter_trc/src/modules/splash/splash_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
+import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/screens/barcode_scanner_with_controller.dart';
 
@@ -99,6 +100,7 @@ class TrcRoutes {
       DeviceScannerScreen.route: (_) => const DeviceScannerScreen(),
       LoginScreen.route: (_) => const LoginScreen(),
       TrcAndQcLoginScreen.route: (_) => const TrcAndQcLoginScreen(),
+      TrcTesterScreen.route: (_) => const TrcTesterScreen(),
     };
   }
 }

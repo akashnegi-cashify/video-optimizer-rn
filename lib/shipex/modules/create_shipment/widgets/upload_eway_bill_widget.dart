@@ -208,7 +208,7 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
                       selectedFile = targetFile;
                     }).whenComplete(() {
                       Navigator.of(context).pop();
-                      _uploadMediaFunc(selectedFile);
+                      _uploadMediaWithContentType(selectedFile, MediaContentType.jpeg);
                     });
                   }
                 },
@@ -235,7 +235,7 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
                       } else if (file.extension == "jpg") {
                         _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg);
                       } else {
-                        _uploadMediaFunc(File(file.path ?? ""));
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg);
                       }
                     }
                   } catch (e) {
@@ -248,22 +248,6 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
         ),
       ),
     );
-  }
-
-  _uploadMediaFunc(File data) {
-    CshLoading().showLoading(context);
-    String fileName = path.basename(data.path);
-    MediaUploadUtil().uploadMedia(mediaFile: data, fileName: fileName, isVideoFile: false).then((value) {
-      CshLoading().hideLoading(context);
-      if (!Validator.isNullOrEmpty(value)) {
-        _docS3Url = value;
-        setState(() {});
-        CshSnackBar.success(context: context, message: "Media Uploaded Successfully!!");
-      }
-    }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
-    });
   }
 
   _uploadMediaWithContentType(File data, MediaContentType value) {

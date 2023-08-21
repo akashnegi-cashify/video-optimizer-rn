@@ -21,15 +21,10 @@ class SquareMetric {
       {this.height = 0, this.width = 0, this.normalizeOffset, this.normalizeWidth, this.normalizeHeight});
 }
 
-mixin DisputedImageEditorListener {
-  void onImageEditComplete(File editedFile);
-}
-
 class DisputeImageEditorScreenArg {
   final File imageFile;
-  final DisputedImageEditorListener listener;
 
-  DisputeImageEditorScreenArg(this.imageFile, this.listener);
+  DisputeImageEditorScreenArg(this.imageFile);
 }
 
 class DisputeImageEditorScreen extends StatefulWidget {
@@ -43,7 +38,6 @@ class DisputeImageEditorScreen extends StatefulWidget {
 
 class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
   final List<SquareMetric> _squares = [];
-  DisputedImageEditorListener? _listener;
 
   double _height = 0;
   double _width = 0;
@@ -86,8 +80,7 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
   }
 
   _sendFileToListener(File file) {
-    _listener?.onImageEditComplete(file);
-    Navigator.pop(context);
+    Navigator.pop(context, file);
     // showCshBottomSheet(
     //     context: context,
     //     child: Container(
@@ -126,7 +119,6 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
   Widget build(BuildContext context) {
     DisputeImageEditorScreenArg? arg = ModalRoute.of(context)?.settings.arguments as DisputeImageEditorScreenArg?;
     assert(arg != null);
-    _listener ??= arg!.listener;
     return Scaffold(
       appBar: const QcGeneralHeader("Image Editing"),
       body: Column(
@@ -144,7 +136,7 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
                   child: CustomPaint(
                     painter: SquarePainter(_squares),
                     child: GestureDetector(
-                      onTapDown: (details) {
+                      onPanDown: (details) {
                         setState(() {
                           var squareMetric = SquareMetric(details.localPosition);
                           squareMetric.normalizeOffset =

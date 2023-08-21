@@ -111,7 +111,7 @@ class ShipexDispatchProvider extends CshChangeNotifier {
     var completer = Completer<String>();
     try {
       String fileName = path.basename(file.path);
-      MediaUploadUtil().uploadMedia(mediaFile: file, fileName: fileName).then((value) {
+      MediaUploadUtil().uploadMediaWithType(mediaFile: file, fileName: fileName).then((value) {
         if (!Validator.isNullOrEmpty(value)) {
           completer.complete(value);
         } else {

@@ -39,6 +39,7 @@ import 'package:flutter_trc/src/modules/trc_executive/components/device_scanner_
 import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_component.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/trc_tester/components/trc_tester_component.dart';
 
 class TrcComponentRegistry {
   static Widget? getRegisteredComponent(String? componentKey, Map<String, dynamic>? jsonConfig) {
@@ -121,6 +122,8 @@ class TrcComponentRegistry {
         return TrcExecutiveComponent(jsonConfig);
       case SplashComponent.COMP_KEY:
         return SplashComponent(jsonConfig);
+      case TrcTesterComponent.COMP_KEY:
+        return TrcTesterComponent(jsonConfig);
       default:
         return null;
     }

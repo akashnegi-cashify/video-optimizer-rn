@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_status_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/audit_service.dart';
@@ -70,7 +70,7 @@ class AuditQuestionSubmitProvider extends CshChangeNotifier {
 
   Future<DeviceStatusResponse?> _callingDeviceStatusApi(String deviceBarcode) {
     var completer = Completer<DeviceStatusResponse?>();
-    CalculatorService.getDeviceStatus(deviceBarcode).listen((event) {
+    QcCalculatorService().getDeviceStatus(deviceBarcode).listen((event) {
       completer.complete(event);
     }, onError: (error) {
       completer.completeError(error);

@@ -3,29 +3,25 @@ import 'dart:io';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/disputed_image_capture/models/disputed_media_data_response.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/video_upload_provider.dart';
 
-class GeneralVideoUploadCard extends StatefulWidget {
-  final Function(String?)? onMediaUploaded;
+class GeneralVideoUploadCard extends StatelessWidget {
+  final Function(String?, String?)? onMediaUploaded;
   final double? cardHeight;
   final double? cardWidth;
+  final VideoUrlData? videoUrl;
 
   const GeneralVideoUploadCard({
     super.key,
     this.cardWidth,
     this.cardHeight,
+    this.videoUrl,
     this.onMediaUploaded,
   });
-
-  @override
-  State<GeneralVideoUploadCard> createState() => _GeneralVideoUploadCardState();
-}
-
-class _GeneralVideoUploadCardState extends State<GeneralVideoUploadCard> with AutomaticKeepAliveClientMixin {
-  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +34,10 @@ class _GeneralVideoUploadCardState extends State<GeneralVideoUploadCard> with Au
         return GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: () async {
-            if (!Validator.isNullOrEmpty(provider.videoS3Url)) {
-              _showRetakeModal(insideContext, theme);
+            if (!Validator.isNullOrEmpty(videoUrl?.videoUrl)) {
+              _showRetakeModal(context, theme, provider);
             } else {
-              XFile? selectedFile = await _picker.pickVideo(source: ImageSource.camera);
-              if (selectedFile != null) {
-                provider.uploadVideo(context, File(selectedFile.path), s3UrlCallback: (String url) {
-                  if (widget.onMediaUploaded != null) {
-                    widget.onMediaUploaded!(url);
-                  }
-                });
-              }
+              _takeVideo(context, provider);
             }
           },
           child: Column(
@@ -59,8 +48,8 @@ class _GeneralVideoUploadCardState extends State<GeneralVideoUploadCard> with Au
                 elevation: CardElevation.dimen_10,
                 radius: CshRadius.rad8,
                 child: Container(
-                  height: widget.cardHeight ?? Dimens.space_60,
-                  width: widget.cardWidth ?? Dimens.space_60,
+                  height: cardHeight ?? Dimens.space_60,
+                  width: cardWidth ?? Dimens.space_60,
                   alignment: Alignment.center,
                   child: provider.isDataLoading
                       ? const Center(
@@ -70,13 +59,9 @@ class _GeneralVideoUploadCardState extends State<GeneralVideoUploadCard> with Au
                             child: CircularProgressIndicator(),
                           ),
                         )
-                      : provider.videoThumbnailFile == null
-                          ? CshIcon(
-                              FeatherIcons.video,
-                              iconSize: MobileIconSize.large,
-                              iconColor: theme.shadowColor,
-                            )
-                          : Image.file(provider.videoThumbnailFile!, fit: BoxFit.cover),
+                      : Validator.isNullOrEmpty(videoUrl?.videoThumbnail)
+                          ? CshIcon(FeatherIcons.video, iconSize: MobileIconSize.large, iconColor: theme.shadowColor)
+                          : Image.file(File(videoUrl!.videoThumbnail!), fit: BoxFit.cover),
                 ),
               ),
             ],
@@ -86,8 +71,7 @@ class _GeneralVideoUploadCardState extends State<GeneralVideoUploadCard> with Au
     );
   }
 
-  _showRetakeModal(BuildContext innerContext, ThemeData theme) {
-    var provider = VideoUploadProvider.of(innerContext, listen: false);
+  _showRetakeModal(BuildContext context, ThemeData theme, VideoUploadProvider provider) {
     showCshBottomSheet(
       context: context,
       child: Container(
@@ -98,10 +82,7 @@ class _GeneralVideoUploadCardState extends State<GeneralVideoUploadCard> with Au
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Retake Video",
-                  style: theme.primaryTextTheme.displaySmall,
-                ),
+                Text("Retake Video", style: theme.primaryTextTheme.displaySmall),
                 CshIcon(
                   FeatherIcons.x,
                   padding: EdgeInsets.zero,
@@ -120,18 +101,11 @@ class _GeneralVideoUploadCardState extends State<GeneralVideoUploadCard> with Au
               padding: EdgeInsets.zero,
               buttonType: ButtonType.mini,
               firstBtnClick: () {
-                Navigator.of(context);
+                Navigator.of(context).pop();
               },
               secondBtnClick: () async {
                 Navigator.of(context).pop();
-                XFile? selectedFile = await _picker.pickVideo(source: ImageSource.camera);
-                if (selectedFile != null) {
-                  provider.uploadVideo(context, File(selectedFile.path), s3UrlCallback: (String url) {
-                    if (widget.onMediaUploaded != null) {
-                      widget.onMediaUploaded!(url);
-                    }
-                  });
-                }
+                _takeVideo(context, provider);
               },
             )
           ],
@@ -140,6 +114,19 @@ class _GeneralVideoUploadCardState extends State<GeneralVideoUploadCard> with Au
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  _takeVideo(BuildContext context, VideoUploadProvider provider) async {
+    final ImagePicker picker = ImagePicker();
+    XFile? selectedFile = await picker.pickVideo(source: ImageSource.camera);
+    if (selectedFile != null) {
+      provider.uploadVideo(File(selectedFile.path)).then((value) {
+        String videoUrl = value.$1;
+        String? videoThumbnail = value.$2;
+        if (onMediaUploaded != null) {
+          onMediaUploaded!(videoUrl, videoThumbnail);
+        }
+      }, onError: (error) {
+        CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+      });
+    }
+  }
 }

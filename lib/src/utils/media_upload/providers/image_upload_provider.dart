@@ -19,7 +19,7 @@ class ImageUploadProvider extends CshChangeNotifier {
     isDataLoading = true;
     notifyListeners();
     String fileName = path.basename(file.path);
-    MediaUploadUtil().uploadMedia(mediaFile: file, fileName: fileName, isVideoFile: false).then((value) {
+    MediaUploadUtil().uploadMediaWithType(mediaFile: file, fileName: fileName).then((value) {
       isDataLoading = false;
       notifyListeners();
       if (value.isNotEmpty) {

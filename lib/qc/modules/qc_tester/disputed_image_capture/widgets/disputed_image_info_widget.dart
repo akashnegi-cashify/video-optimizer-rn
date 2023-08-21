@@ -8,7 +8,7 @@ import '../../../../../src/utils/media_upload/widgets/general_video_upload_card.
 import '../models/disputed_media_data_response.dart';
 import '../providers/dispute_image_capture_provider.dart';
 
-class DisputedImageInfoWidget extends StatefulWidget {
+class DisputedImageInfoWidget extends StatelessWidget {
   final DisputeMediaInfoData? dataModel;
 
   const DisputedImageInfoWidget({
@@ -16,11 +16,6 @@ class DisputedImageInfoWidget extends StatefulWidget {
     this.dataModel,
   });
 
-  @override
-  State<DisputedImageInfoWidget> createState() => _DisputedImageInfoWidgetState();
-}
-
-class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -50,14 +45,14 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (!Validator.isNullOrEmpty(widget.dataModel?.label)) ...[
+                if (!Validator.isNullOrEmpty(dataModel?.label)) ...[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox.shrink(),
                       Expanded(
                         child: Text(
-                          widget.dataModel!.label!,
+                          dataModel!.label!,
                           style: theme.primaryTextTheme.headlineMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -67,15 +62,15 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
                   ),
                   const SizedBox(height: Dimens.space_6)
                 ],
-                if (!Validator.isNullOrEmpty(widget.dataModel?.subHeading)) ...[
-                  if (Validator.isNullOrEmpty(widget.dataModel?.label)) const SizedBox(height: Dimens.space_6),
+                if (!Validator.isNullOrEmpty(dataModel?.subHeading)) ...[
+                  if (Validator.isNullOrEmpty(dataModel?.label)) const SizedBox(height: Dimens.space_6),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox.shrink(),
                       Expanded(
                         child: Text(
-                          widget.dataModel!.subHeading!,
+                          dataModel!.subHeading!,
                           style: theme.primaryTextTheme.headlineSmall,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -87,7 +82,7 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
               ],
             ),
           ),
-          if (widget.dataModel?.imageCount != null) ...[
+          if (dataModel?.imageCount != null) ...[
             const SizedBox(height: Dimens.space_16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
@@ -97,15 +92,15 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
                 runSpacing: Dimens.space_16,
                 spacing: Dimens.space_8,
                 children: List.generate(
-                  widget.dataModel!.imageCount!,
+                  dataModel!.imageCount!,
                   (index) => ChangeNotifierProvider<ImageUploadProvider>(
                     create: (_) => ImageUploadProvider(),
                     child: GeneralImageUploadCard(
                       cardHeight: 100.0,
                       cardWidth: 100.0,
-                      imageUrl: widget.dataModel?.imageS3Urls?[index],
+                      imageUrl: dataModel?.imageS3Urls?[index],
                       onMediaUploaded: (String? url) {
-                        widget.dataModel?.imageS3Urls?[index] = url ?? "";
+                        dataModel?.imageS3Urls?[index] = url ?? "";
                         provider.checkSubmitButtonStatus();
                         provider.notifyListeners();
                       },
@@ -115,7 +110,7 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
               ),
             )
           ],
-          if (widget.dataModel?.videoCount != null) ...[
+          if (dataModel?.videoCount != null) ...[
             const SizedBox(height: Dimens.space_16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
@@ -124,12 +119,13 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
                 runSpacing: Dimens.space_16,
                 spacing: Dimens.space_8,
                 children: List.generate(
-                  widget.dataModel!.videoCount!,
+                  dataModel!.videoCount!,
                   (index) => GeneralVideoUploadCard(
                     cardHeight: 100.0,
                     cardWidth: 100.0,
-                    onMediaUploaded: (String? url) {
-                      widget.dataModel?.videoS3urls?[index] = url ?? "";
+                    videoUrl: dataModel?.videoS3urls?[index],
+                    onMediaUploaded: (String? url, String? videoThumbnail) {
+                      dataModel?.videoS3urls?[index] = VideoUrlData(url ?? "", videoThumbnail: videoThumbnail);
                       provider.checkSubmitButtonStatus();
                       provider.notifyListeners();
                     },
@@ -138,9 +134,7 @@ class _DisputedImageInfoWidgetState extends State<DisputedImageInfoWidget> {
               ),
             )
           ],
-          const SizedBox(
-            height: Dimens.space_20,
-          )
+          const SizedBox(height: Dimens.space_20)
         ],
       ),
     );

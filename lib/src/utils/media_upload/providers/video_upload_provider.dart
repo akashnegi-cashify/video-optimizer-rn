@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -13,47 +15,51 @@ import '../media_optimiser_utils.dart';
 class VideoUploadProvider extends CshChangeNotifier {
   bool isDataLoading = false;
   String? videoS3Url;
-  String? videoThumbnailImagePath;
+  String? _videoThumbnailImagePath;
 
   static VideoUploadProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<VideoUploadProvider>(context, listen: listen);
   }
 
   File? get videoThumbnailFile =>
-      (!Validator.isNullOrEmpty(videoThumbnailImagePath)) ? File(videoThumbnailImagePath!) : null;
+      (!Validator.isNullOrEmpty(_videoThumbnailImagePath)) ? File(_videoThumbnailImagePath!) : null;
 
-  uploadVideo(BuildContext context, File file, {Function(String)? s3UrlCallback}) async {
+  Future<(String, String?)> uploadVideo(File file) async {
     isDataLoading = true;
     notifyListeners();
-    MediaInfo? info = await VideoCompress.compressVideo(file.path,
-        deleteOrigin: true, includeAudio: false, quality: VideoQuality.Res640x480Quality);
+    var completer = Completer<(String, String?)>();
+    MediaInfo? info = await VideoCompress.compressVideo(
+      file.path,
+      deleteOrigin: true,
+      includeAudio: false,
+      quality: VideoQuality.Res640x480Quality,
+    );
     if (info?.file != null) {
       file = info!.file!;
     }
 
     String fileName = path.basename(file.path);
-    MediaUploadUtil().uploadMedia(mediaFile: file, fileName: fileName, isVideoFile: true).then((value) async {
+    MediaUploadUtil().uploadMediaWithType(mediaFile: file, fileName: fileName, contentType: MediaContentType.mp4).then(
+        (value) async {
       if (value.isNotEmpty) {
         videoS3Url = value;
-        videoThumbnailImagePath = await _getVideoThumbnail(videoS3Url!);
-        if (s3UrlCallback != null) {
-          s3UrlCallback(videoS3Url!);
-        }
+        _videoThumbnailImagePath = await _getVideoThumbnail(file.path);
+        completer.complete((value, _videoThumbnailImagePath));
       } else {
-        CshSnackBar.error(context: context, message: "Something went wrong", snackBarPosition: SnackBarPosition.TOP);
+        completer.completeError("Something went wrong");
       }
-      isDataLoading = false;
-      notifyListeners();
     }, onError: (error) {
+      completer.completeError(error);
+    }).whenComplete(() {
       isDataLoading = false;
       notifyListeners();
-      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
     });
+    return completer.future;
   }
 
-  Future<String?> _getVideoThumbnail(String s3Url) async {
+  Future<String?> _getVideoThumbnail(String filePath) async {
     return await VideoThumbnail.thumbnailFile(
-      video: s3Url,
+      video: filePath,
       thumbnailPath: (await getTemporaryDirectory()).path,
       imageFormat: ImageFormat.JPEG,
       maxHeight: 120,

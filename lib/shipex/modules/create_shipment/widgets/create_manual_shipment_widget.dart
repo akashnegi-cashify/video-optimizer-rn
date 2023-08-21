@@ -192,7 +192,7 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
   _uploadMediaFunc(File data) {
     CshLoading().showLoading(context);
     String fileName = path.basename(data.path);
-    MediaUploadUtil().uploadMedia(mediaFile: data, fileName: fileName, isVideoFile: false).then((value) {
+    MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName).then((value) {
       CshLoading().hideLoading(context);
       if (!Validator.isNullOrEmpty(value)) {
         _docS3Url = value;
