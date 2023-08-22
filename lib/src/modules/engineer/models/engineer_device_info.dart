@@ -31,6 +31,9 @@ class EngineerDeviceInfo {
   @JsonKey(name: "dc")
   String? color;
 
+  @JsonKey(name: "rc")
+  int? returnCount;
+
   @JsonKey(name: "rrs")
   List<String>? repairReasonList;
 

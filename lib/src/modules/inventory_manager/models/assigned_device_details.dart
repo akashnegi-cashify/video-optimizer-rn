@@ -50,6 +50,9 @@ class AssignDeviceDetailsData {
   @JsonKey(name: "dr")
   String? deadRemark;
 
+  @JsonKey(name: "rc")
+  int? returnCount;
+
   AssignDeviceDetailsData({
     this.did,
     this.lc,
@@ -60,6 +63,7 @@ class AssignDeviceDetailsData {
     this.repairType,
     this.productName,
     this.deadRemark,
+    this.returnCount,
   });
 
   static AssignDeviceDetailsData fromJson(Map<String, dynamic> data) => _$AssignDeviceDetailsDataFromJson(data);

@@ -17,6 +17,7 @@ EngineerDeviceInfo _$EngineerDeviceInfoFromJson(Map<String, dynamic> json) =>
       ..grade = json['gr'] as String?
       ..imei = json['dimei'] as String?
       ..color = json['dc'] as String?
+      ..returnCount = json['rc'] as int?
       ..repairReasonList =
           (json['rrs'] as List<dynamic>?)?.map((e) => e as String).toList();
 
@@ -31,5 +32,6 @@ Map<String, dynamic> _$EngineerDeviceInfoToJson(EngineerDeviceInfo instance) =>
       'gr': instance.grade,
       'dimei': instance.imei,
       'dc': instance.color,
+      'rc': instance.returnCount,
       'rrs': instance.repairReasonList,
     };

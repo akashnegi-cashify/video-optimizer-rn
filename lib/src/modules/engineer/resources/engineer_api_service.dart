@@ -5,6 +5,7 @@ import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_res
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/send_to_tl_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/job_card_summary_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_part_response.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/part_list_history_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/replace_part_request.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/return_part_data.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_devices_response.dart';
@@ -175,5 +176,9 @@ class EngineerAPIService {
       "dbr": [deviceBarcode.toString()]
     };
     return TrcService().get("/device/detail", AssignedDeviceDetails.fromJson, params: paramData);
+  }
+
+  static Stream<PartListHistoryResponse?> getPartListHistory(int? deviceId) {
+    return TrcService().get("/device/part/list?did=$deviceId", PartListHistoryResponse.fromJson);
   }
 }

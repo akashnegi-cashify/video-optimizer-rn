@@ -125,6 +125,7 @@ class L10n extends l10n_common.L10n {
 
   String get deviceDetails => Intl.message("Device Details", locale: localName, name: "deviceDetails");
 
+
   String cancelPartRequestSuccess(String? partName) =>
       Intl.message("Part request for part name $partName is successfully cancelled!",
           locale: localName, name: "cancelPartRequestSuccess");
@@ -203,4 +204,14 @@ class L10n extends l10n_common.L10n {
   String get partAction => Intl.message("Part Action", locale: localName, name: "partAction");
 
   String get deadRemark => Intl.message("Dead Remark", locale: localName, name: "deadRemark");
+
+  String get alternatePart => Intl.message("Alternate Part", locale: localName, name: "alternatePart");
+
+  String get updatedBy => Intl.message("Updated By", locale: localName, name: "updatedBy");
+
+  String get updatedAt => Intl.message("Updated At", locale: localName, name: "updatedAt");
+
+  String get searchByPartName => Intl.message("Search by part name", locale: localName, name: "searchByPartName");
+
+  String get viewHistory => Intl.message("View History", locale: localName, name: "viewHistory");
 }
