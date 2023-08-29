@@ -65,27 +65,30 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
             },
           ),
         if (Validator.isTrue(provider.isShowTryAgainState))
-          Row(
-            children: [
-              Expanded(
-                child: CshBigButton(
-                  text: "Try Again",
-                  onPressed: () {
-                    CshLoading().showLoading(context);
-                    provider.getDeviceStatus();
-                  },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CshBigButton(
+                    text: "Try Again",
+                    onPressed: () {
+                      CshLoading().showLoading(context);
+                      provider.getDeviceStatus();
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(width: Dimens.space_16),
-              Expanded(
-                child: CshBigButton(
-                  text: "Go back",
-                  onPressed: () {
-                    Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
-                  },
+                const SizedBox(width: Dimens.space_16),
+                Expanded(
+                  child: CshBigButton(
+                    text: "Go back",
+                    onPressed: () {
+                      Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
       ],
     );

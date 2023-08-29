@@ -126,6 +126,7 @@ class GeneralImageUploadCard extends StatelessWidget {
     final ImagePicker picker = ImagePicker();
     XFile? xFile = await picker.pickImage(
       source: ImageSource.camera,
+      requestFullMetadata: false,
     );
     if (xFile != null) {
       File selectedFile = File(xFile.path);

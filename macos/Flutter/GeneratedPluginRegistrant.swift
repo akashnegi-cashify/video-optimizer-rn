@@ -8,7 +8,7 @@ import Foundation
 import audio_session
 import connectivity_plus
 import device_info_plus
-import ffmpeg_kit_flutter_full
+import ffmpeg_kit_flutter_video
 import firebase_analytics
 import firebase_core
 import firebase_remote_config
