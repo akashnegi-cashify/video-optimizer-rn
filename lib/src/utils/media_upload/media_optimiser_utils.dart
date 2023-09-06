@@ -123,7 +123,7 @@ class MediaUploadUtil {
   // }
 
   Future<String> uploadMediaWithType(
-      {required File mediaFile, required String fileName, MediaContentType contentType = MediaContentType.jpeg}) {
+      {required File mediaFile, required String fileName, MediaContentType contentType = MediaContentType.webp}) {
     var completer = Completer<String>();
     String fileFormat = mediaFile.path.split(".").last;
     try {
@@ -138,10 +138,15 @@ class MediaUploadUtil {
             return;
           }
 
+          var counter = 0;
           final streamedRequest = http.StreamedRequest('PUT', Uri.parse(url!))
             ..headers.addAll({'Cache-Control': 'no-cache', "content-type": contentType.value});
           streamedRequest.contentLength = await mediaFile.length();
+
+          Logger.debug('mydebug-----MediaUploadUtil.uploadMediaWithType contentLenght', [streamedRequest.contentLength]);
           mediaFile.openRead().listen((chunk) {
+            counter += chunk.length;
+            Logger.debug('mydebug-----MediaUploadUtil.uploadMediaWithType chunk Lenght', [counter]);
             streamedRequest.sink.add(chunk);
           }, onDone: () {
             streamedRequest.sink.close();

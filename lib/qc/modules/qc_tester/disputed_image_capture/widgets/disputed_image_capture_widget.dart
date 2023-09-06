@@ -180,18 +180,8 @@ class _DisputeMediaWidgetState extends State<_DisputeMediaWidget> {
                   isFirstPrimary: true,
                   padding: EdgeInsets.zero,
                   firstBtnClick: () {
-                    Navigator.of(context).pop();
-                    DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-                        onScanDetected: (String scannedData, MlScannerController? controller) {
-                      if (scannedData.isNotEmpty) {
-                        Navigator.of(context).pop();
-                        DisputedImageCaptureScreenArguments arg =
-                            DisputedImageCaptureScreenArguments(barcode: scannedData.trim());
-                        Navigator.of(context).pushNamed(DisputedImageCaptureScreen.route, arguments: arg);
-                      }
-                    });
-                    Navigator.of(context)
-                        .pushReplacementNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
+                    Navigator.of(context).pop(); // dismiss popup
+                    Navigator.pop(context);
                   },
                   secondBtnClick: () {
                     Navigator.of(context).pop();

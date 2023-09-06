@@ -203,13 +203,9 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
                 onPressed: () async {
                   XFile? data = await _picker.pickImage(source: ImageSource.camera);
                   if (data != null) {
-                    File selectedFile = File(data.path);
-                    ImageUtil.compressImage(selectedFile).then((targetFile) {
-                      selectedFile = targetFile;
-                    }).whenComplete(() {
-                      Navigator.of(context).pop();
-                      _uploadMediaWithContentType(selectedFile, MediaContentType.jpeg);
-                    });
+                    var compressedFile = await _getCompressedFile(data.path);
+                    Navigator.of(context).pop();
+                    _uploadMediaWithContentType(compressedFile, MediaContentType.webp);
                   }
                 },
               ),
@@ -230,12 +226,11 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
                         _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.pdf);
                       } else if (file.extension == "png") {
                         _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.png);
-                      } else if (file.extension == "jpeg") {
-                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg);
-                      } else if (file.extension == "jpg") {
-                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg);
+                      } else if (file.extension == "jpeg" || file.extension == "jpg") {
+                        var compressedFile = await _getCompressedFile(file.path ?? "");
+                        _uploadMediaWithContentType(compressedFile, MediaContentType.webp);
                       } else {
-                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg);
+                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.webp);
                       }
                     }
                   } catch (e) {
@@ -248,6 +243,10 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
         ),
       ),
     );
+  }
+
+  Future<File> _getCompressedFile(String path) async {
+    return await ImageUtil.compressImage(File(path));
   }
 
   _uploadMediaWithContentType(File data, MediaContentType value) {

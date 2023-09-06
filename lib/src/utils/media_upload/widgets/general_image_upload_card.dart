@@ -129,22 +129,18 @@ class GeneralImageUploadCard extends StatelessWidget {
       requestFullMetadata: false,
     );
     if (xFile != null) {
-      File selectedFile = File(xFile.path);
-      ImageUtil.compressImage(selectedFile).then((targetFile) {
-        selectedFile = targetFile;
-      }).whenComplete(() {
-        Navigator.pushNamed(context, DisputeImageEditorScreen.route,
-                arguments: DisputeImageEditorScreenArg(selectedFile))
-            .then((file) {
-          if (file != null && file is File) {
-            var provider = ImageUploadProvider.of(context, listen: false);
-            provider.uploadImage(context, File(file.path), s3UrlCallback: (String url) {
-              if (onMediaUploaded != null) {
-                onMediaUploaded!(url);
-              }
-            });
-          }
-        });
+      var compressedFile = await ImageUtil.compressImage(File(xFile.path));
+      Navigator.pushNamed(context, DisputeImageEditorScreen.route,
+              arguments: DisputeImageEditorScreenArg(compressedFile))
+          .then((file) {
+        if (file != null && file is File) {
+          var provider = ImageUploadProvider.of(context, listen: false);
+          provider.uploadImage(context, File(file.path), s3UrlCallback: (String url) {
+            if (onMediaUploaded != null) {
+              onMediaUploaded!(url);
+            }
+          });
+        }
       });
     }
   }

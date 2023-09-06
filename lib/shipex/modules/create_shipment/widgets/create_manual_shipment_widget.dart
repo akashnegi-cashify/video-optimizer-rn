@@ -54,18 +54,18 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
             show: provider.providerDataListLoading || provider.estimatedProviderDataLoading,
             child: (!Validator.isListNullOrEmpty(provider.providerList))
                 ? CshDropDown(
-                    hintText: l10n.selectBox,
-                    onChanged: (DropDownItem data) {
-                      provider.onProviderChange(ShipmentProviderListData(key: data.id, name: data.label));
-                    },
-                    selectedItem: provider.estimatedProvider != null
-                        ? DropDownItem(provider.estimatedProvider?.key, provider.estimatedProvider?.name)
-                        : null,
-                    items: List.generate(
-                      provider.providerList!.length,
-                      (index) => DropDownItem(provider.providerList![index].key, provider.providerList![index].name),
-                    ),
-                  )
+              hintText: l10n.selectBox,
+              onChanged: (DropDownItem data) {
+                provider.onProviderChange(ShipmentProviderListData(key: data.id, name: data.label));
+              },
+              selectedItem: provider.estimatedProvider != null
+                  ? DropDownItem(provider.estimatedProvider?.key, provider.estimatedProvider?.name)
+                  : null,
+              items: List.generate(
+                provider.providerList!.length,
+                    (index) => DropDownItem(provider.providerList![index].key, provider.providerList![index].name),
+              ),
+            )
                 : const SizedBox.shrink(),
           ),
           const SizedBox(height: Dimens.space_20),
@@ -142,13 +142,9 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
                 onPressed: () async {
                   XFile? data = await _picker.pickImage(source: ImageSource.camera);
                   if (data != null) {
-                    File selectedFile = File(data.path);
-                    ImageUtil.compressImage(selectedFile).then((targetFile) {
-                      selectedFile = targetFile;
-                    }).whenComplete(() {
-                      Navigator.of(context).pop();
-                      _uploadMediaFunc(selectedFile);
-                    });
+                    File selectedFile = await _getCompressedFile(data.path);
+                    Navigator.of(context).pop();
+                    _uploadMediaFunc(selectedFile);
                   }
                 },
               ),
@@ -169,10 +165,9 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
                         _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.pdf);
                       } else if (file.extension == "png") {
                         _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.png);
-                      } else if (file.extension == "jpeg") {
-                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpeg);
-                      } else if (file.extension == "jpg") {
-                        _uploadMediaWithContentType(File(file.path ?? ""), MediaContentType.jpg);
+                      } else if (file.extension == "jpeg" || file.extension == "jpg") {
+                        var compressedFile = await _getCompressedFile(file.path ?? "");
+                        _uploadMediaWithContentType(compressedFile, MediaContentType.webp);
                       } else {
                         _uploadMediaFunc(File(file.path ?? ""));
                       }
@@ -189,20 +184,12 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
     );
   }
 
+  Future<File> _getCompressedFile(String path) async {
+    return await ImageUtil.compressImage(File(path));
+  }
+
   _uploadMediaFunc(File data) {
-    CshLoading().showLoading(context);
-    String fileName = path.basename(data.path);
-    MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName).then((value) {
-      CshLoading().hideLoading(context);
-      if (!Validator.isNullOrEmpty(value)) {
-        _docS3Url = value;
-        setState(() {});
-        CshSnackBar.success(context: context, message: "Media Uploaded Successfully!!");
-      }
-    }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
-    });
+    _uploadMediaWithContentType(data, MediaContentType.webp);
   }
 
   _uploadMediaWithContentType(File data, MediaContentType contentType) {

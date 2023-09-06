@@ -43,54 +43,65 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   @override
   Widget build(BuildContext context) {
     var provider = SubmitDeviceQuoteProvider.of(context);
-    return Column(
-      children: [
-        CshStepper(
-          key: UniqueKey(),
-          stepDetails: provider.stepperDetails ?? [],
-          isShowedButton: false,
-        ),
-        const SizedBox(height: Dimens.space_16),
-        if (Validator.isTrue(provider.isShowCompleteState))
-          CshBigButton(
-            text: "Done",
-            onPressed: () {
-              AppPreferences().getIsLoginFromQC().then((value) {
-                if (Validator.isTrue(value)) {
-                  Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
-                } else {
-                  Navigator.popUntil(context, (route) => route.settings.name == TrcTesterScreen.route);
-                }
-              });
-            },
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(false);
+      },
+      child: Column(
+        children: [
+          CshStepper(
+            key: UniqueKey(),
+            stepDetails: provider.stepperDetails ?? [],
+            isShowedButton: false,
           ),
-        if (Validator.isTrue(provider.isShowTryAgainState))
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CshBigButton(
-                    text: "Try Again",
-                    onPressed: () {
-                      CshLoading().showLoading(context);
-                      provider.getDeviceStatus();
-                    },
-                  ),
-                ),
-                const SizedBox(width: Dimens.space_16),
-                Expanded(
-                  child: CshBigButton(
-                    text: "Go back",
-                    onPressed: () {
-                      Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
-                    },
-                  ),
-                ),
-              ],
+          const SizedBox(height: Dimens.space_16),
+          if (Validator.isTrue(provider.isShowCompleteState))
+            CshBigButton(
+              text: "Done",
+              onPressed: () {
+                AppPreferences().getIsLoginFromQC().then((value) {
+                  if (Validator.isTrue(value)) {
+                    Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
+                  } else {
+                    Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
+                  }
+                });
+              },
             ),
-          )
-      ],
+          if (Validator.isTrue(provider.isShowTryAgainState))
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CshBigButton(
+                      text: "Try Again",
+                      onPressed: () {
+                        CshLoading().showLoading(context);
+                        provider.getDeviceStatus();
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: Dimens.space_16),
+                  Expanded(
+                    child: CshBigButton(
+                      text: "Go back",
+                      onPressed: () {
+                        AppPreferences().getIsLoginFromQC().then((value) {
+                          if (Validator.isTrue(value)) {
+                            Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
+                          } else {
+                            Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
+        ],
+      ),
     );
   }
 

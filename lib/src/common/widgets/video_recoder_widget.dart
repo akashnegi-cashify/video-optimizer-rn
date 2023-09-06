@@ -8,6 +8,8 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/channel/native_communication.dart';
+import 'package:flutter_trc/src/common/utils/file_util.dart';
 import 'package:video_compress/video_compress.dart';
 
 class VideoRecorderWidget extends StatefulWidget {
@@ -37,7 +39,8 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     try {
       final cameras = await availableCameras();
       final backCamera = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.back);
-      _cameraController = CameraController(backCamera, ResolutionPreset.medium, enableAudio: false);
+      _cameraController = CameraController(backCamera, ResolutionPreset.medium,
+          enableAudio: false, imageFormatGroup: ImageFormatGroup.nv21);
 
       await _cameraController.initialize();
       setState(() => _isLoading = false);
@@ -83,22 +86,28 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     try {
       final file = await _cameraController.stopVideoRecording();
 
+      File(file.path).logFileSize();
       if (!widget.isCompressionEnabled) {
         return Future.value(File(file.path));
       }
       var completer = Completer<File>();
 
       CshLoading().showLoading(context);
-      VideoCompress.compressVideo(file.path, deleteOrigin: true, includeAudio: false).then((value) {
-        CshLoading().hideLoading(context);
-        if (value?.file != null) {
-          completer.complete(value?.file);
-        }
-      });
+      MediaInfo? value = await _getCompressedFile(file.path);
+      CshLoading().hideLoading(context);
+      if (value?.file != null) {
+        value!.file!.logFileSize();
+        completer.complete(value?.file);
+      }
+
       return completer.future;
     } catch (e) {
       return Future.value(null);
     }
+  }
+
+  Future<MediaInfo?> _getCompressedFile(String filePath) async {
+    return await NativeCommunication.compressVideo(filePath, includeAudio: false);
   }
 
   _startVideoRecording() async {
@@ -119,6 +128,15 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     }
   }
 
+  void onViewFinderTap(TapDownDetails details, BoxConstraints constraints) {
+    final offset = Offset(
+      details.localPosition.dx / constraints.maxWidth,
+      details.localPosition.dy / constraints.maxHeight,
+    );
+    _cameraController.setExposurePoint(offset);
+    _cameraController.setFocusPoint(offset);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -129,7 +147,20 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         ),
       );
     } else {
-      return Center(child: CameraPreview(_cameraController));
+      return Center(
+        child: CameraPreview(
+          _cameraController,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return GestureDetector(
+                onTapDown: (details) {
+                  onViewFinderTap(details, constraints);
+                },
+              );
+            },
+          ),
+        ),
+      );
     }
   }
 

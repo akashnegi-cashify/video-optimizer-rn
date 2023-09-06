@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
+// import 'package:ffmpeg_kit_flutter_video/ffmpeg_kit_config.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';

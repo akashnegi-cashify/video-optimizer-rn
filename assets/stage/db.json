@@ -1865,7 +1865,7 @@
       "configJson": {
         "config": {
           "ht": "Quote Request",
-          "sbb": true,
+          "sbb": false,
           "slb": false
         }
       }

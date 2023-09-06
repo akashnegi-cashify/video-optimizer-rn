@@ -8,6 +8,7 @@ import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -111,7 +112,12 @@ class ShipexDispatchProvider extends CshChangeNotifier {
     var completer = Completer<String>();
     try {
       String fileName = path.basename(file.path);
-      MediaUploadUtil().uploadMediaWithType(mediaFile: file, fileName: fileName).then((value) {
+      MediaUploadUtil()
+          .uploadMediaWithType(
+        mediaFile: file,
+        fileName: fileName,
+        contentType: MediaContentType.jpeg,
+      ).then((value) {
         if (!Validator.isNullOrEmpty(value)) {
           completer.complete(value);
         } else {
@@ -159,7 +165,8 @@ class ShipexDispatchProvider extends CshChangeNotifier {
 
     var completer = Completer<bool>();
     try {
-      String imageUrl = await _uploadImage(combinedFile);
+      var compressedFile = await ImageUtil.compressImage(combinedFile);
+      String imageUrl = await _uploadImage(compressedFile);
       DispatchService.completeDispatch(scannedAwbList, imageUrl, selectedDeliveryPartner?.key).listen((event) {
         completer.complete(true);
       }, onError: (error) {

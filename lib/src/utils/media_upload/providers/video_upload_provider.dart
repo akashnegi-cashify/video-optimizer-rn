@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/channel/native_communication.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:video_compress/video_compress.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../media_optimiser_utils.dart';
@@ -28,31 +29,31 @@ class VideoUploadProvider extends CshChangeNotifier {
     isDataLoading = true;
     notifyListeners();
     var completer = Completer<(String, String?)>();
-    MediaInfo? info = await VideoCompress.compressVideo(
-      file.path,
-      deleteOrigin: true,
-      includeAudio: false,
-      quality: VideoQuality.Res640x480Quality,
-    );
-    if (info?.file != null) {
-      file = info!.file!;
-    }
 
-    String fileName = path.basename(file.path);
-    MediaUploadUtil().uploadMediaWithType(mediaFile: file, fileName: fileName, contentType: MediaContentType.mp4).then(
-        (value) async {
-      if (value.isNotEmpty) {
-        videoS3Url = value;
-        _videoThumbnailImagePath = await _getVideoThumbnail(file.path);
-        completer.complete((value, _videoThumbnailImagePath));
-      } else {
-        completer.completeError("Something went wrong");
+    NativeCommunication.compressVideo(file.path, includeAudio: false).then((value) {
+      if (value?.file != null) {
+        file = value!.file!;
       }
     }, onError: (error) {
-      completer.completeError(error);
+      Logger.debug('mydebug-----VideoUploadProvider.uploadVideo', [error]);
     }).whenComplete(() {
-      isDataLoading = false;
-      notifyListeners();
+      String fileName = path.basename(file.path);
+      MediaUploadUtil()
+          .uploadMediaWithType(mediaFile: file, fileName: fileName, contentType: MediaContentType.mp4)
+          .then((value) async {
+        if (value.isNotEmpty) {
+          videoS3Url = value;
+          _videoThumbnailImagePath = await _getVideoThumbnail(file.path);
+          completer.complete((value, _videoThumbnailImagePath));
+        } else {
+          completer.completeError("Something went wrong");
+        }
+      }, onError: (error) {
+        completer.completeError(error);
+      }).whenComplete(() {
+        isDataLoading = false;
+        notifyListeners();
+      });
     });
     return completer.future;
   }
