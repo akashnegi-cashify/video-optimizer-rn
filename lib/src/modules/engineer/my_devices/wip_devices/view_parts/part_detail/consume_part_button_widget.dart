@@ -1,10 +1,12 @@
 import 'dart:io';
 
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core/core.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../../amplify/amplifier.dart';
@@ -37,6 +39,7 @@ class ConsumePartButtonWidget extends StatelessWidget {
             }
 
             File imageFile = File(imageFilex.path);
+            imageFile = await ImageUtil.compressImage(imageFile);
             String fileName = Amplifier.fileNameFromPath(imageFile.path);
             amplifyProvider.uploadFile(
               fileName: fileName,
@@ -58,13 +61,13 @@ class ConsumePartButtonWidget extends StatelessWidget {
               },
               onFailed: (String errorMsg) {
                 CshLoading().hideLoading(context);
-                CshSnackBar.error(context: context, message: errorMsg, snackBarPosition: SnackBarPosition.TOP);
+                showSnackBar(context, errorMsg, isError: true);
               },
             );
           }
         } catch (e) {
           CshLoading().hideLoading(context);
-          CshSnackBar.error(context: context, message: e.toString(), snackBarPosition: SnackBarPosition.TOP);
+          showSnackBar(context, e.toString(), isError: true);
         }
       },
     );
@@ -72,7 +75,7 @@ class ConsumePartButtonWidget extends StatelessWidget {
 
   void displayGenericErrorMessage(BuildContext context, L10n l10n) {
     CshLoading().hideLoading(context);
-    CshSnackBar.error(context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
+    showSnackBar(context, l10n.somethingWentWrong, isError: true);
   }
 
   _callConsumeApi(BuildContext context, L10n l10n, String s3ImageUrl) {
@@ -82,26 +85,37 @@ class ConsumePartButtonWidget extends StatelessWidget {
         if (onRequestCompletion != null) {
           onRequestCompletion!();
         }
-        CshSnackBar.success(
-          context: context,
-          message: l10n.consumePartSuccess(partInfo.partName),
-          snackBarPosition: SnackBarPosition.TOP,
-        );
+        showSnackBar(context, l10n.consumePartSuccess(partInfo.partName));
       } else {
-        CshSnackBar.error(
-          context: context,
-          message: event?.errorMsg ?? l10n.somethingWentWrong,
-          snackBarPosition: SnackBarPosition.TOP,
-        );
+        showSnackBar(context, event?.errorMsg ?? l10n.somethingWentWrong, isError: true);
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
       String? errorMessage = ApiErrorHelper.getErrorMessage(error);
-      CshSnackBar.error(
-        context: context,
-        message: errorMessage ?? l10n.somethingWentWrong,
-        snackBarPosition: SnackBarPosition.TOP,
-      );
+      showSnackBar(context, errorMessage ?? l10n.somethingWentWrong, isError: true);
     });
   }
+
+  showSnackBar(BuildContext context, String message, {bool isError = false}) {
+    ThemeData theme = Theme.of(context);
+    CustomColors customTheme = theme.extension<CustomColors>() as CustomColors;
+    var backgroundColor = customTheme.successColor;
+    if (isError) {
+      backgroundColor = theme.errorColor;
+    }
+    SnackBar snackBar = SnackBar(
+      behavior: SnackBarBehavior.fixed,
+      duration: const Duration(seconds: 3),
+      padding: const EdgeInsets.all(Dimens.space_16),
+      backgroundColor: backgroundColor,
+      dismissDirection: DismissDirection.endToStart,
+      content: Text(
+        message,
+        style: theme.textTheme.titleSmall!.copyWith(color: theme.colorScheme.background),
+      ),
+    );
+    return ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+
 }

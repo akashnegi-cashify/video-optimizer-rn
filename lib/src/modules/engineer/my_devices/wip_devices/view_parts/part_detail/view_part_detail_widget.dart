@@ -13,12 +13,12 @@ import 'consume_part_button_widget.dart';
 
 Future<dynamic> viewPartDetailBottomSheet(BuildContext context, ViewPartDetailData data) => showCshBottomSheet(
     context: context,
-    child: ViewPartDetailWidget(
+    child: _ViewPartDetailWidget(
       data: data,
     ));
 
-class ViewPartDetailWidget extends StatelessWidget {
-  const ViewPartDetailWidget({Key? key, required this.data}) : super(key: key);
+class _ViewPartDetailWidget extends StatelessWidget {
+  const _ViewPartDetailWidget({Key? key, required this.data}) : super(key: key);
   final ViewPartDetailData data;
 
   @override

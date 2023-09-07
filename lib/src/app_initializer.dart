@@ -10,6 +10,7 @@ import 'app_builder/app_builder.dart';
 import 'environments/environment_config.dart';
 import 'environments/environments.dart';
 import 'environments/types.dart';
+import 'interceptors/auth/auth_header_interceptor.dart';
 import 'interceptors/header/header_interceptor.dart';
 import 'interceptors/log_interceptor.dart';
 import 'l10n/messages_all.dart';
@@ -40,6 +41,7 @@ class AppInitializer {
     if (!isWeb() && environment?.enableAlice == true) {
       interceptors[LogInterceptor.LOG_INTERCEPTOR] = () => LogInterceptor();
     }
+    interceptors[AuthHeaderInterceptor.AUTH_HEADER_INTERCEPTOR] = () => AuthHeaderInterceptor();
     String xAppOS = await DeviceUtil.getXOSAPPHeader();
     interceptors[HeaderInterceptor.HEADER_INTERCEPTOR] = () => HeaderInterceptor(xAppOS);
 
