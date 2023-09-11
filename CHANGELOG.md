@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v2.1.1+14 (11-09-2023)
+
+### Improvements:
+
+* `TRC - Engineer - Engineer Role - Image uploading failed while consuming device parts`[(SCM-4441)](https://reglobe.atlassian.net/browse/SCM-4441)
+
+
 
 # v2.1.0+13 (16-08-2023)
 
