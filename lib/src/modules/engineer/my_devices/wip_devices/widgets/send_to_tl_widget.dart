@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/send_to_tl_provider.dart';
@@ -27,25 +30,24 @@ class SendToTLWidget extends StatelessWidget {
             var dropDownItem = await _askForTheReasonOfReturn(deviceInfo, context, event.reasons!) as DropDownItem?;
 
             if (deviceInfo.deviceBarcode != null && dropDownItem?.id != null) {
-              EngineerAPIService.sendToTL(deviceInfo.deviceBarcode!, dropDownItem!.id!).listen((event) {
-                if (event == null) {
-                  CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
-                  return;
-                }
-
-                if (event.errorMsg != null) {
-                  CshSnackBar.error(context: context, message: event.errorMsg!);
-                  return;
-                }
-
-                if (event.isSuccess) {
-                  CshSnackBar.success(context: context, message: l10n.deviceSentToTLSuccessfully);
-                  Navigator.pop(context);
-                  return;
-                }
-
-                CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
-              }, onError: (error, stacktrace) {}, onDone: () {});
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MultipleImageUploadScreen(
+                    DeviceMediaType.markToTl,
+                    deviceInfo.deviceBarcode!,
+                    callStatusUpdateApi: () {
+                      return _updateStatus(dropDownItem!.id!, l10n, context);
+                    },
+                    onMediaUploaded: () {
+                      Navigator.pop(context); // dismiss MultipleImageUploadScreen screen
+                      CshSnackBar.success(context: context, message: l10n.deviceSentToTLSuccessfully);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              );
             }
           } else {
             CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
@@ -56,6 +58,31 @@ class SendToTLWidget extends StatelessWidget {
         });
       },
     );
+  }
+
+  Future<void> _updateStatus(String id, L10n l10n, BuildContext context) {
+    var completer = Completer();
+    EngineerAPIService.sendToTL(deviceInfo.deviceBarcode!, id).listen((event) {
+      if (event == null) {
+        completer.completeError(l10n.somethingWentWrong);
+        return;
+      }
+
+      if (event.errorMsg != null) {
+        completer.completeError(event.errorMsg!);
+        return;
+      }
+
+      if (event.isSuccess) {
+        completer.complete();
+        return;
+      }
+
+      completer.completeError(l10n.somethingWentWrong);
+    }, onError: (error, stacktrace) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
   }
 
   Future<dynamic> _askForTheReasonOfReturn(

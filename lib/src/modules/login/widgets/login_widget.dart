@@ -97,6 +97,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               text: _isEmployeeIdValidated ? l10n.continueStr : l10n.verify,
               onPressed: _isEmployeeIdValidated
                   ? () {
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (_detailsVerification(l10n)) {
                         String empId = _empIdController.text.trim();
                         String pw = _passwordController.text.trim();
@@ -110,6 +111,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         _isEmployeeIdValidated = true;
                         setState(() {});
                       } else {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         CshSnackBar.error(
                             context: context,
                             message: l10n.pleaseEnterYourEmployeeId,

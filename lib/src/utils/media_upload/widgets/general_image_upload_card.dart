@@ -16,6 +16,8 @@ class GeneralImageUploadCard extends StatelessWidget {
   final double? cardHeight;
   final double? cardWidth;
   final String? imageUrl;
+  final bool isImageMarkingRequired;
+  final VoidCallback? onMediaUploadingStarted;
 
   const GeneralImageUploadCard({
     super.key,
@@ -23,6 +25,8 @@ class GeneralImageUploadCard extends StatelessWidget {
     this.cardHeight,
     this.cardWidth,
     this.imageUrl,
+    this.onMediaUploadingStarted,
+    this.isImageMarkingRequired = false,
   });
 
   @override
@@ -124,24 +128,34 @@ class GeneralImageUploadCard extends StatelessWidget {
 
   Future<void> _takeImage(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
-    XFile? xFile = await picker.pickImage(
-      source: ImageSource.camera,
-      requestFullMetadata: false,
-    );
+    XFile? xFile = await picker.pickImage(source: ImageSource.camera, requestFullMetadata: false);
     if (xFile != null) {
       var compressedFile = await ImageUtil.compressImage(File(xFile.path));
-      Navigator.pushNamed(context, DisputeImageEditorScreen.route,
-              arguments: DisputeImageEditorScreenArg(compressedFile))
-          .then((file) {
+      if (isImageMarkingRequired) {
+        var file = await _getMarkingImage(context, compressedFile);
         if (file != null && file is File) {
-          var provider = ImageUploadProvider.of(context, listen: false);
-          provider.uploadImage(context, File(file.path), s3UrlCallback: (String url) {
-            if (onMediaUploaded != null) {
-              onMediaUploaded!(url);
-            }
-          });
+          _uploadImage(context, file);
         }
-      });
+      } else {
+        _uploadImage(context, compressedFile);
+      }
     }
+  }
+
+  _uploadImage(BuildContext context, File file) {
+    var provider = ImageUploadProvider.of(context, listen: false);
+    onMediaUploadingStarted?.call();
+    provider.uploadImage(file).then((value) {
+      if (onMediaUploaded != null) {
+        onMediaUploaded!(value);
+      }
+    }, onError: (error) {
+      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+    });
+  }
+
+  _getMarkingImage(BuildContext context, File compressedFile) {
+    return Navigator.pushNamed(context, DisputeImageEditorScreen.route,
+        arguments: DisputeImageEditorScreenArg(compressedFile));
   }
 }

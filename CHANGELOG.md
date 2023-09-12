@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v2.1.2+15 (XX-09-2023)
+
+### Improvements:
+
+* `TRC - Engineer - Capture Images when mark device ok or send to TL `[(SCM-4441)](https://reglobe.atlassian.net/browse/SCM-4441)
+
+
 # v2.1.1+14 (11-09-2023)
 
 ### Improvements:
