@@ -1,10 +1,14 @@
 # TRC Releases
 
-# v2.1.1+14 (11-09-2023)
+# v2.1.1+14 (07-09-2023)
 
-### Improvements:
+### Features & Improvements:
 
 * `TRC - Engineer - Engineer Role - Image uploading failed while consuming device parts`[(SCM-4441)](https://reglobe.atlassian.net/browse/SCM-4441)
+* `TRC - Engineer - Show Repair history`[(SCM-4240)](https://reglobe.atlassian.net/browse/SCM-4240)
+* `TRC - QC-Role - Add CDP for TRC`[(SCM-4308)](https://reglobe.atlassian.net/browse/SCM-4308)
+* `QC - Calculator Rule executor configurable`[(SCM-4098)](https://reglobe.atlassian.net/browse/SCM-4098)
+* `Image Compression Technique`[(SCM-4359)](https://reglobe.atlassian.net/browse/SCM-4359)
 
 
 
