@@ -2,7 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/widgets/option_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
@@ -219,7 +219,7 @@ class _ProductListWidget extends StatelessWidget {
 
   void _onItemClicked(BuildContext context, LobProductListData item) {
     CshLoading().showLoading(context);
-    CalculatorService.getLobCalculator(deviceBarcode, item.productMasterId, item.productId).listen((event) {
+    QcCalculatorService().getLobCalculator(deviceBarcode, item.productMasterId, item.productId).listen((event) {
       CshLoading().hideLoading(context);
       event?.brandId ??= item.brandId;
       CalculatorDataHolderModel().startCalculatorJourney(event, deviceBarcode, deviceType: DeviceType.lob_device);

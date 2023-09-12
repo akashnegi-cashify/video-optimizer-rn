@@ -12,7 +12,8 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_devic
 import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'package:flutter_trc/qc/resources/qc_common_config.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
-
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 
 part 'calculator_component.g.dart';
 
@@ -28,29 +29,39 @@ class CalculatorComponent extends StatelessComponent<QcCommonConfigModel> {
   @override
   Widget buildView(BuildContext context, QcCommonConfigModel? configModel) {
     var _calculatorResponse = CalculatorDataHolderModel().calculatorResponse;
-    return CalculatorScreen(
-      CalculatorScreenArgs(
-          isCurrentDevice: 0,
-          pickupMode: '',
-          exppt: '',
-          serviceId: '',
-          sourceId: '',
-          calculatorResponse: _calculatorResponse,
-          preSelection: null,
-          mode: CalculatorMode.defaultMode,
-          showHint: false),
-      showSummary: true,
-      deviceId: "d_id",
-      ruleExecutorServiceGroup: ServiceGroups.qc,
-      handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
-        if (_calculatorResponse?.manualAuditQuestions != null) {
-          _showDisputedQuestions(context, _calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId, udid);
+    return FutureBuilder<bool?>(
+      builder: (_, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return CalculatorScreen(
+            CalculatorScreenArgs(
+                isCurrentDevice: 0,
+                pickupMode: '',
+                exppt: '',
+                serviceId: '',
+                sourceId: '',
+                calculatorResponse: _calculatorResponse,
+                preSelection: null,
+                mode: CalculatorMode.defaultMode,
+                showHint: false),
+            showSummary: true,
+            deviceId: "d_id",
+            ruleExecutorServiceGroup: Validator.isTrue(snapshot.data) ?  TRCServiceGroups.qc : TRCServiceGroups.trc,
+            handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
+              if (_calculatorResponse?.manualAuditQuestions != null) {
+                _showDisputedQuestions(
+                    context, _calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId, udid);
+              } else {
+                var myRequest = MyQuoteRequestData(requestData: requestData);
+                _moveToNextScreen(context, myRequest, partialQuoteId, udid);
+              }
+              // exit(0);
+            },
+          );
         } else {
-          var myRequest = MyQuoteRequestData(requestData: requestData);
-          _moveToNextScreen(context, myRequest, partialQuoteId, udid);
+          return const Center(child: CircularProgressIndicator());
         }
-        // exit(0);
       },
+      future: AppPreferences().getIsLoginFromQC(),
     );
   }
 

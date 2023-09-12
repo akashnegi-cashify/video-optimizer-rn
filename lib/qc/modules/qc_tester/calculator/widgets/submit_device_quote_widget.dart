@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/submit_device_quote_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/qc_alert_pop_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 import 'package:provider/provider.dart';
 
 class SubmitDeviceQuoteWidget extends StatelessWidget {
@@ -27,11 +29,11 @@ class SubmitDeviceQuoteWidgetBody extends StatefulWidget {
   State<SubmitDeviceQuoteWidgetBody> createState() => _SubmitDeviceQuoteWidgetState();
 }
 
-class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> with SubmitDeviceQuoteInterface {
+class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> implements SubmitDeviceQuoteInterface {
   @override
   void initState() {
     super.initState();
-    scheduleMicrotask(() {
+    Future.delayed(const Duration(milliseconds: 500), () {
       var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
       provider.setDeviceQuoteInterface(this);
       provider.getDeviceColors();
@@ -41,45 +43,65 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> w
   @override
   Widget build(BuildContext context) {
     var provider = SubmitDeviceQuoteProvider.of(context);
-    return Column(
-      children: [
-        CshStepper(
-          key: UniqueKey(),
-          stepDetails: provider.stepperDetails ?? [],
-          isShowedButton: false,
-        ),
-        const SizedBox(height: Dimens.space_16),
-        if (Validator.isTrue(provider.isShowCompleteState))
-          CshBigButton(
-            text: "Done",
-            onPressed: () {
-              Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
-            },
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(false);
+      },
+      child: Column(
+        children: [
+          CshStepper(
+            key: UniqueKey(),
+            stepDetails: provider.stepperDetails ?? [],
+            isShowedButton: false,
           ),
-        if (Validator.isTrue(provider.isShowTryAgainState))
-          Row(
-            children: [
-              Expanded(
-                child: CshBigButton(
-                  text: "Try Again",
-                  onPressed: () {
-                    CshLoading().showLoading(context);
-                    provider.getDeviceStatus();
-                  },
-                ),
-              ),
-              const SizedBox(width: Dimens.space_16),
-              Expanded(
-                child: CshBigButton(
-                  text: "Go back",
-                  onPressed: () {
+          const SizedBox(height: Dimens.space_16),
+          if (Validator.isTrue(provider.isShowCompleteState))
+            CshBigButton(
+              text: "Done",
+              onPressed: () {
+                AppPreferences().getIsLoginFromQC().then((value) {
+                  if (Validator.isTrue(value)) {
                     Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
-                  },
-                ),
+                  } else {
+                    Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
+                  }
+                });
+              },
+            ),
+          if (Validator.isTrue(provider.isShowTryAgainState))
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CshBigButton(
+                      text: "Try Again",
+                      onPressed: () {
+                        CshLoading().showLoading(context);
+                        provider.getDeviceStatus();
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: Dimens.space_16),
+                  Expanded(
+                    child: CshBigButton(
+                      text: "Go back",
+                      onPressed: () {
+                        AppPreferences().getIsLoginFromQC().then((value) {
+                          if (Validator.isTrue(value)) {
+                            Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
+                          } else {
+                            Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          )
-      ],
+            )
+        ],
+      ),
     );
   }
 
@@ -177,7 +199,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> w
   }
 }
 
-mixin SubmitDeviceQuoteInterface {
+abstract interface class SubmitDeviceQuoteInterface {
   void onDeviceColorFetchedSuccess(List<String> colors);
 
   void onSubmitCalculatorSuccess(String? grade, String? cautionMessage);

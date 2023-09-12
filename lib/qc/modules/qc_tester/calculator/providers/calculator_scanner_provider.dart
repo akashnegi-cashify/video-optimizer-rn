@@ -7,14 +7,18 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:provider/provider.dart';
 
-class CalculatorScannerProvider extends CshChangeNotifier {
+class CalculatorScannerProvider extends CshChangeNotifier with CalculatorServiceInitMixin {
   static CalculatorScannerProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<CalculatorScannerProvider>(context, listen: listen);
   }
 
+  CalculatorScannerProvider() {
+    initCalculatorService();
+  }
+
   Future<MyCalculatorResponse> getCalculatorRequest(String? pQuote, String? deviceBarcode) {
     var completer = Completer<MyCalculatorResponse>();
-    CalculatorService.getCalculator(deviceBarcode, pQuote).listen((event) {
+    service.getCalculator(deviceBarcode, pQuote).listen((event) {
       Logger.debug('mydebug-----CalculatorScannerProvider.getCalculatorRequest', [event]);
       if (event != null) {
         completer.complete(event);

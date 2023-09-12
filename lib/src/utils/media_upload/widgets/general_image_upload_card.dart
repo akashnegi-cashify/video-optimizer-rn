@@ -11,7 +11,7 @@ import '../../../modules/elss/widgets/network_image_widget.dart';
 import '../../image_assest_helper.dart';
 import '../providers/image_upload_provider.dart';
 
-class GeneralImageUploadCard extends StatefulWidget {
+class GeneralImageUploadCard extends StatelessWidget {
   final Function(String?)? onMediaUploaded;
   final double? cardHeight;
   final double? cardWidth;
@@ -26,13 +26,6 @@ class GeneralImageUploadCard extends StatefulWidget {
   });
 
   @override
-  State<GeneralImageUploadCard> createState() => _GeneralImageUploadCardState();
-}
-
-class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
-    with AutomaticKeepAliveClientMixin, DisputedImageEditorListener {
-
-  @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
 
@@ -41,7 +34,7 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () async {
-        if (!Validator.isNullOrEmpty(provider.s3Url)) {
+        if (!Validator.isNullOrEmpty(imageUrl)) {
           _showRetakeModal(context, theme);
         } else {
           _takeImage(context);
@@ -55,8 +48,8 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
             elevation: CardElevation.dimen_10,
             radius: CshRadius.rad8,
             child: Container(
-              height: widget.cardHeight ?? Dimens.space_60,
-              width: widget.cardWidth ?? Dimens.space_60,
+              height: cardHeight ?? Dimens.space_60,
+              width: cardWidth ?? Dimens.space_60,
               alignment: Alignment.center,
               child: provider.isDataLoading
                   ? const Center(
@@ -66,14 +59,14 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
                         child: CircularProgressIndicator(),
                       ),
                     )
-                  : Validator.isNullOrEmpty(provider.s3Url)
+                  : Validator.isNullOrEmpty(imageUrl)
                       ? CshIcon(
                           FeatherIcons.camera,
                           iconSize: MobileIconSize.large,
                           iconColor: theme.shadowColor,
                         )
-                      : fetchImage(ImageAssetHelper.imagePath("placeholder.png"), widget.imageUrl,
-                          fit: BoxFit.cover, isUseCacheImage: true),
+                      : fetchImage(ImageAssetHelper.imagePath("placeholder.png"), imageUrl,
+                          fit: BoxFit.contain, isUseCacheImage: true),
             ),
           ),
         ],
@@ -81,7 +74,7 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
     );
   }
 
-  _showRetakeModal(BuildContext innerContext, ThemeData theme) {
+  _showRetakeModal(BuildContext context, ThemeData theme) {
     showCshBottomSheet(
       context: context,
       child: Container(
@@ -114,9 +107,11 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
               padding: EdgeInsets.zero,
               buttonType: ButtonType.mini,
               firstBtnClick: () {
+                // Dismiss dialog
                 Navigator.of(context).pop();
               },
               secondBtnClick: () async {
+                // Dismiss dialog
                 Navigator.of(context).pop();
                 _takeImage(context);
               },
@@ -127,30 +122,26 @@ class _GeneralImageUploadCardState extends State<GeneralImageUploadCard>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
-
   Future<void> _takeImage(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
-    XFile? xFile = await picker.pickImage(source: ImageSource.camera);
-    if (xFile != null && mounted) {
-      File selectedFile = File(xFile.path);
-      ImageUtil.compressImage(selectedFile).then((targetFile) {
-        selectedFile = targetFile;
-      }).whenComplete(() {
-        Navigator.pushNamed(context, DisputeImageEditorScreen.route,
-            arguments: DisputeImageEditorScreenArg(selectedFile, this));
+    XFile? xFile = await picker.pickImage(
+      source: ImageSource.camera,
+      requestFullMetadata: false,
+    );
+    if (xFile != null) {
+      var compressedFile = await ImageUtil.compressImage(File(xFile.path));
+      Navigator.pushNamed(context, DisputeImageEditorScreen.route,
+              arguments: DisputeImageEditorScreenArg(compressedFile))
+          .then((file) {
+        if (file != null && file is File) {
+          var provider = ImageUploadProvider.of(context, listen: false);
+          provider.uploadImage(context, File(file.path), s3UrlCallback: (String url) {
+            if (onMediaUploaded != null) {
+              onMediaUploaded!(url);
+            }
+          });
+        }
       });
     }
-  }
-
-  @override
-  void onImageEditComplete(File editedFile) {
-    var provider = ImageUploadProvider.of(context, listen: false);
-    provider.uploadImage(context, File(editedFile.path), s3UrlCallback: (String url) {
-      if (widget.onMediaUploaded != null) {
-        widget.onMediaUploaded!(url);
-      }
-    });
   }
 }

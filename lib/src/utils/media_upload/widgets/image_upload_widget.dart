@@ -45,7 +45,8 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
             } else {
               XFile? selectedFile = await _picker.pickImage(source: ImageSource.camera);
               if (selectedFile != null) {
-                provider.uploadImage(context, File(selectedFile.path), s3UrlCallback: (String url) {
+                var compressedFile = await _getCompressedFile(selectedFile.path);
+                provider.uploadImage(context, compressedFile, s3UrlCallback: (String url) {
                   if (widget.onMediaUploaded != null) {
                     widget.onMediaUploaded!(url);
                   }
@@ -133,15 +134,11 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
                 Navigator.of(context).pop();
                 XFile? xFile = await _picker.pickImage(source: ImageSource.camera);
                 if (xFile != null) {
-                  File selectedFile = File(xFile.path);
-                  ImageUtil.compressImage(selectedFile).then((targetFile) {
-                    selectedFile = targetFile;
-                  }).whenComplete(() {
-                    provider.uploadImage(context, selectedFile, s3UrlCallback: (String url) {
-                      if (widget.onMediaUploaded != null) {
-                        widget.onMediaUploaded!(url);
-                      }
-                    });
+                  var compressedFile = await _getCompressedFile(xFile.path);
+                  provider.uploadImage(context, compressedFile, s3UrlCallback: (String url) {
+                    if (widget.onMediaUploaded != null) {
+                      widget.onMediaUploaded!(url);
+                    }
                   });
                 }
               },
@@ -151,4 +148,10 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
       ),
     );
   }
+
+  Future<File> _getCompressedFile(String filePath) async {
+    File compressedFile = await ImageUtil.compressImage(File(filePath));
+    return compressedFile;
+  }
+
 }

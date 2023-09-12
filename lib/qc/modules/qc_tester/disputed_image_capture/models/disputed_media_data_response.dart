@@ -51,7 +51,7 @@ class DisputeMediaInfoData {
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<String>? imageS3Urls;
   @JsonKey(includeFromJson: false, includeToJson: false)
-  List<String>? videoS3urls;
+  List<VideoUrlData>? videoS3urls;
 
   DisputeMediaInfoData({
     this.label,
@@ -71,4 +71,11 @@ class DisputeMediaInfoData {
   static DisputeMediaInfoData fromJson(Map<String, dynamic> data) => _$DisputeMediaInfoDataFromJson(data);
 
   Map<String, dynamic> toJson() => _$DisputeMediaInfoDataToJson(this);
+}
+
+class VideoUrlData {
+  String videoUrl;
+  String? videoThumbnail;
+
+  VideoUrlData(this.videoUrl, {this.videoThumbnail});
 }

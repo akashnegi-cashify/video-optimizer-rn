@@ -65,7 +65,7 @@ class DisputeImageCaptureProvider extends CshChangeNotifier {
         if (!Validator.isListNullOrEmpty(disputeDataModel?.mediaDataList)) {
           for (var element in disputeDataModel!.mediaDataList!) {
             element.imageS3Urls = List.generate(element.imageCount ?? 0, (index) => "").toList();
-            element.videoS3urls = List.generate(element.videoCount ?? 0, (index) => "").toList();
+            element.videoS3urls = List.generate(element.videoCount ?? 0, (index) => VideoUrlData("")).toList();
             mediaInfoList.add(element);
           }
           _getTotalMediaCount();
@@ -102,7 +102,7 @@ class DisputeImageCaptureProvider extends CshChangeNotifier {
         }
       }
       for (var videoData in element.videoS3urls!) {
-        if (videoData.isNotEmpty) {
+        if (videoData.videoUrl.isNotEmpty) {
           mediaCounter = mediaCounter + 1;
         }
       }
@@ -142,7 +142,7 @@ class DisputeImageCaptureProvider extends CshChangeNotifier {
         "ak": element.auditKey,
         "at": element.at,
         "im": element.imageS3Urls,
-        "vi": element.videoS3urls,
+        "vi": element.videoS3urls?.map((e) => e.videoUrl).toList(),
       });
     }
     Map<String, dynamic> bodyDataMap = {

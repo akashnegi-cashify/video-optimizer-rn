@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class LobDeviceScannerProvider extends CshChangeNotifier {
 
   Future<bool> getProductsList(String deviceBarcode, String? imeiOrSearialNo, bool isImei, bool isManualSearch) {
     var completer = Completer<bool>();
-    CalculatorService.getProductList(deviceBarcode, imeiOrSearialNo, isImei, isManualSearch).listen((event) {
+    QcCalculatorService().getProductList(deviceBarcode, imeiOrSearialNo, isImei, isManualSearch).listen((event) {
       if (!Validator.isListNullOrEmpty(event?.productList)) {
         _productList = event?.productList;
         completer.complete(true);

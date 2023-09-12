@@ -5,6 +5,7 @@ import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
+import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 
 import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
@@ -26,6 +27,7 @@ class UserRoles {
   static const String ROLE_ELSS = "ELSS";
   static const String ROLE_RUBBING = "RUBBING_ENGINEER";
   static const String TRC_EXECUTIVE = "TRC_EXECUTIVE";
+  static const String QC_ROLE = "QC_ROLE";
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
       {String? loginToken, bool? loginFromQC = false, bool? loginFromShipex = false}) async {
@@ -54,6 +56,8 @@ class UserRoles {
         Navigator.of(context).pushNamedAndRemoveUntil(PartQCHomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.TRC_EXECUTIVE)) {
         Navigator.of(context).pushNamedAndRemoveUntil(TRCExecutiveScreen.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.QC_ROLE)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(TrcTesterScreen.route, (route) => false);
       } else {
         NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
       }

@@ -4,7 +4,9 @@ import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/job_card_summary_response.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/part_list_history_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/assigned_parts_provider.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/part_list_history_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -20,13 +22,15 @@ class AssignedPartsScreen extends StatelessWidget {
     AssignedPartsData? assignedPartsData = ModalRoute.of(context)?.settings.arguments as AssignedPartsData?;
     return ChangeNotifierProvider(
       create: (_) => AssignedPartsProvider(assignedPartsData?.deviceBarcode),
-      child: const _AssignedPartsWidget(),
+      child: _AssignedPartsWidget(),
     );
   }
 }
 
 class _AssignedPartsWidget extends StatelessWidget {
-  const _AssignedPartsWidget({Key? key}) : super(key: key);
+  _AssignedPartsWidget({Key? key}) : super(key: key);
+
+  final GlobalKey<AssignedPartListWidgetState> listRef = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -40,40 +44,66 @@ class _AssignedPartsWidget extends StatelessWidget {
 
     return Scaffold(
       appBar: TrcHeader(l10n.viewParts),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-        child: Column(
-          children: [
-            const SizedBox(height: Dimens.space_8),
-            TitleValueRowWidget(title: l10n.deviceBarcode, value: provider.deviceInfo?.deviceBarcode ?? ""),
-            TitleValueRowWidget(title: l10n.status, value: provider.deviceInfo?.status ?? ""),
-            TitleValueRowWidget(title: l10n.productTitle, value: provider.deviceInfo?.productTitle ?? ""),
-            if (!Validator.isNullOrEmpty(provider.deviceInfo?.deadRemark))
-              TitleValueRowWidget(title: l10n.deadRemark, value: provider.deviceInfo?.deadRemark ?? ""),
-            const SizedBox(height: Dimens.space_16),
-            if (!Validator.isListNullOrEmpty(provider.jobCardList))
-              Container(
-                color: theme.cardColor,
-                child: Table(
-                  border: TableBorder.all(),
-                  columnWidths: const <int, TableColumnWidth>{
-                    // 0: IntrinsicColumnWidth(),
-                    1: FlexColumnWidth(),
-                    // 2: FixedColumnWidth(64),
-                  },
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  children: [
-                    TableRow(children: [
-                      Center(child: CshTextNew.h3(l10n.partName)),
-                      Center(child: CshTextNew.h3(l10n.partAction)),
-                    ]),
-                    ..._getTableRows(provider.jobCardList!)
-                  ],
-                ),
-              ),
-            const SizedBox(height: Dimens.space_16),
-            if (provider.deviceInfo != null) Expanded(child: AssignedPartListWidget(deviceInfo: provider.deviceInfo!))
-          ],
+      body: RefreshIndicator(
+        onRefresh: () {
+          return Future.delayed(const Duration(milliseconds: 500), () => listRef.currentState?.refreshData());
+        },
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              children: [
+                TitleValueRowWidget(title: l10n.deviceBarcode, value: provider.deviceInfo?.deviceBarcode ?? ""),
+                TitleValueRowWidget(title: l10n.status, value: provider.deviceInfo?.status ?? ""),
+                TitleValueRowWidget(title: l10n.productTitle, value: provider.deviceInfo?.productTitle ?? ""),
+                if (!Validator.isNullOrEmpty(provider.deviceInfo?.deadRemark))
+                  TitleValueRowWidget(title: l10n.deadRemark, value: provider.deviceInfo?.deadRemark ?? ""),
+                if ((provider.deviceInfo?.returnCount ?? 0) > 0)
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
+                        CshLoading().showLoading(context);
+                        provider.getPartListHistory().then((value) {
+                          CshLoading().hideLoading(context);
+                          _showPartsHistory(context, value);
+                        }, onError: (error) {
+                          CshLoading().hideLoading(context);
+                          CshSnackBar.error(context: context, message: error);
+                        });
+                      },
+                      child: Text(
+                        l10n.viewHistory,
+                        style: theme.primaryTextTheme.titleMedium?.copyWith(color: theme.primaryColor),
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: Dimens.space_16),
+                if (!Validator.isListNullOrEmpty(provider.jobCardList))
+                  Container(
+                    color: theme.cardColor,
+                    child: Table(
+                      border: TableBorder.all(),
+                      columnWidths: const <int, TableColumnWidth>{
+                        // 0: IntrinsicColumnWidth(),
+                        1: FlexColumnWidth(),
+                        // 2: FixedColumnWidth(64),
+                      },
+                      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                      children: [
+                        TableRow(children: [
+                          Center(child: CshTextNew.h3(l10n.partName)),
+                          Center(child: CshTextNew.h3(l10n.partAction)),
+                        ]),
+                        ..._getTableRows(provider.jobCardList!)
+                      ],
+                    ),
+                  ),
+                const SizedBox(height: Dimens.space_16),
+                if (provider.deviceInfo != null) AssignedPartListWidget(key: listRef, deviceInfo: provider.deviceInfo!)
+              ],
+            ),
+          ),
         ),
       ),
       bottomNavigationBar: Validator.isTrue(assignedPartsData?.displayBottomActions)
@@ -112,6 +142,15 @@ class _AssignedPartsWidget extends StatelessWidget {
         Center(child: CshTextNew.subTitle1(e.partActionAbbreviation ?? "")),
       ]);
     }).toList();
+  }
+
+  void _showPartsHistory(BuildContext context, List<PartListHistoryData> partList) {
+    showCshBottomSheet(
+        context: context,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: ProductListWidget(partList),
+        ));
   }
 }
 

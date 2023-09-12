@@ -24,6 +24,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => CalculatorScannerProvider(),
+      lazy: false,
       builder: (builderContext, _) {
         return _getBuildWidget(builderContext);
       },

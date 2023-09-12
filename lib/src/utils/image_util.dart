@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:components/common/image_compress_utils.dart';
 import 'package:core/core.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'device_info_handler.dart';
@@ -39,21 +40,41 @@ class ImageUtil {
     return "$baseUrl$imgUri$imageFolder/$densityDrawable/$imageName";
   }
 
-  static Future<File> compressImage(File file, {int quality = 100}) async {
-    Logger.debug('mydebug-----ImageUtil.compressImage current file', [(file.lengthSync() / (1024 * 1024)), file.path]);
+  static Future<File> compressImage(File file, {int quality = 90}) async {
     var completer = Completer<File>();
-    var fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-    var rootDir = await getTemporaryDirectory();
-    final targetFile = await File('${rootDir.path}/$fileName').create();
-    try {
-      await ImageCompressUtils.compressAndSaveFile(file, targetFile, quality: quality);
-      Logger.debug(
-          'mydebug--ImageUtil.compressImage-target file', [(targetFile.lengthSync() / (1024 * 1024)), targetFile.path]);
-      completer.complete(targetFile);
-    } catch (e) {
-      Logger.debug('mydebug-----ImageUtil.compressImage---error', [e]);
-      completer.completeError(e.toString());
-    }
+    Logger.debug('mydebug-----ImageUtil.compressImage Original file', [(file.lengthSync() / (1024 * 1024)), file.path]);
+
+    // Im.Image? image = Im.decodeImage(readAsBytesSync());
+    // Logger.debug('mydebug-----convertToWebP original File', [
+    //   (lengthSync() / (1024 * 1024)),
+    //   image?.height,
+    //   image?.width,
+    //   path,
+    // ]);
+
+    var targetPath = join((await getTemporaryDirectory()).path, ("${DateTime.now().millisecondsSinceEpoch}.webp"));
+
+    FlutterImageCompress.compressAndGetFile(file.path, targetPath,
+            quality: quality, keepExif: false, format: CompressFormat.webp, minWidth: 1200)
+        .then((compressedXFile) {
+      if (compressedXFile != null) {
+        var compressedFile = File(compressedXFile.path);
+        // Im.Image? comImage = Im.decodeImage(compressedFile.readAsBytesSync());
+        Logger.debug('mydebug--compressed---convertToWebP Compressed File', [
+          (compressedFile.lengthSync() / (1024 * 1024)),
+          // comImage?.height,
+          // comImage?.width,
+          compressedXFile.path,
+        ]);
+        completer.complete(compressedFile);
+      } else {
+        completer.complete(file);
+      }
+    }, onError: (error) {
+      Logger.debug('mydebug-----ImageUtil.compressImage', [error]);
+      completer.complete(file);
+    });
+
     return completer.future;
   }
 }

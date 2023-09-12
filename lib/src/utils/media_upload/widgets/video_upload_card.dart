@@ -24,7 +24,6 @@ class VideoUploadOptimizerCard extends StatefulWidget {
 }
 
 class _VideoUploadCardState extends State<VideoUploadOptimizerCard> {
-  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +39,7 @@ class _VideoUploadCardState extends State<VideoUploadOptimizerCard> {
             if (!Validator.isNullOrEmpty(provider.videoS3Url)) {
               _showRetakeModal(insideContext, theme);
             } else {
-              XFile? selectedFile = await _picker.pickVideo(source: ImageSource.camera);
-              if (selectedFile != null) {
-                provider.uploadVideo(context, File(selectedFile.path), s3UrlCallback: (String url) {
-                  if (widget.onMediaUploaded != null) {
-                    widget.onMediaUploaded!(url);
-                  }
-                });
-              }
+              _takeVideo(context, provider);
             }
           },
           child: Column(
@@ -128,14 +120,7 @@ class _VideoUploadCardState extends State<VideoUploadOptimizerCard> {
               },
               secondBtnClick: () async {
                 Navigator.of(context).pop();
-                XFile? selectedFile = await _picker.pickVideo(source: ImageSource.camera);
-                if (selectedFile != null) {
-                  provider.uploadVideo(context, File(selectedFile.path), s3UrlCallback: (String url) {
-                    if (widget.onMediaUploaded != null) {
-                      widget.onMediaUploaded!(url);
-                    }
-                  });
-                }
+                _takeVideo(context, provider);
               },
             )
           ],
@@ -143,4 +128,19 @@ class _VideoUploadCardState extends State<VideoUploadOptimizerCard> {
       ),
     );
   }
+
+  _takeVideo(BuildContext context, VideoUploadProvider provider) async {
+    final ImagePicker picker = ImagePicker();
+    XFile? selectedFile = await picker.pickVideo(source: ImageSource.camera);
+    if (selectedFile != null) {
+      provider.uploadVideo(File(selectedFile.path)).then((value) {
+        if (widget.onMediaUploaded != null) {
+          widget.onMediaUploaded!(value.$1);
+        }
+      }, onError: (error) {
+        CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+      });
+    }
+  }
+
 }

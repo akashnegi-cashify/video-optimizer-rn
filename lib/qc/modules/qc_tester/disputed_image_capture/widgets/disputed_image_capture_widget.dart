@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../providers/dispute_image_capture_provider.dart';
 import '../screens/disputed_image_capture_barcode_scanner_screen.dart';
@@ -47,9 +48,7 @@ class DisputedImageCaptureWidget extends StatelessWidget {
       );
     } else {
       return (!Validator.isListNullOrEmpty(provider.mediaInfoList))
-          ? _DisputeMediaWidget(
-              barcode: barcode,
-            )
+          ? _DisputeMediaWidget(barcode: barcode)
           : Center(
               child: Center(
                 child: Row(
@@ -98,7 +97,6 @@ class _DisputeMediaWidgetState extends State<_DisputeMediaWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Logger.debug('mydebug------_DisputeMediaWidgetState.build', ["is rebuilded"]);
     var provider = DisputeImageCaptureProvider.of(context);
     return Column(
       children: [
@@ -106,13 +104,9 @@ class _DisputeMediaWidgetState extends State<_DisputeMediaWidget> {
           child: ListView.separated(
               padding: const EdgeInsets.all(Dimens.space_16),
               itemBuilder: (context, index) {
-                return DisputedImageInfoWidget(dataModel: provider.mediaInfoList![index]);
+                return DisputedImageInfoWidget(dataModel: provider.mediaInfoList[index]);
               },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: Dimens.space_8,
-                );
-              },
+              separatorBuilder: (context, index) => const SizedBox(height: Dimens.space_8),
               itemCount: provider.mediaInfoList.length),
         ),
         if (provider.checkSubmitButtonStatus()) ...[
@@ -128,7 +122,8 @@ class _DisputeMediaWidgetState extends State<_DisputeMediaWidget> {
                 },
               ),
             ),
-          )
+          ),
+          const SizedBox(height: Dimens.space_16),
         ]
       ],
     );
@@ -177,9 +172,7 @@ class _DisputeMediaWidgetState extends State<_DisputeMediaWidget> {
                     )
                   ],
                 ),
-                const Expanded(
-                  child: SizedBox.shrink(),
-                ),
+                const Expanded(child: SizedBox.shrink()),
                 ComboButton(
                   firstBtnText: "Cancel",
                   secondBtnText: "Yes",
@@ -187,18 +180,8 @@ class _DisputeMediaWidgetState extends State<_DisputeMediaWidget> {
                   isFirstPrimary: true,
                   padding: EdgeInsets.zero,
                   firstBtnClick: () {
-                    Navigator.of(context).pop();
-                    DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-                        onScanDetected: (String scannedData, MlScannerController? controller) {
-                      if (scannedData.isNotEmpty) {
-                        Navigator.of(context).pop();
-                        DisputedImageCaptureScreenArguments arg =
-                            DisputedImageCaptureScreenArguments(barcode: scannedData.trim());
-                        Navigator.of(context).pushNamed(DisputedImageCaptureScreen.route, arguments: arg);
-                      }
-                    });
-                    Navigator.of(context)
-                        .pushReplacementNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
+                    Navigator.of(context).pop(); // dismiss popup
+                    Navigator.pop(context);
                   },
                   secondBtnClick: () {
                     Navigator.of(context).pop();
@@ -211,4 +194,34 @@ class _DisputeMediaWidgetState extends State<_DisputeMediaWidget> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    deleteTempFiles();
+    super.dispose();
+  }
+
+  void deleteTempFiles() async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      print("mydebug-----------deleteTempFiles-------${tempDir.path}");
+
+      if (tempDir.existsSync()) {
+        final tempFiles = tempDir.listSync();
+        print("mydebug-----------deleteTempFiles-------${tempFiles.length}");
+        for (var file in tempFiles) {
+          if (file is File) {
+            print("mydebug-----------deleteTempFiles-------${file.path}");
+            await file.delete();
+          }
+        }
+        print('All temporary files deleted successfully.');
+      } else {
+        print('Temporary directory does not exist.');
+      }
+    } catch (e) {
+      print('Error deleting temporary files: $e');
+    }
+  }
+
 }

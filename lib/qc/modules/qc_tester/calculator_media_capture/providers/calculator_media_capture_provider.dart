@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../calculator/resources/calculator_service.dart';
 import '../../calculator/resources/device_media_response.dart';
 
-class CalculatorMediaCaptureProvider extends CshChangeNotifier {
+class CalculatorMediaCaptureProvider extends CshChangeNotifier with CalculatorServiceInitMixin {
   DeviceMediaResponse? deviceMediaResponse;
   bool isDataLoading = true;
   String? errorMessage;
@@ -31,7 +31,9 @@ class CalculatorMediaCaptureProvider extends CshChangeNotifier {
   }
 
   CalculatorMediaCaptureProvider() {
-    _getDeviceMedia();
+    initCalculatorService().then((_) {
+      _getDeviceMedia();
+    });
   }
 
   void saveMediaList() {
@@ -42,7 +44,7 @@ class CalculatorMediaCaptureProvider extends CshChangeNotifier {
   }
 
   _getDeviceMedia() {
-    CalculatorService.getDeviceMedia(CalculatorDataHolderModel().deviceBarcode ?? "").listen((event) {
+    service.getDeviceMedia(CalculatorDataHolderModel().deviceBarcode ?? "").listen((event) {
       if (event != null) {
         deviceMediaResponse = event;
       }

@@ -17,7 +17,7 @@ part 'pickup_receive_engineer_parts_comp.g.dart';
     paramModel: PickUpReceiveEngineerPartsParams,
     params: PickUpReceiveEngineerPartsParamsKeys.values)
 class PickUpReceiveEngineerPartsCompo extends StatelessComponent<PickupReceiveEngineerPartsCompConfig> {
-  static const String COMP_KEY = "pickup_receive_engineer_parts_comp";
+  static const String COMP_KEY = "TRC_pickup_receive_engineer_parts_comp";
 
   const PickUpReceiveEngineerPartsCompo(super.jsonConfig, {super.key});
 

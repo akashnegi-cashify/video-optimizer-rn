@@ -519,6 +519,21 @@
       ]
     },
     {
+      "pageId": 39,
+      "pageKey": "TRC_trc_tester",
+      "hd" : {
+        "id": 63,
+        "key": "TRC_general_header_component"
+      },
+      "dt": [
+        {
+          "id": 62,
+          "key": "TRC_trc_tester_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "hd": {
@@ -1525,6 +1540,28 @@
       }
     },
     {
+      "componentId": 62,
+      "locale": "en",
+      "key": "TRC_trc_tester_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 63,
+      "locale": "en",
+      "key": "TRC_general_header_component",
+      "configJson": {
+        "config": {
+          "ht": "TRC-QC Role",
+          "sbb": true,
+          "slb": true
+        }
+      }
+    },
+    {
       "componentId": 10001,
       "locale": "en",
       "key": "QC_qc_tester_home",
@@ -1828,7 +1865,7 @@
       "configJson": {
         "config": {
           "ht": "Quote Request",
-          "sbb": true,
+          "sbb": false,
           "slb": false
         }
       }

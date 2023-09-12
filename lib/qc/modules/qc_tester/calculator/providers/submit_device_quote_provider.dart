@@ -10,7 +10,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_r
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/submit_device_quote_widget.dart';
 import 'package:provider/provider.dart';
 
-class SubmitDeviceQuoteProvider extends CshChangeNotifier {
+class SubmitDeviceQuoteProvider extends CshChangeNotifier with CalculatorServiceInitMixin {
   late final MyQuoteRequestData? quoteRequest;
   late final List<MediaSubmitRequest>? mediaList;
   late final String? deviceBarcode;
@@ -28,6 +28,7 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier {
   }
 
   SubmitDeviceQuoteProvider() {
+    initCalculatorService();
     quoteRequest = CalculatorDataHolderModel().quoteRequestData;
     mediaList = CalculatorDataHolderModel().mediaList;
     deviceBarcode = CalculatorDataHolderModel().deviceBarcode;
@@ -40,7 +41,7 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier {
 
   void getDeviceColors() {
     iDeviceQuote?.showLoading(true);
-    CalculatorService.getDeviceColors(quoteRequest?.productId).listen((event) {
+    service.getDeviceColors(quoteRequest?.productId).listen((event) {
       if (!Validator.isListNullOrEmpty(event?.deviceColorList)) {
         iDeviceQuote?.showLoading(false);
         iDeviceQuote?.onDeviceColorFetchedSuccess(event!.deviceColorList!);
@@ -70,7 +71,7 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier {
       ),
     );
     notifyListeners();
-    CalculatorService.submitCalculatorResponse(quoteRequest, deviceBarcode, isDeviceTypeLob: isDeviceTypeLob).listen(
+    service.submitCalculatorResponse(quoteRequest, deviceBarcode, isDeviceTypeLob: isDeviceTypeLob).listen(
         (event) {
       var stepperItem = stepperDetails.last;
       stepperItem.title = "Quote Obtained : Grade is";
@@ -104,7 +105,7 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier {
   }
 
   void _submitDeviceImages() {
-    CalculatorService.submitDeviceMedia(mediaList, deviceBarcode).listen((event) {}, onDone: () {
+    service.submitDeviceMedia(mediaList, deviceBarcode).listen((event) {}, onDone: () {
       _proceedAfterImageSubmission();
     });
   }
@@ -167,7 +168,7 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier {
 
   Future<DeviceStatusResponse?> _callingDeviceStatusApi() {
     var completer = Completer<DeviceStatusResponse?>();
-    CalculatorService.getDeviceStatus(deviceBarcode).listen((event) {
+    service.getDeviceStatus(deviceBarcode).listen((event) {
       completer.complete(event);
     }, onError: (error) {
       completer.completeError(error);

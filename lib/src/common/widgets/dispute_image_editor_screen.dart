@@ -3,10 +3,11 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SquareMetric {
@@ -21,15 +22,10 @@ class SquareMetric {
       {this.height = 0, this.width = 0, this.normalizeOffset, this.normalizeWidth, this.normalizeHeight});
 }
 
-mixin DisputedImageEditorListener {
-  void onImageEditComplete(File editedFile);
-}
-
 class DisputeImageEditorScreenArg {
   final File imageFile;
-  final DisputedImageEditorListener listener;
 
-  DisputeImageEditorScreenArg(this.imageFile, this.listener);
+  DisputeImageEditorScreenArg(this.imageFile);
 }
 
 class DisputeImageEditorScreen extends StatefulWidget {
@@ -43,7 +39,6 @@ class DisputeImageEditorScreen extends StatefulWidget {
 
 class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
   final List<SquareMetric> _squares = [];
-  DisputedImageEditorListener? _listener;
 
   double _height = 0;
   double _width = 0;
@@ -80,14 +75,14 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
     if (byteData != null) {
       Uint8List pngBytes = byteData.buffer.asUint8List();
       var file = await _saveImageToFile(pngBytes);
+      file = await ImageUtil.compressImage(file);
       if (mounted) CshLoading().hideLoading(context);
       _sendFileToListener(file);
     }
   }
 
   _sendFileToListener(File file) {
-    _listener?.onImageEditComplete(file);
-    Navigator.pop(context);
+    Navigator.pop(context, file);
     // showCshBottomSheet(
     //     context: context,
     //     child: Container(
@@ -126,7 +121,6 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
   Widget build(BuildContext context) {
     DisputeImageEditorScreenArg? arg = ModalRoute.of(context)?.settings.arguments as DisputeImageEditorScreenArg?;
     assert(arg != null);
-    _listener ??= arg!.listener;
     return Scaffold(
       appBar: const QcGeneralHeader("Image Editing"),
       body: Column(
@@ -144,7 +138,7 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
                   child: CustomPaint(
                     painter: SquarePainter(_squares),
                     child: GestureDetector(
-                      onTapDown: (details) {
+                      onPanDown: (details) {
                         setState(() {
                           var squareMetric = SquareMetric(details.localPosition);
                           squareMetric.normalizeOffset =
@@ -203,7 +197,7 @@ class DisputeImageEditorScreenState extends State<DisputeImageEditorScreen> {
 
   Future<File> _saveImageToFile(Uint8List bytes) async {
     final Directory tempDir = await getTemporaryDirectory();
-    File outputFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpeg');
+    File outputFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.webp');
     outputFile.createSync();
     outputFile.writeAsBytesSync(bytes);
     print('Image combined successfully and saved as: ${outputFile.path}');
