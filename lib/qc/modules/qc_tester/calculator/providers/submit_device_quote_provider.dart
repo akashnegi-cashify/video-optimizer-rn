@@ -49,14 +49,14 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier with CalculatorService
         var stepperItem = stepperDetails.last;
         stepperItem.title = "Color Error";
         stepperItem.subTitle = "No color found";
-        _submitCalculatorRequest();
+        // _submitCalculatorRequest();
       }
     }, onError: (error) {
       var errorMessage = ApiErrorHelper.getErrorMessage(error);
       var stepperItem = stepperDetails.last;
       stepperItem.title = "Color Error";
       stepperItem.subTitle = errorMessage.toString();
-      _submitCalculatorRequest();
+      // _submitCalculatorRequest();
     }, onDone: () {
       notifyListeners();
     });

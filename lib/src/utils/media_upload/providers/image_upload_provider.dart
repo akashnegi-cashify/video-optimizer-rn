@@ -25,7 +25,8 @@ class ImageUploadProvider extends CshChangeNotifier {
     notifyListeners();
     var completer = Completer<String>();
     String fileName = path.basename(file.path);
-    MediaUploadUtil(service: serviceType.service).uploadMediaWithType(mediaFile: file, fileName: fileName).then((value) {
+    MediaUploadUtil(service: serviceType.service).uploadMediaWithType(mediaFile: file, fileName: fileName).then(
+        (value) {
       if (value.isNotEmpty) {
         s3Url = value;
         completer.complete(s3Url);

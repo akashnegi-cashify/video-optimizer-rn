@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/loading_dialog_widget.dart';
 import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/change_device_status_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_device_action_status_enum.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
@@ -174,7 +176,8 @@ class _StatusUpdateButtonWidget extends StatelessWidget {
       onPressed: () {
         var deviceBarcode = deviceInfo.deviceBarcode;
         if (deviceBarcode != null) {
-          if (urlPath == EngineerDeviceActionStatusEnum.MARK_OK.value) {
+          if (urlPath == EngineerDeviceActionStatusEnum.MARK_OK.value ||
+              urlPath == EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -224,7 +227,7 @@ class _StatusUpdateButtonWidget extends StatelessWidget {
     );
   }
 
-  _getUpdateStatusStream() {
+  Stream<ChangeDeviceStatusResponse?> _getUpdateStatusStream() {
     return EngineerAPIService.updateDeviceStatus(urlPath, deviceInfo.deviceBarcode!);
   }
 
