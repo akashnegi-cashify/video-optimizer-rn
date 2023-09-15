@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
+import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_summary_screen.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
+import 'modules/external_audit/widgets/video_recoder_widget.dart';
 import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
@@ -36,6 +39,9 @@ class QcRoutes {
       DisputedImageCaptureScreen.route: (_) => const DisputedImageCaptureScreen(),
       LobDeviceScannerScreen.route: (_) => const LobDeviceScannerScreen(),
       DisputeImageEditorScreen.route: (_) => const DisputeImageEditorScreen(),
+      VideoRecorderWidget.route: (_) => const VideoRecorderWidget(),
+      ExternalAuditHomeScreen.route: (_) => const ExternalAuditHomeScreen(),
+      ExternalAuditPerformScreen.route: (_) => const ExternalAuditPerformScreen(),
     };
   }
 }

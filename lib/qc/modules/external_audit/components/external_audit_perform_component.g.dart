@@ -1,46 +1,46 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pickup_receive_engineer_parts_comp.dart';
+part of 'external_audit_perform_component.dart';
 
 // **************************************************************************
 // ComponentGenerator
 // **************************************************************************
 
-PickUpReceiveEngineerPartsParams fromMap(Map<String, dynamic> map) {
-  PickUpReceiveEngineerPartsParams model = PickUpReceiveEngineerPartsParams(
-    engineerDetail: map["ed"],
+ExternalAuditPerformCompParam fromMap(Map<String, dynamic> map) {
+  ExternalAuditPerformCompParam model = ExternalAuditPerformCompParam(
+    args: map["args"],
   );
   return model;
 }
 
 Widget paramBuilder(
-    Widget Function(PickUpReceiveEngineerPartsParams model) paramBuilder) {
+    Widget Function(ExternalAuditPerformCompParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "ed": provider.data["ed"],
+      "args": provider.data["args"],
     },
     builder: (context, data, child) {
-      PickUpReceiveEngineerPartsParams model = fromMap(data);
+      ExternalAuditPerformCompParam model = fromMap(data);
       return paramBuilder(model);
     },
   );
 }
 
-bool isValid(PickUpReceiveEngineerPartsParams model) {
-  var engineerDetail = model.engineerDetail;
+bool isValid(ExternalAuditPerformCompParam model) {
+  var args = model.args;
 
-  return engineerDetail != null;
+  return args != null;
 }
 
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "TRC_pickup_receive_engineer_parts_comp",
-      "componentType": "PickUp Receive Engineer Parts",
+      "key": "QC_qc_external_audit_perform_component",
+      "componentType": "Qc External Audit Perform",
       "isActive": true,
-      "title": "Pick Up Receive Engineer Parts Compo",
+      "title": "External Audit Perform Component",
       "cpm": [
-        {"key": "ed", "value": null}
+        {"key": "args", "value": null}
       ],
       "configJson": {
         "config": [
