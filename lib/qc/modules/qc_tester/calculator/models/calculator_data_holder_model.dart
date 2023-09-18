@@ -23,6 +23,11 @@ class CalculatorDataHolderModel {
 
   List<MediaSubmitRequest>? get mediaList => _mediaList;
 
+  bool _isCaptureDeviceMediaJourney = false;
+
+
+  bool get isCaptureDeviceMediaJourney => _isCaptureDeviceMediaJourney;
+
   void startCalculatorJourney(MyCalculatorResponse? calculatorResponse, String? deviceBarcode,
       {DeviceType deviceType = DeviceType.mobile_device}) {
     resetAllData();
@@ -39,6 +44,12 @@ class CalculatorDataHolderModel {
     _calculatorResponse = calculatorResponse;
     _deviceBarcode = deviceBarcode;
     _deviceType = deviceType;
+  }
+
+  void startImageCaptureJourney(String? deviceBarcode) {
+    resetAllData();
+    _deviceBarcode = deviceBarcode;
+    _isCaptureDeviceMediaJourney = true;
   }
 
   set mediaList(List<MediaSubmitRequest>? value) {
@@ -68,6 +79,7 @@ class CalculatorDataHolderModel {
     _quoteRequestData = null;
     _calculatorResponse = null;
     _mediaList = null;
+    _isCaptureDeviceMediaJourney = false;
     _deviceType = DeviceType.mobile_device;
   }
 

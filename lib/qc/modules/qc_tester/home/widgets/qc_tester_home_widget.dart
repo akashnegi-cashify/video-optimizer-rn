@@ -2,7 +2,9 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/barcode_scanner_module/barcode_scanner_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculator_scanner_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
@@ -58,6 +60,20 @@ class QcTesterHomeWidget extends StatelessWidget {
                   DisputedImageCaptureScreenArguments arg =
                       DisputedImageCaptureScreenArguments(barcode: scannedData.trim());
                   Navigator.of(context).pushReplacementNamed(DisputedImageCaptureScreen.route, arguments: arg);
+                }
+              });
+              Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
+            },
+          ),
+          const SizedBox(height: Dimens.space_16),
+          CshBigButton(
+            text: "Capture Device Media",
+            onPressed: () {
+              DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
+                  onScanDetected: (String scannedData, MlScannerController? controller) {
+                if (scannedData.isNotEmpty) {
+                  CalculatorDataHolderModel().startImageCaptureJourney(scannedData);
+                  Navigator.of(context).pushReplacementNamed(CalculatorMediaCaptureScreen.route);
                 }
               });
               Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);

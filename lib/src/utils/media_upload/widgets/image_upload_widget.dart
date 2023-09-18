@@ -133,7 +133,6 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
   }
 
   _takeImage(ImageUploadProvider provider) async {
-    Navigator.of(context).pop();
     XFile? xFile = await _picker.pickImage(source: ImageSource.camera);
     if (xFile != null) {
       var compressedFile = await _getCompressedFile(xFile.path);

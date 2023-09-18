@@ -94,7 +94,19 @@ class _CalculatorMediaCaptureWidgetState extends State<CalculatorMediaCaptureWid
                   text: "Done",
                   onPressed: () {
                     provider.saveMediaList();
-                    Navigator.pushReplacementNamed(context, SubmitDeviceQuoteScreen.route);
+                    if (provider.isCaptureMediaJourney()) {
+                      CshLoading().showLoading(context);
+                      provider.submitDeviceMedia().then((value) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.success(context: context, message: "Media Updloaded Successfully");
+                        Navigator.pop(context);
+                      }, onError: (error) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.error(context: context, message: error);
+                      });
+                    } else {
+                      Navigator.pushReplacementNamed(context, SubmitDeviceQuoteScreen.route);
+                    }
                   },
                 ),
               )
