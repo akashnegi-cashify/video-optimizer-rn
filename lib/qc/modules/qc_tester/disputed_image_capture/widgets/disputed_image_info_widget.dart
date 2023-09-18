@@ -98,6 +98,7 @@ class DisputedImageInfoWidget extends StatelessWidget {
                     child: GeneralImageUploadCard(
                       cardHeight: 100.0,
                       cardWidth: 100.0,
+                      isImageMarkingRequired: true,
                       imageUrl: dataModel?.imageS3Urls?[index],
                       onMediaUploaded: (String? url) {
                         dataModel?.imageS3Urls?[index] = url ?? "";

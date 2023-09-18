@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/utils/media_upload/image_optimiser_service.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,9 +13,17 @@ import 'models/presigned_url_response.dart';
 class MediaUploadUtil {
   MediaUploadUtil._private();
 
+  BaseService? service;
+
   static final MediaUploadUtil _instance = MediaUploadUtil._private();
 
-  factory MediaUploadUtil() {
+  factory MediaUploadUtil({BaseService? service}) {
+    Logger.debug('mydebug-----MediaUploadUtil.MediaUploadUtil factory method', [service]);
+    if (service != null) {
+      _instance.service = service;
+    } else {
+      _instance.service = ImageOptimizerService();
+    }
     return _instance;
   }
 
@@ -24,7 +33,7 @@ class MediaUploadUtil {
       required String fileFormat,
       required Function(String) onError,
       required Function(PreSignedUrlResponse? preSignedUrlResponse) onSuccess}) {
-    MediaUploaderService.getPreSignedUrl(fileName: fileName, fileFormat: fileFormat).listen((event) {
+    MediaUploaderService.getPreSignedUrl(fileName: fileName, fileFormat: fileFormat, service: service).listen((event) {
       if (event != null) {
         onSuccess(event);
       } else {
@@ -41,7 +50,7 @@ class MediaUploadUtil {
       {required String transactionId,
       required Function(String) onError,
       required Function(String imageUrl) onSuccess}) {
-    MediaUploaderService.getImageAcknowledged(transactionId: transactionId).listen((event) {
+    MediaUploaderService.getImageAcknowledged(transactionId: transactionId, service: service).listen((event) {
       if (!Validator.isNullOrEmpty(event?.imageUrl)) {
         onSuccess(event!.imageUrl!);
       } else {
@@ -53,74 +62,6 @@ class MediaUploadUtil {
       onError(em);
     });
   }
-
-  // Future<String> uploadMedia({required File mediaFile, required String fileName, bool? isVideoFile = false}) {
-  //   var completer = Completer<String>();
-  //   String fileFormat = mediaFile.path.split(".").last;
-  //   try {
-  //     _getPreSignedUrlForUpload(
-  //       fileName: fileName,
-  //       fileFormat: fileFormat,
-  //       onSuccess: (PreSignedUrlResponse? preSignedUrlResponse) async {
-  //         var date1 = DateTime.now();
-  //         String? preSignedUrl = preSignedUrlResponse?.preSignedUrl;
-  //         String? transactionId = preSignedUrlResponse?.transactionId;
-  //         if (!Validator.isNullOrEmpty(preSignedUrl)) {
-  //           try {
-  //             Uri url = Uri.parse(preSignedUrl!);
-  //             List<int> imagesBytes = mediaFile.readAsBytesSync();
-  //             var response = await http.put(url,
-  //                 body: imagesBytes,
-  //                 headers: {"content-type": (Validator.isTrue(isVideoFile)) ? "video/mp4" : "image/jpeg"});
-  //             if (response.statusCode == 200) {
-  //               var date2 = DateTime.now();
-  //               Logger.debug('mydebug------ImageUploadUtil.uploadImage', ["Image Uploaded Successfully", date2.difference(date1)]);
-  //               _getMediaS3Url(
-  //                 transactionId: transactionId ?? "",
-  //                 onError: (error) {
-  //                   completer.completeError(error);
-  //                 },
-  //                 onSuccess: (String imageUrl) {
-  //                   Logger.debug('mydebug-----MediaUploadUtil.uploadMedia---url-----', [imageUrl]);
-  //                   completer.complete(imageUrl);
-  //                 },
-  //               );
-  //             } else {
-  //               completer.completeError("error");
-  //             }
-  //           } on TimeoutException catch (error) {
-  //             String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-  //             Logger.debug('Http Timeout Exception at backend $error');
-  //             completer.completeError(em);
-  //           } on SocketException catch (error) {
-  //             String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-  //             Logger.debug('Http Timeout Exception at backend $error');
-  //             completer.completeError(em);
-  //           } on HttpException catch (error) {
-  //             String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-  //             Logger.debug('Http Timeout Exception at backend $error');
-  //             completer.completeError(em);
-  //           } on Error catch (error) {
-  //             String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-  //             Logger.debug('Http Timeout Exception at backend $error');
-  //             completer.completeError(em);
-  //           } catch (e) {
-  //             completer.completeError(e.toString());
-  //           }
-  //         } else {
-  //           completer.completeError("No Pre-Signed URL found");
-  //         }
-  //       },
-  //       onError: (error) {
-  //         completer.completeError(error);
-  //       },
-  //     );
-  //   } catch (e) {
-  //     completer.completeError(e.toString());
-  //   }
-  //
-  //   return completer.future;
-  // }
 
   Future<String> uploadMediaWithType(
       {required File mediaFile, required String fileName, MediaContentType contentType = MediaContentType.webp}) {
@@ -143,10 +84,8 @@ class MediaUploadUtil {
             ..headers.addAll({'Cache-Control': 'no-cache', "content-type": contentType.value});
           streamedRequest.contentLength = await mediaFile.length();
 
-          Logger.debug('mydebug-----MediaUploadUtil.uploadMediaWithType contentLenght', [streamedRequest.contentLength]);
           mediaFile.openRead().listen((chunk) {
             counter += chunk.length;
-            Logger.debug('mydebug-----MediaUploadUtil.uploadMediaWithType chunk Lenght', [counter]);
             streamedRequest.sink.add(chunk);
           }, onDone: () {
             streamedRequest.sink.close();

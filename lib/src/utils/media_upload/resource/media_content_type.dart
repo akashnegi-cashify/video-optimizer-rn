@@ -9,4 +9,8 @@ enum MediaContentType {
   final String value;
 
   const MediaContentType(this.value);
+
+  static MediaContentType fromValue(String value) {
+    return MediaContentType.values.firstWhere((e) => e.value.split("/").last == value.toLowerCase());
+  }
 }

@@ -116,7 +116,7 @@ class ShipexDispatchProvider extends CshChangeNotifier {
           .uploadMediaWithType(
         mediaFile: file,
         fileName: fileName,
-        contentType: MediaContentType.jpeg,
+        contentType: MediaContentType.webp,
       ).then((value) {
         if (!Validator.isNullOrEmpty(value)) {
           completer.complete(value);

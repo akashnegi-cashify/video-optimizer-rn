@@ -181,4 +181,12 @@ class EngineerAPIService {
   static Stream<PartListHistoryResponse?> getPartListHistory(int? deviceId) {
     return TrcService().get("/device/part/list?did=$deviceId", PartListHistoryResponse.fromJson);
   }
+
+  static Stream<BaseActionResponse?> updateMedia(int mediaType, List<String> mediaUrls, String deviceBarcode) {
+    Map<String, dynamic> req = {
+      "murl": mediaUrls,
+      "mtid": mediaType,
+    };
+    return TrcService().post("/device/media/$deviceBarcode", BaseActionResponse.fromJson, body: jsonEncode(req));
+  }
 }

@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/loading_dialog_widget.dart';
+import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/change_device_status_response.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_device_action_status_enum.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
@@ -70,7 +75,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
               _StatusUpdateButtonWidget(
                 deviceInfo: widget.deviceInfo!,
                 buttonText: l10n.startWork,
-                urlPath: "mark-inprogress",
+                urlPath: EngineerDeviceActionStatusEnum.MARK_IN_PROGRESS.value,
                 onApiSuccess: () {
                   setState(() {
                     _isPerformStartWork = true;
@@ -83,7 +88,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
               _StatusUpdateButtonWidget(
                 deviceInfo: widget.deviceInfo!,
                 buttonText: l10n.putOnHold,
-                urlPath: "mark-onhold",
+                urlPath: EngineerDeviceActionStatusEnum.MARK_ON_HOLD.value,
                 onApiSuccess: () {
                   Navigator.pop(context);
                 },
@@ -92,7 +97,9 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
               _StatusUpdateButtonWidget(
                 deviceInfo: widget.deviceInfo!,
                 buttonText: _isEngineerRole ? l10n.markOk : l10n.repairDone,
-                urlPath: _isEngineerRole ? "mark-ok" : "mark-repair-done",
+                urlPath: _isEngineerRole
+                    ? EngineerDeviceActionStatusEnum.MARK_OK.value
+                    : EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value,
                 onApiSuccess: () {
                   Navigator.pop(context);
                 },
@@ -104,10 +111,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                 text: l10n.viewParts,
                 onPressed: () {
                   Navigator.pushNamed(context, AssignedPartsScreen.route,
-                      arguments: AssignedPartsData(
-                        true,
-                        deviceBarcode: widget.deviceInfo?.deviceBarcode
-                      ));
+                      arguments: AssignedPartsData(true, deviceBarcode: widget.deviceInfo?.deviceBarcode));
                 },
               ),
               const SizedBox(height: Dimens.space_16),
@@ -115,7 +119,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                 _StatusUpdateButtonWidget(
                   deviceInfo: widget.deviceInfo!,
                   buttonText: l10n.markFI,
-                  urlPath: "mark-fi",
+                  urlPath: EngineerDeviceActionStatusEnum.MARK_FI.value,
                   onApiSuccess: () {
                     Navigator.pop(context);
                   },
@@ -126,7 +130,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   child: _StatusUpdateButtonWidget(
                     deviceInfo: widget.deviceInfo!,
                     buttonText: l10n.markFFI,
-                    urlPath: "mark-nff",
+                    urlPath: EngineerDeviceActionStatusEnum.MARK_NFF.value,
                     onApiSuccess: () {
                       Navigator.pop(context);
                     },
@@ -138,7 +142,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   child: _StatusUpdateButtonWidget(
                     deviceInfo: widget.deviceInfo!,
                     buttonText: l10n.markNR,
-                    urlPath: "mark-nr",
+                    urlPath: EngineerDeviceActionStatusEnum.MARK_NR.value,
                     onApiSuccess: () {
                       Navigator.pop(context);
                     },
@@ -172,7 +176,28 @@ class _StatusUpdateButtonWidget extends StatelessWidget {
       onPressed: () {
         var deviceBarcode = deviceInfo.deviceBarcode;
         if (deviceBarcode != null) {
-          EngineerAPIService.updateDeviceStatus(urlPath, deviceInfo.deviceBarcode!).doAsyncOp((value) {
+          if (urlPath == EngineerDeviceActionStatusEnum.MARK_OK.value ||
+              urlPath == EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MultipleImageUploadScreen(
+                  DeviceMediaType.markOk,
+                  deviceBarcode,
+                  callStatusUpdateApi: () {
+                    return _updateStatus(l10n);
+                  },
+                  onMediaUploaded: () {
+                    Navigator.pop(context); // dismiss MultipleImageUploadScreen screen
+                    onApiSuccess?.call();
+                  },
+                ),
+              ),
+            );
+            return;
+          }
+
+          _getUpdateStatusStream().doAsyncOp((value) {
             if (value == null) {
               CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
               return;
@@ -200,6 +225,24 @@ class _StatusUpdateButtonWidget extends StatelessWidget {
         }
       },
     );
+  }
+
+  Stream<ChangeDeviceStatusResponse?> _getUpdateStatusStream() {
+    return EngineerAPIService.updateDeviceStatus(urlPath, deviceInfo.deviceBarcode!);
+  }
+
+  Future<void> _updateStatus(L10n l10n) {
+    var completer = Completer<void>();
+    _getUpdateStatusStream().listen((event) {
+      if (Validator.isTrue(event?.isSuccess)) {
+        completer.complete();
+      } else {
+        completer.completeError(event?.errorMsg.toString() ?? l10n.somethingWentWrong);
+      }
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
   }
 }
 

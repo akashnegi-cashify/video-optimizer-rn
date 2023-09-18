@@ -23,7 +23,6 @@ class ImageOptimizerService extends BaseService {
   Map<String, String> getHeaders(bool? isToAddAuth) {
     return {
       ...(isToAddAuth ?? isToAddUserAuth()) ? CoreHeaders.X_USER_AUTH : {},
-    "content-type" : "application/x-www-form-urlencoded",
     };
   }
 

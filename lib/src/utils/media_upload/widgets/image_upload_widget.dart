@@ -41,17 +41,9 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
           behavior: HitTestBehavior.translucent,
           onTap: () async {
             if (!Validator.isNullOrEmpty(provider.s3Url)) {
-              _showRetakeModal(insideContext, theme);
+              _showRetakeModal(insideContext, theme, provider);
             } else {
-              XFile? selectedFile = await _picker.pickImage(source: ImageSource.camera);
-              if (selectedFile != null) {
-                var compressedFile = await _getCompressedFile(selectedFile.path);
-                provider.uploadImage(context, compressedFile, s3UrlCallback: (String url) {
-                  if (widget.onMediaUploaded != null) {
-                    widget.onMediaUploaded!(url);
-                  }
-                });
-              }
+              _takeImage(provider);
             }
           },
           child: Column(
@@ -94,8 +86,7 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
     );
   }
 
-  _showRetakeModal(BuildContext innerContext, ThemeData theme) {
-    var provider = ImageUploadProvider.of(innerContext, listen: false);
+  _showRetakeModal(BuildContext innerContext, ThemeData theme, ImageUploadProvider provider) {
     showCshBottomSheet(
       context: context,
       child: Container(
@@ -132,15 +123,7 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
               },
               secondBtnClick: () async {
                 Navigator.of(context).pop();
-                XFile? xFile = await _picker.pickImage(source: ImageSource.camera);
-                if (xFile != null) {
-                  var compressedFile = await _getCompressedFile(xFile.path);
-                  provider.uploadImage(context, compressedFile, s3UrlCallback: (String url) {
-                    if (widget.onMediaUploaded != null) {
-                      widget.onMediaUploaded!(url);
-                    }
-                  });
-                }
+                _takeImage(provider);
               },
             )
           ],
@@ -149,9 +132,23 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
     );
   }
 
+  _takeImage(ImageUploadProvider provider) async {
+    Navigator.of(context).pop();
+    XFile? xFile = await _picker.pickImage(source: ImageSource.camera);
+    if (xFile != null) {
+      var compressedFile = await _getCompressedFile(xFile.path);
+      provider.uploadImage(compressedFile).then((url) {
+        if (widget.onMediaUploaded != null) {
+          widget.onMediaUploaded!(url);
+        }
+      }, onError: (error) {
+        CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+      });
+    }
+  }
+
   Future<File> _getCompressedFile(String filePath) async {
     File compressedFile = await ImageUtil.compressImage(File(filePath));
     return compressedFile;
   }
-
 }
