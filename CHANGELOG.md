@@ -1,19 +1,22 @@
 # TRC Releases
 
-# v2.1.2+15 (XX-09-2023)
+# v2.1.2+15 (18-09-2023)
 
-### Improvements:
+### Feature:
 
-* `TRC - Engineer - Capture Images when mark device ok or send to TL `[(SCM-4441)](https://reglobe.atlassian.net/browse/SCM-4441)
+* `TRC - Engineer - Capture Images when mark device ok or send to TL`[(SCM-4441)](https://reglobe.atlassian.net/browse/SCM-4441)
+* `QC Tester - Capture Device Media flow`[(SCM-4512)](https://reglobe.atlassian.net/browse/SCM-4512)
+* `QC Tester - Make colors mandatory when performing qc`[(SCM-4507)](https://reglobe.atlassian.net/browse/SCM-4507)
 
+# v2.1.1+14 (07-09-2023)
 
-# v2.1.1+14 (11-09-2023)
-
-### Improvements:
+### Features & Improvements:
 
 * `TRC - Engineer - Engineer Role - Image uploading failed while consuming device parts`[(SCM-4441)](https://reglobe.atlassian.net/browse/SCM-4441)
-
-
+* `TRC - Engineer - Show Repair history`[(SCM-4240)](https://reglobe.atlassian.net/browse/SCM-4240)
+* `TRC - QC-Role - Add CDP for TRC`[(SCM-4308)](https://reglobe.atlassian.net/browse/SCM-4308)
+* `QC - Calculator Rule executor configurable`[(SCM-4098)](https://reglobe.atlassian.net/browse/SCM-4098)
+* `Image Compression Technique`[(SCM-4359)](https://reglobe.atlassian.net/browse/SCM-4359)
 
 # v2.1.0+13 (16-08-2023)
 
@@ -25,7 +28,6 @@
 * `Shipex - Camera QR code scanning option for packaging videos for tagging`[(SCM-3967)](https://reglobe.atlassian.net/browse/SCM-3967)
 * `Shipex - Pii Changes in OMS`[(SCM-4175)](https://reglobe.atlassian.net/browse/SCM-4175)
 
-
 # v2.0.3+12 (02-08-2023)
 
 ### Feature:
@@ -33,20 +35,17 @@
 * `QC - Dispute Images - Create feature for highlight in images`[(SCM-4005)](https://reglobe.atlassian.net/browse/SCM-4005)
 * `QC - Calculator - add config for server side executir`[(SCM-4098)](https://reglobe.atlassian.net/browse/SCM-4098)
 
-
 # v2.0.2+11 (26-07-2023)
 
 ### Improvements:
 
 * `QC - Calculator - Make Media capture configurable after calculator`[(SCM-4021)](https://reglobe.atlassian.net/browse/SCM-4021)
 
-
 # v2.0.1+10 (20-07-2023)
 
 ### Bug fix:
 
 * `QC - Calculator - service group in recalculate`
-
 
 # v2.0.0+9 (19-07-2023)
 
@@ -57,13 +56,11 @@
 * `QC - Migrate Qc tester module` [(SCM-3885)](https://reglobe.atlassian.net/browse/SCM-3885)
 * `QC - Implement Calculator for all LOBs` [(SCM-3241)](https://reglobe.atlassian.net/browse/SCM-3241)
 
-
 # v1.3.3+8 (07-07-2023)
 
 ### Feature:
 
 * `TRC - Inventory roll bug fix` [(SCM-3654)](https://reglobe.atlassian.net/browse/SCM-3654)
-
 
 # v1.3.2+7 (29-06-2023)
 
@@ -71,13 +68,11 @@
 
 * `TRC - Job card display` [(SCM-3654)](https://reglobe.atlassian.net/browse/SCM-3654)
 
-
 # v1.3.1+6 (20-06-2023)
 
 ### Feature:
 
 * `TRC - Device transfer flow` [(SCM-3674)](https://reglobe.atlassian.net/browse/SCM-3674)
-
 
 # v1.3.0+5 (01-06-2023)
 
@@ -87,13 +82,11 @@
 * `TRC changes for service consumption` [(SCM-3591)](https://reglobe.atlassian.net/browse/SCM-3591)
 * `TRC - Bug fixes and Improvements` [(SCM-3592)](https://reglobe.atlassian.net/browse/SCM-3592)
 
-
 # v1.2.2+4 (17-05-2023)
 
 ### Improvements:
 
 * `QC-ELSS - Allow multi-selection for ELSS Reject reasons` [(SCM-3331)](https://reglobe.atlassian.net/browse/SCM-3331)
-
 
 # v1.2.1+3 (03-05-2023)
 
@@ -109,7 +102,6 @@
 * `Migrate PartQC and Inventory role` [(SCM-3059)](https://reglobe.atlassian.net/browse/SCM-3059)
 * `Remove Android code` [(SCM-2814)](https://reglobe.atlassian.net/browse/SCM-2814)
 
-
 # v1.2.0+2 (03-04-2023)
 
 ### Improvements:
@@ -118,7 +110,6 @@
 * `QC-ELSS - Start showing quantity in suggested and added parts` [(SCM-2794)](https://reglobe.atlassian.net/browse/SCM-2794)
 * `QC-ELSS - Add retesting and rejection reasons` [(SCM-2874)](https://reglobe.atlassian.net/browse/SCM-2874)
 * `QC-ELSS - Mark parts as Not Required by default` [(SCM-2954)](https://reglobe.atlassian.net/browse/SCM-2954)
-
 
 # v1.0.0+1 (7-03-2023)
 

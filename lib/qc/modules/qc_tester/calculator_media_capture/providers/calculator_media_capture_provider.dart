@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -56,5 +58,26 @@ class CalculatorMediaCaptureProvider extends CshChangeNotifier with CalculatorSe
       isDataLoading = false;
       notifyListeners();
     });
+  }
+
+  bool isCaptureMediaJourney() {
+    return CalculatorDataHolderModel().isCaptureDeviceMediaJourney;
+  }
+
+  Future<bool> submitDeviceMedia() {
+    var completer = Completer<bool>();
+    service.submitDeviceMedia(CalculatorDataHolderModel().mediaList, CalculatorDataHolderModel().deviceBarcode).listen(
+        (event) {
+      if (event != null) {
+        completer.complete(true);
+      } else {
+        completer.completeError("Something went wrong ${event?.rId}");
+      }
+    }, onError: (error) {
+      Logger.debug('mydebug------CalculatorMediaCaptureProvider.submitDeviceMedia error', [error]);
+      String msg = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+      completer.completeError(msg);
+    });
+    return completer.future;
   }
 }
