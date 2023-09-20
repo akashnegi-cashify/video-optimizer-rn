@@ -19,6 +19,7 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
   int _currentPage = 0;
   ExternalAuditPerformProvider? provider;
   final PageController _pageController = PageController(initialPage: 0, keepPage: false);
+  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,15 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
         if (_currentPage == 0) {
           return Future.value(true);
         } else {
+          if (_counter == 1) {
+            return Future.value(true);
+          } else {
+            CshSnackBar.show(context: context, message: "All Progress will be lost");
+            _counter++;
+            Future.delayed(const Duration(milliseconds: 1500), () {
+              _counter = 0;
+            });
+          }
           return Future.value(false);
         }
       },
@@ -63,7 +73,9 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
             }
           },
           onPageChanged: (value) {
-            _currentPage = value;
+            setState(() {
+              _currentPage = value;
+            });
           },
           itemCount: 4,
           physics: const NeverScrollableScrollPhysics(),
