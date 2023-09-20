@@ -8,7 +8,7 @@ part of 'external_audit_perform_component.dart';
 
 ExternalAuditPerformCompParam fromMap(Map<String, dynamic> map) {
   ExternalAuditPerformCompParam model = ExternalAuditPerformCompParam(
-    args: map["args"],
+    auditType: map["auditType"],
   );
   return model;
 }
@@ -17,7 +17,7 @@ Widget paramBuilder(
     Widget Function(ExternalAuditPerformCompParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "args": provider.data["args"],
+      "auditType": provider.data["auditType"],
     },
     builder: (context, data, child) {
       ExternalAuditPerformCompParam model = fromMap(data);
@@ -27,9 +27,9 @@ Widget paramBuilder(
 }
 
 bool isValid(ExternalAuditPerformCompParam model) {
-  var args = model.args;
+  var auditType = model.auditType;
 
-  return args != null;
+  return auditType != null;
 }
 
 dynamic schema() => {
@@ -40,7 +40,7 @@ dynamic schema() => {
       "isActive": true,
       "title": "External Audit Perform Component",
       "cpm": [
-        {"key": "args", "value": null}
+        {"key": "auditType", "value": null}
       ],
       "configJson": {
         "config": [

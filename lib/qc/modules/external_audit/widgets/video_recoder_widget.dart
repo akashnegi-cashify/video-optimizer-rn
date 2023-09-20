@@ -12,8 +12,8 @@ import 'package:flutter_trc/src/channel/native_communication.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
-const int _DEFAULT_VIDEO_TIMER = 60;
-const int _DEFAULT_START_TIMER = 5;
+const int _DEFAULT_VIDEO_TIMER = 600;
+const int _DEFAULT_START_TIMER = 3;
 
 abstract interface class VideoRecordingListener {
   onVideoRecorded(File file);

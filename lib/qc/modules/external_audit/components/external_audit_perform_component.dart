@@ -24,8 +24,8 @@ class ExternalAuditPerformComponent extends StatelessComponent<NoneConfigModel> 
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((model) => ChangeNotifierProvider(
-          create: (_) => ExternalAuditPerformProvider(model.args!.externalAuditEnum),
-          child: ExternalAuditPerformWidget(model.args),
+          create: (_) => ExternalAuditPerformProvider(model.auditType),
+          child: const ExternalAuditPerformWidget(),
         ));
   }
 

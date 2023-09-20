@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/disputed_image_capture/models/disputed_media_data_response.dart';
+import 'package:flutter_trc/src/common/utils/csh_video_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +16,8 @@ class GeneralVideoUploadCard extends StatelessWidget {
   final double? cardHeight;
   final double? cardWidth;
   final VideoUrlData? videoUrl;
+  final VoidCallback? onMediaUploadingStarted;
+  final bool isCustomCameraVideo;
 
   const GeneralVideoUploadCard({
     super.key,
@@ -21,6 +25,8 @@ class GeneralVideoUploadCard extends StatelessWidget {
     this.cardHeight,
     this.videoUrl,
     this.onMediaUploaded,
+    this.onMediaUploadingStarted,
+    this.isCustomCameraVideo = false,
   });
 
   @override
@@ -115,10 +121,19 @@ class GeneralVideoUploadCard extends StatelessWidget {
   }
 
   _takeVideo(BuildContext context, VideoUploadProvider provider) async {
-    final ImagePicker picker = ImagePicker();
-    XFile? selectedFile = await picker.pickVideo(source: ImageSource.camera);
-    if (selectedFile != null) {
-      provider.uploadVideo(File(selectedFile.path)).then((value) {
+    File? videoFile;
+    if (isCustomCameraVideo) {
+      videoFile = await _customVideo(context);
+    } else {
+      XFile? selectedFile = await ImagePicker().pickVideo(source: ImageSource.camera);
+      if (selectedFile != null) {
+        videoFile = File(selectedFile.path);
+      }
+    }
+
+    if (videoFile != null) {
+      onMediaUploadingStarted?.call();
+      provider.uploadVideo(videoFile).then((value) {
         String videoUrl = value.$1;
         String? videoThumbnail = value.$2;
         if (onMediaUploaded != null) {
@@ -128,5 +143,13 @@ class GeneralVideoUploadCard extends StatelessWidget {
         CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
       });
     }
+  }
+
+  Future<File> _customVideo(BuildContext context) {
+    var completer = Completer<File>();
+    CshVideoPicker(context).pickVideo((file) {
+      completer.complete(file);
+    });
+    return completer.future;
   }
 }

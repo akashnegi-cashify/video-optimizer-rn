@@ -14,7 +14,7 @@ dynamic schema() => {
       "title": "External Audit Perform Screen",
       "isActive": true,
       "params": [
-        {"key": "args", "value": null}
+        {"key": "auditType", "value": null}
       ]
 
       //#adminscreen

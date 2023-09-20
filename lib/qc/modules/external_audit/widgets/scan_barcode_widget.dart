@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../l10n.dart';
 
 class ScanBarcodeWidget extends StatefulWidget {
   final Function(String scannedData) onScanDetected;
-  const ScanBarcodeWidget({super.key, required this.onScanDetected});
+  final String step;
+
+  const ScanBarcodeWidget({super.key, required this.onScanDetected, required this.step});
 
   @override
   State<ScanBarcodeWidget> createState() => ScanBarcodeWidgetState();
@@ -23,14 +26,21 @@ class ScanBarcodeWidgetState extends State<ScanBarcodeWidget> {
     return Container(
       padding: const EdgeInsets.all(Dimens.space_16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: CshCard(
               elevation: CardElevation.dimen_10,
-              child: const Icon(
-                Icons.qr_code_scanner,
-                size: Dimens.space_100,
-                color: Colors.grey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.qr_code_scanner,
+                    size: 150,
+                    color: Colors.grey,
+                  ),
+                  CshTextNew.subTitle1(widget.step),
+                ],
               ),
             ),
           ),
@@ -51,8 +61,8 @@ class ScanBarcodeWidgetState extends State<ScanBarcodeWidget> {
                     onChanged: (data) {
                       if (_timer?.isActive ?? false) _timer?.cancel();
                       _timer = Timer(
-                        const Duration(seconds: 1),
-                            () {
+                        const Duration(milliseconds: 500),
+                        () {
                           setState(() {
                             _scannedText = data.trim();
                             widget.onScanDetected(_scannedText);
@@ -69,9 +79,9 @@ class ScanBarcodeWidgetState extends State<ScanBarcodeWidget> {
               text: l10n.submit,
               onPressed: !Validator.isNullOrEmpty(_scannedText)
                   ? () {
-                FocusScope.of(context).unfocus();
-                widget.onScanDetected(_scannedText);
-              }
+                      FocusScope.of(context).unfocus();
+                      widget.onScanDetected(_scannedText);
+                    }
                   : null,
             ),
           ),

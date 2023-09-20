@@ -5,9 +5,9 @@ import 'package:flutter_trc/src/services/qc_service.dart';
 
 class ExternalAuditService {
   static Stream<BaseResponse?> submitExternalAudit(
-      {int? returnType, String? uid_1, List<String>? videoUrlList, String? uid_2, List<String>? imageUrlList, bool? isReceiveReturn}) {
+      {int? auditType, String? uid_1, List<String>? videoUrlList, String? uid_2, List<String>? imageUrlList, bool? isReceiveReturn}) {
     var req = {
-      "rt": returnType,
+      "rt": auditType,
       "uid_1": uid_1,
       "vid": videoUrlList,
       "uid_2": uid_2,
@@ -15,7 +15,7 @@ class ExternalAuditService {
     };
 
     if (isReceiveReturn != null) {
-      req["is_receive_return"] = isReceiveReturn;
+      req["isr"] = isReceiveReturn;
     }
 
     return QcService().post("/recording/external", BaseResponse.fromJson, body: jsonEncode(req));

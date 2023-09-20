@@ -1,16 +1,17 @@
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
+import 'package:flutter_trc/qc/modules/external_audit/models/external_audit_enum.dart';
 
 @CshPageParam()
 class ExternalAuditPerformCompParam {
-  @ParamKey(key: ExternalAuditPerformCompParamKeys.externalAuditPerformArg)
-  ExternalAuditPerformScreenArguments? args;
+  @ParamKey(key: ExternalAuditPerformCompParamKeys.externalAuditType)
+  ExternalAuditEnum auditType;
 
-  ExternalAuditPerformCompParam({this.args});
+  ExternalAuditPerformCompParam({required this.auditType});
 }
 
 enum ExternalAuditPerformCompParamKeys with AbsParamKey {
-  externalAuditPerformArg("args");
+  externalAuditType("auditType");
 
   @override
   final String value;

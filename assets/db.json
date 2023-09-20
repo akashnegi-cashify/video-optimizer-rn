@@ -751,6 +751,32 @@
       ]
     },
     {
+      "pageId": 10017,
+      "pageKey": "QC_qc_external_audit_home_screen",
+      "hd": {
+        "id": 10029,
+        "key": "QC_qc_general_header"
+      },
+      "dt": [
+        {
+          "id": 10030,
+          "key": "QC_qc_external_audit_home_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10018,
+      "pageKey": "QC_qc_external_audit_perform_screen",
+      "dt": [
+        {
+          "id": 10031,
+          "key": "QC_qc_external_audit_perform_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "hd": {
@@ -1867,6 +1893,38 @@
           "ht": "Quote Request",
           "sbb": false,
           "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10029,
+      "locale": "en",
+      "key": "QC_qc_general_header",
+      "configJson": {
+        "config": {
+          "ht": "External Audit",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10030,
+      "locale": "en",
+      "key": "QC_qc_external_audit_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10031,
+      "locale": "en",
+      "key": "QC_qc_external_audit_perform_component",
+      "configJson": {
+        "config": {
+          "none": "None"
         }
       }
     },

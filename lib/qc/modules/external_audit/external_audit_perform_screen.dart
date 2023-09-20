@@ -14,7 +14,7 @@ class ExternalAuditPerformScreenArguments extends BaseArguments {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
-    data[ExternalAuditPerformCompParamKeys.externalAuditPerformArg.value] = externalAuditEnum;
+    data[ExternalAuditPerformCompParamKeys.externalAuditType.value] = externalAuditEnum;
     return data;
   }
 }
