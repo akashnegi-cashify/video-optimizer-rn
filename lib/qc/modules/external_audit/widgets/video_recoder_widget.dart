@@ -194,7 +194,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         onWillPop: () {
           if (_isRecording) {
             CshSnackBar.error(
-                context: context, message: "Packaging video is in progress", snackBarPosition: SnackBarPosition.TOP);
+                context: context, message: "Video Recording is in progress", snackBarPosition: SnackBarPosition.TOP);
             return Future.value(false);
           }
           return Future.value(true);
@@ -203,7 +203,19 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
           body: Center(
             child: Stack(
               children: [
-                if (_cameraController != null) CameraPreview(_cameraController!),
+                if (_cameraController != null)
+                  CameraPreview(
+                    _cameraController!,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        return GestureDetector(
+                          onTapDown: (details) {
+                            onViewFinderTap(details, constraints);
+                          },
+                        );
+                      },
+                    ),
+                  ),
                 Positioned(
                   top: Dimens.space_24,
                   left: 0,
@@ -246,6 +258,15 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         ),
       );
     }
+  }
+
+  void onViewFinderTap(TapDownDetails details, BoxConstraints constraints) {
+    final offset = Offset(
+      details.localPosition.dx / constraints.maxWidth,
+      details.localPosition.dy / constraints.maxHeight,
+    );
+    _cameraController?.setExposurePoint(offset);
+    _cameraController?.setFocusPoint(offset);
   }
 
   _sendFileToListener(XFile xFile) async {

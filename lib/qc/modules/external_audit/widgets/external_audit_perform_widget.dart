@@ -24,37 +24,51 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     provider ??= ExternalAuditPerformProvider.of(context, listen: false);
-    return Scaffold(
-      appBar: const QcGeneralHeader("Unique Identifier", showBackBtn: true),
-      body: PageView.builder(
-        itemBuilder: (context, index) {
-          switch (index) {
-            case 0:
-              return ScanBarcodeWidget(step: l10n.step1, onScanDetected: (String scannedData) {
-                _onScanFirstUid(scannedData);
-              });
-            case 1:
-              return MultipleImageVideoUploadWidget(
-                onMediaUploaded: (imageList, videoList) {
-                  provider?.onVideoUploaded(videoList);
-                  provider?.onImageUploaded(imageList);
-                  _pageController.jumpToPage(2);
-                },
-              );
-            case 2:
-              return ScanBarcodeWidget(step: l10n.step4, onScanDetected: (String scannedData) {
-                _onScanSecondUid(scannedData);
-              });
-            default:
-              return const SizedBox.shrink();
-          }
-        },
-        onPageChanged: (value) {
-          _currentPage = value;
-        },
-        itemCount: 4,
-        physics: const NeverScrollableScrollPhysics(),
-        controller: _pageController,
+    String heading = _getHeading(l10n);
+    return WillPopScope(
+      onWillPop: () {
+        if (_currentPage == 0) {
+          return Future.value(true);
+        } else {
+          return Future.value(false);
+        }
+      },
+      child: Scaffold(
+        appBar: QcGeneralHeader(heading, showBackBtn: true),
+        body: PageView.builder(
+          itemBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return ScanBarcodeWidget(
+                    step: l10n.step1,
+                    onScanDetected: (String scannedData) {
+                      _onScanFirstUid(scannedData);
+                    });
+              case 1:
+                return MultipleImageVideoUploadWidget(
+                  onMediaUploaded: (imageList, videoList) {
+                    provider?.onVideoUploaded(videoList);
+                    provider?.onImageUploaded(imageList);
+                    _pageController.jumpToPage(2);
+                  },
+                );
+              case 2:
+                return ScanBarcodeWidget(
+                    step: l10n.step4,
+                    onScanDetected: (String scannedData) {
+                      _onScanSecondUid(scannedData);
+                    });
+              default:
+                return const SizedBox.shrink();
+            }
+          },
+          onPageChanged: (value) {
+            _currentPage = value;
+          },
+          itemCount: 4,
+          physics: const NeverScrollableScrollPhysics(),
+          controller: _pageController,
+        ),
       ),
     );
   }
@@ -86,5 +100,17 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
     });
+  }
+
+  String _getHeading(L10n l10n) {
+    switch (_currentPage) {
+      case 0:
+        return l10n.scanUniqueIdentifier;
+      case 1:
+        return l10n.addImagesAndVideos;
+      case 2:
+      default:
+        return l10n.scanUniqueIdentifier;
+    }
   }
 }

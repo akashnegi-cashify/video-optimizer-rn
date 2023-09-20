@@ -18,4 +18,9 @@ class L10n extends BaseL10n {
   String get receiveReturn => Intl.message("Receive Return", locale: localName, name: "receiveReturn");
 
   String get dispatch => Intl.message("Dispatch", locale: localName, name: "dispatch");
+
+  String get scanUniqueIdentifier =>
+      Intl.message("Scan Unique Identifier", locale: localName, name: "scanUniqueIdentifier");
+
+  String get addImagesAndVideos => Intl.message("Add Images and Videos", locale: localName, name: "addImagesAndVideos");
 }
