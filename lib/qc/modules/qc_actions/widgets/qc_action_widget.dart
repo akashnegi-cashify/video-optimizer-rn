@@ -6,6 +6,7 @@ import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widg
 
 import '../../../../src/modules/elss/common_screen/elss_home_screen.dart';
 import '../../qc_tester/home/screens/qc_tester_home_screen.dart';
+import '../../stock_in_module/screens/stock_in_screen.dart';
 import '../l10n.dart';
 import '../models/qc_action_comp_config.dart';
 
@@ -54,6 +55,16 @@ class QCActionWidget extends StatelessWidget {
               text: l10n.externalAudit,
               onPressed: () {
                 Navigator.of(context).pushNamed(ExternalAuditHomeScreen.route);
+              },
+            ),
+          ),
+          const SizedBox(height: Dimens.space_16),
+          SizedBox(
+            width: double.infinity,
+            child: CshBigButton(
+              text: l10n.stockIn,
+              onPressed: () {
+                Navigator.of(context).pushNamed(StockInScreen.route);
               },
             ),
           ),

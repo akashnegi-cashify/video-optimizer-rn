@@ -777,6 +777,37 @@
       ]
     },
     {
+      "pageId": 10019,
+      "pageKey": "QC_qc_stock_in",
+      "hd": {
+        "id": 10032,
+        "key": "QC_qc_general_header"
+      },
+      "dt": [
+        {
+          "id": 10033,
+          "key": "QC_qc_stock_in_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10020,
+      "pageKey": "QC_qc_stock_in_product_detail",
+      "hd": {
+        "id": 10034,
+        "key": "QC_qc_general_header"
+      },
+      "dt": [
+        {
+          "id": 10035,
+          "key": "QC_qc_stock_in_product_detail_component",
+          "type": "component"
+        }
+      ]
+    },
+
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "hd": {
@@ -1928,6 +1959,56 @@
         }
       }
     },
+    {
+      "componentId": 10032,
+      "locale": "en",
+      "key": "QC_qc_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Stock In",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+
+    {
+      "componentId": 10033,
+      "locale": "en",
+      "key": "QC_qc_stock_in_component",
+      "configJson": {
+        "config": {
+          "ht": "Quote Request",
+          "sbb": false,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10034,
+      "locale": "en",
+      "key": "QC_qc_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Stock In",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10035,
+      "locale": "en",
+      "key": "QC_qc_stock_in_product_detail_component",
+      "configJson": {
+        "config": {
+          "ht": "Quote Request",
+          "sbb": false,
+          "slb": false
+        }
+      }
+    },
+
     {
       "componentId": 20001,
       "locale": "en",

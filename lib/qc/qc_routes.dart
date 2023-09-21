@@ -19,6 +19,7 @@ import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_screen.dart';
+import 'modules/stock_in_module/screens/index.dart';
 
 class QcRoutes {
   static Map<String, WidgetBuilder> getQcRoutes() {
@@ -42,6 +43,8 @@ class QcRoutes {
       VideoRecorderWidget.route: (_) => const VideoRecorderWidget(),
       ExternalAuditHomeScreen.route: (_) => const ExternalAuditHomeScreen(),
       ExternalAuditPerformScreen.route: (_) => const ExternalAuditPerformScreen(),
+      StockInScreen.route: (_) => const StockInScreen(),
+      StockInProductDetailScreen.route: (_) => const StockInProductDetailScreen(),
     };
   }
 }
