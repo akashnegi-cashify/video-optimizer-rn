@@ -9,11 +9,19 @@ class ProductDetailCompParam {
   @ParamKey(key: ProductDetailCompParamKeys.stockInProductDetail)
   ValidateAwbResponse? stockInProductDetail;
 
-  ProductDetailCompParam({required this.stockInProductDetail});
+  @ParamKey(key: ProductDetailCompParamKeys.awbNumber)
+  String? awbNumber;
+
+  @ParamKey(key: ProductDetailCompParamKeys.barcode)
+  String? barcode;
+
+  ProductDetailCompParam({this.stockInProductDetail, this.awbNumber, this.barcode});
 }
 
 enum ProductDetailCompParamKeys with AbsParamKey {
-  stockInProductDetail("stockInProductDetail");
+  stockInProductDetail("stockInProductDetail"),
+  awbNumber("awbNumber"),
+  barcode("barcode");
 
   @override
   final String value;

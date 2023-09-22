@@ -16,4 +16,7 @@ class L10n extends BaseL10n {
   String get product => Intl.message('Product', locale: localName, name: 'product');
   String get imei1 => Intl.message('Imei 1', locale: localName, name: 'imei1');
   String get imei2 => Intl.message('Imei 2', locale: localName, name: 'imei2');
+  String get done => Intl.message('Done', locale: localName, name: 'done');
+  String get cancel => Intl.message('Cancel', locale: localName, name: 'cancel');
+  String get pleaseUploadAllMediaFiles => Intl.message('Please Upload All Media Files', locale: localName, name: 'pleaseUploadAllMediaFiles');
 }

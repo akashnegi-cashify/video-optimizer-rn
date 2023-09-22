@@ -1,3 +1,4 @@
+import 'package:core_widgets/core_widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'validate_awb_response.g.dart';
@@ -31,7 +32,7 @@ class ValidateAwbResponse {
 }
 
 @JsonSerializable()
-class Groups implements Comparable<Groups>{
+class Groups implements Comparable<Groups> {
   @JsonKey(name: "l")
   String? label;
 
@@ -52,7 +53,7 @@ class Groups implements Comparable<Groups>{
 }
 
 @JsonSerializable()
-class Items implements Comparable<Items>{
+class Items implements Comparable<Items> {
   @JsonKey(name: "k")
   String? key;
 
@@ -71,6 +72,12 @@ class Items implements Comparable<Items>{
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isChecked;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<String?>? imageUrls;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<String?>? videoUrls;
+
   Items({
     this.key,
     this.label,
@@ -78,15 +85,36 @@ class Items implements Comparable<Items>{
     this.imageCount,
     this.videoCount,
     this.isChecked = false,
+    this.imageUrls,
+    this.videoUrls,
   });
 
-  static Items fromJson(Map<String, dynamic> data) => _$ItemsFromJson(data);
+  static Items fromJson(Map<String, dynamic> data) {
+    var res = _$ItemsFromJson(data);
+    res.videoUrls = List.generate(res.videoCount ?? 0, (index) => null);
+    res.imageUrls = List.generate(res.imageCount ?? 0, (index) => null);
+
+    return res;
+  }
 
   Map<String, dynamic> toJson() => _$ItemsToJson(this);
 
   @override
   int compareTo(Items other) {
-   return Comparable.compare(priority ?? 0, other.priority ?? 0);
+    return Comparable.compare(priority ?? 0, other.priority ?? 0);
   }
 
+  void resetList() {
+    if (!ArrayUtil.isNullOrEmpty(imageUrls)) {
+      for (int i = 0; i < imageUrls!.length; i++) {
+        imageUrls![i] = null;
+      }
+    }
+
+    if (!ArrayUtil.isNullOrEmpty(videoUrls)) {
+      for (int i = 0; i < videoUrls!.length; i++) {
+        videoUrls![i] = null;
+      }
+    }
+  }
 }

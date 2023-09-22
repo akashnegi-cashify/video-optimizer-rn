@@ -11,6 +11,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_que
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_device_quote_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
@@ -45,6 +46,7 @@ class QcRoutes {
       ExternalAuditPerformScreen.route: (_) => const ExternalAuditPerformScreen(),
       StockInScreen.route: (_) => const StockInScreen(),
       StockInProductDetailScreen.route: (_) => const StockInProductDetailScreen(),
+      MediaFileUploadScreen.route: (_) => const MediaFileUploadScreen(),
     };
   }
 }

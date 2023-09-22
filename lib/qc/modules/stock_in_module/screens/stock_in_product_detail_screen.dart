@@ -9,10 +9,14 @@ part 'stock_in_product_detail_screen.g.dart';
 
 class StockInProductDetailScreenArguments extends BaseArguments {
   ValidateAwbResponse? stockInProductDetail;
+  String? awbNumber;
+  String? barcode;
 
   StockInProductDetailScreenArguments(
     super.pageKey,
     this.stockInProductDetail,
+    this.awbNumber,
+    this.barcode,
   );
 }
 
@@ -34,11 +38,17 @@ class StockInProductDetailScreen extends BaseScreen<StockInProductDetailScreenAr
       pageKey: pageKey,
       initialValue: {
         ProductDetailCompParamKeys.stockInProductDetail.value: args?.stockInProductDetail,
+        ProductDetailCompParamKeys.awbNumber.value: args?.awbNumber,
+        ProductDetailCompParamKeys.barcode.value: args?.barcode,
       },
     );
   }
 
-  static navigate(BuildContext context, {ValidateAwbResponse? arguments}) {
-    Navigator.pushNamed(context, route, arguments: StockInProductDetailScreenArguments(pageKey, arguments));
+  static navigate(BuildContext context, {ValidateAwbResponse? arguments, String? awbNumber, String? barcode}) {
+    Navigator.pushNamed(
+      context,
+      route,
+      arguments: StockInProductDetailScreenArguments(pageKey, arguments, awbNumber, barcode),
+    );
   }
 }

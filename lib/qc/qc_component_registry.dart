@@ -10,6 +10,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/disputed_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/submit_device_quote_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_device_scanner_component.dart';
+import 'package:flutter_trc/qc/modules/stock_in_module/components/media_file_upload_component.dart';
 
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/qc_actions/component/qc_action_component.dart';
@@ -59,8 +60,11 @@ class QcComponentRegistry {
         return ExternalAuditHomeComponent(jsonConfig);
       case StockInComponent.COMP_KEY:
         return StockInComponent(jsonConfig);
-        case StockInProductDetailComponent.COMP_KEY:
+      case StockInProductDetailComponent.COMP_KEY:
         return StockInProductDetailComponent(jsonConfig);
+
+      case MediaFileUploadComponent.COMP_KEY:
+        return MediaFileUploadComponent(jsonConfig);
       default:
         return null;
     }

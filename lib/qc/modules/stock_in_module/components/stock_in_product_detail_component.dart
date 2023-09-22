@@ -23,8 +23,10 @@ class StockInProductDetailComponent extends StatelessComponent<NoneConfigModel> 
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder(
-      (paramBuilder) => StockInProductDetailWidget(
-        stockInProductDetail: paramBuilder.stockInProductDetail,
+      (paramModel) => StockInProductDetailWidget(
+        stockInProductDetail: paramModel.stockInProductDetail,
+        awbNumber: paramModel.awbNumber,
+        barCode: paramModel.barcode,
       ),
     );
   }

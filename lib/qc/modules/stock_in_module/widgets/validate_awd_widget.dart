@@ -79,8 +79,8 @@ class ValidateAwdWidget extends StatelessWidget {
 
       StockInService.validateAwb(awdNumber, barCode).listen((event) {
         CshLoading().hideLoading(context);
-        _navigateToProductDetail(context,event);
-
+        _navigateToProductDetail(context, event, awdNumber, barCode);
+        provider.resetControllerValue();
       }, onError: (error) => _onError(context, error));
     }
   }
@@ -105,7 +105,8 @@ class ValidateAwdWidget extends StatelessWidget {
     }
   }
 
-  void _navigateToProductDetail(BuildContext context,ValidateAwbResponse? awbResponse){
-    StockInProductDetailScreen.navigate(context,arguments: awbResponse);
+  void _navigateToProductDetail(
+      BuildContext context, ValidateAwbResponse? awbResponse, String? awbNumber, String? barcode) {
+    StockInProductDetailScreen.navigate(context, arguments: awbResponse, awbNumber: awbNumber, barcode: barcode);
   }
 }

@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import '../../../../src/services/qc_service.dart';
+import '../models/stock_in_submit_response.dart';
+import '../models/stock_in_sumit_request.dart';
 import '../models/validate_awb_response.dart';
 
 class StockInService {
@@ -18,19 +22,12 @@ class StockInService {
     );
   }
 
-  static Stream<ValidateAwbResponse?> pushAwb(
-    String awbNumber,
-    String barcode,
-  ) {
-    Map<String, List<String>> params = {
-      "awb": [awbNumber],
-      "qrCode": [barcode]
-    };
+  static Stream<StockInSubmitResponse?> pushAwb(StockInSubmitRequest request) {
 
-    return QcService().get(
+    return QcService().post(
       "/stock-in/push-to-qc",
-      ValidateAwbResponse.fromJson,
-      params: params,
+      StockInSubmitResponse.fromJson,
+      body: jsonEncode(request),
     );
   }
 }
