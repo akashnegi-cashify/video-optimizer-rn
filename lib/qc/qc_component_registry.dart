@@ -10,6 +10,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/disputed_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/submit_device_quote_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_device_scanner_component.dart';
+import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_list_component.dart';
 
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/qc_actions/component/qc_action_component.dart';
@@ -53,6 +54,8 @@ class QcComponentRegistry {
         return LobDeviceScannerComponent(jsonConfig);
       case ExternalAuditPerformComponent.COMP_KEY:
         return ExternalAuditPerformComponent(jsonConfig);
+      case ReQcListComponent.COMP_KEY:
+        return ReQcListComponent(jsonConfig);
       case ExternalAuditHomeComponent.COMP_KEY:
         return ExternalAuditHomeComponent(jsonConfig);
       default:

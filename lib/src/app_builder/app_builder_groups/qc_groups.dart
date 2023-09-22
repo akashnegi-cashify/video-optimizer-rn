@@ -6,6 +6,7 @@ enum QcComponentGroup with AbsComponentGroup {
   qcSubmitDeviceQuoteComponentKey("Qc Submit Device Quote"),
   qcExternalAuditHomeComponentKey("Qc External Audit Home"),
   qcExternalAuditPerformComponentKey("Qc External Audit Perform"),
+  qcReQcListComponentKey("Qc Re Qc List"),
   qcLobDeviceScannerComponentKey("Qc Lob Device Scanner");
 
   @override
@@ -20,6 +21,7 @@ enum QcPageGroup with AbsPageGroup {
   qcSubmitDeviceQuotePageKey("Qc Submit Device Quote"),
   qcLobDeviceScannerPageKey("Qc Lob Device Scanner"),
   qcExternalAuditPerformPageKey("Qc External Audit Perform"),
+  qcReQcListPageKey("Qc Re Qc List"),
   qcExternalAuditHomePageKey("Qc External Audit Home");
 
   @override
