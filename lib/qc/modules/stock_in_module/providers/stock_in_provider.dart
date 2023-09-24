@@ -92,10 +92,11 @@ class StockInProvider extends CshChangeNotifier {
   List<SelectionData> convertMapToSelectionData() {
     List<SelectionData> result = [];
     stockInProductDetail?.groups?.forEachIndexed((grpIndex, grp) {
-      var selectionData = SelectionData();
-      selectionData.groupLabel = grp?.label;
+
       grp?.items?.forEachIndexed((index, item) {
         if (item?.isChecked == true && grp.label?.toLowerCase() != StockInConstants.AUDIT_STATUS) {
+          var selectionData = SelectionData();
+          selectionData.groupLabel = grp.label;
           selectionData.key = item?.key;
           selectionData.imgList = item?.imageUrls ?? [];
           selectionData.videoList = item?.videoUrls ?? [];
