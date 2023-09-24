@@ -25,7 +25,7 @@ class StockInService {
   static Stream<StockInSubmitResponse?> pushAwb(StockInSubmitRequest request) {
 
     return QcService().post(
-      "/stock-in/push-to-",
+      "/stock-in/push-to-qc",
       StockInSubmitResponse.fromJson,
       body: jsonEncode(request),
     );
