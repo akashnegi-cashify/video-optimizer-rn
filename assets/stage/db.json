@@ -778,7 +778,7 @@
     },
     {
       "pageId": 10019,
-      "pageKey": "QC_qc_stock_in",
+      "pageKey": "QC_qc_search_item",
       "hd": {
         "id": 10032,
         "key": "QC_qc_general_header"
@@ -786,7 +786,7 @@
       "dt": [
         {
           "id": 10033,
-          "key": "QC_qc_stock_in_component",
+          "key": "QC_qc_search_item_component",
           "type": "component"
         }
       ]
@@ -1990,10 +1990,10 @@
     {
       "componentId": 10033,
       "locale": "en",
-      "key": "QC_qc_stock_in_component",
+      "key": "QC_qc_search_item_component",
       "configJson": {
         "config": {
-          "ht": "Quote Request",
+          "ht": "Search Item",
           "sbb": false,
           "slb": false
         }
@@ -2017,7 +2017,7 @@
       "key": "QC_qc_stock_in_product_detail_component",
       "configJson": {
         "config": {
-          "ht": "Quote Request",
+          "ht": "Product Detail",
           "sbb": false,
           "slb": false
         }
@@ -2041,7 +2041,7 @@
       "key": "QC_qc_media_file_upload_component",
       "configJson": {
         "config": {
-          "ht": "Quote Request",
+          "ht": "Media File Upload",
           "sbb": false,
           "slb": false
         }

@@ -1,6 +1,7 @@
 import 'package:builder_project/builder_project.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';
 
 import '../models/media_file_upload_comp_params.dart';
 import '../models/validate_awb_response.dart';
@@ -19,6 +20,7 @@ class MediaFileUploadScreenArguments extends BaseArguments {
 @CshPage(
   key: MediaFileUploadScreen.pageKey,
   params: MediaFileUploadCompParamKeys.values,
+  pageGroup: QcPageGroup.qcMediaFileUploadPageKey
 )
 // todo ask page grp
 

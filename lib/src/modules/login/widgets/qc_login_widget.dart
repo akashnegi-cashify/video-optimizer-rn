@@ -21,7 +21,7 @@ class QcLoginWidget extends StatefulWidget {
 }
 
 class _QcLoginWidgetState extends State<QcLoginWidget> {
-  final TextEditingController _mobileNumberController = TextEditingController(text: '9899349578'); //todo remove default value
+  final TextEditingController _mobileNumberController = TextEditingController();
   final TextEditingController _otpController = TextEditingController();
 
   @override

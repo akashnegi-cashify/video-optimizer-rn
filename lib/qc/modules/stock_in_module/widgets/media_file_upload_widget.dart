@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/stock_in_module/screens/index.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../src/utils/media_upload/providers/image_upload_provider.dart';
@@ -8,6 +11,7 @@ import '../../../../src/utils/media_upload/widgets/general_video_upload_card.dar
 import '../../qc_tester/disputed_image_capture/models/disputed_media_data_response.dart';
 import '../models/validate_awb_response.dart';
 import '../l10n.dart';
+import '../screens/search_item_screen.dart';
 
 class MediaFileUploadWidget extends StatelessWidget {
   final Map<String, Items>? mapData;
@@ -20,113 +24,120 @@ class MediaFileUploadWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: ListView.separated(
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(Dimens.space_8),
-            itemBuilder: (context, index) {
-              var mapItem = mapData?[mapData?.keys.elementAt(index)];
+    return WillPopScope(
 
-              var imageList = mapItem?.imageUrls ?? [];
-              var videoList =
-                  mapItem?.videoUrls?.map((e) => VideoUrlData(e ?? '', videoThumbnail: null)).toList() ?? [];
+      onWillPop: () async {
+        _showExitDialog(context,l10n);
+        return Future.value(false);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: ListView.separated(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(Dimens.space_8),
+              itemBuilder: (context, index) {
+                var mapItem = mapData?[mapData?.keys.elementAt(index)];
 
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _Header(header: mapItem?.label ?? ''),
-                        const SizedBox(height: Dimens.space_8),
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: imageList.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                          itemBuilder: (context, indexx) {
-                            return ChangeNotifierProvider<ImageUploadProvider>(
-                              create: (_) => ImageUploadProvider(),
-                              child: Selector<ImageUploadProvider, String>(
-                                builder: (BuildContext context, value, Widget? child) {
-                                  return GeneralImageUploadCard(
-                                    cardHeight: 100.0,
-                                    cardWidth: 100.0,
-                                    isImageMarkingRequired: true,
-                                    imageUrl: imageList[indexx],
-                                    onMediaUploaded: (String? url) {
-                                      imageList[indexx] = url;
+                var imageList = mapItem?.imageUrls ?? [];
+                var videoList =
+                    mapItem?.videoUrls?.map((e) => VideoUrlData(e ?? '', videoThumbnail: null)).toList() ?? [];
+
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _Header(header: mapItem?.label ?? ''),
+                          const SizedBox(height: Dimens.space_8),
+                          GridView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: imageList.length,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                            itemBuilder: (context, itemIndex) {
+                              return ChangeNotifierProvider<ImageUploadProvider>(
+                                create: (_) => ImageUploadProvider(),
+                                child: Selector<ImageUploadProvider, String>(
+                                  builder: (BuildContext context, value, Widget? child) {
+                                    return GeneralImageUploadCard(
+                                      cardHeight: Dimens.space_100,
+                                      cardWidth: Dimens.space_100,
+                                      isImageMarkingRequired: true,
+                                      imageUrl: imageList[itemIndex],
+                                      onMediaUploaded: (String? url) {
+                                        imageList[itemIndex] = url;
+                                      },
+                                    );
+                                  },
+                                  selector: (BuildContext context, ImageUploadProvider provider) {
+                                    return mapItem?.imageUrls?[itemIndex] ?? '';
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _Header(header: mapItem?.label ?? ''),
+                          const SizedBox(height: Dimens.space_8),
+                          GridView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: videoList.length,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                            itemBuilder: (context, itemIndex) {
+                              return StatefulBuilder(
+                                builder: (BuildContext context, void Function(void Function()) setState) {
+                                  return GeneralVideoUploadCard(
+                                    cardHeight: Dimens.space_100,
+                                    cardWidth: Dimens.space_100,
+                                    videoUrl: videoList[itemIndex],
+                                    onMediaUploaded: (String? url, String? videoThumbnail) {
+                                      setState(() {
+                                        videoList[itemIndex] = VideoUrlData(url ?? "", videoThumbnail: videoThumbnail);
+                                        mapItem?.videoUrls?[itemIndex] = url;
+                                      });
                                     },
                                   );
                                 },
-                                selector: (BuildContext context, ImageUploadProvider provider) {
-                                  return mapItem?.imageUrls?[indexx] ?? '';
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _Header(header: mapItem?.label ?? ''),
-                        const SizedBox(height: Dimens.space_8),
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: videoList.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-                          itemBuilder: (context, indexx) {
-                            return StatefulBuilder(
-                              builder: (BuildContext context, void Function(void Function()) setState) {
-                                return GeneralVideoUploadCard(
-                                  cardHeight: 100.0,
-                                  cardWidth: 100.0,
-                                  videoUrl: videoList[indexx],
-                                  onMediaUploaded: (String? url, String? videoThumbnail) {
-                                    setState(() {
-                                      videoList[indexx] = VideoUrlData(url ?? "", videoThumbnail: videoThumbnail);
-                                      mapItem?.videoUrls?[indexx] = url;
-                                    });
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (context, child) {
-              return const SizedBox(height: Dimens.space_4);
-            },
-            itemCount: mapData?.length ?? 0,
+                  ],
+                );
+              },
+              separatorBuilder: (context, child) {
+                return const SizedBox(height: Dimens.space_4);
+              },
+              itemCount: mapData?.length ?? 0,
+            ),
           ),
-        ),
-        const SizedBox(height: Dimens.space_8),
-        CshCard(
-            child: CshBigButton(
-          text: l10n.done,
-          onPressed: () => _onDone(context,l10n),
-        )),
-      ],
+          const SizedBox(height: Dimens.space_8),
+          CshCard(
+              child: CshBigButton(
+            text: l10n.done,
+            onPressed: () => _onDone(context,l10n),
+          )),
+        ],
+      ),
     );
   }
 
@@ -141,18 +152,56 @@ class MediaFileUploadWidget extends StatelessWidget {
 
   bool _checkAllMediaFileUploaded() {
     bool result = false;
-    mapData?.forEach((key, value) {
-      var r1 = value.videoUrls?.any((element) => isEmpty(element)) ?? false;
-      var r2 = value.imageUrls?.any((element) => isEmpty(element)) ?? false;
 
-      if ((r1 && r2) == false) {
-        result = false;
-        return;
-      } else {
+    var sourceData = (mapData?.values ?? []);
+
+    for (var value in sourceData ) {
+      var r1 = value.videoUrls?.every((element) => isNotEmpty(element)) ?? false;
+      var r2 = value.imageUrls?.every((element) => isNotEmpty(element)) ?? false;
+
+      print('MediaFileUploadWidget._checkAllMediaFileUploaded  $key -------   ${(r1 && r2)}');
+
+      if ((r1 && r2)) {
         result = true;
+      } else {
+        result = false;
+        break;
       }
-    });
+    }
+
     return result;
+  }
+
+
+  void _showExitDialog(BuildContext context,L10n l10n){
+    var theme = Theme.of(context);
+    showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: CshTextNew.h2(l10n.alert),
+        content: CshTextNew.h3(l10n.allProgressWillBeLost),
+        actions: [
+          TextButton(
+            child: CshTextNew(
+              l10n.exit,
+              textStyle: theme.textTheme.headlineMedium?.copyWith(color: theme.primaryColor),
+            ),
+            onPressed: () {
+              Navigator.popUntil(context, ModalRoute.withName(StockInProductDetailScreen.route));
+
+            },
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: CshTextNew(
+              l10n.capCancel,
+              textStyle: theme.textTheme.headlineMedium?.copyWith(color: theme.primaryColor),
+            ),
+          )
+        ],
+      );
+    });
   }
 }
 

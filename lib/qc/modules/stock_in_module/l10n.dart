@@ -19,4 +19,14 @@ class L10n extends BaseL10n {
   String get done => Intl.message('Done', locale: localName, name: 'done');
   String get cancel => Intl.message('Cancel', locale: localName, name: 'cancel');
   String get pleaseUploadAllMediaFiles => Intl.message('Please Upload All Media Files', locale: localName, name: 'pleaseUploadAllMediaFiles');
+
+  String get alert => Intl.message('Alert', locale: localName, name: 'alert');
+  String get allProgressWillBeLost => Intl.message('All Progress Will Be Lost.', locale: localName, name: 'allProgressWillBeLost');
+  String get exit => Intl.message('EXIT', locale: localName, name: 'exit');
+  String get capCancel => Intl.message('CANCEL', locale: localName, name: 'capCancel');
+  String get ok => Intl.message('Ok', locale: localName, name: 'ok');
+  String get retry => Intl.message('Retry', locale: localName, name: 'retry');
+
+  String get pleaseEnterAwbNumber => Intl.message('Please enter awb number.', locale: localName, name: 'pleaseEnterAwbNumber');
+  String get pleaseEnterInternalBarcode => Intl.message('Please enter internal barcode', locale: localName, name: 'pleaseEnterInternalBarcode');
 }

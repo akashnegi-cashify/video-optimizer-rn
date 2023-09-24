@@ -4,11 +4,10 @@ import 'package:flutter_trc/qc/modules/stock_in_module/providers/stock_in_provid
 import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../models/awb_selection_request.dart';
-import '../models/stock_in_sumit_request.dart';
+import '../models/stock_in_submit_request.dart';
 import '../models/validate_awb_response.dart';
 import '../l10n.dart';
-import '../screens/stock_in_screen.dart';
+import '../screens/search_item_screen.dart';
 import '../types.dart';
 import 'index.dart';
 
@@ -60,7 +59,7 @@ class StockInProductDetailWidget extends StatelessWidget {
                   return CshBigButton(
                     text: l10n.submit,
                     bgColor: value ? theme.colorScheme.error : theme.primaryColor,
-                    onPressed: () => _onSubmit(builderContext),
+                    onPressed: () => _onSubmit(builderContext,l10n),
                   );
                 },
                 selector: (BuildContext context, StockInProvider provider) {
@@ -74,7 +73,7 @@ class StockInProductDetailWidget extends StatelessWidget {
     );
   }
 
-  void _onSubmit(BuildContext context) {
+  void _onSubmit(BuildContext context,L10n l10n) {
     var provider = StockInProvider.of(context, listen: false);
     var items = provider.filterUploadMediaFileItems();
 
@@ -83,23 +82,23 @@ class StockInProductDetailWidget extends StatelessWidget {
       ..qrcode = barCode;
 
     if (items.isEmpty) {
-      request.imgList = [];
-      _submitData(context, request);
+      request.selection = [];
+      _submitData(context, request,l10n);
     } else {
       // upload image data logic
       MediaFileUploadScreen.navigate(context, items).then((value) {
         if (value != null) {
-          request.imgList = provider.convertMapToSelectionData(items);
-          _submitData(context, request);
+          request.selection = provider.convertMapToSelectionData(items);
+          _submitData(context, request,l10n);
         }
       });
     }
   }
 
-  void _submitData(BuildContext context, StockInSubmitRequest request) {
+  void _submitData(BuildContext context, StockInSubmitRequest request,L10n l10n) {
     var provider = StockInProvider.of(context, listen: false);
     var theme = Theme.of(context);
-    provider.addAccessoriesOptionData();
+    provider.createAccessoriesOptionListData();
     AccessoriesData accessoriesData = AccessoriesData();
     accessoriesData.action = 'Stock In';
     accessoriesData.qrCode = barCode;
@@ -136,11 +135,11 @@ class StockInProductDetailWidget extends StatelessWidget {
                 actions: [
                   TextButton(
                     child: CshTextNew(
-                      'OK',
+                      l10n.ok,
                       textStyle: theme.textTheme.headlineMedium?.copyWith(color: theme.primaryColor),
                     ),
                     onPressed: () {
-                      Navigator.popUntil(context, ModalRoute.withName(StockInScreen.route));
+                      Navigator.popUntil(context, ModalRoute.withName(SearchItemScreen.route));
                     },
                   ),
                 ],
@@ -160,20 +159,20 @@ class StockInProductDetailWidget extends StatelessWidget {
                 actions: [
                   TextButton(
                     child: CshTextNew(
-                      'Retry',
+                      l10n.retry,
                       textStyle: theme.textTheme.headlineMedium?.copyWith(color: theme.primaryColor),
                     ),
                     onPressed: () {
                       Navigator.pop(dialogContext);
-                      _submitData(context, request);
+                      _submitData(context, request,l10n);
                     },
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.popUntil(context, ModalRoute.withName(StockInScreen.route));
+                      Navigator.popUntil(context, ModalRoute.withName(SearchItemScreen.route));
                     },
                     child: CshTextNew(
-                      'Cancel',
+                      l10n.cancel,
                       textStyle: theme.textTheme.headlineMedium?.copyWith(color: theme.primaryColor),
                     ),
                   )

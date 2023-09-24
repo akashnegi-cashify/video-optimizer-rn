@@ -18,7 +18,7 @@ import 'modules/qc_tester/calculator_media_capture/components/calculator_media_c
 import 'modules/qc_tester/disputed_image_capture/components/disputed_image_barcode_scanner_component.dart';
 import 'modules/qc_tester/disputed_image_capture/components/disputed_image_capture_component.dart';
 import 'modules/qc_tester/home/component/qc_tester_home_component.dart';
-import 'modules/stock_in_module/components/stock_in_component.dart';
+import 'modules/stock_in_module/components/search_item_component.dart';
 import 'modules/stock_in_module/components/stock_in_product_detail_component.dart';
 
 class QcComponentRegistry {
@@ -58,8 +58,8 @@ class QcComponentRegistry {
         return ExternalAuditPerformComponent(jsonConfig);
       case ExternalAuditHomeComponent.COMP_KEY:
         return ExternalAuditHomeComponent(jsonConfig);
-      case StockInComponent.COMP_KEY:
-        return StockInComponent(jsonConfig);
+      case SearchItemComponent.COMP_KEY:
+        return SearchItemComponent(jsonConfig);
       case StockInProductDetailComponent.COMP_KEY:
         return StockInProductDetailComponent(jsonConfig);
 

@@ -44,7 +44,7 @@ class QcRoutes {
       VideoRecorderWidget.route: (_) => const VideoRecorderWidget(),
       ExternalAuditHomeScreen.route: (_) => const ExternalAuditHomeScreen(),
       ExternalAuditPerformScreen.route: (_) => const ExternalAuditPerformScreen(),
-      StockInScreen.route: (_) => const StockInScreen(),
+      SearchItemScreen.route: (_) => const SearchItemScreen(),
       StockInProductDetailScreen.route: (_) => const StockInProductDetailScreen(),
       MediaFileUploadScreen.route: (_) => const MediaFileUploadScreen(),
     };

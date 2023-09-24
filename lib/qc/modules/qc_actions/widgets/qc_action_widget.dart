@@ -6,7 +6,7 @@ import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widg
 
 import '../../../../src/modules/elss/common_screen/elss_home_screen.dart';
 import '../../qc_tester/home/screens/qc_tester_home_screen.dart';
-import '../../stock_in_module/screens/stock_in_screen.dart';
+import '../../stock_in_module/screens/search_item_screen.dart';
 import '../l10n.dart';
 import '../models/qc_action_comp_config.dart';
 
@@ -64,7 +64,7 @@ class QCActionWidget extends StatelessWidget {
             child: CshBigButton(
               text: l10n.stockIn,
               onPressed: () {
-                Navigator.of(context).pushNamed(StockInScreen.route);
+                Navigator.of(context).pushNamed(SearchItemScreen.route);
               },
             ),
           ),

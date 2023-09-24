@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import '../../../../src/services/qc_service.dart';
 import '../models/stock_in_submit_response.dart';
-import '../models/stock_in_sumit_request.dart';
+import '../models/stock_in_submit_request.dart';
 import '../models/validate_awb_response.dart';
 
 class StockInService {

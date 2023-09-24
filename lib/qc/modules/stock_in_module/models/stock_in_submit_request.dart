@@ -1,28 +1,28 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'awb_selection_request.g.dart';
+part 'stock_in_submit_request.g.dart';
 
 @JsonSerializable()
-class AwbSelectionRequest {
-  @JsonKey(name: "awb",includeIfNull: false)
+class StockInSubmitRequest {
+  @JsonKey(name: "awb")
   String? awbNumber;
 
-  @JsonKey(name: "qrcode",includeIfNull: false)
-  String? qrCode;
+  @JsonKey(name: "qrcode")
+  String? qrcode;
 
-  @JsonKey(name: "selection",includeIfNull: false)
-  List<SelectionData?>? selection;
+  @JsonKey(name: "selection")
+  List<SelectionData>? selection;
 
-  @JsonKey(name: "bctr",includeIfNull: false)
+  @JsonKey(name: "bctr")
   AccessoriesData? barcodeChargerTracking;
 
-  static AwbSelectionRequest fromJson(Map<String, dynamic> data) => _$AwbSelectionRequestFromJson(data);
+  static StockInSubmitRequest fromJson(Map<String, dynamic> data) => _$StockInSubmitRequestFromJson(data);
 
-  Map<String, dynamic> toJson() => _$AwbSelectionRequestToJson(this);
+  Map<String, dynamic> toJson() => _$StockInSubmitRequestToJson(this);
 
-  AwbSelectionRequest({
+  StockInSubmitRequest({
     this.awbNumber,
-    this.qrCode,
+    this.qrcode,
     this.selection,
     this.barcodeChargerTracking,
   });
@@ -30,19 +30,19 @@ class AwbSelectionRequest {
 
 @JsonSerializable()
 class SelectionData {
-  @JsonKey(name: "gl",includeIfNull: false)
+  @JsonKey(name: "gl", includeIfNull: false)
   String? groupLabel;
 
-  @JsonKey(name: "k",includeIfNull: false)
+  @JsonKey(name: "k", includeIfNull: false)
   String? key;
 
-  @JsonKey(name: "v",includeIfNull: false)
+  @JsonKey(name: "v", includeIfNull: false)
   int? value;
 
-  @JsonKey(name: "imgs",includeIfNull: false)
+  @JsonKey(name: "imgs", includeIfNull: false)
   List<String?>? imgList;
 
-  @JsonKey(name: "vids",includeIfNull: false)
+  @JsonKey(name: "vids", includeIfNull: false)
   List<String?>? videoList;
 
   static SelectionData fromJson(Map<String, dynamic> data) => _$SelectionDataFromJson(data);
@@ -60,22 +60,22 @@ class SelectionData {
 
 @JsonSerializable()
 class AccessoriesData {
-  @JsonKey(name: "s",includeIfNull: false)
+  @JsonKey(name: "s", includeIfNull: false)
   String? source;
 
-  @JsonKey(name: "qr",includeIfNull: false)
+  @JsonKey(name: "qr", includeIfNull: false)
   String? qrCode;
 
-  @JsonKey(name: "hb",includeIfNull: false)
+  @JsonKey(name: "hb", includeIfNull: false)
   int? hasBox;
 
-  @JsonKey(name: "hc",includeIfNull: false)
+  @JsonKey(name: "hc", includeIfNull: false)
   int? hasCharger;
 
-  @JsonKey(name: "hbc",includeIfNull: false)
+  @JsonKey(name: "hbc", includeIfNull: false)
   int? hasBoxCharger;
 
-  @JsonKey(name: "a",includeIfNull: false)
+  @JsonKey(name: "a", includeIfNull: false)
   String? action;
 
   static AccessoriesData fromJson(Map<String, dynamic> data) => _$AccessoriesDataFromJson(data);

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stock_in_component.dart';
+part of 'search_item_component.dart';
 
 // **************************************************************************
 // ComponentGenerator
@@ -9,10 +9,10 @@ part of 'stock_in_component.dart';
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "QC_qc_stock_in_component",
-      "componentType": "Device Receive",
+      "key": "QC_qc_search_item_component",
+      "componentType": "Qc Search Item",
       "isActive": true,
-      "title": "Stock In Component",
+      "title": "Search Item Component",
       "configJson": {
         "config": [
           {

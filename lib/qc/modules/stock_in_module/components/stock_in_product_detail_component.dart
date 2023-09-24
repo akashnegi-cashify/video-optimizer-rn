@@ -1,6 +1,7 @@
 import 'package:builder_component/builder_component.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
@@ -12,7 +13,7 @@ part 'stock_in_product_detail_component.g.dart';
 @CshComponent(
     key: StockInProductDetailComponent.COMP_KEY,
     configModel: NoneConfigModel,
-    // componentGroup: ComponentGroup, // todo ask grp
+    componentGroup: QcComponentGroup.qcStockInProductDetailComponentKey,
     paramModel: ProductDetailCompParam,
     params: ProductDetailCompParamKeys.values)
 class StockInProductDetailComponent extends StatelessComponent<NoneConfigModel> {

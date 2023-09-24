@@ -7,22 +7,22 @@ import 'package:provider/provider.dart';
 import '../../qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import '../l10n.dart';
 import '../models/validate_awb_response.dart';
-import '../providers/validate_awd_provider.dart';
+import '../providers/search_item_provider.dart';
 import '../resources/stock_in_service.dart';
 import '../screens/index.dart';
 import 'index.dart';
 
-class ValidateAwdWidget extends StatelessWidget {
-  const ValidateAwdWidget({super.key});
+class SearchItemWidget extends StatelessWidget {
+  const SearchItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
 
     return ChangeNotifierProvider(
-      create: (BuildContext context) => ValidateAwdProvider(),
+      create: (BuildContext context) => SearchItemProvider(),
       child: Builder(builder: (builderContext) {
-        var provider = ValidateAwdProvider.of(builderContext);
+        var provider = SearchItemProvider.of(builderContext);
         return Padding(
           padding: const EdgeInsets.all(Dimens.space_16),
           child: Column(
@@ -56,7 +56,7 @@ class ValidateAwdWidget extends StatelessWidget {
               ),
               CshBigButton(
                 text: l10n.submit,
-                onPressed: () => _onSubmit(builderContext),
+                onPressed: () => _onSubmit(builderContext,l10n),
               )
             ],
           ),
@@ -65,15 +65,15 @@ class ValidateAwdWidget extends StatelessWidget {
     );
   }
 
-  void _onSubmit(BuildContext context) {
-    var provider = ValidateAwdProvider.of(context, listen: false);
+  void _onSubmit(BuildContext context,L10n l10n) {
+    var provider = SearchItemProvider.of(context, listen: false);
     var awdNumber = provider.awdNumberTextEditingController.text;
     var barCode = provider.barCodeTextEditingController.text;
 
     if (isEmpty(awdNumber)) {
-      CshSnackBar.error(context: context, message: 'Please enter awb number.');
+      CshSnackBar.error(context: context, message: l10n.pleaseEnterAwbNumber);
     } else if (isEmpty(barCode)) {
-      CshSnackBar.error(context: context, message: 'Please enter internal barcode');
+      CshSnackBar.error(context: context, message: l10n.pleaseEnterInternalBarcode);
     } else {
       CshLoading().showLoading(context);
 
@@ -107,6 +107,7 @@ class ValidateAwdWidget extends StatelessWidget {
 
   void _navigateToProductDetail(
       BuildContext context, ValidateAwbResponse? awbResponse, String? awbNumber, String? barcode) {
+    FocusManager.instance.primaryFocus?.unfocus();
     StockInProductDetailScreen.navigate(context, arguments: awbResponse, awbNumber: awbNumber, barcode: barcode);
   }
 }

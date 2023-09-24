@@ -1,6 +1,7 @@
 import 'package:builder_component/builder_component.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
@@ -13,7 +14,9 @@ part 'media_file_upload_component.g.dart';
     key: MediaFileUploadComponent.COMP_KEY,
     configModel: NoneConfigModel,
     params: MediaFileUploadCompParamKeys.values,
-    paramModel: MediaFileUploadCompParam)
+    paramModel: MediaFileUploadCompParam,
+    componentGroup: QcComponentGroup.qcMediaFileUploadComponentKey
+)
 class MediaFileUploadComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "QC_qc_media_file_upload_component";
 

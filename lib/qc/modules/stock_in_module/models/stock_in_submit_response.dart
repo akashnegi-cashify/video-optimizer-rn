@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'awb_selection_request.dart';
-
 part 'stock_in_submit_response.g.dart';
 
 @JsonSerializable()

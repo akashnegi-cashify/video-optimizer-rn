@@ -2,6 +2,7 @@ import 'package:builder_project/builder_project.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../src/app_builder/app_builder_groups/qc_groups.dart';
 import '../models/product_detail_comp_params.dart';
 import '../models/validate_awb_response.dart';
 
@@ -22,6 +23,8 @@ class StockInProductDetailScreenArguments extends BaseArguments {
 
 @CshPage(
   key: StockInProductDetailScreen.pageKey,
+  params: ProductDetailCompParamKeys.values,
+  pageGroup: QcPageGroup.qcStockInProductDetailPageKey
 )
 // todo ask page grp
 

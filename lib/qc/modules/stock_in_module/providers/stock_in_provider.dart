@@ -2,16 +2,15 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_in_module/models/awb_selection_request.dart';
 import 'package:provider/provider.dart';
 
 import '../models/accessories_option_data.dart';
 import '../models/stock_in_submit_response.dart';
-import '../models/stock_in_sumit_request.dart';
+import '../models/stock_in_submit_request.dart';
 import '../models/validate_awb_response.dart';
 import '../resources/stock_in_service.dart';
+import '../types.dart';
 
-const String AUDIT_STATUS = 'audit status';
 
 class StockInProvider extends CshChangeNotifier {
   final ValidateAwbResponse? stockInProductDetail;
@@ -30,7 +29,7 @@ class StockInProvider extends CshChangeNotifier {
     if (item == null) return;
     item.isChecked = item.isChecked != null ? !item.isChecked! : false;
 
-    if (group?.label?.toLowerCase() == AUDIT_STATUS) {
+    if (group?.label?.toLowerCase() == StockInConstants.AUDIT_STATUS) {
       isAuditStatusFailSelected = !isAuditStatusFailSelected;
     } else {
       notifyListeners();
@@ -66,7 +65,7 @@ class StockInProvider extends CshChangeNotifier {
     });
   }
 
-  void addAccessoriesOptionData() {
+  void createAccessoriesOptionListData() {
     accessoriesOptionDataList.clear();
     accessoriesOptionDataList = [
       AccessoriesOptionData(optionName: 'Box'),
