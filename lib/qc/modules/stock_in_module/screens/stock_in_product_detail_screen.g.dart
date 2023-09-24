@@ -10,9 +10,14 @@ dynamic schema() => {
       //#adminscreen
       "type": "@@page",
       "key": "QC_qc_stock_in_product_detail",
-      "pageGroup": "Unknown",
+      "pageGroup": "Qc Stock In Product Detail",
       "title": "Stock In Product Detail Screen",
       "isActive": true,
-      "params": null
+      "params": [
+        {"key": "stockInProductDetail", "value": null},
+        {"key": "awbNumber", "value": null},
+        {"key": "barcode", "value": null}
+      ]
+
       //#adminscreen
     };

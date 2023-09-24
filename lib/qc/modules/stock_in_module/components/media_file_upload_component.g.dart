@@ -36,7 +36,7 @@ dynamic schema() => {
       //#admincomponent
       "type": "@@component",
       "key": "QC_qc_media_file_upload_component",
-      "componentType": "Unknown",
+      "componentType": "Qc Media File Upload",
       "isActive": true,
       "title": "Media File Upload Component",
       "cpm": [

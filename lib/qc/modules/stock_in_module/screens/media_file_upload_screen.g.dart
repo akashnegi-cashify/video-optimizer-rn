@@ -10,7 +10,7 @@ dynamic schema() => {
       //#adminscreen
       "type": "@@page",
       "key": "QC_qc_media_file_upload",
-      "pageGroup": "Unknown",
+      "pageGroup": "Qc Media File Upload",
       "title": "Media File Upload Screen",
       "isActive": true,
       "params": [

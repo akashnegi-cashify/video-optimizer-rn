@@ -42,7 +42,7 @@ dynamic schema() => {
       //#admincomponent
       "type": "@@component",
       "key": "QC_qc_stock_in_product_detail_component",
-      "componentType": "Unknown",
+      "componentType": "Qc Stock In Product Detail",
       "isActive": true,
       "title": "Stock In Product Detail Component",
       "cpm": [
