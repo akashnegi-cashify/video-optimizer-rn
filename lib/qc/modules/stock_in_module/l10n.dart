@@ -29,4 +29,6 @@ class L10n extends BaseL10n {
 
   String get pleaseEnterAwbNumber => Intl.message('Please enter awb number.', locale: localName, name: 'pleaseEnterAwbNumber');
   String get pleaseEnterInternalBarcode => Intl.message('Please enter internal barcode', locale: localName, name: 'pleaseEnterInternalBarcode');
+  String get error => Intl.message('Error', locale: localName, name: 'error');
+  String get warning => Intl.message('Warning', locale: localName, name: 'warning');
 }

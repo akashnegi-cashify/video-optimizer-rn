@@ -82,13 +82,13 @@ class StockInProductDetailWidget extends StatelessWidget {
       ..qrcode = barCode;
 
     if (items.isEmpty) {
-      request.selection = [];
+      request.selection = provider.convertMapToSelectionData();
       _submitData(context, request,l10n);
     } else {
       // upload image data logic
       MediaFileUploadScreen.navigate(context, items).then((value) {
         if (value != null) {
-          request.selection = provider.convertMapToSelectionData(items);
+          request.selection = provider.convertMapToSelectionData();
           _submitData(context, request,l10n);
         }
       });
@@ -154,9 +154,18 @@ class StockInProductDetailWidget extends StatelessWidget {
             barrierDismissible: false,
             builder: (dialogContext) {
               return AlertDialog(
-                title: CshTextNew.h2('Error'),
+                title: CshTextNew.h2(l10n.warning),
                 content: CshTextNew.h3(errorMsg),
                 actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.popUntil(context, ModalRoute.withName(SearchItemScreen.route));
+                    },
+                    child: CshTextNew(
+                      l10n.cancel,
+                      textStyle: theme.textTheme.headlineMedium?.copyWith(color: theme.primaryColor),
+                    ),
+                  ),
                   TextButton(
                     child: CshTextNew(
                       l10n.retry,
@@ -166,15 +175,6 @@ class StockInProductDetailWidget extends StatelessWidget {
                       Navigator.pop(dialogContext);
                       _submitData(context, request,l10n);
                     },
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.popUntil(context, ModalRoute.withName(SearchItemScreen.route));
-                    },
-                    child: CshTextNew(
-                      l10n.cancel,
-                      textStyle: theme.textTheme.headlineMedium?.copyWith(color: theme.primaryColor),
-                    ),
                   )
                 ],
               );

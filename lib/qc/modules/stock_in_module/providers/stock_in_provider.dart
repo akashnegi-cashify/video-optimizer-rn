@@ -11,7 +11,6 @@ import '../models/validate_awb_response.dart';
 import '../resources/stock_in_service.dart';
 import '../types.dart';
 
-
 class StockInProvider extends CshChangeNotifier {
   final ValidateAwbResponse? stockInProductDetail;
   List<AccessoriesOptionData> accessoriesOptionDataList = [];
@@ -75,12 +74,14 @@ class StockInProvider extends CshChangeNotifier {
 
   Map<String, Items> filterUploadMediaFileItems() {
     Map<String, Items> items = {};
-    stockInProductDetail?.groups?.forEachIndexed((grpIndex,grp) {
-      grp?.items?.forEachIndexed((index,item) {
-        if(item?.isChecked == true && ((item?.imageCount ?? 0) > 0 || (item?.videoCount ?? 0) > 0)){
-          var key = item?.label ?? grp.label ?? 'grp_${grpIndex}_item_$index';
-          item?.resetList();
-          items[key] = item!;
+    stockInProductDetail?.groups?.forEachIndexed((grpIndex, grp) {
+      grp?.items?.forEachIndexed((index, item) {
+        if (grp.label?.toLowerCase() != StockInConstants.AUDIT_STATUS) {
+          if (item?.isChecked == true && ((item?.imageCount ?? 0) > 0 || (item?.videoCount ?? 0) > 0)) {
+            var key = item?.label ?? grp.label ?? 'grp_${grpIndex}_item_$index';
+            item?.resetList();
+            items[key] = item!;
+          }
         }
       });
     });
@@ -88,22 +89,20 @@ class StockInProvider extends CshChangeNotifier {
     return items;
   }
 
-  List<SelectionData> convertMapToSelectionData(Map<String, Items> data){
+  List<SelectionData> convertMapToSelectionData() {
     List<SelectionData> result = [];
-    stockInProductDetail?.groups?.forEachIndexed((grpIndex,grp) {
+    stockInProductDetail?.groups?.forEachIndexed((grpIndex, grp) {
       var selectionData = SelectionData();
-      grp?.items?.forEachIndexed((index,item) {
-        if(item?.isChecked == true && ((item?.imageCount ?? 0) > 0 || (item?.videoCount ?? 0) > 0)){
+      selectionData.groupLabel = grp?.label;
+      grp?.items?.forEachIndexed((index, item) {
+        if (item?.isChecked == true && grp.label?.toLowerCase() != StockInConstants.AUDIT_STATUS) {
           selectionData.key = item?.key;
-          selectionData.imgList = item?.imageUrls;
-          selectionData.videoList = item?.videoUrls;
+          selectionData.imgList = item?.imageUrls ?? [];
+          selectionData.videoList = item?.videoUrls ?? [];
           selectionData.value = 1;
-          selectionData.groupLabel =grp.label ;
-
           result.add(selectionData);
         }
       });
-
     });
 
     return result;
