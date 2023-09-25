@@ -1,7 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
-import 'package:flutter_trc/qc/modules/re_qc/re_qc_list_screen.dart';
+import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 

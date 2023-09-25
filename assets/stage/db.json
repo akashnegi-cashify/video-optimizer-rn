@@ -792,6 +792,21 @@
       ]
     },
     {
+      "pageId": 10101,
+      "pageKey": "QC_re_qc_detail_screen",
+      "hd": {
+        "id": 10104,
+        "key": "QC_qc_general_header"
+      },
+      "dt": [
+        {
+          "id": 10103,
+          "key": "QC_re_qc_detail_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "hd": {
@@ -1962,6 +1977,28 @@
       "configJson": {
         "config": {
           "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10103,
+      "locale": "en",
+      "key": "QC_re_qc_detail_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10104,
+      "locale": "en",
+      "key": "QC_qc_general_header",
+      "configJson": {
+        "config": {
+          "ht": "Re Qc",
+          "sbb": true,
+          "slb": false
         }
       }
     },

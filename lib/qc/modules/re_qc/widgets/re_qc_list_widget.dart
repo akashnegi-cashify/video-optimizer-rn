@@ -1,7 +1,9 @@
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_list_provider.dart';
+import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/src/common/widgets/searchbar_widget.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
@@ -41,10 +43,13 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
               children: [
                 iterate(
                   (item, index) {
-                    return _ReQcListItemWidget(
-                      index: index,
-                      dataModel: item,
-                      onSkipClick: () => _onSkipButtonClicked(item.lotGroupName),
+                    return InkWell(
+                      onTap: () => _onItemClicked(item),
+                      child: _ReQcListItemWidget(
+                        index: index,
+                        dataModel: item,
+                        onSkipClick: () => _onSkipButtonClicked(item.lotGroupName),
+                      ),
                     );
                   },
                   separator: const SizedBox(height: Dimens.space_8),
@@ -113,6 +118,7 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
     CshLoading().showLoading(context);
     provider.skipReQc(lotGroupName).then((value) {
       CshLoading().hideLoading(context);
+      CshSnackBar.success(context: context, message: "Request Completed Successfully");
       resetAndRefreshScreen();
     }, onError: (error) {
       CshLoading().hideLoading(context);
@@ -127,6 +133,35 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
       onSuccess?.call(value);
     }, onError: (error) {
       onError?.call(error);
+    });
+  }
+
+  void _onItemClicked(ReQcListData item) {
+    if ((item.pendingCount ?? 0) <= 0) {
+      _completeReQc(item.lotGroupName);
+      return;
+    }
+    Navigator.pushNamed(context, ReQcDetailScreen.route, arguments: ReQcDetailScreenArguments(item));
+  }
+
+  _completeReQc(String? lotGroupName) {
+    var provider = ReQcListProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.completeReQc(lotGroupName).then((value) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.success(context: context, message: "Request Completed Successfully");
+      resetAndRefreshScreen();
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      showPopup(context, title: "Warning", desc: error, actions: [
+        CshMediumButton(text: 'Cancel', onPressed: () => Navigator.pop(context)),
+        CshMediumButton(
+            text: 'Retry',
+            onPressed: () {
+              Navigator.pop(context);
+              _completeReQc(lotGroupName);
+            }),
+      ]);
     });
   }
 }

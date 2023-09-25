@@ -42,4 +42,19 @@ class ReQcListProvider extends CshChangeNotifier {
     });
     return completer.future;
   }
+
+  Future<void> completeReQc(String? lotGroupName) {
+    var completer = Completer<void>();
+    ReQcService.completeReQc(lotGroupName).listen((event) {
+      if (Validator.isTrue(event?.isSuccess)) {
+        completer.complete();
+      } else {
+        completer.completeError(event?.errorMsg.toString() ?? "Something went wrong");
+      }
+    }, onError: (error) {
+      var errorMessage = ApiErrorHelper.getErrorMessage(error);
+      completer.completeError(errorMessage.toString());
+    });
+    return completer.future;
+  }
 }
