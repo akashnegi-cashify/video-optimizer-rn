@@ -28,23 +28,50 @@ class DeviceReportListData {
   int? imageCount;
 
   @JsonKey(name: "svi")
-  int? selectedVariantId;
+  int? preSelectedVariantId;
 
   @JsonKey(name: "svn")
-  String? selectedVariantName;
+  String? preSelectedVariantName;
 
   @JsonKey(name: "v")
   Map<String, String>? variation;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? userSelectedVariantId;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? imageUrl;
 
   DeviceReportListData(
       {this.partId,
       this.label,
       this.imageCount,
-      this.selectedVariantId,
-      this.selectedVariantName,
+      this.preSelectedVariantId,
+      this.preSelectedVariantName,
       this.variation});
 
   static DeviceReportListData fromJson(Map<String, dynamic> json) => _$DeviceReportListDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeviceReportListDataToJson(this);
+
+  void setInitialUserSelectedVariantId() {
+    userSelectedVariantId = preSelectedVariantId?.toString() ?? getVariantKey(0);
+  }
+
+  String getVariantKey(int index) {
+    return variation!.keys.toList()[index];
+  }
+
+  String getVariantValue(String variantId) {
+    return variation![variantId] ?? "";
+  }
+
+  bool isSelected(String variantId) {
+    return variantId == userSelectedVariantId.toString();
+  }
+
+  bool isMismatchMarked() {
+    return preSelectedVariantId.toString() != userSelectedVariantId;
+  }
+
 }

@@ -26,6 +26,7 @@ class ReQcDetailComponent extends StatelessComponent<NoneConfigModel> {
     return paramBuilder((model) {
       return ChangeNotifierProvider(
         create: (_) => ReQcDetailProvider(model.reQcListData!),
+        lazy: false,
         child: const ReQcDetailWidget(),
       );
     });

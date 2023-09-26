@@ -32,8 +32,8 @@ DeviceReportListData _$DeviceReportListDataFromJson(
       partId: json['pi'] as int?,
       label: json['pn'] as String?,
       imageCount: json['ic'] as int?,
-      selectedVariantId: json['svi'] as int?,
-      selectedVariantName: json['svn'] as String?,
+      preSelectedVariantId: json['svi'] as int?,
+      preSelectedVariantName: json['svn'] as String?,
       variation: (json['v'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
@@ -45,7 +45,7 @@ Map<String, dynamic> _$DeviceReportListDataToJson(
       'pi': instance.partId,
       'pn': instance.label,
       'ic': instance.imageCount,
-      'svi': instance.selectedVariantId,
-      'svn': instance.selectedVariantName,
+      'svi': instance.preSelectedVariantId,
+      'svn': instance.preSelectedVariantName,
       'v': instance.variation,
     };

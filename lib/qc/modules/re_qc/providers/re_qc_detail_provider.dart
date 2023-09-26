@@ -18,7 +18,7 @@ class ReQcDetailProvider extends CshChangeNotifier {
   bool isLoading = true;
 
   ReQcDetailProvider(this.reQcListData) {
-    _getDeviceList();
+    getDeviceList();
   }
 
   String get lotName => reQcListData.lotGroupName ?? "";
@@ -36,18 +36,30 @@ class ReQcDetailProvider extends CshChangeNotifier {
     return "${totalCount - pendingCount}/$totalCount";
   }
 
-  void _getDeviceList() {
-    ReQcService.getLotDeviceList(lotName).listen((event) {
-      deviceList = event?.deviceList;
-      if (Validator.isListNullOrEmpty(deviceList)) {
-        errorMessage = "Device list is not present";
-      }
-    }, onError: (e) {
-      errorMessage = ApiErrorHelper.getErrorMessage(e);
-    }, onDone: () {
-      isLoading = false;
-      notifyListeners();
-    });
+  Future<bool> getDeviceList() {
+    var completer = Completer<bool>();
+    try {
+      ReQcService.getLotDeviceList(lotName).listen((event) {
+        if (Validator.isListNullOrEmpty(event?.deviceList)) {
+          errorMessage = "Device list is not present";
+          completer.completeError("Device list is not present");
+        } else {
+          deviceList = event?.deviceList;
+          completer.complete(true);
+        }
+      }, onError: (e) {
+        errorMessage = ApiErrorHelper.getErrorMessage(e);
+        completer.completeError(errorMessage.toString());
+      }, onDone: () {
+        isLoading = false;
+        notifyListeners();
+      });
+    } catch (e) {
+      errorMessage = e.toString();
+      completer.completeError(errorMessage.toString());
+    }
+
+    return completer.future;
   }
 
   LotDeviceListData? getLotListData() {
@@ -94,6 +106,30 @@ class ReQcDetailProvider extends CshChangeNotifier {
     }, onError: (e) {
       completer.completeError(ApiErrorHelper.getErrorMessage(e).toString());
       errorMessage = ApiErrorHelper.getErrorMessage(e);
+    });
+    return completer.future;
+  }
+
+  bool isAllDeviceReQcComplete() {
+    for (var device in deviceList ?? []) {
+      if (device.status == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  Future<bool> completeReQc() {
+    var completer = Completer<bool>();
+    ReQcService.completeReQc(reQcListData.lotGroupName).listen((event) {
+      if (Validator.isTrue(event?.isSuccess)) {
+        completer.complete(true);
+      } else {
+        completer.completeError(event?.errorMsg ?? "Something went wrong");
+      }
+    }, onError: (e) {
+      errorMessage = ApiErrorHelper.getErrorMessage(e);
+      completer.completeError(errorMessage.toString());
     });
     return completer.future;
   }

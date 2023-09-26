@@ -1,11 +1,15 @@
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/device_accessories_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_detail_provider.dart';
+import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_question_tab_provider.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/device_list_tab.dart';
 import 'package:flutter_trc/qc/modules/re_qc/widgets/re_qc_device_summary_tab.dart';
+import 'package:flutter_trc/qc/modules/re_qc/widgets/re_qc_questions_tab.dart';
 import 'package:flutter_trc/qc/modules/re_qc/widgets/re_qc_scanner_tab.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
+import 'package:provider/provider.dart';
 
 class ReQcDetailWidget extends StatefulWidget {
   const ReQcDetailWidget({super.key});
@@ -26,7 +30,11 @@ class _ReQcDetailWidgetState extends State<ReQcDetailWidget> {
         if (_currentPage == 0) {
           return Future.value(true);
         }
-        pagerController.animateToPage(0, duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+        if (_currentPage == 3) {
+          _animateToPage(_currentPage - 1);
+        } else {
+          _animateToPage(0);
+        }
         return Future.value(false);
       },
       child: CshShimmer(
@@ -39,7 +47,7 @@ class _ReQcDetailWidgetState extends State<ReQcDetailWidget> {
                   reQcListData: provider.reQcListData,
                   doneStatusCount: provider.getDoneStatusCount(),
                   onDeviceListPressed: () {
-                    pagerController.animateToPage(1, duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+                    _animateToPage(1);
                   },
                   onScanDetected: (String scannedData, MlScannerController? controller) {
                     _onScanDetected(scannedData, controller, provider);
@@ -48,21 +56,42 @@ class _ReQcDetailWidgetState extends State<ReQcDetailWidget> {
               case 1:
                 return DeviceListTab(deviceList: provider.deviceList ?? []);
               case 2:
-              default:
                 var lotListData = provider.getLotListData();
                 return ReQcDeviceSummaryTab(
                   lotDeviceListData: lotListData,
                   reQcListData: provider.reQcListData,
                   doneStatusCount: provider.getDoneStatusCount(),
                   onAccessoriesClicked: () => _onAccessoryClicked(lotListData?.deviceId, provider),
-                  onProceedClicked: () {
-
-                  },
+                  onProceedClicked: () => _animateToPage(3),
                 );
+              case 3:
+                return ChangeNotifierProvider(
+                  create: (_) => ReQcQuestionsProvider(provider.deviceReportList, provider.scannedDeviceBarcode),
+                  lazy: false,
+                  child: ReQcQuestionsTab(
+                    onReQcSubmitted: (bool isMismatchMarked) {
+                      _animateToPage(0);
+                      CshLoading().showLoading(context);
+                      provider.getDeviceList().then((value) {
+                        CshLoading().hideLoading(context);
+                        if (isMismatchMarked) {
+                          _showReQcSubmitDialog("Mismatch uploaded successfully", provider);
+                        } else {
+                          _showReQcSubmitDialog("Device matched successfully", provider);
+                        }
+                      }, onError: (error) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.error(context: context, message: error);
+                      });
+                    },
+                  ),
+                );
+              default:
+                return Container();
             }
           },
           controller: pagerController,
-          itemCount: 3,
+          itemCount: 4,
           onPageChanged: (value) {
             if (value == 0) {
               provider.scannedDeviceBarcode = null;
@@ -76,6 +105,10 @@ class _ReQcDetailWidgetState extends State<ReQcDetailWidget> {
         ),
       ),
     );
+  }
+
+  _animateToPage(int index) {
+    pagerController.animateToPage(index, duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
   }
 
   _onScanDetected(String scannedData, MlScannerController? controller, ReQcDetailProvider provider) {
@@ -142,5 +175,59 @@ class _ReQcDetailWidgetState extends State<ReQcDetailWidget> {
         ),
       ),
     );
+  }
+
+  _showReQcSubmitDialog(String message, ReQcDetailProvider provider) {
+    showPopup(context, title: "Re-Qc Success", desc: message, actions: [
+      CshMediumButton(
+        text: "Next",
+        onPressed: () {
+          if (provider.isAllDeviceReQcComplete()) {
+            Navigator.pop(context); // dismissDialog
+            _showCompleteReQcDialog(provider);
+          } else {
+            Navigator.pop(context); // dismissDialog
+          }
+        },
+      ),
+    ]);
+  }
+
+  void _showCompleteReQcDialog(ReQcDetailProvider provider) {
+    showPopup(context, title: "Complete Re-Qc", desc: "Do you want to complete Re-Qc", actions: [
+      CshMediumButton(
+        text: "Cancel",
+        onPressed: () {
+          Navigator.pop(context); // dismissDialog
+        },
+      ),
+      CshMediumButton(
+        text: "Next",
+        onPressed: () {
+          CshLoading().showLoading(context);
+          provider.completeReQc().then((value) {
+            Navigator.pop(context); // dismissDialog
+            CshLoading().hideLoading(context);
+            Navigator.pop(context);
+          }, onError: (error) {
+            Navigator.pop(context); // dismissDialog
+            CshLoading().hideLoading(context);
+            _showExitPopup(error);
+          });
+        },
+      ),
+    ]);
+  }
+
+  _showExitPopup(String message) {
+    showPopup(context, title: "Info", desc: message, actions: [
+      CshMediumButton(
+        text: "Exit",
+        onPressed: () {
+          Navigator.pop(context); // dismissDialog
+          Navigator.pop(context);
+        },
+      ),
+    ]);
   }
 }
