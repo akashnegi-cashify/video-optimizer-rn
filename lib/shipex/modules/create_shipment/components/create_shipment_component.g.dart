@@ -8,12 +8,12 @@ part of 'create_shipment_component.dart';
 
 CreateShipmentParam fromMap(Map<String, dynamic> map) {
   CreateShipmentParam model = CreateShipmentParam(
-    lotName: map["ln"],
-    devicesQuantity: map["dq"],
-    shipmentId: map["sid"],
-    facilityId: map["fid"],
     groupId: map["gid"],
     pinCode: map["p"],
+    shipmentId: map["sid"],
+    facilityId: map["fid"],
+    lotName: map["ln"],
+    devicesQuantity: map["dq"],
   );
   return model;
 }
@@ -21,12 +21,12 @@ CreateShipmentParam fromMap(Map<String, dynamic> map) {
 Widget paramBuilder(Widget Function(CreateShipmentParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "ln": provider.data["ln"],
-      "dq": provider.data["dq"],
-      "sid": provider.data["sid"],
-      "fid": provider.data["fid"],
       "gid": provider.data["gid"],
       "p": provider.data["p"],
+      "sid": provider.data["sid"],
+      "fid": provider.data["fid"],
+      "ln": provider.data["ln"],
+      "dq": provider.data["dq"],
     },
     builder: (context, data, child) {
       CreateShipmentParam model = fromMap(data);
@@ -36,19 +36,19 @@ Widget paramBuilder(Widget Function(CreateShipmentParam model) paramBuilder) {
 }
 
 bool isValid(CreateShipmentParam model) {
-  var lotName = model.lotName;
-  var devicesQuantity = model.devicesQuantity;
-  var shipmentId = model.shipmentId;
-  var facilityId = model.facilityId;
   var groupId = model.groupId;
   var pinCode = model.pinCode;
+  var shipmentId = model.shipmentId;
+  var facilityId = model.facilityId;
+  var lotName = model.lotName;
+  var devicesQuantity = model.devicesQuantity;
 
-  return lotName != null &&
-      devicesQuantity != null &&
+  return groupId != null &&
+      pinCode != null &&
       shipmentId != null &&
       facilityId != null &&
-      groupId != null &&
-      pinCode != null;
+      lotName != null &&
+      devicesQuantity != null;
 }
 
 dynamic schema() => {
@@ -67,14 +67,16 @@ dynamic schema() => {
         {"key": "fid", "value": null}
       ],
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };

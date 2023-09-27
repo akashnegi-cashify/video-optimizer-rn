@@ -3,10 +3,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
-import '../models/inventory_home_comp_config.dart';
 import '../providers/inventory_home_provider.dart';
 import '../widgets/inventory_home_widget.dart';
 
@@ -14,9 +14,9 @@ part 'inventory_home_component.g.dart';
 
 @CshComponent(
     key: InventoryHomeComponent.COMP_KEY,
-    configModel: InventoryHomeCompConfig,
+    configModel: NoneConfigModel,
     componentGroup: ComponentGroup.inventoryHomeComponentKey)
-class InventoryHomeComponent extends StatelessComponent<InventoryHomeCompConfig> {
+class InventoryHomeComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_inventory_home";
 
   const InventoryHomeComponent(super.jsonConfig, {super.key});
@@ -70,6 +70,6 @@ class InventoryHomeComponent extends StatelessComponent<InventoryHomeCompConfig>
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return InventoryHomeCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

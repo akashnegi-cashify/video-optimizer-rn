@@ -3,8 +3,8 @@ import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/resources/qc_common_config.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
@@ -18,17 +18,17 @@ part 'audit_question_summary_component.g.dart';
 
 @CshComponent(
     key: AuditQuestionSummaryComponent.COMP_KEY,
-    configModel: QcCommonConfigModel,
+    configModel: NoneConfigModel,
     paramModel: AuditQuestionSummaryCompParam,
     params: AuditQuestionSummaryCompParamKeys.values,
     componentGroup: ComponentGroup.auditQuestionSummaryComponentKey)
-class AuditQuestionSummaryComponent extends StatelessComponent<QcCommonConfigModel> {
+class AuditQuestionSummaryComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "audit_question_summary";
 
   const AuditQuestionSummaryComponent(super.jsonConfig, {super.key});
 
   @override
-  Widget buildView(BuildContext context, QcCommonConfigModel? configModel) {
+  Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     return paramBuilder((param) {
       return ChangeNotifierProvider<AuditQuestionSubmitProvider>(
         create: (_) => AuditQuestionSubmitProvider(),
@@ -51,7 +51,7 @@ class AuditQuestionSummaryComponent extends StatelessComponent<QcCommonConfigMod
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return QcCommonConfigModel.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }
 

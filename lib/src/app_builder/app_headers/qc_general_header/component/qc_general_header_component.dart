@@ -13,7 +13,7 @@ part 'qc_general_header_component.g.dart';
     configModel: QCGeneralHeaderConfig,
     componentGroup: ComponentGroup.qcGeneralHeaderComponentKey)
 class QcGeneralHeaderComponent extends StatelessComponent<QCGeneralHeaderConfig> implements PreferredSizeWidget {
-  static const String COMP_KEY = "QC_qc_general_header";
+  static const String COMP_KEY = "header_QC_qc_general";
 
   const QcGeneralHeaderComponent(super.jsonConfig, {super.key});
 

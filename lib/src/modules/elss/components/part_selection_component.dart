@@ -3,10 +3,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../common_models/elss_device_details_response.dart';
-import '../common_models/part_selection_comp_config.dart';
 import '../common_models/part_selection_comp_param.dart';
 import '../elss_trc/providers/elss_provider_trc.dart';
 import '../elss_trc/screens/brand_details_listing_screen.dart';
@@ -16,11 +16,11 @@ part 'part_selection_component.g.dart';
 
 @CshComponent(
     key: PartSelectionComponent.COMP_KEY,
-    configModel: PartSelectionCompConfig,
+    configModel: NoneConfigModel,
     componentGroup: ComponentGroup.partSelectionComponentKey,
     params: PartSelectionCompParamKeys.values,
     paramModel: PartSelectionCompParam)
-class PartSelectionComponent extends StatelessComponent<PartSelectionCompConfig> {
+class PartSelectionComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_part_selection_comp";
 
   const PartSelectionComponent(super.jsonConfig, {super.key});
@@ -69,7 +69,7 @@ class PartSelectionComponent extends StatelessComponent<PartSelectionCompConfig>
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return PartSelectionCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }
 

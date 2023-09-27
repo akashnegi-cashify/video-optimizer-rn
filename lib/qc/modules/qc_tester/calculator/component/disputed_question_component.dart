@@ -2,8 +2,8 @@ import 'package:builder_component/builder_component.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/resources/qc_common_config.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
@@ -15,16 +15,16 @@ part 'disputed_question_component.g.dart';
 @CshComponent(
     key: DisputedQuestionsComponent.COMP_KEY,
     componentGroup: ComponentGroup.disputedQuestionsComponentKey,
-    configModel: QcCommonConfigModel,
+    configModel: NoneConfigModel,
     paramModel: DisputedQuestionParam,
     params: DisputedQuestionParamKeys.values)
-class DisputedQuestionsComponent extends StatelessComponent<QcCommonConfigModel> {
+class DisputedQuestionsComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "disputed_questions";
 
   const DisputedQuestionsComponent(super.jsonConfig, {super.key});
 
   @override
-  Widget buildView(BuildContext context, QcCommonConfigModel? configModel) {
+  Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     var l10n = L10n(context);
     return paramBuilder((param) {
       return ChangeNotifierProvider(
@@ -82,6 +82,6 @@ class DisputedQuestionsComponent extends StatelessComponent<QcCommonConfigModel>
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return QcCommonConfigModel.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

@@ -2,17 +2,17 @@ import 'package:builder_component/builder_component.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 
-import '../models/engineer_home_comp_config.dart';
 import '../widgets/engineer_home_widget.dart';
 
 part 'engineer_home_component.g.dart';
 
 @CshComponent(
     key: EngineerHomeComponent.COMP_KEY,
-    configModel: EngineerHomeCompConfig,
+    configModel: NoneConfigModel,
     componentGroup: ComponentGroup.engineerHomeComponentKey)
-class EngineerHomeComponent extends StatelessComponent<EngineerHomeCompConfig> {
+class EngineerHomeComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_engineer_home";
 
   const EngineerHomeComponent(super.jsonConfig, {super.key});
@@ -24,6 +24,6 @@ class EngineerHomeComponent extends StatelessComponent<EngineerHomeCompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return EngineerHomeCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

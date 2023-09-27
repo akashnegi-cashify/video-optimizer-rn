@@ -3,11 +3,11 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/user/widget/logout_action_widget.dart';
 import '../l10n.dart';
-import '../models/part_qc_home_comp_config.dart';
 import '../providers/pq_provider.dart';
 import '../widgets/qc_pending_tab_widget.dart';
 import '../widgets/reader_tab_widget.dart';
@@ -16,10 +16,10 @@ part 'part_qc_home_component.g.dart';
 
 @CshComponent(
   key: PartQcHomeComponent.COMP_KEY,
-  configModel: PartQcHomeCompConfig,
+  configModel: NoneConfigModel,
   componentGroup: ComponentGroup.partQcHomeComponentKey,
 )
-class PartQcHomeComponent extends StatelessComponent<PartQcHomeCompConfig> {
+class PartQcHomeComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_part_qc_home_component";
 
   const PartQcHomeComponent(super.jsonConfig, {super.key});
@@ -64,6 +64,6 @@ class PartQcHomeComponent extends StatelessComponent<PartQcHomeCompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return PartQcHomeCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

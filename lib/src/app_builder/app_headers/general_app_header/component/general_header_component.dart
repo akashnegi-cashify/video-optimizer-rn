@@ -13,7 +13,7 @@ part 'general_header_component.g.dart';
     configModel: GeneralHeaderConfig,
     componentGroup: ComponentGroup.generalHeaderComponentKey)
 class GeneralHeaderComponent extends StatelessComponent<GeneralHeaderConfig> implements PreferredSizeWidget {
-  static const String COMP_KEY = "TRC_general_header_component";
+  static const String COMP_KEY = "header_TRC_general_component";
 
   const GeneralHeaderComponent(super.jsonConfig, {super.key});
 

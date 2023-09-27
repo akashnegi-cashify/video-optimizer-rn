@@ -4,7 +4,7 @@ part 'none_config_model.g.dart';
 
 @ConfigModel()
 class NoneConfigModel {
-  @ConfigKey(name: "none")
+  @ConfigKey(name: "none", label: "None", uiType: ConfigUIType.input)
   String? none;
 
   NoneConfigModel({this.none});
