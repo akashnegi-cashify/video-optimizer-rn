@@ -10,7 +10,7 @@ dynamic schema() => {
       //#adminscreen
       "type": "@@page",
       "key": "QC_qc_invoice_scan",
-      "pageGroup": "Qc Search Item",
+      "pageGroup": "QC Invoice Scan",
       "title": "Invoice Scan Screen",
       "isActive": true,
       "params": null

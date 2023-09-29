@@ -4,6 +4,7 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/pending_device_list_response.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/providers/pending_delivery_provider.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_delivery_screen.dart';
@@ -14,18 +15,17 @@ import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
-import '../models/pending_delivery_comp_config.dart';
 import '../models/pending_delivery_comp_param.dart';
 
 part 'pending_delivery_component.g.dart';
 
 @CshComponent(
     key: PendingDeliveryComponent.COMP_KEY,
-    configModel: PendingDeliveryCompConfig,
+    configModel: NoneConfigModel,
     params: PendingDeliveryCompParamKeys.values,
     paramModel: PendingDeliveryCompParam,
     componentGroup: ComponentGroup.pendingDeliveryComponentKey)
-class PendingDeliveryComponent extends StatelessComponent<PendingDeliveryCompConfig> {
+class PendingDeliveryComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_pending_delivery_comp";
 
   const PendingDeliveryComponent(super.jsonConfig, {super.key});
@@ -39,7 +39,7 @@ class PendingDeliveryComponent extends StatelessComponent<PendingDeliveryCompCon
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return PendingDeliveryCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }
 

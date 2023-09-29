@@ -10,18 +10,20 @@ dynamic schema() => {
       //#admincomponent
       "type": "@@component",
       "key": "QC_qc_invoice_scan_component",
-      "componentType": "Unknown",
+      "componentType": "Qc Invoice Scan Component",
       "isActive": true,
       "title": "Invoice Scan Component",
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };

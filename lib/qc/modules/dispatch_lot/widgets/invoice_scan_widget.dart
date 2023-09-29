@@ -36,7 +36,7 @@ class InvoiceScanWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  CshTextFormField(labelText: l10n.enterHere, controller: provider.textEditingController),
+                  CshTextFormField(labelText: l10n.enterInvoiceNumber, controller: provider.textEditingController),
                   const SizedBox(width: Dimens.space_8),
                   ValueListenableBuilder(
                     valueListenable: provider.textEditingController,

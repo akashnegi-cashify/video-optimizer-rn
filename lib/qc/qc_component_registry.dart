@@ -11,6 +11,8 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/disputed_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/submit_device_quote_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_device_scanner_component.dart';
+import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_detail_component.dart';
+import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_list_component.dart';
 import 'package:flutter_trc/qc/modules/stock_in_module/components/media_file_upload_component.dart';
 
 import 'modules/device_receive_module/components/device_receive_component.dart';
@@ -59,22 +61,23 @@ class QcComponentRegistry {
         return LobDeviceScannerComponent(jsonConfig);
       case ExternalAuditPerformComponent.COMP_KEY:
         return ExternalAuditPerformComponent(jsonConfig);
+      case ReQcListComponent.COMP_KEY:
+        return ReQcListComponent(jsonConfig);
+      case ReQcDetailComponent.COMP_KEY:
+        return ReQcDetailComponent(jsonConfig);
       case ExternalAuditHomeComponent.COMP_KEY:
         return ExternalAuditHomeComponent(jsonConfig);
       case SearchItemComponent.COMP_KEY:
         return SearchItemComponent(jsonConfig);
       case StockInProductDetailComponent.COMP_KEY:
         return StockInProductDetailComponent(jsonConfig);
-
       case MediaFileUploadComponent.COMP_KEY:
         return MediaFileUploadComponent(jsonConfig);
-
       case DispatchLotsComponent.COMP_KEY:
         return DispatchLotsComponent(jsonConfig);
-
       case InvoiceScanComponent.COMP_KEY:
         return InvoiceScanComponent(jsonConfig);
-        case DispatchLotsFilterComponent.COMP_KEY:
+      case DispatchLotsFilterComponent.COMP_KEY:
         return DispatchLotsFilterComponent(jsonConfig);
       default:
         return null;

@@ -8,8 +8,8 @@ part of 'upload_eway_bill_component.dart';
 
 UploadEwayBillParams fromMap(Map<String, dynamic> map) {
   UploadEwayBillParams model = UploadEwayBillParams(
-    shipmentId: map["sid"],
     facilityId: map["fid"],
+    shipmentId: map["sid"],
   );
   return model;
 }
@@ -17,8 +17,8 @@ UploadEwayBillParams fromMap(Map<String, dynamic> map) {
 Widget paramBuilder(Widget Function(UploadEwayBillParams model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "sid": provider.data["sid"],
       "fid": provider.data["fid"],
+      "sid": provider.data["sid"],
     },
     builder: (context, data, child) {
       UploadEwayBillParams model = fromMap(data);
@@ -28,10 +28,10 @@ Widget paramBuilder(Widget Function(UploadEwayBillParams model) paramBuilder) {
 }
 
 bool isValid(UploadEwayBillParams model) {
-  var shipmentId = model.shipmentId;
   var facilityId = model.facilityId;
+  var shipmentId = model.shipmentId;
 
-  return shipmentId != null && facilityId != null;
+  return facilityId != null && shipmentId != null;
 }
 
 dynamic schema() => {
@@ -46,14 +46,16 @@ dynamic schema() => {
         {"key": "fid", "value": null}
       ],
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };

@@ -10,7 +10,7 @@ dynamic schema() => {
       //#adminscreen
       "type": "@@page",
       "key": "QC_qc_dispatch_lot",
-      "pageGroup": "Qc Search Item",
+      "pageGroup": "QC Dispatch Lot",
       "title": "Dispatch Lot Screen",
       "isActive": true,
       "params": null

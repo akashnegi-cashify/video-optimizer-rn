@@ -2,18 +2,18 @@ import 'package:builder_component/builder_component.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 
-import '../models/l4_comp_config.dart';
 import '../widget/l4_widget.dart';
 
 part 'l4_component.g.dart';
 
 @CshComponent(
   key: L4Component.COMP_KEY,
-  configModel: L4CompConfig,
+  configModel: NoneConfigModel,
   componentGroup: ComponentGroup.l4ComponentKey,
 )
-class L4Component extends StatelessComponent<L4CompConfig> {
+class L4Component extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_l4_comp";
 
   const L4Component(super.jsonConfig, {super.key});
@@ -25,6 +25,6 @@ class L4Component extends StatelessComponent<L4CompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return L4CompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

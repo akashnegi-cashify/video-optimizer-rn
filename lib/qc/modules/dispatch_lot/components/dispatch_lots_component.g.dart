@@ -10,18 +10,20 @@ dynamic schema() => {
       //#admincomponent
       "type": "@@component",
       "key": "QC_qc_dispatch_lots_component",
-      "componentType": "Unknown",
+      "componentType": "QC Dispatch Lots Component",
       "isActive": true,
       "title": "Dispatch Lots Component",
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };

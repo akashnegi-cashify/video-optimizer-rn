@@ -10,8 +10,8 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_r
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_questions_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_device_quote_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
-import 'package:flutter_trc/qc/resources/qc_common_config.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
@@ -19,15 +19,15 @@ part 'calculator_component.g.dart';
 
 @CshComponent(
     key: CalculatorComponent.COMP_KEY,
-    configModel: QcCommonConfigModel,
+    configModel: NoneConfigModel,
     componentGroup: ComponentGroup.calculatorComponentKey)
-class CalculatorComponent extends StatelessComponent<QcCommonConfigModel> {
+class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "calculator_component";
 
   const CalculatorComponent(super.jsonConfig, {super.key});
 
   @override
-  Widget buildView(BuildContext context, QcCommonConfigModel? configModel) {
+  Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     var _calculatorResponse = CalculatorDataHolderModel().calculatorResponse;
     return FutureBuilder<bool?>(
       builder: (_, snapshot) {
@@ -94,6 +94,6 @@ class CalculatorComponent extends StatelessComponent<QcCommonConfigModel> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return QcCommonConfigModel.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

@@ -3,9 +3,9 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
-import '../models/assigned_device_details_comp_config.dart';
 import '../models/assigned_device_details_comp_param.dart';
 import '../providers/assigned_device_details_provider.dart';
 import '../widgets/assiged_device_details_widget.dart';
@@ -15,11 +15,11 @@ part 'assigned_device_details_component.g.dart';
 
 @CshComponent(
     key: AssignedDeviceDetailsComponent.COMP_KEY,
-    configModel: AssignedDeviceDetailsCompConfig,
+    configModel: NoneConfigModel,
     params: AssignedDeviceDetailsCompParamKeys.values,
     paramModel: AssignedDeviceDetailsCompParam,
     componentGroup: ComponentGroup.assignedDeviceDetailsComponentKey)
-class AssignedDeviceDetailsComponent extends StatelessComponent<AssignedDeviceDetailsCompConfig> {
+class AssignedDeviceDetailsComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_assigned_device_details";
 
   const AssignedDeviceDetailsComponent(super.jsonConfig, {super.key});
@@ -52,7 +52,6 @@ class AssignedDeviceDetailsComponent extends StatelessComponent<AssignedDeviceDe
               ],
             ),
           );
-
         },
       );
     });
@@ -60,6 +59,6 @@ class AssignedDeviceDetailsComponent extends StatelessComponent<AssignedDeviceDe
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return AssignedDeviceDetailsCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

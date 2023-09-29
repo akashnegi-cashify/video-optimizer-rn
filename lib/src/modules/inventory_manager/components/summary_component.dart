@@ -4,18 +4,18 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
-import '../models/summary_comp_config.dart';
 import '../providers/summary_screen_provider.dart';
 import '../widgets/chart_description_widget.dart';
 
 part 'summary_component.g.dart';
 
 @CshComponent(
-    key: SummaryComponent.COMP_KEY, configModel: SummaryCompConfig, componentGroup: ComponentGroup.summaryComponentKey)
-class SummaryComponent extends StatelessComponent<SummaryCompConfig> {
+    key: SummaryComponent.COMP_KEY, configModel: NoneConfigModel, componentGroup: ComponentGroup.summaryComponentKey)
+class SummaryComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_summary";
 
   const SummaryComponent(super.jsonConfig, {super.key});
@@ -131,6 +131,6 @@ class SummaryComponent extends StatelessComponent<SummaryCompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return SummaryCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

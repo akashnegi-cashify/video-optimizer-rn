@@ -13,4 +13,6 @@ class L10n extends BaseL10n {
   String get stockIn => Intl.message('Stock In', locale: localName, name: 'stockIn');
 
   String get dispatch => Intl.message('Dispatch', locale: localName, name: 'dispatch');
+
+  String get reQc => Intl.message("RE-QC SS", locale: localName, name: "reQc");
 }
