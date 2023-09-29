@@ -11,4 +11,6 @@ class L10n extends BaseL10n {
   String get externalAudit => Intl.message("External Audit", locale: localName, name: "externalAudit");
 
   String get stockIn => Intl.message('Stock In', locale: localName, name: 'stockIn');
+
+  String get dispatch => Intl.message('Dispatch', locale: localName, name: 'dispatch');
 }
