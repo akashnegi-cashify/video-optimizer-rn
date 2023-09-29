@@ -15,6 +15,7 @@ import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
+import 'modules/dispatch_lot/screens/index.dart';
 import 'modules/external_audit/widgets/video_recoder_widget.dart';
 import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
@@ -47,6 +48,9 @@ class QcRoutes {
       SearchItemScreen.route: (_) => const SearchItemScreen(),
       StockInProductDetailScreen.route: (_) => const StockInProductDetailScreen(),
       MediaFileUploadScreen.route: (_) => const MediaFileUploadScreen(),
+      DispatchLotScreen.route: (_) => const DispatchLotScreen(),
+      InvoiceScanScreen.route: (_) => const InvoiceScanScreen(),
+      DispatchLotFilterScreen.route: (_) => const DispatchLotFilterScreen(),
     };
   }
 }
