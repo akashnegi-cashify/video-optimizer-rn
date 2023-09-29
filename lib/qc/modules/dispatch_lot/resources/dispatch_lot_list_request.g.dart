@@ -1,0 +1,30 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'dispatch_lot_list_request.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+DispatchLotRequest _$DispatchLotRequestFromJson(Map<String, dynamic> json) =>
+    DispatchLotRequest()
+      ..pageNo = json['os'] as int?
+      ..pageSize = json['ps'] as int?
+      ..searchQuery = json['q'] as String?
+      ..channelQuery = json['chq'] as String?;
+
+Map<String, dynamic> _$DispatchLotRequestToJson(DispatchLotRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('os', instance.pageNo);
+  writeNotNull('ps', instance.pageSize);
+  writeNotNull('q', instance.searchQuery);
+  writeNotNull('chq', instance.channelQuery);
+  return val;
+}
