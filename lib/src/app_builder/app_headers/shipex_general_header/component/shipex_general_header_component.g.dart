@@ -9,7 +9,7 @@ part of 'shipex_general_header_component.dart';
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "shipex_general_header",
+      "key": "header_shipex_general",
       "componentType": "Shipex General Header",
       "isActive": true,
       "title": "Shipex General Header Component",

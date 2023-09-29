@@ -175,11 +175,6 @@ dependency_overrides:
   package_info_plus: ^4.1.0
   file_picker: ^5.5.0
   http: ^0.13.4
-  core_widgets:
-    path: ../flutter_admin_ui/core_widgets
-
-  calculator_ui:
-    path: ../flutter_admin_ui/calculator_ui
 
 
 

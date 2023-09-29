@@ -24,7 +24,10 @@ class DisputedImageBarcodeScannerComponent extends StatelessComponent<NoneConfig
   @override
   Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     return paramBuilder((param) {
-      return TRCScannerWidget(onScanDetected: param.onScanDetected!);
+      return TRCScannerWidget(
+        onScanDetected: param.onScanDetected!,
+        hintText: param.hintText,
+      );
     });
   }
 
