@@ -2,8 +2,8 @@ import 'package:builder_component/builder_component.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/resources/qc_common_config.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../models/audit_question_comp_param.dart';
@@ -17,14 +17,14 @@ part 'audit_question_component.g.dart';
     componentGroup: ComponentGroup.auditQuestionComponentKey,
     params: AuditQuestionParamKeys.values,
     paramModel: AuditQuestionParam,
-    configModel: QcCommonConfigModel)
-class AuditQuestionComponent extends StatelessComponent<QcCommonConfigModel> {
+    configModel: NoneConfigModel)
+class AuditQuestionComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "audit_question";
 
   const AuditQuestionComponent(super.jsonConfig, {super.key});
 
   @override
-  Widget buildView(BuildContext context, QcCommonConfigModel? configModel) {
+  Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     return paramBuilder((param) {
       return ChangeNotifierProvider<AuditQuestionsProvider>(
         create: (_) => AuditQuestionsProvider(param.scannedBarcode ?? ""),
@@ -36,7 +36,7 @@ class AuditQuestionComponent extends StatelessComponent<QcCommonConfigModel> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return QcCommonConfigModel.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }
 

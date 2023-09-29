@@ -14,14 +14,16 @@ dynamic schema() => {
       "isActive": true,
       "title": "Trc And Q C Login Component",
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };

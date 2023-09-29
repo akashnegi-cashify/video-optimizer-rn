@@ -3,10 +3,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
-import '../models/return_comp_config.dart';
 import '../providers/return_page_provider.dart';
 import '../widgets/receive_tab_widget.dart';
 import '../widgets/return_tab_widget.dart';
@@ -14,8 +14,8 @@ import '../widgets/return_tab_widget.dart';
 part 'return_component.g.dart';
 
 @CshComponent(
-    key: ReturnComponent.COMP_KEY, configModel: ReturnCompConfig, componentGroup: ComponentGroup.returnComponentKey)
-class ReturnComponent extends StatelessComponent<ReturnCompConfig> {
+    key: ReturnComponent.COMP_KEY, configModel: NoneConfigModel, componentGroup: ComponentGroup.returnComponentKey)
+class ReturnComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_return_comp";
 
   const ReturnComponent(super.jsonConfig, {super.key});
@@ -60,6 +60,6 @@ class ReturnComponent extends StatelessComponent<ReturnCompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return ReturnCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

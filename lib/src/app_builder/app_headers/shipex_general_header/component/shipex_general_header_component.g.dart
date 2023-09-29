@@ -14,8 +14,9 @@ dynamic schema() => {
       "isActive": true,
       "title": "Shipex General Header Component",
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "ht": {
             "uiType": "input",
             "inputType": "text",
             "type": "String",
@@ -24,7 +25,7 @@ dynamic schema() => {
             "label": "Header Title",
             "key": "ht"
           },
-          {
+          "sbb": {
             "uiType": "toggle",
             "inputType": "boolean",
             "isRequired": false,
@@ -32,7 +33,7 @@ dynamic schema() => {
             "label": "Show Back Button",
             "key": "sbb"
           },
-          {
+          "slb": {
             "uiType": "toggle",
             "inputType": "boolean",
             "isRequired": false,
@@ -40,7 +41,7 @@ dynamic schema() => {
             "label": "Show Logout Button",
             "key": "slb"
           }
-        ]
+        }
       }
       //#admincomponent
     };

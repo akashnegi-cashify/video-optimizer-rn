@@ -2,11 +2,11 @@ import 'package:builder_component/builder_component.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../app_builder/app_builder_groups/groups.dart';
 import '../l10n.dart';
-import '../models/pq_status_change_comp_config.dart';
 import '../models/pq_status_change_comp_param.dart';
 import '../providers/part_status_provider.dart';
 import '../widgets/qc_part_list_widget.dart';
@@ -15,11 +15,11 @@ part 'pq_status_change_comp.g.dart';
 
 @CshComponent(
     key: PqStatusChangeComp.COMP_KEY,
-    configModel: PqStatusChangeCompConfig,
+    configModel: NoneConfigModel,
     paramModel: PqStatusChangeCompParam,
     componentGroup: ComponentGroup.pqStatusChangeComponentKey,
     params: PqStatusChangeCompParamKeys.values)
-class PqStatusChangeComp extends StatelessComponent<PqStatusChangeCompConfig> {
+class PqStatusChangeComp extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_pq_status_change";
 
   const PqStatusChangeComp(super.jsonConfig, {super.key});
@@ -111,6 +111,6 @@ class PqStatusChangeComp extends StatelessComponent<PqStatusChangeCompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return PqStatusChangeCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

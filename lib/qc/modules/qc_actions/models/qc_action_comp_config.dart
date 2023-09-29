@@ -4,9 +4,9 @@ part 'qc_action_comp_config.g.dart';
 
 @ConfigModel()
 class QcActionConfig {
-  @ConfigKey(name: "b1t", label: "Button 1 Text")
+  @ConfigKey(name: "b1t", label: "Button 1 Text", uiType: ConfigUIType.input)
   String? button1Text;
-  @ConfigKey(name: "b2t", label: "Button 2 Text")
+  @ConfigKey(name: "b2t", label: "Button 2 Text", uiType: ConfigUIType.input)
   String? button2Text;
 
   QcActionConfig({

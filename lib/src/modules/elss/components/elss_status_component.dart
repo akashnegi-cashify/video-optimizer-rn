@@ -3,10 +3,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../header/trc_header.dart';
-import '../common_models/elss_status_comp_config.dart';
 import '../common_models/elss_status_comp_param.dart';
 import '../common_screen/elss_home_screen.dart';
 import '../elss_qc/l10n.dart';
@@ -19,11 +19,11 @@ part 'elss_status_component.g.dart';
 
 @CshComponent(
     key: ElssStatusComponent.COMP_KEY,
-    configModel: ElssStatusCompConfig,
+    configModel: NoneConfigModel,
     params: ElssStatusCompParamKeys.values,
     paramModel: ElssStatusCompParam,
     componentGroup: ComponentGroup.elssStatusComponentKey)
-class ElssStatusComponent extends StatelessComponent<ElssStatusCompConfig> {
+class ElssStatusComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_elss_status_comp";
 
   const ElssStatusComponent(super.jsonConfig, {super.key});
@@ -157,7 +157,7 @@ class ElssStatusComponent extends StatelessComponent<ElssStatusCompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return ElssStatusCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }
 
