@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/dispatch_lot/components/invoice_scan_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_home_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_perform_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_barcode_scanner_component.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_devic
 import 'package:flutter_trc/qc/modules/stock_in_module/components/media_file_upload_component.dart';
 
 import 'modules/device_receive_module/components/device_receive_component.dart';
+import 'modules/dispatch_lot/components/dispatch_lots_component.dart';
+import 'modules/dispatch_lot/components/dispatch_lots_filter_component.dart';
 import 'modules/qc_actions/component/qc_action_component.dart';
 import 'modules/qc_tester/calculator_media_capture/components/calculator_media_capture_component.dart';
 import 'modules/qc_tester/disputed_image_capture/components/disputed_image_barcode_scanner_component.dart';
@@ -65,6 +68,14 @@ class QcComponentRegistry {
 
       case MediaFileUploadComponent.COMP_KEY:
         return MediaFileUploadComponent(jsonConfig);
+
+      case DispatchLotsComponent.COMP_KEY:
+        return DispatchLotsComponent(jsonConfig);
+
+      case InvoiceScanComponent.COMP_KEY:
+        return InvoiceScanComponent(jsonConfig);
+        case DispatchLotsFilterComponent.COMP_KEY:
+        return DispatchLotsFilterComponent(jsonConfig);
       default:
         return null;
     }
