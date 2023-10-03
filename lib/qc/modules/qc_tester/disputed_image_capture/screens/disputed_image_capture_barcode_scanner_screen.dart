@@ -14,14 +14,20 @@ part 'disputed_image_capture_barcode_scanner_screen.g.dart';
     params: DisputedImageCaptureScannerParamKeys.values)
 class DisputedImageCaptureBarcodeScannerArguments extends BaseArguments {
   final Function(String scannedData, MlScannerController? controller)? onScanDetected;
+  final String? header;
+  final String? hintText;
 
   DisputedImageCaptureBarcodeScannerArguments({
     this.onScanDetected,
+    this.header,
+    this.hintText,
   }) : super(DisputedImageCaptureBarcodeScanner.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
     data[DisputedImageCaptureScannerParamKeys.scannerCallback.value] = onScanDetected;
+    data[DisputedImageCaptureScannerParamKeys.hintText.value] = hintText;
+    data[DisputedImageCaptureScannerParamKeys.header.value] = header;
     return data;
   }
 }

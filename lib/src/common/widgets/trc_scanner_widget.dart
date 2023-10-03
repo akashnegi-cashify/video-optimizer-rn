@@ -9,14 +9,14 @@ class TRCScannerWidget extends StatefulWidget {
   final Function(String scannedData, MlScannerController? controller) onScanDetected;
   final List<ScanFormats> scanFormatList;
   final bool isEditTextSubmitButtonDirectionHorizontal;
-  final String? hint;
+  final String? hintText;
 
   const TRCScannerWidget({
     Key? key,
     required this.onScanDetected,
     this.scanFormatList = const [ScanFormats.barcode],
     this.isEditTextSubmitButtonDirectionHorizontal = false,
-    this.hint,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -68,8 +68,8 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
                   controller: _textEditController,
                   counterText: "",
                   autofocus: false,
-                  hintText: widget.hint ?? l10n.enterBarcode,
-                  labelText: widget.hint ?? l10n.enterBarcode,
+                  hintText: widget.hintText??  l10n.enterBarcode,
+                  labelText:widget.hintText?? l10n.enterBarcode,
                   keyboardType: TextInputType.text,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(30),

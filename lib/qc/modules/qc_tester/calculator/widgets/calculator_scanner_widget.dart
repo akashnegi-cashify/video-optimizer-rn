@@ -50,7 +50,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
       String key = _isDeviceBarcodeScanned ? "pQoute" : "deviceBarcode";
       return TRCScannerWidget(
         key: ValueKey(key),
-        hint: _isDeviceBarcodeScanned ? l10n.scanCdpQrCode : l10n.scanDeviceBarcode,
+        hintText: _isDeviceBarcodeScanned ? l10n.scanCdpQrCode : l10n.scanDeviceBarcode,
         scanFormatList: _isDeviceBarcodeScanned ? [ScanFormats.qrCode] : [ScanFormats.barcode],
         onScanDetected: (scannedData, controller) {
           if (!_isDeviceBarcodeScanned) {

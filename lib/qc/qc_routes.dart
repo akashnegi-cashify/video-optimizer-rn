@@ -11,16 +11,19 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_que
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_device_quote_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
+import 'modules/dispatch_lot/screens/index.dart';
 import 'modules/external_audit/widgets/video_recoder_widget.dart';
 import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_screen.dart';
+import 'modules/stock_in_module/screens/index.dart';
 
 class QcRoutes {
   static Map<String, WidgetBuilder> getQcRoutes() {
@@ -44,6 +47,12 @@ class QcRoutes {
       VideoRecorderWidget.route: (_) => const VideoRecorderWidget(),
       ExternalAuditHomeScreen.route: (_) => const ExternalAuditHomeScreen(),
       ExternalAuditPerformScreen.route: (_) => const ExternalAuditPerformScreen(),
+      SearchItemScreen.route: (_) => const SearchItemScreen(),
+      StockInProductDetailScreen.route: (_) => const StockInProductDetailScreen(),
+      MediaFileUploadScreen.route: (_) => const MediaFileUploadScreen(),
+      DispatchLotScreen.route: (_) => const DispatchLotScreen(),
+      InvoiceScanScreen.route: (_) => const InvoiceScanScreen(),
+      DispatchLotFilterScreen.route: (_) => const DispatchLotFilterScreen(),
       ReQcListScreen.route: (_) => const ReQcListScreen(),
       ReQcDetailScreen.route: (_) => const ReQcDetailScreen(),
     };

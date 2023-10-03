@@ -6,6 +6,31 @@ part of 'qc_general_header_component.dart';
 // ComponentGenerator
 // **************************************************************************
 
+QcGeneralHeaderParam fromMap(Map<String, dynamic> map) {
+  QcGeneralHeaderParam model = QcGeneralHeaderParam(
+    header: map["h"],
+  );
+  return model;
+}
+
+Widget paramBuilder(Widget Function(QcGeneralHeaderParam model) paramBuilder) {
+  return Selector<PageParamProvider, Map<String, dynamic>>(
+    selector: (_, provider) => {
+      "h": provider.data["h"],
+    },
+    builder: (context, data, child) {
+      QcGeneralHeaderParam model = fromMap(data);
+      return paramBuilder(model);
+    },
+  );
+}
+
+bool isValid(QcGeneralHeaderParam model) {
+  var header = model.header;
+
+  return header != null;
+}
+
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
@@ -13,6 +38,9 @@ dynamic schema() => {
       "componentType": "QC General Header",
       "isActive": true,
       "title": "Qc General Header Component",
+      "cpm": [
+        {"key": "h", "value": null}
+      ],
       "configJson": {
         "type": "map",
         "config": {

@@ -9,6 +9,8 @@ part of 'disputed_image_barcode_scanner_component.dart';
 DisputedImageCaptureScannerParam fromMap(Map<String, dynamic> map) {
   DisputedImageCaptureScannerParam model = DisputedImageCaptureScannerParam(
     onScanDetected: map["sc"],
+    header: map["h"],
+    hintText: map["ht"],
   );
   return model;
 }
@@ -18,6 +20,8 @@ Widget paramBuilder(
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "sc": provider.data["sc"],
+      "h": provider.data["h"],
+      "ht": provider.data["ht"],
     },
     builder: (context, data, child) {
       DisputedImageCaptureScannerParam model = fromMap(data);
@@ -28,8 +32,10 @@ Widget paramBuilder(
 
 bool isValid(DisputedImageCaptureScannerParam model) {
   var onScanDetected = model.onScanDetected;
+  var header = model.header;
+  var hintText = model.hintText;
 
-  return onScanDetected != null;
+  return onScanDetected != null && header != null && hintText != null;
 }
 
 dynamic schema() => {
@@ -40,7 +46,9 @@ dynamic schema() => {
       "isActive": true,
       "title": "Disputed Image Barcode Scanner Component",
       "cpm": [
-        {"key": "sc", "value": null}
+        {"key": "sc", "value": null},
+        {"key": "h", "value": null},
+        {"key": "ht", "value": null}
       ],
       "configJson": {
         "type": "map",

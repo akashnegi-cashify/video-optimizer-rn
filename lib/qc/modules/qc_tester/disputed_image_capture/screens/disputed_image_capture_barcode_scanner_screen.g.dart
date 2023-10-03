@@ -14,7 +14,9 @@ dynamic schema() => {
       "title": "Disputed Image Capture Barcode Scanner Arguments",
       "isActive": true,
       "params": [
-        {"key": "sc", "value": null}
+        {"key": "sc", "value": null},
+        {"key": "h", "value": null},
+        {"key": "ht", "value": null}
       ]
 
       //#adminscreen
