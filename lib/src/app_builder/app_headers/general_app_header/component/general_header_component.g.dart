@@ -9,7 +9,7 @@ part of 'general_header_component.dart';
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "TRC_general_header_component",
+      "key": "header_TRC_general_component",
       "componentType": "General Header",
       "isActive": true,
       "title": "General Header Component",

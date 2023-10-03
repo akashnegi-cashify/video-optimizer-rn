@@ -9,7 +9,7 @@ part of 'qc_general_header_component.dart';
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "QC_qc_general_header",
+      "key": "header_QC_qc_general",
       "componentType": "QC General Header",
       "isActive": true,
       "title": "Qc General Header Component",

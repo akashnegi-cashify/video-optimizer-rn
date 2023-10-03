@@ -9,11 +9,15 @@ class TRCScannerWidget extends StatefulWidget {
   final Function(String scannedData, MlScannerController? controller) onScanDetected;
   final List<ScanFormats> scanFormatList;
   final bool isEditTextSubmitButtonDirectionHorizontal;
+  final String? hint;
 
-  const TRCScannerWidget({Key? key, required this.onScanDetected, this.scanFormatList = const [
-    ScanFormats.barcode
-  ], this.isEditTextSubmitButtonDirectionHorizontal = false})
-      : super(key: key);
+  const TRCScannerWidget({
+    Key? key,
+    required this.onScanDetected,
+    this.scanFormatList = const [ScanFormats.barcode],
+    this.isEditTextSubmitButtonDirectionHorizontal = false,
+    this.hint,
+  }) : super(key: key);
 
   @override
   State<TRCScannerWidget> createState() => _TRCScannerWidgetState();
@@ -26,9 +30,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
   @override
   void initState() {
     _textEditController.addListener(() {
-      if (_textEditController.text
-          .trim()
-          .isNotEmpty) {
+      if (_textEditController.text.trim().isNotEmpty) {
         _enableButton = true;
       } else {
         _enableButton = false;
@@ -66,8 +68,8 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
                   controller: _textEditController,
                   counterText: "",
                   autofocus: false,
-                  hintText: l10n.enterBarcode,
-                  labelText: l10n.enterBarcode,
+                  hintText: widget.hint ?? l10n.enterBarcode,
+                  labelText: widget.hint ?? l10n.enterBarcode,
                   keyboardType: TextInputType.text,
                   inputFormatters: [
                     LengthLimitingTextInputFormatter(30),
@@ -91,17 +93,16 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
     );
   }
 
-
   Widget _buildSubmitWidget(L10n l10n) {
     return CshBigButton(
       text: l10n.submit,
       onPressed: _enableButton
           ? () {
-        FocusScope.of(context).unfocus();
-        widget.onScanDetected(_textEditController.text, null);
-        _textEditController.clear();
-        setState(() {});
-      }
+              FocusScope.of(context).unfocus();
+              widget.onScanDetected(_textEditController.text, null);
+              _textEditController.clear();
+              setState(() {});
+            }
           : null,
     );
   }

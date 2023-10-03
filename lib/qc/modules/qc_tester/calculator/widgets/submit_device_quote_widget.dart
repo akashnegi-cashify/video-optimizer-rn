@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/submit_device_quote_provider.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/manual_question_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/qc_alert_pop_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
@@ -33,10 +34,15 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 500), () async {
       var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
       provider.setDeviceQuoteInterface(this);
-      provider.getDeviceColors();
+      var isLoginFromQc = await provider.isLoginFromQC();
+      if (Validator.isTrue(isLoginFromQc)) {
+        provider.getManualQuestions();
+      } else {
+        provider.getDeviceColors();
+      }
     });
   }
 
@@ -77,6 +83,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
                     child: CshBigButton(
                       text: "Try Again",
                       onPressed: () {
+                        CshLoading().isLoading = false;
                         CshLoading().showLoading(context);
                         provider.getDeviceStatus();
                       },
@@ -197,6 +204,70 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   void removeAllLoader() {
     Navigator.popUntil(context, (route) => route is PageRoute);
   }
+
+  @override
+  void onManualQuestionFetchedSuccess(List<ManualQuestionListData> questionList) {
+    showCshBottomSheet(
+      isDismissible: false,
+      context: context,
+      child: StatefulBuilder(builder: (_, setState) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+          padding: const EdgeInsets.all(Dimens.space_16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CshTextNew.h4("Select one or more options"),
+              const SizedBox(height: Dimens.space_24),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: questionList.length,
+                  itemBuilder: (_, index) {
+                    var item = questionList[index];
+                    return CshCheckbox(
+                      title: CshTextNew.subTitle1(item.question ?? ""),
+                      isSelected: item.value == 1,
+                      onChanged: (value) {
+                        setState(() {
+                          item.value = Validator.isTrue(value) ? 1 : -1;
+                        });
+                      },
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(height: Dimens.space_16);
+                  },
+                ),
+              ),
+              const SizedBox(height: Dimens.space_16),
+              Center(
+                child: CshBigButton(
+                  text: "Proceed",
+                  onPressed: _isAnyOptionSelected(questionList)
+                      ? () {
+                          var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
+                          Navigator.pop(context); // Dismiss dialog
+                          provider.onManualQuestionAnswered(questionList);
+                        }
+                      : null,
+                ),
+              )
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  bool _isAnyOptionSelected(List<ManualQuestionListData> questionList) {
+    for (var question in questionList) {
+      if (question.value == 1) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 abstract interface class SubmitDeviceQuoteInterface {
@@ -209,4 +280,6 @@ abstract interface class SubmitDeviceQuoteInterface {
   void showLoading(bool isShow);
 
   void removeAllLoader();
+
+  void onManualQuestionFetchedSuccess(List<ManualQuestionListData> questionList);
 }
