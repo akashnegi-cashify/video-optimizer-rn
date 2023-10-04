@@ -3,10 +3,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
-import '../models/return_item_status_comp_config.dart';
 import '../models/return_item_status_comp_param.dart';
 import '../providers/return_item_status_provider.dart';
 import '../widgets/return_list_item_widget.dart';
@@ -15,11 +15,11 @@ part 'return_item_status_component.g.dart';
 
 @CshComponent(
     key: ReturnItemStatusComponent.COMP_KEY,
-    configModel: ReturnItemStatusCompConfig,
+    configModel: NoneConfigModel,
     paramModel: ReturnItemStatusCompParam,
     params: ReturnItemStatusCompParamKeys.values,
     componentGroup: ComponentGroup.returnItemStatusComponentKey)
-class ReturnItemStatusComponent extends StatelessComponent<ReturnItemStatusCompConfig> {
+class ReturnItemStatusComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_return_item_status_comp";
 
   const ReturnItemStatusComponent(super.jsonConfig, {super.key});
@@ -109,6 +109,6 @@ class ReturnItemStatusComponent extends StatelessComponent<ReturnItemStatusCompC
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return ReturnItemStatusCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

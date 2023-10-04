@@ -8,12 +8,12 @@ part of 'create_manual_shipment_component.dart';
 
 CreateManualShipmentParam fromMap(Map<String, dynamic> map) {
   CreateManualShipmentParam model = CreateManualShipmentParam(
-    shipmentId: map["sid"],
-    pinCode: map["pc"],
+    facilityId: map["fid"],
     groupId: map["gid"],
     boxId: map["bid"],
-    facilityId: map["fid"],
+    pinCode: map["pc"],
     isManualShipment: map["ms"],
+    shipmentId: map["sid"],
   );
   return model;
 }
@@ -22,12 +22,12 @@ Widget paramBuilder(
     Widget Function(CreateManualShipmentParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "sid": provider.data["sid"],
-      "pc": provider.data["pc"],
+      "fid": provider.data["fid"],
       "gid": provider.data["gid"],
       "bid": provider.data["bid"],
-      "fid": provider.data["fid"],
+      "pc": provider.data["pc"],
       "ms": provider.data["ms"],
+      "sid": provider.data["sid"],
     },
     builder: (context, data, child) {
       CreateManualShipmentParam model = fromMap(data);
@@ -37,19 +37,19 @@ Widget paramBuilder(
 }
 
 bool isValid(CreateManualShipmentParam model) {
-  var shipmentId = model.shipmentId;
-  var pinCode = model.pinCode;
+  var facilityId = model.facilityId;
   var groupId = model.groupId;
   var boxId = model.boxId;
-  var facilityId = model.facilityId;
+  var pinCode = model.pinCode;
   var isManualShipment = model.isManualShipment;
+  var shipmentId = model.shipmentId;
 
-  return shipmentId != null &&
-      pinCode != null &&
+  return facilityId != null &&
       groupId != null &&
       boxId != null &&
-      facilityId != null &&
-      isManualShipment != null;
+      pinCode != null &&
+      isManualShipment != null &&
+      shipmentId != null;
 }
 
 dynamic schema() => {
@@ -68,14 +68,16 @@ dynamic schema() => {
         {"key": "gid", "value": null}
       ],
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };

@@ -145,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.2"
+  asn1lib:
+    dependency: transitive
+    description:
+      name: asn1lib
+      sha256: "21afe4333076c02877d14f4a89df111e658a6d466cbfc802eb705eb91bd5adfd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   async:
     dependency: transitive
     description:
@@ -229,20 +237,20 @@ packages:
     dependency: "direct main"
     description:
       path: builder_component
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   builder_project:
     dependency: "direct main"
     description:
       path: builder_project
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   built_collection:
     dependency: transitive
     description:
@@ -287,20 +295,20 @@ packages:
     dependency: "direct main"
     description:
       path: calculator
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   calculator_ui:
     dependency: "direct main"
     description:
       path: calculator_ui
-      ref: "v1.0.20"
-      resolved-ref: a009fc0d0a1c560c9cd1a58caf67b9cf22414b52
+      ref: "v1.0.23"
+      resolved-ref: ad7126c03c46c0d115be27535651e34b657ab438
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.0.20"
+    version: "1.0.23"
   camera:
     dependency: "direct overridden"
     description:
@@ -357,6 +365,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  charcode:
+    dependency: transitive
+    description:
+      name: charcode
+      sha256: fb98c0f6d12c920a02ee2d998da788bca066ca5f148492b7085ee23372b12306
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -409,11 +425,11 @@ packages:
     dependency: "direct main"
     description:
       path: components
-      ref: "v1.0.20"
-      resolved-ref: a009fc0d0a1c560c9cd1a58caf67b9cf22414b52
+      ref: "v1.0.23"
+      resolved-ref: ad7126c03c46c0d115be27535651e34b657ab438
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.0.20"
+    version: "1.0.23"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -442,20 +458,20 @@ packages:
     dependency: "direct main"
     description:
       path: core
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   core_widgets:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: "v1.0.20"
-      resolved-ref: a009fc0d0a1c560c9cd1a58caf67b9cf22414b52
+      ref: "v1.0.23"
+      resolved-ref: ad7126c03c46c0d115be27535651e34b657ab438
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.0.20"
+    version: "1.0.23"
   cross_file:
     dependency: transitive
     description:
@@ -476,29 +492,29 @@ packages:
     dependency: "direct main"
     description:
       path: csh_annotation
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   csh_db:
     dependency: "direct main"
     description:
       path: csh_db
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   csh_schema_generator:
     dependency: "direct dev"
     description:
       path: csh_schema_generator
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   csslib:
     dependency: transitive
     description:
@@ -563,6 +579,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0+3"
+  encrypt:
+    dependency: transitive
+    description:
+      name: encrypt
+      sha256: "62d9aa4670cc2a8798bab89b39fc71b6dfbacf615de6cf5001fb39f7e4a996a2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.3"
   equatable:
     dependency: transitive
     description:
@@ -1163,11 +1187,11 @@ packages:
     dependency: transitive
     description:
       path: json_logic
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   json_serializable:
     dependency: "direct dev"
     description:
@@ -1220,11 +1244,11 @@ packages:
     dependency: "direct main"
     description:
       path: localization
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   logger:
     dependency: transitive
     description:
@@ -1269,11 +1293,11 @@ packages:
     dependency: transitive
     description:
       path: media_widget
-      ref: "v1.0.20"
-      resolved-ref: a009fc0d0a1c560c9cd1a58caf67b9cf22414b52
+      ref: "v1.0.23"
+      resolved-ref: ad7126c03c46c0d115be27535651e34b657ab438
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.0.20"
+    version: "1.0.23"
   meta:
     dependency: transitive
     description:
@@ -1294,11 +1318,11 @@ packages:
     dependency: "direct main"
     description:
       path: ml_barcode_scanner
-      ref: "v1.0.20"
-      resolved-ref: a009fc0d0a1c560c9cd1a58caf67b9cf22414b52
+      ref: "v1.0.23"
+      resolved-ref: ad7126c03c46c0d115be27535651e34b657ab438
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.0.20"
+    version: "1.0.23"
   mobile_scanner:
     dependency: transitive
     description:
@@ -1563,6 +1587,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  qr:
+    dependency: transitive
+    description:
+      name: qr
+      sha256: "64957a3930367bf97cc211a5af99551d630f2f4625e38af10edd6b19131b64b3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   qr_code_scanner:
     dependency: transitive
     description:
@@ -1571,6 +1603,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  qr_flutter:
+    dependency: "direct main"
+    description:
+      name: qr_flutter
+      sha256: "5095f0fc6e3f71d08adef8feccc8cea4f12eec18a2e31c2e8d82cb6019f4b097"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
   quiver:
     dependency: transitive
     description:
@@ -1738,6 +1778,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliver_tools:
+    dependency: transitive
+    description:
+      name: sliver_tools
+      sha256: eae28220badfb9d0559207badcbbc9ad5331aac829a88cb0964d330d2a4636a6
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.12"
   source_gen:
     dependency: transitive
     description:
@@ -1858,6 +1906,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  universal_html:
+    dependency: transitive
+    description:
+      name: universal_html
+      sha256: "56536254004e24d9d8cfdb7dbbf09b74cf8df96729f38a2f5c238163e3d58971"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.4"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   url_launcher:
     dependency: "direct main"
     description:
@@ -2078,11 +2142,11 @@ packages:
     dependency: transitive
     description:
       path: web_widget
-      ref: "v1.0.10"
-      resolved-ref: d2c9feb51b6430e55510cfe15fbb63c7ffacc40a
+      ref: "v2.0.2"
+      resolved-ref: "2e996af14f4726568d2575d3825026174d8dfde5"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
-    version: "1.0.10"
+    version: "2.0.2"
   webview_cookie_manager:
     dependency: transitive
     description:

@@ -2,10 +2,10 @@ import 'package:builder_component/builder_component.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../app_builder/app_builder_groups/groups.dart';
-import '../common_models/add_part_comp_config.dart';
 import '../common_models/add_part_comp_param.dart';
 import '../elss_trc/providers/add_part_list_provider_trc.dart';
 import '../elss_trc/widgets/add_part_list_widget_trc.dart';
@@ -14,11 +14,11 @@ part 'add_part_component.g.dart';
 
 @CshComponent(
     key: AddPartComponent.COMP_KEY,
-    configModel: AddPartCompConfig,
+    configModel: NoneConfigModel,
     componentGroup: ComponentGroup.addPartComponentKey,
     params: AddPartCompParamKey.values,
     paramModel: AddPartCompParam)
-class AddPartComponent extends StatelessComponent<AddPartCompConfig> {
+class AddPartComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_add_part_comp";
 
   const AddPartComponent(super.jsonConfig, {super.key});
@@ -62,7 +62,7 @@ class AddPartComponent extends StatelessComponent<AddPartCompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return AddPartCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }
 

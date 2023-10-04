@@ -7,6 +7,8 @@ import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
 import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
+
 class CalculatorScannerWidget extends StatefulWidget {
   const CalculatorScannerWidget({super.key});
 
@@ -32,6 +34,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
   }
 
   Widget _getBuildWidget(BuildContext builderContext) {
+    var l10n = L10n(context);
     if (_isShowScannerTransitionWidget) {
       return Center(
         child: Column(
@@ -39,7 +42,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: Dimens.space_16),
-            CshTextNew.subTitle1("Start scanning P-Quote"),
+            CshTextNew.subTitle1(l10n.startScanningCdpQrCode),
           ],
         ),
       );
@@ -47,6 +50,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
       String key = _isDeviceBarcodeScanned ? "pQoute" : "deviceBarcode";
       return TRCScannerWidget(
         key: ValueKey(key),
+        hintText: _isDeviceBarcodeScanned ? l10n.scanCdpQrCode : l10n.scanDeviceBarcode,
         scanFormatList: _isDeviceBarcodeScanned ? [ScanFormats.qrCode] : [ScanFormats.barcode],
         onScanDetected: (scannedData, controller) {
           if (!_isDeviceBarcodeScanned) {
@@ -66,7 +70,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
       _isShowScannerTransitionWidget = true;
     });
     Future.delayed(
-      const Duration(milliseconds: 1500),
+      const Duration(milliseconds: 1000),
       () {
         setState(() {
           _isShowScannerTransitionWidget = false;

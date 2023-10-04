@@ -52,6 +52,8 @@ abstract class PaginatedListState<TItem, TStatefulWidget extends StatefulWidget>
   void resetAndRefreshScreen({int? pageNumber}) {
     _items = [];
     _pageNo = pageNumber ?? -1;
+    maxExtent = -1;
+    _isMoreDataToLoad = true;
     _requestData();
   }
 

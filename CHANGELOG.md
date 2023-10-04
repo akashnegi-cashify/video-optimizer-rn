@@ -1,5 +1,13 @@
 # TRC Releases
 
+# v2.1.3+16 (04-10-2023)
+
+### Feature:
+
+* `QC Tester - Manual Questions`[(SCM-4541)](https://reglobe.atlassian.net/browse/SCM-4541)
+* `QC Tester - Add loader while calling server side rules`[(SCM-4543)](https://reglobe.atlassian.net/browse/SCM-4543)
+
+
 # v2.1.2+15 (18-09-2023)
 
 ### Feature:

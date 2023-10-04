@@ -14,7 +14,7 @@ part 'shipex_general_header_component.g.dart';
     componentGroup: ComponentGroup.shipexGeneralHeaderComponentKey)
 class ShipexGeneralHeaderComponent extends StatelessComponent<ShipexGeneralHeaderConfig>
     implements PreferredSizeWidget {
-  static const String COMP_KEY = "shipex_general_header";
+  static const String COMP_KEY = "header_shipex_general";
 
   const ShipexGeneralHeaderComponent(super.jsonConfig, {super.key});
 

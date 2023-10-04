@@ -35,7 +35,7 @@ bool isValid(PickUpReceiveEngineerPartsParams model) {
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "pickup_receive_engineer_parts_comp",
+      "key": "TRC_pickup_receive_engineer_parts_comp",
       "componentType": "PickUp Receive Engineer Parts",
       "isActive": true,
       "title": "Pick Up Receive Engineer Parts Compo",
@@ -43,14 +43,16 @@ dynamic schema() => {
         {"key": "ed", "value": null}
       ],
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };

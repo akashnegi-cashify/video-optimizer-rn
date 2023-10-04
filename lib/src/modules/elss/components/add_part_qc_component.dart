@@ -3,9 +3,9 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
-import '../common_models/add_parts_qc_comp_config.dart';
 import '../common_models/add_parts_qc_comp_param.dart';
 import '../elss_qc/providers/add_part_list_provider_qc.dart';
 import '../elss_qc/widgets/add_part_list_widget_qc.dart';
@@ -14,11 +14,11 @@ part 'add_part_qc_component.g.dart';
 
 @CshComponent(
     key: AddPartsQcComponent.COMP_KEY,
-    configModel: AddPartsQcCompConfig,
+    configModel: NoneConfigModel,
     params: AddPartsQCCompParamKeys.values,
     paramModel: AddPartsQCCompParam,
     componentGroup: ComponentGroup.addPartsQcComponentKey)
-class AddPartsQcComponent extends StatelessComponent<AddPartsQcCompConfig> {
+class AddPartsQcComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_add_part_QC_comp";
 
   const AddPartsQcComponent(super.jsonConfig, {super.key});
@@ -49,6 +49,6 @@ class AddPartsQcComponent extends StatelessComponent<AddPartsQcCompConfig> {
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
-    return AddPartsQcCompConfig.fromConfig;
+    return NoneConfigModel.fromConfig;
   }
 }

@@ -8,12 +8,12 @@ part of 'order_group_details_component.dart';
 
 GroupOrderCompParams fromMap(Map<String, dynamic> map) {
   GroupOrderCompParams model = GroupOrderCompParams(
-    pinCode: map["pn"],
-    devicesQuantity: map["dq"],
-    lotName: map["ln"],
     groupId: map["gi"],
     shipmentId: map["si"],
     courierAwb: map["ca"],
+    lotName: map["ln"],
+    devicesQuantity: map["dq"],
+    pinCode: map["pn"],
     shipmentStatus: map["ss"],
   );
   return model;
@@ -22,12 +22,12 @@ GroupOrderCompParams fromMap(Map<String, dynamic> map) {
 Widget paramBuilder(Widget Function(GroupOrderCompParams model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "pn": provider.data["pn"],
-      "dq": provider.data["dq"],
-      "ln": provider.data["ln"],
       "gi": provider.data["gi"],
       "si": provider.data["si"],
       "ca": provider.data["ca"],
+      "ln": provider.data["ln"],
+      "dq": provider.data["dq"],
+      "pn": provider.data["pn"],
       "ss": provider.data["ss"],
     },
     builder: (context, data, child) {
@@ -38,20 +38,20 @@ Widget paramBuilder(Widget Function(GroupOrderCompParams model) paramBuilder) {
 }
 
 bool isValid(GroupOrderCompParams model) {
-  var pinCode = model.pinCode;
-  var devicesQuantity = model.devicesQuantity;
-  var lotName = model.lotName;
   var groupId = model.groupId;
   var shipmentId = model.shipmentId;
   var courierAwb = model.courierAwb;
+  var lotName = model.lotName;
+  var devicesQuantity = model.devicesQuantity;
+  var pinCode = model.pinCode;
   var shipmentStatus = model.shipmentStatus;
 
-  return pinCode != null &&
-      devicesQuantity != null &&
-      lotName != null &&
-      groupId != null &&
+  return groupId != null &&
       shipmentId != null &&
       courierAwb != null &&
+      lotName != null &&
+      devicesQuantity != null &&
+      pinCode != null &&
       shipmentStatus != null;
 }
 
@@ -72,14 +72,16 @@ dynamic schema() => {
         {"key": "gi", "value": null}
       ],
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };
