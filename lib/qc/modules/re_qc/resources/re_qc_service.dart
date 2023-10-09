@@ -5,7 +5,6 @@ import 'package:flutter_trc/qc/modules/re_qc/models/device_accessories_list_resp
 import 'package:flutter_trc/qc/modules/re_qc/models/device_report_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/lot_device_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
-import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_variant_request.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 
@@ -48,7 +47,10 @@ class ReQcService {
     return QcService().get("/lot-re-qc/v2/device/accessories?did=$deviceId", DeviceAccessoriesListResponse.fromJson);
   }
 
-  static Stream<BaseActionResponse?> submitReQcData(Map<String, dynamic> req, String? deviceBarcode) {
+  static Stream<BaseActionResponse?> submitReQcData(
+      Map<String, dynamic> misMatch, String? deviceBarcode, String? remarks) {
+    Map<String, dynamic> req = {"remarks": remarks, "mismatch": misMatch};
+
     return QcService()
         .post("/lot-re-qc/v3/device-re-qc/$deviceBarcode", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
