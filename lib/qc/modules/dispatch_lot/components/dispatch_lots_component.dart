@@ -11,11 +11,11 @@ import '../widgets/index.dart';
 part 'dispatch_lots_component.g.dart';
 
 @CshComponent(
-  key: DispatchLotsComponent.COMP_KEY,
-  configModel: NoneConfigModel,
-  componentGroup: QcComponentGroup.qcDispatchLotsComponentKey
-  // todo add component key
-)
+    key: DispatchLotsComponent.COMP_KEY,
+    configModel: NoneConfigModel,
+    componentGroup: QcComponentGroup.qcDispatchLotsComponentKey
+    // todo add component key
+    )
 class DispatchLotsComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "QC_qc_dispatch_lots_component";
 
@@ -24,13 +24,9 @@ class DispatchLotsComponent extends StatelessComponent<NoneConfigModel> {
   @override
   Widget buildView(BuildContext context, configModel) {
     return ChangeNotifierProvider(
-
-        create: (BuildContext context)  => DispatchLotProvider(),
-        child: Builder(
-          builder: (builderContext) {
-            return const DispatchLotContainer();
-          }
-        ));
+      create: (_) => DispatchLotProvider(),
+      child: const DispatchLotContainer(),
+    );
   }
 
   @override

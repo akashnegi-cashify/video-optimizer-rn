@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_status_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/manual_question_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/submit_device_quote_widget.dart';
@@ -18,6 +20,7 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier with CalculatorService
   SubmitDeviceQuoteInterface? iDeviceQuote;
   bool isShowCompleteState = false;
   bool isShowTryAgainState = false;
+  List<ManualQuestionListData>? _questionList;
 
   List<StepDetails> stepperDetails = [
     StepDetails(title: "Requesting Colors", subTitle: "Please wait...", content: const SizedBox.shrink())
@@ -75,12 +78,12 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier with CalculatorService
       ),
     );
     notifyListeners();
-    service.submitCalculatorResponse(quoteRequest, deviceBarcode, isDeviceTypeLob: isDeviceTypeLob).listen(
-        (event) {
+    service.submitCalculatorResponse(quoteRequest, deviceBarcode, isDeviceTypeLob: isDeviceTypeLob).listen((event) {
       var stepperItem = stepperDetails.last;
       stepperItem.title = "Quote Obtained : Grade is";
       stepperItem.subTitle = event?.grade ?? "";
       iDeviceQuote?.onSubmitCalculatorSuccess(event?.grade, event?.cautionMessage);
+      _submitManualQuestions();
       if (isDeviceTypeLob || !CalculatorDataHolderModel().isCaptureMediaMandatory) {
         _proceedAfterImageSubmission();
       } else {
@@ -184,5 +187,34 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier with CalculatorService
   void dispose() {
     CalculatorDataHolderModel().resetAllData();
     super.dispose();
+  }
+
+  void getManualQuestions() {
+    service.getManualQuestions(deviceBarcode).listen((event) {
+      if (!Validator.isListNullOrEmpty(event?.questionList)) {
+        iDeviceQuote?.onManualQuestionFetchedSuccess(event!.questionList!);
+      } else {
+        getDeviceColors();
+      }
+    }, onError: (error) {
+      var errorMessage = ApiErrorHelper.getErrorMessage(error);
+      getDeviceColors();
+    }, onDone: () {
+      notifyListeners();
+    });
+  }
+
+  void onManualQuestionAnswered(List<ManualQuestionListData> questionList) {
+    _questionList = questionList;
+    getDeviceColors();
+  }
+
+  _submitManualQuestions() {
+    if (Validator.isListNullOrEmpty(_questionList)) {
+      return;
+    }
+    service.submitManualQuestions(deviceBarcode, _questionList).listen((event) {}, onError: (error) {
+      Logger.debug('mydebug-----SubmitDeviceQuoteProvider._submitManualQuestions error', [error]);
+    });
   }
 }

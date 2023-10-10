@@ -51,36 +51,6 @@ class QCActionWidget extends StatelessWidget {
               },
             ),
           ),
-          const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
-            child: CshBigButton(
-              text: l10n.externalAudit,
-              onPressed: () {
-                Navigator.of(context).pushNamed(ExternalAuditHomeScreen.route);
-              },
-            ),
-          ),
-          const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
-            child: CshBigButton(
-              text: l10n.stockIn,
-              onPressed: () {
-                Navigator.of(context).pushNamed(SearchItemScreen.route);
-              },
-            ),
-          ),
-          const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
-            child: CshBigButton(
-              text: l10n.dispatch,
-              onPressed: () {
-                Navigator.of(context).pushNamed(DispatchLotScreen.route);
-              },
-            ),
-          ),
 
           const SizedBox(height: Dimens.space_16),
           SizedBox(
@@ -92,16 +62,58 @@ class QCActionWidget extends StatelessWidget {
               },
             ),
           ),
+
           const SizedBox(height: Dimens.space_16),
           SizedBox(
             width: double.infinity,
             child: CshBigButton(
-              text: l10n.reQc,
+              text: l10n.dispatch,
               onPressed: () {
-                Navigator.of(context).pushNamed(ReQcListScreen.route);
+                Navigator.of(context).pushNamed(DispatchLotScreen.route);
               },
             ),
           ),
+
+          // const SizedBox(height: Dimens.space_16),
+          // SizedBox(
+          //   width: double.infinity,
+          //   child: CshBigButton(
+          //     text: l10n.externalAudit,
+          //     onPressed: () {
+          //       Navigator.of(context).pushNamed(ExternalAuditHomeScreen.route);
+          //     },
+          //   ),
+          // ),
+          // const SizedBox(height: Dimens.space_16),
+          // SizedBox(
+          //   width: double.infinity,
+          //   child: CshBigButton(
+          //     text: l10n.stockIn,
+          //     onPressed: () {
+          //       Navigator.of(context).pushNamed(SearchItemScreen.route);
+          //     },
+          //   ),
+          // ),
+          // const SizedBox(height: Dimens.space_16),
+          // SizedBox(
+          //   width: double.infinity,
+          //   child: CshBigButton(
+          //     text: l10n.dispatch,
+          //     onPressed: () {
+          //       Navigator.of(context).pushNamed(DispatchLotScreen.route);
+          //     },
+          //   ),
+          // ),
+          // const SizedBox(height: Dimens.space_16),
+          // SizedBox(
+          //   width: double.infinity,
+          //   child: CshBigButton(
+          //     text: l10n.reQc,
+          //     onPressed: () {
+          //       Navigator.of(context).pushNamed(ReQcListScreen.route);
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

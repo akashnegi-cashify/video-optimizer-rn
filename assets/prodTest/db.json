@@ -777,6 +777,96 @@
       ]
     },
     {
+      "pageId": 10019,
+      "pageKey": "QC_qc_search_item",
+      "dt": [
+        {
+          "id": 10033,
+          "key": "QC_qc_search_item_component",
+          "type": "component"
+        },
+        {
+          "id": 10032,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10020,
+      "pageKey": "QC_qc_stock_in_product_detail",
+      "dt": [
+        {
+          "id": 10035,
+          "key": "QC_qc_stock_in_product_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10032,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10021,
+      "pageKey": "QC_qc_media_file_upload",
+      "dt": [
+        {
+          "id": 10037,
+          "key": "QC_qc_media_file_upload_component",
+          "type": "component"
+        },
+        {
+          "id": 10032,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10022,
+      "pageKey": "QC_qc_dispatch_lot",
+      "dt": [
+        {
+          "id": 10039,
+          "key": "QC_qc_dispatch_lots_component",
+          "type": "component"
+        },
+        {
+          "id": 10038,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10023,
+      "pageKey": "QC_qc_invoice_scan",
+      "dt": [
+        {
+          "id": 10041,
+          "key": "QC_qc_dispatch_lots_component",
+          "type": "component"
+        },
+        {
+          "id": 10040,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10024,
+      "pageKey": "QC_qc_dispatch_lot_filter",
+      "dt": [
+        {
+          "id": 10043,
+          "key": "QC_qc_dispatch_lots_filter_component",
+          "type": "component"
+        },
+        {
+          "id": 10042,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 10100,
       "pageKey": "QC_re_qc_list_screen",
       "dt": [
@@ -1952,6 +2042,114 @@
       "componentId": 10031,
       "locale": "en",
       "key": "QC_qc_external_audit_perform_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10032,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Stock In",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10033,
+      "locale": "en",
+      "key": "QC_qc_search_item_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10035,
+      "locale": "en",
+      "key": "QC_qc_stock_in_product_detail_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10037,
+      "locale": "en",
+      "key": "QC_qc_media_file_upload_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10038,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10039,
+      "locale": "en",
+      "key": "QC_qc_dispatch_lots_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10040,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Scan Invoice",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10041,
+      "locale": "en",
+      "key": "QC_qc_invoice_scan_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10042,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Dispatch Filter",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10043,
+      "locale": "en",
+      "key": "QC_qc_dispatch_lots_filter_component",
       "configJson": {
         "config": {
           "none": "None"

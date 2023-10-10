@@ -5,10 +5,12 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_colors_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_media_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_status_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/manual_question_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
+import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/trc/trc_calculator_service.dart';
 
@@ -16,13 +18,18 @@ mixin CalculatorServiceInitMixin {
   late CalculatorService service;
 
   Future<void> initCalculatorService() async {
-    var isLoginFromQc = await AppPreferences().getIsLoginFromQC();
+    var isLoginFromQc = await isLoginFromQC();
     if (Validator.isTrue(isLoginFromQc)) {
       service = QcCalculatorService();
     } else {
       service = TrcCalculatorService();
     }
   }
+
+  Future<bool?> isLoginFromQC() {
+    return AppPreferences().getIsLoginFromQC();
+  }
+
 }
 
 abstract class CalculatorService {
@@ -73,5 +80,20 @@ abstract class CalculatorService {
 
   Stream<DeviceStatusResponse?> getDeviceStatus(String? deviceBarcode) {
     return service.get("/device/status?qrCode=$deviceBarcode", DeviceStatusResponse.fromJson);
+  }
+
+  Stream<BaseActionResponse?> submitManualQuestions(String? qrCode, List<ManualQuestionListData>? questionList) {
+    questionList?.retainWhere((element) => element.value == 1);
+    var req = {"dt": questionList?.map((e) => e.question).toList()};
+
+    return service.post(
+      "/manaul-question/submit?qrCode=$qrCode",
+      BaseActionResponse.fromJson,
+      body: jsonEncode(req),
+    );
+  }
+
+  Stream<ManualQuestionListResponse?> getManualQuestions(String? qrCode) {
+    return service.get("/manaul-question/list?qrCode=$qrCode", ManualQuestionListResponse.fromJson);
   }
 }

@@ -9,7 +9,6 @@ class TRCScannerWidget extends StatefulWidget {
   final Function(String scannedData, MlScannerController? controller) onScanDetected;
   final List<ScanFormats> scanFormatList;
   final bool isEditTextSubmitButtonDirectionHorizontal;
-
   final String? hintText;
 
   const TRCScannerWidget({
