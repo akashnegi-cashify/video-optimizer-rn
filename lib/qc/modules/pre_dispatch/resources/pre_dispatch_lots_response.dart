@@ -38,11 +38,15 @@ class PreDispatchLotInfo {
   @JsonKey(name: "sd")
   int? scannedQty;
 
+  @JsonKey(name: "lt")
+  String? lotType;
+
   PreDispatchLotInfo({
     this.lotGroupName,
     this.lotQty,
     this.pendingQty,
     this.scannedQty,
+    this.lotType,
   });
 
   static PreDispatchLotInfo fromJson(Map<String, dynamic> data) => _$PreDispatchLotInfoFromJson(data);

@@ -58,6 +58,17 @@ class PreDispatchLotWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: Dimens.space_6),
+
+            Flexible(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: CshTextNew.h4(l10n.lotType, isPrimary: false)),
+                  Expanded(flex: 1, child: CshTextNew.h4('${lot?.lotType}')),
+                ],
+              ),
+            ),
+            const SizedBox(height: Dimens.space_6),
           ],
         )),
       ),

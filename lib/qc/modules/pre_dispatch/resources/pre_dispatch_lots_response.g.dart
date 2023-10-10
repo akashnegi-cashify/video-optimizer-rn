@@ -32,6 +32,7 @@ PreDispatchLotInfo _$PreDispatchLotInfoFromJson(Map<String, dynamic> json) =>
       lotQty: json['lc'] as int?,
       pendingQty: json['sp'] as int?,
       scannedQty: json['sd'] as int?,
+      lotType: json['lt'] as String?,
     );
 
 Map<String, dynamic> _$PreDispatchLotInfoToJson(PreDispatchLotInfo instance) =>
@@ -40,4 +41,5 @@ Map<String, dynamic> _$PreDispatchLotInfoToJson(PreDispatchLotInfo instance) =>
       'lc': instance.lotQty,
       'sp': instance.pendingQty,
       'sd': instance.scannedQty,
+      'lt': instance.lotType,
     };
