@@ -11,9 +11,10 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_que
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_device_quote_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
-import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
+import 'package:flutter_trc/qc/modules/store_in/screens/index.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
@@ -59,6 +60,8 @@ class QcRoutes {
       ReQcDetailScreen.route: (_) => const ReQcDetailScreen(),
       PreDispatchLotFilterScreen.route: (_) => const PreDispatchLotFilterScreen(),
       PreDispatchScreen.route: (_) => const PreDispatchScreen(),
+      StoreInScreen.route: (_) => const StoreInScreen(),
+      StoreInLocationScanScreen.route: (_) => const StoreInLocationScanScreen(),
     };
   }
 }

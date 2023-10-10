@@ -1,0 +1,1 @@
+export 'store_in_location_verify_response.dart';

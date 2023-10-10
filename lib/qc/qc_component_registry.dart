@@ -14,6 +14,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_devic
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_detail_component.dart';
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_list_component.dart';
 import 'package:flutter_trc/qc/modules/stock_in_module/components/media_file_upload_component.dart';
+import 'package:flutter_trc/qc/modules/store_in/components/index.dart';
 
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_component.dart';
@@ -89,6 +90,12 @@ class QcComponentRegistry {
 
       case PreDispatchComponent.COMP_KEY:
         return PreDispatchComponent(jsonConfig);
+
+      case StoreInComponent.COMP_KEY:
+        return StoreInComponent(jsonConfig);
+
+      case StoreInLocationScanComponent.COMP_KEY:
+        return StoreInLocationScanComponent(jsonConfig);
 
       default:
         return null;

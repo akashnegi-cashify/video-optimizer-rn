@@ -1,0 +1,3 @@
+enum ScanType{
+  STOCK_SCAN, LOCATION_SCAN;
+}
