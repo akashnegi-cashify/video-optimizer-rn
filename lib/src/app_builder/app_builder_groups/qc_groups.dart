@@ -15,6 +15,7 @@ enum QcComponentGroup with AbsComponentGroup {
   qcInvoiceScanComponentKey("Qc Invoice Scan Component"),
   qcReQcListComponentKey("Qc Re Qc List"),
   qcStockTransferListComponentKey("Qc Stock Transfer List"),
+  qcStockTransferStoreOutComponentKey("Qc Stock Transfer Store Out"),
   qcReQcDetailComponentKey("Qc Re Qc Detail");
 
   @override
@@ -38,6 +39,7 @@ enum QcPageGroup with AbsPageGroup {
   qcInvoiceScan("QC Invoice Scan"),
   qcReQcListPageKey("Qc Re Qc List"),
   qcStockTransferListPageKey("Qc Stock Transfer List"),
+  qcStockTransferStoreOutPageKey("Qc Stock Transfer Store Out"),
   qcReQcDetailPageKey("Qc Re Qc Detail");
 
   @override

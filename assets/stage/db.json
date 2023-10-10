@@ -912,6 +912,21 @@
       ]
     },
     {
+      "pageId": 10103,
+      "pageKey": "QC_stock_transfer_store_out_screen",
+      "dt": [
+        {
+          "id": 10107,
+          "key": "QC_stock_transfer_store_out_component",
+          "type": "component"
+        },
+        {
+          "id": 10108,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2232,6 +2247,28 @@
       "configJson": {
         "config": {
           "ht": "Stock Transfer Role",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10107,
+      "locale": "en",
+      "key": "QC_stock_transfer_store_out_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10108,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Store Out",
           "sbb": true,
           "slb": false
         }

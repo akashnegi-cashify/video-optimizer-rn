@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 class StockTransferListProvider extends CshChangeNotifier {
   bool isLoading = true;
   String? errorMessage;
-  List<StockTransferListData>? dispatchPendingList = [];
-  List<StockTransferListData>? pendingList = [];
+  List<StockTransferListData>? dispatchPendingList;
+  List<StockTransferListData>? pendingList;
   List<StockTransferListData>? storeOutList;
 
   static StockTransferListProvider of(BuildContext context, {bool listen = true}) {
@@ -60,6 +60,8 @@ class StockTransferListProvider extends CshChangeNotifier {
         if (isStoreOut) {
           storeOutList = event?.lotList;
         } else {
+          dispatchPendingList = [];
+          pendingList = [];
           for (var item in event!.lotList!) {
             if (item.statusCode == 3) {
               dispatchPendingList?.add(item);

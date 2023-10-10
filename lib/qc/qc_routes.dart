@@ -14,6 +14,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_
 import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
@@ -57,6 +58,7 @@ class QcRoutes {
       ReQcListScreen.route: (_) => const ReQcListScreen(),
       ReQcDetailScreen.route: (_) => const ReQcDetailScreen(),
       StockTransferListScreen.route: (_) => const StockTransferListScreen(),
+      StStoreOutScreen.route: (_) => const StStoreOutScreen(),
     };
   }
 }

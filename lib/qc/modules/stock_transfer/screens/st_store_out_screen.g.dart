@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stock_transfer_list_screen.dart';
+part of 'st_store_out_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,10 +9,13 @@ part of 'stock_transfer_list_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "QC_stock_transfer_list_screen",
-      "pageGroup": "Qc Stock Transfer List",
-      "title": "Stock Transfer List Screen",
+      "key": "QC_stock_transfer_store_out_screen",
+      "pageGroup": "Qc Stock Transfer Store Out",
+      "title": "St Store Out Screen",
       "isActive": true,
-      "params": null
+      "params": [
+        {"key": "lotId", "value": null}
+      ]
+
       //#adminscreen
     };

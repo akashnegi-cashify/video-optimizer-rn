@@ -8,10 +8,10 @@ import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 enum StockTransferListTab { pending, dispatchPending, storeOut }
 
 class StListTab extends StatelessWidget {
-  final bool isDispatchPending;
   final StockTransferListTab tabType;
+  final Function(StockTransferListData item) onItemClicked;
 
-  const StListTab({super.key, this.isDispatchPending = false, required this.tabType});
+  const StListTab({super.key, required this.tabType, required this.onItemClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,10 @@ class StListTab extends StatelessWidget {
             rowCount: list?.length ?? 0,
             getRowWidget: (index) {
               var item = list?[index];
-              return StockTransferListItemWidget(item, index);
+              return GestureDetector(
+                onTap: () => onItemClicked(item!),
+                child: StockTransferListItemWidget(item, index),
+              );
             },
             onRefresh: () {
               provider.getList(tabType, isForceRefresh: true);

@@ -1,9 +1,23 @@
+import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_list_response.dart';
+import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 
 class StockTransferService {
   static Stream<StockTransferListResponse?> getStockTransferList({bool? isStoreOut = false}) {
     return QcService().get("/transfer-lot/list-lots?isStoreOut=$isStoreOut", StockTransferListResponse.fromJson);
+  }
+
+  static Stream<StLotDetailResponse?> getStockTransferLotDetails(int? lotId) {
+    return QcService().get("/transfer-lot/fetch-store-out-device?lotId=$lotId", StLotDetailResponse.fromJson);
+  }
+
+  static Stream<BaseActionResponse?> removeDeviceFromLot(int? lotId, String? qrCode) {
+    Map<String, List<String>> params = {
+      "lotId": [lotId.toString()],
+      "qrCode": [qrCode.toString()],
+    };
+    return QcService().post("/transfer-lot/remove-device", BaseActionResponse.fromJsonWithInt, params: params);
   }
 
 // static Stream<BaseResponse?> skipReQc(String? lotName) {
