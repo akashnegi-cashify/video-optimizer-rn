@@ -90,8 +90,6 @@ class QcComponentRegistry {
       case PreDispatchComponent.COMP_KEY:
         return PreDispatchComponent(jsonConfig);
 
-      case PreDispatchScanResultComponent.COMP_KEY:
-        return PreDispatchScanResultComponent(jsonConfig);
       default:
         return null;
     }

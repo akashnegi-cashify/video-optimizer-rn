@@ -21,7 +21,7 @@ class _PreDispatchLotFilterWidgetState extends State<PreDispatchLotFilterWidget>
       create: (context) => PreDispatchFilterProvider(),
       child: Builder(builder: (builderContext) {
         return Padding(
-          padding: const EdgeInsets.all(Dimens.space_16),
+          padding: const EdgeInsets.all(Dimens.space_8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -89,8 +89,7 @@ class _FilterItemWidgetState extends State<_FilterItemWidget> {
   Widget build(BuildContext context) {
     var provider = PreDispatchFilterProvider.of(context: context);
     var isLoading = provider.status == RequestStatus.initial;
-    var list =
-        provider.filters?.map((e) => RadioListItem(e?.lotType, e?.lotName, e?.isSelected ?? false)).toList();
+    var list = provider.filters?.map((e) => RadioListItem(e?.lotType, e?.lotName, e?.isSelected ?? false)).toList();
 
     return isLoading
         ? ListView.separated(
@@ -102,6 +101,7 @@ class _FilterItemWidgetState extends State<_FilterItemWidget> {
             },
             itemCount: 20)
         : SingleChildScrollView(
+            padding: const EdgeInsets.all(Dimens.space_6),
             child: RadioListWidget(
               list: list,
               isShowedInCard: true,

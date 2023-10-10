@@ -8,7 +8,7 @@ import '../../qc_tester/disputed_image_capture/screens/disputed_image_capture_ba
 import '../l10n.dart';
 import '../models/index.dart';
 import '../providers/pre_dispatch_provider.dart';
-import '../screens/index.dart';
+import 'index.dart';
 
 class PreDispatchItemWidget extends StatelessWidget {
   const PreDispatchItemWidget({super.key, this.status});
@@ -34,8 +34,8 @@ class PreDispatchItemWidget extends StatelessWidget {
       children: [
         Expanded(
           child: RefreshIndicator(
-            onRefresh: (){
-              return Future.delayed(const Duration(seconds: 1),(){
+            onRefresh: () {
+              return Future.delayed(const Duration(seconds: 1), () {
                 provider.fetchPreDispatchItemDetail();
               });
             },
@@ -55,13 +55,19 @@ class PreDispatchItemWidget extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Expanded(child: CshTextNew.h2('${index + 1}) ${item?.qrCode}')),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: Dimens.space_6),
+                        Flexible(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
                               Expanded(
-                                  child: CshTextNew(
-                                '${index + 1}) ${item?.qrCode}',
-                                textStyle: theme.primaryTextTheme.displaySmall?.copyWith(
-                                  color: theme.primaryColor,
-                                ),
-                              )),
+                                child: CshTextNew.h4(l10n.brand, isPrimary: false),
+                              ),
+                              Expanded(flex: 4, child: CshTextNew.h3('${item?.brand}')),
                             ],
                           ),
                         ),
@@ -70,15 +76,8 @@ class PreDispatchItemWidget extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: CshTextNew(
-                                  l10n.brand,
-                                  textStyle: theme.primaryTextTheme.headlineMedium?.copyWith(
-                                    color: theme.primaryColor,
-                                  ),
-                                ),
-                              ),
-                              Expanded(child: CshTextNew.h4('${item?.brand}')),
+                              Expanded(child: CshTextNew.h4(l10n.model, isPrimary: false)),
+                              Expanded(flex: 4, child: CshTextNew.h3('${item?.model}')),
                             ],
                           ),
                         ),
@@ -87,32 +86,8 @@ class PreDispatchItemWidget extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: CshTextNew(
-                                  l10n.model,
-                                  textStyle: theme.primaryTextTheme.headlineMedium?.copyWith(
-                                    color: theme.primaryColor,
-                                  ),
-                                ),
-                              ),
-                              Expanded(child: CshTextNew.h4('${item?.model}')),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: Dimens.space_4),
-                        Flexible(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: CshTextNew(
-                                  l10n.imei,
-                                  textStyle: theme.primaryTextTheme.headlineMedium?.copyWith(
-                                    color: theme.primaryColor,
-                                  ),
-                                ),
-                              ),
-                              Expanded(child: CshTextNew.h4('${item?.imei}')),
+                              Expanded(child: CshTextNew.h4(l10n.imei, isPrimary: false)),
+                              Expanded(flex: 4, child: CshTextNew.h3('${item?.imei}')),
                             ],
                           ),
                         ),
@@ -156,7 +131,7 @@ class PreDispatchItemWidget extends StatelessWidget {
               CshLoading().hideLoading(context);
 
               Navigator.pop(context);
-              _openScanResultScreen(context, provider, l10n);
+              _showScanResultUI(context, provider, l10n);
             }, onError: (error) {
               CshLoading().hideLoading(context);
               CshSnackBar.error(context: context, message: error);
@@ -171,13 +146,28 @@ class PreDispatchItemWidget extends StatelessWidget {
     });
   }
 
-  void _openScanResultScreen(BuildContext context, PreDispatchProvider provider, L10n l10n) {
-    Navigator.push(context, MaterialPageRoute(builder: (builderContext) {
-      return ChangeNotifierProvider.value(
-        value: provider,
-        child: const PreDispatchScanResultScreen(),
-      );
-    })).then((value) {
+  void _showScanResultUI(BuildContext context, PreDispatchProvider provider, L10n l10n) {
+    showResponsiveOverlayPanel(
+        context: context,
+        isDismissible: false,
+        enableDrag: false,
+        builder: (builderContext) {
+          return ChangeNotifierProvider.value(
+            value: provider,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(Dimens.space_12),
+                  child: OverlayHeader(label: l10n.preDispatch),
+                ),
+                const Expanded(child: PreDispatchScanResultWidget()),
+              ],
+            ),
+          );
+        }).then((value) {
       if (provider.scanCode() && value != null) {
         _scan(context, l10n);
       } else if (provider.isAllItemScan()) {
@@ -194,15 +184,12 @@ class PreDispatchItemWidget extends StatelessWidget {
       if (value?.isValid() == true) {
         CshSnackBar.success(context: context, message: value?.message ?? 'Success');
 
-        var pageProvider = PageParamProvider.of(context,listen: false);
-        var callback =  pageProvider.getValue(PreDispatchCompParamKeys.allScanDoneCallback) as VoidCallback?;
+        var pageProvider = PageParamProvider.of(context, listen: false);
+        var callback = pageProvider.getValue(PreDispatchCompParamKeys.allScanDoneCallback) as VoidCallback?;
         callback?.call();
-
-
       } else {
         CshSnackBar.error(context: context, message: value?.errorMessage ?? 'Something Went Wrong.');
       }
-
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error ?? 'Something Went Wrong.');

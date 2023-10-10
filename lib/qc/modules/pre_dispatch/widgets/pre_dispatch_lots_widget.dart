@@ -1,7 +1,5 @@
 import 'package:core_widgets/core_widgets.dart' as core;
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/dispatch_lot/screens/index.dart';
-import 'package:flutter_trc/qc/modules/dispatch_lot/widgets/index.dart';
 
 import '../../../../src/utils/paginate_list_abstract.dart';
 import '../l10n.dart';
@@ -101,7 +99,9 @@ class _PreDispatchLotsWidgetState extends PaginatedListState<PreDispatchLotInfo,
 
 
   void _allScanDoneCallback(){
+    var provider = PreDispatchLotProvider.of(context: context, listen: false);
     Navigator.popUntil(context, ModalRoute.withName(PreDispatchLotScreen.route));
+    provider.lotTypeQuery =provider.searchQuery= null;
     resetAndRefreshScreen();
   }
 }

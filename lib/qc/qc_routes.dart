@@ -59,7 +59,6 @@ class QcRoutes {
       ReQcDetailScreen.route: (_) => const ReQcDetailScreen(),
       PreDispatchLotFilterScreen.route: (_) => const PreDispatchLotFilterScreen(),
       PreDispatchScreen.route: (_) => const PreDispatchScreen(),
-      PreDispatchScanResultScreen.route: (_) => const PreDispatchScanResultScreen(),
     };
   }
 }

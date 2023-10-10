@@ -35,5 +35,8 @@ class L10n extends BaseL10n {
   String get barcode => Intl.message('Barcode', locale: localName, name: 'barcode');
   String get lotType => Intl.message('Lot Type', locale: localName, name: 'lotType');
 
+  String get preDispatch => Intl.message('Pre Dispatch', locale: localName, name: 'preDispatch');
+  String get statusValid => Intl.message('Status- Valid', locale: localName, name: 'statusValid');
+
 
 }
