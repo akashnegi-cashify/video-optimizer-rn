@@ -14,6 +14,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_devic
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_detail_component.dart';
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_list_component.dart';
 import 'package:flutter_trc/qc/modules/stock_in_module/components/media_file_upload_component.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/components/stock_transfer_list_component.dart';
 
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_component.dart';
@@ -79,6 +80,8 @@ class QcComponentRegistry {
         return InvoiceScanComponent(jsonConfig);
       case DispatchLotsFilterComponent.COMP_KEY:
         return DispatchLotsFilterComponent(jsonConfig);
+      case StockTransferListComponent.COMP_KEY:
+        return StockTransferListComponent(jsonConfig);
       default:
         return null;
     }
