@@ -61,27 +61,6 @@ class _DispatchLotsWidgetState extends PaginatedListState<Lot, DispatchLotsWidge
   }
 
   void _onItemClick(BuildContext context, {required int index, required L10n l10n}) {
-    // navigate to scanner screen.
-    // InvoiceScanScreen.navigate(context).then((value) {
-    //   if (value != null) {
-    //     var provider = DispatchLotProvider.of(context: context, listen: false);
-    //     core.CshLoading().showLoading(context);
-    //     provider.initiateDispatchCompletion(value).then((value) {
-    //       core.CshLoading().hideLoading(context);
-    //       if (value?.isSuccess == true) {
-    //         _showAlert(context, value?.errorMsg, l10n);
-    //       } else {
-    //         if (core.isNotEmpty(value?.errorMsg)) {
-    //           core.CshSnackBar.error(context: context, message: value!.errorMsg!);
-    //         }
-    //       }
-    //     }, onError: (error) {
-    //       core.CshLoading().hideLoading(context);
-    //       core.CshSnackBar.error(context: context, message: error);
-    //     });
-    //   }
-    // });
-
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
         onScanDetected: (String scannedData, MlScannerController? controller) {
       if (scannedData.isNotEmpty) {

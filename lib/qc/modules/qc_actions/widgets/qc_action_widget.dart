@@ -6,8 +6,9 @@ import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 
 import '../../../../src/modules/elss/common_screen/elss_home_screen.dart';
+import '../../dispatch_lot/screens/index.dart';
+import '../../pre_dispatch/screens/index.dart';
 import '../../qc_tester/home/screens/qc_tester_home_screen.dart';
-import '../../dispatch_lot/screens/dispatch_lot_screen.dart';
 import '../../stock_in_module/screens/search_item_screen.dart';
 import '../l10n.dart';
 import '../models/qc_action_comp_config.dart';
@@ -77,6 +78,17 @@ class QCActionWidget extends StatelessWidget {
               text: l10n.dispatch,
               onPressed: () {
                 Navigator.of(context).pushNamed(DispatchLotScreen.route);
+              },
+            ),
+          ),
+
+          const SizedBox(height: Dimens.space_16),
+          SizedBox(
+            width: double.infinity,
+            child: CshBigButton(
+              text: l10n.preDispatch,
+              onPressed: () {
+                Navigator.of(context).pushNamed(PreDispatchLotScreen.route);
               },
             ),
           ),

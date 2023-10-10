@@ -19,6 +19,7 @@ import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart'
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
 import 'modules/dispatch_lot/screens/index.dart';
 import 'modules/external_audit/widgets/video_recoder_widget.dart';
+import 'modules/pre_dispatch/screens/index.dart';
 import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
@@ -53,8 +54,12 @@ class QcRoutes {
       DispatchLotScreen.route: (_) => const DispatchLotScreen(),
       InvoiceScanScreen.route: (_) => const InvoiceScanScreen(),
       DispatchLotFilterScreen.route: (_) => const DispatchLotFilterScreen(),
+      PreDispatchLotScreen.route: (_) => const PreDispatchLotScreen(),
       ReQcListScreen.route: (_) => const ReQcListScreen(),
       ReQcDetailScreen.route: (_) => const ReQcDetailScreen(),
+      PreDispatchLotFilterScreen.route: (_) => const PreDispatchLotFilterScreen(),
+      PreDispatchScreen.route: (_) => const PreDispatchScreen(),
+      PreDispatchScanResultScreen.route: (_) => const PreDispatchScanResultScreen(),
     };
   }
 }
