@@ -10,6 +10,9 @@ StoreInLocationScanCompParam fromMap(Map<String, dynamic> map) {
   StoreInLocationScanCompParam model = StoreInLocationScanCompParam(
     header: map["h"],
     barcode: map["br"],
+    totalCount: map["tc"],
+    availableSpace: map["as"],
+    binStoreIn: map["bsi"],
   );
   return model;
 }
@@ -20,6 +23,9 @@ Widget paramBuilder(
     selector: (_, provider) => {
       "h": provider.data["h"],
       "br": provider.data["br"],
+      "tc": provider.data["tc"],
+      "as": provider.data["as"],
+      "bsi": provider.data["bsi"],
     },
     builder: (context, data, child) {
       StoreInLocationScanCompParam model = fromMap(data);
@@ -31,8 +37,15 @@ Widget paramBuilder(
 bool isValid(StoreInLocationScanCompParam model) {
   var header = model.header;
   var barcode = model.barcode;
+  var totalCount = model.totalCount;
+  var availableSpace = model.availableSpace;
+  var binStoreIn = model.binStoreIn;
 
-  return header != null && barcode != null;
+  return header != null &&
+      barcode != null &&
+      totalCount != null &&
+      availableSpace != null &&
+      binStoreIn != null;
 }
 
 dynamic schema() => {
@@ -44,7 +57,10 @@ dynamic schema() => {
       "title": "Store In Location Scan Component",
       "cpm": [
         {"key": "h", "value": null},
-        {"key": "br", "value": null}
+        {"key": "br", "value": null},
+        {"key": "tc", "value": null},
+        {"key": "as", "value": null},
+        {"key": "bsi", "value": null}
       ],
       "configJson": {
         "type": "map",

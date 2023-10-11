@@ -30,6 +30,7 @@ class StoreInLocationScanScreen extends BaseScreen<StoreInLocationScanScreenArgs
         StoreInLocationScanCompParamKeys.barcode.value: args?.barcode,
         StoreInLocationScanCompParamKeys.availableSpace.value: args?.availableSpace,
         StoreInLocationScanCompParamKeys.totalCount.value: args?.totalCount,
+        StoreInLocationScanCompParamKeys.binStoreIn.value: args?.isBinStoreIn,
       },
     );
   }
@@ -39,13 +40,15 @@ class StoreInLocationScanScreen extends BaseScreen<StoreInLocationScanScreenArgs
     String? barcode,
     int? totalCount,
     int? availableSpace,
+    bool? isBinStoreIn,
   }) {
     return Navigator.pushReplacementNamed(context, route,
         arguments: StoreInLocationScanScreenArgs(
           pageKey,
-          barcode:barcode,
-          availableSpace:availableSpace,
-          totalCount:totalCount,
+          barcode: barcode,
+          availableSpace: availableSpace,
+          totalCount: totalCount,
+          isBinStoreIn: isBinStoreIn,
         ));
   }
 }
@@ -54,11 +57,13 @@ class StoreInLocationScanScreenArgs extends BaseArguments {
   final String? barcode;
   final int? totalCount;
   final int? availableSpace;
+  final bool? isBinStoreIn;
 
   StoreInLocationScanScreenArgs(
     super.pageKey, {
     this.barcode,
     this.totalCount,
     this.availableSpace,
+    this.isBinStoreIn,
   });
 }

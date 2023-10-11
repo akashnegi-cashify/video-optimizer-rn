@@ -24,7 +24,12 @@ class StoreInLocationScanComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    return paramBuilder((paramModel) => StoreInLocationScanWidget());
+    return paramBuilder((paramModel) => StoreInLocationScanWidget(
+          locBarcode: paramModel.barcode,
+          availableSpace: paramModel.availableSpace,
+          totalCount: paramModel.totalCount,
+          isBinStoreIn: paramModel.binStoreIn ?? false,
+        ));
   }
 
   @override

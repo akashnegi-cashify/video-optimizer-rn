@@ -11,12 +11,16 @@ class StoreInCompParam {
   @ParamKey(key: StoreInCompParamKeys.scannerCallback)
   Function(String scannedData, MlScannerController? controller)? onScanDetected;
 
-  StoreInCompParam({this.header,this.onScanDetected,});
+  @ParamKey(key: StoreInCompParamKeys.binStoreIn)
+  bool? binStoreIn;
+
+  StoreInCompParam({this.header,this.onScanDetected,this.binStoreIn,});
 }
 
 enum StoreInCompParamKeys with AbsParamKey {
   scannerCallback("sc"),
-  header("h");
+  header("h"),
+  binStoreIn("bsi");
 
 
   @override

@@ -52,8 +52,6 @@ class QCActionWidget extends StatelessWidget {
               },
             ),
           ),
-
-
           const SizedBox(height: Dimens.space_16),
           SizedBox(
             width: double.infinity,
@@ -84,7 +82,6 @@ class QCActionWidget extends StatelessWidget {
               },
             ),
           ),
-
           const SizedBox(height: Dimens.space_16),
           SizedBox(
             width: double.infinity,
@@ -95,7 +92,6 @@ class QCActionWidget extends StatelessWidget {
               },
             ),
           ),
-
           const SizedBox(height: Dimens.space_16),
           SizedBox(
             width: double.infinity,
@@ -106,19 +102,52 @@ class QCActionWidget extends StatelessWidget {
               },
             ),
           ),
-
           const SizedBox(height: Dimens.space_16),
           SizedBox(
             width: double.infinity,
             child: CshBigButton(
               text: l10n.storeIn,
               onPressed: () {
-                Navigator.of(context).pushNamed(StoreInScreen.route);
+                _storeInOptions(context);
               },
             ),
           ),
         ],
       ),
     );
+  }
+
+  void _storeInOptions(BuildContext context) {
+    showResponsiveOverlayPanel(
+        context: context,
+        isDismissible:false,
+        enableDrag:false,
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.all(Dimens.space_12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const OverlayHeader(label: 'Store In'),
+                const SizedBox(height: Dimens.space_24),
+                Flexible(
+                  child: Row(
+                    children: [
+                      Expanded(child: CshBigButton(text: 'Bin Store In', onPressed: () => _onPressed(context, true))),
+                      const SizedBox(width: Dimens.space_8),
+                      Expanded(child: CshBigButton(text: 'Store In', onPressed: () => _onPressed(context, false))),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _onPressed(BuildContext context, bool isBinStoreIn) {
+    Navigator.pop(context);
+    StoreInScreen.navigateTo(context, isBinStoreIn);
   }
 }

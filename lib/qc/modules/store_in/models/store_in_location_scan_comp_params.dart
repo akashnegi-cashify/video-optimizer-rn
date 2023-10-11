@@ -14,11 +14,15 @@ class StoreInLocationScanCompParam {
   @ParamKey(key: StoreInLocationScanCompParamKeys.availableSpace)
   int? availableSpace;
 
+  @ParamKey(key: StoreInLocationScanCompParamKeys.binStoreIn)
+  bool? binStoreIn;
+
   StoreInLocationScanCompParam({
     this.header,
     this.barcode,
     this.totalCount,
     this.availableSpace,
+    this.binStoreIn,
   });
 }
 
@@ -26,7 +30,8 @@ enum StoreInLocationScanCompParamKeys with AbsParamKey {
   header("h"),
   barcode("br"),
   totalCount("tc"),
-  availableSpace("as");
+  availableSpace("as"),
+  binStoreIn("bsi");
 
   @override
   final String value;

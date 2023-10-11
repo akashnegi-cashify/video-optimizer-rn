@@ -15,7 +15,10 @@ dynamic schema() => {
       "isActive": true,
       "params": [
         {"key": "h", "value": null},
-        {"key": "br", "value": null}
+        {"key": "br", "value": null},
+        {"key": "tc", "value": null},
+        {"key": "as", "value": null},
+        {"key": "bsi", "value": null}
       ]
 
       //#adminscreen

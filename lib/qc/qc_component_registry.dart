@@ -91,9 +91,6 @@ class QcComponentRegistry {
       case PreDispatchComponent.COMP_KEY:
         return PreDispatchComponent(jsonConfig);
 
-      case StoreInComponent.COMP_KEY:
-        return StoreInComponent(jsonConfig);
-
       case StoreInLocationScanComponent.COMP_KEY:
         return StoreInLocationScanComponent(jsonConfig);
 
