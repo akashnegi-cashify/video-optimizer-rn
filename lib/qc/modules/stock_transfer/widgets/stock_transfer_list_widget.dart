@@ -2,6 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_list_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/stock_transfer_list_provider.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_lot_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/widgets/st_list_tab.dart';
 
@@ -44,7 +45,10 @@ class _StockTransferListWidgetState extends State<StockTransferListWidget> with 
           child: TabBarView(controller: _tabBarController, children: [
             StListTab(
               tabType: StockTransferListTab.pending,
-              onItemClicked: (StockTransferListData item) {},
+              onItemClicked: (StockTransferListData item) {
+                Navigator.pushNamed(context, PendingLotDetailScreen.route,
+                    arguments: PendingLotDetailScreen.arguments(item.lotId!));
+              },
             ),
             StListTab(
               tabType: StockTransferListTab.dispatchPending,
@@ -55,7 +59,6 @@ class _StockTransferListWidgetState extends State<StockTransferListWidget> with 
               onItemClicked: (StockTransferListData item) async {
                 var isRefresh = await Navigator.pushNamed(context, StStoreOutScreen.route,
                     arguments: StStoreOutScreen.arguments(item.lotId!));
-                // TODO: make it working
                 if (isRefresh == true) {
                   provider.getList(StockTransferListTab.storeOut);
                 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/box_charger_tracking_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/models/pending_lot_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_list_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
@@ -44,5 +45,14 @@ class StockTransferService {
       "lotId": [lotId.toString()],
     };
     return QcService().post("/transfer-lot/add-device", BaseResponse.fromJson, params: params, body: jsonEncode(body));
+  }
+
+  static Stream<PendingLotDetailResponse?> getDeviceList(int? lotId) {
+    Map<String, List<String>> params = {
+      "lotId": [lotId.toString()],
+      "page_size" : ["20"],
+      "page_offset": ["0"],
+    };
+    return QcService().get("/transfer-lot/list-devices", PendingLotDetailResponse.fromJson, params: params);
   }
 }

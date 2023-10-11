@@ -927,6 +927,21 @@
       ]
     },
     {
+      "pageId": 10104,
+      "pageKey": "QC_st_pending_lot_detail_screen",
+      "dt": [
+        {
+          "id": 10109,
+          "key": "QC_st_pending_lot_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10110,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2269,6 +2284,28 @@
       "configJson": {
         "config": {
           "ht": "Store Out",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10109,
+      "locale": "en",
+      "key": "QC_st_pending_lot_detail_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10110,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pending",
           "sbb": true,
           "slb": false
         }
