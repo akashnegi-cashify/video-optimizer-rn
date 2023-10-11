@@ -1,3 +1,4 @@
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
@@ -43,17 +44,16 @@ class _StoreOutState extends State<_StoreOut> {
   _BottomButtonState _bottomButtonState = _BottomButtonState.idle;
   MlScannerController? _scannerController;
 
-  String? _scannedBarcode;
-
-  @override
-  void didUpdateWidget(covariant _StoreOut oldWidget) {
-    _bottomButtonState = _BottomButtonState.idle;
-    super.didUpdateWidget(oldWidget);
-  }
+  // @override
+  // void didUpdateWidget(covariant _StoreOut oldWidget) {
+  //   _bottomButtonState = _BottomButtonState.idle;
+  //   super.didUpdateWidget(oldWidget);
+  // }
 
   @override
   Widget build(BuildContext context) {
     var provider = StStoreOutProvider.of(context);
+    var theme = Theme.of(context);
     var details = provider.lotDetails;
     return Padding(
       padding: const EdgeInsets.all(Dimens.space_16),
@@ -65,12 +65,20 @@ class _StoreOutState extends State<_StoreOut> {
           const SizedBox(height: Dimens.space_8),
           Expanded(
             child: _bottomButtonState == _BottomButtonState.idle
-                ? Container(color: Colors.red)
+                ? Container(
+                    color: theme.colorScheme.primary.withAlpha(20),
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: const Icon(Icons.qr_code_scanner_outlined, size: 100),
+                  )
                 : MlBarcodeScannerWidget(
                     scanFormatList: const [ScanFormats.barcode],
                     onScannerDetected: (value, controller) {
                       _scannerController = controller;
-                      _scannedBarcode = value;
+                      if (value.toLowerCase() != provider.lotDetails?.barcode?.toLowerCase()) {
+                        CshSnackBar.error(context: context, message: "Mismatch Qr Code scanned again");
+                        return;
+                      }
                       controller.stop();
                       _bottomButtonState = _BottomButtonState.scanned;
                       setState(() {});
@@ -95,23 +103,9 @@ class _StoreOutState extends State<_StoreOut> {
               Expanded(child: CshBigButton(text: "Skip", onPressed: () => _removeDevice())),
               const SizedBox(width: Dimens.space_16),
               _bottomButtonState == _BottomButtonState.idle
-                  ? Expanded(
-                      child: CshBigButton(
-                          text: "Scan",
-                          onPressed: () {
-                            setState(() {
-                              _bottomButtonState = _BottomButtonState.scanning;
-                            });
-                          }),
-                    )
+                  ? Expanded(child: CshBigButton(text: "Scan", onPressed: () => _setScanningState()))
                   : _bottomButtonState == _BottomButtonState.scanned
-                      ? Expanded(
-                          child: CshBigButton(
-                              text: "Add",
-                              onPressed: () {
-                                // TODO: check for box charger api
-                              }),
-                        )
+                      ? Expanded(child: CshBigButton(text: "Add", onPressed: () => _checkBoxChargerTracking()))
                       : const SizedBox.shrink()
             ],
           )
@@ -126,19 +120,195 @@ class _StoreOutState extends State<_StoreOut> {
     provider.removeDevice().then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: "Device removed from lot");
-      _onProceedNext(provider);
+      _onProceedNext();
+      _setScanningState();
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+      _showRemoveRetryDialog(error.toString());
     });
   }
 
-  _onProceedNext(StStoreOutProvider provider) {
+  _showRemoveRetryDialog(String errorMessage) {
+    showPopup(
+      context,
+      title: "Warning!",
+      desc: errorMessage,
+      actions: [
+        CshMediumButton(
+          text: "Retry",
+          onPressed: () {
+            Navigator.pop(context); // dismiss dialog
+            _removeDevice();
+          },
+        ),
+        CshMediumButton(
+          text: 'Cancel',
+          onPressed: () {
+            Navigator.pop(context); // dismiss dialog
+            _onProceedNext();
+          },
+        ),
+      ],
+    );
+  }
+
+  _onProceedNext() {
+    var provider = StStoreOutProvider.of(context, listen: false);
     if (provider.isMoreDevicesAvailable()) {
+      _setScanningState();
       provider.getLotDetailsStream();
     } else {
       Navigator.pop(context, true);
     }
+  }
+
+  _setScanningState() {
+    _bottomButtonState = _BottomButtonState.scanning;
+    _scannerController?.start();
+    setState(() {});
+  }
+
+  void _checkBoxChargerTracking() {
+    var provider = StStoreOutProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.checkBoxChargerTracking().then((isAvailable) {
+      CshLoading().hideLoading(context);
+      if (Validator.isTrue(isAvailable)) {
+        _showBoxChargerDialog(
+          onProceed: (isBoxAvailable, isChargerAvailable) {
+            Navigator.pop(context); // dismiss dialog
+            _addDevice(isBoxAvailable: isBoxAvailable, isChargerAvailable: isChargerAvailable);
+          },
+        );
+      } else {
+        _addDevice();
+      }
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      _setScanningState();
+      CshSnackBar.error(context: context, message: error.toString());
+    });
+  }
+
+  void _addDevice({bool? isBoxAvailable, bool? isChargerAvailable}) {
+    var provider = StStoreOutProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.addDevice(isBoxAvailable, isChargerAvailable).then((_) {
+      CshLoading().hideLoading(context);
+      _onProceedNext();
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      _showAddDeviceRetryDialog(error.toString(), isBoxAvailable, isChargerAvailable);
+    });
+  }
+
+  void _showAddDeviceRetryDialog(String errorMessage, bool? isBoxAvailable, bool? isChargerAvailable) {
+    showPopup(
+      context,
+      title: "Warning!",
+      desc: errorMessage,
+      actions: [
+        CshMediumButton(
+          text: "Retry",
+          onPressed: () {
+            Navigator.pop(context); // dismiss dialog
+            _addDevice(isBoxAvailable: isBoxAvailable, isChargerAvailable: isChargerAvailable);
+          },
+        ),
+        CshMediumButton(
+          text: 'Cancel',
+          onPressed: () {
+            Navigator.pop(context); // dismiss dialog
+            _onProceedNext();
+          },
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _scannerController = null;
+    super.dispose();
+  }
+
+  void _showBoxChargerDialog({required Function(bool isBoxAvailable, bool isChargerAvailable) onProceed}) {
+    bool? isBoxAvailable;
+    bool? isChargerAvailable;
+
+    showCshBottomSheet(
+      context: context,
+      isDismissible: false,
+      child: StatefulBuilder(builder: (_, setState) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          padding: const EdgeInsets.all(Dimens.space_20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(child: CshTextNew.h2("Accessories")),
+              const SizedBox(height: Dimens.space_16),
+              CshTextNew.h3("Box"),
+              const SizedBox(height: Dimens.space_4),
+              CshRadio(
+                title: CshTextNew.bodyText1("Available"),
+                value: true,
+                groupValue: isBoxAvailable,
+                onChanged: (value) {
+                  setState(() {
+                    isBoxAvailable = value;
+                  });
+                },
+              ),
+              const SizedBox(height: Dimens.space_4),
+              CshRadio(
+                title: CshTextNew.bodyText1("Not Available"),
+                value: false,
+                groupValue: isBoxAvailable,
+                onChanged: (value) {
+                  setState(() {
+                    isBoxAvailable = value;
+                  });
+                },
+              ),
+              const SizedBox(height: Dimens.space_16),
+              CshTextNew.h3("Charger"),
+              const SizedBox(height: Dimens.space_8),
+              CshRadio(
+                title: CshTextNew.bodyText1("Available"),
+                value: true,
+                groupValue: isChargerAvailable,
+                onChanged: (value) {
+                  setState(() {
+                    isChargerAvailable = value;
+                  });
+                },
+              ),
+              const SizedBox(height: Dimens.space_4),
+              CshRadio(
+                title: CshTextNew.bodyText1("Not Available"),
+                value: false,
+                groupValue: isChargerAvailable,
+                onChanged: (value) {
+                  setState(() {
+                    isChargerAvailable = value;
+                  });
+                },
+              ),
+              const SizedBox(height: Dimens.space_24),
+              Center(
+                child: CshBigButton(
+                  text: "Proceed",
+                  onPressed: isBoxAvailable != null && isChargerAvailable != null
+                      ? () => onProceed(isBoxAvailable!, isChargerAvailable!)
+                      : null,
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
   }
 }
 

@@ -48,4 +48,34 @@ class StStoreOutProvider extends CshChangeNotifier {
   bool isMoreDevicesAvailable() {
     return (lotDetails?.deviceCount ?? 0) > (lotDetails?.scanCount ?? 0) + 1;
   }
+
+  @override
+  void dispose() {
+    _lotDetailsStreamController.close();
+    super.dispose();
+  }
+
+  Future<bool> checkBoxChargerTracking() {
+    var completer = Completer<bool>();
+    StockTransferService.checkBoxChargerTracking(lotDetails?.barcode).listen((event) {
+      if ((event?.boxChargerTrackingData?.hasBox ?? 0) > 0 || (event?.boxChargerTrackingData?.hasCharger ?? 0) > 0) {
+        completer.complete(true);
+      } else {
+        completer.complete(false);
+      }
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
+  }
+
+  Future<void> addDevice(bool? isBoxAvailable, bool? isChargerAvailable) {
+    var completer = Completer<void>();
+    StockTransferService.addDevice(lotDetails?.barcode, lotId, isBoxAvailable, isChargerAvailable).listen((event) {
+      completer.complete();
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
+  }
 }

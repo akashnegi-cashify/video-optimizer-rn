@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/models/box_charger_tracking_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_list_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
@@ -20,7 +24,25 @@ class StockTransferService {
     return QcService().post("/transfer-lot/remove-device", BaseActionResponse.fromJsonWithInt, params: params);
   }
 
-// static Stream<BaseResponse?> skipReQc(String? lotName) {
-//   return QcService().post("/lot-re-qc/v3/skip-re-qc?lgn=$lotName", BaseResponse.fromJson);
-// }
+  static Stream<BoxChargerTrackingResponse?> checkBoxChargerTracking(String? qrCode) {
+    return QcService().get("/box-charger-tracking/getQcTracking/$qrCode", BoxChargerTrackingResponse.fromJson);
+  }
+
+  static Stream<BaseResponse?> addDevice(String? qrCode, int? lotId, bool? isBoxAvailable, bool? isChargerAvailable) {
+    Map<String, dynamic> body = {};
+    if (isBoxAvailable != null && isChargerAvailable != null) {
+      body = {
+        "qr": qrCode,
+        "a": "Transfer Lot",
+        "hb": Validator.isTrue(isBoxAvailable) ? 1 : 0,
+        "hc": Validator.isTrue(isChargerAvailable) ? 1 : 0,
+      };
+    }
+
+    Map<String, List<String>> params = {
+      "qrCode": [qrCode.toString()],
+      "lotId": [lotId.toString()],
+    };
+    return QcService().post("/transfer-lot/add-device", BaseResponse.fromJson, params: params, body: jsonEncode(body));
+  }
 }

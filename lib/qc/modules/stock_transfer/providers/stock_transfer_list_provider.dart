@@ -8,7 +8,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/widgets/st_list_tab.dart';
 import 'package:provider/provider.dart';
 
 class StockTransferListProvider extends CshChangeNotifier {
-  bool isLoading = true;
+  bool isLoading = false;
   String? errorMessage;
   List<StockTransferListData>? dispatchPendingList;
   List<StockTransferListData>? pendingList;
@@ -53,6 +53,8 @@ class StockTransferListProvider extends CshChangeNotifier {
 
   Future<bool> _getStockTransferList({bool isStoreOut = false}) {
     var completer = Completer<bool>();
+    isLoading = true;
+    notifyListeners();
     StockTransferService.getStockTransferList(isStoreOut: isStoreOut).listen((event) {
       if (Validator.isListNullOrEmpty(event?.lotList)) {
         completer.completeError("No data found");
@@ -73,8 +75,12 @@ class StockTransferListProvider extends CshChangeNotifier {
         completer.complete(true);
       }
     }, onError: (error) {
+      errorMessage = ApiErrorHelper.getErrorMessage(error).toString();
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-    });
+    }, onDone: () {
+      isLoading = false;
+      notifyListeners();
+    },);
     return completer.future;
   }
 }
