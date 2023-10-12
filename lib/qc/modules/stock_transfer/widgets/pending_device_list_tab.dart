@@ -1,93 +1,147 @@
+import 'dart:async';
+
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/pending_lot_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/pending_lot_detail_provider.dart';
-import 'package:flutter_trc/src/common/widgets/searchbar_widget.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 
 class PendingDeviceListTab extends StatefulWidget {
-  const PendingDeviceListTab({super.key});
+  final Function(String scannedDevice)? onDeviceScanned;
+
+  const PendingDeviceListTab({super.key, this.onDeviceScanned});
 
   @override
-  State<PendingDeviceListTab> createState() => _PendingDeviceListTabState();
+  State<PendingDeviceListTab> createState() => PendingDeviceListTabState();
 }
 
-class _PendingDeviceListTabState extends State<PendingDeviceListTab> {
+class PendingDeviceListTabState extends State<PendingDeviceListTab> {
+  final TextEditingController _editTextController = TextEditingController();
+  Timer? _debounce;
+
+  @override
+  void initState() {
+    print("mydebug------------initState");
+    scheduleMicrotask(() {
+      var provider = PendingLotDetailProvider.of(context, listen: false);
+      provider.resetScannedDeviceDetail();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var provider = PendingLotDetailProvider.of(context);
+    var theme = Theme.of(context);
     var data = provider.pendingLotDetailResponse;
-    return Column(
+    return Stack(
       children: [
-        const SizedBox(height: Dimens.space_8),
-        CshTextNew.h2(data?.lotName ?? ""),
-        const SizedBox(height: Dimens.space_4),
-        CshTextNew.subTitle2("No of devices - ${data?.deviceCount}"),
-        const SizedBox(height: Dimens.space_4),
-        CshTextNew.subTitle2("Destination - ${data?.destinationFacility}"),
-        const SizedBox(height: Dimens.space_4),
-        CshTextNew.subTitle2("Status - ${data?.status}"),
-        const SizedBox(height: Dimens.space_12),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-          child: Row(
-            children: [
-              Expanded(
-                child: SearchbarWidget(
-                  margin: EdgeInsets.zero,
-                  hint: "Search barcode",
-                  onQuery: (String query) {
-                    provider.setQuery(query);
-                  },
+        Column(
+          children: [
+            const SizedBox(height: Dimens.space_8),
+            CshTextNew.h2(data?.lotName ?? ""),
+            const SizedBox(height: Dimens.space_4),
+            CshTextNew.subTitle2("No of devices - ${data?.deviceCount}"),
+            const SizedBox(height: Dimens.space_4),
+            CshTextNew.subTitle2("Destination - ${data?.destinationFacility}"),
+            const SizedBox(height: Dimens.space_4),
+            CshTextNew.subTitle2("Status - ${data?.status}"),
+            const SizedBox(height: Dimens.space_12),
+            if (!Validator.isListNullOrEmpty(data?.deviceList))
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+                child: CshTextFormField(
+                  hintText: "Search Barcode",
+                  controller: _editTextController,
+                  suffixIcon: InkWell(
+                      onTap: () {
+                        _openScanner((scannedData) {
+                          Navigator.of(context).pop(); // dismiss scanner screen
+                          _editTextController.text = scannedData;
+                          provider.setQuery(scannedData);
+                        });
+                      },
+                      child: const Icon(Icons.qr_code_2, size: Dimens.space_32)),
+                  onChanged: _onSearchChanged,
                 ),
               ),
-              const SizedBox(width: Dimens.space_8),
-              InkWell(
-                  onTap: () {
-                    DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-                        onScanDetected: (String scannedData, MlScannerController? controller) {
-                          if (scannedData.isNotEmpty) {
-                            Navigator.of(context).pop();
-                            provider.setQuery(scannedData);
-                          }
+            const SizedBox(height: Dimens.space_12),
+            Expanded(
+              child: CshList(
+                rowCount: provider.deviceList?.length ?? 0,
+                listPadding: const EdgeInsets.all(Dimens.space_16),
+                getRowWidget: (index) {
+                  var item = provider.deviceList?[index];
+                  return SizedBox(
+                      width: double.infinity,
+                      child: _DeviceItemWidget(
+                        item,
+                        index: index,
+                        onDeviceRemove: () {
+                          CshLoading().showLoading(context);
+                          provider.removeDeviceFromLot(item?.qrCode).then((value) {
+                            CshLoading().hideLoading(context);
+                            provider.getDeviceList();
+                          }, onError: (error) {
+                            CshLoading().hideLoading(context);
+                            CshSnackBar.error(context: context, message: error);
+                          });
                         },
-                        header: "Scan Barcode",
-                        hintText: "Scan barcode");
-                    Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
-                  },
-                  child: const Icon(Icons.qr_code_2, size: Dimens.space_32)),
-            ],
-          ),
+                      ));
+                },
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: Dimens.space_12),
-        Expanded(
-          child: CshList(
-            rowCount: provider.deviceList?.length ?? 0,
-            listPadding: const EdgeInsets.all(Dimens.space_16),
-            getRowWidget: (index) {
-              var item = provider.deviceList?[index];
-              return SizedBox(
-                  width: double.infinity,
-                  child: _DeviceItemWidget(
-                    item,
-                    index: index,
-                    onDeviceRemove: () {
-                      CshLoading().showLoading(context);
-                      provider.removeDeviceFromLot(item?.qrCode).then((value) {
-                        CshLoading().hideLoading(context);
-                      }, onError: (error) {
-                        CshLoading().hideLoading(context);
-                        CshSnackBar.error(context: context, message: error);
-                      });
-                    },
-                  ));
-            },
-          ),
-        )
+        if (data?.statusCode != 3)
+          Positioned(
+            right: Dimens.space_32,
+            bottom: Dimens.space_32,
+            child: FloatingActionButton(
+              backgroundColor: theme.colorScheme.primary,
+              child: const Icon(Icons.add, size: 20),
+              onPressed: () => onAddButtonClicked(),
+            ),
+          )
       ],
     );
+  }
+
+  _onSearchChanged(String text) {
+    var provider = PendingLotDetailProvider.of(context, listen: false);
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      provider.setQuery(text);
+    });
+  }
+
+  onAddButtonClicked() {
+    var provider = PendingLotDetailProvider.of(context, listen: false);
+    _openScanner((scannedData) {
+      Navigator.of(context).pop(); // dismiss scanner screen
+      CshLoading().showLoading(context);
+      provider.getScannedDeviceDetail(scannedData).then((value) {
+        CshLoading().hideLoading(context);
+        widget.onDeviceScanned?.call(scannedData);
+      }, onError: (error) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: error);
+      });
+    });
+  }
+
+  _openScanner(Function(String scannedData) onScanned) {
+    DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
+        onScanDetected: (String scannedData, MlScannerController? controller) {
+          if (scannedData.isNotEmpty) {
+            onScanned(scannedData);
+          }
+        },
+        header: "Scan Barcode",
+        hintText: "Scan barcode");
+    Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
   }
 }
 
