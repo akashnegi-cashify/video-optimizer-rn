@@ -55,32 +55,36 @@ class StockTransferListProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     isLoading = true;
     notifyListeners();
-    StockTransferService.getStockTransferList(isStoreOut: isStoreOut).listen((event) {
-      if (Validator.isListNullOrEmpty(event?.lotList)) {
-        completer.completeError("No data found");
-      } else {
-        if (isStoreOut) {
-          storeOutList = event?.lotList;
+    StockTransferService.getStockTransferList(isStoreOut: isStoreOut).listen(
+      (event) {
+        if (Validator.isListNullOrEmpty(event?.lotList)) {
+          completer.completeError("No data found");
         } else {
-          dispatchPendingList = [];
-          pendingList = [];
-          for (var item in event!.lotList!) {
-            if (item.statusCode == 3) {
-              dispatchPendingList?.add(item);
-            } else {
-              pendingList?.add(item);
+          if (isStoreOut) {
+            storeOutList = event?.lotList;
+          } else {
+            dispatchPendingList = [];
+            pendingList = [];
+            for (var item in event!.lotList!) {
+              if (item.statusCode == 3) {
+                dispatchPendingList?.add(item);
+              } else {
+                pendingList?.add(item);
+              }
             }
           }
+          completer.complete(true);
         }
-        completer.complete(true);
-      }
-    }, onError: (error) {
-      errorMessage = ApiErrorHelper.getErrorMessage(error).toString();
-      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-    }, onDone: () {
-      isLoading = false;
-      notifyListeners();
-    },);
+      },
+      onError: (error) {
+        errorMessage = ApiErrorHelper.getErrorMessage(error).toString();
+        completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+      },
+      onDone: () {
+        isLoading = false;
+        notifyListeners();
+      },
+    );
     return completer.future;
   }
 }

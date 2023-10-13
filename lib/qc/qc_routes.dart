@@ -14,6 +14,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_
 import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_dispatch_detail%20screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_lot_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
@@ -61,6 +62,7 @@ class QcRoutes {
       StockTransferListScreen.route: (_) => const StockTransferListScreen(),
       StStoreOutScreen.route: (_) => const StStoreOutScreen(),
       PendingLotDetailScreen.route: (_) => const PendingLotDetailScreen(),
+      PendingDispatchDetailScreen.route: (_) => const PendingDispatchDetailScreen(),
     };
   }
 }

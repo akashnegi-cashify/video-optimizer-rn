@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/pending_lot_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/pending_lot_detail_provider.dart';
-import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
 class PendingDeviceListTab extends StatefulWidget {
   final Function(String scannedDevice)? onDeviceScanned;
@@ -133,15 +132,11 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
   }
 
   _openScanner(Function(String scannedData) onScanned) {
-    DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-        onScanDetected: (String scannedData, MlScannerController? controller) {
-          if (scannedData.isNotEmpty) {
-            onScanned(scannedData);
-          }
-        },
-        header: "Scan Barcode",
-        hintText: "Scan barcode");
-    Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
+    CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+      if (scannedData.isNotEmpty) {
+        onScanned(scannedData);
+      }
+    });
   }
 }
 

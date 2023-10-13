@@ -51,7 +51,7 @@ class StockTransferService {
   static Stream<PendingLotDetailResponse?> getPendingLotDetails(int? lotId) {
     Map<String, List<String>> params = {
       "lotId": [lotId.toString()],
-      "page_size" : ["20"],
+      "page_size": ["20"],
       "page_offset": ["0"],
     };
     return QcService().get("/transfer-lot/list-devices", PendingLotDetailResponse.fromJson, params: params);
@@ -59,5 +59,14 @@ class StockTransferService {
 
   static Stream<ScannedDeviceDetailResponse?> getScannedDeviceDetails(String? scannedBarcode) {
     return QcService().get("/transfer-lot/scan-device?qrCode=$scannedBarcode", ScannedDeviceDetailResponse.fromJson);
+  }
+
+  static Stream<BaseResponse?> completePendingDispatch(String invoiceNo, String awbNo, String invoiceUrl) {
+    Map<String, dynamic> body = {
+      "invoiceNo": invoiceNo,
+      "wbn": awbNo,
+      "img": invoiceUrl,
+    };
+    return QcService().post("/transfer-lot/dispatch-lot-v2", BaseResponse.fromJson, body: jsonEncode(body));
   }
 }

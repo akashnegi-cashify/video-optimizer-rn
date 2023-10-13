@@ -7,7 +7,6 @@ class PendingDeviceDetailTab extends StatelessWidget {
   final VoidCallback? onDeviceAdded;
   final String? scannedDevice;
 
-
   const PendingDeviceDetailTab(this.scannedDevice, {super.key, this.onReject, this.onDeviceAdded});
 
   @override
@@ -66,7 +65,10 @@ class PendingDeviceDetailTab extends StatelessWidget {
                 onDeviceAdded?.call();
               }, onError: (error) {
                 CshLoading().hideLoading(context);
-                CshSnackBar.error(context: context, message: error);
+                showErrorDialog(context, error.toString(), "Error!", "Okay", (p0) {
+                  Navigator.pop(context); // dismiss dialog
+                  onReject?.call();
+                });
               });
             },
           ),

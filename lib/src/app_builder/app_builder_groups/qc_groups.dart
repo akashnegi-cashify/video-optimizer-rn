@@ -17,6 +17,7 @@ enum QcComponentGroup with AbsComponentGroup {
   qcStockTransferListComponentKey("Qc Stock Transfer List"),
   qcStockTransferStoreOutComponentKey("Qc Stock Transfer Store Out"),
   qcStockTransferPendingLotDetailComponentKey("Qc Stock Transfer Pending Lot Detail"),
+  qcStockTransferPendingDispatchDetailComponentKey("Qc Stock Transfer Pending Dispatch Detail"),
   qcReQcDetailComponentKey("Qc Re Qc Detail");
 
   @override
@@ -42,6 +43,7 @@ enum QcPageGroup with AbsPageGroup {
   qcStockTransferListPageKey("Qc Stock Transfer List"),
   qcStockTransferStoreOutPageKey("Qc Stock Transfer Store Out"),
   qcStockTransferPendingLotDetailPageKey("Qc Stock Transfer Pending Lot Detail"),
+  qcStockTransferPendingDispatchDetailPageKey("Qc Stock Transfer Pending Dispatch Detail"),
   qcReQcDetailPageKey("Qc Re Qc Detail");
 
   @override

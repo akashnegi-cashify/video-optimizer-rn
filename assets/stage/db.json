@@ -942,6 +942,21 @@
       ]
     },
     {
+      "pageId": 10105,
+      "pageKey": "QC_st_pending_dispatch_detail_screen",
+      "dt": [
+        {
+          "id": 10111,
+          "key": "QC_pending_dispatch_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10112,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2306,6 +2321,29 @@
       "configJson": {
         "config": {
           "ht": "Pending",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10111,
+      "locale": "en",
+      "key": "QC_pending_dispatch_detail_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10112,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Finish Dispatch for Lot",
           "sbb": true,
           "slb": false
         }
