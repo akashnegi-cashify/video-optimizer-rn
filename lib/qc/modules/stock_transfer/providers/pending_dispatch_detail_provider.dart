@@ -45,7 +45,7 @@ class PendingDispatchDetailProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  bool isAllDataFilled(String awbNo) {
+  bool isAllDataFilled(String? awbNo) {
     return !Validator.isNullOrEmpty(invoiceUrl) &&
         !Validator.isNullOrEmpty(awbNo) &&
         !Validator.isNullOrEmpty(scannedInvoiceNo);

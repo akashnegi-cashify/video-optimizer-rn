@@ -45,7 +45,7 @@ class QCActionWidget extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: CshBigButton(
-              text: configData?.button2Text ?? l10n.qcTester,
+              text: configData?.button2Text ?? l10n.deviceTesting,
               onPressed: () {
                 Navigator.of(context).pushNamed(QcTesterHomeScreen.route);
               },
@@ -55,7 +55,7 @@ class QCActionWidget extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: CshBigButton(
-              text: l10n.externalAudit,
+              text: l10n.externalRecording,
               onPressed: () {
                 Navigator.of(context).pushNamed(ExternalAuditHomeScreen.route);
               },
@@ -72,13 +72,16 @@ class QCActionWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
-            child: CshBigButton(
-              text: l10n.dispatch,
-              onPressed: () {
-                Navigator.of(context).pushNamed(DispatchLotScreen.route);
-              },
+          QcRolePermissionWidget(
+            role: QcRole.roleDispatch,
+            child: SizedBox(
+              width: double.infinity,
+              child: CshBigButton(
+                text: l10n.lotDispatch,
+                onPressed: () {
+                  Navigator.of(context).pushNamed(DispatchLotScreen.route);
+                },
+              ),
             ),
           ),
           const SizedBox(height: Dimens.space_16),
@@ -92,13 +95,16 @@ class QCActionWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
-            child: CshBigButton(
-              text: l10n.stockTransfer,
-              onPressed: () {
-                Navigator.of(context).pushNamed(StockTransferListScreen.route);
-              },
+          QcRolePermissionWidget(
+            role: QcRole.roleStockTransfer,
+            child: SizedBox(
+              width: double.infinity,
+              child: CshBigButton(
+                text: l10n.stockTransfer,
+                onPressed: () {
+                  Navigator.of(context).pushNamed(StockTransferListScreen.route);
+                },
+              ),
             ),
           ),
         ],

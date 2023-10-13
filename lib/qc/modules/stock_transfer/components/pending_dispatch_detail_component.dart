@@ -41,10 +41,17 @@ class PendingDispatchDetailComponent extends StatelessComponent<NoneConfigModel>
   }
 }
 
-class _PendingDispatchWidget extends StatelessWidget {
+class _PendingDispatchWidget extends StatefulWidget {
   _PendingDispatchWidget({super.key});
 
+  @override
+  State<_PendingDispatchWidget> createState() => _PendingDispatchWidgetState();
+}
+
+class _PendingDispatchWidgetState extends State<_PendingDispatchWidget> {
   final TextEditingController _controller = TextEditingController();
+
+  String? _awbNo;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +77,25 @@ class _PendingDispatchWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: Dimens.space_16),
-            CshTextFormField(controller: _controller, hintText: "Awb Number"),
+            CshTextFormField(
+                controller: _controller,
+                hintText: "Awb Number",
+                suffixIcon: InkWell(
+                  child: const Icon(Icons.qr_code_2),
+                  onTap: () {
+                    CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+                      Navigator.pop(context); // dismiss scanner screen
+                      setState(() {
+                        _controller.text = scannedData;
+                      });
+                    });
+                  },
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _awbNo = value;
+                  });
+                }),
             const SizedBox(height: Dimens.space_16),
             CshBigButton(
               text: "Scan Invoice",
@@ -87,16 +112,18 @@ class _PendingDispatchWidget extends StatelessWidget {
             const SizedBox(height: Dimens.space_16),
             CshBigButton(
               text: "Complete Dispatch",
-              onPressed: () {
-                CshLoading().showLoading(context);
-                provider.completeDispatch(_controller.text).then((value) {
-                  CshLoading().hideLoading(context);
-                  Navigator.pop(context, true);
-                }, onError: (error) {
-                  CshLoading().hideLoading(context);
-                  CshSnackBar.error(context: context, message: error);
-                });
-              },
+              onPressed: provider.isAllDataFilled(_awbNo)
+                  ? () {
+                      CshLoading().showLoading(context);
+                      provider.completeDispatch(_awbNo).then((value) {
+                        CshLoading().hideLoading(context);
+                        Navigator.pop(context, true);
+                      }, onError: (error) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.error(context: context, message: error);
+                      });
+                    }
+                  : null,
             ),
           ],
         ),

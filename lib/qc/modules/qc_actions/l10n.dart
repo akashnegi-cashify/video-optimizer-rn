@@ -6,15 +6,15 @@ class L10n extends BaseL10n {
 
   String get elss => Intl.message("ELSS", locale: localName, name: "elss");
 
-  String get qcTester => Intl.message("QC Tester", locale: localName, name: "qcTester");
+  String get deviceTesting => Intl.message("Device Testing", locale: localName, name: "deviceTesting");
 
-  String get externalAudit => Intl.message("External Audit", locale: localName, name: "externalAudit");
+  String get externalRecording => Intl.message("External Recording", locale: localName, name: "externalRecording");
 
   String get stockIn => Intl.message('Stock In', locale: localName, name: 'stockIn');
 
-  String get dispatch => Intl.message('Dispatch', locale: localName, name: 'dispatch');
+  String get lotDispatch => Intl.message('Lot Dispatch', locale: localName, name: 'lotDispatch');
 
-  String get reQc => Intl.message("RE-QC SS", locale: localName, name: "reQc");
+  String get reQc => Intl.message("RE-QC", locale: localName, name: "reQc");
 
   String get stockTransfer => Intl.message("Stock Transfer", locale: localName, name: "stockTransfer");
 }

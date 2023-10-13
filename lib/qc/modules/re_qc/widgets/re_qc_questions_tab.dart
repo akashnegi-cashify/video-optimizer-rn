@@ -172,32 +172,34 @@ class _QuestionWidgetState extends State<_QuestionWidget> {
     var theme = Theme.of(context);
     var provider = ReQcQuestionsProvider.of(context);
     var item = provider.deviceReportList![widget.index];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "${widget.index + 1})  ${item.label}",
-          style: theme.textTheme.titleMedium?.copyWith(color: theme.primaryColor),
-        ),
-        const SizedBox(height: Dimens.space_16),
-        RadioListWidget(
-          list: List.generate(
-            item.variation?.length ?? 0,
-            (index) {
-              String variantId = item.getVariantKey(index);
-              return RadioListItem(
-                item.getVariantKey(index),
-                item.getVariantValue(variantId),
-                item.isSelected(variantId),
-              );
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${widget.index + 1})  ${item.label}",
+            style: theme.textTheme.titleMedium?.copyWith(color: theme.primaryColor),
+          ),
+          const SizedBox(height: Dimens.space_16),
+          RadioListWidget(
+            list: List.generate(
+              item.variation?.length ?? 0,
+              (index) {
+                String variantId = item.getVariantKey(index);
+                return RadioListItem(
+                  item.getVariantKey(index),
+                  item.getVariantValue(variantId),
+                  item.isSelected(variantId),
+                );
+              },
+            ),
+            isShowedInCard: true,
+            onItemSelected: (data) {
+              provider.setUserSelectedVariantId(widget.index, data.id!);
             },
           ),
-          isShowedInCard: true,
-          onItemSelected: (data) {
-            provider.setUserSelectedVariantId(widget.index, data.id!);
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
