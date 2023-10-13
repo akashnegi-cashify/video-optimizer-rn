@@ -19,18 +19,19 @@ class DispatchLotContainer extends StatelessWidget {
         Selector<DispatchLotProvider, bool>(
           builder: (BuildContext selectorContext, value, Widget? child) {
             var provider = DispatchLotProvider.of(context: selectorContext, listen: false);
-            return Visibility(
-              visible: value,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_8),
+            if (value) {
+              return Container(
+                padding: const EdgeInsets.all(Dimens.space_16),
                 child: SearchBarWidget(
                   initialText: provider.searchQuery,
                   onQuery: (value) {
                     provider.searchQuery = value;
                   },
                 ),
-              ),
-            );
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
           },
           selector: (
             BuildContext context,
@@ -43,7 +44,7 @@ class DispatchLotContainer extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child:   Selector<DispatchLotProvider, String>(
+                child: Selector<DispatchLotProvider, String>(
                   builder: (BuildContext context, value, Widget? child) {
                     return DispatchLotsWidget(key: ObjectKey(value));
                   },

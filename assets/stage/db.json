@@ -897,6 +897,86 @@
       ]
     },
     {
+      "pageId": 10025,
+      "pageKey": "QC_qc_pre_dispatch_lot",
+      "dt": [
+        {
+          "id": 10044,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10045,
+          "key": "QC_qc_pre_dispatch_lots_component",
+          "type": "component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10026,
+      "pageKey": "QC_qc_pre_dispatch_lot_filter",
+      "dt": [
+        {
+          "id": 10046,
+          "key": "QC_qc_pre_dispatch_lots_filter_component",
+          "type": "component"
+        },
+        {
+          "id": 10047,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+
+
+    {
+      "pageId": 10027,
+      "pageKey": "QC_qc_pre_dispatch",
+      "dt": [
+        {
+          "id": 10044,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10048,
+          "key": "QC_qc_pre_dispatch_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10028,
+      "pageKey": "QC_qc_store_in",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10022,
+          "key": "disputed_image_barcode_scanner",
+          "type": "component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10029,
+      "pageKey": "QC_qc_store_in_location_scan",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10051,
+          "key": "QC_qc_store_in_location_scan_component"
+        }
+      ]
+    },
+
+
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2134,6 +2214,7 @@
         }
       }
     },
+
     {
       "componentId": 10042,
       "locale": "en",
@@ -2200,6 +2281,101 @@
         }
       }
     },
+    {
+      "componentId": 10044,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pre Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10045,
+      "locale": "en",
+      "key": "QC_qc_pre_dispatch_lots_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10046,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pre Dispatch Filter",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10047,
+      "locale": "en",
+      "key": "QC_qc_pre_dispatch_lots_filter_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10048,
+      "locale": "en",
+      "key": "QC_qc_pre_dispatch_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10049,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Store In",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+
+    {
+      "componentId": 10050,
+      "locale": "en",
+      "key": "QC_qc_store_in_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+
+    {
+      "componentId": 10051,
+      "locale": "en",
+      "key": "QC_qc_store_in_location_scan_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+
+
     {
       "componentId": 20001,
       "locale": "en",

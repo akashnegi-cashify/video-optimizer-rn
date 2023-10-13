@@ -10,11 +10,11 @@ class DispatchLotServices {
       "ps": ['${request.pageSize}'],
     };
 
-    if(isNotEmpty(request.channelQuery)){
+    if (isNotEmpty(request.channelQuery)) {
       param["chq"] = [request.channelQuery!];
     }
 
-    if(isNotEmpty(request.searchQuery)){
+    if (isNotEmpty(request.searchQuery)) {
       param["q"] = [request.searchQuery!];
     }
 
@@ -42,4 +42,5 @@ class DispatchLotServices {
       DispatchFilterResponse.fromJson,
     );
   }
+
 }
