@@ -11,18 +11,20 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_que
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_device_quote_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
-import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_dispatch_detail%20screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_lot_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
+import 'package:flutter_trc/qc/modules/store_in/screens/index.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
 import 'modules/dispatch_lot/screens/index.dart';
 import 'modules/external_audit/widgets/video_recoder_widget.dart';
+import 'modules/pre_dispatch/screens/index.dart';
 import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
@@ -57,12 +59,17 @@ class QcRoutes {
       DispatchLotScreen.route: (_) => const DispatchLotScreen(),
       InvoiceScanScreen.route: (_) => const InvoiceScanScreen(),
       DispatchLotFilterScreen.route: (_) => const DispatchLotFilterScreen(),
+      PreDispatchLotScreen.route: (_) => const PreDispatchLotScreen(),
       ReQcListScreen.route: (_) => const ReQcListScreen(),
       ReQcDetailScreen.route: (_) => const ReQcDetailScreen(),
       StockTransferListScreen.route: (_) => const StockTransferListScreen(),
       StStoreOutScreen.route: (_) => const StStoreOutScreen(),
       PendingLotDetailScreen.route: (_) => const PendingLotDetailScreen(),
       PendingDispatchDetailScreen.route: (_) => const PendingDispatchDetailScreen(),
+      PreDispatchLotFilterScreen.route: (_) => const PreDispatchLotFilterScreen(),
+      PreDispatchScreen.route: (_) => const PreDispatchScreen(),
+      StoreInScreen.route: (_) =>  StoreInScreen(),
+      StoreInLocationScanScreen.route: (_) => const StoreInLocationScanScreen(),
     };
   }
 }
