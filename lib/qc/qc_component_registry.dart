@@ -27,6 +27,7 @@ import 'modules/qc_tester/disputed_image_capture/components/disputed_image_captu
 import 'modules/qc_tester/home/component/qc_tester_home_component.dart';
 import 'modules/stock_in_module/components/search_item_component.dart';
 import 'modules/stock_in_module/components/stock_in_product_detail_component.dart';
+import 'modules/store_out/components/index.dart';
 
 class QcComponentRegistry {
   static Widget? getRegisteredComponent(String? componentKey, Map<String, dynamic>? jsonConfig) {
@@ -93,6 +94,15 @@ class QcComponentRegistry {
 
       case StoreInLocationScanComponent.COMP_KEY:
         return StoreInLocationScanComponent(jsonConfig);
+
+      case StoreOutComponent.COMP_KEY:
+        return StoreOutComponent(jsonConfig);
+
+      case StoreOutLotsFilterComponent.COMP_KEY:
+        return StoreOutLotsFilterComponent(jsonConfig);
+
+      case LotItemsScanComponent.COMP_KEY:
+        return LotItemsScanComponent(jsonConfig);
 
       default:
         return null;

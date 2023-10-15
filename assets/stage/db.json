@@ -969,12 +969,57 @@
           "key": "header_QC_qc_general"
         },
         {
-          "id": 10051,
+          "id": 10050,
           "key": "QC_qc_store_in_location_scan_component"
         }
       ]
     },
 
+    {
+      "pageId": 10030,
+      "pageKey": "QC_qc_store_out",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10051,
+          "key": "QC_qc_store_out_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10031,
+      "pageKey": "QC_qc_store_out_lot_filter",
+      "dt": [
+        {
+          "id": 10052,
+          "key": "QC_qc_store_out_lots_filter_component",
+          "type": "component"
+        },
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10032,
+      "pageKey": "QC_qc_lot_items_scan",
+      "dt": [
+        {
+          "id": 10053,
+          "key": "QC_qc_lot_items_scan_component",
+          "type": "component"
+        },
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
 
     {
       "pageId": 20001,
@@ -2351,10 +2396,11 @@
       }
     },
 
+
     {
       "componentId": 10050,
       "locale": "en",
-      "key": "QC_qc_store_in_component",
+      "key": "QC_qc_store_in_location_scan_component",
       "configJson": {
         "config": {
           "none": "None"
@@ -2362,11 +2408,31 @@
       }
     },
 
-
     {
       "componentId": 10051,
       "locale": "en",
-      "key": "QC_qc_store_in_location_scan_component",
+      "key": "QC_qc_store_out_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10052,
+      "locale": "en",
+      "key": "QC_qc_store_out_lots_filter_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10053,
+      "locale": "en",
+      "key": "QC_qc_lot_items_scan_component",
       "configJson": {
         "config": {
           "none": "None"

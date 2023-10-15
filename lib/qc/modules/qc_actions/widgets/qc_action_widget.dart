@@ -1,8 +1,10 @@
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/store_in_screen.dart';
+import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 
@@ -108,7 +110,18 @@ class QCActionWidget extends StatelessWidget {
             child: CshBigButton(
               text: l10n.storeIn,
               onPressed: () {
-                _storeInOptions(context);
+                _storeInOptions(context,l10n);
+              },
+            ),
+          ),
+
+          const SizedBox(height: Dimens.space_16),
+          SizedBox(
+            width: double.infinity,
+            child: CshBigButton(
+              text: l10n.storeOut,
+              onPressed: () {
+                Navigator.of(context).pushNamed(StoreOutScreen.route);
               },
             ),
           ),
@@ -117,33 +130,36 @@ class QCActionWidget extends StatelessWidget {
     );
   }
 
-  void _storeInOptions(BuildContext context) {
-    showResponsiveOverlayPanel(
-        context: context,
-        isDismissible:false,
-        enableDrag:false,
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.all(Dimens.space_12),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const OverlayHeader(label: 'Store In'),
-                const SizedBox(height: Dimens.space_24),
-                Flexible(
-                  child: Row(
-                    children: [
-                      Expanded(child: CshBigButton(text: 'Bin Store In', onPressed: () => _onPressed(context, true))),
-                      const SizedBox(width: Dimens.space_8),
-                      Expanded(child: CshBigButton(text: 'Store In', onPressed: () => _onPressed(context, false))),
-                    ],
-                  ),
-                ),
-              ],
+  void _storeInOptions(BuildContext context,L10n l10n) {
+    var theme = Theme.of(context);
+    showDialog(context: context, builder: (dialogContext){
+
+      return AlertDialog(
+        title: CshTextNew.h3(l10n.storeIn,),
+        contentPadding: const EdgeInsets.all(Dimens.space_12),
+        actions: <Widget>[
+          TextButton(
+            child: CshTextNew(
+              l10n.binStoreIn,
+              textStyle: theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor),
             ),
-          );
-        });
+            onPressed: () {
+              _onPressed(context, true);
+            },
+          ),
+          TextButton(
+            child: CshTextNew(
+              l10n.storeIn,
+              textStyle: theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor),
+            ),
+            onPressed: () {
+              _onPressed(context, false);
+            },
+          ),
+        ],
+      );
+    });
+
   }
 
   void _onPressed(BuildContext context, bool isBinStoreIn) {
