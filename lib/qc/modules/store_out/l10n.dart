@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 class L10n extends BaseL10n {
   L10n(super.context);
 
-  String get lotList => Intl.message('Lot List', locale: localName, name: 'lotList');
+  String get lotList => Intl.message('LOT LIST', locale: localName, name: 'lotList');
 
-  String get binList => Intl.message('BIN List', locale: localName, name: 'binList');
+  String get binList => Intl.message('BIN LIST', locale: localName, name: 'binList');
 
   String get binOut => Intl.message('BIN OUT', locale: localName, name: 'binOut');
 
