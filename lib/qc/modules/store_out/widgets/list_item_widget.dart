@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/labeled_text.dart';
+
 import '../l10n.dart';
 
 class ListItemWidget extends StatelessWidget {

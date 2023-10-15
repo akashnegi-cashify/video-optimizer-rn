@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:ml_barcode_scanner/widgets/index.dart';
 
 import '../../stock_in_module/widgets/index.dart';
+import '../l10n.dart';
 import '../providers/index.dart';
 import '../resources/index.dart';
-import '../l10n.dart';
 import 'index.dart';
 
 

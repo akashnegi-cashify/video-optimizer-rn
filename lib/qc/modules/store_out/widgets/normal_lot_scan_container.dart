@@ -5,10 +5,10 @@ import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../src/common/widgets/labeled_text.dart';
+import '../l10n.dart';
 import '../providers/lot_scan_provider.dart';
 import '../resources/index.dart';
 import 'index.dart';
-import '../l10n.dart';
 
 class NormalLotScanContainer extends StatelessWidget {
   final String lotName;

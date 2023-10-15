@@ -3,6 +3,8 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
+import '../../../../src/app_builder/app_headers/qc_general_header/models/qc_general_header_param.dart';
+
 part 'store_out_screen.g.dart';
 
 @CshPage(
@@ -17,7 +19,10 @@ class StoreOutScreen extends BaseScreen {
 
   @override
   Widget buildView(BuildContext context) {
-    return const PageWidget(pageKey: pageKey);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: {QcGeneralHeaderParamKeys.header.value: "Store Out"},
+    );
   }
 
   static Future navigateTo(BuildContext context) {

@@ -1,7 +1,4 @@
 import 'package:csh_annotation/annotation.dart';
-import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
-import 'package:flutter_trc/qc/modules/external_audit/models/external_audit_enum.dart';
-import 'package:ml_barcode_scanner/widgets/index.dart';
 
 @CshPageParam()
 class LotItemsScanCompParam {

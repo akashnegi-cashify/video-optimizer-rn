@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../src/app_builder/app_builder_groups/qc_groups.dart';
 import '../../../../src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
-import '../widgets/index.dart';
 import '../widgets/store_out_lot_filter_widget.dart';
 
 part 'store_out_lots_filter_component.g.dart';
