@@ -20,7 +20,7 @@ class StoreOutComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    return StoreOutWidget();
+    return const StoreOutWidget();
   }
 
   @override
