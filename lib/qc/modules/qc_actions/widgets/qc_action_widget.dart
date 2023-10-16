@@ -1,14 +1,17 @@
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/device_receive_module/screens/device_receive_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/store_in_screen.dart';
 import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 
 import '../../../../src/modules/elss/common_screen/elss_home_screen.dart';
+import '../../dispatch_lot/screens/dispatch_lot_screen.dart';
 import '../../dispatch_lot/screens/index.dart';
 import '../../pre_dispatch/screens/index.dart';
 import '../../qc_tester/home/screens/qc_tester_home_screen.dart';
@@ -30,63 +33,52 @@ class QCActionWidget extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           QcRolePermissionWidget(
             role: QcRole.qcElss,
-            child: SizedBox(
-              width: double.infinity,
-              child: CshBigButton(
-                text: configData?.button1Text ?? l10n.elss,
-                onPressed: () {
-                  ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: true);
-                  Navigator.of(context).pushNamed(ElssHomeScreen.route, arguments: args);
-                },
-              ),
-            ),
-          ),
-          const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
             child: CshBigButton(
-              text: configData?.button2Text ?? l10n.qcTester,
+              text: configData?.button1Text ?? l10n.elss,
               onPressed: () {
-                Navigator.of(context).pushNamed(QcTesterHomeScreen.route);
+                ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: true);
+                Navigator.of(context).pushNamed(ElssHomeScreen.route, arguments: args);
               },
             ),
           ),
           const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
-            child: CshBigButton(
-              text: l10n.externalAudit,
-              onPressed: () {
-                Navigator.of(context).pushNamed(ExternalAuditHomeScreen.route);
-              },
-            ),
+          CshBigButton(
+            text: configData?.button2Text ?? l10n.deviceTesting,
+            onPressed: () {
+              Navigator.of(context).pushNamed(QcTesterHomeScreen.route);
+            },
           ),
           const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
-            child: CshBigButton(
-              text: l10n.stockIn,
-              onPressed: () {
-                Navigator.of(context).pushNamed(SearchItemScreen.route);
-              },
-            ),
+          CshBigButton(
+            text: l10n.externalRecording,
+            onPressed: () {
+              Navigator.of(context).pushNamed(ExternalAuditHomeScreen.route);
+            },
           ),
           const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
+          CshBigButton(
+            text: l10n.stockIn,
+            onPressed: () {
+              Navigator.of(context).pushNamed(SearchItemScreen.route);
+            },
+          ),
+          QcRolePermissionWidget(
+            padding: const EdgeInsets.only(top: Dimens.space_16),
+            role: QcRole.roleDispatch,
             child: CshBigButton(
-              text: l10n.dispatch,
+              text: l10n.lotDispatch,
               onPressed: () {
                 Navigator.of(context).pushNamed(DispatchLotScreen.route);
               },
             ),
           ),
           const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
+          QcRolePermissionWidget(
+            role: QcRole.roleDispatch,
             child: CshBigButton(
               text: l10n.preDispatch,
               onPressed: () {
@@ -95,18 +87,25 @@ class QCActionWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
+          CshBigButton(
+            text: l10n.reQc,
+            onPressed: () {
+              Navigator.of(context).pushNamed(ReQcListScreen.route);
+            },
+          ),
+          const SizedBox(height: Dimens.space_16),
+          QcRolePermissionWidget(
+            role: QcRole.roleStockTransfer,
             child: CshBigButton(
-              text: l10n.reQc,
+              text: l10n.stockTransfer,
               onPressed: () {
-                Navigator.of(context).pushNamed(ReQcListScreen.route);
+                Navigator.of(context).pushNamed(StockTransferListScreen.route);
               },
             ),
           ),
           const SizedBox(height: Dimens.space_16),
-          SizedBox(
-            width: double.infinity,
+          QcRolePermissionWidget(
+            role: QcRole.roleStoreIn,
             child: CshBigButton(
               text: l10n.storeIn,
               onPressed: () {
@@ -124,6 +123,13 @@ class QCActionWidget extends StatelessWidget {
                 Navigator.of(context).pushNamed(StoreOutScreen.route);
               },
             ),
+          ),
+          const SizedBox(height: Dimens.space_16),
+          CshBigButton(
+            text: l10n.receiveDevice,
+            onPressed: () {
+              Navigator.pushNamed(context, DeviceReceiveScreen.route);
+            },
           ),
         ],
       ),

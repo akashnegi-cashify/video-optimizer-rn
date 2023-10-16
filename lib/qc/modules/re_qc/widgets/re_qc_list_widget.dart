@@ -55,18 +55,20 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
                   separator: const SizedBox(height: Dimens.space_8),
                   onRefresh: () async {},
                   onNoDataFound: () {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CshTextNew.subTitle1(l10n.noDataFound),
-                        const SizedBox(height: Dimens.space_12),
-                        CshMediumButton(
-                          text: l10n.refresh,
-                          onPressed: () {
-                            resetAndRefreshScreen();
-                          },
-                        )
-                      ],
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CshTextNew.subTitle1(l10n.noDataFound),
+                          const SizedBox(height: Dimens.space_12),
+                          CshMediumButton(
+                            text: l10n.refresh,
+                            onPressed: () {
+                              resetAndRefreshScreen();
+                            },
+                          )
+                        ],
+                      ),
                     );
                   },
                   onError: (String error) {

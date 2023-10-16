@@ -37,73 +37,72 @@ class _ReQcDetailWidgetState extends State<ReQcDetailWidget> {
         }
         return Future.value(false);
       },
-      child: CshShimmer(
-        show: provider.isLoading,
-        child: PageView.builder(
-          itemBuilder: (context, index) {
-            switch (index) {
-              case 0:
-                return ReQcScannerTab(
-                  reQcListData: provider.reQcListData,
-                  doneStatusCount: provider.getDoneStatusCount(),
-                  onDeviceListPressed: () {
-                    _animateToPage(1);
-                  },
-                  onScanDetected: (String scannedData, MlScannerController? controller) {
-                    _onScanDetected(scannedData, controller, provider);
-                  },
-                );
-              case 1:
-                return DeviceListTab(deviceList: provider.deviceList ?? []);
-              case 2:
-                var lotListData = provider.getLotListData();
-                return ReQcDeviceSummaryTab(
-                  lotDeviceListData: lotListData,
-                  reQcListData: provider.reQcListData,
-                  doneStatusCount: provider.getDoneStatusCount(),
-                  onAccessoriesClicked: () => _onAccessoryClicked(lotListData?.deviceId, provider),
-                  onProceedClicked: () => _animateToPage(3),
-                );
-              case 3:
-                return ChangeNotifierProvider(
-                  create: (_) => ReQcQuestionsProvider(provider.deviceReportList, provider.scannedDeviceBarcode),
-                  lazy: false,
-                  child: ReQcQuestionsTab(
-                    onReQcSubmitted: (bool isMismatchMarked) {
-                      _animateToPage(0);
-                      CshLoading().showLoading(context);
-                      provider.getDeviceList().then((value) {
-                        CshLoading().hideLoading(context);
-                        if (isMismatchMarked) {
-                          _showReQcSubmitDialog("Mismatch uploaded successfully", provider);
-                        } else {
-                          _showReQcSubmitDialog("Device matched successfully", provider);
-                        }
-                      }, onError: (error) {
-                        CshLoading().hideLoading(context);
-                        CshSnackBar.error(context: context, message: error);
-                      });
-                    },
-                  ),
-                );
-              default:
-                return Container();
-            }
-          },
-          controller: pagerController,
-          itemCount: 4,
-          onPageChanged: (value) {
-            if (value == 0) {
-              provider.scannedDeviceBarcode = null;
-            }
-            setState(() {
-              _currentPage = value;
-            });
-          },
-          physics: const NeverScrollableScrollPhysics(),
-          pageSnapping: true,
-        ),
-      ),
+      child: provider.isLoading
+          ? const CshShimmer(show: true)
+          : PageView.builder(
+              itemBuilder: (context, index) {
+                switch (index) {
+                  case 0:
+                    return ReQcScannerTab(
+                      reQcListData: provider.reQcListData,
+                      doneStatusCount: provider.getDoneStatusCount(),
+                      onDeviceListPressed: () {
+                        _animateToPage(1);
+                      },
+                      onScanDetected: (String scannedData, MlScannerController? controller) {
+                        _onScanDetected(scannedData, controller, provider);
+                      },
+                    );
+                  case 1:
+                    return DeviceListTab(deviceList: provider.deviceList ?? []);
+                  case 2:
+                    var lotListData = provider.getLotListData();
+                    return ReQcDeviceSummaryTab(
+                      lotDeviceListData: lotListData,
+                      reQcListData: provider.reQcListData,
+                      doneStatusCount: provider.getDoneStatusCount(),
+                      onAccessoriesClicked: () => _onAccessoryClicked(lotListData?.deviceId, provider),
+                      onProceedClicked: () => _animateToPage(3),
+                    );
+                  case 3:
+                    return ChangeNotifierProvider(
+                      create: (_) => ReQcQuestionsProvider(provider.deviceReportList, provider.scannedDeviceBarcode),
+                      lazy: false,
+                      child: ReQcQuestionsTab(
+                        onReQcSubmitted: (bool isMismatchMarked) {
+                          _animateToPage(0);
+                          CshLoading().showLoading(context);
+                          provider.getDeviceList().then((value) {
+                            CshLoading().hideLoading(context);
+                            if (isMismatchMarked) {
+                              _showReQcSubmitDialog("Mismatch uploaded successfully", provider);
+                            } else {
+                              _showReQcSubmitDialog("Device matched successfully", provider);
+                            }
+                          }, onError: (error) {
+                            CshLoading().hideLoading(context);
+                            CshSnackBar.error(context: context, message: error);
+                          });
+                        },
+                      ),
+                    );
+                  default:
+                    return Container();
+                }
+              },
+              controller: pagerController,
+              itemCount: 4,
+              onPageChanged: (value) {
+                if (value == 0) {
+                  provider.scannedDeviceBarcode = null;
+                }
+                setState(() {
+                  _currentPage = value;
+                });
+              },
+              physics: const NeverScrollableScrollPhysics(),
+              pageSnapping: true,
+            ),
     );
   }
 

@@ -137,11 +137,11 @@ class LobDeviceScannerWidget extends StatelessWidget {
     bool isImei = false;
     if (selectedRadioValue == "IMEI") {
       isImei = true;
-      if (!Validator.isValidIMEI(enteredValue)) {
-        CshSnackBar.error(
-            context: innerContext, message: "Invalid IMEI number", snackBarPosition: SnackBarPosition.TOP);
-        return;
-      }
+      // if (!Validator.isValidIMEI(enteredValue)) {
+      //   CshSnackBar.error(
+      //       context: innerContext, message: "Invalid IMEI number", snackBarPosition: SnackBarPosition.TOP);
+      //   return;
+      // }
     }
     onSearchClicked(isManualSearch, enteredValue!, isImei);
   }
