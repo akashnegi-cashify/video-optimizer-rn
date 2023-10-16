@@ -21,4 +21,6 @@ class L10n extends BaseL10n {
   String get preDispatch => Intl.message('Pre Dispatch', locale: localName, name: 'preDispatch');
 
   String get storeIn => Intl.message('Store In', locale: localName, name: 'storeIn');
+
+  String get receiveDevice => Intl.message('Receive Device', locale: localName, name: 'receiveDevice');
 }

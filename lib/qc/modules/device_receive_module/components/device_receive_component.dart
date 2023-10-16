@@ -3,11 +3,11 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../src/app_builder/app_builder_groups/groups.dart';
-import '../../../../src/common/widgets/qc_scanner_widget.dart';
 import '../l10n.dart';
 import '../models/device_receive_response.dart';
 import '../providers/device_receive_provider.dart';
@@ -31,7 +31,7 @@ class DeviceReceiveComponent extends StatelessComponent<NoneConfigModel> {
       lazy: false,
       builder: (builderContext, _) {
         var provider = DeviceReceiveProvider.of(builderContext, listen: false);
-        return QCScannerWidget(
+        return TRCScannerWidget(
           onScanDetected: (String scannedData, MlScannerController? controller) {
             controller?.stop();
             CshLoading().showLoading(context);

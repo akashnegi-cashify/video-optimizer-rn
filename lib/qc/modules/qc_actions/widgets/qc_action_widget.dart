@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/device_receive_module/screens/device_receive_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
@@ -63,8 +64,8 @@ class QCActionWidget extends StatelessWidget {
               Navigator.of(context).pushNamed(SearchItemScreen.route);
             },
           ),
-          const SizedBox(height: Dimens.space_16),
           QcRolePermissionWidget(
+            padding: const EdgeInsets.only(top: Dimens.space_16),
             role: QcRole.roleDispatch,
             child: CshBigButton(
               text: l10n.lotDispatch,
@@ -74,11 +75,14 @@ class QCActionWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Dimens.space_16),
-          CshBigButton(
-            text: l10n.preDispatch,
-            onPressed: () {
-              Navigator.of(context).pushNamed(PreDispatchLotScreen.route);
-            },
+          QcRolePermissionWidget(
+            role: QcRole.roleDispatch,
+            child: CshBigButton(
+              text: l10n.preDispatch,
+              onPressed: () {
+                Navigator.of(context).pushNamed(PreDispatchLotScreen.route);
+              },
+            ),
           ),
           const SizedBox(height: Dimens.space_16),
           CshBigButton(
@@ -98,10 +102,20 @@ class QCActionWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Dimens.space_16),
+          QcRolePermissionWidget(
+            role: QcRole.roleStoreIn,
+            child: CshBigButton(
+              text: l10n.storeIn,
+              onPressed: () {
+                _storeInOptions(context);
+              },
+            ),
+          ),
+          const SizedBox(height: Dimens.space_16),
           CshBigButton(
-            text: l10n.storeIn,
+            text: l10n.receiveDevice,
             onPressed: () {
-              _storeInOptions(context);
+              Navigator.pushNamed(context, DeviceReceiveScreen.route);
             },
           ),
         ],

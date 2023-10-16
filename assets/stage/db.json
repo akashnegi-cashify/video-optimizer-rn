@@ -1908,7 +1908,7 @@
       "key": "header_QC_qc_general",
       "configJson": {
         "config": {
-          "ht": "Barcode Scanner",
+          "ht": "Receive Device",
           "sbb": true,
           "slb": false
         }
