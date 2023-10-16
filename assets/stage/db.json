@@ -974,8 +974,66 @@
         }
       ]
     },
-
-
+    {
+      "pageId": 10102,
+      "pageKey": "QC_stock_transfer_list_screen",
+      "dt": [
+        {
+          "id": 10105,
+          "key": "QC_stock_transfer_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10106,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10103,
+      "pageKey": "QC_stock_transfer_store_out_screen",
+      "dt": [
+        {
+          "id": 10107,
+          "key": "QC_stock_transfer_store_out_component",
+          "type": "component"
+        },
+        {
+          "id": 10108,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10104,
+      "pageKey": "QC_st_pending_lot_detail_screen",
+      "dt": [
+        {
+          "id": 10109,
+          "key": "QC_st_pending_lot_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10110,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10105,
+      "pageKey": "QC_st_pending_dispatch_detail_screen",
+      "dt": [
+        {
+          "id": 10111,
+          "key": "QC_pending_dispatch_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10112,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
     {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
@@ -1850,7 +1908,7 @@
       "key": "header_QC_qc_general",
       "configJson": {
         "config": {
-          "ht": "Barcode Scanner",
+          "ht": "Receive Device",
           "sbb": true,
           "slb": false
         }
@@ -2214,7 +2272,6 @@
         }
       }
     },
-
     {
       "componentId": 10042,
       "locale": "en",
@@ -2361,8 +2418,6 @@
         }
       }
     },
-
-
     {
       "componentId": 10051,
       "locale": "en",
@@ -2373,9 +2428,95 @@
         }
       }
     },
-
-
-
+    {
+      "componentId": 10105,
+      "locale": "en",
+      "key": "QC_stock_transfer_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10106,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Stock Transfer Role",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10107,
+      "locale": "en",
+      "key": "QC_stock_transfer_store_out_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10108,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Store Out",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10109,
+      "locale": "en",
+      "key": "QC_st_pending_lot_detail_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10110,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pending",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10111,
+      "locale": "en",
+      "key": "QC_pending_dispatch_detail_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10112,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Finish Dispatch for Lot",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
     {
       "componentId": 20001,
       "locale": "en",

@@ -13,6 +13,10 @@ import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_scr
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_dispatch_detail%20screen.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_lot_detail_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_screen.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/index.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
@@ -58,6 +62,10 @@ class QcRoutes {
       PreDispatchLotScreen.route: (_) => const PreDispatchLotScreen(),
       ReQcListScreen.route: (_) => const ReQcListScreen(),
       ReQcDetailScreen.route: (_) => const ReQcDetailScreen(),
+      StockTransferListScreen.route: (_) => const StockTransferListScreen(),
+      StStoreOutScreen.route: (_) => const StStoreOutScreen(),
+      PendingLotDetailScreen.route: (_) => const PendingLotDetailScreen(),
+      PendingDispatchDetailScreen.route: (_) => const PendingDispatchDetailScreen(),
       PreDispatchLotFilterScreen.route: (_) => const PreDispatchLotFilterScreen(),
       PreDispatchScreen.route: (_) => const PreDispatchScreen(),
       StoreInScreen.route: (_) =>  StoreInScreen(),
