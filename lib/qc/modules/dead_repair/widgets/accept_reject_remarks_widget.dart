@@ -25,6 +25,7 @@ class AcceptRejectRemarksWidget extends StatelessWidget {
             CshTextNew.h3(l10n.remarks),
             const SizedBox(height: Dimens.space_8),
             RadioListWidget(list: provider.remarkList, onItemSelected: provider.onRemarkChange, padding: EdgeInsets.zero),
+            const SizedBox(height: Dimens.space_12),
             Flexible(
               child: Row(
                 children: [

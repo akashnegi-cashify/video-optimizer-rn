@@ -28,59 +28,63 @@ class DeviceDeadAcceptRejectWidget extends StatelessWidget {
       ),
       child: Builder(builder: (builderContext) {
         var provider = DeviceDeadAcceptRejectProvider.of(builderContext);
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(alignment: Alignment.topCenter, child: CshTextNew.h3(l10n.acceptRejectDeadRemark)),
-              const SizedBox(height: Dimens.space_16),
-              Flexible(
-                child: Padding(
+        return SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: Dimens.space_16),
+                Align(alignment: Alignment.topCenter, child: CshTextNew.h3(l10n.acceptRejectDeadRemark)),
+                const SizedBox(height: Dimens.space_16),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_4),
+                    child: CshCard(child: const AddRemoveSKU()),
+                  ),
+                ),
+                const SizedBox(height: Dimens.space_16),
+                Flexible(
+                  child: CshShimmer(
+                    show : provider.deadReasonList.status == RequestStatus.initial,
+                    child: AcceptRejectRemarksWidget(
+                      onRepairReject: () => {_onRepairReject(builderContext)},
+                      onDeadAccept: () => {_onDeadAccept(builderContext)},
+                    ),
+                  ),
+                ),
+                const SizedBox(height: Dimens.space_16),
+                Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_4),
-                  child: CshCard(child: const AddRemoveSKU()),
-                ),
-              ),
-              const SizedBox(height: Dimens.space_16),
-              Flexible(
-                child: CshShimmer(
-                  show : provider.deadReasonList.status == RequestStatus.initial,
-                  child: AcceptRejectRemarksWidget(
-                    onRepairReject: () => {_onRepairReject(builderContext)},
-                    onDeadAccept: () => {_onDeadAccept(builderContext)},
+                  child: CshCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        CshDropDown(
+                          items: provider.level,
+                          selectedItem: provider.level.firstWhere((element) => element.extraData == true),
+                          onChanged: provider.onLevelChange,
+                        ),
+                        const SizedBox(height: Dimens.space_24),
+                        Selector<DeviceDeadAcceptRejectProvider, DropDownItem>(
+                          builder: (BuildContext context, value, Widget? child) {
+                            return CshBigButton(
+                              text: l10n.repairDone,
+                              onPressed: value.id != null ? () => _onRepairDone(context, l10n) : null,
+                            );
+                          },
+                          selector: (context, provider) {
+                            return provider.getSelectedLevel();
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: Dimens.space_16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_4),
-                child: CshCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      CshDropDown(
-                        items: provider.level,
-                        selectedItem: provider.level.firstWhere((element) => element.extraData == true),
-                        onChanged: provider.onLevelChange,
-                      ),
-                      const SizedBox(height: Dimens.space_24),
-                      Selector<DeviceDeadAcceptRejectProvider, DropDownItem>(
-                        builder: (BuildContext context, value, Widget? child) {
-                          return CshBigButton(
-                            text: l10n.repairDone,
-                            onPressed: value.id != null ? () => _onRepairDone(context, l10n) : null,
-                          );
-                        },
-                        selector: (context, provider) {
-                          return provider.getSelectedLevel();
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: Dimens.space_16),
-            ],
+                const SizedBox(height: Dimens.space_16),
+              ],
+            ),
           ),
         );
       }),
