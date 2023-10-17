@@ -1035,6 +1035,36 @@
       ]
     },
     {
+      "pageId": 10106,
+      "pageKey": "QC_guard_home_screen",
+      "dt": [
+        {
+          "id": 10113,
+          "key": "QC_guard_home_component",
+          "type": "component"
+        },
+        {
+          "id": 10114,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10107,
+      "pageKey": "QC_guard_device_counting_list_screen",
+      "dt": [
+        {
+          "id": 10116,
+          "key": "QC_guard_device_counting_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10114,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2514,6 +2544,40 @@
           "ht": "Finish Dispatch for Lot",
           "sbb": true,
           "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10113,
+      "locale": "en",
+      "key": "QC_guard_home_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10114,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Guard Role",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10116,
+      "locale": "en",
+      "key": "QC_guard_device_counting_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
         }
       }
     },

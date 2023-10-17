@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/components/invoice_scan_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_home_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_perform_component.dart';
+import 'package:flutter_trc/qc/modules/gaurd/components/guard_device_counting_list_component.dart';
+import 'package:flutter_trc/qc/modules/gaurd/components/qc_guard_home_component.dart';
+import 'package:flutter_trc/qc/modules/gaurd/widgets/qc_device_counting_list_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_barcode_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_summary_component.dart';
@@ -105,6 +108,12 @@ class QcComponentRegistry {
 
       case StoreInLocationScanComponent.COMP_KEY:
         return StoreInLocationScanComponent(jsonConfig);
+
+      case QcGuardHomeComponent.COMP_KEY:
+        return QcGuardHomeComponent(jsonConfig);
+
+      case GuardDeviceCountingListComponent.COMP_KEY:
+        return GuardDeviceCountingListComponent(jsonConfig);
 
       default:
         return null;
