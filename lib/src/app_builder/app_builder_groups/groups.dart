@@ -66,8 +66,10 @@ enum ComponentGroup with AbsComponentGroup {
   splashComponentKey("Splash"),
   StoreIn("Store In"),
   StoreOut("Store Out"),
-  StoreOutLotItemsScan("Store Out Lot Items Scan")
-
+  StoreOutLotItemsScan("Store Out Lot Items Scan"),
+  ReasonSelection("Reason Selection"),
+  DeviceDead("Device Dead"),
+  DeviceDeadAcceptReject("Device Dead Accept Reject")
   ;
 
   @override
@@ -138,7 +140,10 @@ enum PageGroup with AbsPageGroup {
   trcTesterPageKey("Trc Tester"),
   splashPageKey("splash"),
   qcStoreInKey("Store In"),
-  qcStoreOutKey("Store Out");
+  qcStoreOutKey("Store Out"),
+  qcDeviceDeadRepairPageKey("Device Dead Repair"),
+  qcReasonSelectionPageKey("Reason Selection"),
+  qcDeviceDeadAcceptRejectPageKey("Device Dead Accept Reject");
 
   @override
   final String value;

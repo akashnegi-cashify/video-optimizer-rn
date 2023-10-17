@@ -1022,6 +1022,50 @@
     },
 
     {
+      "pageId": 10033,
+      "pageKey": "QC_qc_device_dead_repair",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10055,
+          "key": "QC_qc_device_dead_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10034,
+      "pageKey": "QC_qc_reason_selection",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10054,
+          "key": "QC_qc_reason_selection_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10035,
+      "pageKey": "QC_qc_device_dead_accept_reject",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10056,
+          "key": "QC_qc_device_dead_accept_reject_component"
+        }
+      ]
+    },
+
+    {
       "pageId": 10102,
       "pageKey": "QC_stock_transfer_list_screen",
       "dt": [
@@ -2499,6 +2543,39 @@
         }
       }
     },
+    {
+      "componentId": 10054,
+      "locale": "en",
+      "key": "QC_qc_reason_selection_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10055,
+      "locale": "en",
+      "key": "QC_qc_device_dead_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10056,
+      "locale": "en",
+      "key": "QC_qc_device_dead_accept_reject_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+
+
     {
       "componentId": 10105,
       "locale": "en",

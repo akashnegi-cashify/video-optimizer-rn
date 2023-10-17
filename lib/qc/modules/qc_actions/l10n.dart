@@ -25,5 +25,11 @@ class L10n extends BaseL10n {
   String get storeOut => Intl.message('Store Out', locale: localName, name: 'storeOut');
   String get binStoreIn => Intl.message('Bin Store In', locale: localName, name: 'binStoreIn');
 
+  String get repairDevice => Intl.message('Repair Device', locale: localName, name: 'repairDevice');
+
+  String get deadDevice => Intl.message('Dead Device', locale: localName, name: 'deadDevice');
+
+  String get deviceRepairDead => Intl.message('Device Repair/Dead', locale: localName, name: 'deviceRepairDead');
   String get receiveDevice => Intl.message('Receive Device', locale: localName, name: 'receiveDevice');
+
 }

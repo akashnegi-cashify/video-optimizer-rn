@@ -20,6 +20,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/components/st_store_out_co
 import 'package:flutter_trc/qc/modules/stock_transfer/components/stock_transfer_list_component.dart';
 import 'package:flutter_trc/qc/modules/store_in/components/index.dart';
 
+import 'modules/dead_repair/components/index.dart';
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_filter_component.dart';
@@ -115,6 +116,15 @@ class QcComponentRegistry {
 
       case LotItemsScanComponent.COMP_KEY:
         return LotItemsScanComponent(jsonConfig);
+
+      case ReasonSelectionComponent.COMP_KEY:
+        return ReasonSelectionComponent(jsonConfig);
+
+      case DeviceDeadComponent.COMP_KEY:
+        return DeviceDeadComponent(jsonConfig);
+
+      case DeviceDeadAcceptRejectComponent.COMP_KEY:
+        return DeviceDeadAcceptRejectComponent(jsonConfig);
 
       default:
         return null;

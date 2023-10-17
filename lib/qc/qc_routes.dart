@@ -21,6 +21,7 @@ import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload
 import 'package:flutter_trc/qc/modules/store_in/screens/index.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
+import 'modules/dead_repair/screens/index.dart';
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
 import 'modules/dispatch_lot/screens/index.dart';
 import 'modules/external_audit/widgets/video_recoder_widget.dart';
@@ -74,6 +75,9 @@ class QcRoutes {
       StoreOutScreen.route: (_) => const StoreOutScreen(),
       StoreOutLotFilterScreen.route: (_) => const StoreOutLotFilterScreen(),
       LotItemsScanScreen.route: (_) => const LotItemsScanScreen(),
+      DeviceDeadRepairScreen.route: (_) => const DeviceDeadRepairScreen(),
+      ReasonSelectionScreen.route: (_) => const ReasonSelectionScreen(),
+      DeviceDeadAcceptRejectScreen.route: (_) => const DeviceDeadAcceptRejectScreen(),
     };
   }
 }
