@@ -100,14 +100,36 @@ class _AddAgentWidget extends StatelessWidget {
     var provider = AddAgentProvider.of(context, listen: false);
     int value = int.tryParse(provider.textEditingController.text) ?? 0;
 
-    if(provider.textEditingController.text.isEmpty){
+    if (provider.textEditingController.text.isEmpty) {
       CshSnackBar.error(context: context, message: 'Please enter device count');
-    }
-    else if (value <= 0) {
+    } else if (value <= 0) {
       CshSnackBar.error(context: context, message: 'Total device count should not be zero');
+    } else {
+      _showAlert(context);
     }
-    else{
+  }
 
-    }
+  void _showAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: CshTextNew.h3('Total Device'),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CshTextNew.h4('Enter total device again.'),
+              const SizedBox(height: Dimens.space_8),
+              CshTextFormField()
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: () {  }, child: CshTextNew.h3('OK'),),
+            TextButton(onPressed: () {  }, child: CshTextNew.h3('Cancel'),)
+          ],
+        );
+      },
+    );
   }
 }
