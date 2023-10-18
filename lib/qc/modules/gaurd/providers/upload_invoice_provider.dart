@@ -11,6 +11,10 @@ import 'package:provider/provider.dart';
 
 class UploadInvoiceProvider extends CshChangeNotifier {
   List<File>? invoiceList;
+  final int? deviceCount;
+  final String? selectedAgent;
+
+  UploadInvoiceProvider(this.deviceCount, this.selectedAgent);
 
   static UploadInvoiceProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<UploadInvoiceProvider>(context, listen: listen);
@@ -20,7 +24,7 @@ class UploadInvoiceProvider extends CshChangeNotifier {
     var completer = Completer<void>();
     ImageUtil.combineImageIntoOne(invoiceList!).then((file) {
       _uploadImage(file!).then((imageUrl) {
-        GuardService.submitInvoice("", 0, imageUrl).listen((event) {
+        GuardService.submitInvoice(selectedAgent, deviceCount, imageUrl).listen((event) {
           completer.complete();
         }, onError: (error) {
           completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

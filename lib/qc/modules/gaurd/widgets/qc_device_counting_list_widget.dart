@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/gaurd/models/collected_order_list_response.dart';
 import 'package:flutter_trc/qc/modules/gaurd/providers/guardDeviceCountingListProvider.dart';
 import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
+import 'package:flutter_trc/src/utils/fetch_image_widget.dart';
+
+import '../screens/qc_guard_add_agent_screen.dart';
 
 class QcDeviceCountingListWidget extends StatelessWidget {
   const QcDeviceCountingListWidget({super.key});
@@ -32,7 +35,19 @@ class QcDeviceCountingListWidget extends StatelessWidget {
               },
               getRowWidget: (int index) {
                 var item = list?[index];
-                return _CollectedOrderListItemWidget(item, index);
+                return GestureDetector(
+                    onTap: () {
+                      showCshBottomSheet(
+                        context: context,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.7,
+                          margin: const EdgeInsets.all(Dimens.space_16),
+                          alignment: Alignment.center,
+                          child: CshCard(child: fetchImage("placeholder", item?.imgUrl)),
+                        ),
+                      );
+                    },
+                    child: _CollectedOrderListItemWidget(item, index));
               },
             );
           },
@@ -44,7 +59,9 @@ class QcDeviceCountingListWidget extends StatelessWidget {
         child: CshBigButton(
           text: "Add",
           onPressed: () {
-            // TODO: move to next screen with all agent list
+            QcGuardAddAgentScreen.navigate(context, provider.deliveryAgentList).then((value) {
+              provider.notifyListeners();
+            });
           },
         ),
       )

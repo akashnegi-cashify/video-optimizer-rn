@@ -25,7 +25,7 @@ class QcGeneralHeaderComponent extends StatelessComponent<QCGeneralHeaderConfig>
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((model) => QcGeneralHeader(
-          model.header??configModel?.headerTitle ?? "",
+          model.header ?? configModel?.headerTitle ?? "",
           showBackBtn: configModel?.showBackButton ?? true,
           showLogoutButton: configModel?.showLogoutButton ?? false,
         ));

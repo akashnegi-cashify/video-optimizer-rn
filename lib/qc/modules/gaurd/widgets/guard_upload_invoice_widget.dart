@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/gaurd/providers/upload_invoice_provider.dart';
+import 'package:flutter_trc/qc/modules/gaurd/screens/guard_device_counting_list_screen.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -19,16 +20,16 @@ class GuardUploadInvoiceWidget extends StatelessWidget {
           CshTextNew.subTitle1("${provider.invoiceList?.length ?? 0} Image Captured"),
           const SizedBox(height: Dimens.space_16),
           CshTextNew.subTitle1("Capture invoice one by one and after that upload invoice"),
-          if (!Validator.isListNullOrEmpty(provider.invoiceList))
-            Expanded(
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return CshCard(child: Image.file(provider.invoiceList![index]));
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(height: Dimens.space_8),
-                  itemCount: provider.invoiceList?.length ?? 0),
-            ),
+          Expanded(
+              child: !Validator.isListNullOrEmpty(provider.invoiceList)
+                  ? ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return CshCard(child: Image.file(provider.invoiceList![index]));
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(height: Dimens.space_8),
+                      itemCount: provider.invoiceList?.length ?? 0)
+                  : const SizedBox()),
           const SizedBox(height: Dimens.space_16),
           Row(
             children: [
@@ -41,6 +42,7 @@ class GuardUploadInvoiceWidget extends StatelessWidget {
                           provider.submitInvoice().then((_) {
                             CshLoading().hideLoading(context);
                             CshSnackBar.success(context: context, message: "Invoice submitted successfully");
+                            Navigator.popUntil(context, ModalRoute.withName(GuardDeviceCountingListScreen.route));
                           }, onError: (error) {
                             CshLoading().hideLoading(context);
                             CshSnackBar.error(context: context, message: error);

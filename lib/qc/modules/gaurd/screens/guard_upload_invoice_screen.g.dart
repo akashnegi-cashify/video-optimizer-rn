@@ -13,6 +13,10 @@ dynamic schema() => {
       "pageGroup": "QC Guard Upload Invoice",
       "title": "Guard Upload Invoice Screen",
       "isActive": true,
-      "params": null
+      "params": [
+        {"key": "deviceCount", "value": null},
+        {"key": "selectedAgent", "value": null}
+      ]
+
       //#adminscreen
     };
