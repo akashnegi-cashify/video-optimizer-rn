@@ -147,27 +147,25 @@ class PreDispatchItemWidget extends StatelessWidget {
   }
 
   void _showScanResultUI(BuildContext context, PreDispatchProvider provider, L10n l10n) {
-    showResponsiveOverlayPanel(
+    showCshBottomSheet(
         context: context,
         isDismissible: false,
-        enableDrag: false,
-        builder: (builderContext) {
-          return ChangeNotifierProvider.value(
-            value: provider,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(Dimens.space_12),
-                  child: OverlayHeader(label: l10n.preDispatch),
-                ),
-                const Expanded(child: PreDispatchScanResultWidget()),
-              ],
-            ),
-          );
-        }).then((value) {
+        isScrollControlled: false,
+        child: ChangeNotifierProvider.value(
+          value: provider,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(Dimens.space_12),
+                child: OverlayHeader(label: l10n.preDispatch),
+              ),
+              const PreDispatchScanResultWidget(),
+            ],
+          ),
+        )).then((value) {
       if (provider.scanCode() && value != null) {
         _scan(context, l10n);
       } else if (provider.isAllItemScan()) {

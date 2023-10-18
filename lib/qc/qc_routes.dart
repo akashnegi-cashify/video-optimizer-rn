@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/guard_device_counting_list_screen.dart';
+import 'package:flutter_trc/qc/modules/gaurd/screens/guard_upload_invoice_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
@@ -74,6 +75,7 @@ class QcRoutes {
       StoreInLocationScanScreen.route: (_) => const StoreInLocationScanScreen(),
       QcGuardHomeScreen.route: (_) => const QcGuardHomeScreen(),
       GuardDeviceCountingListScreen.route: (_) => const GuardDeviceCountingListScreen(),
+      GuardUploadInvoiceScreen.route: (_) => const GuardUploadInvoiceScreen(),
     };
   }
 }
