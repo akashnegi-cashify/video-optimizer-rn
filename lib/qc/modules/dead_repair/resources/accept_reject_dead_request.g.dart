@@ -13,13 +13,23 @@ AcceptRejectDeadRequest _$AcceptRejectDeadRequestFromJson(
       remark: json['remark'] as String?,
       actionRemark: json['actionRemark'] as String?,
       skus: (json['skus'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      repairLevel: json['repairLevel'] as String?,
     );
 
 Map<String, dynamic> _$AcceptRejectDeadRequestToJson(
-        AcceptRejectDeadRequest instance) =>
-    <String, dynamic>{
-      'id': instance.markId,
-      'remark': instance.remark,
-      'actionRemark': instance.actionRemark,
-      'skus': instance.skus,
-    };
+    AcceptRejectDeadRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.markId);
+  writeNotNull('remark', instance.remark);
+  writeNotNull('actionRemark', instance.actionRemark);
+  writeNotNull('skus', instance.skus);
+  writeNotNull('repairLevel', instance.repairLevel);
+  return val;
+}

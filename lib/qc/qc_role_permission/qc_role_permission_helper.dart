@@ -23,6 +23,7 @@ enum QcRole {
   roleManualTesting("ROLE_MANUAL_TESTING"),
   roleLotReQuote("ROLE_LOT_RE_QUOTE"),
   roleDeadDevice("ROLE_DEAD_DEVICE"),
+  roleGUARD("ROLE_GUARD"),
   qcElss("QC_ELSS");
 
   final String value;

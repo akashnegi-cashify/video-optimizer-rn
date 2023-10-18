@@ -22,8 +22,11 @@ enum QcComponentGroup with AbsComponentGroup {
   qcStockTransferPendingDispatchDetailComponentKey("Qc Stock Transfer Pending Dispatch Detail"),
   qcReQcDetailComponentKey("Qc Re Qc Detail"),
   qcPreDispatchLotsFilterComponentKey("QC Pre Dispatch Lots Filter Component"),
+  qcStoreOutLotsFilterComponentKey("QC Store Out Lots Filter Component"),
   qcPreDispatchScanResultComponentKey("QC Pre Dispatch Scan Result Component"),
-  qcStoreOutLotsFilterComponentKey("QC Store Out Lots Filter Component");
+  qcGuardDeviceCountingListComponentKey("QC Pre Dispatch Scan Result Component"),
+  qcGuardHomeComponentKey("QC Guard Home Component"),
+  qcGuardAddAgentComponentKey("QC Guard Add Agent Component");
 
   @override
   final String value;
@@ -53,10 +56,12 @@ enum QcPageGroup with AbsPageGroup {
   qcStockTransferPendingDispatchDetailPageKey("Qc Stock Transfer Pending Dispatch Detail"),
   qcReQcDetailPageKey("Qc Re Qc Detail"),
   qcPreDispatchLotFilter("QC Pre Dispatch Lot Filter"),
-  qcPreDispatchScanResult("QC Pre Dispatch Scan Result"),
   qcStoreOutLotFilterPageKey("QC Store Out Lot Filter"),
   qcStoreOutLotItemsScanPageKey("QC lot Items Scan"),
-  ;
+  qcPreDispatchScanResult("QC Pre Dispatch Scan Result"),
+  qcGuardHomePageKey("QC Guard Home"),
+  qcGuardDeviceCountingListPageKey("QC Guard Home"),
+  qcGuardAddAgentPageKey("QC Guard Add Agent");
 
   @override
   final String value;

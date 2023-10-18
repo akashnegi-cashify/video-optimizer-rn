@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
+import 'package:flutter_trc/qc/modules/gaurd/screens/guard_device_counting_list_screen.dart';
+import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_summary_screen.dart';
@@ -25,6 +27,7 @@ import 'modules/dead_repair/screens/index.dart';
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
 import 'modules/dispatch_lot/screens/index.dart';
 import 'modules/external_audit/widgets/video_recoder_widget.dart';
+import 'modules/gaurd/screens/qc_guard_add_agent_screen.dart';
 import 'modules/pre_dispatch/screens/index.dart';
 import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
@@ -72,12 +75,15 @@ class QcRoutes {
       PreDispatchScreen.route: (_) => const PreDispatchScreen(),
       StoreInScreen.route: (_) =>  StoreInScreen(),
       StoreInLocationScanScreen.route: (_) => const StoreInLocationScanScreen(),
+      QcGuardHomeScreen.route: (_) => const QcGuardHomeScreen(),
+      GuardDeviceCountingListScreen.route: (_) => const GuardDeviceCountingListScreen(),
       StoreOutScreen.route: (_) => const StoreOutScreen(),
       StoreOutLotFilterScreen.route: (_) => const StoreOutLotFilterScreen(),
       LotItemsScanScreen.route: (_) => const LotItemsScanScreen(),
       DeviceDeadRepairScreen.route: (_) => const DeviceDeadRepairScreen(),
       ReasonSelectionScreen.route: (_) => const ReasonSelectionScreen(),
       DeviceDeadAcceptRejectScreen.route: (_) => const DeviceDeadAcceptRejectScreen(),
+      QcGuardAddAgentScreen.route: (_) => const QcGuardAddAgentScreen(),
     };
   }
 }

@@ -19,6 +19,15 @@ class ScanBarcodeWidget extends StatefulWidget {
 class ScanBarcodeWidgetState extends State<ScanBarcodeWidget> {
   Timer? _timer;
   String _scannedText = "";
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      FocusScope.of(context).requestFocus(_focusNode);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +61,8 @@ class ScanBarcodeWidgetState extends State<ScanBarcodeWidget> {
               Expanded(
                 child: CshTextFormField(
                     counterText: "",
-                    autofocus: false,
+                    autofocus: true,
+                    focusNode: _focusNode,
                     hintText: l10n.enterAwbImeiBarcodeNumber,
                     labelText: l10n.enterAwbImeiBarcodeNumber,
                     keyboardType: TextInputType.text,

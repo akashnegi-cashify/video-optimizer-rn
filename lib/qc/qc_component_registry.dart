@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/components/invoice_scan_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_home_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_perform_component.dart';
+import 'package:flutter_trc/qc/modules/gaurd/components/guard_device_counting_list_component.dart';
+import 'package:flutter_trc/qc/modules/gaurd/components/qc_guard_home_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_barcode_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_summary_component.dart';
@@ -24,6 +26,7 @@ import 'modules/dead_repair/components/index.dart';
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_filter_component.dart';
+import 'modules/gaurd/components/qc_guard_add_agent_component.dart';
 import 'modules/pre_dispatch/components/index.dart';
 import 'modules/qc_actions/component/qc_action_component.dart';
 import 'modules/qc_tester/calculator_media_capture/components/calculator_media_capture_component.dart';
@@ -125,6 +128,15 @@ class QcComponentRegistry {
 
       case DeviceDeadAcceptRejectComponent.COMP_KEY:
         return DeviceDeadAcceptRejectComponent(jsonConfig);
+
+      case QcGuardHomeComponent.COMP_KEY:
+        return QcGuardHomeComponent(jsonConfig);
+
+      case GuardDeviceCountingListComponent.COMP_KEY:
+        return GuardDeviceCountingListComponent(jsonConfig);
+
+      case QcGuardAddAgentComponent.COMP_KEY:
+        return QcGuardAddAgentComponent(jsonConfig);
 
       default:
         return null;

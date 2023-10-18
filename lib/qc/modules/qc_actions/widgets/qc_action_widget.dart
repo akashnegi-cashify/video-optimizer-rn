@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/device_receive_module/screens/device_receive_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/resources/services.dart';
+import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/store_in_screen.dart';
@@ -172,6 +173,23 @@ class QCActionWidget extends StatelessWidget {
                 },
               ),
             ),
+            const SizedBox(height: Dimens.space_16),
+            CshBigButton(
+              text: l10n.guardRole,
+              onPressed: () {
+                Navigator.pushNamed(context, QcGuardHomeScreen.route);
+              },
+            )
+            // QcRolePermissionWidget(
+            //   role: QcRole.roleGUARD,
+            //   padding: const EdgeInsets.only(top: Dimens.space_16),
+            //   child: CshBigButton(
+            //     text: l10n.guardRole,
+            //     onPressed: () {
+            //       Navigator.pushNamed(context, QcGuardHomeScreen.route);
+            //     },
+            //   ),
+            // ),
 
           ],
         ),

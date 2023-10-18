@@ -19,10 +19,7 @@ class SentryHelper {
   }
 
   static SentryEvent? _beforeSend(SentryEvent event, {dynamic hint}) {
-    if (kDebugMode) {
-      Logger.log('In dev mode. Not sending report to Sentry.io.');
-      return null;
-    }
+
 
     List<SentryException>? exceptionList = event.exceptions;
     if (exceptionList == null) {
@@ -49,6 +46,12 @@ class SentryHelper {
         }
       }
     }
+
+    if (kDebugMode) {
+      Logger.log('In dev mode. Not sending report to Sentry.io.');
+      return null;
+    }
+
     if (environment?.mode == EnvironmentTypes.PROD.value) {
       return event;
     }
