@@ -969,11 +969,117 @@
           "key": "header_QC_qc_general"
         },
         {
-          "id": 10051,
+          "id": 10050,
           "key": "QC_qc_store_in_location_scan_component"
         }
       ]
     },
+
+    {
+      "pageId": 10030,
+      "pageKey": "QC_qc_store_out",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10051,
+          "key": "QC_qc_store_out_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10031,
+      "pageKey": "QC_qc_store_out_lot_filter",
+      "dt": [
+        {
+          "id": 10052,
+          "key": "QC_qc_store_out_lots_filter_component",
+          "type": "component"
+        },
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10032,
+      "pageKey": "QC_qc_lot_items_scan",
+      "dt": [
+        {
+          "id": 10053,
+          "key": "QC_qc_lot_items_scan_component",
+          "type": "component"
+        },
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10033,
+      "pageKey": "QC_qc_device_dead_repair",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10055,
+          "key": "QC_qc_device_dead_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10034,
+      "pageKey": "QC_qc_reason_selection",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10054,
+          "key": "QC_qc_reason_selection_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10035,
+      "pageKey": "QC_qc_device_dead_accept_reject",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10056,
+          "key": "QC_qc_device_dead_accept_reject_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10036,
+      "pageKey": "QC_guard_add_agent_screen",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10057,
+          "key": "QC_guard_add_agent_component"
+        }
+      ]
+    },
+
     {
       "pageId": 10102,
       "pageKey": "QC_stock_transfer_list_screen",
@@ -2302,6 +2408,7 @@
         }
       }
     },
+
     {
       "componentId": 10042,
       "locale": "en",
@@ -2438,18 +2545,9 @@
       }
     },
 
+
     {
       "componentId": 10050,
-      "locale": "en",
-      "key": "QC_qc_store_in_component",
-      "configJson": {
-        "config": {
-          "none": "None"
-        }
-      }
-    },
-    {
-      "componentId": 10051,
       "locale": "en",
       "key": "QC_qc_store_in_location_scan_component",
       "configJson": {
@@ -2458,6 +2556,81 @@
         }
       }
     },
+
+    {
+      "componentId": 10051,
+      "locale": "en",
+      "key": "QC_qc_store_out_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10052,
+      "locale": "en",
+      "key": "QC_qc_store_out_lots_filter_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10053,
+      "locale": "en",
+      "key": "QC_qc_lot_items_scan_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10054,
+      "locale": "en",
+      "key": "QC_qc_reason_selection_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10055,
+      "locale": "en",
+      "key": "QC_qc_device_dead_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10056,
+      "locale": "en",
+      "key": "QC_qc_device_dead_accept_reject_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10057,
+      "locale": "en",
+      "key": "QC_guard_add_agent_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+
+
     {
       "componentId": 10105,
       "locale": "en",

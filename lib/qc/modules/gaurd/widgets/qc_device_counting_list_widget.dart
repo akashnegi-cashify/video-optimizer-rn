@@ -4,6 +4,8 @@ import 'package:flutter_trc/qc/modules/gaurd/models/collected_order_list_respons
 import 'package:flutter_trc/qc/modules/gaurd/providers/guardDeviceCountingListProvider.dart';
 import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 
+import '../screens/qc_guard_add_agent_screen.dart';
+
 class QcDeviceCountingListWidget extends StatelessWidget {
   const QcDeviceCountingListWidget({super.key});
 
@@ -45,6 +47,9 @@ class QcDeviceCountingListWidget extends StatelessWidget {
           text: "Add",
           onPressed: () {
             // TODO: move to next screen with all agent list
+            QcGuardAddAgentScreen.navigate(context, provider.deliveryAgentList).then((value){
+              provider.notifyListeners();
+            });
           },
         ),
       )

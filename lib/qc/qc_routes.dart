@@ -23,15 +23,18 @@ import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload
 import 'package:flutter_trc/qc/modules/store_in/screens/index.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
+import 'modules/dead_repair/screens/index.dart';
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
 import 'modules/dispatch_lot/screens/index.dart';
 import 'modules/external_audit/widgets/video_recoder_widget.dart';
+import 'modules/gaurd/screens/qc_guard_add_agent_screen.dart';
 import 'modules/pre_dispatch/screens/index.dart';
 import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_screen.dart';
 import 'modules/stock_in_module/screens/index.dart';
+import 'modules/store_out/screens/index.dart';
 
 class QcRoutes {
   static Map<String, WidgetBuilder> getQcRoutes() {
@@ -74,6 +77,13 @@ class QcRoutes {
       StoreInLocationScanScreen.route: (_) => const StoreInLocationScanScreen(),
       QcGuardHomeScreen.route: (_) => const QcGuardHomeScreen(),
       GuardDeviceCountingListScreen.route: (_) => const GuardDeviceCountingListScreen(),
+      StoreOutScreen.route: (_) => const StoreOutScreen(),
+      StoreOutLotFilterScreen.route: (_) => const StoreOutLotFilterScreen(),
+      LotItemsScanScreen.route: (_) => const LotItemsScanScreen(),
+      DeviceDeadRepairScreen.route: (_) => const DeviceDeadRepairScreen(),
+      ReasonSelectionScreen.route: (_) => const ReasonSelectionScreen(),
+      DeviceDeadAcceptRejectScreen.route: (_) => const DeviceDeadAcceptRejectScreen(),
+      QcGuardAddAgentScreen.route: (_) => const QcGuardAddAgentScreen(),
     };
   }
 }
