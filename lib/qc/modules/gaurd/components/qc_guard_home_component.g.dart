@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pre_dispatch_lots_component.dart';
+part of 'qc_guard_home_component.dart';
 
 // **************************************************************************
 // ComponentGenerator
@@ -9,19 +9,21 @@ part of 'pre_dispatch_lots_component.dart';
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "QC_qc_pre_dispatch_lots_component",
-      "componentType": "QC Pre Dispatch Lots Component",
+      "key": "QC_guard_home_component",
+      "componentType": "QC Guard Home Component",
       "isActive": true,
-      "title": "Pre Dispatch Lots Component",
+      "title": "Qc Guard Home Component",
       "configJson": {
-        "config": [
-          {
+        "type": "map",
+        "config": {
+          "none": {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
-            "label": "none",
+            "label": "None",
             "key": "none"
           }
-        ]
+        }
       }
       //#admincomponent
     };

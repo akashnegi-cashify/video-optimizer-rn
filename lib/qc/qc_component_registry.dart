@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/components/invoice_scan_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_home_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_perform_component.dart';
+import 'package:flutter_trc/qc/modules/gaurd/components/guard_device_counting_list_component.dart';
+import 'package:flutter_trc/qc/modules/gaurd/components/guard_upload_invoice_component.dart';
+import 'package:flutter_trc/qc/modules/gaurd/components/qc_guard_home_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_barcode_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_summary_component.dart';
@@ -14,10 +17,18 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_devic
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_detail_component.dart';
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_list_component.dart';
 import 'package:flutter_trc/qc/modules/stock_in_module/components/media_file_upload_component.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/components/pending_dispatch_detail_component.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/components/pending_lot_detail_component.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/components/st_store_out_component.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/components/stock_transfer_list_component.dart';
+import 'package:flutter_trc/qc/modules/store_in/components/index.dart';
 
+import 'modules/dead_repair/components/index.dart';
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_filter_component.dart';
+import 'modules/gaurd/components/qc_guard_add_agent_component.dart';
+import 'modules/pre_dispatch/components/index.dart';
 import 'modules/qc_actions/component/qc_action_component.dart';
 import 'modules/qc_tester/calculator_media_capture/components/calculator_media_capture_component.dart';
 import 'modules/qc_tester/disputed_image_capture/components/disputed_image_barcode_scanner_component.dart';
@@ -25,6 +36,7 @@ import 'modules/qc_tester/disputed_image_capture/components/disputed_image_captu
 import 'modules/qc_tester/home/component/qc_tester_home_component.dart';
 import 'modules/stock_in_module/components/search_item_component.dart';
 import 'modules/stock_in_module/components/stock_in_product_detail_component.dart';
+import 'modules/store_out/components/index.dart';
 
 class QcComponentRegistry {
   static Widget? getRegisteredComponent(String? componentKey, Map<String, dynamic>? jsonConfig) {
@@ -79,6 +91,57 @@ class QcComponentRegistry {
         return InvoiceScanComponent(jsonConfig);
       case DispatchLotsFilterComponent.COMP_KEY:
         return DispatchLotsFilterComponent(jsonConfig);
+      case StockTransferListComponent.COMP_KEY:
+        return StockTransferListComponent(jsonConfig);
+      case StStoreOutComponent.COMP_KEY:
+        return StStoreOutComponent(jsonConfig);
+      case PendingLotDetailComponent.COMP_KEY:
+        return PendingLotDetailComponent(jsonConfig);
+      case PendingDispatchDetailComponent.COMP_KEY:
+        return PendingDispatchDetailComponent(jsonConfig);
+
+      case PreDispatchLotsComponent.COMP_KEY:
+        return PreDispatchLotsComponent(jsonConfig);
+
+      case PreDispatchLotsFilterComponent.COMP_KEY:
+        return PreDispatchLotsFilterComponent(jsonConfig);
+
+      case PreDispatchComponent.COMP_KEY:
+        return PreDispatchComponent(jsonConfig);
+
+      case StoreInLocationScanComponent.COMP_KEY:
+        return StoreInLocationScanComponent(jsonConfig);
+
+      case StoreOutComponent.COMP_KEY:
+        return StoreOutComponent(jsonConfig);
+
+      case StoreOutLotsFilterComponent.COMP_KEY:
+        return StoreOutLotsFilterComponent(jsonConfig);
+
+      case LotItemsScanComponent.COMP_KEY:
+        return LotItemsScanComponent(jsonConfig);
+
+      case ReasonSelectionComponent.COMP_KEY:
+        return ReasonSelectionComponent(jsonConfig);
+
+      case DeviceDeadComponent.COMP_KEY:
+        return DeviceDeadComponent(jsonConfig);
+
+      case DeviceDeadAcceptRejectComponent.COMP_KEY:
+        return DeviceDeadAcceptRejectComponent(jsonConfig);
+
+      case QcGuardHomeComponent.COMP_KEY:
+        return QcGuardHomeComponent(jsonConfig);
+
+      case GuardDeviceCountingListComponent.COMP_KEY:
+        return GuardDeviceCountingListComponent(jsonConfig);
+
+      case GuardUploadInvoiceComponent.COMP_KEY:
+        return GuardUploadInvoiceComponent(jsonConfig);
+
+      case QcGuardAddAgentComponent.COMP_KEY:
+        return QcGuardAddAgentComponent(jsonConfig);
+
       default:
         return null;
     }

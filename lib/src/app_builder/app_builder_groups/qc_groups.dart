@@ -13,8 +13,21 @@ enum QcComponentGroup with AbsComponentGroup {
   qcDispatchLotsComponentKey("QC Dispatch Lots Component"),
   qcDispatchLotsFilterComponentKey("QC Dispatch Lots Filter Component"),
   qcInvoiceScanComponentKey("Qc Invoice Scan Component"),
+  qcPreDispatchLotsComponentKey("QC Pre Dispatch Lots Component"),
+  qcPreDispatchComponentKey("QC Pre Dispatch Component"),
   qcReQcListComponentKey("Qc Re Qc List"),
-  qcReQcDetailComponentKey("Qc Re Qc Detail");
+  qcStockTransferListComponentKey("Qc Stock Transfer List"),
+  qcStockTransferStoreOutComponentKey("Qc Stock Transfer Store Out"),
+  qcStockTransferPendingLotDetailComponentKey("Qc Stock Transfer Pending Lot Detail"),
+  qcStockTransferPendingDispatchDetailComponentKey("Qc Stock Transfer Pending Dispatch Detail"),
+  qcReQcDetailComponentKey("Qc Re Qc Detail"),
+  qcPreDispatchLotsFilterComponentKey("QC Pre Dispatch Lots Filter Component"),
+  qcStoreOutLotsFilterComponentKey("QC Store Out Lots Filter Component"),
+  qcPreDispatchScanResultComponentKey("QC Pre Dispatch Scan Result Component"),
+  qcGuardDeviceCountingListComponentKey("QC Pre Dispatch Scan Result Component"),
+  qcGuardHomeComponentKey("QC Guard Home Component"),
+  qcGuardUploadInvoiceComponentKey("QC Guard Upload Invoice Component"),
+  qcGuardAddAgentComponentKey("QC Guard Add Agent Component");
 
   @override
   final String value;
@@ -34,9 +47,23 @@ enum QcPageGroup with AbsPageGroup {
   qcStockInProductDetailPageKey("Qc Stock In Product Detail"),
   qcDispatchLotFilter("QC Dispatch Lot Filter"),
   qcDispatchLot("QC Dispatch Lot"),
+  qcPreDispatchLot("QC Pre Dispatch Lot"),
+  qcPreDispatch("QC Pre Dispatch"),
   qcInvoiceScan("QC Invoice Scan"),
   qcReQcListPageKey("Qc Re Qc List"),
-  qcReQcDetailPageKey("Qc Re Qc Detail");
+  qcStockTransferListPageKey("Qc Stock Transfer List"),
+  qcStockTransferStoreOutPageKey("Qc Stock Transfer Store Out"),
+  qcStockTransferPendingLotDetailPageKey("Qc Stock Transfer Pending Lot Detail"),
+  qcStockTransferPendingDispatchDetailPageKey("Qc Stock Transfer Pending Dispatch Detail"),
+  qcReQcDetailPageKey("Qc Re Qc Detail"),
+  qcPreDispatchLotFilter("QC Pre Dispatch Lot Filter"),
+  qcStoreOutLotFilterPageKey("QC Store Out Lot Filter"),
+  qcStoreOutLotItemsScanPageKey("QC lot Items Scan"),
+  qcPreDispatchScanResult("QC Pre Dispatch Scan Result"),
+  qcGuardHomePageKey("QC Guard Home"),
+  qcGuardDeviceCountingListPageKey("QC Guard Home"),
+  qcGuardUploadInvoicePageKey("QC Guard Upload Invoice"),
+  qcGuardAddAgentPageKey("QC Guard Add Agent");
 
   @override
   final String value;

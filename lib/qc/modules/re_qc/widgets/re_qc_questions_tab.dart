@@ -56,11 +56,7 @@ class _ReQcQuestionsTabState extends State<ReQcQuestionsTab> {
                 child: CshBigButton(
                   text: _currentPage == (provider.questionLength - 1) ? "Done" : "Next",
                   onPressed: () async {
-                    if (_currentPage == (provider.questionLength - 1)) {
-                      _onMoveToNextPage(provider, isLastPage: true);
-                    } else {
-                      _onMoveToNextPage(provider);
-                    }
+                    _onMoveToNextPage(provider, isLastPage: _currentPage == (provider.questionLength - 1));
                   },
                 ),
               ),
@@ -82,10 +78,10 @@ class _ReQcQuestionsTabState extends State<ReQcQuestionsTab> {
         provider.uploadImage(xFile.path).then((value) {
           CshLoading().hideLoading(context);
           provider.setImageUrl(_currentPage, value);
-          if (!isLastPage) {
-            _animateToPage(_currentPage + 1);
-          } else {
+          if (isLastPage) {
             _submitReQc(provider);
+          } else {
+            _animateToPage(_currentPage + 1);
           }
         }, onError: (error) {
           CshLoading().hideLoading(context);
@@ -93,10 +89,10 @@ class _ReQcQuestionsTabState extends State<ReQcQuestionsTab> {
         });
       }
     } else {
-      if (!isLastPage) {
-        _animateToPage(_currentPage + 1);
-      } else {
+      if (isLastPage) {
         _submitReQc(provider);
+      } else {
+        _animateToPage(_currentPage + 1);
       }
     }
   }
@@ -106,15 +102,58 @@ class _ReQcQuestionsTabState extends State<ReQcQuestionsTab> {
   }
 
   void _submitReQc(ReQcQuestionsProvider provider) {
-    CshLoading().showLoading(context);
-    provider.submitReQcData().then((value) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.success(context: context, message: "ReQC submitted successfully");
-      widget.onReQcSubmitted(provider.isMismatchMarked());
-    }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+    _showRemarksDialog((String? remarks) {
+      Navigator.pop(context); // dismiss dialog
+      CshLoading().showLoading(context);
+      provider.submitReQcData(remarks).then((value) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.success(context: context, message: "ReQC submitted successfully");
+        widget.onReQcSubmitted(provider.isMismatchMarked());
+      }, onError: (error) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: error);
+      });
     });
+  }
+
+  void _showRemarksDialog(Function(String? remarks) onProceed) {
+    String? remarks;
+    showCshBottomSheet(
+      isDismissible: false,
+      context: context,
+      child: Builder(builder: (innerContext) {
+        return Container(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
+          child: Padding(
+            padding: const EdgeInsets.all(Dimens.space_20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CshTextNew.subTitle1("Enter Remarks (Optional)"),
+                const SizedBox(height: Dimens.space_16),
+                CshTextFormField(
+                  hintText: "Enter Remarks",
+                  maxLines: 2,
+                  onChanged: (value) {
+                    remarks = value;
+                  },
+                ),
+                const SizedBox(height: Dimens.space_16),
+                ComboButton(
+                    firstBtnText: "Skip",
+                    secondBtnText: "Submit",
+                    firstBtnClick: () {
+                      onProceed(remarks);
+                    },
+                    secondBtnClick: () {
+                      onProceed(remarks);
+                    }),
+              ],
+            ),
+          ),
+        );
+      }),
+    );
   }
 }
 
@@ -133,32 +172,34 @@ class _QuestionWidgetState extends State<_QuestionWidget> {
     var theme = Theme.of(context);
     var provider = ReQcQuestionsProvider.of(context);
     var item = provider.deviceReportList![widget.index];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "${widget.index + 1})  ${item.label}",
-          style: theme.textTheme.titleMedium?.copyWith(color: theme.primaryColor),
-        ),
-        const SizedBox(height: Dimens.space_16),
-        RadioListWidget(
-          list: List.generate(
-            item.variation?.length ?? 0,
-            (index) {
-              String variantId = item.getVariantKey(index);
-              return RadioListItem(
-                item.getVariantKey(index),
-                item.getVariantValue(variantId),
-                item.isSelected(variantId),
-              );
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${widget.index + 1})  ${item.label}",
+            style: theme.textTheme.titleMedium?.copyWith(color: theme.primaryColor),
+          ),
+          const SizedBox(height: Dimens.space_16),
+          RadioListWidget(
+            list: List.generate(
+              item.variation?.length ?? 0,
+              (index) {
+                String variantId = item.getVariantKey(index);
+                return RadioListItem(
+                  item.getVariantKey(index),
+                  item.getVariantValue(variantId),
+                  item.isSelected(variantId),
+                );
+              },
+            ),
+            isShowedInCard: true,
+            onItemSelected: (data) {
+              provider.setUserSelectedVariantId(widget.index, data.id!);
             },
           ),
-          isShowedInCard: true,
-          onItemSelected: (data) {
-            provider.setUserSelectedVariantId(widget.index, data.id!);
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

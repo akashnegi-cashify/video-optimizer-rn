@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/disputed_image_capture/models/disputed_media_data_response.dart';
@@ -18,6 +20,15 @@ class MultipleImageVideoUploadWidget extends StatefulWidget {
 class _MultipleImageVideoUploadWidgetState extends State<MultipleImageVideoUploadWidget> {
   List<String> _imageList = [""];
   List<VideoUrlData> _videoList = [VideoUrlData("", videoThumbnail: "")];
+  final FocusNode _nextButtonFocus = FocusNode();
+
+  @override
+  void initState() {
+    scheduleMicrotask(() {
+      FocusScope.of(context).requestFocus(_nextButtonFocus);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +107,20 @@ class _MultipleImageVideoUploadWidgetState extends State<MultipleImageVideoUploa
           ),
           const SizedBox(height: Dimens.space_16),
           const Expanded(child: SizedBox.shrink()),
-          CshBigButton(
-              text: "Next",
-              onPressed: () {
-                _imageList.removeWhere((element) => element.isEmpty);
-                var videoUrlList = _videoList.map((e) => e.videoUrl).toList();
-                videoUrlList.removeWhere((element) => element.isEmpty);
-                widget.onMediaUploaded(_imageList, videoUrlList);
-              }),
+          TextButton(
+            focusNode: _nextButtonFocus,
+            onPressed: () {
+              _imageList.removeWhere((element) => element.isEmpty);
+              var videoUrlList = _videoList.map((e) => e.videoUrl).toList();
+              videoUrlList.removeWhere((element) => element.isEmpty);
+              widget.onMediaUploaded(_imageList, videoUrlList);
+            },
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
+            child: Text(
+              "Next",
+              style: Theme.of(context).primaryTextTheme.displaySmall?.copyWith(color: Colors.white),
+            ),
+          ),
         ],
       ),
     );

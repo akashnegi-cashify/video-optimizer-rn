@@ -1,5 +1,17 @@
 # TRC Releases
 
+# v2.1.4+17 (18-10-2023)
+
+### Feature:
+
+* `QC - Add Re-Qc module in flutter`[(SCM-4537)](https://reglobe.atlassian.net/browse/SCM-4537)
+* `QC - Re-Qc - Add remarks while completing re-qc`[(SCM-4597)](https://reglobe.atlassian.net/browse/SCM-4597)
+* `QC Tester - Manual Testing - Remove IMEI validation`[(SCM-4677)](https://reglobe.atlassian.net/browse/SCM-4677)
+* `QC - Add Dispatch lot module`[(SCM-4606)](https://reglobe.atlassian.net/browse/SCM-4606)
+* `QC - Add Pre Dispatch module`[(SCM-4748)](https://reglobe.atlassian.net/browse/SCM-4748)
+* `QC - Add External Recording module`[(SCM-4495)](https://reglobe.atlassian.net/browse/SCM-4495)
+
+
 # v2.1.3+16 (04-10-2023)
 
 ### Feature:

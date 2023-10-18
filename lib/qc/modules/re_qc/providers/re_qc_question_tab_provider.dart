@@ -72,14 +72,14 @@ class ReQcQuestionsProvider extends CshChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> submitReQcData() {
+  Future<bool> submitReQcData(String? remarks) {
     var completer = Completer<bool>();
     Map<String, dynamic> req = {};
     deviceReportList?.forEach((element) {
       req[element.partId.toString()] =
           ReQcVariantRequest(variantId: int.parse(element.userSelectedVariantId!), imageUrl: element.imageUrl ?? "").toJson();
     });
-    ReQcService.submitReQcData(req, deviceBarcode).listen((event) {
+    ReQcService.submitReQcData(req, deviceBarcode, remarks).listen((event) {
       if (Validator.isTrue(event?.isSuccess)) {
         completer.complete(true);
       } else {

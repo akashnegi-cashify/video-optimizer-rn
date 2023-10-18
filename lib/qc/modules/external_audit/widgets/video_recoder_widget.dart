@@ -54,12 +54,16 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   }
 
   VideoRecordingListener? _listener;
+  FocusNode _stopVideoFocusNode = FocusNode();
 
   @override
   void initState() {
     scheduleMicrotask(() {
       _initCamera();
       WakelockPlus.enable();
+    });
+    Future.delayed(const Duration(seconds: 5), () {
+      FocusScope.of(context).requestFocus(_stopVideoFocusNode);
     });
 
     _getVideoRecordingTimerInSec();
@@ -131,7 +135,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   }
 
   _stopVideoRecording() async {
-    if (_cameraController != null) {
+    if (_cameraController != null && _isRecording) {
       final file = await _cameraController!.stopVideoRecording();
       _resetTimers();
       setState(() => _isRecording = false);
@@ -200,6 +204,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
           return Future.value(true);
         },
         child: Scaffold(
+          appBar: const CshHeader("Video Recorder", showBackBtn: true),
           body: Center(
             child: Stack(
               children: [
@@ -246,8 +251,9 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
                         ),
                       FloatingActionButton(
                         backgroundColor: theme.colorScheme.error,
+                        focusNode: _stopVideoFocusNode,
+                        onPressed: () => _isRecording ? _stopVideoRecording() : null,
                         child: Icon(_isRecording ? Icons.stop : Icons.circle),
-                        onPressed: () => _isRecording ? _stopVideoRecording() : _startVideoRecording(),
                       ),
                     ],
                   ),

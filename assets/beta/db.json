@@ -897,6 +897,295 @@
       ]
     },
     {
+      "pageId": 10025,
+      "pageKey": "QC_qc_pre_dispatch_lot",
+      "dt": [
+        {
+          "id": 10044,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10045,
+          "key": "QC_qc_pre_dispatch_lots_component",
+          "type": "component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10026,
+      "pageKey": "QC_qc_pre_dispatch_lot_filter",
+      "dt": [
+        {
+          "id": 10046,
+          "key": "QC_qc_pre_dispatch_lots_filter_component",
+          "type": "component"
+        },
+        {
+          "id": 10047,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+
+
+    {
+      "pageId": 10027,
+      "pageKey": "QC_qc_pre_dispatch",
+      "dt": [
+        {
+          "id": 10044,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10048,
+          "key": "QC_qc_pre_dispatch_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10028,
+      "pageKey": "QC_qc_store_in",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10022,
+          "key": "disputed_image_barcode_scanner",
+          "type": "component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10029,
+      "pageKey": "QC_qc_store_in_location_scan",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10050,
+          "key": "QC_qc_store_in_location_scan_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10030,
+      "pageKey": "QC_qc_store_out",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10051,
+          "key": "QC_qc_store_out_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10031,
+      "pageKey": "QC_qc_store_out_lot_filter",
+      "dt": [
+        {
+          "id": 10052,
+          "key": "QC_qc_store_out_lots_filter_component",
+          "type": "component"
+        },
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10032,
+      "pageKey": "QC_qc_lot_items_scan",
+      "dt": [
+        {
+          "id": 10053,
+          "key": "QC_qc_lot_items_scan_component",
+          "type": "component"
+        },
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10033,
+      "pageKey": "QC_qc_device_dead_repair",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10055,
+          "key": "QC_qc_device_dead_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10034,
+      "pageKey": "QC_qc_reason_selection",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10054,
+          "key": "QC_qc_reason_selection_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10035,
+      "pageKey": "QC_qc_device_dead_accept_reject",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10056,
+          "key": "QC_qc_device_dead_accept_reject_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10036,
+      "pageKey": "QC_guard_add_agent_screen",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10057,
+          "key": "QC_guard_add_agent_component"
+        }
+      ]
+    },
+
+    {
+      "pageId": 10102,
+      "pageKey": "QC_stock_transfer_list_screen",
+      "dt": [
+        {
+          "id": 10105,
+          "key": "QC_stock_transfer_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10106,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10103,
+      "pageKey": "QC_stock_transfer_store_out_screen",
+      "dt": [
+        {
+          "id": 10107,
+          "key": "QC_stock_transfer_store_out_component",
+          "type": "component"
+        },
+        {
+          "id": 10108,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10104,
+      "pageKey": "QC_st_pending_lot_detail_screen",
+      "dt": [
+        {
+          "id": 10109,
+          "key": "QC_st_pending_lot_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10110,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10105,
+      "pageKey": "QC_st_pending_dispatch_detail_screen",
+      "dt": [
+        {
+          "id": 10111,
+          "key": "QC_pending_dispatch_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10112,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10106,
+      "pageKey": "QC_guard_home_screen",
+      "dt": [
+        {
+          "id": 10113,
+          "key": "QC_guard_home_component",
+          "type": "component"
+        },
+        {
+          "id": 10114,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10107,
+      "pageKey": "QC_guard_device_counting_list_screen",
+      "dt": [
+        {
+          "id": 10116,
+          "key": "QC_guard_device_counting_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10114,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10108,
+      "pageKey": "QC_guard_upload_invoice_screen",
+      "dt": [
+        {
+          "id": 10117,
+          "key": "QC_guard_upload_invoice_component",
+          "type": "component"
+        },
+        {
+          "id": 10118,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -1770,7 +2059,7 @@
       "key": "header_QC_qc_general",
       "configJson": {
         "config": {
-          "ht": "Barcode Scanner",
+          "ht": "Receive Device",
           "sbb": true,
           "slb": false
         }
@@ -2134,6 +2423,7 @@
         }
       }
     },
+
     {
       "componentId": 10042,
       "locale": "en",
@@ -2195,6 +2485,308 @@
       "configJson": {
         "config": {
           "ht": "Re Qc",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10044,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pre Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10045,
+      "locale": "en",
+      "key": "QC_qc_pre_dispatch_lots_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10046,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pre Dispatch Filter",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10047,
+      "locale": "en",
+      "key": "QC_qc_pre_dispatch_lots_filter_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10048,
+      "locale": "en",
+      "key": "QC_qc_pre_dispatch_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10049,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Store In",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+
+
+    {
+      "componentId": 10050,
+      "locale": "en",
+      "key": "QC_qc_store_in_location_scan_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10051,
+      "locale": "en",
+      "key": "QC_qc_store_out_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10052,
+      "locale": "en",
+      "key": "QC_qc_store_out_lots_filter_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+    {
+      "componentId": 10053,
+      "locale": "en",
+      "key": "QC_qc_lot_items_scan_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10054,
+      "locale": "en",
+      "key": "QC_qc_reason_selection_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10055,
+      "locale": "en",
+      "key": "QC_qc_device_dead_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10056,
+      "locale": "en",
+      "key": "QC_qc_device_dead_accept_reject_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10057,
+      "locale": "en",
+      "key": "QC_guard_add_agent_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+
+
+
+    {
+      "componentId": 10105,
+      "locale": "en",
+      "key": "QC_stock_transfer_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10106,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Stock Transfer Role",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10107,
+      "locale": "en",
+      "key": "QC_stock_transfer_store_out_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10108,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Store Out",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10109,
+      "locale": "en",
+      "key": "QC_st_pending_lot_detail_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10110,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pending",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10111,
+      "locale": "en",
+      "key": "QC_pending_dispatch_detail_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10112,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Finish Dispatch for Lot",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10113,
+      "locale": "en",
+      "key": "QC_guard_home_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10114,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Guard Role",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10116,
+      "locale": "en",
+      "key": "QC_guard_device_counting_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10117,
+      "locale": "en",
+      "key": "QC_guard_upload_invoice_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10118,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Upload Invoice",
           "sbb": true,
           "slb": false
         }

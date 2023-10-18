@@ -18,5 +18,21 @@ class L10n extends BaseL10n {
 
   String get scanInvoice => Intl.message('Scan Invoice', locale: localName, name: 'scanInvoice');
 
+  String get lotQty => Intl.message('Lot Qty ', locale: localName, name: 'lotQty');
+  String get scannedQty => Intl.message('Scanned Qty ', locale: localName, name: 'scannedQty');
+  String get pendingQty => Intl.message('Pending Qty ', locale: localName, name: 'pendingQty');
+
+  String get lotGroupNotEmptyOrNull => Intl.message('Lot Group Name Not Empty Or Null', locale: localName, name: 'lotGroupNotEmptyOrNull');
+
+  String get brand => Intl.message('Brand', locale: localName, name: 'brand');
+  String get model => Intl.message('Model', locale: localName, name: 'model');
+  String get imei => Intl.message('Imei', locale: localName, name: 'imei');
+  String get nothingAvailable => Intl.message('Nothing Available', locale: localName, name: 'nothingAvailable');
+  String get scan => Intl.message('Scan', locale: localName, name: 'scan');
+  String get scanCode => Intl.message('Scan Code', locale: localName, name: 'scanCode');
+  String get enterBarCode => Intl.message('Enter Bar Code', locale: localName, name: 'enterBarCode');
+  String get status => Intl.message('Status', locale: localName, name: 'status');
+  String get barcode => Intl.message('Barcode', locale: localName, name: 'barcode');
+
 
 }
