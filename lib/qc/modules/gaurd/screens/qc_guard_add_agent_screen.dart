@@ -38,8 +38,8 @@ class QcGuardAddAgentScreen extends BaseScreen<QcGuardAddAgentScreenArgs> {
     );
   }
 
-  static navigate(BuildContext context, List<String>? agentList) {
-    Navigator.pushNamed(
+  static Future navigate(BuildContext context, List<String>? agentList) {
+    return Navigator.pushNamed(
       context,
       QcGuardAddAgentScreen.route,
       arguments: QcGuardAddAgentScreenArgs(

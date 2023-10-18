@@ -81,7 +81,7 @@ class _AddAgentWidget extends StatelessWidget {
               builder: (BuildContext context, value, Widget? child) {
                 return CshBigButton(
                   text: l10n.save,
-                  onPressed: value.id == '0' ? null : () => _onPressed(context),
+                  onPressed: value.id == '0' ? null : () => _onPressed(context,l10n),
                 );
               },
               selector: (context, provider) {
@@ -94,42 +94,83 @@ class _AddAgentWidget extends StatelessWidget {
     );
   }
 
-  void _onPressed(
-    BuildContext context,
-  ) {
+  void _onPressed(BuildContext context,L10n l10n) {
+    FocusManager.instance.primaryFocus?.unfocus();
     var provider = AddAgentProvider.of(context, listen: false);
     int value = int.tryParse(provider.textEditingController.text) ?? 0;
 
     if (provider.textEditingController.text.isEmpty) {
-      CshSnackBar.error(context: context, message: 'Please enter device count');
+      CshSnackBar.error(context: context, message: l10n.pleaseEnterDeviceCount);
     } else if (value <= 0) {
-      CshSnackBar.error(context: context, message: 'Total device count should not be zero');
+      CshSnackBar.error(context: context, message: l10n.totalDeviceCountShouldNotBeZero);
     } else {
-      _showAlert(context);
+      _showAlert(context, int.tryParse(provider.textEditingController.text) ?? 0, provider.selectedAgent.label!);
     }
   }
 
-  void _showAlert(BuildContext context) {
+  void _showAlert(BuildContext context, int count, String selectedAgent) {
     showDialog(
       context: context,
-      builder: (context) {
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        var theme = Theme.of(dialogContext);
+        var l10n = L10n(context);
+        final GlobalKey<FormState> formFieldKey = GlobalKey();
+        var actionTextTheme = theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor);
         return AlertDialog(
-          title: CshTextNew.h3('Total Device'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CshTextNew.h4('Enter total device again.'),
-              const SizedBox(height: Dimens.space_8),
-              CshTextFormField()
-            ],
+          title: CshTextNew.h3(l10n.totalDevice),
+          content: Form(
+            key: formFieldKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CshTextNew.h4(l10n.enterTotalDeviceAgain),
+                const SizedBox(height: Dimens.space_8),
+                CshTextFormField(
+                  labelText: l10n.totalDevice,
+                  hintText: '$count',
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value != '$count') {
+                      return l10n.totalDeviceCountIsNotMatching;
+                    }
+                    return null;
+                  },
+                )
+              ],
+            ),
           ),
           actions: [
-            TextButton(onPressed: () {  }, child: CshTextNew.h3('OK'),),
-            TextButton(onPressed: () {  }, child: CshTextNew.h3('Cancel'),)
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: CshTextNew(
+                l10n.cancel,
+                textStyle: actionTextTheme,
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                if (formFieldKey.currentState?.validate() == true) {
+                  _navigateTo(context, count, selectedAgent);
+                }
+              },
+              child: CshTextNew(
+                l10n.ok,
+                textStyle: actionTextTheme,
+              ),
+            ),
           ],
         );
       },
     );
+  }
+
+  void _navigateTo(BuildContext context, int count, String selectedAgent) {
+    // todo move to next screen
+    Navigator.pop(context);
   }
 }

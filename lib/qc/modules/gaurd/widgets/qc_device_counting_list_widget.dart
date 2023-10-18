@@ -47,7 +47,9 @@ class QcDeviceCountingListWidget extends StatelessWidget {
           text: "Add",
           onPressed: () {
             // TODO: move to next screen with all agent list
-            QcGuardAddAgentScreen.navigate(context, provider.deliveryAgentList);
+            QcGuardAddAgentScreen.navigate(context, provider.deliveryAgentList).then((value){
+              provider.notifyListeners();
+            });
           },
         ),
       )
