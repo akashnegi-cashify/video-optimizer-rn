@@ -107,11 +107,11 @@ class LotScanProvider extends CshChangeNotifier {
     itemLen = itemLen-1;
     if (_scanItemPosition < itemLen) {
       value = true;
-      _scanItemPosition++;
     }
     else{
       value = false;
     }
+    _scanItemPosition++;
     notifyListeners();
     return value;
   }

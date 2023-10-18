@@ -22,17 +22,27 @@ class LotScanWidget extends StatelessWidget {
             children: [
               if (topContent != null) topContent!,
               Expanded(
-                child: MlBarcodeScannerWidget(
-                  scanFormatList: const [ScanFormats.barcode],
-                  onScannerDetected: (value, controller) => {onScannerDetected?.call(value, controller)},
+                child: CshCard(
+                  margin: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
+                  child: MlBarcodeScannerWidget(
+                    scanFormatList: const [ScanFormats.barcode],
+                    onScannerDetected: (value, controller) => {onScannerDetected?.call(value, controller)},
+                  ),
                 ),
               ),
-              const SizedBox(height: Dimens.space_8),
-              if (content != null) content!,
+              if (content != null)
+                CshCard(
+                  margin: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_4),
+                  child: content!,
+                ),
             ],
           ),
         ),
-        if (footer != null) footer!,
+        if (footer != null)
+          CshCard(
+            margin: const EdgeInsets.only(top: Dimens.space_8),
+            child: footer!,
+          ),
       ],
     );
   }

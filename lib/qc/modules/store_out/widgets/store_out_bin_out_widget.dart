@@ -60,12 +60,9 @@ class _StoreOutBinOutWidgetState extends State<StoreOutBinOutWidget> {
               ),
             ],
           )),
-      footer: Padding(
-        padding: const EdgeInsets.all(16),
-        child: CshBigButton(
-          text: l10n.scan,
-          onPressed: () => _onScanBtnClick(context,l10n),
-        ),
+      footer: CshBigButton(
+        text: l10n.scan,
+        onPressed: () => _onScanBtnClick(context,l10n),
       ),
     );
   }
@@ -77,7 +74,7 @@ class _StoreOutBinOutWidgetState extends State<StoreOutBinOutWidget> {
       CshSnackBar.error(context: context, message: l10n.pleaseScanDeviceBarcode);
     } else {
       var provider = StoreOutProvider.of(context, listen: false);
-
+      FocusManager.instance.primaryFocus?.unfocus();
       CshLoading().showLoading(context);
       provider
           .binOutVerifyBarCode(BinOutRequest(

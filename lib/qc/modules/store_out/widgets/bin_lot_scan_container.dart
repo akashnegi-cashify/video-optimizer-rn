@@ -9,6 +9,7 @@ import '../../../../src/common/widgets/labeled_text.dart';
 import '../l10n.dart';
 import '../providers/lot_scan_provider.dart';
 import '../resources/index.dart';
+import '../screens/index.dart';
 
 class BinLotScanContainer extends StatelessWidget {
   final String lotName;
@@ -65,49 +66,46 @@ class BinLotScanContainer extends StatelessWidget {
                   onScannerDetected: (value, controller) => _onScannerDetected(builderContext, value, controller,l10n),
                   content: Selector<LotScanProvider, int>(
                     builder: (BuildContext context, value, Widget? child) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(vertical: Dimens.space_4, horizontal: Dimens.space_16),
-                        child: Column(
-                          children: [
-                            LabeledText(
-                              label: l10n.barCode,
-                              value: itemList?[value]?.barcode,
-                              valueTextStyle: valueTextStyle,
-                              labelTextStyle: labelTextStyle,
-                              labelFlex: 1,
-                              valueFlex: 2,
-                              padding: EdgeInsets.zero,
-                            ),
-                            const SizedBox(height: Dimens.space_4),
-                            LabeledText(
-                              label: l10n.location,
-                              value: itemList?[value]?.itemLocBarCode,
-                              valueTextStyle: valueTextStyle,
-                              labelTextStyle: labelTextStyle,
-                              labelFlex: 1,
-                              valueFlex: 2,
-                              padding: EdgeInsets.zero,
-                            ),
-                            const SizedBox(height: Dimens.space_4),
-                          ],
-                        ),
+                      if(value >= itemCount){
+                        value = itemCount-1;
+                      }
+                      return Column(
+                        children: [
+                          LabeledText(
+                            label: l10n.barCode,
+                            value: itemList?[value]?.barcode,
+                            valueTextStyle: valueTextStyle,
+                            labelTextStyle: labelTextStyle,
+                            labelFlex: 1,
+                            valueFlex: 2,
+                            padding: EdgeInsets.zero,
+                          ),
+                          const SizedBox(height: Dimens.space_4),
+                          LabeledText(
+                            label: l10n.location,
+                            value: itemList?[value]?.itemLocBarCode,
+                            valueTextStyle: valueTextStyle,
+                            labelTextStyle: labelTextStyle,
+                            labelFlex: 1,
+                            valueFlex: 2,
+                            padding: EdgeInsets.zero,
+                          ),
+                          const SizedBox(height: Dimens.space_4),
+                        ],
                       );
                     },
                     selector: (BuildContext context, LotScanProvider provider) {
                       return provider.scanPosition;
                     },
                   ),
-                  footer: Padding(
-                    padding: const EdgeInsets.all(Dimens.space_16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: CshBigButton(
-                          text: l10n.skip,
-                          onPressed: () => _onSkipClick(builderContext),
-                        )),
-                      ],
-                    ),
+                  footer: Row(
+                    children: [
+                      Expanded(
+                          child: CshBigButton(
+                        text: l10n.skip,
+                        onPressed: () => _onSkipClick(builderContext),
+                      )),
+                    ],
                   ),
                 );
         },
@@ -120,8 +118,24 @@ class BinLotScanContainer extends StatelessWidget {
     var res = provider.moveNext();
 
     if (res == false) {
-      Navigator.pop(context);
+      _showAlert(context);
+
     }
+  }
+
+  void _showAlert(BuildContext context,{MlScannerController? controller}){
+    controller?.stop();
+    showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: CshTextNew.h3('Warning'),
+        content: CshTextNew.h4('Store Out Completed'),
+        actions: [
+          TextButton(onPressed: () {
+            Navigator.popUntil(context, ModalRoute.withName(StoreOutScreen.route));
+          }, child: CshTextNew.h3('Ok'),)
+        ],
+      );
+    });
   }
 
   _onScannerDetected(BuildContext context, String value, MlScannerController controller,L10n l10n) {
@@ -130,15 +144,18 @@ class BinLotScanContainer extends StatelessWidget {
     var item = provider.binDataState.data?.lotList?[provider.scanPosition];
 
     if (item?.barcode?.containsIgnoreCase(value) == true) {
+      controller.stop();
       CshLoading().showLoading(context);
       provider.binOutVerifyBarCode(BinOutRequest(locBarcode: item?.itemLocBarCode, stockBarcode: value)).then((value) {
         CshLoading().hideLoading(context);
-
         if (value?.isValid() == true) {
           CshSnackBar.success(context: context, message: l10n.binOutSuccessfully);
           var res = provider.moveNext();
           if (res == false) {
-            Navigator.pop(context);
+            _showAlert(context,controller: controller);
+          }
+          else{
+            controller.start();
           }
         } else {
           CshSnackBar.error(context: context, message: value?.message ?? l10n.somethingWentWrong);
@@ -146,6 +163,7 @@ class BinLotScanContainer extends StatelessWidget {
       }, onError: (error, stack) {
         CshLoading().hideLoading(context);
         CshSnackBar.error(context: context, message: error);
+        controller.start();
       });
     } else {
       CshSnackBar.error(context: context, message: l10n.barcodeMismatchNTryAgain);
