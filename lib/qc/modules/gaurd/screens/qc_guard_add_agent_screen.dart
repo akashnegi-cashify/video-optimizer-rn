@@ -25,14 +25,16 @@ class QcGuardAddAgentScreen extends BaseScreen<QcGuardAddAgentScreenArgs> {
     var l10n = L10n(context);
     var args = getArguments(context);
 
-    if(ArrayUtil.isNullOrEmpty(args?.agentList)){
-      return Center(child: CshTextNew.h3(l10n.agentListMustNotBeNullOrEmpty),);
+    if (ArrayUtil.isNullOrEmpty(args?.agentList)) {
+      return Center(
+        child: CshTextNew.h3(l10n.agentListMustNotBeNullOrEmpty),
+      );
     }
 
     return PageWidget(
       pageKey: pageKey,
       initialValue: {
-        AddAgentCompParamKeys.header.value: l10n.roleGuard,
+        AddAgentCompParamKeys.header.value: l10n.addAgentInfo,
         AddAgentCompParamKeys.agentList.value: ArrayUtil.removeNullItems<String>(args?.agentList ?? []),
       },
     );
@@ -52,5 +54,6 @@ class QcGuardAddAgentScreen extends BaseScreen<QcGuardAddAgentScreenArgs> {
 
 class QcGuardAddAgentScreenArgs extends BaseArguments {
   final List<String>? agentList;
+
   QcGuardAddAgentScreenArgs(super.pageKey, {required this.agentList});
 }

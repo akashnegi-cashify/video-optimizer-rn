@@ -1171,6 +1171,21 @@
       ]
     },
     {
+      "pageId": 10108,
+      "pageKey": "QC_guard_upload_invoice_screen",
+      "dt": [
+        {
+          "id": 10117,
+          "key": "QC_guard_upload_invoice_component",
+          "type": "component"
+        },
+        {
+          "id": 10118,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2751,6 +2766,29 @@
         "colSpan": 12,
         "config": {
           "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10117,
+      "locale": "en",
+      "key": "QC_guard_upload_invoice_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10118,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Upload Invoice",
+          "sbb": true,
+          "slb": false
         }
       }
     },

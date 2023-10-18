@@ -26,6 +26,7 @@ enum QcComponentGroup with AbsComponentGroup {
   qcPreDispatchScanResultComponentKey("QC Pre Dispatch Scan Result Component"),
   qcGuardDeviceCountingListComponentKey("QC Pre Dispatch Scan Result Component"),
   qcGuardHomeComponentKey("QC Guard Home Component"),
+  qcGuardUploadInvoiceComponentKey("QC Guard Upload Invoice Component"),
   qcGuardAddAgentComponentKey("QC Guard Add Agent Component");
 
   @override
@@ -61,6 +62,7 @@ enum QcPageGroup with AbsPageGroup {
   qcPreDispatchScanResult("QC Pre Dispatch Scan Result"),
   qcGuardHomePageKey("QC Guard Home"),
   qcGuardDeviceCountingListPageKey("QC Guard Home"),
+  qcGuardUploadInvoicePageKey("QC Guard Upload Invoice"),
   qcGuardAddAgentPageKey("QC Guard Add Agent");
 
   @override

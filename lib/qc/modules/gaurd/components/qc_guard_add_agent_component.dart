@@ -4,6 +4,7 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_trc/qc/modules/gaurd/models/add_agent_comp_param.dart';
+import 'package:flutter_trc/qc/modules/gaurd/screens/guard_upload_invoice_screen.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +82,7 @@ class _AddAgentWidget extends StatelessWidget {
               builder: (BuildContext context, value, Widget? child) {
                 return CshBigButton(
                   text: l10n.save,
-                  onPressed: value.id == '0' ? null : () => _onPressed(context,l10n),
+                  onPressed: value.id == '0' ? null : () => _onPressed(context, l10n),
                 );
               },
               selector: (context, provider) {
@@ -94,7 +95,7 @@ class _AddAgentWidget extends StatelessWidget {
     );
   }
 
-  void _onPressed(BuildContext context,L10n l10n) {
+  void _onPressed(BuildContext context, L10n l10n) {
     FocusManager.instance.primaryFocus?.unfocus();
     var provider = AddAgentProvider.of(context, listen: false);
     int value = int.tryParse(provider.textEditingController.text) ?? 0;
@@ -170,7 +171,8 @@ class _AddAgentWidget extends StatelessWidget {
   }
 
   void _navigateTo(BuildContext context, int count, String selectedAgent) {
-    // todo move to next screen
-    Navigator.pop(context);
+    Navigator.pop(context); // dismiss alert dialog
+    Navigator.pushNamed(context, GuardUploadInvoiceScreen.route,
+        arguments: GuardUploadInvoiceScreen.arguments(selectedAgent, count));
   }
 }
