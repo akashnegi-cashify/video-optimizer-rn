@@ -174,22 +174,17 @@ class QCActionWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: Dimens.space_16),
-            CshBigButton(
-              text: l10n.guardRole,
-              onPressed: () {
-                Navigator.pushNamed(context, QcGuardHomeScreen.route);
-              },
-            )
-            // QcRolePermissionWidget(
-            //   role: QcRole.roleGUARD,
-            //   padding: const EdgeInsets.only(top: Dimens.space_16),
-            //   child: CshBigButton(
-            //     text: l10n.guardRole,
-            //     onPressed: () {
-            //       Navigator.pushNamed(context, QcGuardHomeScreen.route);
-            //     },
-            //   ),
-            // ),
+
+            QcRolePermissionWidget(
+              role: QcRole.roleGUARD,
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              child: CshBigButton(
+                text: l10n.guardRole,
+                onPressed: () {
+                  Navigator.pushNamed(context, QcGuardHomeScreen.route);
+                },
+              ),
+            ),
 
           ],
         ),
