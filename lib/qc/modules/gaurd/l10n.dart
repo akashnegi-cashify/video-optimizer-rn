@@ -34,4 +34,10 @@ class L10n extends BaseL10n {
 
   String get pleaseEnterDeviceCount =>
       Intl.message('Please enter device count', locale: localName, name: 'pleaseEnterDeviceCount');
+
+  String get pleaseScanLocationBarcode =>
+      Intl.message('Please Scan Location Barcode', locale: localName, name: 'pleaseScanLocationBarcode');
+
+  String get pleaseScanDeviceBarcode =>
+      Intl.message('Please Scan Device Barcode', locale: localName, name: 'pleaseScanDeviceBarcode');
 }
