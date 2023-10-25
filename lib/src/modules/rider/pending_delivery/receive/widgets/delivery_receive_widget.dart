@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +18,8 @@ class DeliveryReceiveWidget extends StatefulWidget {
 
 class _DeliveryReceiveWidgetState extends State<DeliveryReceiveWidget> with AutomaticKeepAliveClientMixin {
   bool isUrgentRequest = false;
+  Timer? _timer;
+  TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +33,30 @@ class _DeliveryReceiveWidgetState extends State<DeliveryReceiveWidget> with Auto
 
         return Column(
           children: [
-            SearchBarWidget(
-              hintText: l10.search,
-              onQuery: (query) {
-                provider.searchQuery = query;
-              },
+            CshCard(
+              padding: EdgeInsets.zero,
+              child: CshTextFormField(
+                hintText: l10.searchBarcode,
+                controller: _searchController,
+                suffixIcon: InkWell(
+                  child: const Icon(Icons.qr_code_2),
+                  onTap: () {
+                    CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+                      Navigator.pop(context); // close scanner
+                      _searchController.text = scannedData;
+                      provider.searchQuery = scannedData;
+                    });
+                  },
+                ),
+                onChanged: (value) {
+                  if (Validator.isTrue(_timer?.isActive)) {
+                    _timer?.cancel();
+                  }
+                  _timer = Timer(const Duration(milliseconds: 500), () {
+                    provider.searchQuery = value;
+                  });
+                },
+              ),
             ),
             Row(
               children: [

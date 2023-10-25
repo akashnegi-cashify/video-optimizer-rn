@@ -24,6 +24,7 @@ class ShipexGeneralHeaderComponent extends StatelessComponent<ShipexGeneralHeade
       configModel?.headerTitle ?? "",
       showBackBtn: configModel?.showBackButton ?? true,
       showLogoutButton: configModel?.showLogoutButton ?? false,
+      showProfileButton: configModel?.showProfileButton ?? false,
     );
   }
 

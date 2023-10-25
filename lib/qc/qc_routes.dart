@@ -22,6 +22,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_scree
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_in_module/screens/media_file_upload_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/index.dart';
+import 'package:flutter_trc/src/common/user/widget/user_profile_screen.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
 import 'modules/dead_repair/screens/index.dart';
@@ -86,6 +87,7 @@ class QcRoutes {
       ReasonSelectionScreen.route: (_) => const ReasonSelectionScreen(),
       DeviceDeadAcceptRejectScreen.route: (_) => const DeviceDeadAcceptRejectScreen(),
       QcGuardAddAgentScreen.route: (_) => const QcGuardAddAgentScreen(),
+      UserProfileScreen.route: (_) => const UserProfileScreen(),
     };
   }
 }

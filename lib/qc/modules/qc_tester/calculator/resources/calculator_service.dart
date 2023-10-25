@@ -10,12 +10,17 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_subm
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/trc/trc_calculator_service.dart';
 
-mixin CalculatorServiceInitMixin {
+abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
   late CalculatorService service;
+
+  CalculatorServiceInitProvider() {
+    initCalculatorService();
+  }
 
   Future<void> initCalculatorService() async {
     var isLoginFromQc = await isLoginFromQC();
@@ -24,12 +29,14 @@ mixin CalculatorServiceInitMixin {
     } else {
       service = TrcCalculatorService();
     }
+    onServiceInitialized();
   }
+
+  void onServiceInitialized() {}
 
   Future<bool?> isLoginFromQC() {
     return AppPreferences().getIsLoginFromQC();
   }
-
 }
 
 abstract class CalculatorService {
@@ -95,5 +102,29 @@ abstract class CalculatorService {
 
   Stream<ManualQuestionListResponse?> getManualQuestions(String? qrCode) {
     return service.get("/manaul-question/list?qrCode=$qrCode", ManualQuestionListResponse.fromJson);
+  }
+
+  Stream<LobProductListResponse?> getProductList(
+      String? deviceBarcode, String? imeiOrSerialNo, bool isImei, bool isManualSearch) {
+    Map<String, dynamic> req = {
+      "qr": deviceBarcode,
+      "im": isManualSearch,
+    };
+    if (isImei) {
+      req["imei"] = imeiOrSerialNo;
+    } else {
+      req["sno"] = imeiOrSerialNo;
+    }
+
+    return service.post("/manual-test/search-device", LobProductListResponse.fromJson, body: jsonEncode(req));
+  }
+
+  Stream<MyCalculatorResponse?> getLobCalculator(String? deviceBarcode, int? productMasterId, int? productId) {
+    Map<String, dynamic> req = {
+      "qc": deviceBarcode,
+      "pmid": productMasterId.toString(),
+      "pid": productId.toString(),
+    };
+    return service.post("/manual-test/calculator/render", MyCalculatorResponse.fromJson, body: jsonEncode(req));
   }
 }

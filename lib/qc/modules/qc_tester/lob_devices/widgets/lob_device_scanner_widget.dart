@@ -1,12 +1,11 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/audit/widgets/option_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
+import 'package:provider/provider.dart';
 
 class LobDeviceScannerWidget extends StatelessWidget {
   const LobDeviceScannerWidget({super.key});
@@ -29,7 +28,7 @@ class LobDeviceScannerWidget extends StatelessWidget {
                 CshSnackBar.error(context: context, message: "Product List is empty");
                 return;
               }
-              _showProductListDialog(context, provider.productList!, scannedData);
+              _showProductListDialog(context, provider.productList!, scannedData, provider);
             }, onError: (error) {
               CshLoading().hideLoading(context);
               CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
@@ -44,6 +43,13 @@ class LobDeviceScannerWidget extends StatelessWidget {
   void _showDialogForImeiNumber(BuildContext context, String scannedData,
       {required Function(bool isManual, String enteredValue, bool isImei) onSearchClicked}) {
     String? imeiOrSerialNo;
+    // TODO: dummy data
+    List<DropDownItem> categoryList = [
+      DropDownItem("1", "Mobile"),
+      DropDownItem("2", "Laptop"),
+      DropDownItem("3", "Tablet")
+    ];
+    DropDownItem? selectedCategory = categoryList[0];
     String selectedRadioValue = "IMEI";
     showCshBottomSheet(
       context: context,
@@ -56,48 +62,46 @@ class LobDeviceScannerWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CshTextNew.subTitle1("Enter IMEI or Serial number"),
+                CshTextNew.subTitle1("Update Category If needed"),
                 const SizedBox(height: Dimens.space_16),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Category:", isPrimary: false)),
                     Flexible(
-                      flex: 1,
+                      flex: 4,
                       fit: FlexFit.tight,
-                      child: OptionWidget(
-                          keyValue: "IMEI",
-                          groupValue: selectedRadioValue,
-                          onValueChanged: (p0) {
-                            setState(() {
-                              selectedRadioValue = p0;
-                            });
-                          },
-                          optionData: "IMEI"),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: OptionWidget(
-                          keyValue: "SNO",
-                          groupValue: selectedRadioValue,
-                          onValueChanged: (p0) {
-                            setState(() {
-                              selectedRadioValue = p0;
-                            });
-                          },
-                          optionData: "Serial No."),
+                      child: CshDropDown(
+                        items: categoryList,
+                        selectedItem: selectedCategory,
+                        onChanged: (DropDownItem? value) {
+                          setState(() {
+                            selectedCategory = value;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: Dimens.space_16),
-                CshTextFormField(
-                  hintText: "Enter IMEI/serial number",
-                  autofocus: true,
-                  onChanged: (value) {
-                    setState(() {
-                      imeiOrSerialNo = value;
-                    });
-                  },
+                Row(
+                  children: [
+                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Barcode:", isPrimary: false)),
+                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(scannedData)),
+                  ],
+                ),
+                const SizedBox(height: Dimens.space_16),
+                Row(
+                  children: [
+                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("IMEI:", isPrimary: false)),
+                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(scannedData)),
+                  ],
+                ),
+                const SizedBox(height: Dimens.space_16),
+                Row(
+                  children: [
+                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Serial No:", isPrimary: false)),
+                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(scannedData)),
+                  ],
                 ),
                 const SizedBox(height: Dimens.space_16),
                 ComboButton(
@@ -106,18 +110,15 @@ class LobDeviceScannerWidget extends StatelessWidget {
                   secondBtnText: "Search",
                   isFirstPrimary: true,
                   buttonType: ButtonType.mini,
-                  firstBtnClick: !Validator.isNullOrEmpty(imeiOrSerialNo)
-                      ? () {
-                          _onSearchButtonClicked(
-                              innerContext, imeiOrSerialNo, selectedRadioValue, true, onSearchClicked);
-                        }
-                      : null,
-                  secondBtnClick: !Validator.isNullOrEmpty(imeiOrSerialNo)
-                      ? () {
-                          _onSearchButtonClicked(
-                              innerContext, imeiOrSerialNo, selectedRadioValue, false, onSearchClicked);
-                        }
-                      : null,
+                  firstBtnClick: () {
+                     // TODO: add functionality here
+                    onSearchClicked(false, "enteredValue", true);
+                    // _onSearchButtonClicked(innerContext, imeiOrSerialNo, selectedRadioValue, true, onSearchClicked);
+                  },
+                  secondBtnClick: () {
+                    // TODO: add functionality here
+                    _onSearchButtonClicked(innerContext, imeiOrSerialNo, selectedRadioValue, false, onSearchClicked);
+                  },
                 )
               ],
             ),
@@ -146,12 +147,16 @@ class LobDeviceScannerWidget extends StatelessWidget {
     onSearchClicked(isManualSearch, enteredValue!, isImei);
   }
 
-  void _showProductListDialog(BuildContext context, List<LobProductListData> productList, String deviceBarcode) {
+  void _showProductListDialog(BuildContext context, List<LobProductListData> productList, String deviceBarcode,
+      LobDeviceScannerProvider provider) {
     showCshBottomSheet(
       context: context,
       isDismissible: false,
       isScrollControlled: true,
-      child: _ProductListWidget(productList, deviceBarcode),
+      child: ChangeNotifierProvider.value(
+        value: provider,
+        child: _ProductListWidget(productList, deviceBarcode),
+      ),
     );
   }
 }
@@ -218,11 +223,13 @@ class _ProductListWidget extends StatelessWidget {
   }
 
   void _onItemClicked(BuildContext context, LobProductListData item) {
+    var provider = LobDeviceScannerProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    QcCalculatorService().getLobCalculator(deviceBarcode, item.productMasterId, item.productId).listen((event) {
+    provider.getLobCalculator(deviceBarcode, item.productMasterId, item.productId).then((calculatorResponse) {
       CshLoading().hideLoading(context);
-      event?.brandId ??= item.brandId;
-      CalculatorDataHolderModel().startCalculatorJourney(event, deviceBarcode, deviceType: DeviceType.lob_device);
+      calculatorResponse?.brandId ??= item.brandId;
+      CalculatorDataHolderModel()
+          .startCalculatorJourney(calculatorResponse, deviceBarcode, deviceType: DeviceType.lob_device);
       Navigator.pop(context); // Dismiss Dialog
       Navigator.pushReplacementNamed(context, CalculationScreen.route);
     }, onError: (error) {

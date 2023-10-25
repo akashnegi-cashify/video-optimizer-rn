@@ -28,11 +28,6 @@ class UserDetails {
     _userDetailsData = UserDetailsResponse.fromJson(decodedUserAuth);
   }
 
-  void setAppVersion(int? appV) {
-    print('UserDetails.setAppVerison $appV');
-    appVersion = appV;
-  }
-
   bool isEngineerRole() {
     if (Validator.isListNullOrEmpty(userDetailsData?.listOfRoles)) {
       return false;

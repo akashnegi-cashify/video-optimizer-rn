@@ -19,8 +19,12 @@ class GeneralHeaderComponent extends StatelessComponent<GeneralHeaderConfig> imp
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    return TrcHeader(configModel?.headerTitle ?? "",
-        showBackBtn: configModel?.showBackButton ?? false, showLogoutButton: configModel?.showLogoutButton ?? false);
+    return TrcHeader(
+      configModel?.headerTitle ?? "",
+      showBackBtn: configModel?.showBackButton ?? false,
+      showLogoutButton: configModel?.showLogoutButton ?? false,
+      showProfileButton: configModel?.showProfileButton ?? false,
+    );
   }
 
   @override

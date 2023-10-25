@@ -68,6 +68,14 @@ dynamic schema() => {
             "default": false,
             "label": "Show Logout Button",
             "key": "slb"
+          },
+          "spb": {
+            "uiType": "toggle",
+            "inputType": "boolean",
+            "isRequired": false,
+            "default": false,
+            "label": "Show Profile Button",
+            "key": "spb"
           }
         }
       }
