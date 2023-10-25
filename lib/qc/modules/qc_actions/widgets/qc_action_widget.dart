@@ -8,7 +8,6 @@ import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/resources/services.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
-import 'package:flutter_trc/qc/modules/stock_in_module/screens/search_item_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/store_in_screen.dart';
 import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
@@ -59,26 +58,26 @@ class QCActionWidget extends StatelessWidget {
                 Navigator.of(context).pushNamed(QcTesterHomeScreen.route);
               },
             ),
-            // QcRolePermissionWidget(
-            //   padding: const EdgeInsets.only(top: Dimens.space_16),
-            //   role: QcRole.roleStoreIn,
-            //   child: CshBigButton(
-            //     text: l10n.storeIn,
-            //     onPressed: () {
-            //       _storeInOptions(context, l10n);
-            //     },
-            //   ),
-            // ),
-            // QcRolePermissionWidget(
-            //   padding: const EdgeInsets.only(top: Dimens.space_16),
-            //   role: QcRole.roleStoreOut,
-            //   child: CshBigButton(
-            //     text: l10n.storeOut,
-            //     onPressed: () {
-            //       Navigator.of(context).pushNamed(StoreOutScreen.route);
-            //     },
-            //   ),
-            // ),
+            QcRolePermissionWidget(
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              role: QcRole.roleStoreIn,
+              child: CshBigButton(
+                text: l10n.storeIn,
+                onPressed: () {
+                  _storeInOptions(context, l10n);
+                },
+              ),
+            ),
+            QcRolePermissionWidget(
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              role: QcRole.roleStoreOut,
+              child: CshBigButton(
+                text: l10n.storeOut,
+                onPressed: () {
+                  Navigator.of(context).pushNamed(StoreOutScreen.route);
+                },
+              ),
+            ),
             const SizedBox(height: Dimens.space_16),
             CshBigButton(
               text: l10n.reQc,
@@ -113,63 +112,63 @@ class QCActionWidget extends StatelessWidget {
                 Navigator.of(context).pushNamed(ExternalAuditHomeScreen.route);
               },
             ),
-            // const SizedBox(height: Dimens.space_16),
-            // CshBigButton(
-            //   text: l10n.repairDevice,
-            //   onPressed: () {
-            //     CshMlScannerUtil().openScanner(context, onScanned: (scanValue, controller) {
-            //       if (isNotEmpty(scanValue)) {
-            //         _fetchReasonList(context).then((value) {
-            //           ReasonSelectionScreen.navigateTo(
-            //             context,
-            //             header: 'Repair Device',
-            //             status: RoleType.REPAIR_DEVICE.value,
-            //             reasonList: value,
-            //             code: scanValue,
-            //           );
-            //         });
-            //       }
-            //     });
-            //   },
-            // ),
-            // QcRolePermissionWidget(
-            //   role: QcRole.roleGuard,
-            //   padding: const EdgeInsets.only(top: Dimens.space_16),
-            //   child: CshBigButton(
-            //     text: l10n.guardRole,
-            //     onPressed: () {
-            //       Navigator.pushNamed(context, QcGuardHomeScreen.route);
-            //     },
-            //   ),
-            // ),
-            // QcRolePermissionWidget(
-            //   padding: const EdgeInsets.only(top: Dimens.space_16),
-            //   role: QcRole.roleStockTransfer,
-            //   child: CshBigButton(
-            //     text: l10n.stockTransfer,
-            //     onPressed: () {
-            //       Navigator.of(context).pushNamed(StockTransferListScreen.route);
-            //     },
-            //   ),
-            // ),
-            // QcRolePermissionWidget(
-            //   padding: const EdgeInsets.only(top: Dimens.space_16),
-            //   role: QcRole.roleDeadDevice,
-            //   child: CshBigButton(
-            //     text: l10n.deadDevice,
-            //     onPressed: () {
-            //       DeviceDeadRepairScreen.navigateTo(context);
-            //     },
-            //   ),
-            // ),
-            // const SizedBox(height: Dimens.space_16),
-            // CshBigButton(
-            //   text: l10n.receiveDevice,
-            //   onPressed: () {
-            //     Navigator.pushNamed(context, DeviceReceiveScreen.route);
-            //   },
-            // ),
-            // const SizedBox(height: Dimens.space_16),
+            const SizedBox(height: Dimens.space_16),
+            CshBigButton(
+              text: l10n.repairDevice,
+              onPressed: () {
+                CshMlScannerUtil().openScanner(context, onScanned: (scanValue, controller) {
+                  if (isNotEmpty(scanValue)) {
+                    _fetchReasonList(context).then((value) {
+                      ReasonSelectionScreen.navigateTo(
+                        context,
+                        header: 'Repair Device',
+                        status: RoleType.REPAIR_DEVICE.value,
+                        reasonList: value,
+                        code: scanValue,
+                      );
+                    });
+                  }
+                });
+              },
+            ),
+            QcRolePermissionWidget(
+              role: QcRole.roleGuard,
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              child: CshBigButton(
+                text: l10n.guardRole,
+                onPressed: () {
+                  Navigator.pushNamed(context, QcGuardHomeScreen.route);
+                },
+              ),
+            ),
+            QcRolePermissionWidget(
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              role: QcRole.roleStockTransfer,
+              child: CshBigButton(
+                text: l10n.stockTransfer,
+                onPressed: () {
+                  Navigator.of(context).pushNamed(StockTransferListScreen.route);
+                },
+              ),
+            ),
+            QcRolePermissionWidget(
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              role: QcRole.roleDeadDevice,
+              child: CshBigButton(
+                text: l10n.deadDevice,
+                onPressed: () {
+                  DeviceDeadRepairScreen.navigateTo(context);
+                },
+              ),
+            ),
+            const SizedBox(height: Dimens.space_16),
+            CshBigButton(
+              text: l10n.receiveDevice,
+              onPressed: () {
+                Navigator.pushNamed(context, DeviceReceiveScreen.route);
+              },
+            ),
+            const SizedBox(height: Dimens.space_16),
             // CshBigButton(
             //   text: l10n.stockIn,
             //   onPressed: () {
