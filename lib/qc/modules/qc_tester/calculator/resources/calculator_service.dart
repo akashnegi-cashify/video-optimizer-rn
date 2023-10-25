@@ -10,6 +10,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_subm
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
@@ -105,15 +106,15 @@ abstract class CalculatorService {
   }
 
   Stream<LobProductListResponse?> getProductList(
-      String? deviceBarcode, String? imeiOrSerialNo, bool isImei, bool isManualSearch) {
+      String? deviceBarcode, String? imei, String? serialNo, bool isManualSearch) {
     Map<String, dynamic> req = {
       "qr": deviceBarcode,
       "im": isManualSearch,
     };
-    if (isImei) {
-      req["imei"] = imeiOrSerialNo;
+    if (!Validator.isNullOrEmpty(imei)) {
+      req["imei"] = imei;
     } else {
-      req["sno"] = imeiOrSerialNo;
+      req["sno"] = serialNo;
     }
 
     return service.post("/manual-test/search-device", LobProductListResponse.fromJson, body: jsonEncode(req));
@@ -126,5 +127,9 @@ abstract class CalculatorService {
       "pid": productId.toString(),
     };
     return service.post("/manual-test/calculator/render", MyCalculatorResponse.fromJson, body: jsonEncode(req));
+  }
+
+  Stream<DeviceDetailResponse?> getDeviceDetail(String deviceBarcode) {
+    return service.get("/manual-test/scan-device/$deviceBarcode", DeviceDetailResponse.fromJson);
   }
 }

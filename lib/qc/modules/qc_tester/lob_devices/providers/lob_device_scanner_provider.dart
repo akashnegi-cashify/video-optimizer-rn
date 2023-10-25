@@ -4,6 +4,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:provider/provider.dart';
 
@@ -12,20 +13,14 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     return Provider.of<LobDeviceScannerProvider>(context, listen: listen);
   }
 
-  List<LobProductListData>? _productList;
-
-  List<LobProductListData>? get productList => _productList;
-
-  Future<bool> getProductsList(String deviceBarcode, String? imeiOrSearialNo, bool isImei, bool isManualSearch) {
-    var completer = Completer<bool>();
-    service.getProductList(deviceBarcode, imeiOrSearialNo, isImei, isManualSearch).listen((event) {
+  Future<List<LobProductListData>?> getProductsList(String deviceBarcode, String? imei, String? serialNo, bool isManualSearch) {
+    var completer = Completer<List<LobProductListData>?>();
+    service.getProductList(deviceBarcode, imei, serialNo, isManualSearch).listen((event) {
       if (!Validator.isListNullOrEmpty(event?.productList)) {
-        _productList = event?.productList;
-        completer.complete(true);
+        completer.complete(event?.productList);
       } else {
-        completer.complete(false);
+        completer.completeError("Product List is empty");
       }
-      notifyListeners();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
@@ -36,6 +31,16 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     var completer = Completer<MyCalculatorResponse?>();
     service.getLobCalculator(deviceBarcode, productMasterId, productId).listen((event) {
       completer.complete(event);
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
+  }
+
+  Future<DeviceDetailResponseData?> getDeviceDetail(String deviceBarcode) {
+    var completer = Completer<DeviceDetailResponseData?>();
+    service.getDeviceDetail(deviceBarcode).listen((event) {
+      completer.complete(event?.deviceDetails);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
