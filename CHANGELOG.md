@@ -1,5 +1,18 @@
 # TRC Releases
 
+# v2.2.0+18 (25-10-2023)
+
+### Feature:
+
+* `QC - Add Store In module in flutter`[(SCM-4746)](https://reglobe.atlassian.net/browse/SCM-4746)
+* `QC - Add Store Out module in flutter`[(SCM-4747)](https://reglobe.atlassian.net/browse/SCM-4746)
+* `QC - Add Guard Role module in flutter`[(SCM-4723)](https://reglobe.atlassian.net/browse/SCM-4723)
+* `QC - Add Stock Transfer module in flutter`[(SCM-4667)](https://reglobe.atlassian.net/browse/SCM-4667)
+* `QC - Add Repair and Dead Device modules in flutter`[(SCM-4749)](https://reglobe.atlassian.net/browse/SCM-4749)
+* `QC - Add Receive Device modules in flutter`[(SCM-4750)](https://reglobe.atlassian.net/browse/SCM-4750)
+* `TRC - Rider - Add scanner in search button`[(SCM-4784)](https://reglobe.atlassian.net/browse/SCM-4784)
+
+
 # v2.1.4+17 (18-10-2023)
 
 ### Feature:
@@ -10,7 +23,6 @@
 * `QC - Add Dispatch lot module`[(SCM-4606)](https://reglobe.atlassian.net/browse/SCM-4606)
 * `QC - Add Pre Dispatch module`[(SCM-4748)](https://reglobe.atlassian.net/browse/SCM-4748)
 * `QC - Add External Recording module`[(SCM-4495)](https://reglobe.atlassian.net/browse/SCM-4495)
-
 
 
 # v2.1.3+16 (04-10-2023)

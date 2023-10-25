@@ -10,6 +10,8 @@ class L10n extends BaseL10n {
 
   String get search => Intl.message("Search", locale: localName, name: "search");
 
+  String get searchBarcode => Intl.message("Search Barcode", locale: localName, name: "searchBarcode");
+
   String get showUrgentRequestsOnly =>
       Intl.message("Show Urgent Requests Only", locale: localName, name: "showUrgentRequestsOnly");
 
