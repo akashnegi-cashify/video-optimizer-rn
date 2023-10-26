@@ -106,6 +106,7 @@ class PartSelectionWidget extends StatelessWidget {
               onAcceptClicked: _isEnableAcceptButton(provider) ? () => _submitDataForPartsLogic(l10n, context) : null,
               onRejectClicked: () => _onRejectElss(context),
               onRetestClicked: () => _onRetestingElss(context),
+              isHideRejectButton: true,
             ),
           ),
         ),
@@ -168,12 +169,14 @@ class _BottomButtons extends StatelessWidget {
   final VoidCallback onRejectClicked;
   final VoidCallback onRetestClicked;
   final VoidCallback? onAcceptClicked;
+  final bool isHideRejectButton;
 
   const _BottomButtons({
     Key? key,
     required this.onRejectClicked,
     required this.onRetestClicked,
     required this.onAcceptClicked,
+    required this.isHideRejectButton,
   }) : super(key: key);
 
   @override
@@ -184,15 +187,17 @@ class _BottomButtons extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(
-              child: CshMediumOutlineButton(
-                text: l10n.reject,
-                borderColor: theme.errorColor,
-                onPressed: onRejectClicked,
-                textColor: theme.errorColor,
+            if (!Validator.isTrue(isHideRejectButton)) ...[
+              Expanded(
+                child: CshMediumOutlineButton(
+                  text: l10n.reject,
+                  borderColor: theme.colorScheme.error,
+                  onPressed: onRejectClicked,
+                  textColor: theme.colorScheme.error,
+                ),
               ),
-            ),
-            const SizedBox(width: Dimens.space_20),
+              const SizedBox(width: Dimens.space_20),
+            ],
             Expanded(
               child: CshMediumOutlineButton(
                 text: l10n.retest,
@@ -205,7 +210,7 @@ class _BottomButtons extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: CshMediumButton(
-            text: l10n.accept,
+            text: l10n.submit,
             onPressed: onAcceptClicked,
           ),
         )
