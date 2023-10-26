@@ -9,12 +9,14 @@ class AppRemoteConfig {
   static const KEY_IS_FORCE_SERVER_RULE_EXECUTOR = "key_is_force_server_rule_executor";
   static const KEY_IS_ENABLE_RULE_EXE_TEST_MODE = "key_is_enable_rule_exe_test_mode";
   static const KEY_VIDEO_RECORD_DURATION_IN_SEC = "key_video_record_duration_in_sec";
+  static const KEY_APP_SUPPORTED_VERSIONS = "key_app_supported_versions";
 
   static const Map<String, dynamic> DEFAULT_CONFIG = {
     KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_QC: false,
     KEY_IS_FORCE_SERVER_RULE_EXECUTOR: true,
     KEY_IS_ENABLE_RULE_EXE_TEST_MODE: true,
     KEY_VIDEO_RECORD_DURATION_IN_SEC: 600,
+    KEY_APP_SUPPORTED_VERSIONS: '{"dt":[{"version":"2.2.0","isMajor":true,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/36/Release/app-prod-release.apk"}]}',
   };
 }
 
