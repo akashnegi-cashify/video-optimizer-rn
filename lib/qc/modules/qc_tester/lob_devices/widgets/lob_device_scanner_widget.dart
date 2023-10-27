@@ -27,8 +27,15 @@ class LobDeviceScannerWidget extends StatelessWidget {
             onSearchClicked: (bool isManual, int selectedCategoryId) {
               // Navigator.pop(context);
               CshLoading().showLoading(context);
-              provider.getProductsList(scannedData, deviceDetails?.imei1, deviceDetails?.serialNo, isManual).then(
-                  (value) {
+              provider
+                  .getProductsList(
+                scannedData,
+                deviceDetails?.imei1,
+                deviceDetails?.serialNo,
+                isManual,
+                selectedCategoryId,
+              )
+                  .then((value) {
                 CshLoading().hideLoading(context);
                 _showProductListDialog(context, value!, scannedData, provider, selectedCategoryId);
               }, onError: (error) {
@@ -224,7 +231,8 @@ class _ProductListWidget extends StatelessWidget {
   void _onItemClicked(BuildContext context, LobProductListData item) {
     var provider = LobDeviceScannerProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.getLobCalculator(deviceBarcode, item.productMasterId, item.productId).then((calculatorResponse) {
+    provider.getLobCalculator(deviceBarcode, item.productMasterId, item.productId, selectedCategoryId).then(
+        (calculatorResponse) {
       CshLoading().hideLoading(context);
       calculatorResponse?.brandId ??= item.brandId;
       CalculatorDataHolderModel().startCalculatorJourney(

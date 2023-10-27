@@ -75,8 +75,9 @@ class InventoryHomeProvider extends CshChangeNotifier {
   Future<PendingDeviceListResponse> getListOfAssignmentPendingDevices(int pageNo, int pageSize) {
     var completer = Completer<PendingDeviceListResponse>();
     try {
-      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize, isUrgent: isUrgent, barcode: barcode).listen(
-          (event) {
+      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize,
+              isUrgent: isUrgent, barcode: barcode, locations: getLocationsString())
+          .listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(event);
           if (!Validator.isListNullOrEmpty(event.data?.dataList)) {

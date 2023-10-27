@@ -13,9 +13,10 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     return Provider.of<LobDeviceScannerProvider>(context, listen: listen);
   }
 
-  Future<List<LobProductListData>?> getProductsList(String deviceBarcode, String? imei, String? serialNo, bool isManualSearch) {
+  Future<List<LobProductListData>?> getProductsList(
+      String deviceBarcode, String? imei, String? serialNo, bool isManualSearch, int? categoryId) {
     var completer = Completer<List<LobProductListData>?>();
-    service.getProductList(deviceBarcode, imei, serialNo, isManualSearch).listen((event) {
+    service.getProductList(deviceBarcode, imei, serialNo, isManualSearch, categoryId).listen((event) {
       if (!Validator.isListNullOrEmpty(event?.productList)) {
         completer.complete(event?.productList);
       } else {
@@ -27,9 +28,10 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     return completer.future;
   }
 
-  Future<MyCalculatorResponse?> getLobCalculator(String deviceBarcode, int? productMasterId, int? productId) {
+  Future<MyCalculatorResponse?> getLobCalculator(
+      String deviceBarcode, int? productMasterId, int? productId, int? categoryId) {
     var completer = Completer<MyCalculatorResponse?>();
-    service.getLobCalculator(deviceBarcode, productMasterId, productId).listen((event) {
+    service.getLobCalculator(deviceBarcode, productMasterId, productId, categoryId).listen((event) {
       completer.complete(event);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

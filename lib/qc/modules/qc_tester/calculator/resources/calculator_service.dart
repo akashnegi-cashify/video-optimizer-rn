@@ -106,10 +106,11 @@ abstract class CalculatorService {
   }
 
   Stream<LobProductListResponse?> getProductList(
-      String? deviceBarcode, String? imei, String? serialNo, bool isManualSearch) {
+      String? deviceBarcode, String? imei, String? serialNo, bool isManualSearch, int? categoryId) {
     Map<String, dynamic> req = {
       "qr": deviceBarcode,
       "im": isManualSearch,
+      "cat_id": categoryId.toString(),
     };
     if (!Validator.isNullOrEmpty(imei)) {
       req["imei"] = imei;
@@ -120,11 +121,13 @@ abstract class CalculatorService {
     return service.post("/manual-test/search-device", LobProductListResponse.fromJson, body: jsonEncode(req));
   }
 
-  Stream<MyCalculatorResponse?> getLobCalculator(String? deviceBarcode, int? productMasterId, int? productId) {
+  Stream<MyCalculatorResponse?> getLobCalculator(
+      String? deviceBarcode, int? productMasterId, int? productId, int? categoryId) {
     Map<String, dynamic> req = {
       "qc": deviceBarcode,
       "pmid": productMasterId.toString(),
       "pid": productId.toString(),
+      "cat_id": categoryId.toString(),
     };
     return service.post("/manual-test/calculator/render", MyCalculatorResponse.fromJson, body: jsonEncode(req));
   }

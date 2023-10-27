@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/environments/environment_config.dart';
 import '../l10n.dart';
 import '../../../resources/user_details.dart';
 import '../screens/inventory_home_screen.dart';
@@ -82,8 +83,8 @@ class InventoryDrawerWidget extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  l10n.appVersion,
-                  style: theme.primaryTextTheme.headline5,
+                  "${l10n.appVersion} -  ${environment?.appVersion}",
+                  style: theme.primaryTextTheme.headlineSmall,
                 ),
               ),
             ),

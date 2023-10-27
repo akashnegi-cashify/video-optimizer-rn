@@ -8,7 +8,6 @@ import '../modules/login/models/user_details_response.dart';
 class UserDetails {
   UserDetailsResponse? _userDetailsData;
   String? authToken;
-  int? appVersion;
 
   UserDetails._();
 

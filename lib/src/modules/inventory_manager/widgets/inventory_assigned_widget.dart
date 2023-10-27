@@ -1,8 +1,8 @@
 import 'package:core_widgets/core_widgets.dart' as core;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
-import '../../../screens/barcode_scanner_screen.dart';
 import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
 import '../models/pending_device_list_response.dart';
@@ -15,11 +15,11 @@ class InventoryAssignedWidget extends StatefulWidget {
   const InventoryAssignedWidget({Key? key}) : super(key: key);
 
   @override
-  State<InventoryAssignedWidget> createState() => _InventoryAssignedWidgetState();
+  State<InventoryAssignedWidget> createState() => InventoryAssignedWidgetState();
 }
 
-class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetailData, InventoryAssignedWidget> {
-  _InventoryAssignedWidgetState() : super(initialScrollOffset: 10, pageSize: 10);
+class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetailData, InventoryAssignedWidget> {
+  InventoryAssignedWidgetState() : super(initialScrollOffset: 10, pageSize: 10);
   bool _showUrgentRequestOnly = false;
   final TextEditingController _searchBarController = TextEditingController();
 
@@ -53,10 +53,10 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
               padding: EdgeInsets.zero,
               iconSize: core.MobileIconSize.medium,
               onClick: () {
-                Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
+                CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
                   Navigator.of(context).pop();
-                  _searchBarController.text = data.trim();
-                  provider.barcode = data.trim();
+                  _searchBarController.text = scannedData.trim();
+                  provider.barcode = scannedData.trim();
                   provider.resetDataList();
                   resetAndRefreshScreen(pageNumber: 0);
                   provider.barcode = "";
@@ -79,13 +79,16 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
             },
           ),
         ),
-        core.CshMediumButton(
-          text: l10n.assignRider,
-          onPressed: provider.checkIfAssignedForRider()
-              ? () {
-                  _getListOfRider(theme, l10n);
-                }
-              : null,
+        Padding(
+          padding: const EdgeInsets.only(left: core.Dimens.space_16),
+          child: core.CshMediumButton(
+            text: l10n.assignRider,
+            onPressed: provider.checkIfAssignedForRider()
+                ? () {
+              _getListOfRider(theme, l10n);
+            }
+                : null,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: core.Dimens.space_8),
