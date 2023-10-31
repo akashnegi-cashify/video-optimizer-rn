@@ -1,5 +1,32 @@
 # TRC Releases
 
+# v2.2.1+19 (XX-11-2023)
+
+### Feature:
+
+* `QC - Manual Calculator Enhancements`[(SCM-4566)](https://reglobe.atlassian.net/browse/SCM-4566)
+* `TRC - QC Tester - Add Manual Calculator`[(SCM-4593)](https://reglobe.atlassian.net/browse/SCM-4593)
+* `QC - ELSS - Change Retest functionality to reset`[(SCM-4688)](https://reglobe.atlassian.net/browse/SCM-4688)
+* `QC - ELSS - Change UI changes`[(SCM-4736)](https://reglobe.atlassian.net/browse/SCM-4736)
+* `Add Profile Screen in QC and shipex`[(SCM-4782)](https://reglobe.atlassian.net/browse/SCM-4782)
+* `TRC - Rider - Add Scanner in Text Input`[(SCM-4784)](https://reglobe.atlassian.net/browse/SCM-4784)
+* `Add Major, Minor updates feature`[(SCM-4802)](https://reglobe.atlassian.net/browse/SCM-4802)
+* `TRC - Inventory Manager - Add Filters in assigned device list`[(SCM-4808)](https://reglobe.atlassian.net/browse/SCM-4808)
+
+
+# v2.2.0+18 (25-10-2023)
+
+### Feature:
+
+* `QC - Add Store In module in flutter`[(SCM-4746)](https://reglobe.atlassian.net/browse/SCM-4746)
+* `QC - Add Store Out module in flutter`[(SCM-4747)](https://reglobe.atlassian.net/browse/SCM-4746)
+* `QC - Add Guard Role module in flutter`[(SCM-4723)](https://reglobe.atlassian.net/browse/SCM-4723)
+* `QC - Add Stock Transfer module in flutter`[(SCM-4667)](https://reglobe.atlassian.net/browse/SCM-4667)
+* `QC - Add Repair and Dead Device modules in flutter`[(SCM-4749)](https://reglobe.atlassian.net/browse/SCM-4749)
+* `QC - Add Receive Device modules in flutter`[(SCM-4750)](https://reglobe.atlassian.net/browse/SCM-4750)
+* `TRC - Rider - Add scanner in search button`[(SCM-4784)](https://reglobe.atlassian.net/browse/SCM-4784)
+
+
 # v2.1.4+17 (18-10-2023)
 
 ### Feature:

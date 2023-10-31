@@ -19,7 +19,7 @@ class DeliveryReceiveWidget extends StatefulWidget {
 class _DeliveryReceiveWidgetState extends State<DeliveryReceiveWidget> with AutomaticKeepAliveClientMixin {
   bool isUrgentRequest = false;
   Timer? _timer;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
