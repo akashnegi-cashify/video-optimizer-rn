@@ -40,14 +40,14 @@ class RemoteConfigHelper {
     await _remoteConfig!.setDefaults(AppRemoteConfig.DEFAULT_CONFIG);
 
     if (withFetch) {
-      await _fetchAndActivate();
+      await fetchAndActivate();
     }
     Logger.log('Remote config initialized...');
 
     return _remoteConfig;
   }
 
-  Future _fetchAndActivate() async {
+  Future fetchAndActivate() async {
     Completer completer = Completer();
     ConnectivityUtil.checkConnectivity().then((isInternetConnected) async {
       if (isInternetConnected) {

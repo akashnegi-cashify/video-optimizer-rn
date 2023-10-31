@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+
 import '../l10n.dart';
 import '../models/parts_details_response.dart';
 import '../providers/pending_parts_details_provider.dart';
@@ -28,6 +29,11 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
     var provider = PendingPartDetailsProvider.of(context);
 
     if (widget.detailsData != null) {
+      String? suggestedBarcode;
+      if (widget.suggestedBarcode != null) {
+        suggestedBarcode = widget.suggestedBarcode!.replaceAll(",", "\n");
+      }
+
       return CshCard(
         radius: CshRadius.rad8,
         elevation: CardElevation.dimen_10,
@@ -74,11 +80,11 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
               ),
               const SizedBox(height: Dimens.space_8),
             ],
-            if (widget.suggestedBarcode != null) ...[
+            if (suggestedBarcode != null) ...[
               _labelValueWidget(
                 theme,
                 l10n.suggestedBarcode,
-                widget.suggestedBarcode!,
+                suggestedBarcode,
                 textColor: theme.errorColor,
               ),
               const SizedBox(height: Dimens.space_8),
@@ -104,6 +110,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
   _fetchQuantityWidget(ThemeData theme, String label, String buttonLabel, {int? value}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           label,
@@ -126,6 +133,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
 
   _labelValueWidget(ThemeData theme, String label, String value, {Color? textColor}) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Text(
@@ -141,7 +149,6 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
             style: textColor != null
                 ? theme.primaryTextTheme.headline5?.copyWith(color: textColor)
                 : theme.primaryTextTheme.headline5,
-            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
         ),

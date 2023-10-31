@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/common/version_updates/app_update_helper.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../libraries/shared_prefrences/app_prefrences.dart';
@@ -28,12 +27,7 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
       _lottieAnimationController?.addStatusListener((status) async {
         if (status == AnimationStatus.completed) {
           if (mounted) {
-            AppUpdateHelper.checkAppVersion(
-              context,
-              onProceed: () {
-                _checkAuth(context);
-              },
-            );
+            _checkAuth(context);
           }
         }
       });

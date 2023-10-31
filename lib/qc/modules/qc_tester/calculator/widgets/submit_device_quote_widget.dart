@@ -65,13 +65,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
             CshBigButton(
               text: "Done",
               onPressed: () {
-                AppPreferences().getIsLoginFromQC().then((value) {
-                  if (Validator.isTrue(value)) {
-                    Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
-                  } else {
-                    Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
-                  }
-                });
+                _moveToHomeScreen();
               },
             ),
           if (Validator.isTrue(provider.isShowTryAgainState))
@@ -94,13 +88,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
                     child: CshBigButton(
                       text: "Go back",
                       onPressed: () {
-                        AppPreferences().getIsLoginFromQC().then((value) {
-                          if (Validator.isTrue(value)) {
-                            Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
-                          } else {
-                            Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
-                          }
-                        });
+                        _moveToHomeScreen();
                       },
                     ),
                   ),
@@ -110,6 +98,16 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
         ],
       ),
     );
+  }
+
+  _moveToHomeScreen() {
+    AppPreferences().getIsLoginFromQC().then((value) {
+      if (Validator.isTrue(value)) {
+        Navigator.popUntil(context, ModalRoute.withName(QcTesterHomeScreen.route));
+      } else {
+        Navigator.popUntil(context, ModalRoute.withName(TrcTesterScreen.route));
+      }
+    });
   }
 
   @override
@@ -134,7 +132,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   @override
   void onSubmitCalculatorError(String? errorMessage) {
     qcAlertPopDialog(context, errorMessage ?? "", onButtonPressed: () {
-      Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
+      _moveToHomeScreen();
     }, buttonTitle: "Go Back");
   }
 

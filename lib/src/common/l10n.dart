@@ -26,6 +26,8 @@ class L10n extends BaseL10n {
 
   String get cancel => Intl.message("Cancel", locale: localName, name: "cancel");
 
+  String get skip => Intl.message("Skip", locale: localName, name: "Skip");
+
   String get submit => Intl.message("Submit", locale: localName, name: "submit");
 
   String get update => Intl.message("Update", locale: localName, name: "update");
@@ -35,6 +37,6 @@ class L10n extends BaseL10n {
   String get newVersionAvailable =>
       Intl.message("New Version Available", locale: localName, name: "newVersionAvailable");
 
-  String get majorVersionDescription =>
-      Intl.message("Please update app to new version to continue", locale: localName, name: "majorVersionDescription");
+  String majorVersionDescription(String version) => Intl.message("Please update app to new version $version to continue",
+      locale: localName, name: "majorVersionDescription", args: [version]);
 }

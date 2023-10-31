@@ -41,9 +41,9 @@ class AppUpdateHelper {
     L10n l10n = L10n(context, listen: false);
 
     String title = l10n.newVersionAvailable;
-    String message = l10n.majorVersionDescription;
+    String message = l10n.majorVersionDescription(appVersionData.versionName!);
     String btnLabel = l10n.update;
-    String btnLabelCancel = l10n.cancel;
+    String btnLabelSkip = l10n.skip;
     return _showPopup(
       context,
       barrierDismissible: false,
@@ -58,7 +58,7 @@ class AppUpdateHelper {
         ),
         if (!Validator.isTrue(appVersionData.isMajorUpdate))
           CshMediumButton(
-            text: btnLabelCancel,
+            text: btnLabelSkip,
             onPressed: () {
               Navigator.pop(context); // dismiss dialog
               onProceed();

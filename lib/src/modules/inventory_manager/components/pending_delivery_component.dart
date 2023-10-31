@@ -168,7 +168,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                 );
               },
               onRefresh: () async {},
-              // separator: const SizedBox(height: Dimens.space_8),
+              separator: const SizedBox(height: Dimens.space_16),
               onNoDataFound: () {
                 return Center(
                   child: Text(

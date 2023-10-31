@@ -58,10 +58,10 @@ class InventoryService {
   }
 
   static Stream<PendingDeviceListResponse?> getListOfAssignmentPendingDevices(int pageNo, int offsetLength,
-      {String? barcode, bool? isUrgent = false, String? locations}) {
+      {String? barcode, bool? isUrgent = false, String? locations, String? engineerName}) {
     Map<String, dynamic> dataMap = {
       "br": barcode ?? "",
-      "fp": {"is_urgent": isUrgent, "location_group": locations},
+      "fp": {"is_urgent": isUrgent, "location_group": locations, if (engineerName != null) "engName": engineerName},
       "ln": offsetLength,
       "pno": pageNo,
     };
