@@ -2027,7 +2027,8 @@
         "config": {
           "ht": "QC Home",
           "sbb": false,
-          "slb": true
+          "slb": true,
+          "spb": true
         }
       }
     },
@@ -2813,7 +2814,8 @@
         "config": {
           "ht": "Shipex Home",
           "sbb": false,
-          "slb": true
+          "slb": true,
+          "spb": true
         }
       }
     },
