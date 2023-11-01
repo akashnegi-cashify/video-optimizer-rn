@@ -1,6 +1,6 @@
 # TRC Releases
 
-# v2.2.1+19 (XX-11-2023)
+# v2.2.1+19 (02-11-2023)
 
 ### Feature:
 
@@ -12,6 +12,7 @@
 * `TRC - Rider - Add Scanner in Text Input`[(SCM-4784)](https://reglobe.atlassian.net/browse/SCM-4784)
 * `Add Major, Minor updates feature`[(SCM-4802)](https://reglobe.atlassian.net/browse/SCM-4802)
 * `TRC - Inventory Manager - Add Filters in assigned device list`[(SCM-4808)](https://reglobe.atlassian.net/browse/SCM-4808)
+* `Change App Logo and its name to Cashify-Ops`[(SCM-4840)](https://reglobe.atlassian.net/browse/SCM-4840)
 
 
 # v2.2.0+18 (25-10-2023)
