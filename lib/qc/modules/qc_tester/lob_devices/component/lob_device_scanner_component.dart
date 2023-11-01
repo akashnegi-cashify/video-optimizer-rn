@@ -22,6 +22,7 @@ class LobDeviceScannerComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, configModel) {
     return ChangeNotifierProvider(
       create: (_) => LobDeviceScannerProvider(),
+      lazy: false,
       child: const LobDeviceScannerWidget(),
     );
   }

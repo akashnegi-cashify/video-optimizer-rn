@@ -12,7 +12,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_r
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/submit_device_quote_widget.dart';
 import 'package:provider/provider.dart';
 
-class SubmitDeviceQuoteProvider extends CshChangeNotifier with CalculatorServiceInitMixin {
+class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   late final MyQuoteRequestData? quoteRequest;
   late final List<MediaSubmitRequest>? mediaList;
   late final String? deviceBarcode;
@@ -30,8 +30,7 @@ class SubmitDeviceQuoteProvider extends CshChangeNotifier with CalculatorService
     return Provider.of<SubmitDeviceQuoteProvider>(context, listen: listen);
   }
 
-  SubmitDeviceQuoteProvider() {
-    initCalculatorService();
+  SubmitDeviceQuoteProvider() : super() {
     quoteRequest = CalculatorDataHolderModel().quoteRequestData;
     mediaList = CalculatorDataHolderModel().mediaList;
     deviceBarcode = CalculatorDataHolderModel().deviceBarcode;

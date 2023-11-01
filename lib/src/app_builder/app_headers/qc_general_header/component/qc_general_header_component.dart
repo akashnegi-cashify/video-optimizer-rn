@@ -28,6 +28,7 @@ class QcGeneralHeaderComponent extends StatelessComponent<QCGeneralHeaderConfig>
           model.header ?? configModel?.headerTitle ?? "",
           showBackBtn: configModel?.showBackButton ?? true,
           showLogoutButton: configModel?.showLogoutButton ?? false,
+          showProfileButton: configModel?.showProfileButton ?? false,
         ));
   }
 

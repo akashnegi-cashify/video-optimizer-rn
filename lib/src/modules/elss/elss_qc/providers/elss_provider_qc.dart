@@ -72,7 +72,7 @@ class ELssProviderQc extends CshChangeNotifier {
         partColour: element.productColour,
         quantity: element.partQuantity,
         // mark default value is required for manually added parts
-        actionConstant: ElssPartsSelectionOptions.repairRequired.id,
+        actionConstant: ElssPartsSelectionOptions.optimizationRequired.id,
       );
       data.elssPartId = elssPartList.length;
 

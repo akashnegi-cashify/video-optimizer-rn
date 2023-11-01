@@ -1,6 +1,5 @@
 import 'package:core_widgets/core_widgets.dart' as core;
 import 'package:flutter/material.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
@@ -9,12 +8,7 @@ import '../providers/inventory_home_provider.dart';
 import 'engineer_list_item_widget.dart';
 
 class InventoryPendingDeliveryWidget extends StatefulWidget {
-  final Function() onLocationChange;
-
-  const InventoryPendingDeliveryWidget({
-    Key? key,
-    required this.onLocationChange,
-  }) : super(key: key);
+  const InventoryPendingDeliveryWidget({Key? key}) : super(key: key);
 
   @override
   State<InventoryPendingDeliveryWidget> createState() => InventoryPendingDeliveryWidgetState();
@@ -30,24 +24,6 @@ class InventoryPendingDeliveryWidgetState
     var l10n = L10n(context);
     return Column(
       children: [
-        GestureDetector(
-          onTap: widget.onLocationChange,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, core.Dimens.space_16, core.Dimens.space_16, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                core.CshIcon(
-                  FeatherIcons.edit,
-                  iconSize: core.MobileIconSize.medium,
-                  iconColor: theme.primaryColor,
-                  padding: const EdgeInsets.only(right: core.Dimens.space_8),
-                ),
-                Text(l10n.editLocations, style: theme.primaryTextTheme.headline4),
-              ],
-            ),
-          ),
-        ),
         Expanded(
           child: iterate(
             (item, index) {

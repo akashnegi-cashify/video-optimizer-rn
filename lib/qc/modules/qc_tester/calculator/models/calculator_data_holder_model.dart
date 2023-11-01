@@ -18,6 +18,7 @@ class CalculatorDataHolderModel {
 
   MyCalculatorResponse? _calculatorResponse;
   List<MediaSubmitRequest>? _mediaList;
+  int? _selectedCategoryId;
 
   DeviceType _deviceType = DeviceType.mobile_device;
 
@@ -25,11 +26,10 @@ class CalculatorDataHolderModel {
 
   bool _isCaptureDeviceMediaJourney = false;
 
-
   bool get isCaptureDeviceMediaJourney => _isCaptureDeviceMediaJourney;
 
   void startCalculatorJourney(MyCalculatorResponse? calculatorResponse, String? deviceBarcode,
-      {DeviceType deviceType = DeviceType.mobile_device}) {
+      {DeviceType deviceType = DeviceType.mobile_device, int? selectedCategoryId}) {
     resetAllData();
 
     // add Experiment for server side rule executor or not
@@ -42,6 +42,7 @@ class CalculatorDataHolderModel {
     }
 
     _calculatorResponse = calculatorResponse;
+    _selectedCategoryId = selectedCategoryId;
     _deviceBarcode = deviceBarcode;
     _deviceType = deviceType;
   }
@@ -68,6 +69,9 @@ class CalculatorDataHolderModel {
 
   set quoteRequestData(MyQuoteRequestData? value) {
     _quoteRequestData = value;
+    if (_selectedCategoryId != null) {
+      _quoteRequestData?.categoryId = _selectedCategoryId;
+    }
   }
 
   setSelectedColor(String color) {
@@ -79,6 +83,7 @@ class CalculatorDataHolderModel {
     _quoteRequestData = null;
     _calculatorResponse = null;
     _mediaList = null;
+    _selectedCategoryId = null;
     _isCaptureDeviceMediaJourney = false;
     _deviceType = DeviceType.mobile_device;
   }

@@ -25,11 +25,19 @@ class ShipexGeneralHeaderConfig {
       label: "Show Logout Button",
       defaultValue: false)
   bool? showLogoutButton;
+  @ConfigKey(
+      name: "spb",
+      inputType: ConfigInputType.boolean,
+      uiType: ConfigUIType.toggle,
+      label: "Show Profile Button",
+      defaultValue: false)
+  bool? showProfileButton;
 
   ShipexGeneralHeaderConfig({
     this.headerTitle,
     this.showBackButton,
     this.showLogoutButton,
+    this.showProfileButton,
   });
 
   static ShipexGeneralHeaderConfig fromConfig(Map<String, dynamic> data) => _$ShipexGeneralHeaderConfigFromConfig(data);

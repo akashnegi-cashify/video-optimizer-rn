@@ -111,8 +111,6 @@ class L10n extends BaseL10n {
 
   String get notRequired => Intl.message("Not Required", locale: localName, name: "notRequired");
 
-  String get accept => Intl.message("Accept", locale: localName, name: "accept");
-
   String get discard => Intl.message("Discard", locale: localName, name: "discard");
 
   String get pna => Intl.message("PNA", locale: localName, name: "pna");

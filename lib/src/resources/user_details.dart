@@ -8,7 +8,6 @@ import '../modules/login/models/user_details_response.dart';
 class UserDetails {
   UserDetailsResponse? _userDetailsData;
   String? authToken;
-  int? appVersion;
 
   UserDetails._();
 
@@ -26,11 +25,6 @@ class UserDetails {
     Logger.debug('mydebug------UserDetails.setUserDetailsData-------------', [decodedUserAuth]);
     authToken = userAuthToken;
     _userDetailsData = UserDetailsResponse.fromJson(decodedUserAuth);
-  }
-
-  void setAppVersion(int? appV) {
-    print('UserDetails.setAppVerison $appV');
-    appVersion = appV;
   }
 
   bool isEngineerRole() {

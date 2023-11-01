@@ -168,7 +168,7 @@ class QCActionWidget extends StatelessWidget {
                 Navigator.pushNamed(context, DeviceReceiveScreen.route);
               },
             ),
-            const SizedBox(height: Dimens.space_16),
+            // const SizedBox(height: Dimens.space_16),
             // CshBigButton(
             //   text: l10n.stockIn,
             //   onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 
@@ -57,11 +58,11 @@ class ElssHomeWidget extends StatelessWidget {
                 cardLabel: l10n.qualityCheck,
                 cardIconPath: "assets/images/ic_trc.png",
                 onTap: () {
-                  Navigator.of(context).pushNamed(
-                    BarcodeScanWidget.route,
-                    arguments: (String data) {
-                      if (!Validator.isNullOrEmpty(data)) {
-                        PartSelectionScreenArguments args = PartSelectionScreenArguments(scannedBarcode: data.trim());
+                  CshMlScannerUtil().openScanner(
+                    context,
+                    onScanned: (scannedData, controller) {
+                      if (!Validator.isNullOrEmpty(scannedData)) {
+                        PartSelectionScreenArguments args = PartSelectionScreenArguments(scannedBarcode: scannedData.trim());
                         Navigator.of(context).pushReplacementNamed(
                           PartSelectionScreenQc.route,
                           arguments: args,

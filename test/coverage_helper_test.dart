@@ -16,8 +16,6 @@ import 'package:flutter_trc/src/common/cashify_alert/cashify_alert_handler.dart'
 import 'package:flutter_trc/src/common/l10n.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/common/model/device_part.dart';
-import 'package:flutter_trc/src/common/resources/app_update/app_version.response.dart';
-import 'package:flutter_trc/src/common/resources/app_update/app_version.service.dart';
 import 'package:flutter_trc/src/common/searchable.dart';
 import 'package:flutter_trc/src/common/session/session.controller.dart';
 import 'package:flutter_trc/src/common/session/session_expired_callback.dart';

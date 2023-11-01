@@ -13,8 +13,7 @@ part 'pre_dispatch_lots_component.g.dart';
 @CshComponent(
   key: PreDispatchLotsComponent.COMP_KEY,
   configModel: NoneConfigModel,
-  componentGroup: QcComponentGroup.qcPreDispatchLotsComponentKey
-  // todo add component key
+  componentGroup: QcComponentGroup.qcPreDispatchLotsComponentKey,
 )
 class PreDispatchLotsComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "QC_qc_pre_dispatch_lots_component";
@@ -24,13 +23,9 @@ class PreDispatchLotsComponent extends StatelessComponent<NoneConfigModel> {
   @override
   Widget buildView(BuildContext context, configModel) {
     return ChangeNotifierProvider(
-
-        create: (BuildContext context)  => PreDispatchLotProvider(),
-        child: Builder(
-          builder: (builderContext) {
-            return const PreDispatchLotContainer();
-          }
-        ));
+      create: (BuildContext context) => PreDispatchLotProvider(),
+      child: const PreDispatchLotContainer(),
+    );
   }
 
   @override

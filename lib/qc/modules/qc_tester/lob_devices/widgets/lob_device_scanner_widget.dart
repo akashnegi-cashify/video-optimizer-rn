@@ -1,51 +1,79 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/audit/widgets/option_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
+import 'package:provider/provider.dart';
 
 class LobDeviceScannerWidget extends StatelessWidget {
   const LobDeviceScannerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var provider = LobDeviceScannerProvider.of(context);
+    var provider = LobDeviceScannerProvider.of(context, listen: false);
     return TRCScannerWidget(
       onScanDetected: (scannedData, controller) {
-        _showDialogForImeiNumber(
-          context,
-          scannedData,
-          onSearchClicked: (isManual, enteredValue, isImei) {
-            controller?.stop();
-            Navigator.pop(context);
-            CshLoading().showLoading(context);
-            provider.getProductsList(scannedData, enteredValue, isImei, isManual).then((value) {
-              CshLoading().hideLoading(context);
-              if (!Validator.isTrue(value)) {
-                CshSnackBar.error(context: context, message: "Product List is empty");
-                return;
-              }
-              _showProductListDialog(context, provider.productList!, scannedData);
-            }, onError: (error) {
-              CshLoading().hideLoading(context);
-              CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
-              controller?.start();
-            });
-          },
-        );
+        controller?.stop();
+        CshLoading().showLoading(context);
+        provider.getDeviceDetail(scannedData).then((deviceDetails) {
+          CshLoading().hideLoading(context);
+          _showDialogForImeiNumber(
+            context,
+            scannedData,
+            deviceDetails,
+            onSearchClicked: (bool isManual, int selectedCategoryId) {
+              // Navigator.pop(context);
+              CshLoading().showLoading(context);
+              provider
+                  .getProductsList(
+                scannedData,
+                deviceDetails?.imei1,
+                deviceDetails?.serialNo,
+                isManual,
+                selectedCategoryId,
+              )
+                  .then((value) {
+                CshLoading().hideLoading(context);
+                _showProductListDialog(context, value!, scannedData, provider, selectedCategoryId);
+              }, onError: (error) {
+                CshLoading().hideLoading(context);
+                CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+              });
+            },
+          ).whenComplete(() {
+            controller?.start();
+          });
+        }, onError: (error) {
+          controller?.start();
+          CshLoading().hideLoading(context);
+          CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+        });
       },
     );
   }
 
-  void _showDialogForImeiNumber(BuildContext context, String scannedData,
-      {required Function(bool isManual, String enteredValue, bool isImei) onSearchClicked}) {
-    String? imeiOrSerialNo;
-    String selectedRadioValue = "IMEI";
-    showCshBottomSheet(
+  Future<void> _showDialogForImeiNumber(
+    BuildContext context,
+    String scannedData,
+    DeviceDetailResponseData? deviceDetails, {
+    required Function(bool isManual, int selectedCategoryId) onSearchClicked,
+  }) {
+    List<DropDownItem> categoryList = [];
+    DropDownItem? selectedCategory;
+    deviceDetails?.categories?.forEach((key, value) {
+      var dropDownItem = DropDownItem("$key", value);
+      categoryList.add(dropDownItem);
+
+      /// check if selectedCategoryId exist in category list or not
+      if (deviceDetails.selectedCategoryId == key && selectedCategory == null) {
+        selectedCategory = dropDownItem;
+      }
+    });
+
+    return showCshBottomSheet(
       context: context,
       isScrollControlled: true,
       child: StatefulBuilder(builder: (innerContext, setState) {
@@ -56,48 +84,47 @@ class LobDeviceScannerWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CshTextNew.subTitle1("Enter IMEI or Serial number"),
+                CshTextNew.subTitle1("Update Category If needed"),
                 const SizedBox(height: Dimens.space_16),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Category:", isPrimary: false)),
                     Flexible(
-                      flex: 1,
+                      flex: 4,
                       fit: FlexFit.tight,
-                      child: OptionWidget(
-                          keyValue: "IMEI",
-                          groupValue: selectedRadioValue,
-                          onValueChanged: (p0) {
-                            setState(() {
-                              selectedRadioValue = p0;
-                            });
-                          },
-                          optionData: "IMEI"),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: OptionWidget(
-                          keyValue: "SNO",
-                          groupValue: selectedRadioValue,
-                          onValueChanged: (p0) {
-                            setState(() {
-                              selectedRadioValue = p0;
-                            });
-                          },
-                          optionData: "Serial No."),
+                      child: CshDropDown(
+                        items: categoryList,
+                        hintText: "Select Category",
+                        selectedItem: selectedCategory,
+                        onChanged: (DropDownItem? value) {
+                          setState(() {
+                            selectedCategory = value;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: Dimens.space_16),
-                CshTextFormField(
-                  hintText: "Enter IMEI/serial number",
-                  autofocus: true,
-                  onChanged: (value) {
-                    setState(() {
-                      imeiOrSerialNo = value;
-                    });
-                  },
+                Row(
+                  children: [
+                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Barcode:", isPrimary: false)),
+                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(scannedData)),
+                  ],
+                ),
+                const SizedBox(height: Dimens.space_16),
+                Row(
+                  children: [
+                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("IMEI:", isPrimary: false)),
+                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(deviceDetails?.imei1 ?? "NA")),
+                  ],
+                ),
+                const SizedBox(height: Dimens.space_16),
+                Row(
+                  children: [
+                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Serial No:", isPrimary: false)),
+                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(deviceDetails?.serialNo ?? "NA")),
+                  ],
                 ),
                 const SizedBox(height: Dimens.space_16),
                 ComboButton(
@@ -106,16 +133,14 @@ class LobDeviceScannerWidget extends StatelessWidget {
                   secondBtnText: "Search",
                   isFirstPrimary: true,
                   buttonType: ButtonType.mini,
-                  firstBtnClick: !Validator.isNullOrEmpty(imeiOrSerialNo)
+                  firstBtnClick: selectedCategory != null
                       ? () {
-                          _onSearchButtonClicked(
-                              innerContext, imeiOrSerialNo, selectedRadioValue, true, onSearchClicked);
+                          onSearchClicked(true, int.parse(selectedCategory!.id!));
                         }
                       : null,
-                  secondBtnClick: !Validator.isNullOrEmpty(imeiOrSerialNo)
+                  secondBtnClick: selectedCategory != null
                       ? () {
-                          _onSearchButtonClicked(
-                              innerContext, imeiOrSerialNo, selectedRadioValue, false, onSearchClicked);
+                          onSearchClicked(false, int.parse(selectedCategory!.id!));
                         }
                       : null,
                 )
@@ -127,41 +152,27 @@ class LobDeviceScannerWidget extends StatelessWidget {
     );
   }
 
-  void _onSearchButtonClicked(BuildContext innerContext, String? enteredValue, String selectedRadioValue,
-      bool isManualSearch, Function(bool isManual, String enteredValue, bool isImei) onSearchClicked) {
-    FocusManager.instance.primaryFocus?.unfocus();
-    // if (Validator.isNullOrEmpty(enteredValue)) {
-    //   CshSnackBar.error(context: innerContext, message: "Please enter value", snackBarPosition: SnackBarPosition.TOP);
-    //   return;
-    // }
-    bool isImei = false;
-    if (selectedRadioValue == "IMEI") {
-      isImei = true;
-      // if (!Validator.isValidIMEI(enteredValue)) {
-      //   CshSnackBar.error(
-      //       context: innerContext, message: "Invalid IMEI number", snackBarPosition: SnackBarPosition.TOP);
-      //   return;
-      // }
-    }
-    onSearchClicked(isManualSearch, enteredValue!, isImei);
-  }
-
-  void _showProductListDialog(BuildContext context, List<LobProductListData> productList, String deviceBarcode) {
+  void _showProductListDialog(BuildContext context, List<LobProductListData> productList, String deviceBarcode,
+      LobDeviceScannerProvider provider, int selectedCategoryId) {
     showCshBottomSheet(
       context: context,
       isDismissible: false,
       isScrollControlled: true,
-      child: _ProductListWidget(productList, deviceBarcode),
+      child: ChangeNotifierProvider.value(
+        value: provider,
+        child: _ProductListWidget(productList, deviceBarcode, selectedCategoryId),
+      ),
     );
   }
 }
 
 class _ProductListWidget extends StatelessWidget {
-  late ValueNotifier<List<LobProductListData>> _queryList;
-  List<LobProductListData> productList;
-  String deviceBarcode;
+  late final ValueNotifier<List<LobProductListData>> _queryList;
+  final List<LobProductListData> productList;
+  final String deviceBarcode;
+  final int selectedCategoryId;
 
-  _ProductListWidget(this.productList, this.deviceBarcode, {super.key}) {
+  _ProductListWidget(this.productList, this.deviceBarcode, this.selectedCategoryId, {super.key}) {
     _queryList = ValueNotifier<List<LobProductListData>>(productList);
   }
 
@@ -218,12 +229,19 @@ class _ProductListWidget extends StatelessWidget {
   }
 
   void _onItemClicked(BuildContext context, LobProductListData item) {
+    var provider = LobDeviceScannerProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    QcCalculatorService().getLobCalculator(deviceBarcode, item.productMasterId, item.productId).listen((event) {
+    provider.getLobCalculator(deviceBarcode, item.productMasterId, item.productId, selectedCategoryId).then(
+        (calculatorResponse) {
       CshLoading().hideLoading(context);
-      event?.brandId ??= item.brandId;
-      CalculatorDataHolderModel().startCalculatorJourney(event, deviceBarcode, deviceType: DeviceType.lob_device);
-      Navigator.pop(context); // Dismiss Dialog
+      calculatorResponse?.brandId ??= item.brandId;
+      CalculatorDataHolderModel().startCalculatorJourney(
+        calculatorResponse,
+        deviceBarcode,
+        deviceType: DeviceType.lob_device,
+        selectedCategoryId: selectedCategoryId,
+      );
+      Navigator.popUntil(context, (route) => route is PageRoute); // Dismiss all dialog
       Navigator.pushReplacementNamed(context, CalculationScreen.route);
     }, onError: (error) {
       CshLoading().hideLoading(context);

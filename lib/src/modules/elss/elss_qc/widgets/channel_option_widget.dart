@@ -1,7 +1,9 @@
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/channel_suggestion_widget.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
 
@@ -137,8 +139,8 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                 const SizedBox(width: Dimens.space_20),
                 Expanded(
                   child: CshMediumButton(
-                    text: l10n.retest,
-                    onPressed: () => _onRetestElss(),
+                    text: l10n.reset,
+                    onPressed: () => _onReset(),
                   ),
                 )
               ],
@@ -192,6 +194,29 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     showRejectRetestBottomSheetModal(context, ReasonType.reject, widget.scannedBarcode);
   }
 
+  _onReset() {
+    showPopup(context,
+        title: "Warning!!",
+        desc: "All Progress will be lost. Are you sure you want to reset?",
+        actions: [
+          ComboButton(
+              firstBtnText: "No",
+              secondBtnText: "Yes",
+              isFirstPrimary: false,
+              firstBtnClick: () => Navigator.pop(context),
+              secondBtnClick: () {
+                Navigator.pop(context); // Dismiss the dialog
+                String? deviceBarcode = widget.detailsDataModel?.deviceDetailsData?.deviceBarcode;
+                PartSelectionScreenArguments args = PartSelectionScreenArguments(scannedBarcode: deviceBarcode ?? "");
+                Navigator.of(context).pushReplacementNamed(
+                  PartSelectionScreenQc.route,
+                  arguments: args,
+                );
+              })
+        ]);
+  }
+
+  // For now Retest Button is replaced with Reset
   _onRetestElss() {
     showRejectRetestBottomSheetModal(context, ReasonType.retest, widget.scannedBarcode);
   }

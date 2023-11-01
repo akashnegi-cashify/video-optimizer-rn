@@ -1,8 +1,8 @@
-import 'package:core_widgets/core_widgets.dart' as core;
+import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
-import '../../../screens/barcode_scanner_screen.dart';
 import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
 import '../models/pending_device_list_response.dart';
@@ -11,21 +11,34 @@ import '../providers/inventory_home_provider.dart';
 import '../screens/assigned_device_details_screen.dart';
 import 'assigned_tab_item_widget.dart';
 
+enum SearchType { barcode, engineer }
+
 class InventoryAssignedWidget extends StatefulWidget {
   const InventoryAssignedWidget({Key? key}) : super(key: key);
 
   @override
-  State<InventoryAssignedWidget> createState() => _InventoryAssignedWidgetState();
+  State<InventoryAssignedWidget> createState() => InventoryAssignedWidgetState();
 }
 
-class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetailData, InventoryAssignedWidget> {
-  _InventoryAssignedWidgetState() : super(initialScrollOffset: 10, pageSize: 10);
+class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetailData, InventoryAssignedWidget> {
+  InventoryAssignedWidgetState() : super(initialScrollOffset: 10, pageSize: 10);
   bool _showUrgentRequestOnly = false;
+  final List<DropDownItem> _searchFilterList = [
+    DropDownItem<SearchType>("1", "Barcode", extraData: SearchType.barcode),
+    DropDownItem<SearchType>("2", "Engineer", extraData: SearchType.engineer),
+  ];
+  late DropDownItem _selectedSearchFilter;
   final TextEditingController _searchBarController = TextEditingController();
 
-  final core.TextInputDebounce _deBouncer = core.TextInputDebounce();
+  final TextInputDebounce _searchDeviceDeBouncer = TextInputDebounce();
   final TextEditingController _searchRiderController = TextEditingController();
-  final core.TextInputDebounce _searchTimer = core.TextInputDebounce();
+  final TextInputDebounce _searchRiderDeBouncer = TextInputDebounce();
+
+  @override
+  void initState() {
+    _selectedSearchFilter = _searchFilterList[0];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,61 +47,88 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
     var provider = InventoryHomeProvider.of(context);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(core.Dimens.space_8, core.Dimens.space_8, core.Dimens.space_8, 0),
-          child: core.CshTextFormField(
-            controller: _searchBarController,
-            isBorderAllowed: true,
-            hintText: l10n.searchItem,
-            keyboardType: TextInputType.name,
-            maxLength: 50,
-            prefixIcon: core.CshIcon(
-              FeatherIcons.search,
-              padding: EdgeInsets.zero,
-              iconColor: theme.primaryColor,
-              iconSize: core.MobileIconSize.medium,
-            ),
-            suffixIcon: core.CshIcon.assets(
-              "assets/images/ic_qr_scanner.png",
-              padding: EdgeInsets.zero,
-              iconSize: core.MobileIconSize.medium,
-              onClick: () {
-                Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
-                  Navigator.of(context).pop();
-                  _searchBarController.text = data.trim();
-                  provider.barcode = data.trim();
-                  provider.resetDataList();
-                  resetAndRefreshScreen(pageNumber: 0);
-                  provider.barcode = "";
-                });
-              },
-            ),
-            onChanged: (data) {
-              _deBouncer.start(() {
-                if (data.isNotEmpty) {
-                  provider.barcode = data.trim();
-                  provider.resetDataList();
-                  resetAndRefreshScreen(pageNumber: 0);
-                  provider.barcode = "";
-                } else {
-                  provider.barcode = "";
-                  provider.resetDataList();
-                  resetAndRefreshScreen(pageNumber: 0);
-                }
-              });
-            },
+        Container(
+          margin: const EdgeInsets.fromLTRB(Dimens.space_8, Dimens.space_8, Dimens.space_8, 0),
+          alignment: Alignment.center,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Flexible(
+                flex: 2,
+                fit: FlexFit.tight,
+                child: Container(
+                  color: theme.cardColor,
+                  child: CshDropDown(
+                      selectedItem: _selectedSearchFilter,
+                      items: _searchFilterList,
+                      onChanged: (DropDownItem? item) {
+                        setState(() {
+                          provider.barcode = null;
+                          provider.engineerName = null;
+                          _searchBarController.text = "";
+                          _selectedSearchFilter = item!;
+                          provider.resetDataList();
+                          resetAndRefreshScreen();
+                        });
+                      }),
+                ),
+              ),
+              Flexible(
+                flex: 4,
+                fit: FlexFit.tight,
+                child: CshTextFormField(
+                  controller: _searchBarController,
+                  isBorderAllowed: true,
+                  hintText: l10n.searchItem,
+                  keyboardType: TextInputType.name,
+                  maxLength: 50,
+                  suffixIcon: _isSelectedFilterBarcode()
+                      ? CshIcon.assets(
+                          "assets/images/ic_qr_scanner.png",
+                          padding: EdgeInsets.zero,
+                          iconSize: MobileIconSize.medium,
+                          onClick: () {
+                            CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+                              Navigator.of(context).pop();
+                              _searchBarController.text = scannedData.trim();
+                              provider.barcode = scannedData.trim();
+                              provider.resetDataList();
+                              resetAndRefreshScreen(pageNumber: 0);
+                              provider.barcode = "";
+                            });
+                          },
+                        )
+                      : null,
+                  onChanged: (data) {
+                    _searchDeviceDeBouncer.start(() {
+                      if (_isSelectedFilterBarcode()) {
+                        provider.barcode = data.trim();
+                      } else {
+                        provider.engineerName = data.trim();
+                      }
+                      provider.resetDataList();
+                      resetAndRefreshScreen(pageNumber: 0);
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
         ),
-        core.CshMediumButton(
-          text: l10n.assignRider,
-          onPressed: provider.checkIfAssignedForRider()
-              ? () {
-                  _getListOfRider(theme, l10n);
-                }
-              : null,
+        Padding(
+          padding: const EdgeInsets.only(left: Dimens.space_16),
+          child: CshMediumButton(
+            text: l10n.assignRider,
+            onPressed: provider.checkIfAssignedForRider()
+                ? () {
+                    _getRiderList(theme, l10n);
+                  }
+                : null,
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: core.Dimens.space_8),
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
           child: GestureDetector(
             onTap: () {
               _showUrgentRequestOnly = !_showUrgentRequestOnly;
@@ -99,7 +139,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
             },
             child: Row(
               children: [
-                core.CshCheckbox(
+                CshCheckbox(
                   isSelected: _showUrgentRequestOnly,
                 ),
                 Text(
@@ -120,7 +160,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                     AssignedDeviceDetailsScreenArguments args = AssignedDeviceDetailsScreenArguments(did: item.did!);
                     Navigator.of(context).pushNamed(AssignedDeviceDetailsScreen.route, arguments: args);
                   } else {
-                    core.CshSnackBar.error(context: context, message: l10n.noDidPresent);
+                    CshSnackBar.error(context: context, message: l10n.noDidPresent);
                   }
                 },
                 onCheckBoxChange: (bool data) {
@@ -129,7 +169,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                 },
               );
             },
-            separator: const SizedBox(height: core.Dimens.space_8),
+            separator: const SizedBox(height: Dimens.space_8),
             onRefresh: () async {},
             onNoDataFound: () {
               return Center(
@@ -156,68 +196,58 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                 ),
               );
             },
-            padding: const EdgeInsets.symmetric(horizontal: core.Dimens.space_16, vertical: core.Dimens.space_12),
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
           ),
         ),
       ],
     );
   }
 
-  _getListOfRider(ThemeData theme, L10n l10n) {
+  _getRiderList(ThemeData theme, L10n l10n) {
     var provider = InventoryHomeProvider.of(context, listen: false);
-    core.CshLoading().showLoading(context);
-    provider.getListOfRiders().then(
-      (value) {
-        core.CshLoading().hideLoading(context);
-        if (value) {
-          if (!core.Validator.isListNullOrEmpty(provider.riderListResponse?.riderDataList)) {
-            _listOfRider(theme, l10n);
-          } else {
-            core.CshSnackBar.error(context: context, message: l10n.noRiderPresent);
-          }
+    CshLoading().showLoading(context);
+    provider.getListOfRiders().then((value) {
+      CshLoading().hideLoading(context);
+      if (value) {
+        if (!Validator.isListNullOrEmpty(provider.riderListResponse?.riderDataList)) {
+          _showRiderList(theme, l10n);
+        } else {
+          CshSnackBar.error(context: context, message: l10n.noRiderPresent);
         }
-      },
-      onError: (error) {
-        core.CshLoading().hideLoading(context);
-        core.CshSnackBar.error(context: context, message: error);
-      },
-    ).then((value) {
+      }
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error);
+    }).then((value) {
       provider.selectedRider = null;
     });
   }
 
-  _listOfRider(ThemeData theme, L10n l10n) {
+  _showRiderList(ThemeData theme, L10n l10n) {
     var provider = InventoryHomeProvider.of(context, listen: false);
     List<RiderListDataResponse> dataList = provider.getSearchResults(pattern: "");
 
-    core
-        .showCshBottomSheet(
+    showCshBottomSheet(
       isScrollControlled: true,
       context: context,
       child: StatefulBuilder(
         builder: (BuildContext context, setState) {
           return Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-              top: core.Dimens.space_12,
-            ),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, top: Dimens.space_12),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.50,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: core.Dimens.space_16),
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          l10n.listOfRiders,
-                          style: theme.primaryTextTheme.headline3,
-                        ),
-                        core.CshIcon(
+                        Text(l10n.listOfRiders, style: theme.primaryTextTheme.displaySmall),
+                        CshIcon(
                           FeatherIcons.x,
-                          iconSize: core.MobileIconSize.large,
+                          iconSize: MobileIconSize.large,
                           padding: EdgeInsets.zero,
                           onClick: () {
                             Navigator.of(context).pop();
@@ -226,20 +256,18 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: core.Dimens.space_8,
-                  ),
+                  const SizedBox(height: Dimens.space_8),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: core.Dimens.space_16),
-                    child: core.CshTextFormField(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+                    child: CshTextFormField(
                       controller: _searchRiderController,
                       hintText: l10n.searchRiderByName,
                       maxLines: 1,
                       maxLength: 50,
                       keyboardType: TextInputType.name,
                       onChanged: (data) {
-                        _searchTimer.start(() {
-                          if (!core.Validator.isNullOrEmpty(data)) {
+                        _searchRiderDeBouncer.start(() {
+                          if (!Validator.isNullOrEmpty(data)) {
                             dataList = provider.getSearchResults(pattern: data.trim());
                           } else {
                             dataList = provider.getSearchResults(pattern: "");
@@ -249,13 +277,10 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: core.Dimens.space_8,
-                  ),
+                  const SizedBox(height: Dimens.space_8),
                   Expanded(
                     child: ListView.separated(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: core.Dimens.space_8, horizontal: core.Dimens.space_16),
+                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -264,7 +289,7 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                           },
                           child: Row(
                             children: [
-                              core.CshCheckbox(
+                              CshCheckbox(
                                 isSelected: dataList[index].riderId == provider.selectedRider?.riderId,
                                 visualDensity: VisualDensity.compact,
                               ),
@@ -279,53 +304,52 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
                         );
                       },
                       separatorBuilder: (context, index) {
-                        return const SizedBox(height: core.Dimens.space_8);
+                        return const SizedBox(height: Dimens.space_8);
                       },
                       itemCount: dataList.length,
                     ),
                   ),
-                  const SizedBox(height: core.Dimens.space_8),
-                  core.CshMediumButton(
+                  const SizedBox(height: Dimens.space_8),
+                  CshMediumButton(
                     text: l10n.assign,
                     onPressed: () {
                       if (provider.selectedRider != null) {
                         _assignRider(l10n);
                         Navigator.of(context).pop();
                       } else {
-                        core.CshSnackBar.error(
+                        CshSnackBar.error(
                           context: context,
                           message: l10n.pleaseAssignRider,
-                          snackBarPosition: core.SnackBarPosition.TOP,
+                          snackBarPosition: SnackBarPosition.TOP,
                         );
                       }
                     },
                   ),
-                  const SizedBox(height: core.Dimens.space_12),
+                  const SizedBox(height: Dimens.space_12),
                 ],
               ),
             ),
           );
         },
       ),
-    )
-        .then((value) {
+    ).then((value) {
       _searchRiderController.clear();
     });
   }
 
   _assignRider(L10n l10n) {
     var provider = InventoryHomeProvider.of(context, listen: false);
-    core.CshLoading().showLoading(context);
+    CshLoading().showLoading(context);
     provider.assignRider().then((value) {
-      core.CshLoading().hideLoading(context);
+      CshLoading().hideLoading(context);
       if (value) {
         provider.resetDataList();
         resetAndRefreshScreen(pageNumber: 0);
-        core.CshSnackBar.success(context: context, message: l10n.riderAssignedSuccessfully);
+        CshSnackBar.success(context: context, message: l10n.riderAssignedSuccessfully);
       }
     }, onError: (error) {
-      core.CshLoading().hideLoading(context);
-      core.CshSnackBar.error(context: context, message: error);
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error);
     });
   }
 
@@ -344,12 +368,16 @@ class _InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDeta
     });
   }
 
+  bool _isSelectedFilterBarcode() {
+    return _selectedSearchFilter.extraData == SearchType.barcode;
+  }
+
   @override
   void dispose() {
     _searchBarController.dispose();
     _searchRiderController.dispose();
-    _deBouncer.stop();
-    _searchTimer.stop();
+    _searchDeviceDeBouncer.stop();
+    _searchRiderDeBouncer.stop();
     super.dispose();
   }
 }

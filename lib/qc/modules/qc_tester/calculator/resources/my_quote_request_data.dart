@@ -9,6 +9,9 @@ class MyQuoteRequestData extends QuoteRequestData {
   @JsonKey(name: "color")
   String? selectedColor;
 
+  @JsonKey(name: "cat_id")
+  int? categoryId;
+
   MyQuoteRequestData({this.manualAuditQuestion, QuoteRequestData? requestData}) {
     if (requestData != null) {
       deviceId = requestData.deviceId;
@@ -40,6 +43,9 @@ class MyQuoteRequestData extends QuoteRequestData {
       parentJson["mmaids"] = manualAuditQuestion;
     }
     parentJson["color"] = selectedColor;
+    if (categoryId != null) {
+      parentJson["cat_id"] = categoryId;
+    }
     return parentJson;
   }
 }

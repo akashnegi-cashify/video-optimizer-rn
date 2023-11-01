@@ -25,4 +25,9 @@ ShipexGeneralHeaderConfig _$ShipexGeneralHeaderConfigFromConfig(
         "isRequired": false,
         "default": false
       }) as bool?,
+      showProfileButton: ConfigUtil.readValue(json['spb'], {
+        "inputType": "boolean",
+        "isRequired": false,
+        "default": false
+      }) as bool?,
     );

@@ -67,15 +67,12 @@ class _CashifyAppState extends State<CashifyApp> {
           }
           break;
         case ConnectivityResult.bluetooth:
-          // TODO: Handle this case.
           break;
         case ConnectivityResult.ethernet:
-          // TODO: Handle this case.
           break;
         case ConnectivityResult.vpn:
           break;
         case ConnectivityResult.other:
-          // TODO: Handle this case.
           break;
       }
     });

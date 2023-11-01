@@ -6,7 +6,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 class DeviceUtil {
   static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
 
-  // TODO Dev action required: Update the xOSApp value
   static const String xOSApp = 'CMSITE-1.0';
 
   static Future<String> getXOSAPPHeader() async {

@@ -23,7 +23,8 @@ class InventoryHomeProvider extends CshChangeNotifier {
   bool isDataLoading = true, allowPendingWidget = false;
   List<GroupLocationModel> listOfGroupLocation = [];
   InventoryLocationResponse? inventoryLocationResponse;
-  String barcode = "";
+  String? barcode;
+  String? engineerName;
   bool isUrgent = false;
   List<PendingDeviceDetailData> assignedTabListData = [];
   String? errorMessage;
@@ -75,8 +76,9 @@ class InventoryHomeProvider extends CshChangeNotifier {
   Future<PendingDeviceListResponse> getListOfAssignmentPendingDevices(int pageNo, int pageSize) {
     var completer = Completer<PendingDeviceListResponse>();
     try {
-      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize, isUrgent: isUrgent, barcode: barcode).listen(
-          (event) {
+      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize,
+              isUrgent: isUrgent, barcode: barcode, locations: getLocationsString(), engineerName: engineerName)
+          .listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(event);
           if (!Validator.isListNullOrEmpty(event.data?.dataList)) {
