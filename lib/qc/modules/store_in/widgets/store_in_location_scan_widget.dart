@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
 import 'package:ml_barcode_scanner/widgets/index.dart';
 import 'package:provider/provider.dart';
 
@@ -79,13 +80,14 @@ class StoreInLocationScanWidget extends StatelessWidget {
 
   void _launchScanner(BuildContext context, L10n l10n) {
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-        onScanDetected: (String scannedData, MlScannerController? controller) {
-      if (scannedData.isNotEmpty) {
-        Navigator.pop(context); // pop scanner screen
-        _showAlert(context, scannedData, l10n);
-      }
-    },
-        header:l10n.scanDeviceCamelCase,
+      scanFormatList: [ScanFormats.qrCode],
+      onScanDetected: (String scannedData, MlScannerController? controller) {
+        if (scannedData.isNotEmpty) {
+          Navigator.pop(context); // pop scanner screen
+          _showAlert(context, scannedData, l10n);
+        }
+      },
+      header: l10n.scanDeviceCamelCase,
     );
     Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
   }

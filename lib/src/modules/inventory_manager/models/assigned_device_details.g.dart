@@ -38,6 +38,12 @@ AssignDeviceDetailsData _$AssignDeviceDetailsDataFromJson(
       productName: json['pt'] as String?,
       deadRemark: json['dr'] as String?,
       returnCount: json['rc'] as int?,
+      isScrewMediaUploaded: json['ismu'] as bool?,
+      imei: json['dimei'] as String?,
+      repairReasonList:
+          (json['rrs'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      returnReason: json['rr'] as String?,
+      color: json['dc'] as String?,
     );
 
 Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
@@ -53,4 +59,9 @@ Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
       'lc': instance.lc,
       'dr': instance.deadRemark,
       'rc': instance.returnCount,
+      'ismu': instance.isScrewMediaUploaded,
+      'rr': instance.returnReason,
+      'rrs': instance.repairReasonList,
+      'dimei': instance.imei,
+      'dc': instance.color,
     };

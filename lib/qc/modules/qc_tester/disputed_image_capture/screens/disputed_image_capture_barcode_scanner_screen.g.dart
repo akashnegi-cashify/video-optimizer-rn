@@ -16,6 +16,7 @@ dynamic schema() => {
       "params": [
         {"key": "sc", "value": null},
         {"key": "h", "value": null},
+        {"key": "sf", "value": null},
         {"key": "ht", "value": null}
       ]
 

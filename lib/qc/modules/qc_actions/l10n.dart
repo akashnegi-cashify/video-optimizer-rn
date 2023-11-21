@@ -30,8 +30,13 @@ class L10n extends BaseL10n {
   String get deadDevice => Intl.message('Dead Device', locale: localName, name: 'deadDevice');
 
   String get deviceRepairDead => Intl.message('Device Repair/Dead', locale: localName, name: 'deviceRepairDead');
+
   String get receiveDevice => Intl.message('Receive Device', locale: localName, name: 'receiveDevice');
 
+  String get supervision => Intl.message('Supervision', locale: localName, name: 'supervision');
+
   String get guardRole => Intl.message('Guard Role', locale: localName, name: 'guardRole');
+
+  String get scanDeviceBarcode => Intl.message('Scan Device Barcode', locale: localName, name: 'scanDeviceBarcode');
 
 }

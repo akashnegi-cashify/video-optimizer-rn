@@ -118,7 +118,8 @@ class _MultipleImageUploadScreenState extends State<MultipleImageUploadScreen> {
 
 enum DeviceMediaType {
   markOk(1),
-  markToTl(2);
+  markToTl(2),
+  screwSealImages(3);
 
   final int val;
 

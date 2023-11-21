@@ -24,7 +24,8 @@ enum QcRole {
   roleLotReQuote("ROLE_LOT_RE_QUOTE"),
   roleDeadDevice("ROLE_DEAD_DEVICE"),
   roleGuard("ROLE_GUARD"),
-  qcElss("QC_ELSS");
+  qcElss("QC_ELSS"),
+  qcSupervision("SUPERVISOR_ROLE");
 
   final String value;
 

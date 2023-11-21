@@ -2,6 +2,7 @@ import 'package:builder_component/builder_component.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/providers/wip_device_detail_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../app_builder/app_builder_groups/groups.dart';
@@ -24,8 +25,10 @@ class WipDeviceDetailsComponent extends StatelessComponent<NoneConfigModel> {
   @override
   Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     return paramBuilder((param) {
-      return WIPDetailWidget(
-        deviceInfo: param.engineerDeviceInfo,
+      return ChangeNotifierProvider(
+        create: (_) => WIPDeviceDetailProvider(param.deviceBarcode!),
+        lazy: false,
+        child: const WIPDetailWidget(),
       );
     });
   }

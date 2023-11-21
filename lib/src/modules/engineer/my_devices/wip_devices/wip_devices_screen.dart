@@ -10,13 +10,13 @@ part 'wip_devices_screen.g.dart';
 
 @CshPage(key: WipDevicesScreen.pageKey, params: WipDetailsCompParamKeys.values, pageGroup: PageGroup.wipDevicesPageKey)
 class WipDevicesScreenArguments extends BaseArguments {
-  final EngineerDeviceInfo? engineerDeviceInfo;
+  final String deviceBarcode;
 
-  WipDevicesScreenArguments({this.engineerDeviceInfo}) : super(WipDevicesScreen.pageKey);
+  WipDevicesScreenArguments({required this.deviceBarcode}) : super(WipDevicesScreen.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
-    data[WipDetailsCompParamKeys.engineerDeviceInfo.value] = engineerDeviceInfo;
+    data[WipDetailsCompParamKeys.deviceBarcode.value] = deviceBarcode;
     return data;
   }
 }

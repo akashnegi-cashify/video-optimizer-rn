@@ -14,7 +14,7 @@ dynamic schema() => {
       "title": "Wip Devices Screen Arguments",
       "isActive": true,
       "params": [
-        {"key": "edi", "value": null}
+        {"key": "dbr", "value": null}
       ]
 
       //#adminscreen

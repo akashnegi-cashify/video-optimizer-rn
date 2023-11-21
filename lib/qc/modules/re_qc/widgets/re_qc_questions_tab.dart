@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_question_tab_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../src/common/dialogs/csh_remarks_dialog.dart';
+
 class ReQcQuestionsTab extends StatefulWidget {
   final Function(bool isMismatchMarked) onReQcSubmitted;
 
@@ -102,7 +104,7 @@ class _ReQcQuestionsTabState extends State<ReQcQuestionsTab> {
   }
 
   void _submitReQc(ReQcQuestionsProvider provider) {
-    _showRemarksDialog((String? remarks) {
+    showRemarksDialog(context, onProceed: (remarks) {
       Navigator.pop(context); // dismiss dialog
       CshLoading().showLoading(context);
       provider.submitReQcData(remarks).then((value) {
@@ -114,46 +116,6 @@ class _ReQcQuestionsTabState extends State<ReQcQuestionsTab> {
         CshSnackBar.error(context: context, message: error);
       });
     });
-  }
-
-  void _showRemarksDialog(Function(String? remarks) onProceed) {
-    String? remarks;
-    showCshBottomSheet(
-      isDismissible: false,
-      context: context,
-      child: Builder(builder: (innerContext) {
-        return Container(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
-          child: Padding(
-            padding: const EdgeInsets.all(Dimens.space_20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CshTextNew.subTitle1("Enter Remarks (Optional)"),
-                const SizedBox(height: Dimens.space_16),
-                CshTextFormField(
-                  hintText: "Enter Remarks",
-                  maxLines: 2,
-                  onChanged: (value) {
-                    remarks = value;
-                  },
-                ),
-                const SizedBox(height: Dimens.space_16),
-                ComboButton(
-                    firstBtnText: "Skip",
-                    secondBtnText: "Submit",
-                    firstBtnClick: () {
-                      onProceed(remarks);
-                    },
-                    secondBtnClick: () {
-                      onProceed(remarks);
-                    }),
-              ],
-            ),
-          ),
-        );
-      }),
-    );
   }
 }
 

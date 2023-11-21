@@ -9,12 +9,10 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/engineer_device_info.dart';
-
 class SendToTLWidget extends StatelessWidget {
-  final EngineerDeviceInfo deviceInfo;
+  final String? deviceBarcode, color, productTitle;
 
-  const SendToTLWidget({Key? key, required this.deviceInfo}) : super(key: key);
+  const SendToTLWidget({Key? key, this.deviceBarcode, this.color, this.productTitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +25,22 @@ class SendToTLWidget extends StatelessWidget {
           CshLoading().hideLoading(context);
 
           if (event != null && event.isSuccess == true && event.reasons != null && event.reasons!.isNotEmpty) {
-            var dropDownItem = await _askForTheReasonOfReturn(deviceInfo, context, event.reasons!) as DropDownItem?;
+            var dropDownItem = await _askForTheReasonOfReturn(
+              context,
+              returnReasons: event.reasons!,
+              deviceBarcode: deviceBarcode,
+              color: color,
+              productTitle: productTitle,
+            ) as DropDownItem?;
 
-            if (deviceInfo.deviceBarcode != null && dropDownItem?.id != null) {
+            if (deviceBarcode != null && dropDownItem?.id != null) {
               // ignore: use_build_context_synchronously
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (_) => MultipleImageUploadScreen(
                     DeviceMediaType.markToTl,
-                    deviceInfo.deviceBarcode!,
+                    deviceBarcode!,
                     callStatusUpdateApi: () {
                       return _updateStatus(dropDownItem!.id!, l10n, context);
                     },
@@ -62,7 +66,7 @@ class SendToTLWidget extends StatelessWidget {
 
   Future<void> _updateStatus(String id, L10n l10n, BuildContext context) {
     var completer = Completer();
-    EngineerAPIService.sendToTL(deviceInfo.deviceBarcode!, id).listen((event) {
+    EngineerAPIService.sendToTL(deviceBarcode!, id).listen((event) {
       if (event == null) {
         completer.completeError(l10n.somethingWentWrong);
         return;
@@ -85,8 +89,11 @@ class SendToTLWidget extends StatelessWidget {
     return completer.future;
   }
 
-  Future<dynamic> _askForTheReasonOfReturn(
-      EngineerDeviceInfo deviceInfo, BuildContext context, Map<String, String> returnReasons) async {
+  Future<dynamic> _askForTheReasonOfReturn(BuildContext context,
+      {required String? deviceBarcode,
+      required String? color,
+      required String? productTitle,
+      required Map<String, String> returnReasons}) async {
     return await showDialog(
         useRootNavigator: false,
         builder: (context) {
@@ -105,9 +112,9 @@ class SendToTLWidget extends StatelessWidget {
                   const SizedBox(
                     height: Dimens.space_16,
                   ),
-                  TitleValueRowWidget(title: l10n.deviceName, value: deviceInfo.productTitle ?? ""),
-                  TitleValueRowWidget(title: l10n.deviceBarcode, value: deviceInfo.deviceBarcode ?? ""),
-                  TitleValueRowWidget(title: l10n.color, value: deviceInfo.color ?? ""),
+                  TitleValueRowWidget(title: l10n.deviceName, value: productTitle ?? ""),
+                  TitleValueRowWidget(title: l10n.deviceBarcode, value: deviceBarcode ?? ""),
+                  TitleValueRowWidget(title: l10n.color, value: color ?? ""),
                   const SizedBox(
                     height: Dimens.space_8,
                   ),
@@ -125,8 +132,8 @@ class SendToTLWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CshMediumOutlineButton(
-                        textColor: Theme.of(context).errorColor,
-                        bgColor: Theme.of(context).errorColor,
+                        textColor: Theme.of(context).colorScheme.error,
+                        bgColor: Theme.of(context).colorScheme.error,
                         text: l10n.cancel,
                         onPressed: () => Navigator.of(context).pop(),
                       ),

@@ -24,7 +24,7 @@ class _StoreOutBinOutWidgetState extends State<StoreOutBinOutWidget> {
     super.initState();
     _locationTextController = TextEditingController();
     _barcodeTextController = TextEditingController();
-    instructionText = ValueNotifier('Please Scan Location Barcode');
+    instructionText = ValueNotifier('Please Scan Location QR Barcode');
   }
 
   @override

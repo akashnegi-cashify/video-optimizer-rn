@@ -22,6 +22,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/components/pending_lot_det
 import 'package:flutter_trc/qc/modules/stock_transfer/components/st_store_out_component.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/components/stock_transfer_list_component.dart';
 import 'package:flutter_trc/qc/modules/store_in/components/index.dart';
+import 'package:flutter_trc/qc/modules/supervisor/components/supervisor_component.dart';
 
 import 'modules/dead_repair/components/index.dart';
 import 'modules/device_receive_module/components/device_receive_component.dart';
@@ -141,6 +142,9 @@ class QcComponentRegistry {
 
       case QcGuardAddAgentComponent.COMP_KEY:
         return QcGuardAddAgentComponent(jsonConfig);
+
+      case SupervisorComponent.COMP_KEY:
+        return SupervisorComponent(jsonConfig);
 
       default:
         return null;

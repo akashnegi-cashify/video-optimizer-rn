@@ -1186,6 +1186,21 @@
       ]
     },
     {
+      "pageId": 10109,
+      "pageKey": "QC_supervisor_screen",
+      "dt": [
+        {
+          "id": 10119,
+          "key": "QC_supervisor_component",
+          "type": "component"
+        },
+        {
+          "id": 10120,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -1583,6 +1598,7 @@
       "locale": "en",
       "key": "TRC_wip_devices_details_comp",
       "configJson": {
+        "pad": [16],
         "config": {
           "none": "None"
         }
@@ -2788,6 +2804,29 @@
       "configJson": {
         "config": {
           "ht": "Upload Invoice",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10119,
+      "locale": "en",
+      "key": "QC_supervisor_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10120,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Supervisor",
           "sbb": true,
           "slb": false
         }

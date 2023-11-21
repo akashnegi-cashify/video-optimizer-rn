@@ -25,7 +25,7 @@ class LotScanWidget extends StatelessWidget {
                 child: CshCard(
                   margin: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
                   child: MlBarcodeScannerWidget(
-                    scanFormatList: const [ScanFormats.barcode],
+                    scanFormatList: const [ScanFormats.barcode, ScanFormats.qrCode],
                     onScannerDetected: (value, controller) => {onScannerDetected?.call(value, controller)},
                   ),
                 ),

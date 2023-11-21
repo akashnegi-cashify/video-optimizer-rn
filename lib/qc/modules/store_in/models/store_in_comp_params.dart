@@ -1,6 +1,5 @@
 import 'package:csh_annotation/annotation.dart';
-import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
-import 'package:flutter_trc/qc/modules/external_audit/models/external_audit_enum.dart';
+import 'package:ml_barcode_scanner/resources/scan_formats.dart';
 import 'package:ml_barcode_scanner/widgets/index.dart';
 
 @CshPageParam()
@@ -14,14 +13,22 @@ class StoreInCompParam {
   @ParamKey(key: StoreInCompParamKeys.binStoreIn)
   bool? binStoreIn;
 
-  StoreInCompParam({this.header,this.onScanDetected,this.binStoreIn,});
+  @ParamKey(key: StoreInCompParamKeys.scanFormats)
+  List<ScanFormats>? scanFormatList;
+
+  StoreInCompParam({
+    this.header,
+    this.onScanDetected,
+    this.binStoreIn,
+    this.scanFormatList,
+  });
 }
 
 enum StoreInCompParamKeys with AbsParamKey {
   scannerCallback("sc"),
   header("h"),
+  scanFormats("sf"),
   binStoreIn("bsi");
-
 
   @override
   final String value;

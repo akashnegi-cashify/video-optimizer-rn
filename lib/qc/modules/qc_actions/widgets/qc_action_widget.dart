@@ -11,6 +11,8 @@ import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/store_in_screen.dart';
 import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
+import 'package:flutter_trc/qc/modules/supervisor/dialogs/supervisor_device_detail_dialog.dart';
+import 'package:flutter_trc/qc/modules/supervisor/resources/supervisor_service.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
@@ -168,6 +170,24 @@ class QCActionWidget extends StatelessWidget {
                 Navigator.pushNamed(context, DeviceReceiveScreen.route);
               },
             ),
+            QcRolePermissionWidget(
+              role: QcRole.qcSupervision,
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              child: CshBigButton(
+                text: l10n.supervision,
+                onPressed: () {
+                  CshMlScannerUtil().openScanner(
+                    context,
+                    onScanned: (scannedData, controller) {
+                      Navigator.pop(context);
+                      _onSupervisorScanned(context, scannedData);
+                    },
+                    header: l10n.scanDeviceBarcode,
+                    hintText: l10n.scanDeviceBarcode,
+                  );
+                },
+              ),
+            ),
             // const SizedBox(height: Dimens.space_16),
             // CshBigButton(
             //   text: l10n.stockIn,
@@ -179,6 +199,17 @@ class QCActionWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onSupervisorScanned(BuildContext context, String scannedData) {
+    CshLoading().showLoading(context);
+    SupervisorService.getDeviceDetails(scannedData).listen((event) {
+      CshLoading().hideLoading(context);
+      showSupervisorDeviceDetailDialog(context, scannedData, event);
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error).toString());
+    });
   }
 
   void _storeInOptions(BuildContext context, L10n l10n) {

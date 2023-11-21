@@ -1,4 +1,5 @@
 import 'package:csh_annotation/annotation.dart';
+import 'package:ml_barcode_scanner/resources/scan_formats.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 
 @CshPageParam()
@@ -12,16 +13,21 @@ class DisputedImageCaptureScannerParam {
   @ParamKey(key: DisputedImageCaptureScannerParamKeys.hintText)
   String? hintText;
 
+  @ParamKey(key: DisputedImageCaptureScannerParamKeys.scanFormats)
+  List<ScanFormats>? scanFormatList;
+
   DisputedImageCaptureScannerParam({
     this.onScanDetected,
     this.hintText,
     this.header,
+    this.scanFormatList,
   });
 }
 
 enum DisputedImageCaptureScannerParamKeys with AbsParamKey {
   scannerCallback("sc"),
   header("h"),
+  scanFormats("sf"),
   hintText("ht");
 
   @override

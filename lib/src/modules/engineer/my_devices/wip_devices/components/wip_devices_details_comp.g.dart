@@ -8,7 +8,7 @@ part of 'wip_devices_details_comp.dart';
 
 WipDetailsCompParam fromMap(Map<String, dynamic> map) {
   WipDetailsCompParam model = WipDetailsCompParam(
-    engineerDeviceInfo: map["edi"],
+    deviceBarcode: map["dbr"],
   );
   return model;
 }
@@ -16,7 +16,7 @@ WipDetailsCompParam fromMap(Map<String, dynamic> map) {
 Widget paramBuilder(Widget Function(WipDetailsCompParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "edi": provider.data["edi"],
+      "dbr": provider.data["dbr"],
     },
     builder: (context, data, child) {
       WipDetailsCompParam model = fromMap(data);
@@ -26,9 +26,9 @@ Widget paramBuilder(Widget Function(WipDetailsCompParam model) paramBuilder) {
 }
 
 bool isValid(WipDetailsCompParam model) {
-  var engineerDeviceInfo = model.engineerDeviceInfo;
+  var deviceBarcode = model.deviceBarcode;
 
-  return engineerDeviceInfo != null;
+  return deviceBarcode != null;
 }
 
 dynamic schema() => {
@@ -39,7 +39,7 @@ dynamic schema() => {
       "isActive": true,
       "title": "Wip Device Details Component",
       "cpm": [
-        {"key": "edi", "value": null}
+        {"key": "dbr", "value": null}
       ],
       "configJson": {
         "type": "map",

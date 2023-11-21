@@ -70,7 +70,7 @@ class _ItemWIP extends StatelessWidget {
     L10n l10n = L10n(context);
     return GestureDetector(
       onTap: () {
-        WipDevicesScreenArguments args = WipDevicesScreenArguments(engineerDeviceInfo: deviceData);
+        WipDevicesScreenArguments args = WipDevicesScreenArguments(deviceBarcode: deviceData.deviceBarcode!);
         Navigator.pushNamed(context, WipDevicesScreen.route, arguments: args);
       },
       child: CshCard(

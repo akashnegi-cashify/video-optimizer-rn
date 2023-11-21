@@ -53,6 +53,21 @@ class AssignDeviceDetailsData {
   @JsonKey(name: "rc")
   int? returnCount;
 
+  @JsonKey(name: "ismu")
+  bool? isScrewMediaUploaded;
+
+  @JsonKey(name: "rr")
+  String? returnReason;
+
+  @JsonKey(name: "rrs")
+  List<String>? repairReasonList;
+
+  @JsonKey(name: "dimei")
+  String? imei;
+
+  @JsonKey(name: "dc")
+  String? color;
+
   AssignDeviceDetailsData({
     this.did,
     this.lc,
@@ -64,6 +79,11 @@ class AssignDeviceDetailsData {
     this.productName,
     this.deadRemark,
     this.returnCount,
+    this.isScrewMediaUploaded,
+    this.imei,
+    this.repairReasonList,
+    this.returnReason,
+    this.color,
   });
 
   static AssignDeviceDetailsData fromJson(Map<String, dynamic> data) => _$AssignDeviceDetailsDataFromJson(data);

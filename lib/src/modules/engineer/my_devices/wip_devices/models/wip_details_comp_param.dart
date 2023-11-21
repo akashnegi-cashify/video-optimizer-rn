@@ -4,16 +4,16 @@ import '../../../models/engineer_device_info.dart';
 
 @CshPageParam()
 class WipDetailsCompParam {
-  @ParamKey(key: WipDetailsCompParamKeys.engineerDeviceInfo)
-  EngineerDeviceInfo? engineerDeviceInfo;
+  @ParamKey(key: WipDetailsCompParamKeys.deviceBarcode)
+  String? deviceBarcode;
 
   WipDetailsCompParam({
-    this.engineerDeviceInfo,
+    this.deviceBarcode,
   });
 }
 
 enum WipDetailsCompParamKeys with AbsParamKey {
-  engineerDeviceInfo("edi");
+  deviceBarcode("dbr");
 
   @override
   final String value;

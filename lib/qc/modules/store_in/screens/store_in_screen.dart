@@ -5,6 +5,7 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/store_in/resources/services.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:ml_barcode_scanner/resources/scan_formats.dart';
 import 'package:ml_barcode_scanner/widgets/index.dart';
 
 import '../../qc_actions/qc_action_screen.dart';
@@ -41,6 +42,7 @@ class StoreInScreen extends BaseScreen<StoreInScreenArguments> {
           initialValue: {
             StoreInCompParamKeys.header.value: l10n.storeIn,
             StoreInCompParamKeys.binStoreIn.value: isBinStoreIn,
+            StoreInCompParamKeys.scanFormats.value: const [ScanFormats.qrCode],
             StoreInCompParamKeys.scannerCallback.value: (String scannedData, MlScannerController? controller) {
               if (isNotEmpty(scannedData)) {
                 _verifyLocationBarcode(context, scannedData.trim(), isBinStoreIn,l10n);

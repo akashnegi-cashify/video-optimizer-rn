@@ -43,31 +43,32 @@ class BinLotScanContainer extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 )
               : LotScanWidget(
-            topContent: Selector<LotScanProvider, int>(
-              builder: (BuildContext context, value, Widget? child) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: Dimens.space_8),
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(width: Dimens.space_100,child: LinearProgressIndicator(value: (value / itemCount))),
-                      const SizedBox(height: Dimens.space_4),
-                      CshTextNew.h4('$value/$itemCount')
-                    ],
+                  topContent: Selector<LotScanProvider, int>(
+                    builder: (BuildContext context, value, Widget? child) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(vertical: Dimens.space_8),
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                                width: Dimens.space_100, child: LinearProgressIndicator(value: (value / itemCount))),
+                            const SizedBox(height: Dimens.space_4),
+                            CshTextNew.h4('$value/$itemCount')
+                          ],
+                        ),
+                      );
+                    },
+                    selector: (BuildContext context, LotScanProvider provider) {
+                      return provider.scanPosition;
+                    },
                   ),
-                );
-              },
-              selector: (BuildContext context, LotScanProvider provider) {
-                return provider.scanPosition;
-              },
-            ),
-                  onScannerDetected: (value, controller) => _onScannerDetected(builderContext, value, controller,l10n),
+                  onScannerDetected: (value, controller) => _onScannerDetected(builderContext, value, controller, l10n),
                   content: Selector<LotScanProvider, int>(
                     builder: (BuildContext context, value, Widget? child) {
-                      if(value >= itemCount){
-                        value = itemCount-1;
+                      if (value >= itemCount) {
+                        value = itemCount - 1;
                       }
                       return Column(
                         children: [
@@ -119,26 +120,30 @@ class BinLotScanContainer extends StatelessWidget {
 
     if (res == false) {
       _showAlert(context);
-
     }
   }
 
-  void _showAlert(BuildContext context,{MlScannerController? controller}){
+  void _showAlert(BuildContext context, {MlScannerController? controller}) {
     controller?.stop();
-    showDialog(context: context, builder: (context){
-      return AlertDialog(
-        title: CshTextNew.h3('Warning'),
-        content: CshTextNew.h4('Store Out Completed'),
-        actions: [
-          TextButton(onPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName(StoreOutScreen.route));
-          }, child: CshTextNew.h3('Ok'),)
-        ],
-      );
-    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: CshTextNew.h3('Warning'),
+            content: CshTextNew.h4('Store Out Completed'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.popUntil(context, ModalRoute.withName(StoreOutScreen.route));
+                },
+                child: CshTextNew.h3('Ok'),
+              )
+            ],
+          );
+        });
   }
 
-  _onScannerDetected(BuildContext context, String value, MlScannerController controller,L10n l10n) {
+  _onScannerDetected(BuildContext context, String value, MlScannerController controller, L10n l10n) {
     var provider = LotScanProvider.of(context, listen: false);
 
     var item = provider.binDataState.data?.lotList?[provider.scanPosition];
@@ -152,9 +157,8 @@ class BinLotScanContainer extends StatelessWidget {
           CshSnackBar.success(context: context, message: l10n.binOutSuccessfully);
           var res = provider.moveNext();
           if (res == false) {
-            _showAlert(context,controller: controller);
-          }
-          else{
+            _showAlert(context, controller: controller);
+          } else {
             controller.start();
           }
         } else {

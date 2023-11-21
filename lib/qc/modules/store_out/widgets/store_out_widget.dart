@@ -53,28 +53,29 @@ class _StoreOutWidgetState extends State<StoreOutWidget> with SingleTickerProvid
               ),
             ),
             Expanded(
-                child: TabBarView(
-              controller: _controller,
-              children: [
-                StoreOutLotListContainer(onItemClick: (value)=>_onItemClick(builderContext,value,LotType.NORMAL_LOT.value)),
-                StoreOutBinListWidget(onItemClick: (value)=>_onItemClick(builderContext,value,LotType.BIN_LOT.value)),
-                const StoreOutBinOutWidget(),
-              ],
-            )),
+              child: TabBarView(
+                controller: _controller,
+                children: [
+                  StoreOutLotListContainer(
+                      onItemClick: (value) => _onItemClick(builderContext, value, LotType.NORMAL_LOT.value)),
+                  StoreOutBinListWidget(
+                      onItemClick: (value) => _onItemClick(builderContext, value, LotType.BIN_LOT.value)),
+                  const StoreOutBinOutWidget(),
+                ],
+              ),
+            ),
           ],
         );
       }),
     );
   }
 
-  void _onItemClick(BuildContext context,String? lotName,int lotType) {
-    var provider = StoreOutProvider.of(context,listen: false);
-    LotItemsScanScreen.navigate(context, lotName: lotName, lotType: lotType).then((value){
-      if(lotType == LotType.NORMAL_LOT.value){
+  void _onItemClick(BuildContext context, String? lotName, int lotType) {
+    var provider = StoreOutProvider.of(context, listen: false);
+    LotItemsScanScreen.navigate(context, lotName: lotName, lotType: lotType).then((value) {
+      if (lotType == LotType.NORMAL_LOT.value) {
         provider.refreshLotList();
-      }
-
-      else if(lotType == LotType.BIN_LOT.value){
+      } else if (lotType == LotType.BIN_LOT.value) {
         provider.fetchStoreOutBinList();
       }
     });
