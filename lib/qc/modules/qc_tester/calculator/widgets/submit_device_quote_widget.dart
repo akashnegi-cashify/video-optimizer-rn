@@ -105,7 +105,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
       if (Validator.isTrue(value)) {
         Navigator.popUntil(context, ModalRoute.withName(QcTesterHomeScreen.route));
       } else {
-        Navigator.popUntil(context, ModalRoute.withName(TrcTesterScreen.route));
+        Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
       }
     });
   }
