@@ -11,22 +11,22 @@ class StoreOutLotFilterProvider extends CshChangeNotifier {
 
   StoreOutLotFilterProvider() {
     _filters = ListState();
-    fetchFilter();
+    _fetchFilter();
   }
 
   static StoreOutLotFilterProvider of({required BuildContext context, bool listen = true}) {
     return Provider.of<StoreOutLotFilterProvider>(context, listen: listen);
   }
 
-  void fetchFilter() {
+  void _fetchFilter() {
     StoreOutServices.storeOutLotTypeFilters().listen((event) {
       _filters = _filters.copyWith(status: RequestStatus.success, data: event?.data);
-      notifyListeners();
     }, onError: (error, stack) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
       _filters = _filters.copyWith(status: RequestStatus.failure, data: null, errorMsg: errorMsg);
-      notifyListeners();
       Logger.debug('StoreOutLotFilterProvider.dispatchFilters', [errorMsg]);
+    }, onDone: () {
+      notifyListeners();
     });
   }
 

@@ -129,7 +129,7 @@ class _CashifyAppState extends State<CashifyApp> {
                 child: MaterialApp(
                   navigatorKey: _navKey,
                   locale: localProvider.locale,
-                  theme: theme,
+                  theme: theme.copyWith(useMaterial3: false),
                   navigatorObservers: [
                     CshRouteObserver().instance,
                     SentryNavigatorObserver(),
