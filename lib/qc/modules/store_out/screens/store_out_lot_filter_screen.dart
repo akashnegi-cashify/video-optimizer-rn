@@ -15,10 +15,13 @@ class StoreOutLotFilterScreen extends BaseScreen {
 
   @override
   Widget buildView(BuildContext context) {
-    return const PageWidget(pageKey: pageKey);
+    return const PageWidget(
+      pageKey: pageKey,
+      initialValue: {"h": "Lot Type"},
+    );
   }
 
-  static Future navigate(BuildContext context){
-   return Navigator.pushNamed(context, route);
+  static Future navigate(BuildContext context) {
+    return Navigator.pushNamed(context, route);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/my_search_bar_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
@@ -17,49 +18,32 @@ class _StoreOutLotFilterWidgetState extends State<StoreOutLotFilterWidget> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
-    return   ChangeNotifierProvider(
+    return ChangeNotifierProvider(
       create: (context) => StoreOutLotFilterProvider(),
       child: Builder(builder: (builderContext) {
-        return Padding(
-          padding: const EdgeInsets.all(Dimens.space_8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CshTextNew(
-                      l10n.storeOutLots,
-                      textStyle: theme.textTheme.displaySmall?.copyWith(
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                    const SizedBox(height: Dimens.space_12),
-                    const Expanded(child: _FilterItemWidget()),
-                  ],
-                ),
-              ),
-              const SizedBox(height: Dimens.space_8),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: CshBigButton(
-                    text: l10n.clear,
-                    onPressed: () => _onCancel(builderContext),
-                  )),
-                  const SizedBox(width: Dimens.space_8),
-                  Expanded(
-                      child: CshBigButton(
-                    text: l10n.apply,
-                    onPressed: () => _onApply(builderContext),
-                  )),
-                ],
-              )
-            ],
-          ),
+        var provider = StoreOutLotFilterProvider.of(context: builderContext);
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
+              child: MySearchBarWidget(
+                  hintText: "Search Lot Type",
+                  showBorder: false,
+                  onQuery: (query) {
+                    provider.searchQuery = query;
+                  }),
+            ),
+            const Expanded(child: _FilterItemWidget()),
+            const SizedBox(height: Dimens.space_8),
+            ComboButton(
+                firstBtnText: l10n.clear,
+                secondBtnText: l10n.apply,
+                isFirstPrimary: true,
+                firstBtnClick: () => _onCancel(builderContext),
+                secondBtnClick: provider.isAnyItemSelected() ? () => _onApply(builderContext) : null),
+          ],
         );
       }),
     );
@@ -77,19 +61,13 @@ class _StoreOutLotFilterWidgetState extends State<StoreOutLotFilterWidget> {
   }
 }
 
-class _FilterItemWidget extends StatefulWidget {
+class _FilterItemWidget extends StatelessWidget {
   const _FilterItemWidget();
 
-  @override
-  State<_FilterItemWidget> createState() => _FilterItemWidgetState();
-}
-
-class _FilterItemWidgetState extends State<_FilterItemWidget> {
   @override
   Widget build(BuildContext context) {
     var provider = StoreOutLotFilterProvider.of(context: context);
     var isLoading = provider.status == RequestStatus.initial;
-    var list = provider.filters?.map((e) => RadioListItem(e?.lotType, e?.lotName, e?.isSelected ?? false)).toList();
 
     return isLoading
         ? ListView.separated(
@@ -100,15 +78,28 @@ class _FilterItemWidgetState extends State<_FilterItemWidget> {
               return const SizedBox(height: Dimens.space_8);
             },
             itemCount: 20)
-        : SingleChildScrollView(
-            padding: const EdgeInsets.all(Dimens.space_6),
-            child: RadioListWidget(
-              list: list,
-              isShowedInCard: true,
-              onItemSelected: (item) {
-                provider.updateFilterSelectionState(item.id);
-              },
-            ),
-          );
+        : ListView.separated(
+            padding: const EdgeInsets.all(Dimens.space_16),
+            itemBuilder: (context, index) {
+              var item = provider.filters?[index];
+              return GestureDetector(
+                onTap: () {
+                  provider.updateFilterSelectionState(item?.lotType);
+                },
+                child: CshCard(
+                  child: CshCheckbox(
+                    title: CshTextNew.bodyText1(item?.lotName ?? ""),
+                    onChanged: (value) {
+                      provider.updateFilterSelectionState(item?.lotType);
+                    },
+                    isSelected: item?.isSelected ?? false,
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: Dimens.space_16);
+            },
+            itemCount: provider.filters?.length ?? 0);
   }
 }

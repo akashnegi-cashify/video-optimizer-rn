@@ -1,11 +1,9 @@
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 
-import '../../../../src/common/resources/lot_list_request.dart';
 import '../../../../src/utils/paginate_list_abstract.dart';
 import '../providers/store_out_provider.dart';
 import '../resources/index.dart';
-import '../resources/services.dart';
 import 'index.dart';
 
 class StoreOutLotListWidget extends StatefulWidget {
@@ -17,23 +15,11 @@ class StoreOutLotListWidget extends StatefulWidget {
   final Function(String? lotName)? onItemClick;
 
   @override
-  State<StoreOutLotListWidget> createState() => _StoreOutLotListWidgetState();
+  State<StoreOutLotListWidget> createState() => StoreOutLotListWidgetState();
 }
 
-class _StoreOutLotListWidgetState extends PaginatedListState<StoreOutLotListItem, StoreOutLotListWidget>
+class StoreOutLotListWidgetState extends PaginatedListState<StoreOutLotListItem, StoreOutLotListWidget>
     with AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    var provider = StoreOutProvider.of(context, listen: false);
-    provider.controller.stream.listen((event) {
-      resetAndRefreshScreen();
-    });
-
-    provider.searchQueryStreamController.stream.listen((event) {
-      resetAndRefreshScreen();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +43,7 @@ class _StoreOutLotListWidgetState extends PaginatedListState<StoreOutLotListItem
             }),
       ),
       onRefresh: () {
-        return Future.delayed(const Duration(seconds: 1), () {});
+        return Future.delayed(const Duration(seconds: 1));
       },
     );
   }
@@ -66,34 +52,11 @@ class _StoreOutLotListWidgetState extends PaginatedListState<StoreOutLotListItem
   void requestApi(int pageNo,
       {Function(List<StoreOutLotListItem>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = StoreOutProvider.of(context, listen: false);
-    FilterMap? filterMap;
-    LotListRequest request = LotListRequest()
-      ..pageNo = pageNo * pageSize
-      ..pageSize = pageSize;
-
-    if (isNotEmpty(provider.searchQuery)) {
-      filterMap = FilterMap(searchQuery: provider.searchQuery);
-    }
-
-    if (isNotEmpty(provider.lotTypeQuery)) {
-      filterMap = filterMap ?? FilterMap();
-      filterMap.lotType = provider.lotTypeQuery;
-    }
-
-    request.filterMap = filterMap;
-
-    StoreOutServices.fetchStoreOutLotList(request).listen(
-      (value) {
-        if (onSuccess != null) {
-          onSuccess(ArrayUtil.removeNullItems(value?.lotList ?? []));
-        }
-      },
-      onError: (error) {
-        if (onError != null) {
-          onError(error);
-        }
-      },
-    );
+    provider.fetchStoreOutList(pageNo * pageSize, pageSize).then((value) {
+      onSuccess?.call(value!);
+    }, onError: (error) {
+      onError?.call(error);
+    });
   }
 
   @override

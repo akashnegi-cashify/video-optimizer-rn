@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/resources/lot_list_request.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../src/common/searchable.dart';
@@ -10,9 +11,7 @@ import '../resources/services.dart';
 
 class StoreOutProvider extends CshChangeNotifier with Searchable {
   bool _showSearchBox = false;
-  String? _lotTypeQuery;
-  late StreamController<String?> controller;
-  late StreamController<String?> searchQueryStreamController;
+  List<String>? _selectedLotTypeList;
 
   late DataState<StoreOutBinListResponse?> binListDataState;
 
@@ -22,8 +21,31 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
 
   StoreOutProvider() {
     binListDataState = DataState();
-    controller = StreamController.broadcast();
-    searchQueryStreamController = StreamController.broadcast();
+  }
+
+  Future<List<StoreOutLotListItem>?> fetchStoreOutList(int pageNo, int offset) {
+    var completer = Completer<List<StoreOutLotListItem>?>();
+    LotListRequest request = LotListRequest(
+      pageNo: pageNo,
+      pageSize: offset,
+      filterMap: FilterMap(
+        searchQuery: searchQuery,
+        lotType: _selectedLotTypeList,
+      ),
+    );
+    StoreOutServices.fetchStoreOutLotList(request).listen(
+      (event) {
+        if (!Validator.isListNullOrEmpty(event?.lotList)) {
+          completer.complete(event?.lotList);
+        } else {
+          completer.completeError("No data found");
+        }
+      },
+      onError: (error) {
+        completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+      },
+    );
+    return completer.future;
   }
 
   void fetchStoreOutBinList() {
@@ -34,7 +56,7 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
       notifyListeners();
     }, onError: (error, stackTrace) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong.";
-      binListDataState = binListDataState.copyWith(status: RequestStatus.failure, errorMsg: errorMsg,data: null);
+      binListDataState = binListDataState.copyWith(status: RequestStatus.failure, errorMsg: errorMsg, data: null);
       notifyListeners();
     });
   }
@@ -56,18 +78,12 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
     return completer.future;
   }
 
-  void setSearchQuery(String? value ,{bool update = true }){
-
+  void setSearchQuery(String? value) {
     searchQuery = value;
-    if(update){
-      searchQueryStreamController.add(value);
-    }
-
   }
 
-  set lotTypeQuery(String? value) {
-    controller.add(value);
-    _lotTypeQuery = value;
+  set selectedLotTypeList(List<String>? value) {
+    _selectedLotTypeList = value;
   }
 
   bool get showSearchBox => _showSearchBox;
@@ -77,18 +93,12 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
     notifyListeners();
   }
 
-  String? get lotTypeQuery => _lotTypeQuery;
+  List<String>? get selectedLotTypeList => _selectedLotTypeList;
 
-  @override
-  void dispose() {
-    super.dispose();
-    searchQueryStreamController.close();
-    controller.close();
-  }
 
-  void refreshLotList(){
-    _lotTypeQuery = "";
-    setSearchQuery("",update: false);
-    controller.add("");
+  // TODO: need to check this method is working or not
+  void refreshLotList() {
+    _selectedLotTypeList?.clear();
+    setSearchQuery("");
   }
 }

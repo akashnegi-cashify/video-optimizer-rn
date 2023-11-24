@@ -1,9 +1,11 @@
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_list_provider.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
+import 'package:flutter_trc/qc/modules/store_out/screens/store_out_lot_filter_screen.dart';
 import 'package:flutter_trc/src/common/widgets/searchbar_widget.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
@@ -92,6 +94,7 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
                   bottom: Dimens.space_16,
                   right: Dimens.space_16,
                   child: FloatingActionButton(
+                    heroTag: "search",
                     onPressed: () {
                       if (!_showSearchView) {
                         FocusManager.instance.primaryFocus?.requestFocus();
@@ -101,10 +104,20 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
                       });
                     },
                     backgroundColor: theme.primaryColor,
-                    child: Icon(
-                      _showSearchView ? Icons.close_rounded : Icons.search,
-                      size: Dimens.space_24,
+                    child: CshIcon(
+                      _showSearchView ? FeatherIcons.x : FeatherIcons.search,
+                      iconSize: MobileIconSize.large,
                     ),
+                  ),
+                ),
+                Positioned(
+                  bottom: Dimens.space_16,
+                  left: Dimens.space_16,
+                  child: FloatingActionButton(
+                    heroTag: "filter",
+                    onPressed: () => _openFilterScreen(context),
+                    backgroundColor: theme.primaryColor,
+                    child: CshIcon(FeatherIcons.filter, iconSize: MobileIconSize.large),
                   ),
                 )
               ],
@@ -164,6 +177,16 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
               _completeReQc(lotGroupName);
             }),
       ]);
+    });
+  }
+
+  void _openFilterScreen(BuildContext context) {
+    StoreOutLotFilterScreen.navigate(context).then((value) {
+      if (value != null && value is List<String>) {
+        var provider = ReQcListProvider.of(context, listen: false);
+        provider.lotTypeFilters = value;
+        resetAndRefreshScreen();
+      }
     });
   }
 }
