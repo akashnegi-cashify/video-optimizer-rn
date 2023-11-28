@@ -10,7 +10,7 @@ class PreDispatchLotRequest {
   @JsonKey(name: "pageSize", includeIfNull: false)
   int? pageSize;
 
-  @JsonKey(name: 'filterMap',includeIfNull: false)
+  @JsonKey(name: 'filterObjectMap',includeIfNull: false)
   FilterMap? filterMap;
 
 
@@ -27,7 +27,7 @@ class FilterMap {
   String? searchQuery;
 
   @JsonKey(name: "lt", includeIfNull: false)
-  String? lotType;
+  List<String>? lotType;
 
   FilterMap({
     this.searchQuery,

@@ -13,6 +13,10 @@ dynamic schema() => {
       "pageGroup": "QC Store Out Lot Filter",
       "title": "Store Out Lot Filter Screen",
       "isActive": true,
-      "params": null
+      "params": [
+        {"key": "h", "value": null},
+        {"key": "lt", "value": null}
+      ]
+
       //#adminscreen
     };

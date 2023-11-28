@@ -1,10 +1,10 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/pre_dispatch_lot_provider.dart';
-import '../screens/index.dart';
 import 'index.dart';
 
 class PreDispatchLotContainer extends StatelessWidget {
@@ -43,14 +43,11 @@ class PreDispatchLotContainer extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child:   Selector<PreDispatchLotProvider, String>(
+                child: Selector<PreDispatchLotProvider, String>(
                   builder: (BuildContext context, value, Widget? child) {
                     return PreDispatchLotsWidget(key: ObjectKey(value));
                   },
-                  selector: (
-                    BuildContext context,
-                    PreDispatchLotProvider provider,
-                  ) {
+                  selector: (_, PreDispatchLotProvider provider) {
                     return provider.searchQuery ?? '';
                   },
                 ),
@@ -108,10 +105,11 @@ class PreDispatchLotContainer extends StatelessWidget {
   }
 
   void _openFilterScreen(BuildContext context) {
-    PreDispatchLotFilterScreen.navigate(context).then((value) {
-      var provider = PreDispatchLotProvider.of(context: context, listen: false);
-      print('PreDispatchLotContainer._openFilterScreen :::: ${value}');
-      provider.lotTypeQuery = value;
+    var provider = PreDispatchLotProvider.of(context: context, listen: false);
+    StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotTypeQuery).then((value) {
+      if (value != null && value is List<String>) {
+        provider.lotTypeQuery = value;
+      }
     });
   }
 }

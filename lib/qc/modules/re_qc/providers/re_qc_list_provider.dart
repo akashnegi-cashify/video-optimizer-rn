@@ -19,6 +19,8 @@ class ReQcListProvider extends CshChangeNotifier {
     _lotTypeFilters = value;
   }
 
+  List<String>? get lotTypeFilters => _lotTypeFilters;
+
   static ReQcListProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<ReQcListProvider>(context, listen: listen);
   }

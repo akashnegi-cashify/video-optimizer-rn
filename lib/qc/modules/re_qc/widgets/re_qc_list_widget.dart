@@ -181,9 +181,9 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
   }
 
   void _openFilterScreen(BuildContext context) {
-    StoreOutLotFilterScreen.navigate(context).then((value) {
-      if (value != null && value is List<String>) {
         var provider = ReQcListProvider.of(context, listen: false);
+    StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotTypeFilters).then((value) {
+      if (value != null && value is List<String>) {
         provider.lotTypeFilters = value;
         resetAndRefreshScreen();
       }

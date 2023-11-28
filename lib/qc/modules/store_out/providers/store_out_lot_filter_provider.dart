@@ -9,8 +9,9 @@ import '../resources/services.dart';
 
 class StoreOutLotFilterProvider extends CshChangeNotifier with Searchable {
   late ListState<LotTypeFilterItem?> _filters;
+  List<String>? selectedLotType;
 
-  StoreOutLotFilterProvider() {
+  StoreOutLotFilterProvider({this.selectedLotType}) {
     _filters = ListState();
     _fetchFilter();
   }
@@ -21,6 +22,9 @@ class StoreOutLotFilterProvider extends CshChangeNotifier with Searchable {
 
   void _fetchFilter() {
     StoreOutServices.storeOutLotTypeFilters().listen((event) {
+      event?.data?.forEach((element) {
+        element.isSelected = selectedLotType?.contains(element.lotType.toString()) ?? false;
+      });
       _filters = _filters.copyWith(status: RequestStatus.success, data: event?.data);
     }, onError: (error, stack) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";

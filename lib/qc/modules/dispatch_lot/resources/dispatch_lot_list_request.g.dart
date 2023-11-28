@@ -11,7 +11,8 @@ DispatchLotRequest _$DispatchLotRequestFromJson(Map<String, dynamic> json) =>
       ..pageNo = json['os'] as int?
       ..pageSize = json['ps'] as int?
       ..searchQuery = json['q'] as String?
-      ..channelQuery = json['chq'] as String?;
+      ..lotType =
+          (json['chq'] as List<dynamic>?)?.map((e) => e as String).toList();
 
 Map<String, dynamic> _$DispatchLotRequestToJson(DispatchLotRequest instance) {
   final val = <String, dynamic>{};
@@ -25,6 +26,6 @@ Map<String, dynamic> _$DispatchLotRequestToJson(DispatchLotRequest instance) {
   writeNotNull('os', instance.pageNo);
   writeNotNull('ps', instance.pageSize);
   writeNotNull('q', instance.searchQuery);
-  writeNotNull('chq', instance.channelQuery);
+  writeNotNull('chq', instance.lotType);
   return val;
 }

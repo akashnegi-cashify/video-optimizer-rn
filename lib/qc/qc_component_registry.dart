@@ -27,7 +27,6 @@ import 'package:flutter_trc/qc/modules/supervisor/components/supervisor_componen
 import 'modules/dead_repair/components/index.dart';
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_component.dart';
-import 'modules/dispatch_lot/components/dispatch_lots_filter_component.dart';
 import 'modules/gaurd/components/qc_guard_add_agent_component.dart';
 import 'modules/pre_dispatch/components/index.dart';
 import 'modules/qc_actions/component/qc_action_component.dart';
@@ -90,8 +89,6 @@ class QcComponentRegistry {
         return DispatchLotsComponent(jsonConfig);
       case InvoiceScanComponent.COMP_KEY:
         return InvoiceScanComponent(jsonConfig);
-      case DispatchLotsFilterComponent.COMP_KEY:
-        return DispatchLotsFilterComponent(jsonConfig);
       case StockTransferListComponent.COMP_KEY:
         return StockTransferListComponent(jsonConfig);
       case StStoreOutComponent.COMP_KEY:
@@ -103,9 +100,6 @@ class QcComponentRegistry {
 
       case PreDispatchLotsComponent.COMP_KEY:
         return PreDispatchLotsComponent(jsonConfig);
-
-      case PreDispatchLotsFilterComponent.COMP_KEY:
-        return PreDispatchLotsFilterComponent(jsonConfig);
 
       case PreDispatchComponent.COMP_KEY:
         return PreDispatchComponent(jsonConfig);

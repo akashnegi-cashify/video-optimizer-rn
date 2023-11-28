@@ -30,7 +30,7 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
       pageSize: offset,
       filterMap: FilterMap(
         searchQuery: searchQuery,
-        lotType: _selectedLotTypeList,
+        lotType: Validator.isListNullOrEmpty(_selectedLotTypeList) ? null : _selectedLotTypeList
       ),
     );
     StoreOutServices.fetchStoreOutLotList(request).listen(

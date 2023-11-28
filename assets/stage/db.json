@@ -852,21 +852,6 @@
       ]
     },
     {
-      "pageId": 10024,
-      "pageKey": "QC_qc_dispatch_lot_filter",
-      "dt": [
-        {
-          "id": 10043,
-          "key": "QC_qc_dispatch_lots_filter_component",
-          "type": "component"
-        },
-        {
-          "id": 10042,
-          "key": "header_QC_qc_general"
-        }
-      ]
-    },
-    {
       "pageId": 10100,
       "pageKey": "QC_re_qc_list_screen",
       "dt": [
@@ -911,24 +896,6 @@
         }
       ]
     },
-
-    {
-      "pageId": 10026,
-      "pageKey": "QC_qc_pre_dispatch_lot_filter",
-      "dt": [
-        {
-          "id": 10046,
-          "key": "QC_qc_pre_dispatch_lots_filter_component",
-          "type": "component"
-        },
-        {
-          "id": 10047,
-          "key": "header_QC_qc_general"
-        }
-      ]
-    },
-
-
     {
       "pageId": 10027,
       "pageKey": "QC_qc_pre_dispatch",
@@ -2440,29 +2407,6 @@
         }
       }
     },
-
-    {
-      "componentId": 10042,
-      "locale": "en",
-      "key": "header_QC_qc_general",
-      "configJson": {
-        "config": {
-          "ht": "Dispatch Filter",
-          "sbb": true,
-          "slb": false
-        }
-      }
-    },
-    {
-      "componentId": 10043,
-      "locale": "en",
-      "key": "QC_qc_dispatch_lots_filter_component",
-      "configJson": {
-        "config": {
-          "none": "None"
-        }
-      }
-    },
     {
       "componentId": 10101,
       "locale": "en",
@@ -2529,30 +2473,6 @@
         }
       }
     },
-
-    {
-      "componentId": 10046,
-      "locale": "en",
-      "key": "header_QC_qc_general",
-      "configJson": {
-        "config": {
-          "ht": "Pre Dispatch Filter",
-          "sbb": true,
-          "slb": false
-        }
-      }
-    },
-    {
-      "componentId": 10047,
-      "locale": "en",
-      "key": "QC_qc_pre_dispatch_lots_filter_component",
-      "configJson": {
-        "config": {
-          "none": "None"
-        }
-      }
-    },
-
     {
       "componentId": 10048,
       "locale": "en",

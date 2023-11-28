@@ -11,9 +11,9 @@ PreDispatchLotRequest _$PreDispatchLotRequestFromJson(
     PreDispatchLotRequest(
       pageNo: json['offset'] as int?,
       pageSize: json['pageSize'] as int?,
-      filterMap: json['filterMap'] == null
+      filterMap: json['filterObjectMap'] == null
           ? null
-          : FilterMap.fromJson(json['filterMap'] as Map<String, dynamic>),
+          : FilterMap.fromJson(json['filterObjectMap'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PreDispatchLotRequestToJson(
@@ -28,13 +28,13 @@ Map<String, dynamic> _$PreDispatchLotRequestToJson(
 
   writeNotNull('offset', instance.pageNo);
   writeNotNull('pageSize', instance.pageSize);
-  writeNotNull('filterMap', instance.filterMap);
+  writeNotNull('filterObjectMap', instance.filterMap);
   return val;
 }
 
 FilterMap _$FilterMapFromJson(Map<String, dynamic> json) => FilterMap(
       searchQuery: json['q'] as String?,
-      lotType: json['lt'] as String?,
+      lotType: (json['lt'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$FilterMapToJson(FilterMap instance) {

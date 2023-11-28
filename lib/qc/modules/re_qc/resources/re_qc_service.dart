@@ -20,7 +20,7 @@ class ReQcService {
         if (!Validator.isNullOrEmpty(searchQuery)) "q": searchQuery,
         if (!Validator.isListNullOrEmpty(lotType)) "lt": lotType,
       };
-      req["filterMap"] = filterMap;
+      req["filterObjectMap"] = filterMap;
     }
 
     return QcService().post("/lot-re-qc/v2", ReQcListResponse.fromJson, body: jsonEncode(req));

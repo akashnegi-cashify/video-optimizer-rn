@@ -1,10 +1,10 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/dispatch_lot_provider.dart';
-import '../screens/index.dart';
 import 'index.dart';
 
 class DispatchLotContainer extends StatelessWidget {
@@ -109,9 +109,11 @@ class DispatchLotContainer extends StatelessWidget {
   }
 
   void _openFilterScreen(BuildContext context) {
-    DispatchLotFilterScreen.navigate(context).then((value) {
-      var provider = DispatchLotProvider.of(context: context, listen: false);
-      provider.channelQuery = value;
+    var provider = DispatchLotProvider.of(context: context, listen: false);
+    StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotType).then((value) {
+      if (value != null && value is List<String>) {
+        provider.lotType = value;
+      }
     });
   }
 }

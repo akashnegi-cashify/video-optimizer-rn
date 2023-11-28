@@ -1,7 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/my_search_bar_widget.dart';
-import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 import '../providers/index.dart';
@@ -18,34 +17,30 @@ class _StoreOutLotFilterWidgetState extends State<StoreOutLotFilterWidget> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
-    return ChangeNotifierProvider(
-      create: (context) => StoreOutLotFilterProvider(),
-      child: Builder(builder: (builderContext) {
-        var provider = StoreOutLotFilterProvider.of(context: builderContext);
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
-              child: MySearchBarWidget(
-                  hintText: "Search Lot Type",
-                  showBorder: false,
-                  onQuery: (query) {
-                    provider.searchQuery = query;
-                  }),
-            ),
-            const Expanded(child: _FilterItemWidget()),
-            const SizedBox(height: Dimens.space_8),
-            ComboButton(
-                firstBtnText: l10n.clear,
-                secondBtnText: l10n.apply,
-                isFirstPrimary: true,
-                firstBtnClick: () => _onCancel(builderContext),
-                secondBtnClick: provider.isAnyItemSelected() ? () => _onApply(builderContext) : null),
-          ],
-        );
-      }),
+    var provider = StoreOutLotFilterProvider.of(context: context);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
+          child: MySearchBarWidget(
+              hintText: "Search Lot Type",
+              showBorder: false,
+              onQuery: (query) {
+                provider.searchQuery = query;
+              }),
+        ),
+        const Expanded(child: _FilterItemWidget()),
+        const SizedBox(height: Dimens.space_8),
+        ComboButton(
+            firstBtnText: l10n.clear,
+            secondBtnText: l10n.apply,
+            isFirstPrimary: true,
+            firstBtnClick: () => _onCancel(context),
+            // secondBtnClick: provider.isAnyItemSelected() ? () => _onApply(context) : null),
+            secondBtnClick: () => _onApply(context)),
+      ],
     );
   }
 
@@ -57,7 +52,7 @@ class _StoreOutLotFilterWidgetState extends State<StoreOutLotFilterWidget> {
   void _onApply(BuildContext context) {
     var provider = StoreOutLotFilterProvider.of(context: context, listen: false);
     var selectedItem = provider.getSelectedFilter();
-    Navigator.pop(context, selectedItem);
+    Navigator.pop(context, selectedItem ?? []);
   }
 }
 

@@ -14,13 +14,6 @@ class DispatchLotServices {
     );
   }
 
-  static Stream<PreDispatchFilterResponse?> preDispatchFilters() {
-    return QcService().get(
-      "/store-out/v2/list-lot-types",
-      PreDispatchFilterResponse.fromJson,
-    );
-  }
-
   static Stream<PreDispatchItemResponse?> fetchPreDispatchItemDetail(String groupLotName) {
     Map<String, List<String>> param = {
       "gln": [groupLotName],
