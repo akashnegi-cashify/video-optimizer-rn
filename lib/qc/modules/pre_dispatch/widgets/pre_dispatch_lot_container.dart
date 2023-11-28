@@ -107,7 +107,7 @@ class PreDispatchLotContainer extends StatelessWidget {
   void _openFilterScreen(BuildContext context) {
     var provider = PreDispatchLotProvider.of(context: context, listen: false);
     StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotTypeQuery).then((value) {
-      if (value != null && value is List<String>) {
+      if (value != null && value is List<int>) {
         provider.lotTypeQuery = value;
       }
     });

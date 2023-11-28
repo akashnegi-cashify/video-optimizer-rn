@@ -9,17 +9,17 @@ import 'package:provider/provider.dart';
 class ReQcListProvider extends CshChangeNotifier {
   String? _query;
 
-  List<String>? _lotTypeFilters;
+  List<int>? _lotTypeFilters;
 
   set query(String? value) {
     _query = value;
   }
 
-  set lotTypeFilters(List<String>? value) {
+  set lotTypeFilters(List<int>? value) {
     _lotTypeFilters = value;
   }
 
-  List<String>? get lotTypeFilters => _lotTypeFilters;
+  List<int>? get lotTypeFilters => _lotTypeFilters;
 
   static ReQcListProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<ReQcListProvider>(context, listen: listen);

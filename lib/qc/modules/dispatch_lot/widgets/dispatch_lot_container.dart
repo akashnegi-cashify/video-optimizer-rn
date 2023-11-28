@@ -111,7 +111,7 @@ class DispatchLotContainer extends StatelessWidget {
   void _openFilterScreen(BuildContext context) {
     var provider = DispatchLotProvider.of(context: context, listen: false);
     StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotType).then((value) {
-      if (value != null && value is List<String>) {
+      if (value != null && value is List<int>) {
         provider.lotType = value;
       }
     });

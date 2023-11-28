@@ -32,7 +32,7 @@ Map<String, dynamic> _$LotListRequestToJson(LotListRequest instance) {
 
 FilterMap _$FilterMapFromJson(Map<String, dynamic> json) => FilterMap(
       searchQuery: json['q'] as String?,
-      lotType: (json['lt'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      lotType: (json['lt'] as List<dynamic>?)?.map((e) => e as int).toList(),
     );
 
 Map<String, dynamic> _$FilterMapToJson(FilterMap instance) {

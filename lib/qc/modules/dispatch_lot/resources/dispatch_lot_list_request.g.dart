@@ -12,7 +12,7 @@ DispatchLotRequest _$DispatchLotRequestFromJson(Map<String, dynamic> json) =>
       ..pageSize = json['ps'] as int?
       ..searchQuery = json['q'] as String?
       ..lotType =
-          (json['chq'] as List<dynamic>?)?.map((e) => e as String).toList();
+          (json['chq'] as List<dynamic>?)?.map((e) => e as int).toList();
 
 Map<String, dynamic> _$DispatchLotRequestToJson(DispatchLotRequest instance) {
   final val = <String, dynamic>{};

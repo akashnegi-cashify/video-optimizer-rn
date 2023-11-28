@@ -4,7 +4,7 @@ import 'dispatch_lot_interactor.dart';
 
 class DispatchLotInteractorImpl implements DispatchLotInteractor {
   @override
-  Stream<DispatchLotsResponse?> getData(int pageIndex, int pageSize, {String? searchQuery, List<String>? lotType}) {
+  Stream<DispatchLotsResponse?> getData(int pageIndex, int pageSize, {String? searchQuery, List<int>? lotType}) {
     DispatchLotRequest request = DispatchLotRequest();
     request.pageNo = pageIndex;
     request.pageSize = pageSize;

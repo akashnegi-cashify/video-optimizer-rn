@@ -14,7 +14,7 @@ class DispatchLotRequest {
   String? searchQuery;
 
   @JsonKey(name: "chq",includeIfNull: false)
-  List<String>? lotType;
+  List<int>? lotType;
 
   static DispatchLotRequest fromJson(Map<String, dynamic> data) => _$DispatchLotRequestFromJson(data);
 

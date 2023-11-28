@@ -103,7 +103,7 @@ class StoreOutLotListContainer extends StatelessWidget {
   void _openFilterScreen(BuildContext context) {
         var provider = StoreOutProvider.of(context, listen: false);
     StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.selectedLotTypeList).then((value) {
-      if (value != null && value is List<String>) {
+      if (value != null && value is List<int>) {
         provider.selectedLotTypeList = value;
         listKey.currentState?.resetAndRefreshScreen();
       }

@@ -11,7 +11,7 @@ import '../resources/services.dart';
 
 class StoreOutProvider extends CshChangeNotifier with Searchable {
   bool _showSearchBox = false;
-  List<String>? _selectedLotTypeList;
+  List<int>? _selectedLotTypeList;
 
   late DataState<StoreOutBinListResponse?> binListDataState;
 
@@ -82,7 +82,7 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
     searchQuery = value;
   }
 
-  set selectedLotTypeList(List<String>? value) {
+  set selectedLotTypeList(List<int>? value) {
     _selectedLotTypeList = value;
   }
 
@@ -93,7 +93,7 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
     notifyListeners();
   }
 
-  List<String>? get selectedLotTypeList => _selectedLotTypeList;
+  List<int>? get selectedLotTypeList => _selectedLotTypeList;
 
 
   // TODO: need to check this method is working or not

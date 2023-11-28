@@ -9,7 +9,7 @@ import '../resources/services.dart';
 
 class StoreOutLotFilterProvider extends CshChangeNotifier with Searchable {
   late ListState<LotTypeFilterItem?> _filters;
-  List<String>? selectedLotType;
+  List<int>? selectedLotType;
 
   StoreOutLotFilterProvider({this.selectedLotType}) {
     _filters = ListState();
@@ -23,7 +23,7 @@ class StoreOutLotFilterProvider extends CshChangeNotifier with Searchable {
   void _fetchFilter() {
     StoreOutServices.storeOutLotTypeFilters().listen((event) {
       event?.data?.forEach((element) {
-        element.isSelected = selectedLotType?.contains(element.lotType.toString()) ?? false;
+        element.isSelected = selectedLotType?.contains(element.lotType) ?? false;
       });
       _filters = _filters.copyWith(status: RequestStatus.success, data: event?.data);
     }, onError: (error, stack) {
@@ -35,11 +35,11 @@ class StoreOutLotFilterProvider extends CshChangeNotifier with Searchable {
     });
   }
 
-  void updateFilterSelectionState(String? lotType) {
+  void updateFilterSelectionState(int? lotType) {
     var items = ArrayUtil.removeNullItems<LotTypeFilterItem?>(_filters.data ?? []);
     var item = ArrayUtil.firstWhereNull<LotTypeFilterItem>(
       items,
-      (element) => element?.lotType?.toLowerCase() == lotType?.toLowerCase(),
+      (element) => element?.lotType == lotType,
     );
     if (item != null) {
       item.isSelected = !item.isSelected;
@@ -52,7 +52,7 @@ class StoreOutLotFilterProvider extends CshChangeNotifier with Searchable {
     notifyListeners();
   }
 
-  List<String>? getSelectedFilter() {
+  List<int>? getSelectedFilter() {
     _filters.data?.retainWhere((element) => element?.isSelected == true);
     return _filters.data?.map((e) => e!.lotType!).toList();
   }

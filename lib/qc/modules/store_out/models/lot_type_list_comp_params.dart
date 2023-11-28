@@ -6,7 +6,7 @@ class LotTypeListCompParams {
   String? header;
 
   @ParamKey(key: LotTypeListCompParamKeys.lotType)
-  List<String>? lotType;
+  List<int>? lotType;
 
   LotTypeListCompParams({this.header, this.lotType});
 }

@@ -26,7 +26,7 @@ class FilterMap {
   String? searchQuery;
 
   @JsonKey(name: "lt", includeIfNull: false)
-  List<String>? lotType;
+  List<int>? lotType;
 
   FilterMap({
     this.searchQuery,

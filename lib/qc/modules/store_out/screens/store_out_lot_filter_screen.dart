@@ -26,13 +26,13 @@ class StoreOutLotFilterScreen extends BaseScreen<StoreOutLotFilterScreenArgument
     );
   }
 
-  static Future navigate(BuildContext context, {List<String>? selectedLotType}) {
+  static Future navigate(BuildContext context, {List<int>? selectedLotType}) {
     return Navigator.pushNamed(context, route, arguments: StoreOutLotFilterScreenArguments(selectedLotType));
   }
 }
 
 class StoreOutLotFilterScreenArguments extends BaseArguments {
-  final List<String>? selectedLotType;
+  final List<int>? selectedLotType;
   final String header;
 
   StoreOutLotFilterScreenArguments(this.selectedLotType, {this.header = "Lot Type"})

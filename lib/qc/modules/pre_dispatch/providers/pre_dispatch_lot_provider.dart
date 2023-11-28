@@ -11,8 +11,8 @@ import '../resources/services.dart';
 
 class PreDispatchLotProvider extends CshChangeNotifier with Searchable {
   bool _showSearchBox = false;
-  List<String>? _lotTypeQuery;
-  late StreamController<List<String>?> controller ;
+  List<int>? _lotTypeQuery;
+  late StreamController<List<int>?> controller ;
 
 
   PreDispatchLotProvider() {
@@ -29,12 +29,12 @@ class PreDispatchLotProvider extends CshChangeNotifier with Searchable {
     notifyListeners();
   }
 
-  set lotTypeQuery(List<String>? value) {
+  set lotTypeQuery(List<int>? value) {
     controller.add(value);
     _lotTypeQuery = value;
   }
 
-  List<String>? get lotTypeQuery => _lotTypeQuery ;
+  List<int>? get lotTypeQuery => _lotTypeQuery ;
 
   static PreDispatchLotProvider of({required BuildContext context, bool listen = true}) {
     return Provider.of<PreDispatchLotProvider>(context, listen: listen);
