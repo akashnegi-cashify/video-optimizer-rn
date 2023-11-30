@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/my_counter_button.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
@@ -75,7 +76,7 @@ class _OrderPartWidget extends StatelessWidget {
                                 const SizedBox(height: Dimens.space_6),
                                 CshDropDown(
                                     items: provider.partTypeList,
-                                    key: ValueKey("${part.sku}-${part.partColor}"),
+                                    key: ValueKey("${part.sku}-${part.partColor}-${part.selectedPartType?.id}"),
                                     selectedItem: part.selectedPartType,
                                     hintText: "Select",
                                     onChanged: (DropDownItem? value) {
@@ -85,7 +86,7 @@ class _OrderPartWidget extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: Dimens.space_8),
-                          CounterButton(
+                          MyCounterButton(
                             onIncrementClick: () {
                               provider.updateDataForNIndex(part, 1);
                             },
@@ -93,7 +94,8 @@ class _OrderPartWidget extends StatelessWidget {
                               provider.updateDataForNIndex(part, -1);
                             },
                             key: ValueKey(part.orderQuantity),
-                            isDismissed: provider.isDismissed(part.selectedPartType),
+                            isDismissed: part.selectedPartType == null,
+                            maxCount: provider.getMaxQuantity(part.selectedPartType),
                             counter: part.orderQuantity ?? 0,
                           )
                         ],

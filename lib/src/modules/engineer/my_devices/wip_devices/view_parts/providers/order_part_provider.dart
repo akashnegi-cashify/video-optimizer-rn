@@ -60,6 +60,9 @@ class OrderPartProvider extends CshChangeNotifier {
     if (searchedIndex > -1) {
       var item = _originalDataList[searchedIndex];
       item.orderQuantity = (item.orderQuantity ?? 0) + update;
+      if (item.orderQuantity == 0) {
+        item.selectedPartType = null;
+      }
       notifyListeners();
     }
   }
@@ -85,6 +88,18 @@ class OrderPartProvider extends CshChangeNotifier {
       return false;
     } else {
       return true;
+    }
+  }
+
+  int? getMaxQuantity(DropDownItem? selectedPartType) {
+    if (selectedPartType == null) {
+      return null;
+    }
+
+    if (selectedPartType.id == ElssPartsSelectionOptions.repairRequired.id.toString()) {
+      return null;
+    } else {
+      return 1;
     }
   }
 

@@ -25,8 +25,12 @@ class OrderEngineerPart extends EngineerPartInfo {
 
   set selectedPartType(DropDownItem? value) {
     _selectedPartType = value;
-    partType = int.parse(value!.id!);
-    orderQuantity = 1;
+    if (value == null) {
+     partType = null;
+    } else {
+      partType = int.parse(value.id!);
+      orderQuantity = 1;
+    }
   }
 
   static OrderEngineerPart fromJson(Map<String, dynamic> data) => _$OrderEngineerPartFromJson(data);
