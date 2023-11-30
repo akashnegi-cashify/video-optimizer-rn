@@ -1,9 +1,9 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/providers/store_out_lot_filter_provider.dart';
 import 'package:flutter_trc/src/common/widgets/my_search_bar_widget.dart';
 
-import '../l10n.dart';
-import '../providers/index.dart';
+import '../../../modules/store_out/l10n.dart';
 
 class StoreOutLotFilterWidget extends StatefulWidget {
   const StoreOutLotFilterWidget({super.key});

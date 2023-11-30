@@ -40,6 +40,7 @@ import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_screen.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_screen.dart';
 import 'package:flutter_trc/src/modules/splash/splash_screen.dart';
+import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
@@ -101,6 +102,7 @@ class TrcRoutes {
       LoginScreen.route: (_) => const LoginScreen(),
       TrcAndQcLoginScreen.route: (_) => const TrcAndQcLoginScreen(),
       TrcTesterScreen.route: (_) => const TrcTesterScreen(),
+      StoreManagerHomeScreen.route: (_) => const StoreManagerHomeScreen(),
     };
   }
 }

@@ -5,7 +5,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_list_provider.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
-import 'package:flutter_trc/qc/modules/store_out/screens/store_out_lot_filter_screen.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
 import 'package:flutter_trc/src/common/widgets/searchbar_widget.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 

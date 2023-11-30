@@ -1,6 +1,7 @@
 import 'package:builder_component/builder_component.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/store_in/providers/store_in_provider.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
@@ -24,11 +25,10 @@ class StoreInLocationScanComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    return paramBuilder((paramModel) => StoreInLocationScanWidget(
-          locBarcode: paramModel.barcode,
-          availableSpace: paramModel.availableSpace,
-          totalCount: paramModel.totalCount,
-          isBinStoreIn: paramModel.binStoreIn ?? false,
+    return paramBuilder((paramModel) => ChangeNotifierProvider(
+          create: (_) => StoreInProvider(locQrCode: paramModel.barcode, isBinStoreIn: paramModel.binStoreIn ?? false),
+          lazy: false,
+          child: const StoreInLocationScanWidget(),
         ));
   }
 

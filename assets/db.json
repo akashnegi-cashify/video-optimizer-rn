@@ -534,6 +534,21 @@
       ]
     },
     {
+      "pageId": 40,
+      "pageKey": "TRC_store_manager_home",
+      "dt": [
+        {
+          "id": 64,
+          "key": "TRC_store_manager_home_component",
+          "type": "component"
+        },
+        {
+          "id": 65,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -911,22 +926,6 @@
         }
       ]
     },
-    {
-      "pageId": 10028,
-      "pageKey": "QC_qc_store_in",
-      "dt": [
-        {
-          "id": 10049,
-          "key": "header_QC_qc_general"
-        },
-        {
-          "id": 10022,
-          "key": "disputed_image_barcode_scanner",
-          "type": "component"
-        }
-      ]
-    },
-
     {
       "pageId": 10029,
       "pageKey": "QC_qc_store_in_location_scan",
@@ -1974,6 +1973,28 @@
       "configJson": {
         "config": {
           "ht": "TRC-QC Role",
+          "sbb": true,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 64,
+      "locale": "en",
+      "key": "TRC_store_manager_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 65,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "TRC Store Manager Role",
           "sbb": true,
           "slb": true
         }

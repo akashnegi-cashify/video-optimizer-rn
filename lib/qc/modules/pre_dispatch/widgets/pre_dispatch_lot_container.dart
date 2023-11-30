@@ -1,7 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/pre_dispatch_lot_provider.dart';

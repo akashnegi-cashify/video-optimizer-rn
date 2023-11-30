@@ -1,7 +1,7 @@
 import 'package:builder_project/builder_project.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/store_out/models/lot_type_list_comp_params.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/models/lot_type_list_comp_params.dart';
 
 import '../../../../src/app_builder/app_builder_groups/qc_groups.dart';
 

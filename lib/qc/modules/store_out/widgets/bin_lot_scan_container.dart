@@ -29,7 +29,7 @@ class BinLotScanContainer extends StatelessWidget {
     var valueTextStyle = theme.primaryTextTheme.displayMedium?.copyWith(color: theme.primaryColor);
 
     return ChangeNotifierProvider(
-      create: (_) => LotScanProvider.binLotList(lotType: lotType, lotName: lotName),
+      create: (_) => LotScanProvider(lotType: lotType, lotName: lotName),
       lazy: false,
       child: Builder(
         builder: (builderContext) {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/provider/qc_trc_service_init_provider.dart';
 import 'package:flutter_trc/src/common/resources/lot_list_request.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +10,7 @@ import '../../../../src/common/searchable.dart';
 import '../resources/index.dart';
 import '../resources/services.dart';
 
-class StoreOutProvider extends CshChangeNotifier with Searchable {
+class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
   bool _showSearchBox = false;
   List<int>? _selectedLotTypeList;
 
@@ -19,7 +20,8 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
     return Provider.of<StoreOutProvider>(context, listen: listen);
   }
 
-  StoreOutProvider() {
+  @override
+  onServiceInitialized() {
     binListDataState = DataState();
   }
 
@@ -29,11 +31,10 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
       pageNo: pageNo,
       pageSize: offset,
       filterMap: FilterMap(
-        searchQuery: searchQuery,
-        lotType: Validator.isListNullOrEmpty(_selectedLotTypeList) ? null : _selectedLotTypeList
-      ),
+          searchQuery: searchQuery,
+          lotType: Validator.isListNullOrEmpty(_selectedLotTypeList) ? null : _selectedLotTypeList),
     );
-    StoreOutServices.fetchStoreOutLotList(request).listen(
+    StoreOutServices.fetchStoreOutLotList(request, service: service).listen(
       (event) {
         if (!Validator.isListNullOrEmpty(event?.lotList)) {
           completer.complete(event?.lotList);
@@ -51,7 +52,7 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
   void fetchStoreOutBinList() {
     binListDataState = binListDataState.copyWith(status: RequestStatus.initial, data: null);
     notifyListeners();
-    StoreOutServices.fetchStoreOutBinList().listen((event) {
+    StoreOutServices.fetchStoreOutBinList(service: service).listen((event) {
       binListDataState = binListDataState.copyWith(status: RequestStatus.success, data: event);
       notifyListeners();
     }, onError: (error, stackTrace) {
@@ -64,7 +65,7 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
   Future<BinOutVerifyResponse?> binOutVerifyBarCode(BinOutRequest request) {
     var completer = Completer<BinOutVerifyResponse?>();
 
-    StoreOutServices.binOutVerifyBarCodeService(request).listen((event) {
+    StoreOutServices.binOutVerifyBarCodeService(request, service: service).listen((event) {
       if (event?.isValid() == true) {
         completer.complete();
       } else {
@@ -94,7 +95,6 @@ class StoreOutProvider extends CshChangeNotifier with Searchable {
   }
 
   List<int>? get selectedLotTypeList => _selectedLotTypeList;
-
 
   // TODO: need to check this method is working or not
   void refreshLotList() {

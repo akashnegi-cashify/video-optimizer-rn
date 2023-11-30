@@ -23,6 +23,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_scree
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/screens/supervisor_screen.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
 import 'package:flutter_trc/src/common/gallery_screen.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_screen.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
@@ -75,7 +76,6 @@ class QcRoutes {
       PendingLotDetailScreen.route: (_) => const PendingLotDetailScreen(),
       PendingDispatchDetailScreen.route: (_) => const PendingDispatchDetailScreen(),
       PreDispatchScreen.route: (_) => const PreDispatchScreen(),
-      StoreInScreen.route: (_) => StoreInScreen(),
       StoreInLocationScanScreen.route: (_) => const StoreInLocationScanScreen(),
       QcGuardHomeScreen.route: (_) => const QcGuardHomeScreen(),
       GuardDeviceCountingListScreen.route: (_) => const GuardDeviceCountingListScreen(),

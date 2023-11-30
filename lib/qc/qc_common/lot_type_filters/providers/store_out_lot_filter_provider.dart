@@ -1,11 +1,11 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/resources/lot_type_filter_service.dart';
 import 'package:flutter_trc/src/common/searchable.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../src/common/resources/lot_type_filter_response.dart';
-import '../resources/services.dart';
+import '../resources/lot_type_filter_response.dart';
 
 class StoreOutLotFilterProvider extends CshChangeNotifier with Searchable {
   late ListState<LotTypeFilterItem?> _filters;
@@ -21,7 +21,7 @@ class StoreOutLotFilterProvider extends CshChangeNotifier with Searchable {
   }
 
   void _fetchFilter() {
-    StoreOutServices.storeOutLotTypeFilters().listen((event) {
+    LotTypeFilterService.storeOutLotTypeFilters().listen((event) {
       event?.data?.forEach((element) {
         element.isSelected = selectedLotType?.contains(element.lotType) ?? false;
       });
