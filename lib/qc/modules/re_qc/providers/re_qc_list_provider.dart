@@ -9,9 +9,17 @@ import 'package:provider/provider.dart';
 class ReQcListProvider extends CshChangeNotifier {
   String? _query;
 
+  List<int>? _lotTypeFilters;
+
   set query(String? value) {
     _query = value;
   }
+
+  set lotTypeFilters(List<int>? value) {
+    _lotTypeFilters = value;
+  }
+
+  List<int>? get lotTypeFilters => _lotTypeFilters;
 
   static ReQcListProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<ReQcListProvider>(context, listen: listen);
@@ -19,7 +27,7 @@ class ReQcListProvider extends CshChangeNotifier {
 
   Future<List<ReQcListData>?> getReQcList(int pageSize, int offset) {
     var completer = Completer<List<ReQcListData>?>();
-    ReQcService.getReQcList(pageSize, offset, searchQuery: _query).listen((response) {
+    ReQcService.getReQcList(pageSize, offset, searchQuery: _query, lotType: _lotTypeFilters).listen((response) {
       if (!Validator.isListNullOrEmpty(response?.list)) {
         completer.complete(response?.list);
       } else {

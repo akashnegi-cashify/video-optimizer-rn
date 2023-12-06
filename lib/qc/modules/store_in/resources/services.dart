@@ -1,31 +1,33 @@
 import 'dart:convert';
 
-import 'package:flutter_trc/src/services/qc_service.dart';
+import 'package:core_widgets/core_widgets.dart';
 
 import 'index.dart';
 
 class StoreInServices {
-  static Stream<StoreInLocationVerifyResponse?> verifyLocBarCode(String locationBarcode, bool mIsBinIn) {
+  static Stream<StoreInLocationVerifyResponse?> verifyLocBarCode(String? locationBarcode, bool mIsBinIn,
+      {required BaseService service}) {
     var params = {
-      "lbc": [locationBarcode]
+      "lbc": [locationBarcode.toString()]
     };
 
     String endUrl = mIsBinIn ? "/bin/store-in/verify-cell" : "/store-in/verify-cell";
 
-    return QcService().get(
+    return service.get(
       endUrl,
       StoreInLocationVerifyResponse.fromJson,
       params: params,
     );
   }
 
-  static Stream<StoreInLocationVerifyResponse?> storeInDevice(StoreInDeviceRequest request, bool mIsBinIn) {
+  static Stream<StoreInLocationVerifyResponse?> storeInDevice(StoreInDeviceRequest request, bool mIsBinIn,
+      {required BaseService service}) {
     String endUrl = mIsBinIn ? "/bin/store-in/verify-cell" : "/store-in/verify-cell-v1";
 
-    var headers = QcService().getHeaders(null);
+    var headers = service.getHeaders(null);
     headers["content-type"] = "application/x-www-form-urlencoded";
 
-    return QcService().post(
+    return service.post(
       endUrl,
       StoreInLocationVerifyResponse.fromJson,
       body: mIsBinIn

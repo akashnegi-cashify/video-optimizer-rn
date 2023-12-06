@@ -10,9 +10,7 @@ StoreOutLotListResponse _$StoreOutLotListResponseFromJson(
         Map<String, dynamic> json) =>
     StoreOutLotListResponse(
       lotList: (json['dt'] as List<dynamic>?)
-          ?.map((e) => e == null
-              ? null
-              : StoreOutLotListItem.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => StoreOutLotListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     )
       ..totalCount = json['tc'] as int?

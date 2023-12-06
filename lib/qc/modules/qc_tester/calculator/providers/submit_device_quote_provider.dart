@@ -83,7 +83,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
       stepperItem.subTitle = event?.grade ?? "";
       iDeviceQuote?.onSubmitCalculatorSuccess(event?.grade, event?.cautionMessage);
       _submitManualQuestions();
-      if (isDeviceTypeLob || !CalculatorDataHolderModel().isCaptureMediaMandatory) {
+      if (Validator.isListNullOrEmpty(mediaList)) {
         _proceedAfterImageSubmission();
       } else {
         _submitDeviceImages();

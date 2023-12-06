@@ -24,8 +24,4 @@ class StoreOutScreen extends BaseScreen {
       initialValue: {QcGeneralHeaderParamKeys.header.value: "Store Out"},
     );
   }
-
-  static Future navigateTo(BuildContext context) {
-    return Navigator.pushReplacementNamed(context, route);
-  }
 }

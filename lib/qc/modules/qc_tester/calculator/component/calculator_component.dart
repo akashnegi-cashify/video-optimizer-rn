@@ -41,18 +41,23 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
                 sourceId: '',
                 calculatorResponse: _calculatorResponse,
                 preSelection: null,
-                mode: CalculatorMode.defaultMode,
                 showHint: false),
             showSummary: true,
             deviceId: "d_id",
-            ruleExecutorServiceGroup: Validator.isTrue(snapshot.data) ?  TRCServiceGroups.qc : TRCServiceGroups.trc,
+            ruleExecutorServiceGroup: Validator.isTrue(snapshot.data) ? TRCServiceGroups.qc : TRCServiceGroups.trc,
             handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
               if (_calculatorResponse?.manualAuditQuestions != null) {
-                _showDisputedQuestions(
-                    context, _calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId, udid);
+                _showDisputedQuestions(context, _calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId,
+                    udid, snapshot.data);
               } else {
                 var myRequest = MyQuoteRequestData(requestData: requestData);
-                _moveToNextScreen(context, myRequest, partialQuoteId, udid);
+                _moveToNextScreen(
+                  context,
+                  requestData: myRequest,
+                  partialQuoteId: partialQuoteId,
+                  udid: udid,
+                  isLoginFromQC: snapshot.data,
+                );
               }
               // exit(0);
             },
@@ -65,10 +70,18 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
     );
   }
 
-  void _moveToNextScreen(BuildContext context, MyQuoteRequestData requestData, String? partialQuoteId, String? udid) {
+  void _moveToNextScreen(BuildContext context,
+      {required MyQuoteRequestData requestData, String? partialQuoteId, String? udid, bool? isLoginFromQC}) {
     CalculatorDataHolderModel().quoteRequestData = requestData;
 
-    if (CalculatorDataHolderModel().isDeviceTypeLob() || !CalculatorDataHolderModel().isCaptureMediaMandatory) {
+    bool isCaptureMediaMandatory;
+    if (Validator.isTrue(isLoginFromQC)) {
+      isCaptureMediaMandatory = CalculatorDataHolderModel().isCaptureMediaMandatoryInQC;
+    } else {
+      isCaptureMediaMandatory = CalculatorDataHolderModel().isCaptureMediaMandatoryInTRC;
+    }
+
+    if (CalculatorDataHolderModel().isDeviceTypeLob() || !isCaptureMediaMandatory) {
       Navigator.of(context).pushReplacementNamed(SubmitDeviceQuoteScreen.route);
     } else {
       Navigator.of(context).pushReplacementNamed(CalculatorMediaCaptureScreen.route);
@@ -76,7 +89,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
   }
 
   void _showDisputedQuestions(BuildContext context, List<ManualAuditQuestionItem>? manualAuditQuestions,
-      QuoteRequestData requestData, String? partialQuoteId, String? udid) {
+      QuoteRequestData requestData, String? partialQuoteId, String? udid, bool? isLoginFromQc) {
     DisputedQuestionsScreenArguments args =
         DisputedQuestionsScreenArguments(disputedQuestionList: manualAuditQuestions);
     Navigator.pushNamed(context, DisputedQuestionScreen.route, arguments: args).then(
@@ -85,7 +98,11 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
           if (value is List<int>) {
             MyQuoteRequestData myQuoteRequestData =
                 MyQuoteRequestData(manualAuditQuestion: value, requestData: requestData);
-            _moveToNextScreen(context, myQuoteRequestData, partialQuoteId, udid);
+            _moveToNextScreen(context,
+                requestData: myQuoteRequestData,
+                partialQuoteId: partialQuoteId,
+                udid: udid,
+                isLoginFromQC: isLoginFromQc);
           }
         }
       },

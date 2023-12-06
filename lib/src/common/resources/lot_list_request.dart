@@ -10,11 +10,10 @@ class LotListRequest {
   @JsonKey(name: "pageSize", includeIfNull: false)
   int? pageSize;
 
-  @JsonKey(name: 'filterMap',includeIfNull: false)
+  @JsonKey(name: 'filterObjectMap', includeIfNull: false)
   FilterMap? filterMap;
 
-
-  LotListRequest({this.pageNo, this.pageSize, this.filterMap,});
+  LotListRequest({this.pageNo, this.pageSize, this.filterMap});
 
   static LotListRequest fromJson(Map<String, dynamic> data) => _$LotListRequestFromJson(data);
 
@@ -27,7 +26,7 @@ class FilterMap {
   String? searchQuery;
 
   @JsonKey(name: "lt", includeIfNull: false)
-  String? lotType;
+  List<int>? lotType;
 
   FilterMap({
     this.searchQuery,

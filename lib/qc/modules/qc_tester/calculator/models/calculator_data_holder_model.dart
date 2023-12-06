@@ -24,6 +24,7 @@ class CalculatorDataHolderModel {
 
   List<MediaSubmitRequest>? get mediaList => _mediaList;
 
+  /// This variable is used for capture QC images after calculator journey completes
   bool _isCaptureDeviceMediaJourney = false;
 
   bool get isCaptureDeviceMediaJourney => _isCaptureDeviceMediaJourney;
@@ -88,8 +89,11 @@ class CalculatorDataHolderModel {
     _deviceType = DeviceType.mobile_device;
   }
 
-  bool get isCaptureMediaMandatory =>
+  bool get isCaptureMediaMandatoryInQC =>
       RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_QC);
+
+  bool get isCaptureMediaMandatoryInTRC =>
+      RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_TRC);
 
   factory CalculatorDataHolderModel() {
     return _instance;

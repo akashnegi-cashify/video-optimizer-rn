@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 
@@ -5,23 +7,29 @@ import 'index.dart';
 
 class DispatchLotServices {
   static Stream<DispatchLotsResponse?> getData(DispatchLotRequest request) {
-    Map<String, List<String>> param = {
-      "os": ['${request.pageNo}'],
-      "ps": ['${request.pageSize}'],
+    Map<String, dynamic> req = {
+      "offset": request.pageNo,
+      "pageSize": request.pageSize,
     };
 
-    if (isNotEmpty(request.channelQuery)) {
-      param["chq"] = [request.channelQuery!];
+    Map<String, dynamic>? filterMap;
+    if (!Validator.isListNullOrEmpty(request.lotType)) {
+      filterMap = {"lt": request.lotType};
     }
 
     if (isNotEmpty(request.searchQuery)) {
-      param["q"] = [request.searchQuery!];
+      filterMap ??= {};
+      filterMap["q"] = request.searchQuery!;
     }
 
-    return QcService().get(
-      "/lot-dispatch/v2",
+    if (filterMap != null) {
+      req["filterObjectMap"] = filterMap;
+    }
+
+    return QcService().post(
+      "/lot-dispatch/v2/list",
       DispatchLotsResponse.fromJson,
-      params: param,
+      body: jsonEncode(req),
     );
   }
 
@@ -35,12 +43,4 @@ class DispatchLotServices {
       params: param,
     );
   }
-
-  static Stream<DispatchFilterResponse?> dispatchFilters() {
-    return QcService().get(
-      "/store-out/v2/list-channels",
-      DispatchFilterResponse.fromJson,
-    );
-  }
-
 }

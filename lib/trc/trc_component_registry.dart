@@ -1,4 +1,5 @@
 import 'package:components/no_internet/no_internet_component.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_device_media_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_part_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_part_qc_component.dart';
@@ -37,96 +38,136 @@ import 'package:flutter_trc/src/modules/rubbing/components/rubbing_home_componen
 import 'package:flutter_trc/src/modules/splash/components/splash_component.dart';
 import 'package:flutter_trc/src/modules/trc_executive/components/device_scanner_comp.dart';
 import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_component.dart';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/trc_tester/components/trc_tester_component.dart';
+
+import '../src/modules/store_manager/components/store_manager_home_component.dart';
 
 class TrcComponentRegistry {
   static Widget? getRegisteredComponent(String? componentKey, Map<String, dynamic>? jsonConfig) {
     switch (componentKey) {
       case NoInternetComponent.componentKey:
         return NoInternetComponent(jsonConfig);
+
       case LoginComponent.COMP_KEY:
         return LoginComponent(jsonConfig);
+
       case TrcAndQCLoginComponent.COMP_KEY:
         return TrcAndQCLoginComponent(jsonConfig);
+
       case RubbingHomeComponent.COMP_KEY:
         return RubbingHomeComponent(jsonConfig);
+
       case PendingPartDetailsComponents.COMP_KEY:
         return PendingPartDetailsComponents(jsonConfig);
+
       case PendingDeliveryComponent.COMP_KEY:
         return PendingDeliveryComponent(jsonConfig);
+
       case AlternatePartComponent.COMP_KEY:
         return AlternatePartComponent(jsonConfig);
+
       case AssignedPartDetailsComponent.COMP_KEY:
         return AssignedPartDetailsComponent(jsonConfig);
+
       case AssignPartBarcodeScannerComponent.COMP_KEY:
         return AssignPartBarcodeScannerComponent(jsonConfig);
+
       case AssignedDeviceDetailsComponent.COMP_KEY:
         return AssignedDeviceDetailsComponent(jsonConfig);
+
       case InventoryHomeComponent.COMP_KEY:
         return InventoryHomeComponent(jsonConfig);
+
       case PendingPartListComponent.COMP_KEY:
         return PendingPartListComponent(jsonConfig);
+
       case ReturnItemStatusComponent.COMP_KEY:
         return ReturnItemStatusComponent(jsonConfig);
+
       case ReturnComponent.COMP_KEY:
         return ReturnComponent(jsonConfig);
+
       case SummaryComponent.COMP_KEY:
         return SummaryComponent(jsonConfig);
+
       case PartSelectionQCComponent.COMP_KEY:
         return PartSelectionQCComponent(jsonConfig);
+
       case ElssStatusComponent.COMP_KEY:
         return ElssStatusComponent(jsonConfig);
+
       case AllowedOptionsComponent.COMP_KEY:
         return AllowedOptionsComponent(jsonConfig);
+
       case AddPartsQcComponent.COMP_KEY:
         return AddPartsQcComponent(jsonConfig);
+
       case PartSelectionComponent.COMP_KEY:
         return PartSelectionComponent(jsonConfig);
+
       case AddPartComponent.COMP_KEY:
         return AddPartComponent(jsonConfig);
+
       case AddDeviceMediaComponent.COMP_KEY:
         return AddDeviceMediaComponent(jsonConfig);
+
       case ElssHomeComponent.COMP_KEY:
         return ElssHomeComponent(jsonConfig);
+
       case ManagePartsComponent.COMP_KEY:
         return ManagePartsComponent(jsonConfig);
+
       case MyDevicesComponent.COMP_KEY:
         return MyDevicesComponent(jsonConfig);
+
       case WipDeviceDetailsComponent.COMP_KEY:
         return WipDeviceDetailsComponent(jsonConfig);
+
       case ViewReportComponent.COMP_KEY:
         return ViewReportComponent(jsonConfig);
+
       case EngineerHomeComponent.COMP_KEY:
         return EngineerHomeComponent(jsonConfig);
+
       case HomeComponent.COMP_KEY:
         return HomeComponent(jsonConfig);
+
       case L4Component.COMP_KEY:
         return L4Component(jsonConfig);
       case PqStatusChangeComp.COMP_KEY:
         return PqStatusChangeComp(jsonConfig);
+
       case PartQcHomeComponent.COMP_KEY:
         return PartQcHomeComponent(jsonConfig);
+
       case DeliveryDeliverEngineerPartsComponent.COMP_KEY:
         return DeliveryDeliverEngineerPartsComponent(jsonConfig);
+
       case PickUpReceiveEngineerPartsCompo.COMP_KEY:
         return PickUpReceiveEngineerPartsCompo(jsonConfig);
+
       case RiderHomeComponent.COMP_KEY:
         return RiderHomeComponent(jsonConfig);
+
       case ReceiveRubbingDeviceComp.COMP_KEY:
         return ReceiveRubbingDeviceComp(jsonConfig);
+
       case DeviceScannerComponent.COMP_KEY:
         return DeviceScannerComponent(jsonConfig);
+
       case TrcExecutiveComponent.COMP_KEY:
         return TrcExecutiveComponent(jsonConfig);
+
       case SplashComponent.COMP_KEY:
         return SplashComponent(jsonConfig);
+
       case TrcTesterComponent.COMP_KEY:
         return TrcTesterComponent(jsonConfig);
+
+      case StoreManagerHomeComponent.COMP_KEY:
+        return StoreManagerHomeComponent(jsonConfig);
       default:
         return null;
     }
-
   }
 }

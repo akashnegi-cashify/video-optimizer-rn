@@ -9,7 +9,7 @@ import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/resources/services.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
-import 'package:flutter_trc/qc/modules/store_in/screens/store_in_screen.dart';
+import 'package:flutter_trc/qc/modules/store_in/dialog/show_store_in_type_dialog.dart';
 import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/dialogs/supervisor_device_detail_dialog.dart';
 import 'package:flutter_trc/qc/modules/supervisor/resources/supervisor_service.dart';
@@ -66,7 +66,7 @@ class QCActionWidget extends StatelessWidget {
               child: CshBigButton(
                 text: l10n.storeIn,
                 onPressed: () {
-                  _storeInOptions(context, l10n);
+                  showStoreInTypeDialog(context);
                 },
               ),
             ),
@@ -210,45 +210,6 @@ class QCActionWidget extends StatelessWidget {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error).toString());
     });
-  }
-
-  void _storeInOptions(BuildContext context, L10n l10n) {
-    var theme = Theme.of(context);
-    showDialog(
-        context: context,
-        builder: (dialogContext) {
-          return AlertDialog(
-            title: CshTextNew.h3(
-              l10n.storeIn,
-            ),
-            contentPadding: const EdgeInsets.all(Dimens.space_12),
-            actions: <Widget>[
-              TextButton(
-                child: CshTextNew(
-                  l10n.binStoreIn,
-                  textStyle: theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor),
-                ),
-                onPressed: () {
-                  _onPressed(context, true);
-                },
-              ),
-              TextButton(
-                child: CshTextNew(
-                  l10n.storeIn,
-                  textStyle: theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor),
-                ),
-                onPressed: () {
-                  _onPressed(context, false);
-                },
-              ),
-            ],
-          );
-        });
-  }
-
-  void _onPressed(BuildContext context, bool isBinStoreIn) {
-    Navigator.pop(context);
-    StoreInScreen.navigateTo(context, isBinStoreIn);
   }
 
   Future<List<String>> _fetchReasonList(BuildContext context) {

@@ -39,14 +39,7 @@ class _DispatchLotsWidgetState extends PaginatedListState<Lot, DispatchLotsWidge
   @override
   void requestApi(int pageNo, {Function(List<Lot>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = DispatchLotProvider.of(context: context, listen: false);
-    provider
-        .getDataStream(
-      pageNo * pageSize,
-      pageSize,
-      searchQuery: provider.searchQuery,
-      channelQuery: provider.channelQuery,
-    )
-        .listen(
+    provider.getDataStream(pageNo * pageSize, pageSize).listen(
       (value) {
         if (onSuccess != null) {
           onSuccess(core.ArrayUtil.removeNullItems(value?.lots ?? []));
@@ -63,26 +56,23 @@ class _DispatchLotsWidgetState extends PaginatedListState<Lot, DispatchLotsWidge
   void _onItemClick(BuildContext context, {required int index, required L10n l10n}) {
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
         onScanDetected: (String scannedData, MlScannerController? controller) {
-      if (scannedData.isNotEmpty) {
+          if (scannedData.isNotEmpty) {
+            var provider = DispatchLotProvider.of(context: context, listen: false);
+            core.CshLoading().showLoading(context);
+            provider.initiateDispatchCompletion(scannedData).then((value) {
+              core.CshLoading().hideLoading(context);
+              Navigator.pop(context); // dismiss scanner screen
+              _showAlert(context, value?.errorMsg, l10n); // TODO: need to check this success message
+            }, onError: (error) {
+              core.CshLoading().hideLoading(context);
+              core.CshSnackBar.error(context: context, message: error);
+            });
 
-        var provider = DispatchLotProvider.of(context: context, listen: false);
-        core.CshLoading().showLoading(context);
-        provider.initiateDispatchCompletion(scannedData).then((value) {
-          core.CshLoading().hideLoading(context);
-          Navigator.pop(context); // dismiss scanner screen
-          _showAlert(context, value?.errorMsg, l10n); // TODO: need to check this success message
-        }, onError: (error) {
-          core.CshLoading().hideLoading(context);
-          core.CshSnackBar.error(context: context, message: error);
-        });
-
-        // pop scanner screen
-      }
-    },
+            // pop scanner screen
+          }
+        },
         header: l10n.scanInvoice,
-        hintText: l10n.enterInvoiceNumber
-
-    );
+        hintText: l10n.enterInvoiceNumber);
     Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
   }
 

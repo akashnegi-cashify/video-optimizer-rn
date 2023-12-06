@@ -29,7 +29,7 @@ class BinLotScanContainer extends StatelessWidget {
     var valueTextStyle = theme.primaryTextTheme.displayMedium?.copyWith(color: theme.primaryColor);
 
     return ChangeNotifierProvider(
-      create: (_) => LotScanProvider.binLotList(lotType: lotType, lotName: lotName),
+      create: (_) => LotScanProvider(lotType: lotType, lotName: lotName),
       lazy: false,
       child: Builder(
         builder: (builderContext) {
@@ -151,22 +151,18 @@ class BinLotScanContainer extends StatelessWidget {
     if (item?.barcode?.containsIgnoreCase(value) == true) {
       controller.stop();
       CshLoading().showLoading(context);
-      provider.binOutVerifyBarCode(BinOutRequest(locBarcode: item?.itemLocBarCode, stockBarcode: value)).then((value) {
+      provider.binOutVerifyBarCode(BinOutRequest(locBarcode: item?.itemLocBarCode, stockBarcode: value)).then((_) {
         CshLoading().hideLoading(context);
-        if (value?.isValid() == true) {
-          CshSnackBar.success(context: context, message: l10n.binOutSuccessfully);
-          var res = provider.moveNext();
-          if (res == false) {
-            _showAlert(context, controller: controller);
-          } else {
-            controller.start();
-          }
+        CshSnackBar.success(context: context, message: l10n.binOutSuccessfully);
+        var res = provider.moveNext();
+        if (res == false) {
+          _showAlert(context, controller: controller);
         } else {
-          CshSnackBar.error(context: context, message: value?.message ?? l10n.somethingWentWrong);
+          controller.start();
         }
       }, onError: (error, stack) {
         CshLoading().hideLoading(context);
-        CshSnackBar.error(context: context, message: error);
+        CshSnackBar.error(context: context, message: error ?? l10n.somethingWentWrong);
         controller.start();
       });
     } else {

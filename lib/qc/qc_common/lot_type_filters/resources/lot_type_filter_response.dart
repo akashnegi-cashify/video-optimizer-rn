@@ -20,7 +20,7 @@ class LotTypeFilterItem {
   String? lotName;
 
   @JsonKey(name: 'lt')
-  String? lotType;
+  int? lotType;
 
   @JsonKey(includeToJson: false, includeFromJson: false)
   bool isSelected;
