@@ -125,7 +125,12 @@ class _AssignedPartsWidget extends StatelessWidget {
                     text: l10n.orderPart,
                     onPressed: () {
                       Navigator.pushNamed(context, OrderPartScreen.route,
-                          arguments: OrderPartScreenArg(assignedPartsData?.deviceBarcode));
+                              arguments: OrderPartScreenArg(assignedPartsData?.deviceBarcode))
+                          .then((isRefresh) {
+                        if (isRefresh != null) {
+                          listRef.currentState?.refreshData();
+                        }
+                      });
                     },
                   ),
                 ],

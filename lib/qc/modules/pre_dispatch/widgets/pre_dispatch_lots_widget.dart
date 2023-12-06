@@ -44,11 +44,11 @@ class _PreDispatchLotsWidgetState extends PaginatedListState<PreDispatchLotInfo,
       ..pageNo = pageNo * pageSize
       ..pageSize = pageSize;
 
-    if (core.isNotEmpty(provider.searchQuery)) {
+    if (!core.Validator.isNullOrEmpty(provider.searchQuery)) {
       filterMap = FilterMap(searchQuery: provider.searchQuery);
     }
 
-    if (core.isNotEmpty(provider.lotTypeQuery)) {
+    if (!core.Validator.isListNullOrEmpty(provider.lotTypeQuery)) {
 
       filterMap = filterMap ?? FilterMap();
       filterMap.lotType = provider.lotTypeQuery;

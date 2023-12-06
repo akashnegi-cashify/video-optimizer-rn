@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
+import 'package:ml_barcode_scanner/resources/scan_formats.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 
 class CshMlScannerUtil {
@@ -17,6 +18,7 @@ class CshMlScannerUtil {
     required Function(String scannedData, MlScannerController? controller) onScanned,
     String header = "Scan Barcode",
     String hintText = "Scan Barcode",
+    List<ScanFormats>? scanFormatList,
   }) {
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
         onScanDetected: (String scannedData, MlScannerController? controller) {
@@ -25,7 +27,8 @@ class CshMlScannerUtil {
           }
         },
         header: header,
-        hintText: hintText);
+        hintText: hintText,
+        scanFormatList: scanFormatList);
     Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
   }
 }

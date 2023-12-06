@@ -28,42 +28,23 @@ class StoreInLocationScanScreen extends BaseScreen<StoreInLocationScanScreenArgs
       initialValue: {
         StoreInLocationScanCompParamKeys.header.value: l10n.storeIn,
         StoreInLocationScanCompParamKeys.barcode.value: args?.barcode,
-        StoreInLocationScanCompParamKeys.availableSpace.value: args?.availableSpace,
-        StoreInLocationScanCompParamKeys.totalCount.value: args?.totalCount,
         StoreInLocationScanCompParamKeys.binStoreIn.value: args?.isBinStoreIn,
       },
     );
   }
 
-  static Future navigateTo(
-    BuildContext context, {
-    String? barcode,
-    int? totalCount,
-    int? availableSpace,
-    bool? isBinStoreIn,
-  }) {
-    return Navigator.pushReplacementNamed(context, route,
-        arguments: StoreInLocationScanScreenArgs(
-          pageKey,
-          barcode: barcode,
-          availableSpace: availableSpace,
-          totalCount: totalCount,
-          isBinStoreIn: isBinStoreIn,
-        ));
+  static Future navigateTo(BuildContext context, {String? barcode, bool? isBinStoreIn}) {
+    return Navigator.pushNamed(context, route,
+        arguments: StoreInLocationScanScreenArgs(barcode: barcode, isBinStoreIn: isBinStoreIn));
   }
 }
 
 class StoreInLocationScanScreenArgs extends BaseArguments {
   final String? barcode;
-  final int? totalCount;
-  final int? availableSpace;
   final bool? isBinStoreIn;
 
-  StoreInLocationScanScreenArgs(
-    super.pageKey, {
+  StoreInLocationScanScreenArgs({
     this.barcode,
-    this.totalCount,
-    this.availableSpace,
     this.isBinStoreIn,
-  });
+  }) : super(StoreInLocationScanScreen.pageKey);
 }

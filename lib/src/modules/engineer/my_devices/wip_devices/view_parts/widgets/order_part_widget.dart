@@ -1,8 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/my_counter_button.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
-import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/order_part_provider.dart';
 import 'package:provider/provider.dart';
@@ -64,30 +64,43 @@ class _OrderPartWidget extends StatelessWidget {
                     OrderEngineerPart part = provider.displayList[index];
 
                     return CshCard(
-                        child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CshTextNew.h3("${l10n.partName} - ${part.partName}"),
-                              CshTextNew.h6("${l10n.partSku} - ${part.sku}"),
-                              CshTextNew.h6("${l10n.color} - ${part.partColor}"),
-                            ],
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CshTextNew.h3("${l10n.partName} - ${part.partName}"),
+                                CshTextNew.h6("${l10n.partSku} - ${part.sku}"),
+                                CshTextNew.h6("${l10n.color} - ${part.partColor}"),
+                                const SizedBox(height: Dimens.space_6),
+                                CshDropDown(
+                                    items: provider.partTypeList,
+                                    key: ValueKey("${part.sku}-${part.partColor}-${part.selectedPartType?.id}"),
+                                    selectedItem: part.selectedPartType,
+                                    hintText: "Select",
+                                    onChanged: (DropDownItem? value) {
+                                      provider.updatePartTypeSelection(part, value);
+                                    }),
+                              ],
+                            ),
                           ),
-                        ),
-                        CounterButton(
-                          onIncrementClick: () {
-                            provider.updateDataForNIndex(part, 1);
-                          },
-                          onDecrementClick: () {
-                            provider.updateDataForNIndex(part, -1);
-                          },
-                          key: ValueKey(part.orderQuantity),
-                          counter: part.orderQuantity ?? 0,
-                        )
-                      ],
-                    ));
+                          const SizedBox(width: Dimens.space_8),
+                          MyCounterButton(
+                            onIncrementClick: () {
+                              provider.updateDataForNIndex(part, 1);
+                            },
+                            onDecrementClick: () {
+                              provider.updateDataForNIndex(part, -1);
+                            },
+                            key: ValueKey(part.orderQuantity),
+                            isDismissed: part.selectedPartType == null,
+                            maxCount: provider.getMaxQuantity(part.selectedPartType),
+                            counter: part.orderQuantity ?? 0,
+                          )
+                        ],
+                      ),
+                    );
                   },
                 );
               }))
@@ -95,15 +108,12 @@ class _OrderPartWidget extends StatelessWidget {
           ),
           bottomNavigationBar: CshBigButton(
             text: l10n.request,
-            onPressed: context
-                    .watch<OrderPartProvider>()
-                    .displayList
-                    .where((element) => (element.orderQuantity ?? 0) > 0)
-                    .isEmpty
+            onPressed: context.watch<OrderPartProvider>().getSelectedPartList().isEmpty
                 ? null
                 : () {
                     context.read<OrderPartProvider>().orderParts(
                         (errorMessage) => CshSnackBar.error(context: context, message: errorMessage), l10n, () {
+                      Navigator.pop(context, true);
                       CshSnackBar.success(context: context, message: l10n.partsOrderedSuccessfully);
                     });
                   },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
+import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 
@@ -58,6 +59,8 @@ class UserRoles {
         Navigator.of(context).pushNamedAndRemoveUntil(TRCExecutiveScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.QC_ROLE)) {
         Navigator.of(context).pushNamedAndRemoveUntil(TrcTesterScreen.route, (route) => false);
+      } else if (listOfRoles.contains(UserRoles.ROLE_STORAGE_MANAGER)) {
+        Navigator.of(context).pushNamedAndRemoveUntil(StoreManagerHomeScreen.route, (route) => false);
       } else {
         NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
       }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'store_out_lot_filter_screen.dart';
+part of 'store_manager_home_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,9 +9,9 @@ part of 'store_out_lot_filter_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "QC_qc_store_out_lot_filter",
-      "pageGroup": "QC Store Out Lot Filter",
-      "title": "Store Out Lot Filter Screen",
+      "key": "TRC_store_manager_home",
+      "pageGroup": "Trc Store Home Manager",
+      "title": "Store Manager Home Screen",
       "isActive": true,
       "params": null
       //#adminscreen

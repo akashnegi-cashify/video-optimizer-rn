@@ -14,17 +14,16 @@ import '../resources/services.dart';
 class DispatchLotProvider extends CshChangeNotifier with Searchable {
   late DispatchLotInteractor interactor;
   bool _showSearchBox = false;
-  String? _channelQuery;
-  late StreamController<String?> controller ;
-
+  List<int>? _lotType;
+  late StreamController<List<int>?> controller;
 
   DispatchLotProvider() {
     controller = StreamController.broadcast();
     interactor = DispatchLotInteractorImpl();
   }
 
-  Stream<DispatchLotsResponse?> getDataStream(int pageIndex, int pageSize, {String? searchQuery,String? channelQuery}) =>
-      interactor.getData(pageIndex, pageSize, searchQuery: searchQuery,channelQuery: channelQuery);
+  Stream<DispatchLotsResponse?> getDataStream(int pageIndex, int pageSize) =>
+      interactor.getData(pageIndex, pageSize, searchQuery: searchQuery, lotType: lotType);
 
   @override
   set searchQuery(String? value) {
@@ -32,13 +31,13 @@ class DispatchLotProvider extends CshChangeNotifier with Searchable {
     notifyListeners();
   }
 
-  set channelQuery(String? value) {
+  set lotType(List<int>? value) {
     controller.add(value);
-    _channelQuery = value;
+    _lotType = value;
     notifyListeners();
   }
 
-  String? get channelQuery => _channelQuery ;
+  List<int>? get lotType => _lotType;
 
   static DispatchLotProvider of({required BuildContext context, bool listen = true}) {
     return Provider.of<DispatchLotProvider>(context, listen: listen);
@@ -67,14 +66,9 @@ class DispatchLotProvider extends CshChangeNotifier with Searchable {
     notifyListeners();
   }
 
-
   @override
   void dispose() {
     super.dispose();
     controller.close();
   }
-
-
-
-
 }
