@@ -114,10 +114,9 @@ class _StoreOutBinOutWidgetState extends State<StoreOutBinOutWidget> {
       FocusManager.instance.primaryFocus?.unfocus();
       CshLoading().showLoading(context);
       provider
-          .binOutVerifyBarCode(BinOutRequest(
-        locBarcode: _locationTextController.text,
-        stockBarcode: _barcodeTextController.text,
-      ))
+          .binOutVerifyBarCode(
+        BinOutRequest(locBarcode: _locationTextController.text, stockBarcode: _barcodeTextController.text),
+      )
           .then((value) {
         CshLoading().hideLoading(context);
         CshSnackBar.success(context: context, message: l10n.binOutSuccessfully);

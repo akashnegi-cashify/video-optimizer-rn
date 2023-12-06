@@ -62,7 +62,7 @@ class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
     });
   }
 
-  Future<BinOutVerifyResponse?> binOutVerifyBarCode(BinOutRequest request) {
+  Future<void> binOutVerifyBarCode(BinOutRequest request) {
     var completer = Completer<BinOutVerifyResponse?>();
 
     StoreOutServices.binOutVerifyBarCodeService(request, service: service).listen((event) {
