@@ -1,5 +1,15 @@
 # TRC Releases
 
+# v3.0.2+22 (06-12-2023)
+
+### Feature:
+
+* `TRC - Engineer - Add repair and Upgrade options while part requesting`[(SCM-4820)](https://reglobe.atlassian.net/browse/SCM-4820)
+* `TRC - Store Manager Role`[(SCM-4935)](https://reglobe.atlassian.net/browse/SCM-4935)
+* `QC - Filter and search on every page of lot listing`[(SCM-4923)](https://reglobe.atlassian.net/browse/SCM-4923)
+
+
+
 # v3.0.0+20 (21-11-2023)
 
 ### Feature:
