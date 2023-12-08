@@ -8,6 +8,7 @@ import 'package:flutter_trc/qc/modules/re_qc/models/lot_device_list_response.dar
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/resources/re_qc_service.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class ReQcDetailProvider extends CshChangeNotifier {
   ReQcListData reQcListData;

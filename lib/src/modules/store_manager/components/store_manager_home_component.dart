@@ -7,7 +7,7 @@ import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
-import 'package:ml_barcode_scanner/resources/scan_formats.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 @CshComponent(
     key: StoreManagerHomeComponent.COMP_KEY,
@@ -33,7 +33,7 @@ class StoreManagerHomeComponent extends StatelessComponent<NoneConfigModel> {
                   context,
                   header: "Scan location Qr Code",
                   hintText: "Scan location Qr Code",
-                  scanFormatList: [ScanFormats.qrCode],
+                  scanFormatList: [BarcodeFormat.qrCode],
                   onScanned: (scannedData, controller) {
                     Navigator.pop(context); // pop screen
                     StoreInLocationScanScreen.navigateTo(context, barcode: scannedData, isBinStoreIn: true);

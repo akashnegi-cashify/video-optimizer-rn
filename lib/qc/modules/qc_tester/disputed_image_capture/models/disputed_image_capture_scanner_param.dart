@@ -1,6 +1,6 @@
 import 'package:csh_annotation/annotation.dart';
-import 'package:ml_barcode_scanner/resources/scan_formats.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 @CshPageParam()
 class DisputedImageCaptureScannerParam {
@@ -14,7 +14,7 @@ class DisputedImageCaptureScannerParam {
   String? hintText;
 
   @ParamKey(key: DisputedImageCaptureScannerParamKeys.scanFormats)
-  List<ScanFormats>? scanFormatList;
+  List<BarcodeFormat>? scanFormatList;
 
   DisputedImageCaptureScannerParam({
     this.onScanDetected,

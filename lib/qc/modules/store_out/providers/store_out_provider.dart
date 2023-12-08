@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../../src/common/searchable.dart';
 import '../resources/index.dart';
 import '../resources/services.dart';
+import 'package:core/core.dart';
 
 class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
   bool _showSearchBox = false;

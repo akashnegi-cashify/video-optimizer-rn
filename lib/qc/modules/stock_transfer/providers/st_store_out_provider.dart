@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class StStoreOutProvider extends CshChangeNotifier {
   static StStoreOutProvider of(BuildContext context, {bool listen = true}) {

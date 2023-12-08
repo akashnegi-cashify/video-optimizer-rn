@@ -10,6 +10,7 @@ import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class ReQcQuestionsProvider extends CshChangeNotifier {
   List<DeviceReportListData>? deviceReportList;

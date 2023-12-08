@@ -13,6 +13,7 @@ import '../../../screens/barcode_scanner_with_controller.dart';
 import '../l10n.dart';
 import '../providers/received_devices_provider.dart';
 import '../widgets/received_rubbing_devices_screen.dart';
+import 'package:core/core.dart';
 
 part 'rubbing_home_component.g.dart';
 

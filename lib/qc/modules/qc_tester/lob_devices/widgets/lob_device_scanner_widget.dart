@@ -7,6 +7,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_de
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class LobDeviceScannerWidget extends StatelessWidget {
   const LobDeviceScannerWidget({super.key});

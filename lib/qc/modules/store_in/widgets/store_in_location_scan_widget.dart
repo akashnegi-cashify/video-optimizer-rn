@@ -1,7 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
-import 'package:ml_barcode_scanner/resources/scan_formats.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../l10n.dart';
 import '../providers/store_in_provider.dart';
@@ -164,7 +164,7 @@ class StoreInLocationScanWidget extends StatelessWidget {
                 context,
                 header: "Scan location Qr Code",
                 hintText: "Scan location Qr Code",
-                scanFormatList: [ScanFormats.qrCode],
+                scanFormatList: [BarcodeFormat.qrCode],
                 onScanned: (scannedData, controller) {
                   Navigator.pop(context); // pop scanner screen
                   provider.locQrCode = scannedData;

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_status_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 import '../resources/audit_service.dart';
 
