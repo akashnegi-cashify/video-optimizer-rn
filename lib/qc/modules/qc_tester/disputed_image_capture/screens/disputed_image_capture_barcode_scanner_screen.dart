@@ -2,8 +2,8 @@ import 'package:builder_project/builder_project.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
-import 'package:ml_barcode_scanner/resources/scan_formats.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../models/disputed_image_capture_scanner_param.dart';
 
@@ -17,7 +17,7 @@ class DisputedImageCaptureBarcodeScannerArguments extends BaseArguments {
   final Function(String scannedData, MlScannerController? controller)? onScanDetected;
   final String? header;
   final String? hintText;
-  List<ScanFormats>? scanFormatList;
+  List<BarcodeFormat>? scanFormatList;
 
   DisputedImageCaptureBarcodeScannerArguments({
     this.onScanDetected,

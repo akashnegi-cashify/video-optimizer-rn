@@ -7,6 +7,7 @@ import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_data.dart';
 import 'package:flutter_trc/src/modules/rubbing/providers/received_devices_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class ReceivedDevicesListWidget extends StatefulWidget {
   const ReceivedDevicesListWidget({Key? key}) : super(key: key);

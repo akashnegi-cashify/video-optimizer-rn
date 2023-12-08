@@ -72,7 +72,6 @@ class _StoreOutState extends State<_StoreOut> {
                     child: const Icon(Icons.qr_code_scanner_outlined, size: 100),
                   )
                 : MlBarcodeScannerWidget(
-                    scanFormatList: const [ScanFormats.barcode],
                     onScannerDetected: (value, controller) {
                       _scannerController = controller;
                       if (value.toLowerCase() != provider.lotDetails?.barcode?.toLowerCase()) {

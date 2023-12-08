@@ -6,6 +6,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_list
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/widgets/st_list_tab.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class StockTransferListProvider extends CshChangeNotifier {
   bool isLoading = false;

@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.0.2+22
+version: 3.0.3+23
 
 web_version: 1.0.0
 
@@ -34,42 +34,42 @@ dependencies:
   calculator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: calculator
   core:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: core
 
   localization:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: localization
 
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.0.23
+      ref: v1.1.2
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.0.23
+      ref: v1.1.2
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.0.23
+      ref: cal-spinner-bug-fix
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.0.23
+      ref: v1.1.2
       path: ml_barcode_scanner
 
   s3_file_uploader_interface:
@@ -86,30 +86,30 @@ dependencies:
   builder_component:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: builder_component
 
   builder_project:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: builder_project
   csh_db:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: csh_db
 
   csh_annotation:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: csh_annotation
 
   csh_gallery_view:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: csh_gallery_view
 
   device_info_plus: ^9.0.3
@@ -144,6 +144,7 @@ dependencies:
   video_player: ^2.7.0
   flutter_image_compress: ^2.0.4
   qr_flutter: ^4.1.0
+  mobile_scanner: ^3.2.0
 
 
 dev_dependencies:
@@ -157,7 +158,7 @@ dev_dependencies:
   csh_schema_generator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.2
+      ref: v2.0.4
       path: csh_schema_generator
 
 
@@ -180,6 +181,11 @@ dependency_overrides:
   package_info_plus: ^4.1.0
   file_picker: ^5.5.0
   http: ^0.13.4
+  calculator_ui:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: cal-spinner-bug-fix
+      path: calculator_ui
 
 
 

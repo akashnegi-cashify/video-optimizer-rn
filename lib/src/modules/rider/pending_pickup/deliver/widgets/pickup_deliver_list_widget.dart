@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../../../common/widgets/key_value_row_widget.dart';
 import '../../../../../common/widgets/paginated_listview.dart';
 import '../../../pending_delivery/receive/models/receive_response_model.dart';
+import 'package:core/core.dart';
 
 class PickupDeliverListWidget extends StatefulWidget {
   const PickupDeliverListWidget({Key? key}) : super(key: key);

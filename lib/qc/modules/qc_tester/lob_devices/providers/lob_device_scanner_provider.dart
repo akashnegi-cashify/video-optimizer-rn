@@ -7,6 +7,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calcula
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
   static LobDeviceScannerProvider of(BuildContext context, {bool listen = true}) {

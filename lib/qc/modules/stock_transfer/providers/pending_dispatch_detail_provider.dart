@@ -4,6 +4,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class PendingDispatchDetailProvider extends CshChangeNotifier {
   static PendingDispatchDetailProvider of(BuildContext context, {bool listen = true}) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_gallery_view/gallery/types.dart';
 import 'package:flutter/material.dart';

@@ -6,6 +6,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/models/pending_lot_detail_
 import 'package:flutter_trc/qc/modules/stock_transfer/models/scanned_device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class PendingLotDetailProvider extends CshChangeNotifier {
   int? lotId;

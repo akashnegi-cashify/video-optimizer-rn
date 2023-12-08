@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class LotScanWidget extends StatelessWidget {
   final Widget? footer;
@@ -25,7 +26,7 @@ class LotScanWidget extends StatelessWidget {
                 child: CshCard(
                   margin: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
                   child: MlBarcodeScannerWidget(
-                    scanFormatList: const [ScanFormats.barcode, ScanFormats.qrCode],
+                    barcodeFormats: const [BarcodeFormat.code128, BarcodeFormat.qrCode],
                     onScannerDetected: (value, controller) => {onScannerDetected?.call(value, controller)},
                   ),
                 ),

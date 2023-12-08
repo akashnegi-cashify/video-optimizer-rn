@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
-import 'package:ml_barcode_scanner/resources/scan_formats.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
 import '../models/disputed_image_capture_scanner_param.dart';
@@ -27,7 +27,7 @@ class DisputedImageBarcodeScannerComponent extends StatelessComponent<NoneConfig
     return paramBuilder((param) {
       return TRCScannerWidget(
         onScanDetected: param.onScanDetected!,
-        scanFormatList: param.scanFormatList ?? [ScanFormats.barcode],
+        scanFormatList: param.scanFormatList ?? [BarcodeFormat.code128],
         hintText: param.hintText,
       );
     });

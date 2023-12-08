@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/gaurd/resources/guard_service.dart';
 import 'package:provider/provider.dart';

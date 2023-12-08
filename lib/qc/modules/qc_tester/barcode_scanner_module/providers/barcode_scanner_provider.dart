@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 import '../resources/scanner_service.dart';
 

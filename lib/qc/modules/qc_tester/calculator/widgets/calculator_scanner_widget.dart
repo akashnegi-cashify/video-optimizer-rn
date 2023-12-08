@@ -4,7 +4,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_da
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/calculator_scanner_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
-import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
@@ -51,7 +51,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
       return TRCScannerWidget(
         key: ValueKey(key),
         hintText: _isDeviceBarcodeScanned ? l10n.scanCdpQrCode : l10n.scanDeviceBarcode,
-        scanFormatList: _isDeviceBarcodeScanned ? [ScanFormats.qrCode] : [ScanFormats.barcode],
+        scanFormatList: _isDeviceBarcodeScanned ? [BarcodeFormat.qrCode] : [BarcodeFormat.code128],
         onScanDetected: (scannedData, controller) {
           if (!_isDeviceBarcodeScanned) {
             _onDeviceBarcodeScanned(scannedData);

@@ -1,4 +1,4 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core/core.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/replace_part_request.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/trc_executive/models/device_receive_response.dart';
 import 'package:flutter_trc/src/modules/trc_executive/resources/device_scanner_service.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class DeviceScannerProvider extends CshChangeNotifier {
   static DeviceScannerProvider of(BuildContext context, {bool listen = true}) {

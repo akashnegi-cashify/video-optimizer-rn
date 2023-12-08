@@ -2,19 +2,20 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../l10n.dart';
 
 class TRCScannerWidget extends StatefulWidget {
   final Function(String scannedData, MlScannerController? controller) onScanDetected;
-  final List<ScanFormats> scanFormatList;
+  final List<BarcodeFormat> scanFormatList;
   final bool isEditTextSubmitButtonDirectionHorizontal;
   final String? hintText;
 
   const TRCScannerWidget({
     Key? key,
     required this.onScanDetected,
-    this.scanFormatList = const [ScanFormats.barcode],
+    this.scanFormatList = const [BarcodeFormat.code128],
     this.isEditTextSubmitButtonDirectionHorizontal = false,
     this.hintText,
   }) : super(key: key);
@@ -51,7 +52,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
             child: CshCard(
               elevation: CardElevation.dimen_10,
               child: MlBarcodeScannerWidget(
-                scanFormatList: widget.scanFormatList,
+                barcodeFormats: widget.scanFormatList,
                 onScannerDetected: (String value, MlScannerController controller) {
                   widget.onScanDetected(value, controller);
                 },

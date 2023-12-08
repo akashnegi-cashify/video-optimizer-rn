@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/resources/re_qc_service.dart';
 import 'package:provider/provider.dart';
+import 'package:core/core.dart';
 
 class ReQcListProvider extends CshChangeNotifier {
   String? _query;

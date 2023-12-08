@@ -10,6 +10,7 @@ import '../l10n.dart';
 import '../screens/search_item_screen.dart';
 import '../types.dart';
 import 'index.dart';
+import 'package:core/core.dart';
 
 class StockInProductDetailWidget extends StatelessWidget {
   final ValidateAwbResponse? stockInProductDetail;
