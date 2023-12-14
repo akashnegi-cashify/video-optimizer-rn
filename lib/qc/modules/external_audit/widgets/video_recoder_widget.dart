@@ -6,9 +6,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/channel/native_communication.dart';
+import 'package:flutter_trc/src/common/utils/video_util.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -38,15 +39,19 @@ class VideoRecorderWidget extends StatefulWidget {
 class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   bool _isLoading = true;
   bool _isRecording = false;
+  bool _isCompressionStarted = false;
   late CameraController? _cameraController;
   Timer? _videoRecorderTimer;
   late int _videoRecorderTimeInSeconds;
+  int _videoRecordedTime = 0;
 
   /// _startVideoTimer is used as a timer to start video recording
   Timer? _startVideoTimer;
   late int _startVideoTimerInSec;
 
   bool _isCompressionEnabled = true;
+
+  int _compressionProgress = 0;
 
   _VideoRecorderWidgetState() {
     _videoRecorderTimeInSeconds = _DEFAULT_VIDEO_TIMER;
@@ -170,6 +175,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   _startVideoRecordingTimer() {
     _videoRecorderTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
+        _videoRecordedTime++;
         _videoRecorderTimeInSeconds--;
         if (_videoRecorderTimeInSeconds == 0) {
           timer.cancel();
@@ -194,14 +200,19 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         ),
       );
     } else {
-      return WillPopScope(
-        onWillPop: () {
-          if (_isRecording) {
-            CshSnackBar.error(
-                context: context, message: "Video Recording is in progress", snackBarPosition: SnackBarPosition.TOP);
-            return Future.value(false);
+      return PopScope(
+        canPop: (_isRecording || _isCompressionStarted) ? false : true,
+        onPopInvoked: (didPop) {
+          if (!didPop) {
+            if (_isRecording) {
+              CshSnackBar.error(
+                  context: context, message: "Video Recording is in progress", snackBarPosition: SnackBarPosition.TOP);
+            }
+            if (_isCompressionStarted) {
+              CshSnackBar.error(
+                  context: context, message: "Video Optimizing is in progress", snackBarPosition: SnackBarPosition.TOP);
+            }
           }
-          return Future.value(true);
         },
         child: Scaffold(
           appBar: const CshHeader("Video Recorder", showBackBtn: true),
@@ -235,29 +246,15 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: Dimens.space_24,
-                  left: 0,
-                  right: 0,
-                  child: Column(
-                    children: [
-                      if (_startVideoTimer != null && _startVideoTimerInSec > 0)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: Dimens.space_12),
-                          child: Text(
-                            _startVideoTimerInSec.toString(),
-                            style: theme.primaryTextTheme.displayMedium?.copyWith(color: theme.colorScheme.error),
-                          ),
-                        ),
-                      FloatingActionButton(
-                        backgroundColor: theme.colorScheme.error,
-                        focusNode: _stopVideoFocusNode,
-                        onPressed: () => _isRecording ? _stopVideoRecording() : null,
-                        child: Icon(_isRecording ? Icons.stop : Icons.circle),
-                      ),
-                    ],
+                Positioned(bottom: Dimens.space_24, left: 0, right: 0, child: _buildRecordButton(theme)),
+                if (_isCompressionStarted)
+                  Positioned(
+                    bottom: 0,
+                    top: 0,
+                    left: Dimens.space_16,
+                    right: Dimens.space_16,
+                    child: _buildProgressContainer(theme),
                   ),
-                ),
               ],
             ),
           ),
@@ -278,20 +275,28 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   _sendFileToListener(XFile xFile) async {
     if (_isCompressionEnabled) {
       try {
-        CshLoading().showLoading(context);
-        NativeCommunication.compressVideo(xFile.path, deleteOrigin: true, includeAudio: false).then((value) {
-          CshLoading().hideLoading(context);
-          if (value?.file != null) {
+        setState(() {
+          _isCompressionStarted = true;
+        });
+        VideoUtil.compressVideo(xFile.path, _videoRecordedTime, onProgress: (value) {
+          Logger.debug('mydebug-----_VideoRecorderWidgetState._sendFileToListener onProgress', ['value: $value']);
+          setState(() {
+            _compressionProgress = value;
+          });
+        }).then((String? outputPath) {
+          if (outputPath != null) {
             Navigator.pop(context);
-            _listener?.onVideoRecorded(value!.file!);
+            _listener?.onVideoRecorded(File(outputPath));
           }
         }, onError: (error) {
-          CshSnackBar.error(context: context, message: error);
           Navigator.pop(context);
+          CshSnackBar.error(context: context, message: error.toString());
         });
       } catch (e) {
-        CshSnackBar.error(context: context, message: e.toString());
-        Navigator.of(context).pop();
+        if (mounted) {
+          CshSnackBar.error(context: context, message: e.toString());
+          Navigator.of(context).pop();
+        }
       }
     } else {
       File file = File(xFile.path);
@@ -318,6 +323,53 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       res += ":$secs";
     }
     return res;
+  }
+
+  Widget _buildProgressContainer(ThemeData theme) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CshCard(
+            padding: const EdgeInsets.all(Dimens.space_24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CshTextNew.h3("Optimizing Video - $_compressionProgress%"),
+                const SizedBox(height: Dimens.space_16),
+                LinearProgressIndicator(
+                  value: _compressionProgress / 100,
+                  valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
+                  backgroundColor: theme.primaryColor.withAlpha(20),
+                  borderRadius: BorderRadius.circular(Dimens.space_6),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildRecordButton(ThemeData theme) {
+    return Column(
+      children: [
+        if (_startVideoTimer != null && _startVideoTimerInSec > 0)
+          Padding(
+            padding: const EdgeInsets.only(bottom: Dimens.space_12),
+            child: Text(
+              _startVideoTimerInSec.toString(),
+              style: theme.primaryTextTheme.displayMedium?.copyWith(color: theme.colorScheme.error),
+            ),
+          ),
+        FloatingActionButton(
+          backgroundColor: theme.colorScheme.error,
+          focusNode: _stopVideoFocusNode,
+          onPressed: () => _isRecording ? _stopVideoRecording() : null,
+          child: Icon(_isRecording ? Icons.stop : Icons.circle),
+        ),
+      ],
+    );
   }
 
   @override

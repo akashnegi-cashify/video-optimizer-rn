@@ -304,11 +304,11 @@ packages:
     dependency: "direct main"
     description:
       path: calculator_ui
-      ref: cal-spinner-bug-fix
-      resolved-ref: "06b2c94ad35f0334e1069d605013fc3ca74f2ad2"
+      ref: "v1.1.3"
+      resolved-ref: "13e65a75516bd231d7cd8d79e1c29921afb0873c"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.2"
+    version: "1.1.3"
   camera:
     dependency: "direct overridden"
     description:
@@ -425,11 +425,11 @@ packages:
     dependency: "direct main"
     description:
       path: components
-      ref: "v1.1.2"
-      resolved-ref: "6f1efeafb2796be59751e5d0c9fdc53602dc7afb"
+      ref: "v1.1.3"
+      resolved-ref: "13e65a75516bd231d7cd8d79e1c29921afb0873c"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.2"
+    version: "1.1.3"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -467,11 +467,11 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: "v1.1.2"
-      resolved-ref: "6f1efeafb2796be59751e5d0c9fdc53602dc7afb"
+      ref: "v1.1.3"
+      resolved-ref: "13e65a75516bd231d7cd8d79e1c29921afb0873c"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.2"
+    version: "1.1.3"
   cross_file:
     dependency: transitive
     description:
@@ -628,6 +628,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  ffmpeg_kit_flutter_full_gpl:
+    dependency: transitive
+    description:
+      name: ffmpeg_kit_flutter_full_gpl
+      sha256: ac2d8b641b5f388cadc717de4381ce1da53831ff9d71f108007a5edc814d08ab
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.2-LTS"
+  ffmpeg_kit_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: ffmpeg_kit_flutter_platform_interface
+      sha256: addf046ae44e190ad0101b2fde2ad909a3cd08a2a109f6106d2f7048b7abedee
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   file:
     dependency: transitive
     description:
@@ -1294,11 +1310,11 @@ packages:
     dependency: transitive
     description:
       path: media_widget
-      ref: "v1.1.2"
-      resolved-ref: "6f1efeafb2796be59751e5d0c9fdc53602dc7afb"
+      ref: "v1.1.3"
+      resolved-ref: "13e65a75516bd231d7cd8d79e1c29921afb0873c"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.2"
+    version: "1.1.3"
   meta:
     dependency: transitive
     description:
@@ -1319,11 +1335,11 @@ packages:
     dependency: "direct main"
     description:
       path: ml_barcode_scanner
-      ref: "v1.1.2"
-      resolved-ref: "6f1efeafb2796be59751e5d0c9fdc53602dc7afb"
+      ref: "v1.1.3"
+      resolved-ref: "13e65a75516bd231d7cd8d79e1c29921afb0873c"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.2"
+    version: "1.1.3"
   mobile_scanner:
     dependency: "direct main"
     description:
@@ -2051,6 +2067,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  video_optimizer:
+    dependency: "direct main"
+    description:
+      path: video_optimizer
+      ref: "v2.0.4"
+      resolved-ref: "19f7cffd33f9a4408ea560f528ef045b4000d1e4"
+      url: "https://github.com/reglobe/flutter_packages.git"
+    source: git
+    version: "2.0.4"
   video_player:
     dependency: "direct main"
     description:
