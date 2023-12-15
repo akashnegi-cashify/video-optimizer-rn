@@ -9,11 +9,11 @@ part of 'stock_transfer_list_response.dart';
 StockTransferListResponse _$StockTransferListResponseFromJson(
         Map<String, dynamic> json) =>
     StockTransferListResponse(
-      (json['lotDetailsList'] as List<dynamic>?)
+      (json['dt'] as List<dynamic>?)
           ?.map(
               (e) => StockTransferListData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['lotCount'] as int?,
+      json['tc'] as int?,
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -25,8 +25,8 @@ Map<String, dynamic> _$StockTransferListResponseToJson(
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'lotDetailsList': instance.lotList,
-      'lotCount': instance.lotListCount,
+      'dt': instance.lotList,
+      'tc': instance.lotListCount,
     };
 
 StockTransferListData _$StockTransferListDataFromJson(

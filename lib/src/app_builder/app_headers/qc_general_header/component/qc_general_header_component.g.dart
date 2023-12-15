@@ -42,9 +42,9 @@ dynamic schema() => {
         {"key": "h", "value": null}
       ],
       "configJson": {
-        "type": "map",
-        "config": {
-          "ht": {
+        "type": "list",
+        "config": [
+          {
             "uiType": "input",
             "inputType": "text",
             "type": "String",
@@ -53,7 +53,7 @@ dynamic schema() => {
             "label": "Header Title",
             "key": "ht"
           },
-          "sbb": {
+          {
             "uiType": "toggle",
             "inputType": "boolean",
             "isRequired": false,
@@ -61,7 +61,7 @@ dynamic schema() => {
             "label": "Show Back Button",
             "key": "sbb"
           },
-          "slb": {
+          {
             "uiType": "toggle",
             "inputType": "boolean",
             "isRequired": false,
@@ -69,7 +69,7 @@ dynamic schema() => {
             "label": "Show Logout Button",
             "key": "slb"
           },
-          "spb": {
+          {
             "uiType": "toggle",
             "inputType": "boolean",
             "isRequired": false,
@@ -77,7 +77,7 @@ dynamic schema() => {
             "label": "Show Profile Button",
             "key": "spb"
           }
-        }
+        ]
       }
       //#admincomponent
     };

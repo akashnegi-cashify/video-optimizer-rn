@@ -8,9 +8,8 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calcul
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
-import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
-import '../../disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import '../../disputed_image_capture/screens/disputed_image_capture_screen.dart';
 
 class QcTesterHomeWidget extends StatelessWidget {
@@ -54,29 +53,35 @@ class QcTesterHomeWidget extends StatelessWidget {
           CshBigButton(
             text: "Capture Dispute Media",
             onPressed: () {
-              DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-                  onScanDetected: (String scannedData, MlScannerController? controller) {
-                if (scannedData.isNotEmpty) {
-                  DisputedImageCaptureScreenArguments arg =
-                      DisputedImageCaptureScreenArguments(barcode: scannedData.trim());
-                  Navigator.of(context).pushReplacementNamed(DisputedImageCaptureScreen.route, arguments: arg);
-                }
-              });
-              Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
+              CshMlScannerUtil().openScanner(
+                context,
+                header: "Capture Dispute Media",
+                hintText: "Scan Device Barcode",
+                onScanned: (scannedData, controller) {
+                  if (scannedData.isNotEmpty) {
+                    DisputedImageCaptureScreenArguments arg =
+                        DisputedImageCaptureScreenArguments(barcode: scannedData.trim());
+                    Navigator.of(context).pushReplacementNamed(DisputedImageCaptureScreen.route, arguments: arg);
+                  }
+                },
+              );
             },
           ),
           const SizedBox(height: Dimens.space_16),
           CshBigButton(
             text: "Capture Device Media",
             onPressed: () {
-              DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-                  onScanDetected: (String scannedData, MlScannerController? controller) {
-                if (scannedData.isNotEmpty) {
-                  CalculatorDataHolderModel().startImageCaptureJourney(scannedData);
-                  Navigator.of(context).pushReplacementNamed(CalculatorMediaCaptureScreen.route);
-                }
-              });
-              Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
+              CshMlScannerUtil().openScanner(
+                context,
+                header: "Capture Device Media",
+                hintText: "Scan Device Barcode",
+                onScanned: (scannedData, controller) {
+                  if (scannedData.isNotEmpty) {
+                    CalculatorDataHolderModel().startImageCaptureJourney(scannedData);
+                    Navigator.of(context).pushReplacementNamed(CalculatorMediaCaptureScreen.route);
+                  }
+                },
+              );
             },
           ),
           QcRolePermissionWidget(

@@ -6,7 +6,9 @@ part of 'video_optimizer_config.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-VideoOptimizerConfig _$VideoOptimizerConfigFromJson(Map<String, dynamic> json) => VideoOptimizerConfig(
+VideoOptimizerConfig _$VideoOptimizerConfigFromJson(
+        Map<String, dynamic> json) =>
+    VideoOptimizerConfig(
       crf: json['crf'] as int?,
       videoCodec: json['videoCodec'] as String?,
       videoPreset: json['videoPreset'] as String?,
@@ -16,7 +18,9 @@ VideoOptimizerConfig _$VideoOptimizerConfigFromJson(Map<String, dynamic> json) =
       borderColor: json['borderColor'] as String?,
     );
 
-Map<String, dynamic> _$VideoOptimizerConfigToJson(VideoOptimizerConfig instance) => <String, dynamic>{
+Map<String, dynamic> _$VideoOptimizerConfigToJson(
+        VideoOptimizerConfig instance) =>
+    <String, dynamic>{
       'crf': instance.crf,
       'videoCodec': instance.videoCodec,
       'videoPreset': instance.videoPreset,

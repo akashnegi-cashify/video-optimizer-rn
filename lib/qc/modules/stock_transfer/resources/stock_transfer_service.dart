@@ -6,12 +6,35 @@ import 'package:flutter_trc/qc/modules/stock_transfer/models/pending_lot_detail_
 import 'package:flutter_trc/qc/modules/stock_transfer/models/scanned_device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_list_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_status_filter_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 
 class StockTransferService {
-  static Stream<StockTransferListResponse?> getStockTransferList({bool? isStoreOut = false}) {
-    return QcService().get("/transfer-lot/list-lots?isStoreOut=$isStoreOut", StockTransferListResponse.fromJson);
+  static Stream<StockTransferListResponse?> getStockTransferList(
+      {required String tabType,
+      required int offset,
+      required int pageSize,
+      String? searchQuery,
+      List<int>? statusListFilter}) {
+    Map<String, dynamic> req = {
+      "pageSize": pageSize,
+      "offset": offset,
+    };
+    Map<String, dynamic>? filterMap;
+    if (!Validator.isNullOrEmpty(searchQuery)) {
+      filterMap = {"na": searchQuery};
+    }
+    if (!Validator.isListNullOrEmpty(statusListFilter)) {
+      filterMap ??= {};
+      filterMap["stc"] = statusListFilter;
+    }
+    if (filterMap != null) {
+      req["filterObjectMap"] = filterMap;
+    }
+
+    return QcService()
+        .post("/transfer-lot/list-lots?requestTab=$tabType", StockTransferListResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<StLotDetailResponse?> getStockTransferLotDetails(int? lotId) {
@@ -68,5 +91,10 @@ class StockTransferService {
       "img": invoiceUrl,
     };
     return QcService().post("/transfer-lot/dispatch-lot-v2", BaseResponse.fromJson, body: jsonEncode(body));
+  }
+
+  static Stream<StockTransferStatusFilterResponse?> getStatusFilterList(String tabType) {
+    return QcService()
+        .get("/transfer-lot/status-options?requestTab=$tabType", StockTransferStatusFilterResponse.fromJson);
   }
 }

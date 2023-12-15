@@ -5,10 +5,10 @@ part 'stock_transfer_list_response.g.dart';
 
 @JsonSerializable()
 class StockTransferListResponse extends BaseResponse {
-  @JsonKey(name: "lotDetailsList")
+  @JsonKey(name: "dt")
   List<StockTransferListData>? lotList;
 
-  @JsonKey(name: "lotCount")
+  @JsonKey(name: "tc")
   int? lotListCount;
 
   StockTransferListResponse(this.lotList, this.lotListCount, super.cashifyAlert, super.trackUrl);

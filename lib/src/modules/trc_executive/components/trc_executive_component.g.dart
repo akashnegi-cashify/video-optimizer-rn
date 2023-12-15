@@ -14,9 +14,9 @@ dynamic schema() => {
       "isActive": true,
       "title": "Trc Executive Component",
       "configJson": {
-        "type": "map",
-        "config": {
-          "bt": {
+        "type": "list",
+        "config": [
+          {
             "uiType": "input",
             "inputType": "text",
             "type": "String",
@@ -25,7 +25,7 @@ dynamic schema() => {
             "label": "button Title",
             "key": "bt"
           }
-        }
+        ]
       }
       //#admincomponent
     };
