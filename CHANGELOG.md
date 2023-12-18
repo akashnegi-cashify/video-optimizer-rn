@@ -2,7 +2,7 @@
 
 # v3.0.3+23 (08-12-2023)
 
-### Improvements:
+### Improvements: 
 
 * `QC - Calculator Improvements`[(SCM-5087)](https://reglobe.atlassian.net/browse/SCM-5087)
 
