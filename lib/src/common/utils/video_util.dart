@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/video_config/video_optimizer_config.dart';

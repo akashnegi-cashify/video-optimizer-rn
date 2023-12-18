@@ -5,10 +5,12 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:camera/camera.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/disk_util.dart';
 import 'package:flutter_trc/src/common/utils/video_util.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -64,8 +66,14 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   @override
   void initState() {
     scheduleMicrotask(() {
-      _initCamera();
-      WakelockPlus.enable();
+      DiskUtil.getDeviceStorageInfo(isGb: true).then((value) {
+        if ((value ?? 0) > 1) {
+          _initCamera();
+          WakelockPlus.enable();
+        } else {
+          _showInSufficientStorageDialog();
+        }
+      });
     });
     Future.delayed(const Duration(seconds: 5), () {
       FocusScope.of(context).requestFocus(_stopVideoFocusNode);
@@ -374,8 +382,10 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
 
   @override
   void dispose() {
-    if (_cameraController != null) {
-      _cameraController!.dispose();
+    try {
+      _cameraController?.dispose();
+    } catch (e) {
+      Logger.error('mydebug-----_VideoRecorderWidgetState.dispose', ['error: $e']);
     }
 
     if (_videoRecorderTimer?.isActive == true) {
@@ -387,5 +397,21 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     }
     WakelockPlus.disable();
     super.dispose();
+  }
+
+  void _showInSufficientStorageDialog() {
+    showPopup(context,
+        title: "Insufficient Storage",
+        desc: "This device does not have enough storage to record video.",
+        barrierDismissible: false,
+        actions: [
+          CshBigButton(
+            text: "Ok",
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          )
+        ]);
   }
 }
