@@ -1,5 +1,20 @@
 # TRC Releases
 
+# v3.0.4+24 (21-12-2023)
+
+### Improvements:
+
+* `QC - Add search, pagination and filtering options for Stock Transfer Lots`[(SCM-5031)](https://reglobe.atlassian.net/browse/SCM-5031)
+* `QC - Video Comppression in External recording using FFMPEG lib and show uploading, compression progress dialog`[(SCM-5049)](https://reglobe.atlassian.net/browse/SCM-5049)
+
+
+# v3.0.3+23 (08-12-2023)
+
+### Improvements: 
+
+* `QC - Calculator Improvements`[(SCM-5087)](https://reglobe.atlassian.net/browse/SCM-5087)
+
+
 # v3.0.2+22 (06-12-2023)
 
 ### Feature:
