@@ -2,11 +2,12 @@ import 'package:builder_project/builder_project.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/common/widgets/app_version_widget.dart';
 import 'package:flutter_trc/src/common/widgets/user_name_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
-import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/screens/retrieved_part_list_screen.dart';
 
 import '../manage_parts/manage_parts_screen.dart';
 import '../my_devices/widgets/my_devices_screen.dart';
@@ -71,11 +72,21 @@ class _EngineerHomeWidgetState extends State<EngineerHomeWidget> {
           CshBigButton(
             text: l10n.deviceDetails,
             onPressed: () {
-              Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
-                Navigator.of(context).pop();
-                Navigator.pushNamed(context, AssignedPartsScreen.route,
-                    arguments: AssignedPartsData(false, deviceBarcode: data.trim()));
-              });
+              CshMlScannerUtil().openScanner(
+                context,
+                onScanned: (scannedData, controller) {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamed(context, AssignedPartsScreen.route,
+                      arguments: AssignedPartsData(false, deviceBarcode: scannedData.trim()));
+                },
+              );
+            },
+          ),
+          const SizedBox(height: Dimens.space_16),
+          CshBigButton(
+            text: l10n.retrievedPartList,
+            onPressed: () {
+              Navigator.pushNamed(context, RetrievedPartListScreen.route);
             },
           ),
           const Spacer(),

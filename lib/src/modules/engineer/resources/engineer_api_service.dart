@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
+import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/send_to_tl_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/job_card_summary_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_part_response.dart';
@@ -203,5 +204,20 @@ class EngineerAPIService {
       "mtid": mediaType,
     };
     return TrcService().post("/device/media/$deviceBarcode", BaseActionResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<RetrievedPartListResponse?> getRetrievedPartList(int pageNo, int pageSize, {String? query}) {
+    Map<String, dynamic> req = {
+      "pno": pageNo,
+      "ln": pageSize,
+    };
+
+    if (!Validator.isNullOrEmpty(query)) {
+      req["fp"] = query;
+    }
+
+    // TODO: end point
+    return TrcService()
+        .post("/engineer/retrieved_part_list", RetrievedPartListResponse.fromJson, body: jsonEncode(req));
   }
 }

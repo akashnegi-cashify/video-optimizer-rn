@@ -10,6 +10,7 @@ import 'package:flutter_trc/src/modules/elss/components/part_selection_component
 import 'package:flutter_trc/src/modules/elss/components/part_selection_qc_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/engineer_home_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/manage_parts_component.dart';
+import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/components/my_devices_component.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/components/wip_devices_details_comp.dart';
 import 'package:flutter_trc/src/modules/engineer/view_reports/component/view_report_component.dart';
@@ -163,6 +164,9 @@ class TrcComponentRegistry {
 
       case StoreManagerHomeComponent.COMP_KEY:
         return StoreManagerHomeComponent(jsonConfig);
+
+      case RetrievedPartListComponent.COMP_KEY:
+        return RetrievedPartListComponent(jsonConfig);
       default:
         return null;
     }
