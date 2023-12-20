@@ -43,16 +43,16 @@ dynamic schema() => {
         {"key": "args", "value": null}
       ],
       "configJson": {
-        "type": "map",
-        "config": {
-          "none": {
+        "type": "list",
+        "config": [
+          {
             "uiType": "input",
             "type": "String",
             "isRequired": false,
             "label": "None",
             "key": "none"
           }
-        }
+        ]
       }
       //#admincomponent
     };

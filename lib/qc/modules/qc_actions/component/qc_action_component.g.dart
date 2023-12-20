@@ -14,23 +14,23 @@ dynamic schema() => {
       "isActive": true,
       "title": "Qc Action Component",
       "configJson": {
-        "type": "map",
-        "config": {
-          "b1t": {
+        "type": "list",
+        "config": [
+          {
             "uiType": "input",
             "type": "String",
             "isRequired": false,
             "label": "Button 1 Text",
             "key": "b1t"
           },
-          "b2t": {
+          {
             "uiType": "input",
             "type": "String",
             "isRequired": false,
             "label": "Button 2 Text",
             "key": "b2t"
           }
-        }
+        ]
       }
       //#admincomponent
     };

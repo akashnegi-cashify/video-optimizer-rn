@@ -14,16 +14,16 @@ dynamic schema() => {
       "isActive": true,
       "title": "Shipex Packing Component",
       "configJson": {
-        "type": "map",
-        "config": {
-          "none": {
+        "type": "list",
+        "config": [
+          {
             "uiType": "input",
             "type": "String",
             "isRequired": false,
             "label": "None",
             "key": "none"
           }
-        }
+        ]
       }
       //#admincomponent
     };

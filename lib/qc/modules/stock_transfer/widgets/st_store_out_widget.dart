@@ -1,4 +1,5 @@
 import 'package:calculator_ui/calculator_ui.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
@@ -11,6 +12,7 @@ class StStoreOutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = StStoreOutProvider.of(context);
+    var theme = Theme.of(context);
     return StreamBuilder<StLotDetailResponse?>(
       stream: provider.lotDetailsStream,
       builder: (context, snapshot) {
@@ -19,7 +21,15 @@ class StStoreOutWidget extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          return CshTextNew.bodyText2(snapshot.error.toString());
+          var errorMessage = ApiErrorHelper.getErrorMessage(snapshot.error);
+          return Padding(
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: Text(
+              errorMessage.toString(),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.error),
+            ),
+          );
         }
 
         if (snapshot.hasData) {

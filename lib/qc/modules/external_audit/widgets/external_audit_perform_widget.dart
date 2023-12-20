@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/external_audit/providers/external_audit_perform_provider.dart';
@@ -103,15 +105,44 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
   }
 
   _callExternalAuditApi() {
-    CshLoading().showLoading(context);
+    // CshLoading().showLoading(context);
+    _showUploadDialog(provider?.fileUploadProgressStream);
     provider?.callExternalAuditApi().then((value) {
-      CshLoading().hideLoading(context);
+      Navigator.pop(context); // dismiss dialog
+      // CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: "Request Submitted Successfully");
       Navigator.pop(context);
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
     });
+  }
+
+  _showUploadDialog(StreamController<double>? fileUploadProgressStream) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        var theme = Theme.of(context);
+        return PopScope(
+          canPop: false,
+          child: StreamBuilder<double>(
+            stream: fileUploadProgressStream?.stream,
+            builder: (context, snapshot) {
+              return AlertDialog(
+                title: Text("Uploading Videos - ${(snapshot.data ?? 0).toInt()}%", style: theme.textTheme.titleMedium),
+                content: LinearProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
+                  backgroundColor: theme.primaryColor.withAlpha(20),
+                  borderRadius: BorderRadius.circular(Dimens.space_6),
+                  value: (snapshot.data ?? 0) / 100,
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 
   String _getHeading(L10n l10n) {

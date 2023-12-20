@@ -1,11 +1,9 @@
 import 'package:builder_component/builder_component.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/providers/stock_transfer_list_provider.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/widgets/stock_transfer_list_widget.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
-import 'package:provider/provider.dart';
 
 part 'stock_transfer_list_component.g.dart';
 
@@ -20,10 +18,7 @@ class StockTransferListComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    return ChangeNotifierProvider(
-      create: (_) => StockTransferListProvider(),
-      child: const StockTransferListWidget(),
-    );
+    return const StockTransferListWidget();
   }
 
   @override
