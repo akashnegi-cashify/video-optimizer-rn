@@ -28,18 +28,17 @@ class _MyDevicesWidgetState extends State<MyDevicesWidget> with SingleTickerProv
         CshTabBar(
           controller: _controller,
           tabs: [
-            CshTextNew(
-              l10n.allDevices,
-            ),
-            CshTextNew(
-              l10n.wipDevices,
-            )
+            CshTextNew(l10n.allDevices),
+            CshTextNew(l10n.wipDevices),
           ],
         ),
         Expanded(
           child: TabBarView(
             controller: _controller,
-            children: const [AllDevicesWidget(), WIPTab()],
+            children: const [
+              AllDevicesWidget(),
+              WIPTab(),
+            ],
           ),
         )
       ],

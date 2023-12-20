@@ -10,6 +10,7 @@ import 'package:flutter_trc/src/modules/elss/elss_trc/screens/brand_details_list
 import 'package:flutter_trc/src/modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'package:flutter_trc/src/modules/engineer/manage_parts/manage_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/my_devices_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/capture_consume_parts_media_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
@@ -103,6 +104,7 @@ class TrcRoutes {
       TrcAndQcLoginScreen.route: (_) => const TrcAndQcLoginScreen(),
       TrcTesterScreen.route: (_) => const TrcTesterScreen(),
       StoreManagerHomeScreen.route: (_) => const StoreManagerHomeScreen(),
+      CaptureConsumePartsMediaScreen.route: (_) => const CaptureConsumePartsMediaScreen(),
     };
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/send_to_tl_response.dart';
@@ -72,12 +73,13 @@ class EngineerAPIService {
     return TrcService().get("/engineer/device/mark-tl", SendToTlResponse.fromJson, params: paramData);
   }
 
-  static Stream<SendToTlResponse?> consumePart(String? partBarcode, int? partId, int? productId, String imageUrl) {
+  static Stream<SendToTlResponse?> consumePart(
+      String? partBarcode, int? partId, int? productId, List<String>? imageUrl) {
     Map<String, List<String>> paramData = {
       if (partBarcode != null) "pbr": [partBarcode],
       if (partId != null) "pid": [partId.toString()],
       if (productId != null) "prid": [productId.toString()],
-      "imgUrl": [imageUrl],
+      if (!Validator.isListNullOrEmpty(imageUrl)) "imgUrl": imageUrl!,
     };
     return TrcService().get("/engineer/consume-part", SendToTlResponse.fromJson, params: paramData);
   }
