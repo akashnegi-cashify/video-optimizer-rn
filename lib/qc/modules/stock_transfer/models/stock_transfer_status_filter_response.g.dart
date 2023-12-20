@@ -1,0 +1,44 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'stock_transfer_status_filter_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+StockTransferStatusFilterResponse _$StockTransferStatusFilterResponseFromJson(
+        Map<String, dynamic> json) =>
+    StockTransferStatusFilterResponse(
+      (json['dt'] as List<dynamic>?)
+          ?.map((e) =>
+              StockTransferStatusFilterData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['s'] as bool?,
+      json['__ca'] == null
+          ? null
+          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+      json['turl'] as String?,
+    );
+
+Map<String, dynamic> _$StockTransferStatusFilterResponseToJson(
+        StockTransferStatusFilterResponse instance) =>
+    <String, dynamic>{
+      '__ca': instance.cashifyAlert,
+      'turl': instance.trackUrl,
+      'dt': instance.filterList,
+      's': instance.success,
+    };
+
+StockTransferStatusFilterData _$StockTransferStatusFilterDataFromJson(
+        Map<String, dynamic> json) =>
+    StockTransferStatusFilterData(
+      name: json['v'] as String?,
+      id: json['k'] as int?,
+    );
+
+Map<String, dynamic> _$StockTransferStatusFilterDataToJson(
+        StockTransferStatusFilterData instance) =>
+    <String, dynamic>{
+      'v': instance.name,
+      'k': instance.id,
+    };

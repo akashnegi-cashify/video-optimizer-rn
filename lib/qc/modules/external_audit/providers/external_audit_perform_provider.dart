@@ -19,7 +19,13 @@ class ExternalAuditPerformProvider extends CshChangeNotifier {
   final List<String> _imageUrlList = [];
   final ExternalAuditEnum auditType;
 
+  final StreamController<double> _fileUploadProgressStream = StreamController.broadcast();
+
+  double _totalProgress = 0;
+
   ExternalAuditPerformProvider(this.auditType);
+
+  StreamController<double> get fileUploadProgressStream => _fileUploadProgressStream;
 
   set uid_1(String value) {
     _uid_1 = value;
@@ -84,9 +90,14 @@ class ExternalAuditPerformProvider extends CshChangeNotifier {
           mediaFile: File(element),
           fileName: fileName,
           contentType: MediaContentType.mp4,
+          onProgress: (value) {
+            _totalProgress = value / _videoFilePathList.length;
+            _fileUploadProgressStream.add(_totalProgress);
+          },
         );
         urlList.add(url);
       } catch (e) {
+        Logger.debug('mydebug-----ExternalAuditPerformProvider._uploadVideoFilesAndGetUrls errors', [e]);
         return null;
       }
     }
@@ -96,4 +107,11 @@ class ExternalAuditPerformProvider extends CshChangeNotifier {
   void onImageUploaded(List<String> imageList) {
     _imageUrlList.addAll(imageList);
   }
+
+  @override
+  void dispose() {
+    _fileUploadProgressStream.close();
+    super.dispose();
+  }
+
 }
