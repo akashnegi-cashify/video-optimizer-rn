@@ -1,14 +1,18 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
 import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/widgets/general_image_upload_card.dart';
 import 'package:provider/provider.dart';
+import '../../../../l10n.dart';
+
+enum CapturePartMediaType { consumed, retrieved }
 
 class CaptureConsumePartMediaArg {
   final int? retrievedPartsMediaCount;
-  final Function(Map<String, List<String>> urlsMap) onImageUploaded;
+  final Function(Map<CapturePartMediaType, List<String>> urlsMap, String? retrievedPartBarcode) onImageUploaded;
 
   const CaptureConsumePartMediaArg({required this.onImageUploaded, this.retrievedPartsMediaCount = 0});
 }
@@ -26,46 +30,77 @@ class _CaptureConsumePartsMediaScreenState extends State<CaptureConsumePartsMedi
   List<String>? _consumedPartsUrls;
   List<String>? _retrievedPartsUrls;
 
+  String? _partBarcode;
+
+  final _barcodeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var arg = ModalRoute.of(context)?.settings.arguments as CaptureConsumePartMediaArg;
+    var theme = Theme.of(context);
+    L10n l10n = L10n(context);
     return PopScope(
       canPop: true,
       child: Scaffold(
-        appBar: const TrcHeader("Capture Consumed Parts Media", showBackBtn: true),
+        appBar: TrcHeader(l10n.captureConsumedPartsMedia, showBackBtn: true),
         body: Padding(
           padding: const EdgeInsets.all(Dimens.space_16),
           child: Column(
             children: [
               _CaptureMediaModule(
                   key: const ValueKey("Consumed Parts"),
-                  title: "Consumed Parts Media",
+                  title: l10n.consumedPartsMedia,
                   onImageUploaded: (urls) {
                     setState(() {
                       _consumedPartsUrls = urls;
                     });
                   }),
-              const SizedBox(height: Dimens.space_24),
-              if ((arg.retrievedPartsMediaCount ?? 0) > 0)
+              const SizedBox(height: Dimens.space_16),
+              if ((arg.retrievedPartsMediaCount ?? 0) > 0) ...[
+                const Divider(),
+                const SizedBox(height: Dimens.space_16),
                 _CaptureMediaModule(
                     key: const ValueKey("Retrieved Parts"),
                     imageCount: arg.retrievedPartsMediaCount!,
-                    title: "Retrieved Parts Media",
+                    title: l10n.retrievedPartsMedia,
                     onImageUploaded: (urls) {
                       setState(() {
                         _retrievedPartsUrls = urls;
                       });
                     }),
+                const SizedBox(height: Dimens.space_16),
+                CshTextFormField(
+                  hintText: l10n.retrievedPartsBarcode,
+                  hintStyle: theme.textTheme.labelSmall?.copyWith(color: theme.disabledColor),
+                  controller: _barcodeController,
+                  suffixIcon: InkWell(
+                    child: const Icon(Icons.qr_code_2),
+                    onTap: () {
+                      CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+                        Navigator.pop(context); // close scanner
+                        setState(() {
+                          _barcodeController.text = scannedData;
+                        });
+                      });
+                    },
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _barcodeController.text = value;
+                    });
+                  },
+                ),
+              ],
               const Expanded(child: SizedBox.shrink()),
               CshBigButton(
-                text: "Proceed",
+                text: l10n.proceed,
                 onPressed: _canProceed(arg.retrievedPartsMediaCount ?? 0)
                     ? () {
-                        Map<String, List<String>> urlsMap = {};
-                        urlsMap["consumedParts"] = _consumedPartsUrls ?? [];
-                        urlsMap["retrievedParts"] = _retrievedPartsUrls ?? [];
-                        arg.onImageUploaded(urlsMap);
-                        Navigator.pop(context);
+                        Map<CapturePartMediaType, List<String>> urlsMap = {};
+                        urlsMap[CapturePartMediaType.consumed] = _consumedPartsUrls ?? [];
+                        urlsMap[CapturePartMediaType.retrieved] = _retrievedPartsUrls ?? [];
+                        arg.onImageUploaded(urlsMap, _barcodeController.text);
+                        Navigator.pop(context); // Dismiss screen
                       }
                     : null,
               ),
@@ -81,7 +116,8 @@ class _CaptureConsumePartsMediaScreenState extends State<CaptureConsumePartsMedi
       return false;
     }
 
-    if (retrievedPartsMediaCount > 0 && Validator.isListNullOrEmpty(_retrievedPartsUrls)) {
+    if (retrievedPartsMediaCount > 0 &&
+        (Validator.isListNullOrEmpty(_retrievedPartsUrls) || Validator.isNullOrEmpty(_partBarcode))) {
       return false;
     }
 

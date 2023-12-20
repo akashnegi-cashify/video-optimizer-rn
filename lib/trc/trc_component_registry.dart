@@ -29,7 +29,6 @@ import 'package:flutter_trc/src/modules/l4/components/l4_component.dart';
 import 'package:flutter_trc/src/modules/login/component/login_component.dart';
 import 'package:flutter_trc/src/modules/login/component/trc_and_qc_login_component.dart';
 import 'package:flutter_trc/src/modules/part_qc/components/part_qc_home_component.dart';
-import 'package:flutter_trc/src/modules/part_qc/components/pq_status_change_comp.dart';
 import 'package:flutter_trc/src/modules/rider/components/rider_home_component.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/components/delivery_deliver_engineer_parts_component.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/component/pickup_receive_engineer_parts_comp.dart';
@@ -134,8 +133,6 @@ class TrcComponentRegistry {
 
       case L4Component.COMP_KEY:
         return L4Component(jsonConfig);
-      case PqStatusChangeComp.COMP_KEY:
-        return PqStatusChangeComp(jsonConfig);
 
       case PartQcHomeComponent.COMP_KEY:
         return PartQcHomeComponent(jsonConfig);

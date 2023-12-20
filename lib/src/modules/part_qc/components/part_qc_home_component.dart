@@ -6,7 +6,6 @@ import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/user/widget/logout_action_widget.dart';
 import '../l10n.dart';
 import '../providers/pq_provider.dart';
 import '../widgets/qc_pending_tab_widget.dart';
@@ -26,44 +25,58 @@ class PartQcHomeComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    var l10n = L10n(context);
-    var theme = Theme.of(context);
-    return ChangeNotifierProvider<PartQcProvider>(
-      create: (_) => PartQcProvider(),
+    return ChangeNotifierProvider(
+      create: (context) => PartQcProvider(),
       lazy: false,
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: CshHeader(
-            l10n.partQc,
-            showBackBtn: false,
-            actions: [LogoutActionWidget()],
-            bottom: TabBar(
-              labelStyle: theme.primaryTextTheme.headline4,
-              labelColor: theme.primaryColor,
-              unselectedLabelStyle: theme.primaryTextTheme.bodyText2,
-              unselectedLabelColor: theme.primaryColor,
-              indicatorColor: theme.primaryColor,
-              indicatorWeight: Dimens.space_5,
-              tabs: [
-                Tab(text: l10n.reader.toUpperCase()),
-                Tab(text: l10n.qcPending.toUpperCase()),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              ReaderTabWidget(),
-              QcPendingTabWidget(),
-            ],
-          ),
-        ),
-      ),
+      child: const _PartQcHomeWidget(),
     );
   }
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
     return NoneConfigModel.fromConfig;
+  }
+}
+
+class _PartQcHomeWidget extends StatefulWidget {
+  const _PartQcHomeWidget({super.key});
+
+  @override
+  State<_PartQcHomeWidget> createState() => _PartQcHomeWidgetState();
+}
+
+class _PartQcHomeWidgetState extends State<_PartQcHomeWidget> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var l10n = L10n(context);
+    var theme = Theme.of(context);
+
+    return Column(
+      children: [
+        CshTabBar(
+            controller: _tabController,
+            indicatorSize: TabBarIndicatorSize.tab,
+            height: const TabBarHeights(mobile: Dimens.space_50, tablet: Dimens.space_45, desktop: Dimens.space_45),
+            labelStyle: theme.primaryTextTheme.titleSmall,
+            tabs: [
+              Tab(text: l10n.reader.toUpperCase()),
+              Tab(text: l10n.qcPending.toUpperCase()),
+            ]),
+        Expanded(
+          child: TabBarView(controller: _tabController, children: const [
+            ReaderTabWidget(),
+            QcPendingTabWidget(),
+          ]),
+        )
+      ],
+    );
   }
 }

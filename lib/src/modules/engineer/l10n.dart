@@ -219,4 +219,17 @@ class L10n extends l10n_common.L10n {
 
   String get screwImagesUploadedSuccessfully =>
       Intl.message("Screw Images Uploaded Successfully", locale: localName, name: "screwImagesUploadedSuccessfully");
+
+  String get captureConsumedPartsMedia =>
+      Intl.message("Capture Consumed Parts Media", locale: localName, name: "captureConsumedPartsMedia");
+
+  String get consumedPartsMedia => Intl.message("Consumed Parts Media", locale: localName, name: "consumedPartsMedia");
+
+  String get retrievedPartsMedia =>
+      Intl.message("Retrieved Parts Media", locale: localName, name: "retrievedPartsMedia");
+
+  String get retrievedPartsBarcode =>
+      Intl.message("Retrieved Parts Barcode", locale: localName, name: "retrievedPartsBarcode");
+
+  String get proceed => Intl.message("Proceed", locale: localName, name: "proceed");
 }

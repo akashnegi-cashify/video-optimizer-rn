@@ -282,7 +282,6 @@ import 'package:flutter_trc/src/modules/part_qc/providers/part_status_provider.d
 import 'package:flutter_trc/src/modules/part_qc/providers/pq_provider.dart';
 import 'package:flutter_trc/src/modules/part_qc/resources/pq_services.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
-import 'package:flutter_trc/src/modules/part_qc/screens/pq_status_change_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/widgets/qc_part_list_widget.dart';
 import 'package:flutter_trc/src/modules/part_qc/widgets/qc_pending_tab_widget.dart';
 import 'package:flutter_trc/src/modules/part_qc/widgets/reader_tab_widget.dart';

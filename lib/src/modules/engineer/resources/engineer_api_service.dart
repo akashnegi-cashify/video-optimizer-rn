@@ -8,6 +8,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_part_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/part_list_history_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/replace_part_request.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/capture_consume_parts_media_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/return_part_data.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_devices_response.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
@@ -73,15 +74,27 @@ class EngineerAPIService {
     return TrcService().get("/engineer/device/mark-tl", SendToTlResponse.fromJson, params: paramData);
   }
 
-  static Stream<SendToTlResponse?> consumePart(
-      String? partBarcode, int? partId, int? productId, List<String>? imageUrl) {
-    Map<String, List<String>> paramData = {
-      if (partBarcode != null) "pbr": [partBarcode],
-      if (partId != null) "pid": [partId.toString()],
-      if (productId != null) "prid": [productId.toString()],
-      if (!Validator.isListNullOrEmpty(imageUrl)) "imgUrl": imageUrl!,
+  static Stream<SendToTlResponse?> consumePart(String? partBarcode, int? partId, int? productId,
+      Map<CapturePartMediaType, List<String>>? imageUrlsMap, String? retrievedPartBarcode) {
+    Map<String, dynamic> req = {
+      "pbr": partBarcode,
+      "pid": partId,
+      "prid": productId,
+      if (retrievedPartBarcode != null) "rp": retrievedPartBarcode,
     };
-    return TrcService().get("/engineer/consume-part", SendToTlResponse.fromJson, params: paramData);
+
+    if (imageUrlsMap != null) {
+      List<String>? retrievedImages = imageUrlsMap[CapturePartMediaType.retrieved];
+      if (!Validator.isListNullOrEmpty(retrievedImages)) {
+        req["rpimg"] = retrievedImages;
+      }
+      List<String>? consumedImages = imageUrlsMap[CapturePartMediaType.consumed];
+      if (!Validator.isListNullOrEmpty(consumedImages)) {
+        req["imgUrl"] = consumedImages?.first;
+      }
+    }
+
+    return TrcService().post("/part/consume-part", SendToTlResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<BaseActionResponse?> cancelPart(int productId) {

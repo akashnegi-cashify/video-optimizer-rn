@@ -11,6 +11,9 @@ class EngineerPartInfo extends DevicePart {
   @JsonKey(name: "stc")
   int? statusCode;
 
+  @JsonKey(name: "rvc")
+  int? retrievedImageCount;
+
   static EngineerPartInfo fromJson(Map<String, dynamic> data) => _$EngineerPartInfoFromJson(data);
 
   @override

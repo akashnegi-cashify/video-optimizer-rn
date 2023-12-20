@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/dialog_util.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
-
-import '../../../../resources/engineer_api_service.dart';
+import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 
 class CancelPartButtonWidget extends StatelessWidget {
   final EngineerPartInfo partInfo;
   final VoidCallback onRequestCompletion;
 
-  const CancelPartButtonWidget({Key? key, required this.partInfo, required, required this.onRequestCompletion})
-      : super(key: key);
+  const CancelPartButtonWidget({Key? key, required this.partInfo, required this.onRequestCompletion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,6 @@ class CancelPartButtonWidget extends StatelessWidget {
               onRequestCompletion();
             }, onError: (error, stackTrace) {
               Navigator.pop(context);
-
               CshSnackBar.error(
                   context: context, message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
             });

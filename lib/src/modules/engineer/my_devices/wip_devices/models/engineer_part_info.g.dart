@@ -21,7 +21,8 @@ EngineerPartInfo _$EngineerPartInfoFromJson(Map<String, dynamic> json) =>
       ..isService = json['isService'] as bool?
       ..action = json['ac'] as String?
       ..status = json['st'] as String?
-      ..statusCode = json['stc'] as int?;
+      ..statusCode = json['stc'] as int?
+      ..retrievedImageCount = json['rvc'] as int?;
 
 Map<String, dynamic> _$EngineerPartInfoToJson(EngineerPartInfo instance) =>
     <String, dynamic>{
@@ -39,4 +40,5 @@ Map<String, dynamic> _$EngineerPartInfoToJson(EngineerPartInfo instance) =>
       'ac': instance.action,
       'st': instance.status,
       'stc': instance.statusCode,
+      'rvc': instance.retrievedImageCount,
     };

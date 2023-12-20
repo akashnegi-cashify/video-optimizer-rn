@@ -34,7 +34,6 @@ import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dar
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
-import 'package:flutter_trc/src/modules/part_qc/screens/pq_status_change_screen.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/delivery_deliver_engineer_parts_screen.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/pickup_receive_engineer_parts_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
@@ -97,7 +96,6 @@ class TrcRoutes {
       AlternatePartScreen.route: (_) => const AlternatePartScreen(),
       //Part qc routes
       PartQCHomeScreen.route: (_) => const PartQCHomeScreen(),
-      PartQcPartStatusScreen.route: (_) => const PartQcPartStatusScreen(),
       TRCExecutiveScreen.route: (_) => const TRCExecutiveScreen(),
       DeviceScannerScreen.route: (_) => const DeviceScannerScreen(),
       LoginScreen.route: (_) => const LoginScreen(),
