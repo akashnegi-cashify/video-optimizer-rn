@@ -44,6 +44,7 @@ RetrievedPartListData _$RetrievedPartListDataFromJson(
       json['pn'] as String?,
       json['dbr'] as String?,
       json['rpbr'] as String?,
+      json['prid'] as int?,
     );
 
 Map<String, dynamic> _$RetrievedPartListDataToJson(
@@ -53,4 +54,5 @@ Map<String, dynamic> _$RetrievedPartListDataToJson(
       'pn': instance.partName,
       'dbr': instance.deviceBarcode,
       'rpbr': instance.retrievedPartBarcode,
+      'prid': instance.partId,
     };

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
+import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/send_to_tl_response.dart';
@@ -206,7 +207,8 @@ class EngineerAPIService {
     return TrcService().post("/device/media/$deviceBarcode", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
-  static Stream<RetrievedPartListResponse?> getRetrievedPartList(int pageNo, int pageSize, {String? query}) {
+  static Stream<RetrievedPartListResponse?> getRetrievedPartList(int pageNo, int pageSize,
+      {String? query, required RoleType roleType}) {
     Map<String, dynamic> req = {
       "pno": pageNo,
       "ln": pageSize,
@@ -216,7 +218,9 @@ class EngineerAPIService {
       Map<String, String> filter = {"br": query.toString()};
       req["fp"] = filter;
     }
-    return TrcService()
-        .post("/engineer/list/retrieved-part", RetrievedPartListResponse.fromJson, body: jsonEncode(req));
+
+    String engPoint = roleType == RoleType.engineer ? "/engineer/list/retrieved-part" : "/qc/parts/list/retrieved-part";
+
+    return TrcService().post(engPoint, RetrievedPartListResponse.fromJson, body: jsonEncode(req));
   }
 }

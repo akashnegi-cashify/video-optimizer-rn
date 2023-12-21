@@ -32,6 +32,10 @@ class RetrievedPartList {
 
 @JsonSerializable()
 class RetrievedPartListData {
+
+  @JsonKey(name: "prid")
+  int? partId;
+
   @JsonKey(name: "sku")
   String? sku;
 
@@ -44,7 +48,7 @@ class RetrievedPartListData {
   @JsonKey(name: "rpbr")
   String? retrievedPartBarcode;
 
-  RetrievedPartListData(this.sku, this.partName, this.deviceBarcode, this.retrievedPartBarcode);
+  RetrievedPartListData(this.sku, this.partName, this.deviceBarcode, this.retrievedPartBarcode, this.partId);
 
   static RetrievedPartListData fromJson(Map<String, dynamic> json) => _$RetrievedPartListDataFromJson(json);
 

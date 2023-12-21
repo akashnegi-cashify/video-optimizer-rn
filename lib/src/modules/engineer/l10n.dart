@@ -236,4 +236,19 @@ class L10n extends l10n_common.L10n {
   String get retrievedPartList => Intl.message("Retrieved Part List", locale: localName, name: "retrievedPartList");
 
   String get sku => Intl.message("Sku", locale: localName, name: "sku");
+
+  String get noPridFound => Intl.message("No prid found", locale: localName, name: "noPridFound");
+
+  String get yes => Intl.message("Yes", locale: localName, name: "yes");
+
+  String get no => Intl.message("No", locale: localName, name: "no");
+
+  String areYouSureYouWantToMarkPartAsFaulty(String partBarcode) => Intl.message("Are you sure you want to mark $partBarcode as faulty?",
+      locale: localName, name: "areYouSureYouWantToMarkPartAsFaulty", args: [partBarcode]);
+
+  String areYouSureYouWantToMarkPartAsOk(String partBarcode) => Intl.message("Are you sure you want to mark $partBarcode as ok?",
+      locale: localName, name: "areYouSureYouWantToMarkPartAsOk", args: [partBarcode]);
+
+  String get statusUpdatedSuccessfully =>
+      Intl.message("Status Updated Successfully", locale: localName, name: "statusUpdatedSuccessfully");
 }

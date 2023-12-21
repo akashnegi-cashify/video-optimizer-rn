@@ -8,6 +8,8 @@ class L10n extends BaseL10n {
 
   String get reader => Intl.message("Reader", locale: localName, name: "reader");
 
+  String get retrievedParts => Intl.message("Retrieved Parts", locale: localName, name: "retrievedParts");
+
   String get qcPending => Intl.message("Qc Pending", locale: localName, name: "qcPending");
 
   String get scanPartBarcode => Intl.message("Scan Part Barcode", locale: localName, name: "scanPartBarcode");

@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 
 part 'retrieved_part_list_component.g.dart';
 
+enum RoleType { engineer, partQc }
+
 @CshComponent(
     key: RetrievedPartListComponent.COMP_KEY,
     configModel: NoneConfigModel,
@@ -16,12 +18,14 @@ part 'retrieved_part_list_component.g.dart';
 class RetrievedPartListComponent extends StatelessComponent<NoneConfigModel> {
   static const String COMP_KEY = "TRC_retrieved_part_list_component";
 
-  const RetrievedPartListComponent(super.jsonConfig, {super.key});
+  final RoleType roleType;
+
+  const RetrievedPartListComponent(super.jsonConfig, {super.key, this.roleType = RoleType.engineer});
 
   @override
   Widget buildView(BuildContext context, configModel) {
     return ChangeNotifierProvider(
-      create: (_) => RetrievedPartListProvider(),
+      create: (_) => RetrievedPartListProvider(roleType),
       child: const RetrievedPartListWidget(),
     );
   }
