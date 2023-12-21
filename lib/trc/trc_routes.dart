@@ -15,6 +15,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/wip_devices_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/screens/retrieved_part_list_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/view_reports/view_report_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
@@ -103,6 +104,7 @@ class TrcRoutes {
       TrcTesterScreen.route: (_) => const TrcTesterScreen(),
       StoreManagerHomeScreen.route: (_) => const StoreManagerHomeScreen(),
       CaptureConsumePartsMediaScreen.route: (_) => const CaptureConsumePartsMediaScreen(),
+      RetrievedPartListScreen.route: (_) => const RetrievedPartListScreen(),
     };
   }
 }

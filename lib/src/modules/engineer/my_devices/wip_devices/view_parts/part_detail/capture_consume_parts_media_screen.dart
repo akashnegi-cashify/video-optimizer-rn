@@ -30,8 +30,6 @@ class _CaptureConsumePartsMediaScreenState extends State<CaptureConsumePartsMedi
   List<String>? _consumedPartsUrls;
   List<String>? _retrievedPartsUrls;
 
-  String? _partBarcode;
-
   final _barcodeController = TextEditingController();
 
   @override
@@ -100,7 +98,6 @@ class _CaptureConsumePartsMediaScreenState extends State<CaptureConsumePartsMedi
                         urlsMap[CapturePartMediaType.consumed] = _consumedPartsUrls ?? [];
                         urlsMap[CapturePartMediaType.retrieved] = _retrievedPartsUrls ?? [];
                         arg.onImageUploaded(urlsMap, _barcodeController.text);
-                        Navigator.pop(context); // Dismiss screen
                       }
                     : null,
               ),
@@ -117,7 +114,7 @@ class _CaptureConsumePartsMediaScreenState extends State<CaptureConsumePartsMedi
     }
 
     if (retrievedPartsMediaCount > 0 &&
-        (Validator.isListNullOrEmpty(_retrievedPartsUrls) || Validator.isNullOrEmpty(_partBarcode))) {
+        (Validator.isListNullOrEmpty(_retrievedPartsUrls) || Validator.isNullOrEmpty(_barcodeController.text))) {
       return false;
     }
 

@@ -13,16 +13,28 @@ RetrievedPartListResponse _$RetrievedPartListResponseFromJson(
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
-    )..retrievedPartListData = (json['dt'] as List<dynamic>?)
-        ?.map((e) => RetrievedPartListData.fromJson(e as Map<String, dynamic>))
-        .toList();
+    )..retrievedPartListResponse = json['dt'] == null
+        ? null
+        : RetrievedPartList.fromJson(json['dt'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$RetrievedPartListResponseToJson(
         RetrievedPartListResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'dt': instance.retrievedPartListData,
+      'dt': instance.retrievedPartListResponse,
+    };
+
+RetrievedPartList _$RetrievedPartListFromJson(Map<String, dynamic> json) =>
+    RetrievedPartList()
+      ..retrievedPartList = (json['dl'] as List<dynamic>?)
+          ?.map(
+              (e) => RetrievedPartListData.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$RetrievedPartListToJson(RetrievedPartList instance) =>
+    <String, dynamic>{
+      'dl': instance.retrievedPartList,
     };
 
 RetrievedPartListData _$RetrievedPartListDataFromJson(

@@ -15,13 +15,14 @@ class RetrievedPartListProvider extends CshChangeNotifier with Searchable {
 
   Future<List<RetrievedPartListData>> getList(int pageNo, int pageSize) {
     var completer = Completer<List<RetrievedPartListData>>();
-    EngineerAPIService.getRetrievedPartList(pageNo, pageSize).listen((event) {
-      if (Validator.isListNullOrEmpty(event?.retrievedPartListData)) {
+    EngineerAPIService.getRetrievedPartList(pageNo, pageSize, query: searchQuery).listen((event) {
+      if (Validator.isListNullOrEmpty(event?.retrievedPartListResponse?.retrievedPartList)) {
         completer.completeError("No data found");
       } else {
-        completer.complete(event?.retrievedPartListData);
+        completer.complete(event!.retrievedPartListResponse!.retrievedPartList);
       }
-    }, onError: (error) {
+    }, onError: (error, stackTrace) {
+      Logger.debug('mydebug-----RetrievedPartListProvider.getList', [stackTrace]);
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
     return completer.future;

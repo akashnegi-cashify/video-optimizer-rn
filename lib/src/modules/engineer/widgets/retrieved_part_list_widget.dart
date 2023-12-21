@@ -4,6 +4,7 @@ import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/providers/retrieved_part_list_provider.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
+import '../l10n.dart';
 
 class RetrievedPartListWidget extends StatefulWidget {
   const RetrievedPartListWidget({super.key});
@@ -20,13 +21,14 @@ class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartList
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var l10n = L10n(context);
     var provider = RetrievedPartListProvider.of(context);
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
           child: CshTextFormField(
-            hintText: "Search Barcode",
+            hintText: l10n.retrievedPartBarcode,
             hintStyle: theme.textTheme.labelSmall,
             controller: _barcodeController,
             onChanged: (_) {
@@ -68,7 +70,7 @@ class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartList
   void requestApi(int pageNo,
       {Function(List<RetrievedPartListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = RetrievedPartListProvider.of(context, listen: false);
-    provider.getList(pageNo, pageSize).then((value) {
+    provider.getList(++pageNo, pageSize).then((value) {
       onSuccess?.call(value);
     }, onError: (error) {
       onError?.call(error);
@@ -91,16 +93,19 @@ class _RetrievedPartItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Column(
-      children: [
-        _labelValueWidget(theme, "Sku", item.sku ?? ""),
-        const SizedBox(height: Dimens.space_8),
-        _labelValueWidget(theme, "Part Name", item.partName ?? ""),
-        const SizedBox(height: Dimens.space_8),
-        _labelValueWidget(theme, "Device Barcode", item.deviceBarcode ?? ""),
-        const SizedBox(height: Dimens.space_8),
-        _labelValueWidget(theme, "Retrieved Part Barcode", item.retrievedPartBarcode ?? ""),
-      ],
+    var l10n = L10n(context);
+    return CshCard(
+      child: Column(
+        children: [
+          _labelValueWidget(theme, l10n.sku, item.sku ?? ""),
+          const SizedBox(height: Dimens.space_8),
+          _labelValueWidget(theme, l10n.partName, item.partName ?? ""),
+          const SizedBox(height: Dimens.space_8),
+          _labelValueWidget(theme, l10n.deviceBarcode, item.deviceBarcode ?? ""),
+          const SizedBox(height: Dimens.space_8),
+          _labelValueWidget(theme, l10n.retrievedPartsBarcode, item.retrievedPartBarcode ?? ""),
+        ],
+      ),
     );
   }
 

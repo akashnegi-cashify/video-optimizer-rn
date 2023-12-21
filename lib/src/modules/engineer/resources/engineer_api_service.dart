@@ -213,11 +213,10 @@ class EngineerAPIService {
     };
 
     if (!Validator.isNullOrEmpty(query)) {
-      req["fp"] = query;
+      Map<String, String> filter = {"br": query.toString()};
+      req["fp"] = filter;
     }
-
-    // TODO: end point
     return TrcService()
-        .post("/engineer/retrieved_part_list", RetrievedPartListResponse.fromJson, body: jsonEncode(req));
+        .post("/engineer/list/retrieved-part", RetrievedPartListResponse.fromJson, body: jsonEncode(req));
   }
 }

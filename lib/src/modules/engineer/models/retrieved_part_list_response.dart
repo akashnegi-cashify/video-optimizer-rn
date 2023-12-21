@@ -7,7 +7,7 @@ part 'retrieved_part_list_response.g.dart';
 class RetrievedPartListResponse extends BaseResponse {
 
   @JsonKey(name: "dt")
-  List<RetrievedPartListData>? retrievedPartListData;
+  RetrievedPartList? retrievedPartListResponse;
 
   RetrievedPartListResponse(super.cashifyAlert, super.trackUrl);
 
@@ -16,6 +16,19 @@ class RetrievedPartListResponse extends BaseResponse {
   @override
   Map<String, dynamic> toJson() => _$RetrievedPartListResponseToJson(this);
 }
+
+
+@JsonSerializable()
+class RetrievedPartList {
+
+  @JsonKey(name: "dl")
+  List<RetrievedPartListData>? retrievedPartList;
+
+  static RetrievedPartList fromJson(Map<String, dynamic> json) => _$RetrievedPartListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RetrievedPartListToJson(this);
+}
+
 
 @JsonSerializable()
 class RetrievedPartListData {

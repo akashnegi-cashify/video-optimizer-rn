@@ -234,4 +234,6 @@ class L10n extends l10n_common.L10n {
   String get proceed => Intl.message("Proceed", locale: localName, name: "proceed");
 
   String get retrievedPartList => Intl.message("Retrieved Part List", locale: localName, name: "retrievedPartList");
+
+  String get sku => Intl.message("Sku", locale: localName, name: "sku");
 }

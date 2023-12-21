@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/utils/media_upload/image_optimiser_service.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
-import 'package:http/http.dart' as http;
 
 import 'media_uploader_service.dart';
 import 'models/presigned_url_response.dart';
@@ -64,7 +63,10 @@ class MediaUploadUtil {
   }
 
   Future<String> uploadMediaWithType(
-      {required File mediaFile, required String fileName, MediaContentType contentType = MediaContentType.webp}) {
+      {required io.File mediaFile,
+      required String fileName,
+      MediaContentType contentType = MediaContentType.webp,
+      Function(int progress)? onProgress}) {
     var completer = Completer<String>();
     String fileFormat = mediaFile.path.split(".").last;
     try {
@@ -79,20 +81,36 @@ class MediaUploadUtil {
             return;
           }
 
-          var counter = 0;
-          final streamedRequest = http.StreamedRequest('PUT', Uri.parse(url!))
-            ..headers.addAll({'Cache-Control': 'no-cache', "content-type": contentType.value});
-          streamedRequest.contentLength = await mediaFile.length();
-
-          mediaFile.openRead().listen((chunk) {
-            counter += chunk.length;
-            streamedRequest.sink.add(chunk);
-          }, onDone: () {
-            streamedRequest.sink.close();
-          });
-
           try {
-            var response = await streamedRequest.send();
+            final client = io.HttpClient();
+            var request = await client.putUrl(Uri.parse(url!));
+
+            int length = mediaFile.lengthSync();
+            request.headers.add("content-type", contentType.value);
+            request.headers.add("Cache-Control", "no-cache");
+            request.contentLength = length;
+
+            final stream = mediaFile.openRead();
+            int byteCount = 0;
+            Stream<List<int>> stream2 = stream.transform(
+              StreamTransformer.fromHandlers(
+                handleData: (data, sink) {
+                  byteCount += data.length;
+                  int percentage = ((byteCount / length) * 100).toInt();
+                  onProgress?.call(percentage);
+                  Logger.debug('FileUploader.uploadFile', [byteCount]);
+                  sink.add(data);
+                },
+                handleError: (error, stack, sink) {},
+                handleDone: (sink) {
+                  sink.close();
+                },
+              ),
+            );
+
+            await request.addStream(stream2);
+
+            var response = await request.close();
             if (response.statusCode == 200) {
               Logger.debug('mydebug------ImageUploadUtil.uploadImage', ["Image Uploaded Successfully"]);
               _getMediaS3Url(
@@ -112,11 +130,11 @@ class MediaUploadUtil {
             String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
             Logger.debug('Http Timeout Exception at backend $error');
             completer.completeError(em);
-          } on SocketException catch (error) {
+          } on io.SocketException catch (error) {
             String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
             Logger.debug('Http Timeout Exception at backend $error');
             completer.completeError(em);
-          } on HttpException catch (error) {
+          } on io.HttpException catch (error) {
             String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
             Logger.debug('Http Timeout Exception at backend $error');
             completer.completeError(em);

@@ -538,6 +538,21 @@
       ]
     },
     {
+      "pageId": 41,
+      "pageKey": "TRC_retrieved_part_list_screen",
+      "dt": [
+        {
+          "id": 67,
+          "key": "TRC_retrieved_part_list_component",
+          "type": "component"
+        },
+        {
+          "id": 68,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -1976,6 +1991,28 @@
           "ht": "Part QC",
           "sbb": false,
           "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 67,
+      "locale": "en",
+      "key": "TRC_retrieved_part_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 68,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Retrieved Part List",
+          "sbb": true,
+          "slb": false
         }
       }
     },

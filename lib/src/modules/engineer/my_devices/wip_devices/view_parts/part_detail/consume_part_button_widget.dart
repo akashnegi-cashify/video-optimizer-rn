@@ -28,6 +28,7 @@ class ConsumePartButtonWidget extends StatelessWidget {
               arguments: CaptureConsumePartMediaArg(
                 retrievedPartsMediaCount: partInfo.retrievedImageCount,
                 onImageUploaded: (urlsMap, retrievedPartBarcode) {
+                  Navigator.pop(context); // Dismiss screen
                   _callConsumeApi(context, l10n, imageUrlsMap: urlsMap, retrievedPartBarcode: retrievedPartBarcode);
                 },
               ),
