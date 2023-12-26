@@ -42,11 +42,6 @@ class ConsumePartButtonWidget extends StatelessWidget {
     );
   }
 
-  void displayGenericErrorMessage(BuildContext context, L10n l10n) {
-    CshLoading().hideLoading(context);
-    showSnackBar(context, l10n.somethingWentWrong, isError: true);
-  }
-
   _callConsumeApi(BuildContext context, L10n l10n,
       {Map<CapturePartMediaType, List<String>>? imageUrlsMap, String? retrievedPartBarcode}) {
     CshLoading().showLoading(context);
@@ -74,13 +69,18 @@ class ConsumePartButtonWidget extends StatelessWidget {
     CustomColors customTheme = theme.extension<CustomColors>() as CustomColors;
     var backgroundColor = customTheme.successColor;
     if (isError) {
-      backgroundColor = theme.errorColor;
+      backgroundColor = theme.colorScheme.error;
     }
     SnackBar snackBar = SnackBar(
-      behavior: SnackBarBehavior.fixed,
+      behavior: SnackBarBehavior.floating,
       duration: const Duration(seconds: 3),
       padding: const EdgeInsets.all(Dimens.space_16),
       backgroundColor: backgroundColor,
+      margin: EdgeInsets.only(
+        bottom: MediaQuery.of(context).size.height - 200,
+        left: Dimens.space_8,
+        right: Dimens.space_8,
+      ),
       dismissDirection: DismissDirection.endToStart,
       content: Text(
         message,
