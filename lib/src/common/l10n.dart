@@ -8,6 +8,9 @@ class L10n extends BaseL10n {
 
   String get searchHere => Intl.message("Search here", locale: localName, name: "searchHere");
 
+  String get retrievedPartBarcode =>
+      Intl.message("Retrieved Part Barcode", locale: localName, name: "retrievedPartBarcode");
+
   String get yesterday => Intl.message("Yesterday", locale: localName, name: "yesterday");
 
   String get lastWeek => Intl.message("Last week", locale: localName, name: "lastWeek");
@@ -37,6 +40,7 @@ class L10n extends BaseL10n {
   String get newVersionAvailable =>
       Intl.message("New Version Available", locale: localName, name: "newVersionAvailable");
 
-  String majorVersionDescription(String version) => Intl.message("Please update app to new version $version to continue",
-      locale: localName, name: "majorVersionDescription", args: [version]);
+  String majorVersionDescription(String version) =>
+      Intl.message("Please update app to new version $version to continue",
+          locale: localName, name: "majorVersionDescription", args: [version]);
 }

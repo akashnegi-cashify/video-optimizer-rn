@@ -10,6 +10,7 @@ import 'package:flutter_trc/src/modules/elss/components/part_selection_component
 import 'package:flutter_trc/src/modules/elss/components/part_selection_qc_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/engineer_home_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/manage_parts_component.dart';
+import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/components/my_devices_component.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/components/wip_devices_details_comp.dart';
 import 'package:flutter_trc/src/modules/engineer/view_reports/component/view_report_component.dart';
@@ -29,7 +30,6 @@ import 'package:flutter_trc/src/modules/l4/components/l4_component.dart';
 import 'package:flutter_trc/src/modules/login/component/login_component.dart';
 import 'package:flutter_trc/src/modules/login/component/trc_and_qc_login_component.dart';
 import 'package:flutter_trc/src/modules/part_qc/components/part_qc_home_component.dart';
-import 'package:flutter_trc/src/modules/part_qc/components/pq_status_change_comp.dart';
 import 'package:flutter_trc/src/modules/rider/components/rider_home_component.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/components/delivery_deliver_engineer_parts_component.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/component/pickup_receive_engineer_parts_comp.dart';
@@ -134,8 +134,6 @@ class TrcComponentRegistry {
 
       case L4Component.COMP_KEY:
         return L4Component(jsonConfig);
-      case PqStatusChangeComp.COMP_KEY:
-        return PqStatusChangeComp(jsonConfig);
 
       case PartQcHomeComponent.COMP_KEY:
         return PartQcHomeComponent(jsonConfig);
@@ -166,6 +164,9 @@ class TrcComponentRegistry {
 
       case StoreManagerHomeComponent.COMP_KEY:
         return StoreManagerHomeComponent(jsonConfig);
+
+      case RetrievedPartListComponent.COMP_KEY:
+        return RetrievedPartListComponent(jsonConfig);
       default:
         return null;
     }

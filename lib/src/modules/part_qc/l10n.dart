@@ -8,6 +8,8 @@ class L10n extends BaseL10n {
 
   String get reader => Intl.message("Reader", locale: localName, name: "reader");
 
+  String get retrievedParts => Intl.message("Retrieved Parts", locale: localName, name: "retrievedParts");
+
   String get qcPending => Intl.message("Qc Pending", locale: localName, name: "qcPending");
 
   String get scanPartBarcode => Intl.message("Scan Part Barcode", locale: localName, name: "scanPartBarcode");
@@ -34,11 +36,11 @@ class L10n extends BaseL10n {
 
   String get no => Intl.message("No", locale: localName, name: "no");
 
-  String get areYouSureYouWantToMarkPartAsFaulty => Intl.message("Are you sure you want to mark part as faulty?",
-      locale: localName, name: "areYouSureYouWantToMarkPartAsFaulty");
+  String areYouSureYouWantToMarkPartAsFaulty(String partBarcode) => Intl.message("Are you sure you want to mark $partBarcode as faulty?",
+      locale: localName, name: "areYouSureYouWantToMarkPartAsFaulty", args: [partBarcode]);
 
-  String get areYouSureYouWantToMarkPartAsOk => Intl.message("Are you sure you want to mark part as ok?",
-      locale: localName, name: "areYouSureYouWantToMarkPartAsOk");
+  String areYouSureYouWantToMarkPartAsOk(String partBarcode) => Intl.message("Are you sure you want to mark $partBarcode as ok?",
+      locale: localName, name: "areYouSureYouWantToMarkPartAsOk", args: [partBarcode]);
 
   String get statusUpdatedSuccessfully =>
       Intl.message("Status Updated Successfully", locale: localName, name: "statusUpdatedSuccessfully");

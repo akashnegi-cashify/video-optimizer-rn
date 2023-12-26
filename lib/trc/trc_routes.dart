@@ -10,10 +10,12 @@ import 'package:flutter_trc/src/modules/elss/elss_trc/screens/brand_details_list
 import 'package:flutter_trc/src/modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'package:flutter_trc/src/modules/engineer/manage_parts/manage_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/my_devices_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/capture_consume_parts_media_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/wip_devices_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/screens/retrieved_part_list_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/view_reports/view_report_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
@@ -33,7 +35,6 @@ import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dar
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
-import 'package:flutter_trc/src/modules/part_qc/screens/pq_status_change_screen.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/delivery_deliver_engineer_parts_screen.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/pickup_receive_engineer_parts_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
@@ -96,13 +97,14 @@ class TrcRoutes {
       AlternatePartScreen.route: (_) => const AlternatePartScreen(),
       //Part qc routes
       PartQCHomeScreen.route: (_) => const PartQCHomeScreen(),
-      PartQcPartStatusScreen.route: (_) => const PartQcPartStatusScreen(),
       TRCExecutiveScreen.route: (_) => const TRCExecutiveScreen(),
       DeviceScannerScreen.route: (_) => const DeviceScannerScreen(),
       LoginScreen.route: (_) => const LoginScreen(),
       TrcAndQcLoginScreen.route: (_) => const TrcAndQcLoginScreen(),
       TrcTesterScreen.route: (_) => const TrcTesterScreen(),
       StoreManagerHomeScreen.route: (_) => const StoreManagerHomeScreen(),
+      CaptureConsumePartsMediaScreen.route: (_) => const CaptureConsumePartsMediaScreen(),
+      RetrievedPartListScreen.route: (_) => const RetrievedPartListScreen(),
     };
   }
 }

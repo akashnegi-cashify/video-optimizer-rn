@@ -111,11 +111,19 @@ class _OrderPartWidget extends StatelessWidget {
             onPressed: context.watch<OrderPartProvider>().getSelectedPartList().isEmpty
                 ? null
                 : () {
+                    CshLoading().showLoading(context);
                     context.read<OrderPartProvider>().orderParts(
-                        (errorMessage) => CshSnackBar.error(context: context, message: errorMessage), l10n, () {
-                      Navigator.pop(context, true);
-                      CshSnackBar.success(context: context, message: l10n.partsOrderedSuccessfully);
-                    });
+                      l10n,
+                      handleError: (errorMessage) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.error(context: context, message: errorMessage);
+                      },
+                      callback: () {
+                        CshLoading().hideLoading(context);
+                        Navigator.pop(context, true);
+                        CshSnackBar.success(context: context, message: l10n.partsOrderedSuccessfully);
+                      },
+                    );
                   },
           ),
         );

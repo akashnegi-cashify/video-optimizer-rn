@@ -9,6 +9,8 @@ import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/model
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+part 'store_manager_home_component.g.dart';
+
 @CshComponent(
     key: StoreManagerHomeComponent.COMP_KEY,
     configModel: NoneConfigModel,

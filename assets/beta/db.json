@@ -124,20 +124,9 @@
           "id": 14,
           "key": "TRC_part_qc_home_component",
           "type": "component"
-        }
-      ]
-    },
-    {
-      "pageId": 10,
-      "pageKey": "TRC_part_qc_part_status_screen",
-      "dt": [
-        {
-          "id": 15,
-          "key": "TRC_pq_status_change",
-          "type": "component"
         },
         {
-          "id": 16,
+          "id": 66,
           "key": "header_TRC_general_component"
         }
       ]
@@ -544,6 +533,21 @@
         },
         {
           "id": 65,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 41,
+      "pageKey": "TRC_retrieved_part_list_screen",
+      "dt": [
+        {
+          "id": 67,
+          "key": "TRC_retrieved_part_list_component",
+          "type": "component"
+        },
+        {
+          "id": 68,
           "key": "header_TRC_general_component"
         }
       ]
@@ -1450,28 +1454,6 @@
       }
     },
     {
-      "componentId": 15,
-      "locale": "en",
-      "key": "TRC_pq_status_change",
-      "configJson": {
-        "config": {
-          "none": "None"
-        }
-      }
-    },
-    {
-      "componentId": 16,
-      "locale": "en",
-      "key": "header_TRC_general_component",
-      "configJson": {
-        "config": {
-          "ht": "Parts Status",
-          "sbb": true,
-          "slb": false
-        }
-      }
-    },
-    {
       "componentId": 17,
       "locale": "en",
       "key": "TRC_l4_comp",
@@ -1997,6 +1979,40 @@
           "ht": "TRC Store Manager Role",
           "sbb": true,
           "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 66,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part QC",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 67,
+      "locale": "en",
+      "key": "TRC_retrieved_part_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 68,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Retrieved Part List",
+          "sbb": true,
+          "slb": false
         }
       }
     },

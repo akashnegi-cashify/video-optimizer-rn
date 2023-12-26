@@ -1,10 +1,12 @@
 import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/resources/inventory_manager_service.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/resources/part_status_enum.dart';
 import 'package:provider/provider.dart';
+
 import '../models/part_available_quantity_response.dart';
 import '../models/parts_details_response.dart';
 import '../models/recommended_part_response.dart';
@@ -20,10 +22,12 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
   PartAvailableQuantityResponse? availableQuantityResponse;
   String errorMessage = "";
   RecommendedPartResponse? recommendedPartResponse;
+  bool showBottomButtons = true;
 
   PendingPartDetailsProvider(this.prid, this.statusCode) {
     _fetchPartsDetailsData();
     if (PartStatus.getEnumByValue(statusCode!) == PartStatus.AVAILABLE) {
+      showBottomButtons = false;
       _getDoRecommendedPartApi();
     }
   }
@@ -96,6 +100,7 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
         Logger.debug('mydebug------PendingPartDetailsProvider._getDoRecommendedPartApi', [errMessage]);
       },
       onDone: () {
+        showBottomButtons = true;
         notifyListeners();
       },
     );
