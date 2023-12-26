@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_trc/src/common/l10n.dart' as l10n_common;
 import 'package:intl/intl.dart';
 
 class L10n extends l10n_common.L10n {
-  L10n(super.context);
+  L10n(BuildContext context, {bool listen = true}):super(context, listen: listen);
 
   String get home => Intl.message("Home", locale: localName, name: "home");
 

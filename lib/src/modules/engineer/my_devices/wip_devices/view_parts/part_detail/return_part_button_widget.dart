@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/return_part_data.dart';
@@ -9,7 +10,6 @@ import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.
 import 'package:provider/provider.dart';
 
 import '../../../../../../common/widgets/title_value_row_widget.dart';
-import '../../../../../../screens/barcode_scanner_screen.dart';
 
 class ReturnPartButtonWidget extends StatelessWidget {
   final EngineerPartInfo partInfo;
@@ -26,8 +26,9 @@ class ReturnPartButtonWidget extends StatelessWidget {
           if (Validator.isTrue(partInfo.isBulk) || Validator.isTrue(partInfo.isService)) {
             returnPart(context, l10n, partInfo.partBarcode);
           } else {
-            Navigator.pushNamed(context, BarcodeScanWidget.route, arguments: (String barcode) {
-              returnPart(context, l10n, barcode);
+            CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+              Navigator.pop(context); // Dismiss scanner screen
+              returnPart(context, l10n, scannedData);
             });
           }
         });
@@ -43,12 +44,13 @@ class ReturnPartButtonWidget extends StatelessWidget {
                 reasonDialogData.dropDownItem.id, reasonDialogData.remarks, partInfo.prId);
             EngineerAPIService.returnPart(data).listen((event) {
               if (event == null) {
-                CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
+                CshSnackBar.error(
+                    context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
                 return;
               }
 
               if (event.errorMsg != null) {
-                CshSnackBar.error(context: context, message: event.errorMsg!);
+                CshSnackBar.error(context: context, message: event.errorMsg!, snackBarPosition: SnackBarPosition.TOP);
                 return;
               }
 
@@ -56,23 +58,25 @@ class ReturnPartButtonWidget extends StatelessWidget {
                 if (onRequestCompletion != null) {
                   onRequestCompletion!();
                 }
-                CshSnackBar.success(context: context, message: l10n.partSentToReturn);
+                CshSnackBar.success(
+                    context: context, message: l10n.partSentToReturn, snackBarPosition: SnackBarPosition.TOP);
                 return;
               }
 
-              CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
+              CshSnackBar.error(
+                  context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
             }, onError: (error, stacktrace) {
               CshSnackBar.error(
-                  context: context, message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
-            }, onDone: () {
-              Navigator.pop(context);
+                  context: context,
+                  message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong,
+                  snackBarPosition: SnackBarPosition.TOP);
             });
           }
         } else {
-          CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
+          CshSnackBar.error(context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
         }
       }).onError((error, stacktrace) {
-        CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
+        CshSnackBar.error(context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
       });
 
   Future<dynamic> askForTheReasonOfReturn(BuildContext context, List<String> returnReasons) async {
@@ -85,6 +89,7 @@ class ReturnPartButtonWidget extends StatelessWidget {
               return ChangeNotifierProvider(create: (context) {
                 return ReturnPartProvider();
               }, builder: (context, widget) {
+                var theme = Theme.of(context);
                 return Dialog(
                     child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_16),
@@ -94,9 +99,7 @@ class ReturnPartButtonWidget extends StatelessWidget {
                       TitleValueRowWidget(title: l10n.deviceName, value: partInfo.deviceName ?? ""),
                       TitleValueRowWidget(title: l10n.deviceBarcode, value: partInfo.deviceBarcode ?? ""),
                       TitleValueRowWidget(title: l10n.partName, value: partInfo.partName ?? ""),
-                      const SizedBox(
-                        height: Dimens.space_8,
-                      ),
+                      const SizedBox(height: Dimens.space_8),
                       CshDropDown(
                           hintText: l10n.chooseYourResponse,
                           selectedItem: Provider.of<ReturnPartProvider>(context, listen: false).selectedReason,
@@ -104,22 +107,18 @@ class ReturnPartButtonWidget extends StatelessWidget {
                           onChanged: (DropDownItem<String> item) {
                             Provider.of<ReturnPartProvider>(context, listen: false).selectedReason = item;
                           }),
-                      const SizedBox(
-                        height: Dimens.space_16,
-                      ),
+                      const SizedBox(height: Dimens.space_16),
                       CshTextFormField(controller: controller, hintText: l10n.remarks),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CshMediumOutlineButton(
-                            textColor: Theme.of(context).errorColor,
-                            bgColor: Theme.of(context).errorColor,
+                            textColor: theme.colorScheme.error,
+                            bgColor: theme.colorScheme.error,
                             text: l10n.cancel,
                             onPressed: () => Navigator.of(context).pop(),
                           ),
-                          const SizedBox(
-                            width: Dimens.space_30,
-                          ),
+                          const SizedBox(width: Dimens.space_30),
                           Row(
                             children: [
                               CshMediumButton(
