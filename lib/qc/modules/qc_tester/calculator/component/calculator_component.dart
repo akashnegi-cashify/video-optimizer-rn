@@ -28,7 +28,8 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, NoneConfigModel? configModel) {
-    var _calculatorResponse = CalculatorDataHolderModel().calculatorResponse;
+    var calculatorResponse = CalculatorDataHolderModel().calculatorResponse;
+    var deviceBarcode = CalculatorDataHolderModel().deviceBarcode;
     return FutureBuilder<bool?>(
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
@@ -39,15 +40,16 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
                 exppt: '',
                 serviceId: '',
                 sourceId: '',
-                calculatorResponse: _calculatorResponse,
+                calculatorResponse: calculatorResponse,
                 preSelection: null,
+                deviceBarcode: deviceBarcode,
                 showHint: false),
             showSummary: true,
             deviceId: "d_id",
             ruleExecutorServiceGroup: Validator.isTrue(snapshot.data) ? TRCServiceGroups.qc : TRCServiceGroups.trc,
             handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
-              if (_calculatorResponse?.manualAuditQuestions != null) {
-                _showDisputedQuestions(context, _calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId,
+              if (calculatorResponse?.manualAuditQuestions != null) {
+                _showDisputedQuestions(context, calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId,
                     udid, snapshot.data);
               } else {
                 var myRequest = MyQuoteRequestData(requestData: requestData);
