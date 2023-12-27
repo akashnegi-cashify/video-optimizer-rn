@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pq_status_change_screen.dart';
+part of 'retrieved_part_list_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,13 +9,10 @@ part of 'pq_status_change_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "TRC_part_qc_part_status_screen",
-      "pageGroup": "PQ Status Change",
-      "title": "Part Qc Part Status Screen Arguments",
+      "key": "TRC_retrieved_part_list_screen",
+      "pageGroup": "Trc Retrieved Part List",
+      "title": "Retrieved Part List Screen",
       "isActive": true,
-      "params": [
-        {"key": "pd", "value": null}
-      ]
-
+      "params": null
       //#adminscreen
     };

@@ -1,16 +1,10 @@
-import 'dart:io';
-
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/capture_consume_parts_media_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
-import 'package:flutter_trc/src/utils/image_util.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../../../../../../amplify/amplifier.dart';
-import '../../../../../../amplify/amplify_provider.dart';
 
 class ConsumePartButtonWidget extends StatelessWidget {
   final EngineerPartInfo partInfo;
@@ -21,48 +15,23 @@ class ConsumePartButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
-    AmplifyProvider amplifyProvider = AmplifyProvider.of(context, listen: false);
     return CshBigOutlineButton(
       text: l10n.consume,
       onPressed: () async {
         try {
-          CshLoading().showLoading(context);
           if (Validator.isTrue(partInfo.isService)) {
-            _callConsumeApi(context, l10n, "");
+            _callConsumeApi(context, l10n);
           } else {
-            final ImagePicker picker = ImagePicker();
-            XFile? imageFilex = await picker.pickImage(source: ImageSource.camera);
-
-            if (imageFilex == null) {
-              if (context.mounted) CshLoading().hideLoading(context);
-              return;
-            }
-
-            File imageFile = File(imageFilex.path);
-            imageFile = await ImageUtil.compressImage(imageFile);
-            String fileName = Amplifier.fileNameFromPath(imageFile.path);
-            amplifyProvider.uploadFile(
-              fileName: fileName,
-              folderName: amplifyProvider.configResponse?.data?.folderName,
-              file: imageFile,
-              onProgress: (int currentBytes, int totalBytes) {},
-              onFileUploaded: (String imagePath) async {
-                String s3Key = imagePath;
-                if (!Validator.isNullOrEmpty(s3Key)) {
-                  String s3Url = await amplifyProvider.getS3FileUrlFromS3Key(filePath: s3Key, fullPath: true);
-                  if (!Validator.isNullOrEmpty(s3Url)) {
-                    _callConsumeApi(context, l10n, s3Url);
-                  } else {
-                    displayGenericErrorMessage(context, l10n);
-                  }
-                } else {
-                  displayGenericErrorMessage(context, l10n);
-                }
-              },
-              onFailed: (String errorMsg) {
-                CshLoading().hideLoading(context);
-                showSnackBar(context, errorMsg, isError: true);
-              },
+            Navigator.pushNamed(
+              context,
+              CaptureConsumePartsMediaScreen.route,
+              arguments: CaptureConsumePartMediaArg(
+                retrievedPartsMediaCount: partInfo.retrievedImageCount,
+                onImageUploaded: (urlsMap, retrievedPartBarcode) {
+                  Navigator.pop(context); // Dismiss screen
+                  _callConsumeApi(context, l10n, imageUrlsMap: urlsMap, retrievedPartBarcode: retrievedPartBarcode);
+                },
+              ),
             );
           }
         } catch (e) {
@@ -73,13 +42,12 @@ class ConsumePartButtonWidget extends StatelessWidget {
     );
   }
 
-  void displayGenericErrorMessage(BuildContext context, L10n l10n) {
-    CshLoading().hideLoading(context);
-    showSnackBar(context, l10n.somethingWentWrong, isError: true);
-  }
-
-  _callConsumeApi(BuildContext context, L10n l10n, String s3ImageUrl) {
-    EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, s3ImageUrl).listen((event) {
+  _callConsumeApi(BuildContext context, L10n l10n,
+      {Map<CapturePartMediaType, List<String>>? imageUrlsMap, String? retrievedPartBarcode}) {
+    CshLoading().showLoading(context);
+    EngineerAPIService.consumePart(
+            partInfo.partBarcode!, partInfo.partId, partInfo.prId, imageUrlsMap, retrievedPartBarcode)
+        .listen((event) {
       CshLoading().hideLoading(context);
       if (event?.isSuccess == true) {
         if (onRequestCompletion != null) {
@@ -101,13 +69,18 @@ class ConsumePartButtonWidget extends StatelessWidget {
     CustomColors customTheme = theme.extension<CustomColors>() as CustomColors;
     var backgroundColor = customTheme.successColor;
     if (isError) {
-      backgroundColor = theme.errorColor;
+      backgroundColor = theme.colorScheme.error;
     }
     SnackBar snackBar = SnackBar(
-      behavior: SnackBarBehavior.fixed,
+      behavior: SnackBarBehavior.floating,
       duration: const Duration(seconds: 3),
       padding: const EdgeInsets.all(Dimens.space_16),
       backgroundColor: backgroundColor,
+      margin: EdgeInsets.only(
+        bottom: MediaQuery.of(context).size.height - 200,
+        left: Dimens.space_8,
+        right: Dimens.space_8,
+      ),
       dismissDirection: DismissDirection.endToStart,
       content: Text(
         message,
@@ -116,6 +89,4 @@ class ConsumePartButtonWidget extends StatelessWidget {
     );
     return ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-
-
 }

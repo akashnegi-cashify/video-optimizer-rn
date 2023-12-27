@@ -33,7 +33,7 @@ class _MultipleImageUploadScreenState extends State<MultipleImageUploadScreen> {
   Widget build(BuildContext context) {
     var cardSize = MediaQuery.of(context).size.width / 2 - 32;
     return Scaffold(
-        appBar: QcGeneralHeader("Upload Media", showBackBtn: true),
+        appBar: const QcGeneralHeader("Upload Media", showBackBtn: true),
         body: Padding(
           padding: const EdgeInsets.all(Dimens.space_16),
           child: Column(

@@ -75,7 +75,7 @@ class ReceivePartButtonWidget extends StatelessWidget {
     CustomColors customTheme = theme.extension<CustomColors>() as CustomColors;
     var backgroundColor = customTheme.successColor;
     if (isError) {
-      backgroundColor = theme.errorColor;
+      backgroundColor = theme.colorScheme.error;
     }
     SnackBar snackBar = SnackBar(
       behavior: SnackBarBehavior.fixed,
@@ -85,7 +85,7 @@ class ReceivePartButtonWidget extends StatelessWidget {
       dismissDirection: DismissDirection.endToStart,
       content: Text(
         message,
-        style: theme.textTheme.subtitle2!.copyWith(color: theme.backgroundColor),
+        style: theme.textTheme.titleSmall!.copyWith(color: theme.colorScheme.background),
       ),
     );
     return ScaffoldMessenger.of(context).showSnackBar(snackBar);

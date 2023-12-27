@@ -129,54 +129,53 @@ class _PendingPartDetailsWidget extends StatelessWidget {
                     suggestedBarcode: provider.recommendedPartResponse?.dataResponse?.barcode,
                     statusCode: args?.statusCode,
                   ),
-                  const Expanded(
-                    child: SizedBox.shrink(),
-                  ),
-                  PartDetailsButtonWidget(
-                    statusCode: args?.statusCode ?? 0,
-                    cancelBtnOnPressed: () {
-                      if (args?.prid != null) {
-                        _showCancelModal(insideContext, theme, l10n, args!.prid!);
-                      } else {
-                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                      }
-                    },
-                    assignBtnOnPressed: () {
-                      if (provider.partsDetailsResponse?.partsDetails?.prid != null) {
-                        AssignPartBarcodeCompArguments arg = AssignPartBarcodeCompArguments(
-                            arguments: AssignBarcodeScannerArguments(
-                                pendingDeviceDetailData: args?.detailsModelData,
-                                detailsData: provider.partsDetailsResponse?.partsDetails,
-                                prid: provider.partsDetailsResponse!.partsDetails!.prid!));
+                  const Expanded(child: SizedBox.shrink()),
+                  if (provider.showBottomButtons)
+                    PartDetailsButtonWidget(
+                      statusCode: args?.statusCode ?? 0,
+                      cancelBtnOnPressed: () {
+                        if (args?.prid != null) {
+                          _showCancelModal(insideContext, theme, l10n, args!.prid!);
+                        } else {
+                          CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                        }
+                      },
+                      assignBtnOnPressed: () {
+                        if (provider.partsDetailsResponse?.partsDetails?.prid != null) {
+                          AssignPartBarcodeCompArguments arg = AssignPartBarcodeCompArguments(
+                              arguments: AssignBarcodeScannerArguments(
+                                  pendingDeviceDetailData: args?.detailsModelData,
+                                  detailsData: provider.partsDetailsResponse?.partsDetails,
+                                  prid: provider.partsDetailsResponse!.partsDetails!.prid!));
 
-                        Navigator.of(context).pushNamed(AssignPartBarcodeScreen.route, arguments: arg);
-                      } else {
-                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                      }
-                    },
-                    deadPartOnPressed: () {
-                      if (args?.prid != null) {
-                        _showLinkDeadPartModal(insideContext, theme, l10n, args!.prid, args);
-                      } else {
-                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                      }
-                    },
-                    alternatePartBtnOnPressed: () async {
-                      if (args?.prid != null) {
-                        AlternatePartCompArguments arguments = AlternatePartCompArguments(
-                            arguments: AlternatePartArguments(
-                          prid: args!.prid,
-                          detailsModelData: args?.detailsModelData,
-                          itemDataModel: provider.partsDetailsResponse?.partsDetails,
-                        ));
+                          Navigator.of(context).pushNamed(AssignPartBarcodeScreen.route, arguments: arg);
+                        } else {
+                          CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                        }
+                      },
+                      deadPartOnPressed: () {
+                        if (args?.prid != null) {
+                          _showLinkDeadPartModal(insideContext, theme, l10n, args!.prid, args);
+                        } else {
+                          CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                        }
+                      },
+                      alternatePartBtnOnPressed: () async {
+                        if (args?.prid != null) {
+                          AlternatePartCompArguments arguments = AlternatePartCompArguments(
+                              arguments: AlternatePartArguments(
+                            prid: args!.prid,
+                            detailsModelData: args?.detailsModelData,
+                            itemDataModel: provider.partsDetailsResponse?.partsDetails,
+                          ));
 
-                        await Navigator.of(context).pushNamed(AlternatePartScreen.route, arguments: arguments);
-                        provider.syncData();
-                      } else {
-                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                      }
-                    },
-                  ),
+                          await Navigator.of(context).pushNamed(AlternatePartScreen.route, arguments: arguments);
+                          provider.syncData();
+                        } else {
+                          CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                        }
+                      },
+                    ),
                 ],
               ),
             ),

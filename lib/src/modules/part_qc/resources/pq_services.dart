@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 
 import '../models/general_response.dart';
@@ -20,5 +21,19 @@ class PartQcServiceElss {
       "version": 0,
     };
     return TrcService().post("/qc/parts/submit-qc", GeneralResponse.fromJson, body: jsonEncode(bodyData));
+  }
+
+  static Stream<BaseActionResponse?> receiveRetrievedParts(String partBarcode) {
+    return TrcService().post("/qc/parts/receive-retrieved-part?pbr=$partBarcode", BaseActionResponse.fromJson);
+  }
+
+  static Stream<BaseActionResponse?> updateRetrievedPartStatus(bool isFaulty, int partId, String imageUrl) {
+    Map<String, dynamic> bodyData = {
+      "isFault": isFaulty,
+      "prid": partId,
+      "img": [imageUrl],
+    };
+    return TrcService()
+        .post("/qc/parts/submit-retrieved-part-qc", BaseActionResponse.fromJson, body: jsonEncode(bodyData));
   }
 }

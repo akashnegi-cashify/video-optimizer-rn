@@ -85,7 +85,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
                 theme,
                 l10n.suggestedBarcode,
                 suggestedBarcode,
-                textColor: theme.errorColor,
+                textColor: theme.colorScheme.error,
               ),
               const SizedBox(height: Dimens.space_8),
             ],
@@ -114,7 +114,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
       children: [
         Text(
           label,
-          style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+          style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
         ),
         (value == null)
             ? CshMediumButton(
@@ -125,7 +125,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
               )
             : Text(
                 value.toString(),
-                style: theme.primaryTextTheme.headline5,
+                style: theme.primaryTextTheme.headlineSmall,
               )
       ],
     );
@@ -138,7 +138,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(width: Dimens.space_8),
@@ -147,8 +147,8 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
             value,
             textDirection: TextDirection.rtl,
             style: textColor != null
-                ? theme.primaryTextTheme.headline5?.copyWith(color: textColor)
-                : theme.primaryTextTheme.headline5,
+                ? theme.primaryTextTheme.headlineSmall?.copyWith(color: textColor)
+                : theme.primaryTextTheme.headlineSmall,
             overflow: TextOverflow.ellipsis,
           ),
         ),
