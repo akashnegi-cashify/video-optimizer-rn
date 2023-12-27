@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io' as io;
+import 'dart:io';
 
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
@@ -30,7 +31,7 @@ class MediaUploadUtil {
   _getPreSignedUrlForUpload(
       {required String fileName,
       required String fileFormat,
-      required Function(String) onError,
+      required Function(String error) onError,
       required Function(PreSignedUrlResponse? preSignedUrlResponse) onSuccess}) {
     MediaUploaderService.getPreSignedUrl(fileName: fileName, fileFormat: fileFormat, service: service).listen((event) {
       if (event != null) {
@@ -39,9 +40,14 @@ class MediaUploadUtil {
         onError("Something went wrong");
       }
     }, onError: (error) {
-      String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-      onError(em);
-      Logger.debug('mydebug------ImageUploadUtil.getPreSignedUrlForUpload', [em]);
+      String errorMessage;
+      if (error?.cause is SocketException) {
+        errorMessage = "No Internet Connection";
+      } else {
+        errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+      }
+      Logger.debug('mydebug------ImageUploadUtil.getPreSignedUrlForUpload', [errorMessage]);
+      onError(errorMessage);
     });
   }
 
@@ -146,7 +152,7 @@ class MediaUploadUtil {
             completer.completeError(e.toString());
           }
         },
-        onError: (error) {
+        onError: (String error) {
           completer.completeError(error);
         },
       );

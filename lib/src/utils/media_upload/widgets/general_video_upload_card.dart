@@ -124,23 +124,29 @@ class GeneralVideoUploadCard extends StatelessWidget {
     File? videoFile;
     if (isCustomCameraVideo) {
       videoFile = await _customVideo(context);
+      _uploadVideo(videoFile, provider, context);
     } else {
       XFile? selectedFile = await ImagePicker().pickVideo(source: ImageSource.camera);
       if (selectedFile != null) {
         videoFile = File(selectedFile.path);
+        _uploadVideo(videoFile, provider, context);
       }
     }
+  }
 
+  _uploadVideo(File? videoFile, VideoUploadProvider provider, BuildContext context) {
     if (videoFile != null) {
       onMediaUploadingStarted?.call();
-      provider.uploadVideo(videoFile).then((value) {
+      provider.uploadVideo(videoFile, isCompressed: !isCustomCameraVideo).then((value) {
         String videoUrl = value.$1;
         String? videoThumbnail = value.$2;
         if (onMediaUploaded != null) {
           onMediaUploaded!(videoUrl, videoThumbnail);
         }
       }, onError: (error) {
-        CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+        if (context.mounted) {
+          CshSnackBar.error(context: context, message: error);
+        }
       });
     }
   }

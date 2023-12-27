@@ -23,12 +23,6 @@ class QcTesterHomeWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CshBigButton(
-            text: "Assign Device",
-            onPressed: () {
-              Navigator.of(context).pushNamed(BarcodeScannerScreen.route);
-            },
-          ),
           QcRolePermissionWidget(
             padding: const EdgeInsets.only(top: Dimens.space_16),
             role: QcRole.roleManualTesting,

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/utils/connectivity_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
@@ -20,7 +21,12 @@ class ImageUploadProvider extends CshChangeNotifier {
     return Provider.of<ImageUploadProvider>(context, listen: listen);
   }
 
-  Future<String> uploadImage(File file) {
+  Future<String> uploadImage(File file) async {
+    var isConnected= await ConnectivityUtil.checkConnectivity();
+    if (isConnected == false) {
+      return Future.error("No Internet Connection");
+    }
+
     isDataLoading = true;
     notifyListeners();
     var completer = Completer<String>();
