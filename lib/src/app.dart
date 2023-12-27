@@ -120,7 +120,6 @@ class _CashifyAppState extends State<CashifyApp> {
               return BuilderApp(
                 truncate: true,
                 showDraft: false,
-                checkInternetConnection: false,
                 skipVersionCheck: true,
                 syncWidget: Container(
                   color: theme.primaryColor,

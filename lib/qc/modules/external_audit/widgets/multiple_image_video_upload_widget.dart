@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:components/no_internet/widgets/no_internet_widget.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/disputed_image_capture/models/disputed_media_data_response.dart';
@@ -34,124 +33,103 @@ class _MultipleImageVideoUploadWidgetState extends State<MultipleImageVideoUploa
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: ConnectivityUtil.checkConnectivity(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.data == false) {
-            return NoInternetWidget(
-              message: "Slow or no internet connection.\n Please check your internet settings.",
-              messageTitle: "Opps!",
-              onRetryCallback: () {
-                ConnectivityUtil.checkConnectivity().then((isInternetConnected) {
-                  if (isInternetConnected) {
-                    setState(() {});
-                  } else {
-                    CshSnackBar.error(context: context, message: "Couldn't find Internet");
-                  }
-                }, onError: (error) {
-                  CshSnackBar.error(context: context, message: error.toString());
-                });
-              },
-              btnText: "Try Again",
-            );
-          }
-
-          return Padding(
-            padding: const EdgeInsets.all(Dimens.space_16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: Dimens.space_24),
-                CshTextNew.subTitle1("Add Images"),
-                const SizedBox(height: Dimens.space_16),
-                SizedBox(
-                  height: 110,
-                  child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        var item = _imageList[index];
-                        return ChangeNotifierProvider(
-                          create: (_) => ImageUploadProvider(),
-                          child: GeneralImageUploadCard(
-                            cardHeight: 100,
-                            cardWidth: 100,
-                            imageUrl: item,
-                            onMediaUploadingStarted: () {
-                              setState(() {
-                                if (_imageList.length < 10 && index == _imageList.length - 1) {
-                                  _imageList.add("");
-                                }
-                              });
-                            },
-                            onMediaUploaded: (url) {
-                              setState(() {
-                                _imageList[index] = url!;
-                              });
-                            },
-                          ),
-                        );
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.space_16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: Dimens.space_24),
+          CshTextNew.subTitle1("Add Images"),
+          const SizedBox(height: Dimens.space_16),
+          SizedBox(
+            height: 110,
+            child: ListView.separated(
+                itemBuilder: (context, index) {
+                  var item = _imageList[index];
+                  return ChangeNotifierProvider(
+                    create: (_) => ImageUploadProvider(),
+                    child: GeneralImageUploadCard(
+                      cardHeight: 100,
+                      cardWidth: 100,
+                      imageUrl: item,
+                      onMediaUploadingStarted: () {
+                        if (_imageList.length < 10 && index == _imageList.length - 1) {
+                          setState(() {
+                            _imageList.add("");
+                          });
+                        }
                       },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(width: Dimens.space_16);
+                      onMediaUploaded: (url) {
+                        setState(() {
+                          _imageList[index] = url!;
+                        });
                       },
-                      itemCount: _imageList.length,
-                      scrollDirection: Axis.horizontal),
-                ),
-                const SizedBox(height: Dimens.space_24),
-                CshTextNew.subTitle1("Add Videos"),
-                const SizedBox(height: Dimens.space_16),
-                SizedBox(
-                  height: 110,
-                  child: ListView.separated(
-                      itemBuilder: (context, index) {
-                        var item = _videoList[index];
-                        return GeneralVideoUploadCard(
-                          cardHeight: 100.0,
-                          cardWidth: 100.0,
-                          videoUrl: item,
-                          isCustomCameraVideo: true,
-                          onMediaUploaded: (String? url, String? videoThumbnail) {
-                            setState(() {
-                              _videoList[index] = VideoUrlData(url ?? "", videoThumbnail: videoThumbnail);
-                            });
-                          },
-                          onMediaUploadingStarted: () {
-                            setState(() {
-                              if (_videoList.length < 10 && index == _videoList.length - 1) {
-                                _videoList.add(VideoUrlData("", videoThumbnail: ""));
-                              }
-                            });
-                          },
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(width: Dimens.space_16);
-                      },
-                      itemCount: _videoList.length,
-                      scrollDirection: Axis.horizontal),
-                ),
-                const SizedBox(height: Dimens.space_16),
-                const Expanded(child: SizedBox.shrink()),
-                TextButton(
-                  focusNode: _nextButtonFocus,
-                  onPressed: () {
-                    _imageList.removeWhere((element) => element.isEmpty);
-                    var videoUrlList = _videoList.map((e) => e.videoUrl).toList();
-                    videoUrlList.removeWhere((element) => element.isEmpty);
-                    widget.onMediaUploaded(_imageList, videoUrlList);
-                  },
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
-                  child: Text(
-                    "Next",
-                    style: Theme.of(context).primaryTextTheme.displaySmall?.copyWith(color: Colors.white),
-                  ),
-                ),
-              ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: Dimens.space_16);
+                },
+                itemCount: _imageList.length,
+                scrollDirection: Axis.horizontal),
+          ),
+          const SizedBox(height: Dimens.space_24),
+          CshTextNew.subTitle1("Add Videos"),
+          const SizedBox(height: Dimens.space_16),
+          SizedBox(
+            height: 110,
+            child: ListView.separated(
+                itemBuilder: (context, index) {
+                  var item = _videoList[index];
+                  return GeneralVideoUploadCard(
+                    cardHeight: 100.0,
+                    cardWidth: 100.0,
+                    videoUrl: item,
+                    isCustomCameraVideo: true,
+                    onMediaUploaded: (String? url, String? videoThumbnail) {
+                      setState(() {
+                        _videoList[index] = VideoUrlData(url ?? "", videoThumbnail: videoThumbnail);
+                      });
+                    },
+                    onMediaUploadingStarted: () {
+                      if (_videoList.length < 10 && index == _videoList.length - 1) {
+                        setState(() {
+                          _videoList.add(VideoUrlData("", videoThumbnail: ""));
+                        });
+                      }
+                    },
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(width: Dimens.space_16);
+                },
+                itemCount: _videoList.length,
+                scrollDirection: Axis.horizontal),
+          ),
+          const SizedBox(height: Dimens.space_16),
+          const Expanded(child: SizedBox.shrink()),
+          TextButton(
+            focusNode: _nextButtonFocus,
+            onPressed: () {
+              ConnectivityUtil.checkConnectivity().then((value) {
+                if (value) {
+                  _imageList.removeWhere((element) => element.isEmpty);
+                  var videoUrlList = _videoList.map((e) => e.videoUrl).toList();
+                  videoUrlList.removeWhere((element) => element.isEmpty);
+                  widget.onMediaUploaded(_imageList, videoUrlList);
+                } else {
+                  CshSnackBar.error(context: context, message: "Couldn't find Internet");
+                }
+              });
+            },
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
+            child: Text(
+              "Next",
+              style: Theme.of(context).primaryTextTheme.displaySmall?.copyWith(color: Colors.white),
             ),
-          );
-        });
+          ),
+        ],
+      ),
+    );
   }
 }

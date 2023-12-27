@@ -6,7 +6,9 @@ import 'package:flutter_trc/qc/modules/external_audit/providers/external_audit_p
 import 'package:flutter_trc/qc/modules/external_audit/widgets/multiple_image_video_upload_widget.dart';
 import 'package:flutter_trc/qc/modules/external_audit/widgets/scan_barcode_widget.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
+import 'package:flutter_trc/src/common/dialogs/csh_no_internet_dialog.dart';
 import 'package:flutter_trc/src/common/utils/csh_video_picker.dart';
+import 'package:flutter_trc/src/utils/connectivity_util.dart';
 
 import '../l10n.dart';
 
@@ -104,8 +106,18 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
     });
   }
 
-  _callExternalAuditApi() {
-    // CshLoading().showLoading(context);
+  _callExternalAuditApi() async {
+    var isConnected = await ConnectivityUtil.checkConnectivity();
+    if (isConnected == false && context.mounted) {
+      showNoInternetDialog(
+        context,
+        onRetry: () {
+          Navigator.pop(context);
+          _callExternalAuditApi();
+        },
+      );
+      return;
+    }
     _showUploadDialog(provider?.fileUploadProgressStream);
     provider?.callExternalAuditApi().then((value) {
       Navigator.pop(context); // dismiss dialog
