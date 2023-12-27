@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v3.0.5+25 (26-12-2023)
+
+### Feature:
+
+* `TRC - Engineer - Part Extraction feature`[(SCM-5066)](https://reglobe.atlassian.net/browse/SCM-5066)
+
+
 # v3.0.4+24 (21-12-2023)
 
 ### Improvements:
