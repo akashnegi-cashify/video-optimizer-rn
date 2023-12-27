@@ -10,6 +10,7 @@ import '../widgets/barcode_scanner_widget.dart';
 
 part 'barcode_scanner_component.g.dart';
 
+@Deprecated("No Longer used")
 @CshComponent(
     key: BarcodeScannerComponent.COMP_KEY,
     configModel: NoneConfigModel,
