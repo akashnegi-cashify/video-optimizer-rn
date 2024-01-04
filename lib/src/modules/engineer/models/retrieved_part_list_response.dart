@@ -5,7 +5,6 @@ part 'retrieved_part_list_response.g.dart';
 
 @JsonSerializable()
 class RetrievedPartListResponse extends BaseResponse {
-
   @JsonKey(name: "dt")
   RetrievedPartList? retrievedPartListResponse;
 
@@ -17,10 +16,8 @@ class RetrievedPartListResponse extends BaseResponse {
   Map<String, dynamic> toJson() => _$RetrievedPartListResponseToJson(this);
 }
 
-
 @JsonSerializable()
 class RetrievedPartList {
-
   @JsonKey(name: "dl")
   List<RetrievedPartListData>? retrievedPartList;
 
@@ -29,10 +26,8 @@ class RetrievedPartList {
   Map<String, dynamic> toJson() => _$RetrievedPartListToJson(this);
 }
 
-
 @JsonSerializable()
 class RetrievedPartListData {
-
   @JsonKey(name: "prid")
   int? partId;
 
@@ -48,7 +43,25 @@ class RetrievedPartListData {
   @JsonKey(name: "rpbr")
   String? retrievedPartBarcode;
 
-  RetrievedPartListData(this.sku, this.partName, this.deviceBarcode, this.retrievedPartBarcode, this.partId);
+  @JsonKey(name: "rr")
+  String? reason;
+
+  @JsonKey(name: "rm")
+  String? remark;
+
+  @JsonKey(name: "imgs")
+  List<String>? imageUrls;
+
+  RetrievedPartListData(
+    this.sku,
+    this.partName,
+    this.deviceBarcode,
+    this.retrievedPartBarcode,
+    this.partId,
+    this.reason,
+    this.imageUrls,
+    this.remark,
+  );
 
   static RetrievedPartListData fromJson(Map<String, dynamic> json) => _$RetrievedPartListDataFromJson(json);
 

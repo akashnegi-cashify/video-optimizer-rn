@@ -26,10 +26,15 @@ class ConsumePartButtonWidget extends StatelessWidget {
               context,
               CaptureConsumePartsMediaScreen.route,
               arguments: CaptureConsumePartMediaArg(
+                partInfo.prId,
                 retrievedPartsMediaCount: partInfo.retrievedImageCount,
-                onImageUploaded: (urlsMap, retrievedPartBarcode) {
+                onImageUploaded: (urlsMap, retrievedPartBarcode, reason, remarks) {
                   Navigator.pop(context); // Dismiss screen
-                  _callConsumeApi(context, l10n, imageUrlsMap: urlsMap, retrievedPartBarcode: retrievedPartBarcode);
+                  _callConsumeApi(context, l10n,
+                      imageUrlsMap: urlsMap,
+                      retrievedPartBarcode: retrievedPartBarcode,
+                      reasonId: reason.id,
+                      remarks: remarks);
                 },
               ),
             );
@@ -43,10 +48,13 @@ class ConsumePartButtonWidget extends StatelessWidget {
   }
 
   _callConsumeApi(BuildContext context, L10n l10n,
-      {Map<CapturePartMediaType, List<String>>? imageUrlsMap, String? retrievedPartBarcode}) {
+      {Map<CapturePartMediaType, List<String>>? imageUrlsMap,
+      String? retrievedPartBarcode,
+      int? reasonId,
+      String? remarks}) {
     CshLoading().showLoading(context);
-    EngineerAPIService.consumePart(
-            partInfo.partBarcode!, partInfo.partId, partInfo.prId, imageUrlsMap, retrievedPartBarcode)
+    EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, imageUrlsMap,
+            retrievedPartBarcode: retrievedPartBarcode, remarks: remarks, reasonId: reasonId)
         .listen((event) {
       CshLoading().hideLoading(context);
       if (event?.isSuccess == true) {

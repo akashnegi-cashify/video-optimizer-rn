@@ -252,4 +252,10 @@ class L10n extends l10n_common.L10n {
 
   String get statusUpdatedSuccessfully =>
       Intl.message("Status Updated Successfully", locale: localName, name: "statusUpdatedSuccessfully");
+
+  String get addRemarksOptional =>
+      Intl.message("Add remarks (optional)", locale: localName, name: "addRemarksOptional");
+
+  String get additionalInfo =>
+      Intl.message("Additional Info", locale: localName, name: "additionalInfo");
 }
