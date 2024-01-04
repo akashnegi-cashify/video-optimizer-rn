@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../l10n.dart';
 import '../providers/barcode_scanner_provider.dart';
 
+@Deprecated("No Longer used")
 class BarcodeFieldWidget extends StatefulWidget {
   const BarcodeFieldWidget({Key? key}) : super(key: key);
 

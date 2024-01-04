@@ -1,6 +1,23 @@
 # TRC Releases
 
 
+# v3.0.6+26 (27-12-2023)
+
+### Improvements:
+
+* `QC - Add Model name for laptop, smartwatch and tablet.`[(SCM-5161)](https://reglobe.atlassian.net/browse/SCM-5161)
+* `QC - Remove Assign Device feature from qc tester.`[(SCM-5180)](https://reglobe.atlassian.net/browse/SCM-5180)
+* `QC - Remove 3 second start timer when recording video.`[(SCM-5197)](https://reglobe.atlassian.net/browse/SCM-5197)
+* `QC - Video loss during internet connection issue.`[(SCM-5198)](https://reglobe.atlassian.net/browse/SCM-5198)
+
+
+# v3.0.5+25 (26-12-2023)
+
+### Feature:
+
+* `TRC - Engineer - Part Extraction feature`[(SCM-5066)](https://reglobe.atlassian.net/browse/SCM-5066)
+
+
 # v3.0.4+24 (21-12-2023)
 
 ### Improvements:

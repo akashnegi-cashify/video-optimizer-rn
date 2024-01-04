@@ -144,13 +144,13 @@ class GeneralImageUploadCard extends StatelessWidget {
 
   _uploadImage(BuildContext context, File file) {
     var provider = ImageUploadProvider.of(context, listen: false);
-    onMediaUploadingStarted?.call();
     provider.uploadImage(file).then((value) {
+      onMediaUploadingStarted?.call();
       if (onMediaUploaded != null) {
         onMediaUploaded!(value);
       }
     }, onError: (error) {
-      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+      CshSnackBar.error(context: context, message: error.toString(), snackBarPosition: SnackBarPosition.TOP);
     });
   }
 

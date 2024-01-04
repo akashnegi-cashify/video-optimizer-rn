@@ -141,7 +141,7 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
           widget.onMediaUploaded!(url);
         }
       }, onError: (error) {
-        CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+        CshSnackBar.error(context: context, message: error.toString(), snackBarPosition: SnackBarPosition.TOP);
       });
     }
   }

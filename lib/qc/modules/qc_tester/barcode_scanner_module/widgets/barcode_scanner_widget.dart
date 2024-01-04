@@ -4,6 +4,7 @@ import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 
 import 'barcode_field_widget.dart';
 
+@Deprecated("No Longer used")
 class BarcodeScannerWidget extends StatefulWidget {
   const BarcodeScannerWidget({Key? key}) : super(key: key);
 

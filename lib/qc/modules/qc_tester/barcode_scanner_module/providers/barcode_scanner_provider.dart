@@ -7,6 +7,7 @@ import 'package:core/core.dart';
 
 import '../resources/scanner_service.dart';
 
+@Deprecated("No Longer used")
 class BarcodeScannerProvider extends CshChangeNotifier {
   static BarcodeScannerProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<BarcodeScannerProvider>(context, listen: listen);

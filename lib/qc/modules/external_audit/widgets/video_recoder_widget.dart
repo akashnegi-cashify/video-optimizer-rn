@@ -57,7 +57,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
 
   _VideoRecorderWidgetState() {
     _videoRecorderTimeInSeconds = _DEFAULT_VIDEO_TIMER;
-    _startVideoTimerInSec = _DEFAULT_START_TIMER;
   }
 
   VideoRecordingListener? _listener;
@@ -142,8 +141,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     }
 
     _videoRecorderTimer == null;
-    _startVideoTimer = null;
-    _startVideoTimerInSec = _DEFAULT_START_TIMER;
     _getVideoRecordingTimerInSec();
   }
 
@@ -157,26 +154,13 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   }
 
   _startVideoRecording() async {
-    try {
-      _startVideoTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-        if (mounted) {
-          setState(() => _startVideoTimerInSec--);
-        }
-        if (_startVideoTimerInSec == 0) {
-          timer.cancel();
-          if (_cameraController != null) {
-            await _cameraController!.prepareForVideoRecording();
-            await _cameraController!.startVideoRecording();
-          }
-
-          _startVideoRecordingTimer();
-          if (mounted) {
-            setState(() => _isRecording = true);
-          }
-        }
-      });
-    } on CameraException catch (e) {
-      _handleException(e);
+    if (_cameraController != null) {
+      await _cameraController!.prepareForVideoRecording();
+      await _cameraController!.startVideoRecording();
+      _startVideoRecordingTimer();
+      if (mounted) {
+        setState(() => _isRecording = true);
+      }
     }
   }
 
@@ -360,23 +344,11 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   }
 
   _buildRecordButton(ThemeData theme) {
-    return Column(
-      children: [
-        if (_startVideoTimer != null && _startVideoTimerInSec > 0)
-          Padding(
-            padding: const EdgeInsets.only(bottom: Dimens.space_12),
-            child: Text(
-              _startVideoTimerInSec.toString(),
-              style: theme.primaryTextTheme.displayMedium?.copyWith(color: theme.colorScheme.error),
-            ),
-          ),
-        FloatingActionButton(
-          backgroundColor: theme.colorScheme.error,
-          focusNode: _stopVideoFocusNode,
-          onPressed: () => _isRecording ? _stopVideoRecording() : null,
-          child: Icon(_isRecording ? Icons.stop : Icons.circle),
-        ),
-      ],
+    return FloatingActionButton(
+      backgroundColor: theme.colorScheme.error,
+      focusNode: _stopVideoFocusNode,
+      onPressed: () => _isRecording ? _stopVideoRecording() : null,
+      child: Icon(_isRecording ? Icons.stop : Icons.circle),
     );
   }
 
@@ -392,9 +364,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       _videoRecorderTimer?.cancel();
     }
 
-    if (_startVideoTimer?.isActive == true) {
-      _startVideoTimer?.cancel();
-    }
     WakelockPlus.disable();
     super.dispose();
   }

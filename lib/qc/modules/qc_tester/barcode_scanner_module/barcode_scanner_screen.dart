@@ -5,6 +5,7 @@ import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
 part 'barcode_scanner_screen.g.dart';
 
+@Deprecated("No Longer used")
 @CshPage(key: BarcodeScannerScreen.pageKey, pageGroup: PageGroup.barcodeScannerPageKey)
 class BarcodeScannerScreen extends BaseScreen {
   static const String pageKey = "barcode_scanner";

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/disputed_image_capture/models/disputed_media_data_response.dart';
+import 'package:flutter_trc/src/utils/connectivity_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/widgets/general_image_upload_card.dart';
 import 'package:flutter_trc/src/utils/media_upload/widgets/general_video_upload_card.dart';
@@ -52,11 +53,11 @@ class _MultipleImageVideoUploadWidgetState extends State<MultipleImageVideoUploa
                       cardWidth: 100,
                       imageUrl: item,
                       onMediaUploadingStarted: () {
-                        setState(() {
-                          if (_imageList.length < 10 && index == _imageList.length - 1) {
+                        if (_imageList.length < 10 && index == _imageList.length - 1) {
+                          setState(() {
                             _imageList.add("");
-                          }
-                        });
+                          });
+                        }
                       },
                       onMediaUploaded: (url) {
                         setState(() {
@@ -91,11 +92,11 @@ class _MultipleImageVideoUploadWidgetState extends State<MultipleImageVideoUploa
                       });
                     },
                     onMediaUploadingStarted: () {
-                      setState(() {
-                        if (_videoList.length < 10 && index == _videoList.length - 1) {
+                      if (_videoList.length < 10 && index == _videoList.length - 1) {
+                        setState(() {
                           _videoList.add(VideoUrlData("", videoThumbnail: ""));
-                        }
-                      });
+                        });
+                      }
                     },
                   );
                 },
@@ -110,10 +111,16 @@ class _MultipleImageVideoUploadWidgetState extends State<MultipleImageVideoUploa
           TextButton(
             focusNode: _nextButtonFocus,
             onPressed: () {
-              _imageList.removeWhere((element) => element.isEmpty);
-              var videoUrlList = _videoList.map((e) => e.videoUrl).toList();
-              videoUrlList.removeWhere((element) => element.isEmpty);
-              widget.onMediaUploaded(_imageList, videoUrlList);
+              ConnectivityUtil.checkConnectivity().then((value) {
+                if (value) {
+                  _imageList.removeWhere((element) => element.isEmpty);
+                  var videoUrlList = _videoList.map((e) => e.videoUrl).toList();
+                  videoUrlList.removeWhere((element) => element.isEmpty);
+                  widget.onMediaUploaded(_imageList, videoUrlList);
+                } else {
+                  CshSnackBar.error(context: context, message: "Couldn't find Internet");
+                }
+              });
             },
             style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)),
             child: Text(
