@@ -45,14 +45,20 @@ RetrievedPartListData _$RetrievedPartListDataFromJson(
       json['dbr'] as String?,
       json['rpbr'] as String?,
       json['prid'] as int?,
+      json['rr'] as String?,
+      (json['imgs'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      json['rm'] as String?,
     );
 
 Map<String, dynamic> _$RetrievedPartListDataToJson(
         RetrievedPartListData instance) =>
     <String, dynamic>{
+      'prid': instance.partId,
       'sku': instance.sku,
       'pn': instance.partName,
       'dbr': instance.deviceBarcode,
       'rpbr': instance.retrievedPartBarcode,
-      'prid': instance.partId,
+      'rr': instance.reason,
+      'rm': instance.remark,
+      'imgs': instance.imageUrls,
     };

@@ -2,12 +2,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:core_widgets/core_widgets.dart' hide iterate, ImageUtil;
+import 'package:csh_gallery_view/gallery/types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/common/gallery_screen.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/providers/retrieved_part_list_provider.dart';
+import 'package:flutter_trc/src/utils/image_assest_helper.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
@@ -15,6 +18,7 @@ import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
+import '../../../utils/fetch_image_widget.dart';
 import '../l10n.dart';
 
 class RetrievedPartListWidget extends StatefulWidget {
@@ -63,28 +67,30 @@ class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartList
                 ),
               ),
             ),
-            Expanded(
+            Flexible(
+                flex: 1,
+                fit: FlexFit.tight,
                 child: iterate(
-              (item, index) {
-                return _RetrievedPartItem(
-                  item,
-                  provider.roleType,
-                  onCardClicked: (isFaulty) {
-                    if (item.partId != null) {
-                      _showUnlinkModal(context, theme, l10n, isFaulty, provider, item);
-                    } else {
-                      CshSnackBar.error(context: context, message: l10n.noPridFound);
-                    }
+                  (item, index) {
+                    return _RetrievedPartItem(
+                      item,
+                      provider.roleType,
+                      onCardClicked: (isFaulty) {
+                        if (item.partId != null) {
+                          _showUnlinkModal(context, theme, l10n, isFaulty, provider, item);
+                        } else {
+                          CshSnackBar.error(context: context, message: l10n.noPridFound);
+                        }
+                      },
+                    );
                   },
-                );
-              },
-              onRefresh: () async {},
-              separator: const SizedBox(height: Dimens.space_16),
-              padding: const EdgeInsets.all(Dimens.space_16),
-              onNoDataFound: () {
-                return Center(child: Text("No data found", style: theme.primaryTextTheme.titleMedium));
-              },
-            ))
+                  onRefresh: () async {},
+                  separator: const SizedBox(height: Dimens.space_16),
+                  padding: const EdgeInsets.all(Dimens.space_16),
+                  onNoDataFound: () {
+                    return Center(child: Text("No data found", style: theme.primaryTextTheme.titleMedium));
+                  },
+                ))
           ],
         ),
         if (provider.roleType == RoleType.partQc)
@@ -253,6 +259,16 @@ class _RetrievedPartItem extends StatelessWidget {
           _labelValueWidget(theme, l10n.deviceBarcode, item.deviceBarcode ?? ""),
           const SizedBox(height: Dimens.space_8),
           _labelValueWidget(theme, l10n.retrievedPartsBarcode, item.retrievedPartBarcode ?? ""),
+          const SizedBox(height: Dimens.space_8),
+          _labelValueWidget(
+            theme,
+            l10n.additionalInfo,
+            "View",
+            isMetaData: true,
+            onClick: () {
+              _showMetaDataDialog(context, item.partName ?? "", item.imageUrls, item.reason, item.remark);
+            },
+          ),
           if (roleType == RoleType.partQc) ...[
             // const SizedBox(height: Dimens.space_8),
             const Divider(),
@@ -267,6 +283,73 @@ class _RetrievedPartItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _showMetaDataDialog(
+    BuildContext context,
+    String partName,
+    List<String>? imageUrls,
+    String? reasons,
+    String? remarks,
+  ) {
+    showCshBottomSheet(
+        context: context,
+        child: Container(
+          color: Theme.of(context).colorScheme.background,
+          height: MediaQuery.of(context).size.height * 0.5,
+          padding: const EdgeInsets.all(Dimens.space_16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: Dimens.space_8),
+              CshTextNew.subTitle1(partName),
+              const SizedBox(height: Dimens.space_8),
+              const Divider(),
+              const SizedBox(height: Dimens.space_16),
+              if (!Validator.isNullOrEmpty(reasons))
+                Row(
+                  children: [
+                    Expanded(child: CshTextNew.bodyText1("Reason")),
+                    Expanded(child: CshTextNew.subTitle1(reasons.toString())),
+                  ],
+                ),
+              if (!Validator.isNullOrEmpty(remarks))
+                Padding(
+                  padding: const EdgeInsets.only(top: Dimens.space_16),
+                  child: Row(
+                    children: [
+                      Expanded(child: CshTextNew.bodyText1("Remarks")),
+                      Expanded(child: CshTextNew.subTitle1(remarks.toString())),
+                    ],
+                  ),
+                ),
+              const SizedBox(height: Dimens.space_16),
+              SizedBox(
+                height: Dimens.space_120,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    String url = imageUrls![index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, GalleryScreen.route,
+                            arguments: GalleryScreenArguments(getGalleryImages(imageUrls)));
+                      },
+                      child: CshCard(
+                          padding: const EdgeInsets.all(Dimens.space_4),
+                          child: fetchImage(ImageAssetHelper.imagePath("placeholder.png"), url)),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: Dimens.space_16);
+                  },
+                  itemCount: imageUrls?.length ?? 0,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget _bottomButton(ThemeData theme, CustomColors customTheme, bool isFaulty) {
@@ -291,7 +374,13 @@ class _RetrievedPartItem extends StatelessWidget {
     );
   }
 
-  _labelValueWidget(ThemeData theme, String label, String value) {
+  _labelValueWidget(ThemeData theme, String label, String value, {bool isMetaData = false, VoidCallback? onClick}) {
+    TextStyle? textStyle = isMetaData
+        ? theme.primaryTextTheme.headlineMedium?.copyWith(
+            color: theme.primaryColor,
+            decoration: TextDecoration.underline,
+          )
+        : theme.primaryTextTheme.headlineMedium;
     return Row(
       children: [
         Expanded(
@@ -301,14 +390,35 @@ class _RetrievedPartItem extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Text(
-            value,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: theme.primaryTextTheme.headlineMedium,
+          child: GestureDetector(
+            onTap: isMetaData
+                ? () {
+                    onClick?.call();
+                  }
+                : null,
+            child: Text(
+              value,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: textStyle,
+            ),
           ),
         )
       ],
     );
+  }
+
+  List<List<ImageData>>? getGalleryImages(List<String>? imageUrls) {
+    if (Validator.isListNullOrEmpty(imageUrls)) {
+      return null;
+    }
+    List<List<ImageData>>? list = [];
+    for (var i = 0; i < imageUrls!.length; i++) {
+      var item = imageUrls[i];
+      // if (item.path != null) {
+      list.add([ImageData(i, item)]);
+      // }
+    }
+    return list;
   }
 }

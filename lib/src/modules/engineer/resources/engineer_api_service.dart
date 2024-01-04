@@ -11,6 +11,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/part_list_history_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/replace_part_request.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/capture_consume_parts_media_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/retrieved_part_reason_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/return_part_data.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_devices_response.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
@@ -76,13 +77,16 @@ class EngineerAPIService {
     return TrcService().get("/engineer/device/mark-tl", SendToTlResponse.fromJson, params: paramData);
   }
 
-  static Stream<SendToTlResponse?> consumePart(String? partBarcode, int? partId, int? productId,
-      Map<CapturePartMediaType, List<String>>? imageUrlsMap, String? retrievedPartBarcode) {
+  static Stream<SendToTlResponse?> consumePart(
+      String? partBarcode, int? partId, int? productId, Map<CapturePartMediaType, List<String>>? imageUrlsMap,
+      {String? retrievedPartBarcode, int? reasonId, String? remarks}) {
     Map<String, dynamic> req = {
       "pbr": partBarcode,
       "pid": partId,
       "prid": productId,
       if (retrievedPartBarcode != null) "rp": retrievedPartBarcode,
+      if (!Validator.isNullOrEmpty(remarks)) "rprm": remarks,
+      if (reasonId != null) "rprid": reasonId,
     };
 
     if (imageUrlsMap != null) {
@@ -222,5 +226,9 @@ class EngineerAPIService {
     String engPoint = roleType == RoleType.engineer ? "/engineer/list/retrieved-part" : "/qc/parts/list/retrieved-part";
 
     return TrcService().post(engPoint, RetrievedPartListResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<RetrievedPartReasonListResponse?> getRetrievedPartReasonList(int? partRequestId) {
+    return TrcService().get("/retrieved-part/list-reason?pid=$partRequestId", RetrievedPartReasonListResponse.fromJson);
   }
 }
