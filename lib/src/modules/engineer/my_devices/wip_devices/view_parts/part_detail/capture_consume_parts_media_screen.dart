@@ -18,8 +18,8 @@ class CaptureConsumePartMediaArg {
   final int? partRequestId;
   final Function(
     Map<CapturePartMediaType, List<String>> urlsMap,
-    String retrievedPartBarcode,
-    RetrievedPartReasonListData selectedReason,
+    String? retrievedPartBarcode,
+    RetrievedPartReasonListData? selectedReason,
     String? remarks,
   ) onImageUploaded;
 
@@ -151,7 +151,7 @@ class _CaptureConsumePartsMediaScreenState extends State<CaptureConsumePartsMedi
                         arg.onImageUploaded(
                           urlsMap,
                           _barcodeController.text,
-                          _getRetrievedReasonFromDropDown(_selectedReason!),
+                          _getRetrievedReasonFromDropDown(_selectedReason),
                           _remarksController.text,
                         );
                       }
@@ -162,7 +162,10 @@ class _CaptureConsumePartsMediaScreenState extends State<CaptureConsumePartsMedi
     );
   }
 
-  RetrievedPartReasonListData _getRetrievedReasonFromDropDown(DropDownItem selectedReason) {
+  RetrievedPartReasonListData? _getRetrievedReasonFromDropDown(DropDownItem? selectedReason) {
+    if (selectedReason == null) {
+      return null;
+    }
     int id = int.parse(selectedReason.id!);
     return RetrievedPartReasonListData(id, selectedReason.label);
   }

@@ -33,7 +33,7 @@ class ConsumePartButtonWidget extends StatelessWidget {
                   _callConsumeApi(context, l10n,
                       imageUrlsMap: urlsMap,
                       retrievedPartBarcode: retrievedPartBarcode,
-                      reasonId: reason.id,
+                      reasonId: reason?.id,
                       remarks: remarks);
                 },
               ),
