@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v3.0.8+28 (05-01-2024)
+
+### Feature:
+
+* `TRC - Engineer/Part Qc - Remarks for Retrieved parts.`[(SCM-5275)](https://reglobe.atlassian.net/browse/SCM-5275)
+
+
 # v3.0.6+26 (27-12-2023)
 
 ### Improvements:
