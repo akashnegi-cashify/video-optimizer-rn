@@ -5,6 +5,7 @@ import 'package:flutter_trc/shipex/modules/dispatch/providers/shipex_dispatch_pr
 import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../l10n.dart';
 import '../models/delivery_partner_list_response.dart';
 import 'awb_scanner_widget.dart';
 import 'dispatch_delivery_list_widget.dart';
@@ -18,12 +19,13 @@ class ShipexDispatchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var l10n = L10n(context);
     return WillPopScope(
       onWillPop: () {
         if (_pageIndex.value == 0) {
           return Future.value(true);
         }
-        _showConfirmationPopup(context);
+        _showConfirmationPopup(context, l10n);
         return Future.value(false);
       },
       child: ChangeNotifierProvider<ShipexDispatchProvider>(
@@ -54,18 +56,22 @@ class ShipexDispatchWidget extends StatelessWidget {
                           case 1:
                             return AwbScannerWidget(
                               onSubmitPressed: () {
-                                _pageIndex.value = 2;
-                                _pageController.animateToPage(_pageIndex.value,
-                                    duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+                                CshLoading().showLoading(context);
+                                provider.partialDispatch().then((_) {
+                                  CshLoading().hideLoading(context);
+                                  CshSnackBar.success(context: context, message: l10n.requestSubmittedSuccessfully);
+                                  Navigator.pop(context);
+                                }, onError: (error) {
+                                  CshLoading().hideLoading(context);
+                                  CshSnackBar.error(context: context, message: error.toString());
+                                });
                               },
                             );
-                          case 2:
-                            return const DispatchFinishedWidget();
                           default:
                             return const SizedBox.shrink();
                         }
                       },
-                      itemCount: 3,
+                      itemCount: 2,
                       pageSnapping: true,
                       allowImplicitScrolling: false,
                     ),
@@ -80,17 +86,17 @@ class ShipexDispatchWidget extends StatelessWidget {
     );
   }
 
-  _showConfirmationPopup(BuildContext context) {
+  _showConfirmationPopup(BuildContext context, L10n l10n) {
     showPopup(context,
-        title: "Are you sure?",
-        desc: "The complete Progress will be lost.!!",
+        title: l10n.areYouSure,
+        desc: l10n.allProgressWillBeLost,
         actions: [
           CshMediumButton(
-            text: "Yes",
+            text: l10n.yes,
             onPressed: () => Navigator.of(context).popUntil((route) => route.settings.name == ShipexHomeScreen.route),
           ),
           CshMediumButton(
-            text: "No",
+            text: l10n.no,
             onPressed: () => Navigator.of(context).pop(),
           )
         ],

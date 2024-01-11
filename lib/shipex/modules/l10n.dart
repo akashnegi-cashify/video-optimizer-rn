@@ -40,4 +40,24 @@ class L10n extends BaseL10n {
   String get proceed => Intl.message("Proceed", locale: localName, name: "proceed");
 
   String get finishDispatch => Intl.message("Finish Dispatch", locale: localName, name: "finishDispatch");
+
+  String get pendingDispatch => Intl.message("Pending Dispatch", locale: localName, name: "pendingDispatch");
+
+  String get requestSubmittedSuccessfully =>
+      Intl.message("Request submitted successfully", locale: localName, name: "requestSubmittedSuccessfully");
+
+  String get areYouSure => Intl.message("Are you sure you want to quit?", locale: localName, name: "areYouSure");
+
+  String get allProgressWillBeLost =>
+      Intl.message("All Progress will be lost.!!", locale: localName, name: "allProgressWillBeLost");
+
+  String get yes => Intl.message("Yes", locale: localName, name: "yes");
+
+  String get no => Intl.message("No", locale: localName, name: "no");
+
+  String get retry => Intl.message("Retry", locale: localName, name: "retry");
+
+  String get searchAwb => Intl.message("Search Awb", locale: localName, name: "searchAwb");
+
+  String get noDataFound => Intl.message("No data found", locale: localName, name: "noDataFound");
 }

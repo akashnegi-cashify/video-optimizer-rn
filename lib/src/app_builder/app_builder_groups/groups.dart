@@ -71,7 +71,9 @@ enum ComponentGroup with AbsComponentGroup {
   DeviceDead("Device Dead"),
   DeviceDeadAcceptReject("Device Dead Accept Reject"),
   trcStoreManagerHomeComponentKey("Store Manager Home Component"),
-  trcRetrievedPartListComponentKey("Trc Retrieved Part List Component");
+  trcRetrievedPartListComponentKey("Trc Retrieved Part List Component"),
+  pendingDispatchProviderListComponentKey("Pending Dispatch Provider List Component"),
+  completeDispatchComponentKey("Complete Dispatch Component");
 
   @override
   final String value;
@@ -146,7 +148,9 @@ enum PageGroup with AbsPageGroup {
   qcReasonSelectionPageKey("Reason Selection"),
   qcDeviceDeadAcceptRejectPageKey("Device Dead Accept Reject"),
   trcStoreManagerHomePageKey("Trc Store Home Manager"),
-  trcRetrievedPartListPageKey("Trc Retrieved Part List");
+  trcRetrievedPartListPageKey("Trc Retrieved Part List"),
+  pendingDispatchProviderListPageKey("Pending Dispatch Provider List"),
+  completeDispatchPageKey("Complete Dispatch");
 
   @override
   final String value;

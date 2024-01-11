@@ -24,6 +24,9 @@ class DeliveryPartnerListData {
   @JsonKey(name: "k")
   String? key;
 
+  @JsonKey(name: "c")
+  int? count;
+
   DeliveryPartnerListData(this.name, this.key);
 
   static DeliveryPartnerListData fromJson(Map<String, dynamic> json) => _$DeliveryPartnerListDataFromJson(json);

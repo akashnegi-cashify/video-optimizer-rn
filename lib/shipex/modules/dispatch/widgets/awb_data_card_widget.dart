@@ -20,8 +20,7 @@ class AWBDataCardWidget extends StatelessWidget {
     var l10n = L10n(context);
     return CshCard(
       radius: CshRadius.rad8,
-      elevation: CardElevation.dimen_10,
-      padding: const EdgeInsets.symmetric(vertical: Dimens.space_6, horizontal: Dimens.space_8),
+      padding: const EdgeInsets.all(Dimens.space_8),
       child: Row(
         children: [
           Expanded(
@@ -45,7 +44,7 @@ class AWBDataCardWidget extends StatelessWidget {
           ),
           const SizedBox(width: Dimens.space_6),
           CshIcon(
-            FeatherIcons.x,
+            FeatherIcons.delete,
             padding: EdgeInsets.zero,
             iconSize: MobileIconSize.medium,
             iconColor: theme.colorScheme.error,
