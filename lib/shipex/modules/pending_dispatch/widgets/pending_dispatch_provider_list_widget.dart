@@ -25,7 +25,7 @@ class _PendingDispatchProviderListWidgetState extends State<PendingDispatchProvi
           stream: getApiStream(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const ShimmerListWidget();
+              return const ShimmerListWidget(itemHeight: Dimens.space_60);
             }
 
             if (snapshot.hasData && snapshot.data?.deliveryPartnerList != null) {
@@ -44,7 +44,9 @@ class _PendingDispatchProviderListWidgetState extends State<PendingDispatchProvi
                   var item = list?[index];
                   return GestureDetector(
                     onTap: () {
-                      CompleteDispatchScreen.navigate(context, item?.key ?? "");
+                      CompleteDispatchScreen.navigate(context, item?.key ?? "").then((value) {
+                        setState(() {});
+                      });
                     },
                     child: CshCard(
                       child: Row(

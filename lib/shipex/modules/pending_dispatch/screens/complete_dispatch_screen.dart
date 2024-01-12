@@ -29,7 +29,7 @@ class CompleteDispatchScreen extends BaseScreen<CompleteDispatchScreenArg> {
     return PageWidget(pageKey: pageKey, initialValue: getArguments(context)?.toJson());
   }
 
-  static navigate(BuildContext context, String deliveryPartnerKey) {
-    Navigator.pushNamed(context, route, arguments: CompleteDispatchScreenArg(deliveryPartnerKey));
+  static Future navigate(BuildContext context, String deliveryPartnerKey) {
+    return Navigator.pushNamed(context, route, arguments: CompleteDispatchScreenArg(deliveryPartnerKey));
   }
 }

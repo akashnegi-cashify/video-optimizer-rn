@@ -67,7 +67,7 @@ class CompleteDispatchProvider extends CshChangeNotifier with Searchable {
 
   @override
   set searchQuery(String? value) {
-    searchQuery = value;
+    super.searchQuery = value;
     notifyListeners();
   }
 
@@ -75,7 +75,7 @@ class CompleteDispatchProvider extends CshChangeNotifier with Searchable {
     var completer = Completer<void>();
     PendingDispatchService.removeAwbNumber(awbNumber).listen((event) {
       completer.complete();
-      getAwbList(isRefresh: true);
+      getAwbList();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

@@ -11,6 +11,8 @@ import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provid
 import 'package:flutter_trc/src/utils/media_upload/widgets/general_image_upload_card.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
+
 part 'pending_dispatch_detail_component.g.dart';
 
 @CshComponent(
@@ -42,8 +44,6 @@ class PendingDispatchDetailComponent extends StatelessComponent<NoneConfigModel>
 }
 
 class _PendingDispatchWidget extends StatefulWidget {
-  _PendingDispatchWidget({super.key});
-
   @override
   State<_PendingDispatchWidget> createState() => _PendingDispatchWidgetState();
 }
@@ -51,19 +51,18 @@ class _PendingDispatchWidget extends StatefulWidget {
 class _PendingDispatchWidgetState extends State<_PendingDispatchWidget> {
   final TextEditingController _controller = TextEditingController();
 
-  String? _awbNo;
-
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<PendingDispatchDetailProvider>(context);
+    var l10n = L10n(context);
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(Dimens.space_16),
         child: Column(
           children: [
-            CshTextNew.h3("Lot Name - ${provider.lotName}"),
+            CshTextNew.h3("${l10n.lotName} - ${provider.lotName}"),
             const SizedBox(height: Dimens.space_16),
-            CshTextNew.h4("Invoice No - ${provider.scannedInvoiceNo}"),
+            CshTextNew.h4("${l10n.invoiceNo} - ${provider.scannedInvoiceNo}"),
             const SizedBox(height: Dimens.space_32),
             ChangeNotifierProvider(
               create: (_) => ImageUploadProvider(),
@@ -79,7 +78,7 @@ class _PendingDispatchWidgetState extends State<_PendingDispatchWidget> {
             const SizedBox(height: Dimens.space_16),
             CshTextFormField(
                 controller: _controller,
-                hintText: "Awb Number",
+                hintText: l10n.awbNumber,
                 suffixIcon: InkWell(
                   child: const Icon(Icons.qr_code_2),
                   onTap: () {
@@ -93,12 +92,12 @@ class _PendingDispatchWidgetState extends State<_PendingDispatchWidget> {
                 ),
                 onChanged: (value) {
                   setState(() {
-                    _awbNo = value;
+                    _controller.text = value;
                   });
                 }),
             const SizedBox(height: Dimens.space_16),
             CshBigButton(
-              text: "Scan Invoice",
+              text: l10n.scanOtherInvoice,
               onPressed: () {
                 CshMlScannerUtil().openScanner(
                   context,
@@ -111,11 +110,11 @@ class _PendingDispatchWidgetState extends State<_PendingDispatchWidget> {
             ),
             const SizedBox(height: Dimens.space_16),
             CshBigButton(
-              text: "Complete Dispatch",
-              onPressed: provider.isAllDataFilled(_awbNo)
+              text: l10n.completeDispatch,
+              onPressed: provider.isAllDataFilled(_controller.text)
                   ? () {
                       CshLoading().showLoading(context);
-                      provider.completeDispatch(_awbNo).then((value) {
+                      provider.completeDispatch(_controller.text).then((value) {
                         CshLoading().hideLoading(context);
                         Navigator.pop(context, true);
                       }, onError: (error) {
