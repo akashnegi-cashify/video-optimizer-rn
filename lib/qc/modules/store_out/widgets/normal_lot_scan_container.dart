@@ -80,8 +80,8 @@ class NormalLotScanContainer extends StatelessWidget {
                         ),
                         const SizedBox(height: Dimens.space_4),
                         LabeledText(
-                          label: l10n.location,
-                          value: itemList?[value]?.stockBarcode,
+                          label: l10n.productTitle,
+                          value: itemList?[value]?.model,
                           valueTextStyle: valueTextStyle,
                           labelTextStyle: labelTextStyle,
                           labelFlex: 1,
@@ -90,8 +90,8 @@ class NormalLotScanContainer extends StatelessWidget {
                         ),
                         const SizedBox(height: Dimens.space_4),
                         LabeledText(
-                          label: l10n.productTitle,
-                          value: itemList?[value]?.model,
+                          label: l10n.location,
+                          value: itemList?[value]?.stockBarcode,
                           valueTextStyle: valueTextStyle,
                           labelTextStyle: labelTextStyle,
                           labelFlex: 1,

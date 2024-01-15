@@ -83,6 +83,16 @@ class BinLotScanContainer extends StatelessWidget {
                           ),
                           const SizedBox(height: Dimens.space_4),
                           LabeledText(
+                            label: l10n.productTitle,
+                            value: itemList?[value]?.productTitle,
+                            valueTextStyle: valueTextStyle,
+                            labelTextStyle: labelTextStyle,
+                            labelFlex: 1,
+                            valueFlex: 2,
+                            padding: EdgeInsets.zero,
+                          ),
+                          const SizedBox(height: Dimens.space_4),
+                          LabeledText(
                             label: l10n.location,
                             value: itemList?[value]?.itemLocBarCode,
                             valueTextStyle: valueTextStyle,
