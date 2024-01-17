@@ -62,7 +62,7 @@ dependencies:
 
   calculator_ui:
     git:
-      url: https://github.com/vipin-cashify/flutter_admin_ui.git
+      url: https://github.com/reglobe/flutter_admin_ui.git
       ref: analytics
       path: calculator_ui
 
@@ -190,7 +190,7 @@ dependency_overrides:
   http: ^0.13.4
   calculator_ui:
     git:
-      url: https://github.com/vipin-cashify/flutter_admin_ui.git
+      url: https://github.com/reglobe/flutter_admin_ui.git
       ref: analytics
       path: calculator_ui
   core_widgets:
