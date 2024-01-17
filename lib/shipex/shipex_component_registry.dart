@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/shipex/modules/pending_dispatch/components/complete_dispatch_component.dart';
+import 'package:flutter_trc/shipex/modules/pending_dispatch/components/pending_dispatch_provider_list_component.dart';
 
 import 'modules/create_shipment/components/create_manual_shipment_component.dart';
 import 'modules/create_shipment/components/create_shipment_component.dart';
@@ -31,6 +33,10 @@ class ShipexComponentRegistry {
         return CreateShipmentComponent(jsonConfig);
       case CreateManualShipmentComponent.COMP_KEY:
         return CreateManualShipmentComponent(jsonConfig);
+      case PendingDispatchProviderListComponent.COMP_KEY:
+        return PendingDispatchProviderListComponent(jsonConfig);
+      case CompleteDispatchComponent.COMP_KEY:
+        return CompleteDispatchComponent(jsonConfig);
       default:
         null;
     }

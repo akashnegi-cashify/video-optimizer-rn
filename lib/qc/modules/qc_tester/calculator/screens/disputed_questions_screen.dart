@@ -39,4 +39,19 @@ class DisputedQuestionScreen extends BaseScreen<DisputedQuestionsScreenArguments
       initialValue: args?.toJson(),
     );
   }
+
+  static pushNamed(
+    BuildContext context, {
+    required List<ManualAuditQuestionItem>? disputedQuestionList,
+    required Function(List<int> manualQuestions) onComplete,
+  }) {
+    var args = DisputedQuestionsScreenArguments(disputedQuestionList: disputedQuestionList);
+    Navigator.pushNamed(context, route, arguments: args).then((value) {
+      if (value != null) {
+        if (value is List<int>) {
+          onComplete(value);
+        }
+      }
+    });
+  }
 }

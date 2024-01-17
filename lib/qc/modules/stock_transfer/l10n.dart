@@ -17,4 +17,14 @@ class L10n extends BaseL10n {
 
   String get apply => Intl.message('Apply', locale: localName, name: 'apply');
 
+  String get lotName => Intl.message('Lot Name', locale: localName, name: 'lotName');
+
+  String get invoiceNo => Intl.message('Invoice No', locale: localName, name: 'invoiceNo');
+
+  String get awbNumber => Intl.message('Awb Number', locale: localName, name: 'awbNumber');
+
+  String get scanOtherInvoice => Intl.message('Scan Other Invoice', locale: localName, name: 'scanOtherInvoice');
+
+  String get completeDispatch => Intl.message('Complete Dispatch', locale: localName, name: 'completeDispatch');
+
 }

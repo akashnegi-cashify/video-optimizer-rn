@@ -1296,6 +1296,36 @@
           "key": "header_shipex_general"
         }
       ]
+    },
+    {
+      "pageId": 20010,
+      "pageKey": "OMS_pending_dispatch_provider_list_key",
+      "dt": [
+        {
+          "id": 20017,
+          "key": "OMS_pending_dispatch_provider_list_component",
+          "type": "component"
+        },
+        {
+          "id": 20018,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20011,
+      "pageKey": "OMS_complete_dispatch_screen",
+      "dt": [
+        {
+          "id": 20019,
+          "key": "OMS_complete_dispatch_component",
+          "type": "component"
+        },
+        {
+          "id": 20020,
+          "key": "header_shipex_general"
+        }
+      ]
     }
   ],
   "componentData": [
@@ -2962,6 +2992,50 @@
       "configJson": {
         "config": {
           "ht": "Create Manual Shipment",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20017,
+      "locale": "en",
+      "key": "OMS_pending_dispatch_provider_list_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20018,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Pending Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20019,
+      "locale": "en",
+      "key": "OMS_complete_dispatch_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20020,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Complete Dispatch",
           "sbb": true,
           "slb": false
         }

@@ -127,7 +127,6 @@ class _AwbScannerWidgetState extends State<AwbScannerWidget>{
       if (Validator.isTrue(value.isValid)) {
         CshSnackBar.success(context: context, message: "Valid AWB Number");
         _lastScannedAWB = value.name ?? "";
-        provider.addScannedAwbNumber(awb);
         setState(() {});
         if (onScanner != null) {
           onScanner();

@@ -17,7 +17,6 @@ class ScanBarcodeWidget extends StatefulWidget {
 }
 
 class ScanBarcodeWidgetState extends State<ScanBarcodeWidget> {
-  Timer? _timer;
   String _scannedText = "";
   final FocusNode _focusNode = FocusNode();
 
@@ -69,16 +68,14 @@ class ScanBarcodeWidgetState extends State<ScanBarcodeWidget> {
                     initialValue: _scannedText,
                     inputFormatters: [LengthLimitingTextInputFormatter(30)],
                     onChanged: (data) {
-                      if (_timer?.isActive ?? false) _timer?.cancel();
-                      _timer = Timer(
-                        const Duration(milliseconds: 500),
-                        () {
-                          setState(() {
-                            _scannedText = data.trim();
-                            widget.onScanDetected(_scannedText);
-                          });
-                        },
-                      );
+                      setState(() {
+                        _scannedText = data.trim();
+                      });
+                    },
+                    onFieldSubmitted: (data) {
+                      if (!Validator.isNullOrEmpty(data.trim())) {
+                        widget.onScanDetected(data.trim());
+                      }
                     }),
               ),
             ],

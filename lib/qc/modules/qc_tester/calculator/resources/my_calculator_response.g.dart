@@ -39,6 +39,9 @@ MyCalculatorResponse _$MyCalculatorResponseFromJson(
         (k, e) => MapEntry(k, e as int),
       ),
       json['dcr'] as int?,
+      (json['da'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as int),
+      ),
     )..manualAuditQuestions = (json['maq'] as List<dynamic>?)
         ?.map(
             (e) => ManualAuditQuestionItem.fromJson(e as Map<String, dynamic>))
@@ -65,6 +68,7 @@ Map<String, dynamic> _$MyCalculatorResponseToJson(
       'imei_key': instance.imeiKey,
       'us': instance.userSelection,
       'st': instance.selectionType,
+      'da': instance.diagnoAccuracy,
       'maq': instance.manualAuditQuestions,
     };
 

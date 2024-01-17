@@ -44,11 +44,10 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   void getDeviceColors() {
     iDeviceQuote?.showLoading(true);
     service.getDeviceColors(quoteRequest?.productId).listen((event) {
-      if (!Validator.isListNullOrEmpty(event?.deviceColorList)) {
         iDeviceQuote?.showLoading(false);
+      if (!Validator.isListNullOrEmpty(event?.deviceColorList)) {
         iDeviceQuote?.onDeviceColorFetchedSuccess(event!.deviceColorList!);
       } else {
-        iDeviceQuote?.showLoading(false);
         var stepperItem = stepperDetails.last;
         stepperItem.title = "Color Error";
         stepperItem.subTitle = "No color found";
@@ -77,7 +76,9 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
       ),
     );
     notifyListeners();
+    iDeviceQuote?.showLoading(true);
     service.submitCalculatorResponse(quoteRequest, deviceBarcode, isDeviceTypeLob: isDeviceTypeLob).listen((event) {
+      iDeviceQuote?.showLoading(false);
       var stepperItem = stepperDetails.last;
       stepperItem.title = "Quote Obtained : Grade is";
       stepperItem.subTitle = event?.grade ?? "";
@@ -105,13 +106,14 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     stepperItem.title = "Selected Color";
     stepperItem.subTitle = selectedColor;
     notifyListeners();
-    iDeviceQuote?.showLoading(true);
     quoteRequest?.selectedColor = selectedColor;
     _submitCalculatorRequest();
   }
 
   void _submitDeviceImages() {
+    iDeviceQuote?.showLoading(true);
     service.submitDeviceMedia(mediaList, deviceBarcode).listen((event) {}, onDone: () {
+      iDeviceQuote?.showLoading(false);
       _proceedAfterImageSubmission();
     });
   }
@@ -130,6 +132,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
 
   Future<void> getDeviceStatus() async {
     String? errorMessage;
+    iDeviceQuote?.showLoading(true);
     for (int i = 0; i < 5; i++) {
       try {
         var deviceStatusResponse = await _callingDeviceStatusApi();
@@ -162,6 +165,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
         continue;
       }
     }
+    iDeviceQuote?.showLoading(false);
     iDeviceQuote?.removeAllLoader();
     isShowTryAgainState = !isShowCompleteState;
     if (!isShowCompleteState) {
@@ -189,14 +193,16 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   }
 
   void getManualQuestions() {
+    iDeviceQuote?.showLoading(true);
     service.getManualQuestions(deviceBarcode).listen((event) {
+      iDeviceQuote?.showLoading(false);
       if (!Validator.isListNullOrEmpty(event?.questionList)) {
         iDeviceQuote?.onManualQuestionFetchedSuccess(event!.questionList!);
       } else {
         getDeviceColors();
       }
     }, onError: (error) {
-      var errorMessage = ApiErrorHelper.getErrorMessage(error);
+      // var errorMessage = ApiErrorHelper.getErrorMessage(error);
       getDeviceColors();
     }, onDone: () {
       notifyListeners();

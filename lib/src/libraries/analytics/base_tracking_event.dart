@@ -5,7 +5,7 @@ abstract class BaseTrackingEvent {
 
   String getKey();
 
-  Map<String, dynamic>? getArguments() {
+  Future<Map<String, dynamic>?> getArguments() async {
     return null;
   }
 }

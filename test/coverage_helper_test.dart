@@ -50,7 +50,6 @@ import 'package:flutter_trc/src/l10n/messages_en.dart';
 import 'package:flutter_trc/src/l10n/messages_hi.dart';
 import 'package:flutter_trc/src/l10n/messages_messages.dart';
 import 'package:flutter_trc/src/libraries/alice/csh_alice.dart';
-import 'package:flutter_trc/src/libraries/analytics/advertiser_id_helper.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytic_event_keys.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytic_event_params.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
@@ -356,8 +355,7 @@ import 'package:flutter_trc/src/utils/app_constants.dart';
 import 'package:flutter_trc/src/utils/app_util.dart';
 import 'package:flutter_trc/src/utils/csh_exapansion_widget.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
-import 'package:flutter_trc/src/utils/device.dart';
-import 'package:flutter_trc/src/utils/device_info_handler.dart';
+
 import 'package:flutter_trc/src/utils/dotted_divider_line.dart';
 import 'package:flutter_trc/src/utils/image_assest_helper.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
