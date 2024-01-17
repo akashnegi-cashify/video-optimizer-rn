@@ -29,7 +29,8 @@ class MyCalculatorResponse extends CalculatorResponse {
       super.selectionType,
       super.showPrice,
       super.userSelection,
-      super.defaultRuleId);
+      super.defaultRuleId,
+      super.diagnoAccuracy);
 
   static MyCalculatorResponse fromJson(Map<String, dynamic> json) => _$MyCalculatorResponseFromJson(json);
 

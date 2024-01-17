@@ -34,42 +34,42 @@ dependencies:
   calculator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: calculator
   core:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: core
 
   localization:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: localization
 
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.5
+      ref: v1.1.6
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.5
+      ref: v1.1.6
       path: core_widgets
 
   calculator_ui:
     git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.5
+      url: https://github.com/vipin-cashify/flutter_admin_ui.git
+      ref: analytics
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.5
+      ref: v1.1.6
       path: ml_barcode_scanner
 
   s3_file_uploader_interface:
@@ -86,36 +86,36 @@ dependencies:
   builder_component:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: builder_component
 
   builder_project:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: builder_project
   csh_db:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: csh_db
 
   csh_annotation:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: csh_annotation
 
   video_optimizer:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: video_optimizer
 
   csh_gallery_view:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: csh_gallery_view
 
   device_info_plus: ^9.0.3
@@ -165,7 +165,7 @@ dev_dependencies:
   csh_schema_generator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.4
+      ref: v2.0.5
       path: csh_schema_generator
 
 
@@ -188,8 +188,16 @@ dependency_overrides:
   package_info_plus: ^4.1.0
   file_picker: ^5.5.0
   http: ^0.13.4
-#  calculator_ui:
-#    path: ../flutter_admin_ui/calculator_ui
+  calculator_ui:
+    git:
+      url: https://github.com/vipin-cashify/flutter_admin_ui.git
+      ref: analytics
+      path: calculator_ui
+  core_widgets:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: v1.1.6
+      path: core_widgets
 
 
 

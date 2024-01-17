@@ -84,29 +84,22 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
     }
 
     if (CalculatorDataHolderModel().isDeviceTypeLob() || !isCaptureMediaMandatory) {
-      Navigator.of(context).pushReplacementNamed(SubmitDeviceQuoteScreen.route);
+      Navigator.of(context).pushNamed(SubmitDeviceQuoteScreen.route);
     } else {
-      Navigator.of(context).pushReplacementNamed(CalculatorMediaCaptureScreen.route);
+      Navigator.of(context).pushNamed(CalculatorMediaCaptureScreen.route);
     }
   }
 
   void _showDisputedQuestions(BuildContext context, List<ManualAuditQuestionItem>? manualAuditQuestions,
       QuoteRequestData requestData, String? partialQuoteId, String? udid, bool? isLoginFromQc) {
-    DisputedQuestionsScreenArguments args =
-        DisputedQuestionsScreenArguments(disputedQuestionList: manualAuditQuestions);
-    Navigator.pushNamed(context, DisputedQuestionScreen.route, arguments: args).then(
-      (value) {
-        if (value != null) {
-          if (value is List<int>) {
-            MyQuoteRequestData myQuoteRequestData =
-                MyQuoteRequestData(manualAuditQuestion: value, requestData: requestData);
-            _moveToNextScreen(context,
-                requestData: myQuoteRequestData,
-                partialQuoteId: partialQuoteId,
-                udid: udid,
-                isLoginFromQC: isLoginFromQc);
-          }
-        }
+    DisputedQuestionScreen.pushNamed(
+      context,
+      disputedQuestionList: manualAuditQuestions,
+      onComplete: (manualQuestions) {
+        MyQuoteRequestData myQuoteRequestData =
+            MyQuoteRequestData(manualAuditQuestion: manualQuestions, requestData: requestData);
+        _moveToNextScreen(context,
+            requestData: myQuoteRequestData, partialQuoteId: partialQuoteId, udid: udid, isLoginFromQC: isLoginFromQc);
       },
     );
   }

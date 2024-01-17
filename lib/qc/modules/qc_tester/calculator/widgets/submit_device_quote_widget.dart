@@ -49,15 +49,13 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   @override
   Widget build(BuildContext context) {
     var provider = SubmitDeviceQuoteProvider.of(context);
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
-      },
+    return PopScope(
+      canPop: false,
       child: Column(
         children: [
           CshStepper(
             key: UniqueKey(),
-            stepDetails: provider.stepperDetails ?? [],
+            stepDetails: provider.stepperDetails,
             isShowedButton: false,
           ),
           const SizedBox(height: Dimens.space_16),
@@ -103,7 +101,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   _moveToHomeScreen() {
     AppPreferences().getIsLoginFromQC().then((value) {
       if (Validator.isTrue(value)) {
-        Navigator.popUntil(context, ModalRoute.withName(QcTesterHomeScreen.route));
+        Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
       } else {
         Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
       }
