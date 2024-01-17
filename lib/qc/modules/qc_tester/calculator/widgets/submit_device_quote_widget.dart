@@ -139,51 +139,54 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
     showCshBottomSheet(
       isDismissible: false,
       context: context,
-      child: StatefulBuilder(builder: (_, setState) {
-        return Padding(
-          padding: const EdgeInsets.all(Dimens.space_16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CshTextNew.h4("Select Color"),
-              const SizedBox(height: Dimens.space_16),
-              ListView.separated(
-                itemCount: colors.length,
-                shrinkWrap: true,
-                itemBuilder: (_, index) {
-                  var item = colors[index];
-                  return CshRadio<String>(
-                    value: item,
-                    groupValue: selectedColor,
-                    title: CshTextNew.subTitle1(item),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedColor = value;
-                      });
-                    },
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: Dimens.space_8);
-                },
-              ),
-              Center(
-                child: CshBigButton(
-                  text: "Proceed",
-                  onPressed: selectedColor == null
-                      ? null
-                      : () {
-                          Navigator.pop(context);
-                          var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
-                          provider.onColorSelected(selectedColor!);
-                        },
+      child: PopScope(
+        canPop: false,
+        child: StatefulBuilder(builder: (_, setState) {
+          return Padding(
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CshTextNew.h4("Select Color"),
+                const SizedBox(height: Dimens.space_16),
+                ListView.separated(
+                  itemCount: colors.length,
+                  shrinkWrap: true,
+                  itemBuilder: (_, index) {
+                    var item = colors[index];
+                    return CshRadio<String>(
+                      value: item,
+                      groupValue: selectedColor,
+                      title: CshTextNew.subTitle1(item),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedColor = value;
+                        });
+                      },
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(height: Dimens.space_8);
+                  },
                 ),
-              )
-            ],
-          ),
-        );
-      }),
+                Center(
+                  child: CshBigButton(
+                    text: "Proceed",
+                    onPressed: selectedColor == null
+                        ? null
+                        : () {
+                            Navigator.pop(context); // dismiss color dialog
+                            var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
+                            provider.onColorSelected(selectedColor!);
+                          },
+                  ),
+                )
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 
@@ -206,53 +209,56 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
     showCshBottomSheet(
       isDismissible: false,
       context: context,
-      child: StatefulBuilder(builder: (_, setState) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.8,
-          padding: const EdgeInsets.all(Dimens.space_16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CshTextNew.h4("Select one or more options"),
-              const SizedBox(height: Dimens.space_24),
-              Expanded(
-                child: ListView.separated(
-                  itemCount: questionList.length,
-                  itemBuilder: (_, index) {
-                    var item = questionList[index];
-                    return CshCheckbox(
-                      title: CshTextNew.subTitle1(item.question ?? ""),
-                      isSelected: item.value == 1,
-                      onChanged: (value) {
-                        setState(() {
-                          item.value = Validator.isTrue(value) ? 1 : -1;
-                        });
-                      },
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: Dimens.space_16);
-                  },
+      child: PopScope(
+        canPop: false,
+        child: StatefulBuilder(builder: (_, setState) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CshTextNew.h4("Select one or more options"),
+                const SizedBox(height: Dimens.space_24),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: questionList.length,
+                    itemBuilder: (_, index) {
+                      var item = questionList[index];
+                      return CshCheckbox(
+                        title: CshTextNew.subTitle1(item.question ?? ""),
+                        isSelected: item.value == 1,
+                        onChanged: (value) {
+                          setState(() {
+                            item.value = Validator.isTrue(value) ? 1 : -1;
+                          });
+                        },
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(height: Dimens.space_16);
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: Dimens.space_16),
-              Center(
-                child: CshBigButton(
-                  text: "Proceed",
-                  onPressed: _isAnyOptionSelected(questionList)
-                      ? () {
-                          var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
-                          Navigator.pop(context); // Dismiss dialog
-                          provider.onManualQuestionAnswered(questionList);
-                        }
-                      : null,
-                ),
-              )
-            ],
-          ),
-        );
-      }),
+                const SizedBox(height: Dimens.space_16),
+                Center(
+                  child: CshBigButton(
+                    text: "Proceed",
+                    onPressed: _isAnyOptionSelected(questionList)
+                        ? () {
+                            var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
+                            Navigator.pop(context); // Dismiss dialog
+                            provider.onManualQuestionAnswered(questionList);
+                          }
+                        : null,
+                  ),
+                )
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 
