@@ -306,7 +306,7 @@ packages:
       path: calculator_ui
       ref: analytics
       resolved-ref: "9bb8224deb80c6bdd9fb54814866c24eabc86c1c"
-      url: "https://github.com/vipin-cashify/flutter_admin_ui.git"
+      url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "1.1.6"
   camera:
