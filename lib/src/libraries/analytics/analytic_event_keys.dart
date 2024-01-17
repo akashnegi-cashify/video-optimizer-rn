@@ -6,4 +6,5 @@ class AnalyticEventKeys {
   static const OTP_VALIDATION_COMPLETE = "otpValidationComplete";
   static const MPIN_SETUP_START = "mpinSetupStart";
   static const MPIN_SETUP_COMPLETE = "mpinSetupComplete";
+  static const CAL_PAGE = "calc_p";
 }
