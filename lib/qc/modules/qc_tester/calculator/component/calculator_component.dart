@@ -12,6 +12,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_devic
 import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/common/calculator_analytics/calculator_analytics_helper.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
@@ -45,6 +46,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
                 deviceBarcode: deviceBarcode,
                 showHint: false),
             showSummary: true,
+            calculatorAnalytics: CalculatorAnalyticsHelper(deviceBarcode ?? ""),
             deviceId: "d_id",
             ruleExecutorServiceGroup: Validator.isTrue(snapshot.data) ? TRCServiceGroups.qc : TRCServiceGroups.trc,
             handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {

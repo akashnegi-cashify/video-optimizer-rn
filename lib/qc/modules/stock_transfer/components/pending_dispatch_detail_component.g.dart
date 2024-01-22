@@ -50,7 +50,6 @@ dynamic schema() => {
         "type": "list",
         "config": [
           {
-            "uiType": "input",
             "type": "String",
             "isRequired": false,
             "label": "None",

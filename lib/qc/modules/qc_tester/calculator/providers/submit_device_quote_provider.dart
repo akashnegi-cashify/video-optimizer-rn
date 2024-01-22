@@ -10,6 +10,8 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/manual_que
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/submit_device_quote_widget.dart';
+import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/additional_questions_selected_event.dart';
 import 'package:provider/provider.dart';
 
 class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
@@ -21,6 +23,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   bool isShowCompleteState = false;
   bool isShowTryAgainState = false;
   List<ManualQuestionListData>? _questionList;
+  String? gradeObtained;
 
   List<StepDetails> stepperDetails = [
     StepDetails(title: "Requesting Colors", subTitle: "Please wait...", content: const SizedBox.shrink())
@@ -44,7 +47,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   void getDeviceColors() {
     iDeviceQuote?.showLoading(true);
     service.getDeviceColors(quoteRequest?.productId).listen((event) {
-        iDeviceQuote?.showLoading(false);
+      iDeviceQuote?.showLoading(false);
       if (!Validator.isListNullOrEmpty(event?.deviceColorList)) {
         iDeviceQuote?.onDeviceColorFetchedSuccess(event!.deviceColorList!);
       } else {
@@ -82,6 +85,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
       var stepperItem = stepperDetails.last;
       stepperItem.title = "Quote Obtained : Grade is";
       stepperItem.subTitle = event?.grade ?? "";
+      gradeObtained = event?.grade;
       iDeviceQuote?.onSubmitCalculatorSuccess(event?.grade, event?.cautionMessage);
       _submitManualQuestions();
       if (Validator.isListNullOrEmpty(mediaList)) {
@@ -210,6 +214,9 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   }
 
   void onManualQuestionAnswered(List<ManualQuestionListData> questionList) {
+    questionList.retainWhere((element) => element.value == 1);
+    AnalyticsController.logEvent(
+        AdditionalQuestionsSelectedEvent(deviceBarcode, questionList.map((e) => e.question).toList()));
     _questionList = questionList;
     getDeviceColors();
   }
@@ -218,7 +225,8 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     if (Validator.isListNullOrEmpty(_questionList)) {
       return;
     }
-    service.submitManualQuestions(deviceBarcode, _questionList).listen((event) {}, onError: (error) {
+    service.submitManualQuestions(deviceBarcode, _questionList?.map((e) => e.question).toList()).listen((event) {},
+        onError: (error) {
       Logger.debug('mydebug-----SubmitDeviceQuoteProvider._submitManualQuestions error', [error]);
     });
   }

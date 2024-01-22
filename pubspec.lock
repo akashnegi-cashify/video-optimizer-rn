@@ -303,11 +303,9 @@ packages:
   calculator_ui:
     dependency: "direct main"
     description:
-      path: calculator_ui
-      ref: analytics
-      resolved-ref: "9bb8224deb80c6bdd9fb54814866c24eabc86c1c"
-      url: "https://github.com/reglobe/flutter_admin_ui.git"
-    source: git
+      path: "../flutter_admin_ui/calculator_ui"
+      relative: true
+    source: path
     version: "1.1.6"
   camera:
     dependency: "direct overridden"

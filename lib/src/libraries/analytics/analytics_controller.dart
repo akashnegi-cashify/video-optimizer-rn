@@ -1,5 +1,4 @@
 import 'package:core/core.dart';
-import 'package:flutter_trc/src/analytics/firebase_analytics.dart';
 import 'package:flutter_trc/src/libraries/analytics/cashify/cashify_analytics_helper.dart';
 
 import 'base_tracking_event.dart';
@@ -38,10 +37,11 @@ class AnalyticsController {
     for (var tracker in trackers) {
       switch (tracker) {
         case AnalyticTrackers.FIRE_BASE:
-          FirebaseAnalyticsHelper.sendAnalyticsEvent(name: event.getKey(), parameters: arguments);
+          // FirebaseAnalyticsHelper.sendAnalyticsEvent(name: event.getKey(), parameters: arguments);
           break;
         case AnalyticTrackers.CASHIFY:
-          CashifyAnalyticsHelper.sendAnalyticsEvent(eventName: event.getKey(), parameters: arguments);
+          CashifyAnalyticsHelper.sendAnalyticsEvent(
+              eventName: event.getKey(), subOrdinateKey: event.getSubordinateKey(), parameters: arguments);
           break;
         default:
           Logger.log('Undefined analytics tracker.');

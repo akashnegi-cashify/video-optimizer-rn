@@ -7,7 +7,7 @@ import 'package:flutter_trc/src/libraries/analytics/cashify/resources/save_analy
 class CashifyAnalyticsHelper {
   static Future<void> init() async {}
 
-  static Future<void> sendAnalyticsEvent({required String eventName, Map<String, dynamic>? parameters}) async {
+  static Future<void> sendAnalyticsEvent({required String eventName, String? subOrdinateKey, Map<String, dynamic>? parameters}) async {
     if (parameters != null) {
       parameters.forEach((key, value) {
         if (value == null) {
@@ -16,7 +16,7 @@ class CashifyAnalyticsHelper {
       });
     }
 
-    CashifyAnalyticsService.saveEvent(SaveAnalyticsRequest(eventName, eventName, parameters: parameters))
+    CashifyAnalyticsService.saveEvent(SaveAnalyticsRequest(eventName, subOrdinateKey ?? eventName, parameters: parameters))
         .timeout(const Duration(seconds: 2), onTimeout: (sink) {
       sink.addError(TimeoutException('The connection has timed out, Please try again!'));
       sink.close();
