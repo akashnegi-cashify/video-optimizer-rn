@@ -1,6 +1,17 @@
 # TRC Releases
 
 
+# v3.0.9+29 (17-01-2024)
+
+### Feature:
+
+* `QC/TRC - Analytics structure setup`[(SCM-5224)](https://reglobe.atlassian.net/browse/SCM-5224)
+* `OMS - Manifest Generation`[(SCM-5264)](https://reglobe.atlassian.net/browse/SCM-5264)
+* `QC - Stock Transfer - Change scan invoice button name`[(SCM-5273)](https://reglobe.atlassian.net/browse/SCM-5273)
+* `QC/TRC - Bin Store In/Out - Start showing model name in lot`[(SCM-5373)](https://reglobe.atlassian.net/browse/SCM-5373)
+* `QC - External Recording - Improve scanner input and user input`[(SCM-5428)](https://reglobe.atlassian.net/browse/SCM-5428)
+
+
 # v3.0.8+28 (05-01-2024)
 
 ### Feature:
