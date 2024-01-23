@@ -3,6 +3,13 @@
 
 # v3.0.9+29 (17-01-2024)
 
+### Bug Fix:
+
+* `QC/TRC - Calculator bug fix`[(SCM-5457)](https://reglobe.atlassian.net/browse/SCM-5457)
+
+
+# v3.0.9+29 (17-01-2024)
+
 ### Feature:
 
 * `QC/TRC - Analytics structure setup`[(SCM-5224)](https://reglobe.atlassian.net/browse/SCM-5224)
