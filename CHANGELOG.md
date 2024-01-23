@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v3.0.10+30 (23-01-2024)
+
+### Bug Fix:
+
+* `QC/TRC - Calculator bug fix`[(SCM-5457)](https://reglobe.atlassian.net/browse/SCM-5457)
+
+
 # v3.0.9+29 (17-01-2024)
 
 ### Feature:

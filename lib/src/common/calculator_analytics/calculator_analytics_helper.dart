@@ -15,7 +15,7 @@ class CalculatorAnalyticsHelper implements CshCalculatorAnalytics {
   }
 
   @override
-  void onFinished(QuoteRequestData quoteRequestData, String partialQuoteId) {
+  void onFinished(QuoteRequestData quoteRequestData, String? partialQuoteId) {
     // TODO: implement onFinished
   }
 
@@ -25,7 +25,7 @@ class CalculatorAnalyticsHelper implements CshCalculatorAnalytics {
   }
 
   @override
-  void onQuestionAnswered(int pageNo, Question question, Option selectedOption) {
+  void onQuestionAnswered(int pageNo, Question question, Option? selectedOption) {
     // TODO: implement onQuestionAnswered
   }
 
