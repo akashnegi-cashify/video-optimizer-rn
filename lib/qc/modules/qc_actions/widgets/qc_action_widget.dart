@@ -13,6 +13,7 @@ import 'package:flutter_trc/qc/modules/store_in/dialog/show_store_in_type_dialog
 import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/dialogs/supervisor_device_detail_dialog.dart';
 import 'package:flutter_trc/qc/modules/supervisor/resources/supervisor_service.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/screens/on_going_audit_screen.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
@@ -187,6 +188,13 @@ class QCActionWidget extends StatelessWidget {
                   );
                 },
               ),
+            ),
+            const SizedBox(height: Dimens.space_16),
+            CshBigButton(
+              text: l10n.warehouseAudit,
+              onPressed: () {
+                Navigator.pushNamed(context, OnGoingAuditScreen.route);
+              },
             ),
             // const SizedBox(height: Dimens.space_16),
             // CshBigButton(

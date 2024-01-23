@@ -23,6 +23,8 @@ import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_scree
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/screens/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/screens/supervisor_screen.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/screens/on_going_audit_screen.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/screens/warehouse_audit_perform_screen.dart';
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
 import 'package:flutter_trc/src/common/gallery_screen.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_screen.dart';
@@ -90,6 +92,8 @@ class QcRoutes {
       UserProfileScreen.route: (_) => const UserProfileScreen(),
       SupervisorScreen.route: (_) => const SupervisorScreen(),
       GalleryScreen.route: (_) => const GalleryScreen(),
+      OnGoingAuditScreen.route: (_) => const OnGoingAuditScreen(),
+      WarehouseAuditPerformScreen.route: (_) => const WarehouseAuditPerformScreen(),
     };
   }
 }

@@ -23,6 +23,8 @@ import 'package:flutter_trc/qc/modules/stock_transfer/components/st_store_out_co
 import 'package:flutter_trc/qc/modules/stock_transfer/components/stock_transfer_list_component.dart';
 import 'package:flutter_trc/qc/modules/store_in/components/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/components/supervisor_component.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/components/on_going_audit_component.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/components/warehouse_audit_perform_component.dart';
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/components/store_out_lots_filter_component.dart';
 
 import 'modules/dead_repair/components/index.dart';
@@ -140,6 +142,12 @@ class QcComponentRegistry {
 
       case SupervisorComponent.COMP_KEY:
         return SupervisorComponent(jsonConfig);
+
+      case OnGoingAuditComponent.COMP_KEY:
+        return OnGoingAuditComponent(jsonConfig);
+
+      case WarehouseAuditPerformComponent.COMP_KEY:
+        return WarehouseAuditPerformComponent(jsonConfig);
 
       default:
         return null;

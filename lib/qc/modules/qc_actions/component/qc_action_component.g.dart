@@ -17,12 +17,14 @@ dynamic schema() => {
         "type": "list",
         "config": [
           {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
             "label": "Button 1 Text",
             "key": "b1t"
           },
           {
+            "uiType": "input",
             "type": "String",
             "isRequired": false,
             "label": "Button 2 Text",

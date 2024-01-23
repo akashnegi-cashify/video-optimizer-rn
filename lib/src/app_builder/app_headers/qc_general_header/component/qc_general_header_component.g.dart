@@ -45,6 +45,7 @@ dynamic schema() => {
         "type": "list",
         "config": [
           {
+            "uiType": "input",
             "inputType": "text",
             "type": "String",
             "isRequired": false,
@@ -53,6 +54,7 @@ dynamic schema() => {
             "key": "ht"
           },
           {
+            "uiType": "toggle",
             "inputType": "boolean",
             "isRequired": false,
             "default": true,
@@ -60,6 +62,7 @@ dynamic schema() => {
             "key": "sbb"
           },
           {
+            "uiType": "toggle",
             "inputType": "boolean",
             "isRequired": false,
             "default": false,
@@ -67,6 +70,7 @@ dynamic schema() => {
             "key": "slb"
           },
           {
+            "uiType": "toggle",
             "inputType": "boolean",
             "isRequired": false,
             "default": false,

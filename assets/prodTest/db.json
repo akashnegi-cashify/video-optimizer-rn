@@ -1051,7 +1051,7 @@
     },
 
     {
-      "pageId": 10102,
+      "pageId": 10037,
       "pageKey": "QC_stock_transfer_list_screen",
       "dt": [
         {
@@ -1066,7 +1066,7 @@
       ]
     },
     {
-      "pageId": 10103,
+      "pageId": 10038,
       "pageKey": "QC_stock_transfer_store_out_screen",
       "dt": [
         {
@@ -1081,7 +1081,7 @@
       ]
     },
     {
-      "pageId": 10104,
+      "pageId": 10039,
       "pageKey": "QC_st_pending_lot_detail_screen",
       "dt": [
         {
@@ -1096,7 +1096,7 @@
       ]
     },
     {
-      "pageId": 10105,
+      "pageId": 10040,
       "pageKey": "QC_st_pending_dispatch_detail_screen",
       "dt": [
         {
@@ -1111,7 +1111,7 @@
       ]
     },
     {
-      "pageId": 10106,
+      "pageId": 10041,
       "pageKey": "QC_guard_home_screen",
       "dt": [
         {
@@ -1126,7 +1126,7 @@
       ]
     },
     {
-      "pageId": 10107,
+      "pageId": 10042,
       "pageKey": "QC_guard_device_counting_list_screen",
       "dt": [
         {
@@ -1141,7 +1141,7 @@
       ]
     },
     {
-      "pageId": 10108,
+      "pageId": 10043,
       "pageKey": "QC_guard_upload_invoice_screen",
       "dt": [
         {
@@ -1156,7 +1156,7 @@
       ]
     },
     {
-      "pageId": 10109,
+      "pageId": 10044,
       "pageKey": "QC_supervisor_screen",
       "dt": [
         {
@@ -1166,6 +1166,21 @@
         },
         {
           "id": 10120,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10045,
+      "pageKey": "QC_on_going_audit_screen",
+      "dt": [
+        {
+          "id": 10121,
+          "key": "QC_on_going_audit_component",
+          "type": "component"
+        },
+        {
+          "id": 10122,
           "key": "header_QC_qc_general"
         }
       ]
@@ -2814,6 +2829,29 @@
       "configJson": {
         "config": {
           "ht": "Supervisor",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10121,
+      "locale": "en",
+      "key": "QC_on_going_audit_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10122,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "On Going Audit List",
           "sbb": true,
           "slb": false
         }
