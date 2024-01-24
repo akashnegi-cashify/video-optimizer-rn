@@ -41,10 +41,21 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
         );
       } else {
         controller?.start();
+        CshSnackBar.success(
+          context: context,
+          message: value?.message ?? "",
+          snackBarPosition: SnackBarPosition.TOP,
+          duration: SnackBarDuration.SHORT,
+        );
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error.toString());
+      CshSnackBar.error(
+        context: context,
+        message: error.toString(),
+        snackBarPosition: SnackBarPosition.TOP,
+        duration: SnackBarDuration.MEDIUM,
+      );
     });
   }
 
@@ -59,42 +70,47 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.6,
             padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_24, Dimens.space_16, Dimens.space_20),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CshTextNew.subTitle1(heading ?? ""),
                 const SizedBox(height: Dimens.space_16),
                 StatefulBuilder(
                   builder: (_, setState) {
-                    return ListView.separated(
-                        itemBuilder: (_, index) {
-                          var item = list[index];
-                          return Column(
-                            children: [
-                              CshTextNew.subTitle2(item.heading),
-                              const SizedBox(height: Dimens.space_4),
-                              ChangeNotifierProvider(
-                                create: (_) => ImageUploadProvider(),
-                                child: GeneralImageUploadCard(
-                                  cardHeight: 100,
-                                  cardWidth: 100,
-                                  imageUrl: item.imageUrl,
-                                  onMediaUploaded: (url) {
-                                    setState(() {
-                                      item.imageUrl = url!;
-                                    });
-                                    if (_checkIsAllImagesUploaded(list)) {
-                                      Navigator.pop(context); // Dismiss dialog
-                                      onImageUploaded(list);
-                                    }
-                                  },
+                    return Expanded(
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (_, index) {
+                            var item = list[index];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CshTextNew.subTitle2(item.heading),
+                                const SizedBox(height: Dimens.space_4),
+                                ChangeNotifierProvider(
+                                  create: (_) => ImageUploadProvider(),
+                                  child: GeneralImageUploadCard(
+                                    cardHeight: 100,
+                                    cardWidth: 100,
+                                    imageUrl: item.imageUrl,
+                                    onMediaUploaded: (url) {
+                                      setState(() {
+                                        item.imageUrl = url!;
+                                      });
+                                      if (_checkIsAllImagesUploaded(list)) {
+                                        Navigator.pop(context); // Dismiss dialog
+                                        onImageUploaded(list);
+                                      }
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(height: Dimens.space_20);
-                        },
-                        itemCount: list.length);
+                              ],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(height: Dimens.space_20);
+                          },
+                          itemCount: list.length),
+                    );
                   },
                 )
               ],
