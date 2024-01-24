@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/device_details/components/device_details_component.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/components/invoice_scan_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_home_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_perform_component.dart';
@@ -148,6 +149,9 @@ class QcComponentRegistry {
 
       case WarehouseAuditPerformComponent.COMP_KEY:
         return WarehouseAuditPerformComponent(jsonConfig);
+
+      case DeviceDetailsComponent.COMP_KEY:
+        return DeviceDetailsComponent(jsonConfig);
 
       default:
         return null;

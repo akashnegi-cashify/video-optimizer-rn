@@ -41,4 +41,6 @@ class L10n extends BaseL10n {
 
   String get warehouseAudit => Intl.message('Warehouse Audit', locale: localName, name: 'warehouseAudit');
 
+  String get deviceDetails => Intl.message('Device Details', locale: localName, name: 'deviceDetails');
+
 }

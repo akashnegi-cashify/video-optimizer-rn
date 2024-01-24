@@ -30,7 +30,8 @@ enum QcComponentGroup with AbsComponentGroup {
   qcGuardAddAgentComponentKey("QC Guard Add Agent Component"),
   qcSupervisorComponentKey("QC Supervisor Device Detail Component"),
   qcOnGoingAuditComponentKey("QC OnGoing Audit Component"),
-  qcWarehouseAuditPerformComponentKey("QC Warehouse Audit Perform Component");
+  qcWarehouseAuditPerformComponentKey("QC Warehouse Audit Perform Component"),
+  qcDeviceDetailsComponentKey("QC Device Details Component");
 
   @override
   final String value;
@@ -69,7 +70,8 @@ enum QcPageGroup with AbsPageGroup {
   qcGuardAddAgentPageKey("QC Guard Add Agent"),
   qcSupervisorPageKey("QC Supervisor Device Detail"),
   qcOnGoingAuditPageKey("QC OnGoing Audit"),
-  qcWarehouseAuditPerformPageKey("QC Warehouse Audit Perform");
+  qcWarehouseAuditPerformPageKey("QC Warehouse Audit Perform"),
+  qcDeviceDetailsPageKey("QC Device Details");
 
   @override
   final String value;

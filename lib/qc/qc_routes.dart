@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/device_details/screens/device_details_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/guard_device_counting_list_screen.dart';
@@ -94,6 +95,7 @@ class QcRoutes {
       GalleryScreen.route: (_) => const GalleryScreen(),
       OnGoingAuditScreen.route: (_) => const OnGoingAuditScreen(),
       WarehouseAuditPerformScreen.route: (_) => const WarehouseAuditPerformScreen(),
+      DeviceDetailsScreen.route: (_) => const DeviceDetailsScreen(),
     };
   }
 }

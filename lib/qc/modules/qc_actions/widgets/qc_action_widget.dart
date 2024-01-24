@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/device_details/screens/device_details_screen.dart';
 import 'package:flutter_trc/qc/modules/device_receive_module/screens/device_receive_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
@@ -194,6 +195,19 @@ class QCActionWidget extends StatelessWidget {
               text: l10n.warehouseAudit,
               onPressed: () {
                 Navigator.pushNamed(context, OnGoingAuditScreen.route);
+              },
+            ),
+            const SizedBox(height: Dimens.space_16),
+            CshBigButton(
+              text: l10n.deviceDetails,
+              onPressed: () {
+                CshMlScannerUtil().openScanner(
+                  context,
+                  onScanned: (scannedData, controller) {
+                    Navigator.pop(context);
+                    DeviceDetailsScreen.pushNamed(context, scannedData);
+                  },
+                );
               },
             ),
             // const SizedBox(height: Dimens.space_16),

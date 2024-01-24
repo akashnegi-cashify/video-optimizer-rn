@@ -1,7 +1,5 @@
 import 'package:csh_annotation/annotation.dart';
 
-import '../../../models/engineer_device_info.dart';
-
 @CshPageParam()
 class WipDetailsCompParam {
   @ParamKey(key: WipDetailsCompParamKeys.deviceBarcode)

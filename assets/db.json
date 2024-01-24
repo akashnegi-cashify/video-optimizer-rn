@@ -1201,6 +1201,21 @@
       ]
     },
     {
+      "pageId": 10047,
+      "pageKey": "QC_device_details_screen",
+      "dt": [
+        {
+          "id": 10125,
+          "key": "QC_device_details_component",
+          "type": "component"
+        },
+        {
+          "id": 10126,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2890,6 +2905,29 @@
       "configJson": {
         "config": {
           "ht": "Scan Device",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10125,
+      "locale": "en",
+      "key": "QC_device_details_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10126,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Device Details",
           "sbb": true,
           "slb": false
         }
