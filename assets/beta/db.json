@@ -1186,6 +1186,21 @@
       ]
     },
     {
+      "pageId": 10046,
+      "pageKey": "QC_on_going_audit_screen",
+      "dt": [
+        {
+          "id": 10123,
+          "key": "QC_warehouse_audit_perform_component",
+          "type": "component"
+        },
+        {
+          "id": 10124,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2852,6 +2867,29 @@
       "configJson": {
         "config": {
           "ht": "On Going Audit List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10123,
+      "locale": "en",
+      "key": "QC_warehouse_audit_perform_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10124,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Scan Device",
           "sbb": true,
           "slb": false
         }

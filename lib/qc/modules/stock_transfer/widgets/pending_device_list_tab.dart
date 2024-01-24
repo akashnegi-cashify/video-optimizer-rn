@@ -5,6 +5,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/models/pending_lot_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/pending_lot_detail_provider.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/transfer_lot_status_type.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
 class PendingDeviceListTab extends StatefulWidget {
@@ -77,6 +78,7 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
                       width: double.infinity,
                       child: _DeviceItemWidget(
                         item,
+                        data?.statusCode,
                         index: index,
                         onDeviceRemove: () {
                           CshLoading().showLoading(context);
@@ -94,7 +96,8 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
             ),
           ],
         ),
-        if (data?.statusCode != 3)
+        if (data?.statusCode != TransferLotStatusType.APPROVE.code &&
+            data?.statusCode != TransferLotStatusType.LOCKED.code)
           Positioned(
             right: Dimens.space_32,
             bottom: Dimens.space_32,
@@ -144,8 +147,10 @@ class _DeviceItemWidget extends StatelessWidget {
   final PendingLotDeviceListData? item;
   final int index;
   final VoidCallback onDeviceRemove;
+  final int? transferLotStatus;
 
-  const _DeviceItemWidget(this.item, {super.key, required this.index, required this.onDeviceRemove});
+  const _DeviceItemWidget(this.item, this.transferLotStatus,
+      {super.key, required this.index, required this.onDeviceRemove});
 
   @override
   Widget build(BuildContext context) {
@@ -181,33 +186,35 @@ class _DeviceItemWidget extends StatelessWidget {
               child: const Icon(Icons.info, size: Dimens.space_24),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: InkWell(
-              onTap: () {
-                showPopup(context,
-                    title: "Remove Device",
-                    desc: "Do you want to remove device ${item?.qrCode} from lot",
-                    actions: [
-                      CshMediumButton(
-                        text: "Yes",
-                        onPressed: () {
-                          Navigator.pop(context); // dismissDialog
-                          onDeviceRemove();
-                        },
-                      ),
-                      CshMediumButton(
-                        text: "No",
-                        onPressed: () {
-                          Navigator.pop(context); // dismissDialog
-                        },
-                      ),
-                    ]);
-              },
-              child: const Icon(Icons.delete_forever, size: Dimens.space_24),
-            ),
-          )
+          if (transferLotStatus != TransferLotStatusType.APPROVE.code &&
+              transferLotStatus != TransferLotStatusType.LOCKED.code)
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: InkWell(
+                onTap: () {
+                  showPopup(context,
+                      title: "Remove Device",
+                      desc: "Do you want to remove device ${item?.qrCode} from lot",
+                      actions: [
+                        CshMediumButton(
+                          text: "Yes",
+                          onPressed: () {
+                            Navigator.pop(context); // dismissDialog
+                            onDeviceRemove();
+                          },
+                        ),
+                        CshMediumButton(
+                          text: "No",
+                          onPressed: () {
+                            Navigator.pop(context); // dismissDialog
+                          },
+                        ),
+                      ]);
+                },
+                child: const Icon(Icons.delete_forever, size: Dimens.space_24),
+              ),
+            )
         ],
       ),
     );
