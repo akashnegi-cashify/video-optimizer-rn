@@ -1,19 +1,27 @@
 import 'dart:async';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/resources/re_qc_service.dart';
 import 'package:provider/provider.dart';
-import 'package:core/core.dart';
 
 class ReQcListProvider extends CshChangeNotifier {
-  String? _query;
+  String? _lotName;
+
+  String? _deviceBarcode;
 
   List<int>? _lotTypeFilters;
 
-  set query(String? value) {
-    _query = value;
+  set lotName(String? value) {
+    _deviceBarcode = null;
+    _lotName = value;
+  }
+
+  set deviceBarcode(String? value) {
+    _lotName = null;
+    _deviceBarcode = value;
   }
 
   set lotTypeFilters(List<int>? value) {
@@ -28,7 +36,9 @@ class ReQcListProvider extends CshChangeNotifier {
 
   Future<List<ReQcListData>?> getReQcList(int pageSize, int offset) {
     var completer = Completer<List<ReQcListData>?>();
-    ReQcService.getReQcList(pageSize, offset, searchQuery: _query, lotType: _lotTypeFilters).listen((response) {
+    ReQcService.getReQcList(pageSize, offset,
+            searchQuery: _lotName, lotType: _lotTypeFilters, deviceBarcode: _deviceBarcode)
+        .listen((response) {
       if (!Validator.isListNullOrEmpty(response?.list)) {
         completer.complete(response?.list);
       } else {
@@ -65,5 +75,10 @@ class ReQcListProvider extends CshChangeNotifier {
       completer.completeError(errorMessage.toString());
     });
     return completer.future;
+  }
+
+  void resetSearchFilters() {
+    _lotName = null;
+    _deviceBarcode = null;
   }
 }
