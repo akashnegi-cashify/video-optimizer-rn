@@ -26,7 +26,7 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
       {Map<String, String>? uploadedImageMap}) {
     var provider = WarehouseAuditPerformProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.scanDevice(scannedData, imagesListMap: uploadedImageMap).then((value) {
+    provider.scanDevice(scannedData, imagesListMap: uploadedImageMap, isManualEntry: controller == null).then((value) {
       CshLoading().hideLoading(context);
       if (value?.status == 1 && (value?.requiredImageList?.length ?? 0) > 0) {
         var list = UploadImageData.encodeInList(value!.requiredImageList!);

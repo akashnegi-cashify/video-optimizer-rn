@@ -16,9 +16,12 @@ class WarehouseAuditPerformProvider extends CshChangeNotifier {
     return Provider.of<WarehouseAuditPerformProvider>(context, listen: listen);
   }
 
-  Future<ScanDeviceData?> scanDevice(String deviceBarcode, {Map<String, String>? imagesListMap}) {
+  Future<ScanDeviceData?> scanDevice(String deviceBarcode,
+      {Map<String, String>? imagesListMap, bool isManualEntry = false}) {
     var completer = Completer<ScanDeviceData?>();
-    WarehouseAuditService.scanDeviceForAudit(auditId, deviceBarcode, imagesListMap: imagesListMap).listen((event) {
+    WarehouseAuditService.scanDeviceForAudit(auditId, deviceBarcode,
+            imagesListMap: imagesListMap, isManualEntry: isManualEntry)
+        .listen((event) {
       completer.complete(event?.scanDeviceData);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

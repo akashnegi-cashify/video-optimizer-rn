@@ -1216,6 +1216,21 @@
       ]
     },
     {
+      "pageId": 10048,
+      "pageKey": "QC_storage_device_list_screen",
+      "dt": [
+        {
+          "id": 10127,
+          "key": "QC_storage_device_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10128,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -2928,6 +2943,29 @@
       "configJson": {
         "config": {
           "ht": "Device Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10127,
+      "locale": "en",
+      "key": "QC_storage_device_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10128,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Storage Device List",
           "sbb": true,
           "slb": false
         }

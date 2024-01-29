@@ -22,6 +22,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/components/pending_dispatc
 import 'package:flutter_trc/qc/modules/stock_transfer/components/pending_lot_detail_component.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/components/st_store_out_component.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/components/stock_transfer_list_component.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/components/storage_device_list_component.dart';
 import 'package:flutter_trc/qc/modules/store_in/components/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/components/supervisor_component.dart';
 import 'package:flutter_trc/qc/modules/warehouse_audit/components/on_going_audit_component.dart';
@@ -152,6 +153,9 @@ class QcComponentRegistry {
 
       case DeviceDetailsComponent.COMP_KEY:
         return DeviceDetailsComponent(jsonConfig);
+
+      case StorageDeviceListComponent.COMP_KEY:
+        return StorageDeviceListComponent(jsonConfig);
 
       default:
         return null;

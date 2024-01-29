@@ -10,9 +10,10 @@ class WarehouseAuditService {
   }
 
   static Stream<ScanDeviceResponse?> scanDeviceForAudit(int auditId, String deviceBarcode,
-      {Map<String, String>? imagesListMap}) {
+      {Map<String, String>? imagesListMap, bool isManualEntry = false}) {
     Map<String, dynamic> req = {
       "qc": deviceBarcode,
+      "me": isManualEntry,
       if (imagesListMap != null) "mm": imagesListMap,
     };
     String endPoint = imagesListMap == null ? "/warehouse-audit/scan/$auditId" : "/warehouse-audit/scan/$auditId/media";

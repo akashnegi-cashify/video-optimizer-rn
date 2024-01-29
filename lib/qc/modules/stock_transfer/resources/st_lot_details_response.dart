@@ -29,11 +29,27 @@ class StLotDetailResponse extends BaseResponse {
   @JsonKey(name: "st")
   String? storage;
 
+  @JsonKey(name: "did")
+  int? deviceId;
+
   StLotDetailResponse(this.lotName, this.modelName, this.barcode, this.destination, this.location, this.deviceCount,
-      this.scanCount, this.storage, super.cashifyAlert, super.trackUrl);
+      this.scanCount, this.storage, this.deviceId, super.cashifyAlert, super.trackUrl);
 
   static StLotDetailResponse fromJson(Map<String, dynamic> json) => _$StLotDetailResponseFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$StLotDetailResponseToJson(this);
+
+  void setData(StLotDetailResponse? data) {
+    if (data == null) return;
+    lotName = data.lotName ?? lotName;
+    modelName = data.modelName ?? modelName;
+    barcode = data.barcode ?? barcode;
+    destination = data.destination ?? destination;
+    location = data.location ?? location;
+    deviceCount = data.deviceCount ?? deviceCount;
+    scanCount = data.scanCount ?? scanCount;
+    storage = data.storage ?? storage;
+    deviceId = data.deviceId ?? deviceId;
+  }
 }

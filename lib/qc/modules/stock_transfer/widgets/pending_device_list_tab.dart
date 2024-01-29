@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/models/pending_lot_detail_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/pending_lot_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/pending_lot_detail_provider.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/transfer_lot_status_type.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';

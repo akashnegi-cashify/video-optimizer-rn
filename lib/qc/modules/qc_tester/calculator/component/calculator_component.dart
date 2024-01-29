@@ -34,6 +34,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
     return FutureBuilder<bool?>(
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          var isQcLogin = Validator.isTrue(snapshot.data);
           return CalculatorScreen(
             CalculatorScreenArgs(
                 isCurrentDevice: 0,
@@ -46,13 +47,13 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
                 deviceBarcode: deviceBarcode,
                 showHint: false),
             showSummary: true,
-            calculatorAnalytics: CalculatorAnalyticsHelper(deviceBarcode ?? ""),
+            calculatorAnalytics: isQcLogin ? CalculatorAnalyticsHelper(deviceBarcode ?? "") : null,
             deviceId: "d_id",
-            ruleExecutorServiceGroup: Validator.isTrue(snapshot.data) ? TRCServiceGroups.qc : TRCServiceGroups.trc,
+            ruleExecutorServiceGroup: isQcLogin ? TRCServiceGroups.qc : TRCServiceGroups.trc,
             handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
               if (calculatorResponse?.manualAuditQuestions != null) {
-                _showDisputedQuestions(context, calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId,
-                    udid, snapshot.data);
+                _showDisputedQuestions(
+                    context, calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId, udid, isQcLogin);
               } else {
                 var myRequest = MyQuoteRequestData(requestData: requestData);
                 _moveToNextScreen(
@@ -60,7 +61,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
                   requestData: myRequest,
                   partialQuoteId: partialQuoteId,
                   udid: udid,
-                  isLoginFromQC: snapshot.data,
+                  isLoginFromQC: isQcLogin,
                 );
               }
               // exit(0);
