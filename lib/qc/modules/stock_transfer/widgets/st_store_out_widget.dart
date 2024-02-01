@@ -169,7 +169,7 @@ class _StoreOutState extends State<_StoreOut> {
         context: context,
         message: "Device Skipped",
         snackBarPosition: SnackBarPosition.TOP,
-        duration: SnackBarDuration.MEDIUM,
+        duration: SnackBarDuration.SHORT,
       );
       _getNextDevice();
       // _setScanningState();

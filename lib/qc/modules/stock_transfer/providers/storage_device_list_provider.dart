@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 class StorageDeviceListProvider extends CshChangeNotifier with Searchable {
   final int lotId;
+  bool isResetPerformed = false;
 
   StorageDeviceListProvider(this.lotId);
 
@@ -17,8 +18,12 @@ class StorageDeviceListProvider extends CshChangeNotifier with Searchable {
     return Provider.of<StorageDeviceListProvider>(context, listen: listen);
   }
 
-  Future<List<StLotDetailResponse>> getDeviceList(int pageSize, int offset) {
+  Future<List<StLotDetailResponse>> getDeviceList(int pageSize, int offset) async {
     var completer = Completer<List<StLotDetailResponse>>();
+    if (!isResetPerformed) {
+      isResetPerformed = true;
+      await resetStoreOutList();
+    }
     StockTransferService.getStorageDeviceList(lotId, pageSize: pageSize, offset: offset, deviceBarcode: searchQuery)
         .listen((event) {
       if (!Validator.isListNullOrEmpty(event?.deviceList)) {
@@ -28,6 +33,17 @@ class StorageDeviceListProvider extends CshChangeNotifier with Searchable {
       }
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
+  }
+
+  Future<void> resetStoreOutList() {
+    var completer = Completer<void>();
+    StockTransferService.resetStoreOutList(lotId).listen((event) {}, onError: (error) {
+      Logger.debug('mydebug-----StorageDeviceListProvider.resetStoreOutList',
+          [ApiErrorHelper.getErrorMessage(error).toString()]);
+    }, onDone: () {
+      completer.complete();
     });
     return completer.future;
   }

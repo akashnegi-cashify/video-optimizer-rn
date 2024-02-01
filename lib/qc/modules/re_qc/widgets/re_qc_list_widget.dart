@@ -102,9 +102,11 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
                         )
                       : null,
                   onChanged: (value) {
-                    _timer.start(() {
-                      _setSearchFilterAndReset(value);
-                    });
+                    if (value.length > 2) {
+                      _timer.start(() {
+                        _setSearchFilterAndReset(value);
+                      });
+                    }
                   },
                 ),
               ),

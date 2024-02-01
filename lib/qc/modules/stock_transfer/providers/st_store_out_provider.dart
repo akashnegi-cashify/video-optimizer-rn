@@ -83,7 +83,11 @@ class StStoreOutProvider extends CshChangeNotifier {
   Future<void> addDevice(bool? isBoxAvailable, bool? isChargerAvailable) {
     var completer = Completer<void>();
     StockTransferService.addDevice(lotDetails?.barcode, lotId, isBoxAvailable, isChargerAvailable).listen((event) {
-      _lastLotDetails = lotDetails;
+      if (Validator.isTrue(event?.isReset)) {
+        _lastLotDetails = null;
+      } else {
+        _lastLotDetails = lotDetails;
+      }
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

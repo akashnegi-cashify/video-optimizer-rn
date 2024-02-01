@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/add_device_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/box_charger_tracking_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/pending_lot_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/scanned_device_detail_response.dart';
@@ -68,7 +69,8 @@ class StockTransferService {
     return QcService().get("/box-charger-tracking/getQcTracking/$qrCode", BoxChargerTrackingResponse.fromJson);
   }
 
-  static Stream<BaseResponse?> addDevice(String? qrCode, int? lotId, bool? isBoxAvailable, bool? isChargerAvailable) {
+  static Stream<AddDeviceResponse?> addDevice(
+      String? qrCode, int? lotId, bool? isBoxAvailable, bool? isChargerAvailable) {
     Map<String, dynamic> body = {};
     if (isBoxAvailable != null && isChargerAvailable != null) {
       body = {
@@ -83,7 +85,8 @@ class StockTransferService {
       "qrCode": [qrCode.toString()],
       "lotId": [lotId.toString()],
     };
-    return QcService().post("/transfer-lot/add-device", BaseResponse.fromJson, params: params, body: jsonEncode(body));
+    return QcService()
+        .post("/transfer-lot/add-device", AddDeviceResponse.fromJson, params: params, body: jsonEncode(body));
   }
 
   static Stream<PendingLotDetailResponse?> getPendingLotDetails(int? lotId) {
@@ -122,5 +125,9 @@ class StockTransferService {
     };
     return QcService()
         .post("/transfer-lot/list-devices/$lotId", StorageDeviceListResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<BaseActionResponse?> resetStoreOutList(int? lotId) {
+    return QcService().post("/transfer-lot/skip-device/reset?lotId=$lotId", BaseActionResponse.fromJsonWithInt);
   }
 }
