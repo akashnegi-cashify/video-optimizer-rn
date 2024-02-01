@@ -21,4 +21,7 @@ class L10n extends BaseL10n {
   String get skip => Intl.message("Skip", locale: localName, name: "skip");
 
   String get searchByLotName => Intl.message("Search by lot name", locale: localName, name: "searchByLotName");
+
+  String get searchByBarcode => Intl.message("Search by barcode", locale: localName, name: "searchByBarcode");
+
 }

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/models/pending_lot_detail_response.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/models/scanned_device_detail_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/pending_lot_detail_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/scanned_device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
 import 'package:provider/provider.dart';
 import 'package:core/core.dart';

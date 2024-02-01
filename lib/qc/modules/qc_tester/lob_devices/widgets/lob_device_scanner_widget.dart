@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
@@ -6,8 +7,14 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_devic
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
+import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/auto_search_button_clicked_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/device_verify_popup_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/manual_search_button_clicked_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/product_search_clicked_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/scan_manual_test_barcode_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/update_device_category_event.dart';
 import 'package:provider/provider.dart';
-import 'package:core/core.dart';
 
 class LobDeviceScannerWidget extends StatelessWidget {
   const LobDeviceScannerWidget({super.key});
@@ -17,6 +24,7 @@ class LobDeviceScannerWidget extends StatelessWidget {
     var provider = LobDeviceScannerProvider.of(context, listen: false);
     return TRCScannerWidget(
       onScanDetected: (scannedData, controller) {
+        AnalyticsController.logEvent(ScanManualTestBarcodeEvent(scannedData));
         controller?.stop();
         CshLoading().showLoading(context);
         provider.getDeviceDetail(scannedData).then((deviceDetails) {
@@ -74,6 +82,8 @@ class LobDeviceScannerWidget extends StatelessWidget {
       }
     });
 
+    AnalyticsController.logEvent(DeviceVerifyPopupEvent(scannedData, selectedCategory?.id));
+
     return showCshBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -98,6 +108,8 @@ class LobDeviceScannerWidget extends StatelessWidget {
                         hintText: "Select Category",
                         selectedItem: selectedCategory,
                         onChanged: (DropDownItem? value) {
+                          AnalyticsController.logEvent(
+                              UpdateDeviceCategoryEvent(scannedData, selectedCategory?.id, value?.id));
                           setState(() {
                             selectedCategory = value;
                           });
@@ -136,11 +148,14 @@ class LobDeviceScannerWidget extends StatelessWidget {
                   buttonType: ButtonType.mini,
                   firstBtnClick: selectedCategory != null
                       ? () {
+                          AnalyticsController.logEvent(
+                              ManualSearchButtonClickedEvent(scannedData, selectedCategory?.id));
                           onSearchClicked(true, int.parse(selectedCategory!.id!));
                         }
                       : null,
                   secondBtnClick: selectedCategory != null
                       ? () {
+                          AnalyticsController.logEvent(AutoSearchButtonClickedEvent(scannedData, selectedCategory?.id));
                           onSearchClicked(false, int.parse(selectedCategory!.id!));
                         }
                       : null,
@@ -232,6 +247,7 @@ class _ProductListWidget extends StatelessWidget {
   void _onItemClicked(BuildContext context, LobProductListData item) {
     var provider = LobDeviceScannerProvider.of(context, listen: false);
     CshLoading().showLoading(context);
+    _fireAnalytics(item);
     provider.getLobCalculator(deviceBarcode, item.productMasterId, item.productId, selectedCategoryId).then(
         (calculatorResponse) {
       CshLoading().hideLoading(context);
@@ -249,5 +265,14 @@ class _ProductListWidget extends StatelessWidget {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error).toString());
     });
+  }
+
+  _fireAnalytics(LobProductListData item) {
+    AnalyticsController.logEvent(ProductSearchClickedEvent(
+      barcode: deviceBarcode,
+      productName: item.name,
+      productId: item.productId,
+      deviceCategory: selectedCategoryId.toString(),
+    ));
   }
 }

@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/st_lot_details_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
 import 'package:provider/provider.dart';
-import 'package:core/core.dart';
 
 class StStoreOutProvider extends CshChangeNotifier {
   static StStoreOutProvider of(BuildContext context, {bool listen = true}) {
@@ -19,23 +19,33 @@ class StStoreOutProvider extends CshChangeNotifier {
 
   int? lotId;
   StLotDetailResponse? lotDetails;
+  StLotDetailResponse? _lastLotDetails;
 
   StStoreOutProvider(this.lotId) {
     getLotDetailsStream();
   }
 
   void getLotDetailsStream() {
-    _lotDetailsStreamController.sink.addStream(StockTransferService.getStockTransferLotDetails(lotId));
+    _lotDetailsStreamController.sink.addStream(StockTransferService.getStockTransferLotDetails(
+      lotId,
+      lastLocationType: _lastLotDetails?.storage,
+      lastLocation: _lastLotDetails?.location,
+    ));
   }
 
   void setData(StLotDetailResponse? data) {
-    lotDetails = data;
+    if (lotDetails == null) {
+      lotDetails = data;
+    } else {
+      lotDetails?.setData(data);
+    }
   }
 
-  Future<void> removeDevice() {
+  Future<void> skipDevice() {
     var completer = Completer<void>();
-    StockTransferService.removeDeviceFromLot(lotId, lotDetails?.barcode).listen((event) {
+    StockTransferService.skipDeviceFromLot(lotId, lotDetails?.barcode).listen((event) {
       if (Validator.isTrue(event?.isSuccess)) {
+        _lastLotDetails = lotDetails;
         completer.complete();
       } else {
         completer.completeError(event?.errorMsg ?? "Something went wrong");
@@ -73,6 +83,11 @@ class StStoreOutProvider extends CshChangeNotifier {
   Future<void> addDevice(bool? isBoxAvailable, bool? isChargerAvailable) {
     var completer = Completer<void>();
     StockTransferService.addDevice(lotDetails?.barcode, lotId, isBoxAvailable, isChargerAvailable).listen((event) {
+      if (Validator.isTrue(event?.isReset)) {
+        _lastLotDetails = null;
+      } else {
+        _lastLotDetails = lotDetails;
+      }
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

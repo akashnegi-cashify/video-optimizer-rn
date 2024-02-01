@@ -12,6 +12,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_devic
 import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/common/calculator_analytics/calculator_analytics_helper.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
@@ -33,6 +34,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
     return FutureBuilder<bool?>(
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          var isQcLogin = Validator.isTrue(snapshot.data);
           return CalculatorScreen(
             CalculatorScreenArgs(
                 isCurrentDevice: 0,
@@ -45,12 +47,13 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
                 deviceBarcode: deviceBarcode,
                 showHint: false),
             showSummary: true,
+            calculatorAnalytics: isQcLogin ? CalculatorAnalyticsHelper(deviceBarcode ?? "") : null,
             deviceId: "d_id",
-            ruleExecutorServiceGroup: Validator.isTrue(snapshot.data) ? TRCServiceGroups.qc : TRCServiceGroups.trc,
+            ruleExecutorServiceGroup: isQcLogin ? TRCServiceGroups.qc : TRCServiceGroups.trc,
             handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
               if (calculatorResponse?.manualAuditQuestions != null) {
-                _showDisputedQuestions(context, calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId,
-                    udid, snapshot.data);
+                _showDisputedQuestions(
+                    context, calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId, udid, isQcLogin);
               } else {
                 var myRequest = MyQuoteRequestData(requestData: requestData);
                 _moveToNextScreen(
@@ -58,7 +61,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
                   requestData: myRequest,
                   partialQuoteId: partialQuoteId,
                   udid: udid,
-                  isLoginFromQC: snapshot.data,
+                  isLoginFromQC: isQcLogin,
                 );
               }
               // exit(0);

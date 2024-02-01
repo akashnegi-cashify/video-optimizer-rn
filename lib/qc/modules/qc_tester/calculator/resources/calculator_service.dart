@@ -90,9 +90,8 @@ abstract class CalculatorService {
     return service.get("/device/status?qrCode=$deviceBarcode", DeviceStatusResponse.fromJson);
   }
 
-  Stream<BaseActionResponse?> submitManualQuestions(String? qrCode, List<ManualQuestionListData>? questionList) {
-    questionList?.retainWhere((element) => element.value == 1);
-    var req = {"dt": questionList?.map((e) => e.question).toList()};
+  Stream<BaseActionResponse?> submitManualQuestions(String? qrCode, List<String?>? questionList) {
+    var req = {"dt": questionList};
 
     return service.post(
       "/manaul-question/submit?qrCode=$qrCode",

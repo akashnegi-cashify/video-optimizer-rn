@@ -6,6 +6,11 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/submit_dev
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/manual_question_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/qc_alert_pop_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
+import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/additional_questions_view_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/color_selected_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/color_view_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/end_testing_session_event.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +68,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
             CshBigButton(
               text: "Done",
               onPressed: () {
+                AnalyticsController.logEvent(EndTestingSessionEvent(provider.deviceBarcode, provider.gradeObtained));
                 _moveToHomeScreen();
               },
             ),
@@ -135,6 +141,8 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   }
 
   void _showColorSelectionDialog(List<String> colors) {
+    var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
+    AnalyticsController.logEvent(ColorViewEvent(provider.deviceBarcode));
     String? selectedColor;
     showCshBottomSheet(
       isDismissible: false,
@@ -178,6 +186,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
                         : () {
                             Navigator.pop(context); // dismiss color dialog
                             var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
+                            AnalyticsController.logEvent(ColorSelectedEvent(provider.deviceBarcode, selectedColor));
                             provider.onColorSelected(selectedColor!);
                           },
                   ),
@@ -206,6 +215,8 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
 
   @override
   void onManualQuestionFetchedSuccess(List<ManualQuestionListData> questionList) {
+    var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
+    AnalyticsController.logEvent(AdditionalQuestionsViewEvent(provider.deviceBarcode));
     showCshBottomSheet(
       isDismissible: false,
       context: context,
@@ -247,7 +258,6 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
                     text: "Proceed",
                     onPressed: _isAnyOptionSelected(questionList)
                         ? () {
-                            var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
                             Navigator.pop(context); // Dismiss dialog
                             provider.onManualQuestionAnswered(questionList);
                           }

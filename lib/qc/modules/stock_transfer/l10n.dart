@@ -27,4 +27,22 @@ class L10n extends BaseL10n {
 
   String get completeDispatch => Intl.message('Complete Dispatch', locale: localName, name: 'completeDispatch');
 
+  String get deviceList => Intl.message('Device List', locale: localName, name: 'deviceList');
+
+  String get tabScanButtonStartScanning => Intl.message('Tab scan button to start scanning', locale: localName, name: 'tabScanButtonStartScanning');
+
+  String get skip => Intl.message('Skip', locale: localName, name: 'skip');
+
+  String get scan => Intl.message('Scan', locale: localName, name: 'scan');
+
+  String get add => Intl.message('Add', locale: localName, name: 'add');
+
+  String get searchBarcode => Intl.message('Search barcode', locale: localName, name: 'searchBarcode');
+
+  String get model => Intl.message('Model', locale: localName, name: 'model');
+
+  String get barcode => Intl.message('Barcode', locale: localName, name: 'barcode');
+
+  String get location => Intl.message('Location', locale: localName, name: 'location');
+
 }

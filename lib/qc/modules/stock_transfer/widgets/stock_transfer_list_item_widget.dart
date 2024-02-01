@@ -1,6 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_list_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_list_response.dart';
 
 class StockTransferListItemWidget extends StatelessWidget {
   final StockTransferListData? item;
