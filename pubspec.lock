@@ -303,10 +303,12 @@ packages:
   calculator_ui:
     dependency: "direct main"
     description:
-      path: "../flutter_admin_ui/calculator_ui"
-      relative: true
-    source: path
-    version: "1.1.6"
+      path: calculator_ui
+      ref: scm-analytics
+      resolved-ref: "92dd819aa527e6214fcd61bcffe8902047cdca73"
+      url: "https://github.com/reglobe/flutter_admin_ui.git"
+    source: git
+    version: "1.1.7"
   camera:
     dependency: "direct overridden"
     description:
@@ -423,11 +425,11 @@ packages:
     dependency: "direct main"
     description:
       path: components
-      ref: "v1.1.6"
-      resolved-ref: "02fc9a858eb4464f37eddc5e7970fbbfcdcebcf0"
+      ref: "v1.1.7"
+      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.6"
+    version: "1.1.7"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -465,11 +467,11 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: "v1.1.6"
-      resolved-ref: "02fc9a858eb4464f37eddc5e7970fbbfcdcebcf0"
+      ref: "v1.1.7"
+      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.6"
+    version: "1.1.7"
   cross_file:
     dependency: transitive
     description:
@@ -1316,11 +1318,11 @@ packages:
     dependency: transitive
     description:
       path: media_widget
-      ref: "v1.1.6"
-      resolved-ref: "02fc9a858eb4464f37eddc5e7970fbbfcdcebcf0"
+      ref: "v1.1.7"
+      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.6"
+    version: "1.1.7"
   meta:
     dependency: transitive
     description:
@@ -1341,11 +1343,11 @@ packages:
     dependency: "direct main"
     description:
       path: ml_barcode_scanner
-      ref: "v1.1.6"
-      resolved-ref: "02fc9a858eb4464f37eddc5e7970fbbfcdcebcf0"
+      ref: "v1.1.7"
+      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.6"
+    version: "1.1.7"
   mobile_scanner:
     dependency: "direct main"
     description:

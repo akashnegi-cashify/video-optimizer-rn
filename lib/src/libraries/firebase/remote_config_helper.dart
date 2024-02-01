@@ -14,14 +14,15 @@ class AppRemoteConfig {
   static const KEY_VIDEO_OPTIMIZER_CONFIG = "key_video_optimizer_config";
 
   static const Map<String, dynamic> DEFAULT_CONFIG = {
-    KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_QC: false,
+    KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_QC: true,
     KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_TRC: false,
     KEY_IS_FORCE_SERVER_RULE_EXECUTOR: true,
     KEY_IS_ENABLE_RULE_EXE_TEST_MODE: true,
-    KEY_VIDEO_RECORD_DURATION_IN_SEC: 600,
+    KEY_VIDEO_RECORD_DURATION_IN_SEC: 1200,
     KEY_VIDEO_OPTIMIZER_CONFIG:
-    "{\"videoCodec\":\"libx264\",\"videoPreset\":\"superfast\",\"crf\":30,\"fontSize\":24,\"fontColor\":\"white\",\"borderColor\":\"black\",\"addTimeStamp\":true}",
-    KEY_APP_SUPPORTED_VERSIONS: '{"dt":[{"version":"2.2.0","isMajor":true,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/36/Release/app-prod-release.apk"}]}',
+        "{\"videoCodec\":\"libx264\",\"videoPreset\":\"superfast\",\"crf\":30,\"fontSize\":24,\"fontColor\":\"white\",\"borderColor\":\"black\",\"addTimeStamp\":true}",
+    KEY_APP_SUPPORTED_VERSIONS:
+        '{"dt":[{"version":"3.0.7","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/60/Release/app-prod-release.apk"},{"version":"3.0.8","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/63/Release/app-prod-release.apk"},{"version":"3.0.9","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/67/Release/app-prod-release.apk"},{"version":"3.0.10","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/68/Release/app-prod-release.apk"}]}',
   };
 }
 

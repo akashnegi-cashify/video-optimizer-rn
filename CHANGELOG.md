@@ -1,6 +1,35 @@
 # TRC Releases
 
 
+# v3.1.0+31 (02-02-2024)
+
+### Features And Improvements:
+
+* `QC - Stock Transfer - Store-out Pending Transfer Lot logic changes`[(SCM-5158)](https://reglobe.atlassian.net/browse/SCM-5158)
+* `QC - Stock Transfer - Stop remove and add device after transfer status lock`[(SCM-5341)](https://reglobe.atlassian.net/browse/SCM-5341)
+* `QC - Device Status - create new page to show device details`[(SCM-5407)](https://reglobe.atlassian.net/browse/SCM-5407)
+* `QC - Audit Warehouse`[(SCM-5450)](https://reglobe.atlassian.net/browse/SCM-5450)
+* `QC - Manual Testing - Add Analytics`[(SCM-5458)](https://reglobe.atlassian.net/browse/SCM-5458)
+
+
+# v3.0.10+30 (23-01-2024)
+
+### Bug Fix:
+
+* `QC/TRC - Calculator bug fix`[(SCM-5457)](https://reglobe.atlassian.net/browse/SCM-5457)
+
+
+# v3.0.9+29 (17-01-2024)
+
+### Feature:
+
+* `QC/TRC - Analytics structure setup`[(SCM-5224)](https://reglobe.atlassian.net/browse/SCM-5224)
+* `OMS - Manifest Generation`[(SCM-5264)](https://reglobe.atlassian.net/browse/SCM-5264)
+* `QC - Stock Transfer - Change scan invoice button name`[(SCM-5273)](https://reglobe.atlassian.net/browse/SCM-5273)
+* `QC/TRC - Bin Store In/Out - Start showing model name in lot`[(SCM-5373)](https://reglobe.atlassian.net/browse/SCM-5373)
+* `QC - External Recording - Improve scanner input and user input`[(SCM-5428)](https://reglobe.atlassian.net/browse/SCM-5428)
+
+
 # v3.0.8+28 (05-01-2024)
 
 ### Feature:
