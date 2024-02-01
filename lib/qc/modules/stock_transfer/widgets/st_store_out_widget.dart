@@ -2,9 +2,12 @@ import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/models/st_lot_details_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/st_store_out_provider.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/st_lot_details_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/screens/storage_device_list_screen.dart';
 import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
+
+import '../l10n.dart';
 
 class StStoreOutWidget extends StatelessWidget {
   const StStoreOutWidget({super.key});
@@ -64,14 +67,48 @@ class _StoreOutState extends State<_StoreOut> {
   Widget build(BuildContext context) {
     var provider = StStoreOutProvider.of(context);
     var theme = Theme.of(context);
+    var l10n = L10n(context);
     var details = provider.lotDetails;
     return Padding(
       padding: const EdgeInsets.all(Dimens.space_16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CshTextNew.bodyText2("Add barcode to transfer lot:-"),
-          const SizedBox(height: Dimens.space_8),
-          CshTextNew.h3(details?.lotName ?? ""),
+          CshCard(
+            child: Column(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: "${l10n.lotName}: ",
+                    style: theme.textTheme.bodyMedium,
+                    children: [TextSpan(text: details?.lotName ?? "", style: theme.primaryTextTheme.displaySmall)],
+                  ),
+                ),
+                const SizedBox(height: Dimens.space_4),
+                RichText(
+                  text: TextSpan(
+                    text: "${l10n.storeOut}: ",
+                    style: theme.textTheme.bodyMedium,
+                    children: [
+                      TextSpan(
+                          text: "${details?.scanCount ?? 0} / ${details?.deviceCount ?? 0} Done",
+                          style: theme.primaryTextTheme.displaySmall)
+                    ],
+                  ),
+                ),
+                const SizedBox(height: Dimens.space_8),
+                CshMediumButton(
+                  text: l10n.deviceList,
+                  onPressed: () {
+                    StorageDeviceListScreen.pushNamed(context, provider.lotId!, onItemSelected: (item) {
+                      provider.setData(item);
+                      setState(() {});
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: Dimens.space_8),
           Expanded(
             child: _bottomButtonState == _BottomButtonState.idle
@@ -95,7 +132,7 @@ class _StoreOutState extends State<_StoreOut> {
                   ),
           ),
           const SizedBox(height: Dimens.space_8),
-          CshTextNew.subTitle1("Tab scan button to start scanning"),
+          Text(l10n.tabScanButtonStartScanning, style: theme.textTheme.titleMedium, textAlign: TextAlign.center),
           const SizedBox(height: Dimens.space_16),
           _DataWidget(label: "Location", value: details?.location),
           const SizedBox(height: Dimens.space_6),
@@ -109,12 +146,12 @@ class _StoreOutState extends State<_StoreOut> {
           const SizedBox(height: Dimens.space_16),
           Row(
             children: [
-              Expanded(child: CshBigButton(text: "Skip", onPressed: () => _removeDevice())),
+              Expanded(child: CshBigButton(text: l10n.skip, onPressed: () => _skipDevice())),
               const SizedBox(width: Dimens.space_16),
               _bottomButtonState == _BottomButtonState.idle
-                  ? Expanded(child: CshBigButton(text: "Scan", onPressed: () => _setScanningState()))
+                  ? Expanded(child: CshBigButton(text: l10n.scan, onPressed: () => _setScanningState()))
                   : _bottomButtonState == _BottomButtonState.scanned
-                      ? Expanded(child: CshBigButton(text: "Add", onPressed: () => _checkBoxChargerTracking()))
+                      ? Expanded(child: CshBigButton(text: l10n.add, onPressed: () => _checkBoxChargerTracking()))
                       : const SizedBox.shrink()
             ],
           )
@@ -123,21 +160,26 @@ class _StoreOutState extends State<_StoreOut> {
     );
   }
 
-  void _removeDevice() {
+  void _skipDevice() {
     var provider = StStoreOutProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.removeDevice().then((value) {
+    provider.skipDevice().then((value) {
       CshLoading().hideLoading(context);
-      CshSnackBar.success(context: context, message: "Device removed from lot");
-      _onProceedNext();
-      _setScanningState();
+      CshSnackBar.success(
+        context: context,
+        message: "Device Skipped",
+        snackBarPosition: SnackBarPosition.TOP,
+        duration: SnackBarDuration.SHORT,
+      );
+      _getNextDevice();
+      // _setScanningState();
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      _showRemoveRetryDialog(error.toString());
+      _showSkipRetryDialog(error.toString());
     });
   }
 
-  _showRemoveRetryDialog(String errorMessage) {
+  _showSkipRetryDialog(String errorMessage) {
     showPopup(
       context,
       title: "Warning!",
@@ -147,18 +189,22 @@ class _StoreOutState extends State<_StoreOut> {
           text: "Retry",
           onPressed: () {
             Navigator.pop(context); // dismiss dialog
-            _removeDevice();
+            _skipDevice();
           },
         ),
         CshMediumButton(
           text: 'Cancel',
           onPressed: () {
             Navigator.pop(context); // dismiss dialog
-            _onProceedNext();
           },
         ),
       ],
     );
+  }
+
+  _getNextDevice() {
+    var provider = StStoreOutProvider.of(context, listen: false);
+    provider.getLotDetailsStream();
   }
 
   _onProceedNext() {
@@ -228,7 +274,7 @@ class _StoreOutState extends State<_StoreOut> {
           text: 'Cancel',
           onPressed: () {
             Navigator.pop(context); // dismiss dialog
-            _onProceedNext();
+            // _onProceedNext();
           },
         ),
       ],

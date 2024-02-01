@@ -1,8 +1,8 @@
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_list_response.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/models/stock_transfer_status_filter_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_list_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_status_filter_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/stock_transfer_list_provider.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_dispatch_detail%20screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_lot_detail_screen.dart';

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/device_details/screens/device_details_screen.dart';
 import 'package:flutter_trc/qc/modules/device_receive_module/screens/device_receive_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_trc/qc/modules/store_in/dialog/show_store_in_type_dialog
 import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/dialogs/supervisor_device_detail_dialog.dart';
 import 'package:flutter_trc/qc/modules/supervisor/resources/supervisor_service.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/screens/on_going_audit_screen.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
@@ -187,6 +189,26 @@ class QCActionWidget extends StatelessWidget {
                   );
                 },
               ),
+            ),
+            const SizedBox(height: Dimens.space_16),
+            CshBigButton(
+              text: l10n.warehouseAudit,
+              onPressed: () {
+                Navigator.pushNamed(context, OnGoingAuditScreen.route);
+              },
+            ),
+            const SizedBox(height: Dimens.space_16),
+            CshBigButton(
+              text: l10n.deviceDetails,
+              onPressed: () {
+                CshMlScannerUtil().openScanner(
+                  context,
+                  onScanned: (scannedData, controller) {
+                    Navigator.pop(context);
+                    DeviceDetailsScreen.pushNamed(context, scannedData);
+                  },
+                );
+              },
             ),
             // const SizedBox(height: Dimens.space_16),
             // CshBigButton(

@@ -11,7 +11,7 @@ SaveAnalyticsRequest _$SaveAnalyticsRequestFromJson(
     SaveAnalyticsRequest(
       json['ekey'] as String?,
       json['sokey'] as String?,
-      parameters: json['params'] as Map<String, dynamic>?,
+      parameters: json['pldata'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$SaveAnalyticsRequestToJson(
@@ -19,5 +19,5 @@ Map<String, dynamic> _$SaveAnalyticsRequestToJson(
     <String, dynamic>{
       'ekey': instance.eventKey,
       'sokey': instance.subOrdinateEventKey,
-      'params': instance.parameters,
+      'pldata': instance.parameters,
     };

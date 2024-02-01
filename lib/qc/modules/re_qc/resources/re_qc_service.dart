@@ -9,16 +9,20 @@ import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 
 class ReQcService {
-  static Stream<ReQcListResponse?> getReQcList(int pageSize, int offset, {String? searchQuery, List<int>? lotType}) {
+  static Stream<ReQcListResponse?> getReQcList(int pageSize, int offset,
+      {String? searchQuery, List<int>? lotType, String? deviceBarcode}) {
     Map<String, dynamic> req = {
       "pageSize": pageSize,
       "offset": offset,
     };
 
-    if (!Validator.isNullOrEmpty(searchQuery) || !Validator.isListNullOrEmpty(lotType)) {
+    if (!Validator.isNullOrEmpty(searchQuery) ||
+        !Validator.isListNullOrEmpty(lotType) ||
+        !Validator.isNullOrEmpty(deviceBarcode)) {
       var filterMap = {
         if (!Validator.isNullOrEmpty(searchQuery)) "q": searchQuery,
         if (!Validator.isListNullOrEmpty(lotType)) "lt": lotType,
+        if (!Validator.isNullOrEmpty(deviceBarcode)) "br": deviceBarcode,
       };
       req["filterObjectMap"] = filterMap;
     }

@@ -16,6 +16,7 @@ StLotDetailResponse _$StLotDetailResponseFromJson(Map<String, dynamic> json) =>
       json['dcnt'] as int?,
       json['scnt'] as int?,
       json['st'] as String?,
+      json['did'] as int?,
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -35,4 +36,5 @@ Map<String, dynamic> _$StLotDetailResponseToJson(
       'dcnt': instance.deviceCount,
       'scnt': instance.scanCount,
       'st': instance.storage,
+      'did': instance.deviceId,
     };

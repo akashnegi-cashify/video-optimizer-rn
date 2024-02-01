@@ -10,7 +10,7 @@ class SaveAnalyticsRequest {
   @JsonKey(name: "sokey")
   String? subOrdinateEventKey;
 
-  @JsonKey(name: "params")
+  @JsonKey(name: "pldata")
   Map<String, dynamic>? parameters;
 
   SaveAnalyticsRequest(this.eventKey, this.subOrdinateEventKey, {this.parameters});

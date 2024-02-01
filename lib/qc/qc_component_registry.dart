@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/device_details/components/device_details_component.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/components/invoice_scan_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_home_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_perform_component.dart';
@@ -21,8 +22,11 @@ import 'package:flutter_trc/qc/modules/stock_transfer/components/pending_dispatc
 import 'package:flutter_trc/qc/modules/stock_transfer/components/pending_lot_detail_component.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/components/st_store_out_component.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/components/stock_transfer_list_component.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/components/storage_device_list_component.dart';
 import 'package:flutter_trc/qc/modules/store_in/components/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/components/supervisor_component.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/components/on_going_audit_component.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/components/warehouse_audit_perform_component.dart';
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/components/store_out_lots_filter_component.dart';
 
 import 'modules/dead_repair/components/index.dart';
@@ -140,6 +144,18 @@ class QcComponentRegistry {
 
       case SupervisorComponent.COMP_KEY:
         return SupervisorComponent(jsonConfig);
+
+      case OnGoingAuditComponent.COMP_KEY:
+        return OnGoingAuditComponent(jsonConfig);
+
+      case WarehouseAuditPerformComponent.COMP_KEY:
+        return WarehouseAuditPerformComponent(jsonConfig);
+
+      case DeviceDetailsComponent.COMP_KEY:
+        return DeviceDetailsComponent(jsonConfig);
+
+      case StorageDeviceListComponent.COMP_KEY:
+        return StorageDeviceListComponent(jsonConfig);
 
       default:
         return null;

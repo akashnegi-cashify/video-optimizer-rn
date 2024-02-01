@@ -13,13 +13,18 @@ abstract class CommonEvents extends BaseTrackingEvent {
   }
 
   @override
+  String getSubordinateKey() {
+    return getKey();
+  }
+
+  @override
   Future<Map<String, dynamic>?> getArguments() async {
     Map<String, dynamic> argumentsMap = {};
-    argumentsMap[AnalyticEventParams.HIT_TIMESTAMP] = DateTime.now().toString();
-    argumentsMap[AnalyticEventParams.USER_ID] = UserDetails().userDetailsData?.uid;
-    argumentsMap[AnalyticEventParams.APP_VERSION] = environment?.appVersion;
-    argumentsMap[AnalyticEventParams.OS_VERSION] = DeviceInfoUtil.getOsVersion();
-    argumentsMap[AnalyticEventParams.DEVICE_MODEL] = DeviceInfoUtil.getModelName();
+    argumentsMap[AnalyticEventParams.hitTimeStamp] = DateTime.now().toString();
+    argumentsMap[AnalyticEventParams.userId] = UserDetails().userDetailsData?.uid;
+    argumentsMap[AnalyticEventParams.appVersion] = environment?.appVersion;
+    argumentsMap[AnalyticEventParams.osVersion] = DeviceInfoUtil.getOsVersion();
+    argumentsMap[AnalyticEventParams.deviceModel] = DeviceInfoUtil.getModelName();
     return argumentsMap;
   }
 }
