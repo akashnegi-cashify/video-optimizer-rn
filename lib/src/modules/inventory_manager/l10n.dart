@@ -204,4 +204,6 @@ class L10n extends BaseL10n {
       Intl.message("Alternate Part Status", locale: localName, name: "alternatePartStatus");
 
   String get refresh => Intl.message("Refresh", locale: localName, name: "refresh");
+
+  String get requestedType => Intl.message("Requested Type", locale: localName, name: "requestedType");
 }
