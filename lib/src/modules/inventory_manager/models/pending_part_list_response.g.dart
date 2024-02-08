@@ -34,6 +34,8 @@ PendingPartDataResponse _$PendingPartDataResponseFromJson(
       requestedTime: json['prdt'] as int?,
       st: json['st'] as String?,
       statusCode: json['stc'] as int?,
+      requestedType: json['rt'] as String?,
+      engineerName: json['en'] as String?,
     );
 
 Map<String, dynamic> _$PendingPartDataResponseToJson(
@@ -45,4 +47,6 @@ Map<String, dynamic> _$PendingPartDataResponseToJson(
       'prid': instance.prid,
       'stc': instance.statusCode,
       'prdt': instance.requestedTime,
+      'rt': instance.requestedType,
+      'en': instance.engineerName,
     };

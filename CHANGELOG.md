@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v3.1.1+32 (XX-02-2024)
+
+### Improvements:
+
+* `TRC - Inventory - Start showing reqeusted by in part request`[(SCM-5554)](https://reglobe.atlassian.net/browse/SCM-5554)
+
+
 # v3.1.0+31 (02-02-2024)
 
 ### Features And Improvements:
