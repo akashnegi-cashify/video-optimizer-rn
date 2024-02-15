@@ -67,6 +67,14 @@ class PendingPartListItemWidget extends StatelessWidget {
                 _labelValueWidget(theme, l10n.sku, dataModel!.sku!),
                 const SizedBox(height: Dimens.space_8),
               ],
+              if (!Validator.isNullOrEmpty(dataModel!.requestedType)) ...[
+                _labelValueWidget(theme, l10n.requestedType, dataModel!.requestedType!),
+                const SizedBox(height: Dimens.space_8),
+              ],
+              if (!Validator.isNullOrEmpty(dataModel!.engineerName)) ...[
+                _labelValueWidget(theme, l10n.engineerSName, dataModel!.engineerName!),
+                const SizedBox(height: Dimens.space_8),
+              ],
               if (dataModel?.requestedTime != null) ...[
                 _labelValueWidget(theme, l10n.requestedAt, _getTimeAndDateString(dataModel!.requestedTime!)),
               ]
