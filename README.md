@@ -63,12 +63,12 @@ Step2 :
 ### Android debug build
 - flutter build apk --dart-define=env=stage --debug
 - flutter build apk --dart-define=env=stage
-- flutter build apk --dart-define=env=stage --flavor stage --no-sound-null-safety --obfuscate --split-debug-info=mappings
-- flutter build apk --dart-define=env=beta --flavor beta --no-sound-null-safety --obfuscate --split-debug-info=mappings
-- flutter build apk --dart-define=env=prod --flavor prod --no-sound-null-safety --obfuscate --split-debug-info=mappings
+- flutter build apk --dart-define=env=stage --flavor stage --obfuscate --split-debug-info=mappings
+- flutter build apk --dart-define=env=beta --flavor beta --obfuscate --split-debug-info=mappings
+- flutter build apk --dart-define=env=prod --flavor prod --obfuscate --split-debug-info=mappings
 
 ### Android Prod Release Build
-- flutter build appbundle --dart-define=env=prod --no-sound-null-safety --obfuscate --split-debug-info=mappings --flavor prod
+- flutter build appbundle --dart-define=env=prod --obfuscate --split-debug-info=mappings --flavor prod
 - java -jar /Users/msc/Downloads/bundletool-all-1.4.0.jar build-apks --bundle=/Users/msc/Downloads/app-prod-release.aab --output=gt_agent.apks --ks=/Users/msc/Documents/deploy_keys/deploy_keys/deploy_keys_v2.jks --ks-key-alias=reglobe
 - java -jar /Users/msc/Downloads/bundletool-all-1.4.0.jar install-apks --apks=/Users/msc/Downloads/gt_agent.apks
 
