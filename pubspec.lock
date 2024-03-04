@@ -1048,6 +1048,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  google_mlkit_commons:
+    dependency: transitive
+    description:
+      name: google_mlkit_commons
+      sha256: af63771903947d5523d9e991a939a4b8bf994f11661c9b9c8a71d7d3997115f8
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   graphs:
     dependency: "direct overridden"
     description:
@@ -1176,6 +1184,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  imei_serial_reader:
+    dependency: "direct main"
+    description:
+      path: imei_serial_reader
+      ref: "v1.1.7"
+      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
+      url: "https://github.com/reglobe/flutter_admin_ui.git"
+    source: git
+    version: "1.1.7"
   intl:
     dependency: "direct main"
     description:
@@ -1343,8 +1360,8 @@ packages:
     dependency: "direct main"
     description:
       path: ml_barcode_scanner
-      ref: "v1.1.7"
-      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
+      ref: i-ml_scanner
+      resolved-ref: "217796b129361c3aa2aef48ec8af97fdca3e758d"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "1.1.7"
@@ -1352,10 +1369,10 @@ packages:
     dependency: "direct main"
     description:
       name: mobile_scanner
-      sha256: "2fbc3914fe625e196c64ea8ffc4084cd36781d2be276d4d5923b11af3b5d44ff"
+      sha256: "827765afbd4792ff3fd105ad593821ac0f6d8a7d352689013b07ee85be336312"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.1"
+    version: "4.0.1"
   nested:
     dependency: transitive
     description:
@@ -1915,6 +1932,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.1"
+  text_recognizer:
+    dependency: transitive
+    description:
+      path: text_recognizer
+      ref: main
+      resolved-ref: "3d09a131a250f7434113c8333fb41208f2ed1745"
+      url: "https://github.com/reglobe/flutter_plugins.git"
+    source: git
+    version: "1.0.0"
   timezone:
     dependency: transitive
     description:

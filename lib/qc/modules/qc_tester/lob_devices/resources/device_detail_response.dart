@@ -24,6 +24,9 @@ class DeviceDetailResponseData {
   @JsonKey(name: "imei")
   String? imei1;
 
+  @JsonKey(name: "imei2")
+  String? imei2;
+
   @JsonKey(name: "sn")
   String? serialNo;
 
@@ -33,7 +36,7 @@ class DeviceDetailResponseData {
   @JsonKey(name: "cat")
   Map<int, String>? categories;
 
-  DeviceDetailResponseData(this.qrCode, this.imei1, this.serialNo, this.selectedCategoryId, this.categories);
+  DeviceDetailResponseData(this.qrCode, this.imei1, this.serialNo, this.selectedCategoryId, this.categories, this.imei2);
 
   static DeviceDetailResponseData fromJson(Map<String, dynamic> json) => _$DeviceDetailResponseDataFromJson(json);
 

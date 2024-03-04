@@ -131,7 +131,17 @@ abstract class CalculatorService {
     return service.post("/manual-test/calculator/render", MyCalculatorResponse.fromJson, body: jsonEncode(req));
   }
 
-  Stream<DeviceDetailResponse?> getDeviceDetail(String deviceBarcode) {
+  Stream<DeviceDetailResponse?> getDeviceDetail(String? deviceBarcode) {
     return service.get("/manual-test/scan-device/$deviceBarcode", DeviceDetailResponse.fromJson);
+  }
+
+  Stream<BaseActionResponse?> reportMismatch(List<String?> scannedImeiList, String deviceBarcode, String imeiImageUrl) {
+    var req = {
+      "imei": scannedImeiList,
+      "qr": deviceBarcode,
+      "image_url": imeiImageUrl,
+    };
+
+    return service.post("/device/mismatch/report/save", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 }

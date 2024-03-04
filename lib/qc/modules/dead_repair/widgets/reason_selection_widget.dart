@@ -132,7 +132,6 @@ class _ReasonSelectionWidgetState extends State<ReasonSelectionWidget> {
     }, onError: (error, stackTrace) {
       CshLoading().hideLoading(context);
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
-      Logger.debug('_ReasonSelectionWidgetState._onDeviceMark', [errorMsg]);
       CshSnackBar.error(context: context, message: errorMsg);
       _navigateTo(context);
     });
