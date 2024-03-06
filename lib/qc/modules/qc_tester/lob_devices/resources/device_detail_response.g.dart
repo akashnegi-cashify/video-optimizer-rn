@@ -37,6 +37,7 @@ DeviceDetailResponseData _$DeviceDetailResponseDataFromJson(
       (json['cat'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(int.parse(k), e as String),
       ),
+      json['imei2'] as String?,
     );
 
 Map<String, dynamic> _$DeviceDetailResponseDataToJson(
@@ -44,6 +45,7 @@ Map<String, dynamic> _$DeviceDetailResponseDataToJson(
     <String, dynamic>{
       'qc': instance.qrCode,
       'imei': instance.imei1,
+      'imei2': instance.imei2,
       'sn': instance.serialNo,
       'cat_id': instance.selectedCategoryId,
       'cat': instance.categories?.map((k, e) => MapEntry(k.toString(), e)),

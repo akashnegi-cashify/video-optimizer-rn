@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.1+32
+version: 3.1.2+33
 
 web_version: 1.0.0
 
@@ -51,26 +51,32 @@ dependencies:
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
+      ref: v1.1.8
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
+      ref: v1.1.8
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: scm-analytics
+      ref: v1.1.8
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
+      ref: v1.1.8
       path: ml_barcode_scanner
+
+  imei_serial_reader:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: v1.1.8
+      path: imei_serial_reader
 
   s3_file_uploader_interface:
     git:
@@ -150,7 +156,7 @@ dependencies:
   video_player: ^2.7.0
   flutter_image_compress: ^2.0.4
   qr_flutter: ^4.1.0
-  mobile_scanner: ^3.2.0
+  mobile_scanner: ^4.0.1
   disk_space: ^0.2.1
 
 
@@ -188,19 +194,6 @@ dependency_overrides:
   package_info_plus: ^4.1.0
   file_picker: ^5.5.0
   http: ^0.13.4
-  calculator_ui:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: scm-analytics
-      path: calculator_ui
-#  calculator_ui:
-#     path: ../flutter_admin_ui/calculator_ui
-  core_widgets:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
-      path: core_widgets
-
 
 
 

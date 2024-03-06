@@ -120,19 +120,7 @@ class QCActionWidget extends StatelessWidget {
             CshBigButton(
               text: l10n.repairDevice,
               onPressed: () {
-                CshMlScannerUtil().openScanner(context, onScanned: (scanValue, controller) {
-                  if (isNotEmpty(scanValue)) {
-                    _fetchReasonList(context).then((value) {
-                      ReasonSelectionScreen.navigateTo(
-                        context,
-                        header: 'Repair Device',
-                        status: RoleType.REPAIR_DEVICE.value,
-                        reasonList: value,
-                        code: scanValue,
-                      );
-                    });
-                  }
-                });
+                _onRepairButtonClicked(context);
               },
             ),
             QcRolePermissionWidget(
@@ -221,6 +209,24 @@ class QCActionWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onRepairButtonClicked(BuildContext context) {
+    CshMlScannerUtil().openScanner(context, onScanned: (scanValue, controller) {
+      if (isNotEmpty(scanValue)) {
+        _fetchReasonList(context).then((value) {
+          ReasonSelectionScreen.navigateTo(
+            context,
+            header: 'Repair Device',
+            status: RoleType.REPAIR_DEVICE.value,
+            reasonList: value,
+            code: scanValue,
+          ).whenComplete(() {
+            _onRepairButtonClicked(context);
+          });
+        });
+      }
+    });
   }
 
   _onSupervisorScanned(BuildContext context, String scannedData) {

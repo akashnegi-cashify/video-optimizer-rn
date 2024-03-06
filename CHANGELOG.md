@@ -1,7 +1,14 @@
 # TRC Releases
 
 
-# v3.1.1+32 (XX-02-2024)
+# v3.1.2+33 (04-03-2024)
+
+### Features:
+
+* `QC-Tester - IMEI Validation during manual testing`[(SCM-5657)](https://reglobe.atlassian.net/browse/SCM-5657)
+
+
+# v3.1.1+32 (08-02-2024)
 
 ### Improvements:
 
