@@ -51,31 +51,31 @@ dependencies:
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
+      ref: v1.1.8
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
+      ref: v1.1.8
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: scm-analytics
+      ref: v1.1.8
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
+      ref: v1.1.8
       path: ml_barcode_scanner
 
   imei_serial_reader:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
+      ref: v1.1.8
       path: imei_serial_reader
 
   s3_file_uploader_interface:
@@ -194,26 +194,6 @@ dependency_overrides:
   package_info_plus: ^4.1.0
   file_picker: ^5.5.0
   http: ^0.13.4
-
-  ml_barcode_scanner:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: i-ml_scanner
-      path: ml_barcode_scanner
-
-  calculator_ui:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: scm-analytics
-      path: calculator_ui
-#  calculator_ui:
-#     path: ../flutter_admin_ui/calculator_ui
-  core_widgets:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.7
-      path: core_widgets
-
 
 
 

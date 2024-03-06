@@ -153,6 +153,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  assets_audio_player:
+    dependency: transitive
+    description:
+      name: assets_audio_player
+      sha256: "9a87062cf39be0730ba8bb31ed4d148ca4e892e0ae607113f346d3c9a8da5df0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
+  assets_audio_player_web:
+    dependency: transitive
+    description:
+      name: assets_audio_player_web
+      sha256: "24cf82e72c7e7f9292d67e1b52d7945a182d9695ce8f903f60e5c6b379cbcaac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
   async:
     dependency: transitive
     description:
@@ -304,11 +320,11 @@ packages:
     dependency: "direct main"
     description:
       path: calculator_ui
-      ref: scm-analytics
-      resolved-ref: "92dd819aa527e6214fcd61bcffe8902047cdca73"
+      ref: "v1.1.8"
+      resolved-ref: f7ffee5fa1cd18abf30d998c303bd0f20ad24104
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.7"
+    version: "1.1.8"
   camera:
     dependency: "direct overridden"
     description:
@@ -425,11 +441,11 @@ packages:
     dependency: "direct main"
     description:
       path: components
-      ref: "v1.1.7"
-      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
+      ref: "v1.1.8"
+      resolved-ref: f7ffee5fa1cd18abf30d998c303bd0f20ad24104
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.7"
+    version: "1.1.8"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -467,11 +483,11 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: "v1.1.7"
-      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
+      ref: "v1.1.8"
+      resolved-ref: f7ffee5fa1cd18abf30d998c303bd0f20ad24104
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.7"
+    version: "1.1.8"
   cross_file:
     dependency: transitive
     description:
@@ -942,6 +958,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  flutter_tesseract_ocr:
+    dependency: transitive
+    description:
+      name: flutter_tesseract_ocr
+      sha256: "1e117204f276c956558fa2136d1e40bdd5a2c8fa5d143b0f410ca89c7bbe86a6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.20"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1188,11 +1212,11 @@ packages:
     dependency: "direct main"
     description:
       path: imei_serial_reader
-      ref: "v1.1.7"
-      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
+      ref: "v1.1.8"
+      resolved-ref: f7ffee5fa1cd18abf30d998c303bd0f20ad24104
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.7"
+    version: "1.1.8"
   intl:
     dependency: "direct main"
     description:
@@ -1335,11 +1359,11 @@ packages:
     dependency: transitive
     description:
       path: media_widget
-      ref: "v1.1.7"
-      resolved-ref: "24e1efeaf8991035a4b7e4cb4baa5f8b46e13d00"
+      ref: "v1.1.8"
+      resolved-ref: f7ffee5fa1cd18abf30d998c303bd0f20ad24104
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.7"
+    version: "1.1.8"
   meta:
     dependency: transitive
     description:
@@ -1360,11 +1384,11 @@ packages:
     dependency: "direct main"
     description:
       path: ml_barcode_scanner
-      ref: i-ml_scanner
-      resolved-ref: "217796b129361c3aa2aef48ec8af97fdca3e758d"
+      ref: "v1.1.8"
+      resolved-ref: f7ffee5fa1cd18abf30d998c303bd0f20ad24104
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.7"
+    version: "1.1.8"
   mobile_scanner:
     dependency: "direct main"
     description:
