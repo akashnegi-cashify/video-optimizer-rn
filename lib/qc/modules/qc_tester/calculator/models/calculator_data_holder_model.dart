@@ -1,4 +1,3 @@
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
@@ -31,7 +30,7 @@ class CalculatorDataHolderModel {
   bool get isCaptureDeviceMediaJourney => _isCaptureDeviceMediaJourney;
 
   void startCalculatorJourney(MyCalculatorResponse? calculatorResponse, String? deviceBarcode,
-      {DeviceType deviceType = DeviceType.mobile_device, int? selectedCategoryId, String? deviceName}) {
+      {DeviceType deviceType = DeviceType.mobile_device, int? selectedCategoryId}) {
     resetAllData();
 
     // add Experiment for server side rule executor or not
@@ -43,9 +42,7 @@ class CalculatorDataHolderModel {
       }
     }
 
-    if (!Validator.isNullOrEmpty(deviceName)) {
-      calculatorResponse?.productName = deviceName;
-    }
+    calculatorResponse?.productName = calculatorResponse.deviceName?.trim();
 
     _calculatorResponse = calculatorResponse;
     _selectedCategoryId = selectedCategoryId;

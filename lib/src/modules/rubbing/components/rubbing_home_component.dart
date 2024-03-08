@@ -1,19 +1,18 @@
 import 'package:builder_component/builder_component.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
-import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../../app_builder/app_builder_groups/groups.dart';
 import '../../../common/widgets/app_version_widget.dart';
 import '../../../common/widgets/user_name_widget.dart';
-import '../../../screens/barcode_scanner_with_controller.dart';
 import '../l10n.dart';
 import '../providers/received_devices_provider.dart';
 import '../widgets/received_rubbing_devices_screen.dart';
-import 'package:core/core.dart';
 
 part 'rubbing_home_component.g.dart';
 
@@ -42,9 +41,9 @@ class RubbingHomeComponent extends StatelessComponent<NoneConfigModel> {
             CshBigButton(
               text: l10n.scanBarcode,
               onPressed: () {
-                Navigator.of(context).pushNamed(
-                  BarcodeScannerControllerWidget.route,
-                  arguments: (String barcode, {MlScannerController? controller}) {
+                CshMlScannerUtil().openScanner(
+                  context,
+                  onScanned: (barcode, controller) {
                     Provider.of<ReceivedDevicesProvider>(insideContext, listen: false)
                         .receiveDeviceViaScanning(barcode)
                         .listen((event) {

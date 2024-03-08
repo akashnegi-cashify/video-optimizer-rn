@@ -42,10 +42,13 @@ MyCalculatorResponse _$MyCalculatorResponseFromJson(
       (json['da'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as int),
       ),
-    )..manualAuditQuestions = (json['maq'] as List<dynamic>?)
-        ?.map(
-            (e) => ManualAuditQuestionItem.fromJson(e as Map<String, dynamic>))
-        .toList();
+    )
+      ..manualAuditQuestions = (json['maq'] as List<dynamic>?)
+          ?.map((e) =>
+              ManualAuditQuestionItem.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..deviceName = json['pn'] as String?
+      ..brandName = json['bn'] as String?;
 
 Map<String, dynamic> _$MyCalculatorResponseToJson(
         MyCalculatorResponse instance) =>
@@ -70,6 +73,8 @@ Map<String, dynamic> _$MyCalculatorResponseToJson(
       'st': instance.selectionType,
       'da': instance.diagnoAccuracy,
       'maq': instance.manualAuditQuestions,
+      'pn': instance.deviceName,
+      'bn': instance.brandName,
     };
 
 ManualAuditQuestionItem _$ManualAuditQuestionItemFromJson(

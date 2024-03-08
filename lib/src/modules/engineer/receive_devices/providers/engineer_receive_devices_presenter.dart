@@ -10,11 +10,6 @@ class EngineerReceiveDevicePresenter {
 
   EngineerReceiveDevicePresenter(this.view);
 
-  void Function(String barcode, {MlScannerController? controller}) barcodeResult() =>
-      (String barcode, {MlScannerController? controller}) {
-        receiveDevice(barcode, controller);
-      };
-
   void receiveDevice(String barcode, MlScannerController? controller) {
     view.handleLoading(true);
     EngineerAPIService.receiveDevice(barcode).listen((receiveDevicesResponse) {

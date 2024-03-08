@@ -4,7 +4,6 @@ import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 
-import '../../../../screens/barcode_scanner_screen.dart';
 import '../../elss_trc/screens/part_selection_screen_trc.dart';
 import '../l10n.dart';
 import 'functionality_card.dart';
@@ -39,18 +38,13 @@ class ElssHomeWidget extends StatelessWidget {
                 cardLabel: l10n.techRefurbishmentCenter,
                 cardIconPath: "assets/images/ic_qc.png",
                 onTap: () {
-                  Navigator.of(context).pushNamed(
-                    BarcodeScanWidget.route,
-                    arguments: (String data) {
-                      if (!Validator.isNullOrEmpty(data)) {
-                        PartSelectionScreenTrcArguments args = PartSelectionScreenTrcArguments(barcode: data.trim());
-                        Navigator.of(context).pushReplacementNamed(
-                          PartSelectionScreenTrc.route,
-                          arguments: args,
-                        );
-                      }
-                    },
-                  );
+                  CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+                    if (!Validator.isNullOrEmpty(scannedData)) {
+                      PartSelectionScreenTrcArguments args =
+                          PartSelectionScreenTrcArguments(barcode: scannedData.trim());
+                      Navigator.of(context).pushReplacementNamed(PartSelectionScreenTrc.route, arguments: args);
+                    }
+                  });
                 },
               ),
             if (isLoginFromQC)
@@ -62,7 +56,8 @@ class ElssHomeWidget extends StatelessWidget {
                     context,
                     onScanned: (scannedData, controller) {
                       if (!Validator.isNullOrEmpty(scannedData)) {
-                        PartSelectionScreenArguments args = PartSelectionScreenArguments(scannedBarcode: scannedData.trim());
+                        PartSelectionScreenArguments args =
+                            PartSelectionScreenArguments(scannedBarcode: scannedData.trim());
                         Navigator.of(context).pushReplacementNamed(
                           PartSelectionScreenQc.route,
                           arguments: args,

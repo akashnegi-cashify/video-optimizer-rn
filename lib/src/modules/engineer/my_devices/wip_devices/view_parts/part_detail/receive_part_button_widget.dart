@@ -1,12 +1,11 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/common/widgets/dialog_util.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
-
-import '../../../../../../screens/barcode_scanner_screen.dart';
 
 class ReceivePartButtonWidget extends StatelessWidget {
   final EngineerPartInfo partInfo;
@@ -63,9 +62,9 @@ class ReceivePartButtonWidget extends StatelessWidget {
     if (partInfo.isBulk ?? false) {
       receiveDevice(partInfo.partBarcode, partInfo.partId, partInfo.prId);
     } else {
-      Navigator.pushNamed(context, BarcodeScanWidget.route, arguments: (String barcode) {
-        Navigator.pop(context);
-        receiveDevice(barcode, null, partInfo.prId);
+      CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+        Navigator.pop(context); // dismiss the scanner
+        receiveDevice(scannedData, null, partInfo.prId);
       });
     }
   }

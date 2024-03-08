@@ -53,6 +53,8 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
               elevation: CardElevation.dimen_10,
               child: MlBarcodeScannerWidget(
                 barcodeFormats: widget.scanFormatList,
+                isPlayScanSound: true,
+                zoomScale: 0.5,
                 onScannerDetected: (String value, MlScannerController controller) {
                   widget.onScanDetected(value, controller);
                 },

@@ -8,7 +8,6 @@ import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_summary_screen.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/barcode_scanner_module/barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculator_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_questions_screen.dart';
@@ -53,7 +52,6 @@ class QcRoutes {
       DeviceReceiveScreen.route: (_) => const DeviceReceiveScreen(),
       CalculationScreen.route: (_) => const CalculationScreen(),
       DisputedQuestionScreen.route: (_) => const DisputedQuestionScreen(),
-      BarcodeScannerScreen.route: (_) => const BarcodeScannerScreen(),
       AuditQuestionSummaryScreen.route: (_) => const AuditQuestionSummaryScreen(),
       AuditQuestionsScreen.route: (_) => const AuditQuestionsScreen(),
       AuditBarcodeScannerScreen.route: (_) => const AuditBarcodeScannerScreen(),
