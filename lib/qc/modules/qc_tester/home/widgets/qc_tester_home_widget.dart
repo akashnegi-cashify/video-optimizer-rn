@@ -9,6 +9,7 @@ import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/scan_manual_test_barcode_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/start_manual_testing_event.dart';
 
 import '../../disputed_image_capture/screens/disputed_image_capture_screen.dart';
@@ -86,7 +87,18 @@ class QcTesterHomeWidget extends StatelessWidget {
               text: "Start Manual Testing",
               onPressed: () {
                 AnalyticsController.logEvent(StartManualTestingEvent());
-                Navigator.pushNamed(context, LobDeviceScannerScreen.route);
+                CshMlScannerUtil().openScanner(
+                  context,
+                  header: "Manual Testing",
+                  hintText: "Scan Device Barcode",
+                  onScanned: (scannedData, controller) {
+                    if (scannedData.isNotEmpty) {
+                      AnalyticsController.logEvent(ScanManualTestBarcodeEvent(scannedData));
+                      Navigator.pushReplacementNamed(context, LobDeviceScannerScreen.route,
+                          arguments: LobDeviceScannerScreenArg(barcode: scannedData));
+                    }
+                  },
+                );
               },
             ),
           ),

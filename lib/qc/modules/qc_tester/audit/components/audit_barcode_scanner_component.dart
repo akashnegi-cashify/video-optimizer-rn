@@ -51,6 +51,8 @@ class _BarcodeScannerState extends State<_BarcodeScanner> {
       children: [
         Expanded(
           child: MlBarcodeScannerWidget(
+            isPlayScanSound: true,
+            zoomScale: 0.5,
             onScannerDetected: (String value, MlScannerController controller) {
               if (!Validator.isNullOrEmpty(value)) {
                 AuditQuestionsScreenArguments args = AuditQuestionsScreenArguments(scannedBarcode: value.trim());

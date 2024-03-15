@@ -22,6 +22,8 @@ class InvoiceScanWidget extends StatelessWidget {
             Expanded(
               child: MlBarcodeScannerWidget(
                 allowDuplicateScan: false,
+                isPlayScanSound: true,
+                zoomScale: 0.5,
                 onScannerDetected: (String value, MlScannerController controller) {
                   if (value.isNotEmpty) {
                     provider.textEditingController.text = value.trim();

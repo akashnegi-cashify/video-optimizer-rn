@@ -27,6 +27,8 @@ class LotScanWidget extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
                   child: MlBarcodeScannerWidget(
                     barcodeFormats: const [BarcodeFormat.code128, BarcodeFormat.qrCode],
+                    isPlayScanSound: true,
+                    zoomScale: 0.5,
                     onScannerDetected: (value, controller) => {onScannerDetected?.call(value, controller)},
                   ),
                 ),

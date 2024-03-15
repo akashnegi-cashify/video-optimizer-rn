@@ -111,6 +111,8 @@ class _AssignBarcodeScannerCompWidgetState extends State<AssignBarcodeScannerCom
               Expanded(
                 child: MlBarcodeScannerWidget(
                   allowDuplicateScan: false,
+                  isPlayScanSound: true,
+                  zoomScale: 0.5,
                   onScannerDetected: (String value, MlScannerController controller) {
                     if (value.isNotEmpty) {
                       _assignBarcode(insideContext, value.trim(), widget.args);

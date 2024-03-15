@@ -13,6 +13,9 @@ dynamic schema() => {
       "pageGroup": "Qc Lob Device Scanner",
       "title": "Lob Device Scanner Screen",
       "isActive": true,
-      "params": null
+      "params": [
+        {"key": "dbr", "value": null}
+      ]
+
       //#adminscreen
     };

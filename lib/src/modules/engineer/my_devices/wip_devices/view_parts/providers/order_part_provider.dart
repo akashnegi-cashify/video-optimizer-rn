@@ -55,8 +55,8 @@ class OrderPartProvider extends CshChangeNotifier {
   }
 
   updateDataForNIndex(OrderEngineerPart item, int update) {
-    int searchedIndex = _originalDataList.indexWhere(
-        (element) => element.sku.containsIgnoreCase(item.sku) && element.partColor.containsIgnoreCase(item.partColor));
+    int searchedIndex =
+        _originalDataList.indexWhere((element) => element.sku == item.sku && element.partColor == item.partColor);
     if (searchedIndex > -1) {
       var item = _originalDataList[searchedIndex];
       item.orderQuantity = (item.orderQuantity ?? 0) + update;
@@ -104,8 +104,8 @@ class OrderPartProvider extends CshChangeNotifier {
   }
 
   void updatePartTypeSelection(OrderEngineerPart part, DropDownItem? value) {
-    int searchedIndex = _originalDataList.indexWhere(
-        (element) => element.sku.containsIgnoreCase(part.sku) && element.partColor.containsIgnoreCase(part.partColor));
+    int searchedIndex =
+        _originalDataList.indexWhere((element) => element.sku == part.sku && element.partColor == part.partColor);
     if (searchedIndex > -1) {
       _originalDataList[searchedIndex].selectedPartType = value;
       notifyListeners();

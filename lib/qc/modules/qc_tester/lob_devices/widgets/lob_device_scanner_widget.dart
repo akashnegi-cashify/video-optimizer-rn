@@ -4,168 +4,77 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
-import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/widgets/lob_device_detail_widget.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
-import 'package:flutter_trc/src/libraries/analytics/events/auto_search_button_clicked_event.dart';
-import 'package:flutter_trc/src/libraries/analytics/events/device_verify_popup_event.dart';
-import 'package:flutter_trc/src/libraries/analytics/events/manual_search_button_clicked_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/product_search_clicked_event.dart';
-import 'package:flutter_trc/src/libraries/analytics/events/scan_manual_test_barcode_event.dart';
-import 'package:flutter_trc/src/libraries/analytics/events/update_device_category_event.dart';
 import 'package:provider/provider.dart';
 
 class LobDeviceScannerWidget extends StatelessWidget {
   const LobDeviceScannerWidget({super.key});
 
-  @override
-  Widget build(BuildContext context) {
+  _oSearched(BuildContext context, bool isManual, int selectedCategoryId) {
     var provider = LobDeviceScannerProvider.of(context, listen: false);
-    return TRCScannerWidget(
-      onScanDetected: (scannedData, controller) {
-        AnalyticsController.logEvent(ScanManualTestBarcodeEvent(scannedData));
-        controller?.stop();
-        CshLoading().showLoading(context);
-        provider.getDeviceDetail(scannedData).then((deviceDetails) {
-          CshLoading().hideLoading(context);
-          _showDialogForImeiNumber(
-            context,
-            scannedData,
-            deviceDetails,
-            onSearchClicked: (bool isManual, int selectedCategoryId) {
-              // Navigator.pop(context);
-              CshLoading().showLoading(context);
-              provider
-                  .getProductsList(
-                scannedData,
-                deviceDetails?.imei1,
-                deviceDetails?.serialNo,
-                isManual,
-                selectedCategoryId,
-              )
-                  .then((value) {
-                CshLoading().hideLoading(context);
-                _showProductListDialog(context, value!, scannedData, provider, selectedCategoryId);
-              }, onError: (error) {
-                CshLoading().hideLoading(context);
-                CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
-              });
-            },
-          ).whenComplete(() {
-            controller?.start();
-          });
-        }, onError: (error) {
-          controller?.start();
-          CshLoading().hideLoading(context);
-          CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
-        });
-      },
-    );
+    CshLoading().showLoading(context);
+    provider
+        .getProductsList(
+      provider.deviceBarcode!,
+      provider.deviceDetails?.imei1,
+      provider.deviceDetails?.serialNo,
+      isManual,
+      selectedCategoryId,
+    )
+        .then((value) {
+      CshLoading().hideLoading(context);
+      _showProductListDialog(context, value!, provider.deviceBarcode!, provider, selectedCategoryId);
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+    });
   }
 
-  Future<void> _showDialogForImeiNumber(
-    BuildContext context,
-    String scannedData,
-    DeviceDetailResponseData? deviceDetails, {
-    required Function(bool isManual, int selectedCategoryId) onSearchClicked,
-  }) {
-    List<DropDownItem> categoryList = [];
-    DropDownItem? selectedCategory;
-    deviceDetails?.categories?.forEach((key, value) {
-      var dropDownItem = DropDownItem("$key", value);
-      categoryList.add(dropDownItem);
+  @override
+  Widget build(BuildContext context) {
+    var provider = LobDeviceScannerProvider.of(context);
 
-      /// check if selectedCategoryId exist in category list or not
-      if (deviceDetails.selectedCategoryId == key && selectedCategory == null) {
-        selectedCategory = dropDownItem;
-      }
-    });
+    if (provider.isLoading) {
+      return const CshShimmer();
+    }
 
-    AnalyticsController.logEvent(DeviceVerifyPopupEvent(scannedData, selectedCategory?.id));
-
-    return showCshBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      child: StatefulBuilder(builder: (innerContext, setState) {
-        return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
-          child: Container(
-            padding: const EdgeInsets.all(Dimens.space_20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CshTextNew.subTitle1("Update Category If needed"),
-                const SizedBox(height: Dimens.space_16),
-                Row(
-                  children: [
-                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Category:", isPrimary: false)),
-                    Flexible(
-                      flex: 4,
-                      fit: FlexFit.tight,
-                      child: CshDropDown(
-                        items: categoryList,
-                        hintText: "Select Category",
-                        selectedItem: selectedCategory,
-                        onChanged: (DropDownItem? value) {
-                          AnalyticsController.logEvent(
-                              UpdateDeviceCategoryEvent(scannedData, selectedCategory?.id, value?.id));
-                          setState(() {
-                            selectedCategory = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: Dimens.space_16),
-                Row(
-                  children: [
-                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Barcode:", isPrimary: false)),
-                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(scannedData)),
-                  ],
-                ),
-                const SizedBox(height: Dimens.space_16),
-                Row(
-                  children: [
-                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("IMEI:", isPrimary: false)),
-                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(deviceDetails?.imei1 ?? "NA")),
-                  ],
-                ),
-                const SizedBox(height: Dimens.space_16),
-                Row(
-                  children: [
-                    Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("Serial No:", isPrimary: false)),
-                    Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(deviceDetails?.serialNo ?? "NA")),
-                  ],
-                ),
-                const SizedBox(height: Dimens.space_16),
-                ComboButton(
-                  firstBtnText: "Manual Search",
-                  padding: EdgeInsets.zero,
-                  secondBtnText: "Search",
-                  isFirstPrimary: true,
-                  buttonType: ButtonType.mini,
-                  firstBtnClick: selectedCategory != null
-                      ? () {
-                          AnalyticsController.logEvent(
-                              ManualSearchButtonClickedEvent(scannedData, selectedCategory?.id));
-                          onSearchClicked(true, int.parse(selectedCategory!.id!));
-                        }
-                      : null,
-                  secondBtnClick: selectedCategory != null
-                      ? () {
-                          AnalyticsController.logEvent(AutoSearchButtonClickedEvent(scannedData, selectedCategory?.id));
-                          onSearchClicked(false, int.parse(selectedCategory!.id!));
-                        }
-                      : null,
-                )
-              ],
+    if (!provider.isLoading && provider.errorMsg != null) {
+      return Center(
+        child: Column(
+          children: [
+            CshTextNew.subTitle1(provider.errorMsg!),
+            const SizedBox(height: Dimens.space_16),
+            CshMediumButton(
+              text: "Retry",
+              onPressed: () {
+                CshMlScannerUtil().openScanner(
+                  context,
+                  onScanned: (scannedData, controller) {
+                    Navigator.pop(context);
+                    provider.getDeviceDetail(newDeviceBarcode: scannedData);
+                  },
+                );
+              },
             ),
-          ),
-        );
-      }),
-    );
+          ],
+        ),
+      );
+    }
+
+    if (provider.deviceDetails != null) {
+      return LobDeviceDetailWidget(
+        scannedData: provider.deviceBarcode!,
+        deviceDetails: provider.deviceDetails,
+        onSearchClicked: (isManual, selectedCategoryId) {
+          _oSearched(context, isManual, selectedCategoryId);
+        },
+      );
+    }
+    return const SizedBox.shrink();
   }
 
   void _showProductListDialog(BuildContext context, List<LobProductListData> productList, String deviceBarcode,
@@ -194,22 +103,28 @@ class _ProductListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(Dimens.space_16),
-      height: MediaQuery.of(context).size.height * 0.95,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.90,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          CshTextNew.h3("Please select product"),
-          const SizedBox(height: Dimens.space_16),
-          SearchBarWidget(
-            hintText: "Search by product name",
-            onQuery: (query) {
-              _queryList.value = Validator.isNullOrEmpty(query)
-                  ? productList
-                  : productList.where((element) => element.name!.toLowerCase().contains(query.toLowerCase())).toList();
-            },
+          Padding(
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: CshTextNew.h3("Please select product"),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+            child: SearchBarWidget(
+              hintText: "Search by product name",
+              onQuery: (query) {
+                _queryList.value = Validator.isNullOrEmpty(query)
+                    ? productList
+                    : productList
+                        .where((element) => element.name!.toLowerCase().contains(query.toLowerCase()))
+                        .toList();
+              },
+            ),
           ),
           const SizedBox(height: Dimens.space_16),
           ValueListenableBuilder<List<LobProductListData>>(
@@ -217,6 +132,7 @@ class _ProductListWidget extends StatelessWidget {
               builder: (BuildContext context, List<LobProductListData> value, Widget? child) {
                 return Expanded(
                   child: ListView.separated(
+                      padding: const EdgeInsets.all(Dimens.space_16),
                       itemBuilder: (_, index) {
                         var item = value[index];
                         return GestureDetector(
@@ -235,7 +151,7 @@ class _ProductListWidget extends StatelessWidget {
                           ),
                         );
                       },
-                      separatorBuilder: (_, index) => const SizedBox(height: Dimens.space_8),
+                      separatorBuilder: (_, index) => const SizedBox(height: Dimens.space_12),
                       itemCount: value.length),
                 );
               })
@@ -257,7 +173,6 @@ class _ProductListWidget extends StatelessWidget {
         deviceBarcode,
         deviceType: DeviceType.lob_device,
         selectedCategoryId: selectedCategoryId,
-        deviceName: item.name,
       );
       Navigator.popUntil(context, (route) => route is PageRoute); // Dismiss all dialog
       Navigator.pushReplacementNamed(context, CalculationScreen.route);
