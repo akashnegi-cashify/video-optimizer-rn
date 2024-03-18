@@ -10,6 +10,7 @@ import 'package:flutter_trc/src/libraries/analytics/events/device_verify_popup_e
 import 'package:flutter_trc/src/libraries/analytics/events/manual_search_button_clicked_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/update_device_category_event.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../l10n.dart';
@@ -30,13 +31,20 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
   final List<DropDownItem> _categoryList = [];
   DropDownItem? _selectedCategory;
   bool _isImeiVerified = false;
-  late bool _isRunImeiValidatorFlow;
+  late bool _isRunImeiValidatorFlow = false;
 
   bool _isScannedSuccessfully = false;
 
   @override
   void initState() {
-    _isRunImeiValidatorFlow = RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW);
+    AppPreferences().getIsLoginFromQC().then((value) {
+      if (value != null) {
+        setState(() {
+          _isRunImeiValidatorFlow =
+              value ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW) : false;
+        });
+      }
+    });
 
     widget.deviceDetails?.categories?.forEach((key, value) {
       var dropDownItem = DropDownItem("$key", value);
