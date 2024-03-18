@@ -48,7 +48,8 @@ class PartSelectionWidget extends StatelessWidget {
                       child: CshIconButton(
                         text: l10n.addParts,
                         onPressed: () async {
-                          AddPartScreenQcArguments args = AddPartScreenQcArguments(scannedBarcode: barcode);
+                          AddPartScreenQcArguments args =
+                              AddPartScreenQcArguments(scannedBarcode: barcode, elssPartList: provider.elssPartList);
                           var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: args);
                           if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
                             provider.addNewPartsFromAddParts(data!);
