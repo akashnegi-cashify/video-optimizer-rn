@@ -45,8 +45,6 @@ import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home
 import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
-import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
-import 'package:flutter_trc/src/screens/barcode_scanner_with_controller.dart';
 
 class TrcRoutes {
   static Map<String, WidgetBuilder> getRoutes() {
@@ -54,10 +52,8 @@ class TrcRoutes {
       SplashScreen.route: (_) => const SplashScreen(),
       HomeScreen.route: (_) => const HomeScreen(),
       ChangePasswordScreen.route: (_) => const ChangePasswordScreen(),
-      BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
       RubbingHomeScreen.route: (_) => const RubbingHomeScreen(),
       ReceivedRubbingDevicesScreen.route: (_) => const ReceivedRubbingDevicesScreen(),
-      BarcodeScannerControllerWidget.route: (_) => const BarcodeScannerControllerWidget(),
       ElssHomeScreen.route: (_) => const ElssHomeScreen(),
       //ELSS_TRC_ROUTES
       AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),

@@ -278,7 +278,10 @@ class _DeviceCardWidget extends StatelessWidget {
           TitleValueRowWidget(title: l10n.status, value: deviceInfo?.status ?? ""),
           TitleValueRowWidget(title: l10n.repairType, value: deviceInfo?.repairType ?? ""),
           TitleValueRowWidget(title: l10n.grade, value: deviceInfo?.grade ?? ""),
-          TitleValueRowWidget(title: l10n.deviceIMEI, value: deviceInfo?.imei ?? "")
+          if (!Validator.isNullOrEmpty(deviceInfo?.imei))
+            TitleValueRowWidget(title: l10n.deviceIMEI, value: deviceInfo?.imei ?? ""),
+          if (!Validator.isNullOrEmpty(deviceInfo?.serialNumber))
+            TitleValueRowWidget(title: l10n.serialNumber, value: deviceInfo?.serialNumber ?? "")
         ],
       ),
     );

@@ -48,6 +48,7 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
       json['sgr'] as String?,
       json['sgc'] as String?,
       json['imrd'] as bool?,
+      json['sno'] as String?,
     );
 
 Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
@@ -69,4 +70,5 @@ Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
       'sgr': instance.suggestedGrade,
       'sgc': instance.suggestedChannel,
       'imrd': instance.isMarkRepairedDevice,
+      'sno': instance.serialNumber,
     };

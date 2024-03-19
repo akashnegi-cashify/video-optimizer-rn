@@ -44,6 +44,7 @@ AssignDeviceDetailsData _$AssignDeviceDetailsDataFromJson(
           (json['rrs'] as List<dynamic>?)?.map((e) => e as String).toList(),
       returnReason: json['rr'] as String?,
       color: json['dc'] as String?,
+      serialNumber: json['sno'] as String?,
     );
 
 Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
@@ -64,4 +65,5 @@ Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
       'rrs': instance.repairReasonList,
       'dimei': instance.imei,
       'dc': instance.color,
+      'sno': instance.serialNumber,
     };

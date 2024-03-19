@@ -1,11 +1,12 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_devices_response.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/providers/engineer_receive_devices_presenter.dart';
 import 'package:ml_barcode_scanner/widgets/index.dart';
+
 import '../../../../common/widgets/title_value_row_widget.dart';
-import '../../../../screens/barcode_scanner_with_controller.dart';
 
 class ReceiveDevicesButtonWidget extends StatefulWidget {
   const ReceiveDevicesButtonWidget({Key? key}) : super(key: key);
@@ -35,10 +36,11 @@ class _ReceiveDevicesButtonWidgetState extends State<ReceiveDevicesButtonWidget>
     return CshBigButton(
       text: l10n.receiveDevices,
       onPressed: () {
-        Navigator.pushNamed(
+        CshMlScannerUtil().openScanner(
           context,
-          BarcodeScannerControllerWidget.route,
-          arguments: presenter.barcodeResult(),
+          onScanned: (scannedData, controller) {
+            presenter.receiveDevice(scannedData, controller);
+          },
         );
       },
     );

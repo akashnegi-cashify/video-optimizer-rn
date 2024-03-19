@@ -74,6 +74,15 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
                     : const SizedBox(),
               ],
             ),
+            const SizedBox(height: Dimens.space_16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                (!Validator.isNullOrEmpty(dataModel?.serialNumber))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.serialNumber, dataModel!.serialNumber!))
+                    : const SizedBox(),
+              ],
+            ),
           ],
         ),
       ),

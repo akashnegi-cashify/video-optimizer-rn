@@ -11,6 +11,12 @@ class MyCalculatorResponse extends CalculatorResponse {
   @JsonKey(name: "maq")
   List<ManualAuditQuestionItem>? manualAuditQuestions;
 
+  @JsonKey(name: "pn")
+  String? deviceName;
+
+  @JsonKey(name: "bn")
+  String? brandName;
+
   MyCalculatorResponse(
       super.productName,
       super.brandId,

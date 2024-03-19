@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/pending_device_list_response.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/providers/pending_delivery_provider.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_delivery_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_part_list_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/widgets/pending_delivery_item_widget.dart';
-import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 import 'package:provider/provider.dart';
 
@@ -101,13 +101,16 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                 padding: EdgeInsets.zero,
                 iconSize: MobileIconSize.medium,
                 onClick: () {
-                  Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
-                    Navigator.of(context).pop();
-                    provider.barcode = data.trim();
-                    _searchBarController.text = data.trim();
-                    resetAndRefreshScreen();
-                    provider.barcode = "";
-                  });
+                  CshMlScannerUtil().openScanner(
+                    context,
+                    onScanned: (scannedData, controller) {
+                      Navigator.of(context).pop(); // dismiss the scanner
+                      provider.barcode = scannedData.trim();
+                      _searchBarController.text = scannedData.trim();
+                      resetAndRefreshScreen();
+                      provider.barcode = "";
+                    },
+                  );
                 },
               ),
               onChanged: (data) {

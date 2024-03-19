@@ -1,7 +1,7 @@
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
 import '../l10n.dart';
 
@@ -55,31 +55,27 @@ showPackagingVideoSelectionDialog(
                 if (isCheckValidation) {
                   // When user change recording mode
                   if (Validator.isNullOrEmpty(cameraBarcode)) {
-                    _showConfirmationDialogToReset(
-                      context,
-                      l10n,
-                      onPositive: () {
-                        Navigator.pop(context); // dismiss dialog
-                        Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
-                          Navigator.of(context).pop(); // pop camera scanner screen
-                          onCCTVCameraSelected(data, isSelectResetOption: true);
-                        });
-                      },
-                    );
+                    _showConfirmationDialogToReset(context, l10n, onPositive: () {
+                      Navigator.pop(context); // dismiss dialog
+                      CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+                        Navigator.of(context).pop(); // pop camera scanner screen
+                        onCCTVCameraSelected(scannedData, isSelectResetOption: true);
+                      });
+                    });
                     return;
                   }
                 }
                 Navigator.pop(context); // dismiss dialog
-                Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
+                CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
                   Navigator.of(context).pop(); // pop camera scanner screen
                   if (isCheckValidation) {
                     // When user scan different camera barcode
-                    if (!Validator.isNullOrEmpty(cameraBarcode) && data != cameraBarcode) {
-                      _showErrorDialog(context, l10n, cameraBarcode, data);
+                    if (!Validator.isNullOrEmpty(cameraBarcode) && scannedData != cameraBarcode) {
+                      _showErrorDialog(context, l10n, cameraBarcode, scannedData);
                       return;
                     }
                   }
-                  onCCTVCameraSelected(data);
+                  onCCTVCameraSelected(scannedData);
                 });
               },
             ),

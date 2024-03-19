@@ -9,7 +9,6 @@ import 'package:flutter_trc/qc/modules/gaurd/components/qc_guard_home_component.
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_barcode_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_summary_component.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/barcode_scanner_module/components/barcode_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/disputed_question_component.dart';
@@ -62,8 +61,6 @@ class QcComponentRegistry {
         return CalculatorComponent(jsonConfig);
       case DisputedQuestionsComponent.COMP_KEY:
         return DisputedQuestionsComponent(jsonConfig);
-      case BarcodeScannerComponent.COMP_KEY:
-        return BarcodeScannerComponent(jsonConfig);
       case AuditQuestionSummaryComponent.COMP_KEY:
         return AuditQuestionSummaryComponent(jsonConfig);
       case AuditQuestionComponent.COMP_KEY:

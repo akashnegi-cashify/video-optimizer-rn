@@ -65,6 +65,9 @@ class AssignDeviceDetailsData {
   @JsonKey(name: "dimei")
   String? imei;
 
+  @JsonKey(name: "sno")
+  String? serialNumber;
+
   @JsonKey(name: "dc")
   String? color;
 
@@ -84,6 +87,7 @@ class AssignDeviceDetailsData {
     this.repairReasonList,
     this.returnReason,
     this.color,
+    this.serialNumber,
   });
 
   static AssignDeviceDetailsData fromJson(Map<String, dynamic> data) => _$AssignDeviceDetailsDataFromJson(data);

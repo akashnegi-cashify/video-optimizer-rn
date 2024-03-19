@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import '../../../screens/barcode_scanner_screen.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+
 import '../l10n.dart';
 import '../providers/return_page_provider.dart';
 
@@ -22,12 +23,15 @@ class ReceiveTabWidget extends StatelessWidget {
               child: CshMediumButton(
                 text: l10n.scanPartBarcode,
                 onPressed: () {
-                  Navigator.of(context).pushNamed(BarcodeScanWidget.route, arguments: (String data) {
-                    if (!Validator.isNullOrEmpty(data)) {
-                      Navigator.of(context).pop();
-                      _getListingDataFromPbr(context, data.trim(), l10n);
-                    }
-                  });
+                  CshMlScannerUtil().openScanner(
+                    context,
+                    onScanned: (scannedData, controller) {
+                      if (!Validator.isNullOrEmpty(scannedData)) {
+                        Navigator.of(context).pop(); // dismiss the scanner
+                        _getListingDataFromPbr(context, scannedData.trim(), l10n);
+                      }
+                    },
+                  );
                 },
               ),
             ),
