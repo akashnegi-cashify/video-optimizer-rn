@@ -116,22 +116,6 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                         ),
                         const SizedBox(height: Dimens.space_4)
                       ],
-                      if (!Validator.isNullOrEmpty(widget.dataModel?.partColour)) ...[
-                        Row(
-                          children: [
-                            Text("${l10n.colour}: ", style: theme.primaryTextTheme.headline4),
-                            Expanded(
-                              child: Text(
-                                widget.dataModel!.partColour!,
-                                style: theme.primaryTextTheme.bodyText2,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: Dimens.space_4)
-                      ],
                     ],
                   ),
                 )

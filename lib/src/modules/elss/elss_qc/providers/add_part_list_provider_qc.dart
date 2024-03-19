@@ -47,7 +47,7 @@ class AddPartListProviderQc extends CshChangeNotifier {
             element.partId = k;
             var index = selectedParts?.indexWhere((selectedPart) => selectedPart.sku == element.sku);
             if (index != null && index > -1) {
-              element.errorMessage = "Part is already selected";
+              element.errorMessage = "Part is already added";
             }
             _addPartsDataList.add(element);
             k++;
