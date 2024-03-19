@@ -29,7 +29,7 @@ class AddPartComponent extends StatelessComponent<NoneConfigModel> {
 
     return paramBuilder((param) {
       return ChangeNotifierProvider<AddPartListProviderTrc>(
-        create: (_) => AddPartListProviderTrc(param.scannedBarcode ?? ""),
+        create: (_) => AddPartListProviderTrc(param.scannedBarcode ?? "", param.selectedPartList),
         lazy: false,
         builder: (BuildContext innerContext, __) {
           var provider = AddPartListProviderTrc.of(innerContext);

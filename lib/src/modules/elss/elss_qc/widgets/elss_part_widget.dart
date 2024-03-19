@@ -66,14 +66,14 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    !Validator.isNullOrEmpty(widget.dataModel?.partColour)
+                    !Validator.isNullOrEmpty(widget.dataModel?.sku)
                         ? RichText(
                             text: TextSpan(
-                                text: l10n.colour,
+                                text: l10n.sku,
                                 style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
                                 children: [
                                   TextSpan(
-                                    text: " ${widget.dataModel?.partColour}",
+                                    text: ": ${widget.dataModel?.sku}",
                                     style: theme.primaryTextTheme.overline,
                                   )
                                 ]),

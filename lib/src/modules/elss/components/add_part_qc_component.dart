@@ -28,7 +28,7 @@ class AddPartsQcComponent extends StatelessComponent<NoneConfigModel> {
     return paramBuilder(
       (param) {
         return ChangeNotifierProvider<AddPartListProviderQc>(
-          create: (_) => AddPartListProviderQc(param.scannedBarcode ?? ""),
+          create: (_) => AddPartListProviderQc(param.scannedBarcode ?? "", param.selectedParts),
           lazy: false,
           builder: (BuildContext innerContext, __) {
             var provider = AddPartListProviderQc.of(innerContext);
