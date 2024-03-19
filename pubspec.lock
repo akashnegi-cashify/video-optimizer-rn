@@ -1212,11 +1212,11 @@ packages:
     dependency: "direct main"
     description:
       path: imei_serial_reader
-      ref: "v1.1.8"
-      resolved-ref: f7ffee5fa1cd18abf30d998c303bd0f20ad24104
+      ref: "v1.1.9"
+      resolved-ref: fff1b5b29789b78067142b39741ffcb068a6d260
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.8"
+    version: "1.1.9"
   intl:
     dependency: "direct main"
     description:
@@ -1384,11 +1384,11 @@ packages:
     dependency: "direct main"
     description:
       path: ml_barcode_scanner
-      ref: "v1.1.8"
-      resolved-ref: f7ffee5fa1cd18abf30d998c303bd0f20ad24104
+      ref: "v1.1.9"
+      resolved-ref: fff1b5b29789b78067142b39741ffcb068a6d260
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "1.1.8"
+    version: "1.1.9"
   mobile_scanner:
     dependency: "direct main"
     description:
