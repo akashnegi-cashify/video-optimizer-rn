@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_category_id_type.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/reasons.dart';
 import 'package:flutter_trc/src/common/widgets/imei_scanner.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/auto_search_button_clicked_event.dart';
@@ -160,6 +161,10 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
   }
 
   int getNeedToScannedValues() {
+    var provider = LobDeviceScannerProvider.of(context, listen: false);
+    if (provider.timeoutSelectedReason != null) {
+      return 1;
+    }
     if (widget.deviceDetails?.imei1 != null && widget.deviceDetails?.imei2 != null) {
       return 2;
     } else {
@@ -180,6 +185,11 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
   }
 
   _isImeiMatched(List<String> scannedList) {
+    var provider = LobDeviceScannerProvider.of(context, listen: false);
+    if (provider.timeoutSelectedReason != null) {
+      return scannedList.contains(widget.deviceDetails?.imei1) || scannedList.contains(widget.deviceDetails?.imei2);
+    }
+
     if (scannedList.contains(widget.deviceDetails?.imei1)) {
       if (widget.deviceDetails?.imei2 != null) {
         if (scannedList.contains(widget.deviceDetails?.imei2)) {
@@ -242,7 +252,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
               text: l10n.reScan,
               onPressed: () {
                 Navigator.pop(context); // close dialog
-                _openImeiScanner();
+                _openImeiScanner(isResetTimeoutReasons: false);
               },
             ),
             const SizedBox(height: Dimens.space_16),
@@ -250,7 +260,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
               text: l10n.reportMismatch,
               onPressed: () {
                 Navigator.pop(context); // close dialog
-                _onReportMismatch(scannedList);
+                _onReportMismatch(scannedList, onComplete: () => Navigator.pop(context)); // move to previous screen,
               },
             ),
           ],
@@ -259,9 +269,13 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     ).whenComplete(() => _isScannedSuccessfully = false);
   }
 
-  void _openImeiScanner() {
+  void _openImeiScanner({bool isResetTimeoutReasons = true}) {
+    if (isResetTimeoutReasons) {
+      var provider = LobDeviceScannerProvider.of(context, listen: false);
+      provider.updateReason(null);
+    }
     Navigator.push(context, MaterialPageRoute(
-      builder: (context) {
+      builder: (_) {
         return ImeiScanner(
           onProceed: (List<String>? scannedList) {
             if (!_isScannedSuccessfully && (scannedList?.length ?? 0) >= getNeedToScannedValues()) {
@@ -274,9 +288,34 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                 setState(() {
                   _isImeiVerified = true;
                 });
+                var provider = LobDeviceScannerProvider.of(context, listen: false);
+                if (provider.timeoutSelectedReason != null) {
+                  CshSnackBar.show(
+                    context: context,
+                    message: "Please capture an image",
+                    duration: SnackBarDuration.MEDIUM,
+                  );
+                  _onReportMismatch(scannedList);
+                }
               } else {
                 _showErrorDialog(scannedList);
               }
+            }
+          },
+          onTimeOut: () {
+            var provider = LobDeviceScannerProvider.of(context, listen: false);
+            if (!Validator.isListNullOrEmpty(provider.timeoutReasons)) {
+              Navigator.pop(context); // close Imei Scanner
+              _showTimeoutReasons(
+                provider.timeoutReasons,
+                onReasonSelected: (reason) {
+                  Navigator.pop(context); // close Timeout dialog
+                  provider.updateReason(reason);
+                  _openImeiScanner(isResetTimeoutReasons: false);
+                },
+              );
+            } else {
+              CshSnackBar.error(context: context, message: "Not able to scan IMEI");
             }
           },
         );
@@ -284,7 +323,40 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     ));
   }
 
-  _onReportMismatch(List<String> scannedList) {
+  _showTimeoutReasons(List<Reasons> reasons, {required Function(Reasons reason) onReasonSelected}) {
+    var l10n = L10n(context, listen: false);
+    showCshBottomSheet(
+      isDismissible: false,
+      isScrollControlled: true,
+      context: context,
+      child: Container(
+        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),
+        padding: const EdgeInsets.all(Dimens.space_16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CshTextNew.h3(l10n.unableToScan),
+            const SizedBox(height: Dimens.space_16),
+            ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  var item = reasons[index];
+                  return GestureDetector(
+                    onTap: () => onReasonSelected(item),
+                    child: CshCard(child: CshTextNew.subTitle1(item.name ?? "NA")),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(height: Dimens.space_8);
+                },
+                itemCount: reasons.length),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _onReportMismatch(List<String> scannedList, {VoidCallback? onComplete}) {
     var provider = LobDeviceScannerProvider.of(context, listen: false);
     ImagePicker platform = ImagePicker();
     platform.pickImage(source: ImageSource.camera, requestFullMetadata: false).then((value) async {
@@ -293,7 +365,9 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
         provider.reportMismatch(value.path, scannedList).then((value) {
           CshLoading().hideLoading(context);
           CshSnackBar.success(context: context, message: "Mismatch reported successfully");
-          Navigator.pop(context);
+          if (onComplete != null) {
+            onComplete();
+          }
         }, onError: (error) {
           CshLoading().hideLoading(context);
           CshSnackBar.error(context: context, message: error.toString());

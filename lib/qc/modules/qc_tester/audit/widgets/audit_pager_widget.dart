@@ -27,6 +27,7 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
   Widget build(BuildContext context) {
     var provider = AuditQuestionsProvider.of(context);
     var l10n = L10n(context);
+    var auditQuestionList = provider.auditData!.auditQuestionList;
     return WillPopScope(
       onWillPop: () {
         if (_currentPage > 0) {
@@ -53,7 +54,7 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                   questionNumber: index,
                 );
               },
-              itemCount: provider.auditData!.questionList!.length,
+              itemCount: auditQuestionList!.length,
               onPageChanged: (pageNumber) {
                 _currentPage = pageNumber;
                 setState(() {});
@@ -74,15 +75,15 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                               duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
                         },
                 ),
-                ((_currentPage == (provider.auditData!.questionList!.length - 1)))
+                ((_currentPage == (auditQuestionList.length - 1)))
                     ? CshMediumButton(
                         text: l10n.submit,
                         onPressed: (!Validator.isNullOrEmpty(
-                                provider.auditData!.questionList![_currentPage].selectedOption))
+                                auditQuestionList[_currentPage].selectedOption))
                             ? () {
-                                if (provider.auditData!.questionList![_currentPage].imageCount != null &&
-                                    provider.auditData!.questionList![_currentPage].imageCount == 1) {
-                                  if (Validator.isNullOrEmpty(provider.auditData!.questionList![_currentPage].s3url)) {
+                                if (auditQuestionList[_currentPage].imageCount != null &&
+                                    auditQuestionList[_currentPage].imageCount == 1) {
+                                  if (Validator.isNullOrEmpty(auditQuestionList[_currentPage].s3url)) {
                                     CshSnackBar.error(context: context, message: l10n.pleaseUploadRequiredImage);
                                   } else {
                                     AuditQuestionSummaryArguments args = AuditQuestionSummaryArguments(
@@ -98,13 +99,13 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                             : null,
                       )
                     : CshMediumButton(
-                        text: _currentPage == (provider.auditData!.questionList!.length - 1) ? l10n.submit : l10n.next,
+                        text: _currentPage == (auditQuestionList.length - 1) ? l10n.submit : l10n.next,
                         onPressed: (!Validator.isNullOrEmpty(
-                                provider.auditData!.questionList![_currentPage].selectedOption))
+                                auditQuestionList[_currentPage].selectedOption))
                             ? () {
-                                if (provider.auditData!.questionList![_currentPage].imageCount != null &&
-                                    provider.auditData!.questionList![_currentPage].imageCount == 1) {
-                                  if (Validator.isNullOrEmpty(provider.auditData!.questionList![_currentPage].s3url)) {
+                                if (auditQuestionList[_currentPage].imageCount != null &&
+                                    auditQuestionList[_currentPage].imageCount == 1) {
+                                  if (Validator.isNullOrEmpty(auditQuestionList[_currentPage].s3url)) {
                                     CshSnackBar.error(context: context, message: l10n.pleaseUploadRequiredImage);
                                   } else {
                                     pagerController.nextPage(

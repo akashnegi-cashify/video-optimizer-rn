@@ -1,10 +1,13 @@
 import 'dart:io';
-import 'package:core_widgets/core_widgets.dart';
-import 'package:flutter_trc/src/amplify/amplifier.dart';
-import 'package:flutter_trc/src/amplify/amplify_provider.dart';
-import 'package:image_picker/image_picker.dart';
-import '../l10n.dart';
+
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
+import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+
+import '../l10n.dart';
 
 class UploadMediaCards extends StatefulWidget {
   final String? labelText;
@@ -37,57 +40,39 @@ class _UploadMediaCardsState extends State<UploadMediaCards> {
       onTap: widget.selectedFile != null
           ? null
           : () async {
-              try {
+              XFile? xFile = await picker.pickImage(source: ImageSource.camera, requestFullMetadata: false);
 
-                XFile? imageFilex = await picker.pickImage(source: ImageSource.camera);
-                if (imageFilex != null && context.mounted) {
-                  AmplifyProvider amplifyProvider = AmplifyProvider.of(context, listen: false);
-                  widget.selectedFile = File(imageFilex.path);
-                  String fileName = Amplifier.fileNameFromPath(widget.selectedFile!.path);
-                  widget.setFileForPersistence(widget.selectedFile!);
-
-                  CshLoading().showLoading(context);
-                  amplifyProvider.uploadFile(
-                    fileName: fileName,
-                    folderName: amplifyProvider.getFolderName(),
-                    file: widget.selectedFile,
-                    onProgress: (int currentBytes, int totalBytes) {},
-                    onFileUploaded: (String imagePath) async {
-                      CshLoading().hideLoading(context);
-
-                      String s3Key = imagePath;
-                      if (!Validator.isNullOrEmpty(s3Key)) {
-                        String s3Url = await amplifyProvider.getS3FileUrlFromS3Key(filePath: s3Key, fullPath: false);
-                        if (context.mounted) {
-                          CshSnackBar.success(
-                            context: context,
-                            message: l10n.imageUploadedSuccessfully,
-                            snackBarPosition: SnackBarPosition.TOP,
-                            duration: SnackBarDuration.SHORT,
-                          );
-                        }
-                        widget.s3UploadedImageUrlCallback(s3Url);
-
-                        setState(() {});
-                      }
-                    },
-                    onFailed: (String errorMsg) {
-                      CshLoading().hideLoading(context);
-                      CshSnackBar.error(context: context, message: errorMsg);
-                    },
+              if (xFile != null && context.mounted) {
+                var compressedFile = await ImageUtil.compressImage(File(xFile.path));
+                widget.selectedFile = compressedFile;
+                widget.setFileForPersistence(widget.selectedFile!);
+                String fileName = path.basename(compressedFile.path);
+                CshLoading().showLoading(context);
+                MediaUploadUtil().uploadMediaWithType(mediaFile: compressedFile, fileName: fileName).then((value) {
+                  CshLoading().hideLoading(context);
+                  CshSnackBar.success(
+                    context: context,
+                    message: l10n.imageUploadedSuccessfully,
+                    snackBarPosition: SnackBarPosition.TOP,
+                    duration: SnackBarDuration.SHORT,
                   );
-                }
-              } catch (e) {
-                CshSnackBar.error(context: context, message: e.toString());
+
+                  widget.s3UploadedImageUrlCallback(value);
+                  setState(() {});
+                }, onError: (error) {
+                  CshLoading().hideLoading(context);
+                  CshSnackBar.error(context: context, message: error.toString());
+                });
               }
             },
       child: Container(
         width: 100,
         padding: EdgeInsets.only(
-            top: widget.selectedFile != null ? Dimens.space_6 : Dimens.space_28,
-            bottom: widget.selectedFile != null ? Dimens.space_8 : Dimens.space_12,
-            left: Dimens.space_4,
-            right: Dimens.space_6),
+          top: widget.selectedFile != null ? Dimens.space_6 : Dimens.space_28,
+          bottom: widget.selectedFile != null ? Dimens.space_8 : Dimens.space_12,
+          left: Dimens.space_4,
+          right: Dimens.space_6,
+        ),
         decoration: BoxDecoration(
           border: Border.all(color: theme.dividerColor, width: Dimens.space_4),
           borderRadius: BorderRadius.circular(Dimens.space_4),

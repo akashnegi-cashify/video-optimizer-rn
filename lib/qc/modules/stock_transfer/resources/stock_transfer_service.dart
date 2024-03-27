@@ -89,13 +89,15 @@ class StockTransferService {
         .post("/transfer-lot/add-device", AddDeviceResponse.fromJson, params: params, body: jsonEncode(body));
   }
 
-  static Stream<PendingLotDetailResponse?> getPendingLotDetails(int? lotId) {
-    Map<String, List<String>> params = {
-      "lotId": [lotId.toString()],
-      "page_size": ["20"],
-      "page_offset": ["0"],
+  static Stream<PendingLotDetailResponse?> getPendingLotDetails(
+      int? lotId, int? pageSize, int? offset, String? searchQuery) {
+    Map<String, dynamic> req = {
+      "offset": offset,
+      "pageSize": pageSize,
+      if (!Validator.isNullOrEmpty(searchQuery)) "filterObjectMap": {"br": searchQuery}
     };
-    return QcService().get("/transfer-lot/list-devices", PendingLotDetailResponse.fromJson, params: params);
+    return QcService()
+        .post("/transfer-lot/list-devices?lotId=$lotId", PendingLotDetailResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<ScannedDeviceDetailResponse?> getScannedDeviceDetails(String? scannedBarcode) {

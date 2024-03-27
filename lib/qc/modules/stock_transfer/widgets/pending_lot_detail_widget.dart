@@ -51,6 +51,7 @@ class _PendingLotDetailWidgetState extends State<PendingLotDetailWidget> {
                 _scannedDevice,
                 onDeviceAdded: () {
                   _controller.animateToPage(0, duration: const Duration(milliseconds: 200), curve: Curves.ease);
+                  deviceListTabRef.currentState?.resetAndRefreshScreen();
                 },
                 onReject: () {
                   _controller.animateToPage(0, duration: const Duration(milliseconds: 200), curve: Curves.ease);

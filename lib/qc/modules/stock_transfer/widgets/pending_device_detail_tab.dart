@@ -61,7 +61,6 @@ class PendingDeviceDetailTab extends StatelessWidget {
               provider.addDeviceInLot(scannedDevice).then((value) {
                 CshLoading().hideLoading(context);
                 CshSnackBar.success(context: context, message: "Device added successfully");
-                provider.getDeviceList();
                 onDeviceAdded?.call();
               }, onError: (error) {
                 CshLoading().hideLoading(context);

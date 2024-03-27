@@ -26,59 +26,60 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
     var theme = Theme.of(context);
     var provider = AuditQuestionsProvider.of(context);
     var l10n = L10n(context);
+    var auditQuestionList = provider.auditData!.auditQuestionList;
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: Dimens.space_20, horizontal: Dimens.space_16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (!Validator.isNullOrEmpty(provider.auditData!.questionList![widget.questionNumber].question))
+          if (!Validator.isNullOrEmpty(auditQuestionList![widget.questionNumber].question))
             Row(
               children: [
                 const SizedBox(),
                 Expanded(
                   child: Text(
-                    "${l10n.q}. ${(widget.questionNumber + 1)}  ${provider.auditData!.questionList![widget.questionNumber].question!}",
+                    "${l10n.q}. ${(widget.questionNumber + 1)}  ${auditQuestionList[widget.questionNumber].question!}",
                     style: theme.primaryTextTheme.displayMedium,
                   ),
                 )
               ],
             ),
           const SizedBox(height: Dimens.space_8),
-          if (provider.auditData!.questionList![widget.questionNumber].options != null &&
+          if (auditQuestionList[widget.questionNumber].options != null &&
               !Validator.isListNullOrEmpty(
-                  provider.auditData!.questionList![widget.questionNumber].options?.values.toList())) ...[
+                  auditQuestionList[widget.questionNumber].options?.values.toList())) ...[
             RadioListWidget(
               list: List.generate(
-                provider.auditData!.questionList![widget.questionNumber].options!.values.toList().length,
+                auditQuestionList[widget.questionNumber].options!.values.toList().length,
                 (index) => RadioListItem(
                     index.toString(),
-                    provider.auditData!.questionList![widget.questionNumber].options!.values.toList()[index],
-                    provider.auditData!.questionList![widget.questionNumber].selectedOption ==
-                        provider.auditData!.questionList![widget.questionNumber].options!.values.toList()[index]),
+                    auditQuestionList[widget.questionNumber].options!.values.toList()[index],
+                    auditQuestionList[widget.questionNumber].selectedOption ==
+                        auditQuestionList[widget.questionNumber].options!.values.toList()[index]),
               ),
               onItemSelected: (data) {
                 widget.onOptionSelected(
-                    provider.auditData!.questionList![widget.questionNumber].questionId!, data.label!);
-                provider.auditData!.questionList![widget.questionNumber].selectedOption = data.label;
+                    auditQuestionList[widget.questionNumber].questionId!, data.label!);
+                auditQuestionList[widget.questionNumber].selectedOption = data.label;
                 setState(() {});
               },
             ),
             const SizedBox(height: Dimens.space_30),
-            if (provider.auditData!.questionList![widget.questionNumber].imageCount != null &&
-                provider.auditData!.questionList![widget.questionNumber].imageCount! == 1)
+            if (auditQuestionList[widget.questionNumber].imageCount != null &&
+                auditQuestionList[widget.questionNumber].imageCount! == 1)
               Align(
                 alignment: Alignment.center,
                 child: UploadMediaCards(
-                  selectedFile: provider.auditData!.questionList![widget.questionNumber].selectedImageFile,
+                  selectedFile: auditQuestionList[widget.questionNumber].selectedImageFile,
                   onCrossedButtonTapped: () {
-                    provider.auditData!.questionList![widget.questionNumber].s3url = null;
-                    provider.auditData!.questionList![widget.questionNumber].selectedImageFile = null;
+                    auditQuestionList[widget.questionNumber].s3url = null;
+                    auditQuestionList[widget.questionNumber].selectedImageFile = null;
                   },
                   setFileForPersistence: (File imageFile) {
-                    provider.auditData!.questionList![widget.questionNumber].selectedImageFile = imageFile;
+                    auditQuestionList[widget.questionNumber].selectedImageFile = imageFile;
                   },
                   s3UploadedImageUrlCallback: (String url) {
-                    provider.auditData!.questionList![widget.questionNumber].s3url = url;
+                    auditQuestionList[widget.questionNumber].s3url = url;
                   },
                 ),
               )

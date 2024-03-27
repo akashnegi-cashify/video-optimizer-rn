@@ -1,6 +1,18 @@
 # TRC Releases
 
 
+# v3.1.6+37 (27-03-2024)
+
+### Features And Improvements:
+
+* `QC Tester - Audit - Mark Audit and then dispute for apple-online source`[(SCM-5755)](https://reglobe.atlassian.net/browse/SCM-5755)
+* `QC - Stock Transfer - add pagination in stock transfer list`[(SCM-5465)](https://reglobe.atlassian.net/browse/SCM-5465)
+* `QC Tester - Improve IMEI Reader`[(SCM-5862)](https://reglobe.atlassian.net/browse/SCM-5862)
+* `QC Tester - New flow IMEI validation for icloud locked devices`[(SCM-5892)](https://reglobe.atlassian.net/browse/SCM-5892)
+* `QC ELSS/TRC ELSS - Allow Unique SKU's to be added`[(SCM-5895)](https://reglobe.atlassian.net/browse/SCM-5895)
+* `QC Tester - Audit - Use ImageOptimizer service for uploading image`[(SCM-5906)](https://reglobe.atlassian.net/browse/SCM-5906)
+
+
 # v3.1.2+33 (04-03-2024)
 
 ### Features:

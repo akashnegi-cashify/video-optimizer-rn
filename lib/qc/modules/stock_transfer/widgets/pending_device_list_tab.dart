@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:calculator_ui/calculator_ui.dart';
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/resources/pending_lot_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/pending_lot_detail_provider.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/pending_lot_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/transfer_lot_status_type.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
 class PendingDeviceListTab extends StatefulWidget {
   final Function(String scannedDevice)? onDeviceScanned;
@@ -17,7 +18,7 @@ class PendingDeviceListTab extends StatefulWidget {
   State<PendingDeviceListTab> createState() => PendingDeviceListTabState();
 }
 
-class PendingDeviceListTabState extends State<PendingDeviceListTab> {
+class PendingDeviceListTabState extends PaginatedListState<PendingLotDeviceListData, PendingDeviceListTab> {
   final TextEditingController _editTextController = TextEditingController();
   Timer? _debounce;
 
@@ -61,6 +62,7 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
                           Navigator.of(context).pop(); // dismiss scanner screen
                           _editTextController.text = scannedData;
                           provider.setQuery(scannedData);
+                          resetAndRefreshScreen();
                         });
                       },
                       child: const Icon(Icons.qr_code_2, size: Dimens.space_32)),
@@ -69,11 +71,8 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
               ),
             const SizedBox(height: Dimens.space_12),
             Expanded(
-              child: CshList(
-                rowCount: provider.deviceList?.length ?? 0,
-                listPadding: const EdgeInsets.all(Dimens.space_16),
-                getRowWidget: (index) {
-                  var item = provider.deviceList?[index];
+              child: iterate(
+                (item, index) {
                   return SizedBox(
                       width: double.infinity,
                       child: _DeviceItemWidget(
@@ -82,9 +81,9 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
                         index: index,
                         onDeviceRemove: () {
                           CshLoading().showLoading(context);
-                          provider.removeDeviceFromLot(item?.qrCode).then((value) {
+                          provider.removeDeviceFromLot(item.qrCode).then((value) {
                             CshLoading().hideLoading(context);
-                            provider.getDeviceList();
+                            resetAndRefreshScreen();
                           }, onError: (error) {
                             CshLoading().hideLoading(context);
                             CshSnackBar.error(context: context, message: error);
@@ -92,6 +91,8 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
                         },
                       ));
                 },
+                separator: const SizedBox(height: Dimens.space_16),
+                padding: const EdgeInsets.all(Dimens.space_16),
               ),
             ),
           ],
@@ -116,6 +117,7 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       provider.setQuery(text);
+      resetAndRefreshScreen();
     });
   }
 
@@ -139,6 +141,17 @@ class PendingDeviceListTabState extends State<PendingDeviceListTab> {
       if (scannedData.isNotEmpty) {
         onScanned(scannedData);
       }
+    });
+  }
+
+  @override
+  void requestApi(int pageNo,
+      {Function(List<PendingLotDeviceListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
+    var provider = PendingLotDetailProvider.of(context, listen: false);
+    provider.getDeviceList(offset: pageNo * pageSize, pageSize: pageSize).then((value) {
+      onSuccess?.call(value);
+    }, onError: (error) {
+      onError?.call(error);
     });
   }
 }

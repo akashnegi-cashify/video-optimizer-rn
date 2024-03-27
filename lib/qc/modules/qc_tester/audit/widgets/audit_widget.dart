@@ -19,7 +19,7 @@ class AuditWidget extends StatelessWidget {
     var l10n = L10n(context);
     var theme = Theme.of(context);
 
-    return (provider.auditData != null && !Validator.isListNullOrEmpty(provider.auditData!.questionList))
+    return (provider.auditData != null && !Validator.isListNullOrEmpty(provider.auditData!.auditQuestionList))
         ? AuditQuestionBuilder(barcode: scanData)
         : Padding(
             padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
