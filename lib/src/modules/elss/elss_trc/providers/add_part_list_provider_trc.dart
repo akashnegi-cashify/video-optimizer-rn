@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/elss/common_models/elss_part.dart';
 import 'package:provider/provider.dart';
 import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_service.dart';
@@ -10,7 +11,9 @@ class AddPartListProviderTrc extends CshChangeNotifier {
     return Provider.of<AddPartListProviderTrc>(context, listen: listen);
   }
 
-  AddPartListProviderTrc(String barcode) {
+  List<ElssPart>? selectedPartList;
+
+  AddPartListProviderTrc(String barcode, this.selectedPartList) {
     _getAddPatDataList(barcode);
   }
 
@@ -28,6 +31,10 @@ class AddPartListProviderTrc extends CshChangeNotifier {
           for (var element in event.partDataList!) {
             element.partId = k;
             addPartsDataList.add(element);
+            var index = selectedPartList?.indexWhere((selectedPart) => selectedPart.sku == element.sku);
+            if (index != null && index > -1) {
+              element.errorMessage = "Part is already added";
+            }
             k++;
           }
         }

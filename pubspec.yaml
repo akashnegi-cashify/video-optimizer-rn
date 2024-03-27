@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.4+35
+version: 3.1.6+37
 
 web_version: 1.0.0
 
@@ -57,7 +57,7 @@ dependencies:
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.8
+      ref: v1.1.9
       path: core_widgets
 
   calculator_ui:
@@ -69,13 +69,13 @@ dependencies:
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.8
+      ref: v1.1.9
       path: ml_barcode_scanner
 
   imei_serial_reader:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.8
+      ref: v1.1.9
       path: imei_serial_reader
 
   s3_file_uploader_interface:
@@ -194,6 +194,11 @@ dependency_overrides:
   package_info_plus: ^4.1.0
   file_picker: ^5.5.0
   http: ^0.13.4
+  core_widgets:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: v1.1.8
+      path: core_widgets
 
 
 

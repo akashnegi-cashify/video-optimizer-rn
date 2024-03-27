@@ -1,6 +1,6 @@
 import 'package:csh_annotation/annotation.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/resources/new_audit_response.dart';
 
-import 'audit_question_response.dart';
 
 @CshPageParam()
 class AuditQuestionSummaryCompParam {

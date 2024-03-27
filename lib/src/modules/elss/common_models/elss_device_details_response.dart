@@ -69,6 +69,9 @@ class DeviceDetailsData {
   @JsonKey(name: "imrd")
   bool? isMarkRepairedDevice;
 
+  @JsonKey(name: "sno")
+  String? serialNumber;
+
   DeviceDetailsData(
     this.deviceBarcode,
     this.requestReason,
@@ -87,6 +90,7 @@ class DeviceDetailsData {
     this.suggestedGrade,
     this.suggestedChannel,
     this.isMarkRepairedDevice,
+    this.serialNumber,
   );
 
   static DeviceDetailsData fromJson(Map<String, dynamic> data) => _$DeviceDetailsDataFromJson(data);

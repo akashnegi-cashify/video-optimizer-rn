@@ -141,7 +141,8 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
           ),
         GestureDetector(
           onTap: () async {
-            AddPartScreenTrcArguments args = AddPartScreenTrcArguments(barcode: widget.barcode);
+            AddPartScreenTrcArguments args =
+                AddPartScreenTrcArguments(barcode: widget.barcode, elssPartList: provider.elssPartList);
             var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: args);
             if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
               provider.addNewPartsFromAddParts(data!);
@@ -355,7 +356,8 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                   buttonType: ButtonType.mini,
                   firstBtnClick: () async {
                     Navigator.of(context).pop(true);
-                    AddPartScreenTrcArguments args = AddPartScreenTrcArguments(barcode: widget.barcode);
+                    AddPartScreenTrcArguments args =
+                        AddPartScreenTrcArguments(barcode: widget.barcode, elssPartList: provider.elssPartList);
                     var data = await Navigator.of(context).pushNamed(AddPartScreenTrc.route, arguments: args);
                     if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
                       for (var element in data!) {

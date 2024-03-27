@@ -9,6 +9,7 @@ part of 'add_part_component.dart';
 AddPartCompParam fromMap(Map<String, dynamic> map) {
   AddPartCompParam model = AddPartCompParam(
     scannedBarcode: map["sb"],
+    selectedPartList: map["sp"],
   );
   return model;
 }
@@ -17,6 +18,7 @@ Widget paramBuilder(Widget Function(AddPartCompParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "sb": provider.data["sb"],
+      "sp": provider.data["sp"],
     },
     builder: (context, data, child) {
       AddPartCompParam model = fromMap(data);

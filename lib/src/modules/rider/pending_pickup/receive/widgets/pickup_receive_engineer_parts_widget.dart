@@ -72,40 +72,45 @@ class _PartListWidget extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CshTextNew(parts[index].partName),
-                        CshTextNew(parts[index].partBarcode),
-                        CshTextNew(parts[index].partSku),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CshTextNew(parts[index].partName),
+                          CshTextNew(parts[index].partBarcode),
+                          CshTextNew(parts[index].partSku),
+                        ],
+                      ),
                     ),
-                    CshMediumButton(
-                      text: l10n.receive,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          CupertinoPageRoute(
-                            builder: (context) {
-                              return PickupReceiveBarcodeScannerWidget(
-                                onPartReceive: (String result) {
-                                  Navigator.pop(context);
-                                  CshLoading().showLoading(context);
-                                  presenter.receivePart(parts[index].partId, result).listen((event) {
-                                    CshLoading().hideLoading(context);
-                                    onPartReceive();
-                                  }).onError((error) {
-                                    CshLoading().hideLoading(context);
-                                    String errMessage =
-                                        ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong;
-                                    CshSnackBar.error(context: context, message: errMessage);
-                                  });
-                                },
-                                part: parts[index],
-                              );
-                            },
-                          ),
-                        );
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(left: Dimens.space_8),
+                      child: CshMediumButton(
+                        text: l10n.receive,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            CupertinoPageRoute(
+                              builder: (context) {
+                                return PickupReceiveBarcodeScannerWidget(
+                                  onPartReceive: (String result) {
+                                    Navigator.pop(context);
+                                    CshLoading().showLoading(context);
+                                    presenter.receivePart(parts[index].partId, result).listen((event) {
+                                      CshLoading().hideLoading(context);
+                                      onPartReceive();
+                                    }).onError((error) {
+                                      CshLoading().hideLoading(context);
+                                      String errMessage =
+                                          ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong;
+                                      CshSnackBar.error(context: context, message: errMessage);
+                                    });
+                                  },
+                                  part: parts[index],
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
                     )
                   ],
                 ),

@@ -1,8 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/resources/new_audit_response.dart';
 import 'package:provider/provider.dart';
 
-import '../models/audit_question_response.dart';
 import '../resources/audit_service.dart';
 import 'package:core/core.dart';
 
@@ -22,7 +22,7 @@ class AuditQuestionsProvider extends CshChangeNotifier {
   getAuditQuestionsData(String scannedBarcode) {
     AuditDataServices.getAuditQuestionnaire(scannedBarcode).listen((event) {
       if (event != null) {
-        auditData = event;
+        auditData = event.auditQuestionResponse;
       }
     }, onError: (error) {
       String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
@@ -34,10 +34,10 @@ class AuditQuestionsProvider extends CshChangeNotifier {
   }
 
   onQuestionOptionSelected(int questionId, String selectedOption) {
-    if (!Validator.isListNullOrEmpty(auditData?.questionList)) {
-      int index = auditData!.questionList!.indexWhere((element) => element.questionId == questionId);
+    if (!Validator.isListNullOrEmpty(auditData?.auditQuestionList)) {
+      int index = auditData!.auditQuestionList!.indexWhere((element) => element.questionId == questionId);
       if (index != -1) {
-        auditData!.questionList![index].selectedOption = selectedOption;
+        auditData!.auditQuestionList![index].selectedOption = selectedOption;
       }
     }
     notifyListeners();

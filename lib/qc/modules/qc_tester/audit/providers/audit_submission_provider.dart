@@ -1,24 +1,33 @@
 import 'dart:async';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/resources/new_audit_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_status_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
 import 'package:provider/provider.dart';
-import 'package:core/core.dart';
 
 import '../resources/audit_service.dart';
 
 class AuditQuestionSubmitProvider extends CshChangeNotifier {
+  List<int>? manualQuestionListIds;
+
   static AuditQuestionSubmitProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<AuditQuestionSubmitProvider>(context, listen: listen);
   }
+
+  AuditQuestionSubmitProvider();
 
   //Submit Audit question responses
   Future<bool> submitAuditQuestion(String scannedBarcode, Map<String, dynamic> postData) {
     var completer = Completer<bool>();
     try {
-      AuditDataServices.submitAutQuestionResponses(scannedBarcode, postData).listen((event) {
+      AuditDataServices.submitAutQuestionResponses(
+        scannedBarcode,
+        postData,
+        manualAuditQuestionIds: manualQuestionListIds,
+      ).listen((event) {
         if (event != null) {
           completer.complete(true);
         }
@@ -77,5 +86,14 @@ class AuditQuestionSubmitProvider extends CshChangeNotifier {
       completer.completeError(error);
     });
     return completer.future;
+  }
+
+  void onManualQuestionAnswered(List<ManualAuditQuestionItem> questionList) {
+    manualQuestionListIds ??= [];
+    for (var element in questionList) {
+      if (Validator.isTrue(element.isSelected)) {
+        manualQuestionListIds?.add(element.manualMasterId!);
+      }
+    }
   }
 }

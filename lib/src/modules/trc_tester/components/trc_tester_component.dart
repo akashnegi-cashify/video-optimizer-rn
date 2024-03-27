@@ -6,6 +6,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculator_s
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
 part 'trc_tester_component.g.dart';
 
@@ -36,7 +37,17 @@ class TrcTesterComponent extends StatelessComponent<NoneConfigModel> {
           CshBigButton(
             text: 'Trc Manual Tester',
             onPressed: () {
-              Navigator.pushNamed(context, LobDeviceScannerScreen.route);
+              CshMlScannerUtil().openScanner(
+                context,
+                header: "Manual Testing",
+                hintText: "Scan Device Barcode",
+                onScanned: (scannedData, controller) {
+                  if (scannedData.isNotEmpty) {
+                    Navigator.pushReplacementNamed(context, LobDeviceScannerScreen.route,
+                        arguments: LobDeviceScannerScreenArg(barcode: scannedData));
+                  }
+                },
+              );
             },
           ),
         ],

@@ -14,9 +14,13 @@ import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
+import '../resources/reasons.dart';
+
 class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
   String? deviceBarcode;
   DeviceDetailResponseData? deviceDetails;
+  Map<String, int>? _timeoutReasons;
+  Reasons? timeoutSelectedReason;
   bool isLoading = true;
 
   String? errorMsg;
@@ -31,6 +35,8 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
   static LobDeviceScannerProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<LobDeviceScannerProvider>(context, listen: listen);
   }
+
+  List<Reasons> get timeoutReasons => _transformTimeoutReasonsIntoList();
 
   Future<List<LobProductListData>?> getProductsList(
       String deviceBarcode, String? imei, String? serialNo, bool isManualSearch, int? categoryId) {
@@ -66,6 +72,7 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     }
     service.getDeviceDetail(deviceBarcode).listen((event) {
       deviceDetails = event?.deviceDetails;
+      _timeoutReasons = event?.deviceDetails?.reasons;
       errorMsg = null;
     }, onError: (error) {
       errorMsg = ApiErrorHelper.getErrorMessage(error).toString();
@@ -79,7 +86,10 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     var completer = Completer<void>();
     try {
       String imageUrl = await _getCompressedImageUrl(imagePath);
-      service.reportMismatch(scannedImeiList, deviceBarcode!, imageUrl).listen((event) {
+      service
+          .reportMismatch(scannedImeiList, deviceBarcode!, imageUrl, timeoutReason: timeoutSelectedReason?.name)
+          .listen((event) {
+        timeoutSelectedReason = null;
         completer.complete();
       }, onError: (error) {
         completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
@@ -125,5 +135,17 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
   Future<File> _getCompressedFile(String filePath) async {
     File compressedFile = await ImageUtil.compressImage(File(filePath));
     return compressedFile;
+  }
+
+  List<Reasons> _transformTimeoutReasonsIntoList() {
+    List<Reasons> reasonList = [];
+    _timeoutReasons?.keys.forEach((element) {
+      reasonList.add(Reasons(element, _timeoutReasons![element]!));
+    });
+    return reasonList;
+  }
+
+  void updateReason(Reasons? reason) {
+    timeoutSelectedReason = reason;
   }
 }

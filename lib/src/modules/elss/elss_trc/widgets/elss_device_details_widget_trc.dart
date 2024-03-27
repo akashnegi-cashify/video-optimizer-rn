@@ -45,6 +45,10 @@ class ElssDeviceDetailsWidgetTrc extends StatelessWidget {
               const SizedBox(height: Dimens.space_4),
               _labelAndValueWidget(theme, l10n.deviceImei, dataModel!.imei!)
             ],
+            if (!Validator.isNullOrEmpty(dataModel?.serialNumber)) ...[
+              const SizedBox(height: Dimens.space_4),
+              _labelAndValueWidget(theme, l10n.serialNumber, dataModel!.serialNumber!)
+            ],
           ],
         ),
       ),

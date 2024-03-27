@@ -28,6 +28,8 @@ class L10n extends BaseL10n {
 
   String get deviceImei => Intl.message("Device IMEI", locale: localName, name: "deviceImei");
 
+  String get serialNumber => Intl.message("Serial No.", locale: localName, name: "serialNumber");
+
   String get swipeUpToOpen => Intl.message("Swipe up to open", locale: localName, name: "swipeUpToOpen");
 
   String get acceptForWarranty => Intl.message("Accept For Warranty", locale: localName, name: "acceptForWarranty");

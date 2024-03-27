@@ -34,6 +34,8 @@ class L10n extends BaseL10n {
 
   String get reportMismatch => Intl.message("Report Mismatch", locale: localName, name: "reportMismatch");
 
+  String get unableToScan => Intl.message("Unable to Scan", locale: localName, name: "unableToScan");
+
   String get imeiMismatchDescription => Intl.message("Please capture Image of IMEI to report mismatch", locale: localName, name: "imeiMismatchDescription");
 
   String get updateCategoryIfNeeded =>

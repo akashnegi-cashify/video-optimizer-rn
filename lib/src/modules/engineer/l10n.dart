@@ -64,6 +64,8 @@ class L10n extends l10n_common.L10n {
 
   String get deviceIMEI => Intl.message("Device IMEI", locale: localName, name: "deviceIMEI");
 
+  String get serialNumber => Intl.message("Serial No", locale: localName, name: "serialNumber");
+
   String get selfAssignPart => Intl.message("Self assign part", locale: localName, name: "selfAssignPart");
 
   String get orderPart => Intl.message("Order part", locale: localName, name: "orderPart");
