@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'add_part_screen_qc.dart';
+part of 'retrieved_parts_qc_dashboard_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,14 +9,10 @@ part of 'add_part_screen_qc.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "TRC_add_part_screen_qc",
-      "pageGroup": "Add Parts QC",
-      "title": "Add Part Screen Qc Arguments",
+      "key": "QC_retrieved_parts_qc_dashboard_page",
+      "pageGroup": "Retrieved Part Qc Dashboard",
+      "title": "Retrieved Parts Qc Dashboard Screen",
       "isActive": true,
-      "params": [
-        {"key": "sb", "value": null},
-        {"key": "sp", "value": null}
-      ]
-
+      "params": null
       //#adminscreen
     };

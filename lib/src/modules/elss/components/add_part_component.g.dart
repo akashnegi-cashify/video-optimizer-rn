@@ -29,8 +29,9 @@ Widget paramBuilder(Widget Function(AddPartCompParam model) paramBuilder) {
 
 bool isValid(AddPartCompParam model) {
   var scannedBarcode = model.scannedBarcode;
+  var selectedPartList = model.selectedPartList;
 
-  return scannedBarcode != null;
+  return scannedBarcode != null && selectedPartList != null;
 }
 
 dynamic schema() => {
@@ -41,7 +42,8 @@ dynamic schema() => {
       "isActive": true,
       "title": "Add Part Component",
       "cpm": [
-        {"key": "sb", "value": null}
+        {"key": "sb", "value": null},
+        {"key": "sp", "value": null}
       ],
       "configJson": {
         "type": "list",

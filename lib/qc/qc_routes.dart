@@ -41,6 +41,7 @@ import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_screen.dart';
+import 'modules/retrieved_part_qc/screens/retrieved_parts_qc_dashboard_screen.dart';
 import 'modules/stock_in_module/screens/index.dart';
 import 'modules/store_out/screens/index.dart';
 
@@ -96,6 +97,7 @@ class QcRoutes {
       WarehouseAuditPerformScreen.route: (_) => const WarehouseAuditPerformScreen(),
       DeviceDetailsScreen.route: (_) => const DeviceDetailsScreen(),
       StorageDeviceListScreen.route: (_) => const StorageDeviceListScreen(),
+      RetrievedPartsQcDashboardScreen.route: (_) => const RetrievedPartsQcDashboardScreen(),
     };
   }
 }

@@ -38,6 +38,7 @@ import 'modules/qc_tester/calculator_media_capture/components/calculator_media_c
 import 'modules/qc_tester/disputed_image_capture/components/disputed_image_barcode_scanner_component.dart';
 import 'modules/qc_tester/disputed_image_capture/components/disputed_image_capture_component.dart';
 import 'modules/qc_tester/home/component/qc_tester_home_component.dart';
+import 'modules/retrieved_part_qc/components/retrieved_part_qc_dashboard.dart';
 import 'modules/stock_in_module/components/search_item_component.dart';
 import 'modules/stock_in_module/components/stock_in_product_detail_component.dart';
 import 'modules/store_out/components/index.dart';
@@ -153,6 +154,8 @@ class QcComponentRegistry {
 
       case StorageDeviceListComponent.COMP_KEY:
         return StorageDeviceListComponent(jsonConfig);
+      case RetrievedPartQcDashboardComponent.COMP_KEY:
+        return RetrievedPartQcDashboardComponent(jsonConfig);
 
       default:
         return null;

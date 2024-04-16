@@ -40,6 +40,7 @@ import 'package:flutter_trc/src/modules/trc_executive/components/device_scanner_
 import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_component.dart';
 import 'package:flutter_trc/src/modules/trc_tester/components/trc_tester_component.dart';
 
+import '../src/modules/retreived_parts/components/retrieved_parts_data_details_component.dart';
 import '../src/modules/store_manager/components/store_manager_home_component.dart';
 
 class TrcComponentRegistry {
@@ -167,6 +168,8 @@ class TrcComponentRegistry {
 
       case RetrievedPartListComponent.COMP_KEY:
         return RetrievedPartListComponent(jsonConfig);
+      case RetrievedPartsDataDetailsComponents.COMP_KEY:
+        return RetrievedPartsDataDetailsComponents(jsonConfig);
       default:
         return null;
     }

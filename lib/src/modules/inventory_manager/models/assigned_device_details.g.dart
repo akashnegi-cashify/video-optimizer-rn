@@ -64,6 +64,6 @@ Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
       'rr': instance.returnReason,
       'rrs': instance.repairReasonList,
       'dimei': instance.imei,
-      'dc': instance.color,
       'sno': instance.serialNumber,
+      'dc': instance.color,
     };

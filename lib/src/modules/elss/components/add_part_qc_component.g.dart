@@ -9,7 +9,7 @@ part of 'add_part_qc_component.dart';
 AddPartsQCCompParam fromMap(Map<String, dynamic> map) {
   AddPartsQCCompParam model = AddPartsQCCompParam(
     scannedBarcode: map["sb"],
-    selectedParts: map["sp"],
+    selectedParts: map["sb"],
   );
   return model;
 }
@@ -18,7 +18,7 @@ Widget paramBuilder(Widget Function(AddPartsQCCompParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "sb": provider.data["sb"],
-      "sp": provider.data["sp"],
+      "sb": provider.data["sb"],
     },
     builder: (context, data, child) {
       AddPartsQCCompParam model = fromMap(data);
@@ -29,8 +29,9 @@ Widget paramBuilder(Widget Function(AddPartsQCCompParam model) paramBuilder) {
 
 bool isValid(AddPartsQCCompParam model) {
   var scannedBarcode = model.scannedBarcode;
+  var selectedParts = model.selectedParts;
 
-  return scannedBarcode != null;
+  return scannedBarcode != null && selectedParts != null;
 }
 
 dynamic schema() => {
@@ -41,7 +42,8 @@ dynamic schema() => {
       "isActive": true,
       "title": "Add Parts Qc Component",
       "cpm": [
-        {"key": "sb", "value": null}
+        {"key": "sb", "value": null},
+        {"key": "sp", "value": null}
       ],
       "configJson": {
         "type": "list",
