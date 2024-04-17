@@ -14,6 +14,7 @@ import '../../elss/common_screen/elss_home_screen.dart';
 import '../../engineer/widgets/engineer_home_widget.dart';
 import '../../inventory_manager/screens/inventory_home_screen.dart';
 import '../../part_qc/screens/pq_home_screen.dart';
+import '../../retrieved_part_qc/screens/retrieved_parts_qc_dashboard_screen.dart';
 import '../../rider/rider_home_screen.dart';
 import '../../rubbing/widgets/rubbing_home_screen.dart';
 
@@ -54,7 +55,7 @@ class UserRoles {
       } else if (listOfRoles.contains(UserRoles.ROLE_INVENTORY_MANAGER)) {
         Navigator.of(context).pushNamedAndRemoveUntil(InventoryHomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.ROLE_QC)) {
-        Navigator.of(context).pushNamedAndRemoveUntil(PartQCHomeScreen.route, (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(RetrievedPartsQcDashboardScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.TRC_EXECUTIVE)) {
         Navigator.of(context).pushNamedAndRemoveUntil(TRCExecutiveScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.QC_ROLE)) {

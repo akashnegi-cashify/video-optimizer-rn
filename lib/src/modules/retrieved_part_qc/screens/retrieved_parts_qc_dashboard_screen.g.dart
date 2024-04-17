@@ -9,7 +9,7 @@ part of 'retrieved_parts_qc_dashboard_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "QC_retrieved_parts_qc_dashboard_page",
+      "key": "TRC_retrieved_parts_qc_dashboard_page",
       "pageGroup": "Retrieved Part Qc Dashboard",
       "title": "Retrieved Parts Qc Dashboard Screen",
       "isActive": true,

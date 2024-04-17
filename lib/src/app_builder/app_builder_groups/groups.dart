@@ -1,6 +1,8 @@
 import 'package:csh_annotation/annotation.dart';
 
 enum ComponentGroup with AbsComponentGroup {
+  actionComponentKey("Action"),
+  viewReportQcComponentKey("View Report Qc"),
   retrievedPartQcDashboardComponentKey("Retrieved Part Qc Dashboard"),
   retrievedPartsDataDetailsComponentKey("Retrieved Parts Data Details"),
   createManualShipmentComponentKey("Create Manual Shipment"),
@@ -84,6 +86,8 @@ enum ComponentGroup with AbsComponentGroup {
 }
 
 enum PageGroup with AbsPageGroup {
+  actionPageKey("Action"),
+  viewReportQcPageKey("View Report Qc"),
   retrievedPartQcDashboardPageKey("Retrieved Part Qc Dashboard"),
   retrievedPartsDataDetailsPageKey("Retrieved Parts Data Details"),
   createManualShipmentPageKey("Create Manual Shipment"),

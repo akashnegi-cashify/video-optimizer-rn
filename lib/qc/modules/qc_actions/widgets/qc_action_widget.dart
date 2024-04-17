@@ -9,7 +9,6 @@ import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/resources/services.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
-import 'package:flutter_trc/qc/modules/retrieved_part_qc/screens/retrieved_parts_qc_dashboard_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/dialog/show_store_in_type_dialog.dart';
 import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
@@ -197,13 +196,6 @@ class QCActionWidget extends StatelessWidget {
                     DeviceDetailsScreen.pushNamed(context, scannedData);
                   },
                 );
-              },
-            ),
-            const SizedBox(height: Dimens.space_16),
-            CshBigButton(
-              text: "Retrieved Parts QC",
-              onPressed: () {
-                Navigator.of(context).pushNamed(RetrievedPartsQcDashboardScreen.route);
               },
             ),
           ],

@@ -569,6 +569,54 @@
       ]
     },
     {
+      "pageId": 43,
+      "pageKey": "TRC_retrieved_parts_qc_dashboard_page",
+      "dt": [
+        {
+          "id": 71,
+          "key": "TRC_retrieved_part_qc_dashboard",
+          "type": "component"
+        },
+        {
+          "id": 72,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 44,
+      "pageKey": "TRC_view_report_qc_screen",
+      "dt": [
+        {
+          "id": 73,
+          "key": "TRC_view_report_qc",
+          "type": "component"
+        },
+        {
+          "id": 74,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 45,
+      "pageKey": "TRC_action_screen",
+      "dt": [
+        {
+          "id": 75,
+          "key": "TRC_action_component",
+          "type": "component"
+        },
+        {
+          "id": 76,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -1236,21 +1284,6 @@
         },
         {
           "id": 10128,
-          "key": "header_QC_qc_general"
-        }
-      ]
-    },
-    {
-      "pageId": 10049,
-      "pageKey": "QC_retrieved_parts_qc_dashboard_page",
-      "dt": [
-        {
-          "id": 10042,
-          "key": "QC_retrieved_part_qc_dashboard",
-          "type": "component"
-        },
-        {
-          "id": 10043,
           "key": "header_QC_qc_general"
         }
       ]
@@ -2156,6 +2189,72 @@
       }
     },
     {
+      "componentId": 71,
+      "locale": "en",
+      "key": "TRC_retrieved_part_qc_dashboard",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 72,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Dashboard",
+          "sbb": false,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 73,
+      "locale": "en",
+      "key": "TRC_view_report_qc",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 74,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Activity Report",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 75,
+      "locale": "en",
+      "key": "TRC_action_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 76,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part QC",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
       "componentId": 10001,
       "locale": "en",
       "key": "QC_qc_tester_home",
@@ -2580,28 +2679,6 @@
       "configJson": {
         "config": {
           "none": "None"
-        }
-      }
-    },
-    {
-      "componentId": 10042,
-      "locale": "en",
-      "key": "QC_retrieved_part_qc_dashboard",
-      "configJson": {
-        "config": {
-          "none": "None"
-        }
-      }
-    },
-    {
-      "componentId": 10043,
-      "locale": "en",
-      "key": "header_QC_qc_general",
-      "configJson": {
-        "config": {
-          "ht": "Dashboard",
-          "sbb": true,
-          "slb": false
         }
       }
     },

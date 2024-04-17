@@ -41,6 +41,9 @@ import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_c
 import 'package:flutter_trc/src/modules/trc_tester/components/trc_tester_component.dart';
 
 import '../src/modules/retreived_parts/components/retrieved_parts_data_details_component.dart';
+import '../src/modules/retrieved_part_qc/components/action_component.dart';
+import '../src/modules/retrieved_part_qc/components/retrieved_part_qc_dashboard.dart';
+import '../src/modules/retrieved_part_qc/components/view_report_qc_component.dart';
 import '../src/modules/store_manager/components/store_manager_home_component.dart';
 
 class TrcComponentRegistry {
@@ -170,6 +173,12 @@ class TrcComponentRegistry {
         return RetrievedPartListComponent(jsonConfig);
       case RetrievedPartsDataDetailsComponents.COMP_KEY:
         return RetrievedPartsDataDetailsComponents(jsonConfig);
+      case RetrievedPartQcDashboardComponent.COMP_KEY:
+        return RetrievedPartQcDashboardComponent(jsonConfig);
+      case ViewReportQcComponent.COMP_KEY:
+        return ViewReportQcComponent(jsonConfig);
+      case ActionComponent.COMP_KEY:
+        return ActionComponent(jsonConfig);
       default:
         return null;
     }

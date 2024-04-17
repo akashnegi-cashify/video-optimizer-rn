@@ -9,7 +9,7 @@ part of 'retrieved_part_qc_dashboard.dart';
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "QC_retrieved_part_qc_dashboard",
+      "key": "TRC_retrieved_part_qc_dashboard",
       "componentType": "Retrieved Part Qc Dashboard",
       "isActive": true,
       "title": "Retrieved Part Qc Dashboard Component",
