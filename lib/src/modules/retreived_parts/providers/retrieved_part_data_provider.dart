@@ -45,15 +45,6 @@ class RetrievedPartsDataProviders extends CshChangeNotifier {
     }
   }
 
-  bool checkForMandatoryFields() {
-    for (var element in partList) {
-      if (element.s3Url == null && element.reasonId == null && element.barcode == null) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   onBarcodeChanged(int id, String barcode) {
     for (var element in partList) {
       if (element.partRequestId == id) {

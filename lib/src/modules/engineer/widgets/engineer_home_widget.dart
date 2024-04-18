@@ -9,7 +9,6 @@ import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/screens/retrieved_part_list_screen.dart';
 
-import '../../retrieved_part_qc/screens/retrieved_parts_qc_dashboard_screen.dart';
 import '../manage_parts/manage_parts_screen.dart';
 import '../my_devices/widgets/my_devices_screen.dart';
 import '../receive_devices/widget/receive_devices_button_widget.dart';
@@ -90,13 +89,7 @@ class _EngineerHomeWidgetState extends State<EngineerHomeWidget> {
               Navigator.pushNamed(context, RetrievedPartListScreen.route);
             },
           ),
-          const SizedBox(height: Dimens.space_16),
-          CshBigButton(
-            text: "test",
-            onPressed: () {
-              Navigator.pushNamed(context, RetrievedPartsQcDashboardScreen.route);
-            },
-          ),
+
           const Spacer(),
           const Align(alignment: Alignment.center, child: UserNameWidget()),
           const Align(

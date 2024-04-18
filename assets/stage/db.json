@@ -2206,7 +2206,7 @@
         "config": {
           "ht": "Dashboard",
           "sbb": false,
-          "slb": false
+          "slb": true
         }
       }
     },

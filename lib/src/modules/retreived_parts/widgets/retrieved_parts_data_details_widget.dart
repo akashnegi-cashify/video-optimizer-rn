@@ -5,6 +5,7 @@ import 'package:flutter_trc/src/modules/retreived_parts/widgets/retrieved_part_d
 import '../../engineer/models/retreived_part_required_list_reponse.dart';
 import '../l10n.dart';
 import '../providers/retrieved_part_data_provider.dart';
+import '../utils/retrieved_parts_utils.dart';
 
 class RetrievedPartsDataDetailsWidget extends StatefulWidget {
   final RetrievedPartRequiredResponse? dataModel;
@@ -45,7 +46,7 @@ class _RetrievedPartsDataDetailsWidgetState extends State<RetrievedPartsDataDeta
             child: CshMediumButton(
               text: l10n.submit,
               onPressed: () {
-                if (provider.checkForMandatoryFields() == false) {
+                if (RetrievedPartsUtils.checkForMandatoryFields(widget.dataModel?.data?.partList) == false) {
                   CshSnackBar.error(
                     context: context,
                     message: l10n.completeRequiredFieldToSubmit,
