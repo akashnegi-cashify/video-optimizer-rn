@@ -15,7 +15,8 @@ part 'action_screen.g.dart';
   params: ActionItemParamKey.values,
 )
 class ActionScreenArgumentsKey extends BaseArguments {
-  final String? barcode;
+final String? barcode;
+
 
   ActionScreenArgumentsKey({
     this.barcode,
