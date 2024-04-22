@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/retreived_parts/widgets/retrieved_part_details_item_widget.dart';
 
 import '../../engineer/models/retreived_part_required_list_reponse.dart';
+import '../../engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import '../l10n.dart';
 import '../providers/retrieved_part_data_provider.dart';
 import '../utils/retrieved_parts_utils.dart';
@@ -102,8 +103,9 @@ class _RetrievedPartsDataDetailsWidgetState extends State<RetrievedPartsDataDeta
     provider.orderPartsWithRetrievedData().then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: "Parts Ordered Successfully");
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
+      Navigator.popUntil(context, ModalRoute.withName(AssignedPartsScreen.route));
+      Navigator.of(context).pushReplacementNamed(AssignedPartsScreen.route,
+          arguments: AssignedPartsData(true, deviceBarcode: provider.deviceBarcode));
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);

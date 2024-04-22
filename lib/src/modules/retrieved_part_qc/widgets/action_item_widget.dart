@@ -1,19 +1,18 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
-import 'package:csh_gallery_view/csh_gallery_view.dart';
-import 'package:csh_gallery_view/gallery/types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/utils/dotted_divider_line.dart';
 import 'package:flutter_trc/src/utils/image_util.dart' as imgUtil;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
+import '../../../utils/fetch_image_widget.dart';
 import '../../../utils/media_upload/media_optimiser_utils.dart';
 import '../../../utils/media_upload/models/image_upload_service_type_enum.dart';
 import '../../engineer/models/retrieved_part_list_response.dart';
+import '../../retreived_parts/screens/image_view_screen.dart';
 import '../l10n.dart';
 import '../providers/action_provider.dart';
 
@@ -31,20 +30,6 @@ class ActionWidgetItem extends StatefulWidget {
 
 class _ActionWidgetItemState extends State<ActionWidgetItem> {
   final TextEditingController _remarkController = TextEditingController();
-  List<List<ImageData>> imageList = [];
-
-  @override
-  void initState() {
-    scheduleMicrotask(() {
-      if (!Validator.isListNullOrEmpty(widget.dataModel?.imageUrls)) {
-        imageList.add(List.generate(
-            widget.dataModel!.imageUrls!.length, (index) => ImageData(index, widget.dataModel!.imageUrls![index])));
-        Logger.debug('mydebug------_ActionWidgetItemState.initState', [imageList.length]);
-        setState(() {});
-      }
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +50,18 @@ class _ActionWidgetItemState extends State<ActionWidgetItem> {
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
               child: Row(
                 children: [
-                  if (imageList.isNotEmpty)
-                    SizedBox(
-                      width: 50.0,
-                      height: 80.0,
-                      child: CshGalleryView(
-                        imageList: imageList,
-                        galleryViewAxis: Axis.horizontal,
+                  if (!Validator.isListNullOrEmpty(widget.dataModel?.imageUrls))
+                    GestureDetector(
+                      onTap: () {
+                        ProductImageViewScreenArgument args = ProductImageViewScreenArgument(
+                          listOfProductImages: widget.dataModel!.imageUrls!,
+                        );
+                        Navigator.of(context).pushNamed(ProductImageViewScreen.route, arguments: args);
+                      },
+                      child: SizedBox(
+                        width: 50.0,
+                        height: 80.0,
+                        child: fetchImage("placeholder", widget.dataModel!.imageUrls!.first, fit: BoxFit.fill),
                       ),
                     ),
                   const SizedBox(width: Dimens.space_12),

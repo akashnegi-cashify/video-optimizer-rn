@@ -46,6 +46,7 @@ import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_scr
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 
+import '../src/modules/retreived_parts/screens/image_view_screen.dart';
 import '../src/modules/retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 import '../src/modules/retrieved_part_qc/screens/action_screen.dart';
 import '../src/modules/retrieved_part_qc/screens/retrieved_parts_qc_dashboard_screen.dart';
@@ -109,7 +110,8 @@ class TrcRoutes {
       RetrievedPartsDataDetailsScreen.route: (_) => const RetrievedPartsDataDetailsScreen(),
       RetrievedPartsQcDashboardScreen.route: (_) => const RetrievedPartsQcDashboardScreen(),
       ViewRepostQcScreen.route: (_) => const ViewRepostQcScreen(),
-      ActionScreen.route: (_) => const ActionScreen()
+      ActionScreen.route: (_) => const ActionScreen(),
+      ProductImageViewScreen.route: (_) => const ProductImageViewScreen(),
     };
   }
 }
