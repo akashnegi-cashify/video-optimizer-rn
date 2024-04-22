@@ -22,13 +22,18 @@ class AssignedPartsScreen extends StatelessWidget {
     AssignedPartsData? assignedPartsData = ModalRoute.of(context)?.settings.arguments as AssignedPartsData?;
     return ChangeNotifierProvider(
       create: (_) => AssignedPartsProvider(assignedPartsData?.deviceBarcode),
-      child: _AssignedPartsWidget(),
+      child: _AssignedPartsWidget(barcode: assignedPartsData?.deviceBarcode),
     );
   }
 }
 
 class _AssignedPartsWidget extends StatelessWidget {
-  _AssignedPartsWidget({Key? key}) : super(key: key);
+  final String? barcode;
+
+  _AssignedPartsWidget({
+    Key? key,
+    this.barcode,
+  }) : super(key: key);
 
   final GlobalKey<AssignedPartListWidgetState> listRef = GlobalKey();
 
@@ -123,14 +128,10 @@ class _AssignedPartsWidget extends StatelessWidget {
                   ),
                   CshBigOutlineButton(
                     text: l10n.orderPart,
-                    onPressed: () {
-                      Navigator.pushNamed(context, OrderPartScreen.route,
-                              arguments: OrderPartScreenArg(assignedPartsData?.deviceBarcode))
-                          .then((isRefresh) {
-                        if (isRefresh != null) {
-                          listRef.currentState?.refreshData();
-                        }
-                      });
+                    onPressed: () async {
+                      await Navigator.pushNamed(context, OrderPartScreen.route,
+                          arguments: OrderPartScreenArg(assignedPartsData?.deviceBarcode));
+                      provider.refreshPage(barcode);
                     },
                   ),
                 ],

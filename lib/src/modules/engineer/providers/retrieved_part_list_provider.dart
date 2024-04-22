@@ -49,9 +49,9 @@ class RetrievedPartListProvider extends CshChangeNotifier with Searchable {
     return completer.future;
   }
 
-  Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId, String imageUrl) {
+  Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId) {
     var completer = Completer<bool>();
-    PartQcServiceElss.updateRetrievedPartStatus(isFaulty, partId, imageUrl).listen((event) {
+    PartQcServiceElss.updateRetrievedPartStatus(isFaulty, partId).listen((event) {
       if (Validator.isTrue(event?.isSuccess)) {
         completer.complete(true);
       } else {

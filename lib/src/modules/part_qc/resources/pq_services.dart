@@ -27,11 +27,10 @@ class PartQcServiceElss {
     return TrcService().post("/qc/parts/receive-retrieved-part?pbr=$partBarcode", BaseActionResponse.fromJson);
   }
 
-  static Stream<BaseActionResponse?> updateRetrievedPartStatus(bool isFaulty, int partId, String imageUrl) {
+  static Stream<BaseActionResponse?> updateRetrievedPartStatus(bool isFaulty, int partId) {
     Map<String, dynamic> bodyData = {
       "isFault": isFaulty,
       "prid": partId,
-      "img": [imageUrl],
     };
     return TrcService()
         .post("/qc/parts/submit-retrieved-part-qc", BaseActionResponse.fromJson, body: jsonEncode(bodyData));

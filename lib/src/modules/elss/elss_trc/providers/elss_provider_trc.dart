@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/common/widgets/loading_dialog_widget.dart';
 import 'package:provider/provider.dart';
+
 import '../../common_models/elss_device_details_response.dart';
 import '../../common_models/elss_option_response.dart';
 import '../../common_models/elss_part.dart';
@@ -136,6 +136,7 @@ class ELssProviderTrc extends CshChangeNotifier {
         action: null,
         sku: element.sku,
         isManualAdded: true,
+        categoryCode: element.categoryCode,
       );
       data.elssPartId = elssPartList.length + 1;
       data.partsImageList = ["", "", "", "", "", ""];
@@ -264,6 +265,7 @@ class ELssProviderTrc extends CshChangeNotifier {
           "sku": elssPartList[index].sku,
           "selectedPos": elssPartList[index].isManualAdded == true ? -1 : 0,
           "_v": 0,
+          "cc": elssPartList[index].categoryCode,
         };
       });
     }

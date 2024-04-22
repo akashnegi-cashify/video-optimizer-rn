@@ -22,7 +22,7 @@ version: 3.1.6+37
 web_version: 1.0.0
 
 environment:
-  sdk: ">=3.0.0 <=3.2.3"
+  sdk: ">=3.0.0 <=3.2.6"
   flutter: '>=3.10.0'
 
 dependencies:
@@ -34,48 +34,48 @@ dependencies:
   calculator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: calculator
   core:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: core
 
   localization:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: localization
 
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.8
+      ref: v1.1.9
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.9
+      ref: main
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.8
+      ref: main
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.9
+      ref: main
       path: ml_barcode_scanner
 
   imei_serial_reader:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.9
+      ref: main
       path: imei_serial_reader
 
   s3_file_uploader_interface:
@@ -92,36 +92,36 @@ dependencies:
   builder_component:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: builder_component
 
   builder_project:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: builder_project
   csh_db:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: csh_db
 
   csh_annotation:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: csh_annotation
 
   video_optimizer:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: video_optimizer
 
   csh_gallery_view:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: csh_gallery_view
 
   device_info_plus: ^9.0.3
@@ -152,7 +152,7 @@ dependencies:
   image: ^4.0.17
   url_launcher: ^6.1.12
   flutter_tts: ^3.8.5
-#  ffmpeg_kit_flutter_video: 5.1.0
+  #  ffmpeg_kit_flutter_video: 5.1.0
   video_player: ^2.7.0
   flutter_image_compress: ^2.0.4
   qr_flutter: ^4.1.0
@@ -194,11 +194,50 @@ dependency_overrides:
   package_info_plus: ^4.1.0
   file_picker: ^5.5.0
   http: ^0.13.4
+  csh_annotation:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: v2.0.6
+      path: csh_annotation
+  builder_component:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: v2.0.6
+      path: builder_component
+  localization:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: v2.0.6
+      path: localization
+  core:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: v2.0.6
+      path: core
+  #  calculator:
+  #    git:
+  #      url: https://github.com/reglobe/flutter_packages.git
+  #      ref: v2.0.6
+  #      path: calculator
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.8
+      ref: main
       path: core_widgets
+  calculator_ui:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: main
+      path: calculator_ui
+  calculator:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: main
+      path: calculator
+
+
+
+
 
 
 

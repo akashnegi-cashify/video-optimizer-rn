@@ -4,6 +4,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
+import 'package:flutter_trc/src/modules/engineer/models/retreived_part_required_list_reponse.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/send_to_tl_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/job_card_summary_response.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_
 import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
 
 import '../../../services/trc_service.dart';
+import '../models/engineer_action_response.dart';
 import '../my_devices/all_devices/models/mark_in_progress_response.dart';
 import '../my_devices/wip_devices/models/change_device_status_response.dart';
 import '../my_devices/wip_devices/models/device_return_reasons_response.dart';
@@ -230,5 +232,15 @@ class EngineerAPIService {
 
   static Stream<RetrievedPartReasonListResponse?> getRetrievedPartReasonList(int? partRequestId) {
     return TrcService().get("/retrieved-part/list-reason?pid=$partRequestId", RetrievedPartReasonListResponse.fromJson);
+  }
+
+  static Stream<RetrievedPartRequiredResponse?> fetchRequiredPartsListingByDID(Map<String, dynamic> bodyData) {
+    return TrcService().post("/retrieved-part/retrieved-part-required-list", RetrievedPartRequiredResponse.fromJson,
+        body: jsonEncode(bodyData));
+  }
+
+  static Stream<EngineerActionResponse?> updateRetrievedParts(Map<String, dynamic> data) {
+    return TrcService()
+        .post("/retrieved-part/update-extracted-part", EngineerActionResponse.fromJson, body: jsonEncode(data));
   }
 }

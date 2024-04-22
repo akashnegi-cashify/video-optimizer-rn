@@ -553,6 +553,70 @@
       ]
     },
     {
+      "pageId": 42,
+      "pageKey": "TRC_retrieved_parts_details",
+      "dt": [
+        {
+          "id": 69,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        },
+        {
+          "id": 70,
+          "key": "TRC_retrieved_parts_data_details",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 43,
+      "pageKey": "TRC_retrieved_parts_qc_dashboard_page",
+      "dt": [
+        {
+          "id": 71,
+          "key": "TRC_retrieved_part_qc_dashboard",
+          "type": "component"
+        },
+        {
+          "id": 72,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 44,
+      "pageKey": "TRC_view_report_qc_screen",
+      "dt": [
+        {
+          "id": 73,
+          "key": "TRC_view_report_qc",
+          "type": "component"
+        },
+        {
+          "id": 74,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 45,
+      "pageKey": "TRC_action_screen",
+      "dt": [
+        {
+          "id": 75,
+          "key": "TRC_action_component",
+          "type": "component"
+        },
+        {
+          "id": 76,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -944,7 +1008,6 @@
         }
       ]
     },
-
     {
       "pageId": 10030,
       "pageKey": "QC_qc_store_out",
@@ -959,7 +1022,6 @@
         }
       ]
     },
-
     {
       "pageId": 10031,
       "pageKey": "QC_qc_store_out_lot_filter",
@@ -990,7 +1052,6 @@
         }
       ]
     },
-
     {
       "pageId": 10033,
       "pageKey": "QC_qc_device_dead_repair",
@@ -1019,7 +1080,6 @@
         }
       ]
     },
-
     {
       "pageId": 10035,
       "pageKey": "QC_qc_device_dead_accept_reject",
@@ -1034,7 +1094,6 @@
         }
       ]
     },
-
     {
       "pageId": 10036,
       "pageKey": "QC_guard_add_agent_screen",
@@ -1049,7 +1108,6 @@
         }
       ]
     },
-
     {
       "pageId": 10037,
       "pageKey": "QC_stock_transfer_list_screen",
@@ -1636,7 +1694,9 @@
       "locale": "en",
       "key": "TRC_wip_devices_details_comp",
       "configJson": {
-        "pad": [16],
+        "pad": [
+          16
+        ],
         "config": {
           "none": "None"
         }
@@ -2101,6 +2161,94 @@
       "configJson": {
         "config": {
           "ht": "Retrieved Part List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 69,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Retrieved Parts Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 70,
+      "locale": "en",
+      "key": "TRC_retrieved_parts_data_details",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 71,
+      "locale": "en",
+      "key": "TRC_retrieved_part_qc_dashboard",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 72,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Dashboard",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 73,
+      "locale": "en",
+      "key": "TRC_view_report_qc",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 74,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Activity Report",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 75,
+      "locale": "en",
+      "key": "TRC_action_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 76,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part QC",
           "sbb": true,
           "slb": false
         }
@@ -2610,7 +2758,6 @@
         }
       }
     },
-
     {
       "componentId": 10049,
       "locale": "en",
@@ -2623,8 +2770,6 @@
         }
       }
     },
-
-
     {
       "componentId": 10050,
       "locale": "en",
@@ -2635,7 +2780,6 @@
         }
       }
     },
-
     {
       "componentId": 10051,
       "locale": "en",
@@ -2656,7 +2800,6 @@
         }
       }
     },
-
     {
       "componentId": 10053,
       "locale": "en",
@@ -2707,9 +2850,6 @@
         }
       }
     },
-
-
-
     {
       "componentId": 10105,
       "locale": "en",
