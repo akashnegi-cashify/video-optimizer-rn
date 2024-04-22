@@ -214,11 +214,11 @@ dependency_overrides:
       url: https://github.com/reglobe/flutter_packages.git
       ref: v2.0.6
       path: core
-#  calculator:
-#    git:
-#      url: https://github.com/reglobe/flutter_packages.git
-#      ref: v2.0.6
-#      path: calculator
+  #  calculator:
+  #    git:
+  #      url: https://github.com/reglobe/flutter_packages.git
+  #      ref: v2.0.6
+  #      path: calculator
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
@@ -230,7 +230,10 @@ dependency_overrides:
       ref: main
       path: calculator_ui
   calculator:
-    path: ../flutter_packages/calculator
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: main
+      path: calculator
 
 
 

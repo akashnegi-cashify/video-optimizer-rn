@@ -1,6 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 
-import '../../engineer/models/retreived_part_required_list_reponse.dart';
+import '../../models/retreived_part_required_list_reponse.dart';
+
+
 
 class RetrievedPartsUtils {
   static bool checkForMandatoryFields(List<RetrievedPartListResponseData?>? dataModelList) {

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:provider/provider.dart';
 
-import '../../engineer/models/retreived_part_required_list_reponse.dart';
-import '../../engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
+import '../../models/retreived_part_required_list_reponse.dart';
+import '../../my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
 import '../models/retrieved_parts_data_details_param.dart';
 import '../providers/retrieved_part_data_provider.dart';
 

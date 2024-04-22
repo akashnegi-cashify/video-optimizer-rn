@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:provider/provider.dart';
 
-import '../../retrieved_part_qc/providers/qc_report_provider.dart';
-
+import '../retrieved_part_qc/providers/qc_report_provider.dart';
 part 'pq_home_screen.g.dart';
 
 @CshPage(key: PartQCHomeScreen.pageKey, pageGroup: PageGroup.partQcHomePageKey)

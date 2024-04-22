@@ -7,7 +7,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:provider/provider.dart';
 
 import '../../../../../../common/widgets/searchbar_widget.dart';
-import '../../../../../retreived_parts/screens/retrieved_parts_details_data_screen.dart';
+import '../../../../retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 
 class OrderPartScreenArg {
   final String? deviceBarcode;

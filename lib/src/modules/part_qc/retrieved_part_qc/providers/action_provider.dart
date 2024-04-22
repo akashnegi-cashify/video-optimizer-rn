@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:provider/provider.dart';
 
-import '../../engineer/models/retrieved_part_list_response.dart';
-import '../../engineer/resources/engineer_api_service.dart';
-import '../../part_qc/resources/pq_services.dart';
+import '../../../engineer/models/retrieved_part_list_response.dart';
+import '../../../engineer/resources/engineer_api_service.dart';
+import '../../resources/pq_services.dart';
+
+
 
 class ActionProvider extends CshChangeNotifier {
   static ActionProvider of(BuildContext context, {bool listen = true}) {

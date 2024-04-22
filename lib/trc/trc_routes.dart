@@ -46,11 +46,11 @@ import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_scr
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 
-import '../src/modules/retreived_parts/screens/image_view_screen.dart';
-import '../src/modules/retreived_parts/screens/retrieved_parts_details_data_screen.dart';
-import '../src/modules/retrieved_part_qc/screens/action_screen.dart';
-import '../src/modules/retrieved_part_qc/screens/retrieved_parts_qc_dashboard_screen.dart';
-import '../src/modules/retrieved_part_qc/screens/view_repost_qc_screen.dart';
+import '../src/modules/engineer/retreived_parts/screens/image_view_screen.dart';
+import '../src/modules/engineer/retreived_parts/screens/retrieved_parts_details_data_screen.dart';
+import '../src/modules/part_qc/retrieved_part_qc/screens/action_screen.dart';
+import '../src/modules/part_qc/retrieved_part_qc/screens/retrieved_parts_qc_dashboard_screen.dart';
+import '../src/modules/part_qc/retrieved_part_qc/screens/view_repost_qc_screen.dart';
 
 class TrcRoutes {
   static Map<String, WidgetBuilder> getRoutes() {

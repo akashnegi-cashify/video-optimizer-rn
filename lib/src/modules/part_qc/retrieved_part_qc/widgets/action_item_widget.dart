@@ -1,18 +1,10 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/utils/dotted_divider_line.dart';
-import 'package:flutter_trc/src/utils/image_util.dart' as imgUtil;
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
 
-import '../../../utils/fetch_image_widget.dart';
-import '../../../utils/media_upload/media_optimiser_utils.dart';
-import '../../../utils/media_upload/models/image_upload_service_type_enum.dart';
-import '../../engineer/models/retrieved_part_list_response.dart';
-import '../../retreived_parts/screens/image_view_screen.dart';
+import '../../../../utils/fetch_image_widget.dart';
+import '../../../engineer/models/retrieved_part_list_response.dart';
+import '../../../engineer/retreived_parts/screens/image_view_screen.dart';
 import '../l10n.dart';
 import '../providers/action_provider.dart';
 
@@ -193,31 +185,6 @@ class _ActionWidgetItemState extends State<ActionWidgetItem> {
         ),
       ),
     );
-  }
-
-  Future<String> _getFileUrl() async {
-    var completer = Completer<String>();
-    var xFile = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      requestFullMetadata: false,
-    );
-
-    if (xFile != null && mounted) {
-      CshLoading().showLoading(context);
-      imgUtil.ImageUtil.compressImage(File(xFile.path)).then((compressedFile) {
-        String fileName = path.basename(compressedFile.path);
-        MediaUploadUtil(service: ImageUploadServiceType.trc.service)
-            .uploadMediaWithType(mediaFile: compressedFile, fileName: fileName)
-            .then((value) {
-          CshLoading().hideLoading(context);
-          completer.complete(value);
-        }, onError: (error) {
-          CshLoading().hideLoading(context);
-          completer.completeError(error);
-        });
-      });
-    }
-    return completer.future;
   }
 
   _updatePartStatus(

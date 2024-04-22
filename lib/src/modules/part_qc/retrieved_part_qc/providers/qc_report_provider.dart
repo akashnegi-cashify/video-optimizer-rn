@@ -5,7 +5,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../part_qc/resources/pq_services.dart';
+import '../../resources/pq_services.dart';
 import '../models/qc_repost_response.dart';
 import '../resources/retrieved_part_qc_service.dart';
 

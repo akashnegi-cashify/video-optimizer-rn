@@ -1,8 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/modules/retrieved_part_qc/providers/action_provider.dart';
 
 import '../l10n.dart';
+import '../providers/action_provider.dart';
 import 'action_item_widget.dart';
 
 class ActionWidget extends StatefulWidget {
@@ -19,7 +19,6 @@ class _ActionWidgetState extends State<ActionWidget> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var l10n = L10n(context);
     var provider = ActionProvider.of(context);
     return Column(
       children: [

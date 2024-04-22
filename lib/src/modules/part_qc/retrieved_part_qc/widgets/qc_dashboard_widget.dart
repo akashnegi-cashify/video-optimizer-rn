@@ -1,10 +1,10 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/modules/retrieved_part_qc/screens/action_screen.dart';
 
-import '../../../common/utils/csh_ml_scanner_util.dart';
+import '../../../../common/utils/csh_ml_scanner_util.dart';
 import '../l10n.dart';
 import '../providers/qc_report_provider.dart';
+import '../screens/action_screen.dart';
 import '../screens/view_repost_qc_screen.dart';
 
 class QcDashboardWidget extends StatelessWidget {
@@ -58,10 +58,15 @@ class QcDashboardWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            provider.qcReportData.data![index]?.productCategory ?? "",
-                            style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.shadowColor),
+                          Expanded(
+                            child: Text(
+                              provider.qcReportData.data![index]?.productCategory ?? "",
+                              style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.shadowColor),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
                           ),
+                          const SizedBox(width: Dimens.space_12),
                           Text(
                             provider.qcReportData.data![index]?.count?.toString() ?? "",
                             style: theme.primaryTextTheme.displaySmall?.copyWith(color: customTheme.warnColor),

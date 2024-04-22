@@ -2,10 +2,11 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utils/media_upload/models/image_upload_service_type_enum.dart';
-import '../../../utils/media_upload/providers/image_upload_provider.dart';
-import '../../../utils/media_upload/widgets/general_image_upload_card.dart';
-import '../../engineer/models/retreived_part_required_list_reponse.dart';
+
+import '../../../../utils/media_upload/models/image_upload_service_type_enum.dart';
+import '../../../../utils/media_upload/providers/image_upload_provider.dart';
+import '../../../../utils/media_upload/widgets/general_image_upload_card.dart';
+import '../../models/retreived_part_required_list_reponse.dart';
 import '../l10n.dart';
 import '../providers/retrieved_part_data_provider.dart';
 

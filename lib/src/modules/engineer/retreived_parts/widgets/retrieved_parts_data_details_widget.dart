@@ -1,9 +1,9 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/modules/retreived_parts/widgets/retrieved_part_details_item_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/retreived_parts/widgets/retrieved_part_details_item_widget.dart';
 
-import '../../engineer/models/retreived_part_required_list_reponse.dart';
-import '../../engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
+import '../../models/retreived_part_required_list_reponse.dart';
+import '../../my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import '../l10n.dart';
 import '../providers/retrieved_part_data_provider.dart';
 import '../utils/retrieved_parts_utils.dart';

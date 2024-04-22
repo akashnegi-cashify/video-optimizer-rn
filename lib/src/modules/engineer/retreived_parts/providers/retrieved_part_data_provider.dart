@@ -5,9 +5,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../engineer/models/retreived_part_required_list_reponse.dart';
-import '../../engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
-import '../../engineer/resources/engineer_api_service.dart';
+
+import '../../models/retreived_part_required_list_reponse.dart';
+import '../../my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
+import '../../resources/engineer_api_service.dart';
 import '../models/retreived_parts_data_model.dart';
 
 class RetrievedPartsDataProviders extends CshChangeNotifier {

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 import '../../../models/engineer_device_info.dart';
+import '../../../retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 import '../../wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import '../provider/all_devices_provider.dart';
 

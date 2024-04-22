@@ -1,7 +1,9 @@
 import 'package:csh_annotation/annotation.dart';
 
-import '../../engineer/models/retreived_part_required_list_reponse.dart';
-import '../../engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
+import '../../models/retreived_part_required_list_reponse.dart';
+import '../../my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
+
+
 
 @CshPageParam()
 class RetrievedDataDetailsParamModel {
