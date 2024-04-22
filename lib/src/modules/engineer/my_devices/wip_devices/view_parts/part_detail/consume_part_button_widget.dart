@@ -1,10 +1,18 @@
+import 'dart:io';
+
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/capture_consume_parts_media_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
+import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
+import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+
+import '../../../../../../utils/image_util.dart';
 
 class ConsumePartButtonWidget extends StatelessWidget {
   final EngineerPartInfo partInfo;
@@ -22,22 +30,26 @@ class ConsumePartButtonWidget extends StatelessWidget {
           if (Validator.isTrue(partInfo.isService)) {
             _callConsumeApi(context, l10n);
           } else {
-            Navigator.pushNamed(
-              context,
-              CaptureConsumePartsMediaScreen.route,
-              arguments: CaptureConsumePartMediaArg(
-                partInfo.prId,
-                retrievedPartsMediaCount: partInfo.retrievedImageCount,
-                onImageUploaded: (urlsMap, retrievedPartBarcode, reason, remarks) {
-                  Navigator.pop(context); // Dismiss screen
-                  _callConsumeApi(context, l10n,
-                      imageUrlsMap: urlsMap,
-                      retrievedPartBarcode: retrievedPartBarcode,
-                      reasonId: reason?.id,
-                      remarks: remarks);
-                },
-              ),
-            );
+            final ImagePicker picker = ImagePicker();
+            XFile? imageFilex = await picker.pickImage(source: ImageSource.camera, requestFullMetadata: false);
+
+            if (imageFilex == null) {
+              return;
+            }
+
+            File imageFile = File(imageFilex.path);
+            CshLoading().showLoading(context);
+            imageFile = await ImageUtil.compressImage(imageFile);
+            String fileName = path.basename(imageFile.path);
+            MediaUploadUtil(service: ImageUploadServiceType.trc.service)
+                .uploadMediaWithType(mediaFile: imageFile, fileName: fileName)
+                .then((value) {
+                  CshLoading().hideLoading(context);
+              _callConsumeApi(context, l10n, s3ImageUrl: value);
+            }, onError: (error) {
+              CshLoading().hideLoading(context);
+              showSnackBar(context, error, isError: true);
+            });
           }
         } catch (e) {
           CshLoading().hideLoading(context);
@@ -47,15 +59,22 @@ class ConsumePartButtonWidget extends StatelessWidget {
     );
   }
 
+  // _callConsumeApi(BuildContext context, L10n l10n, String s3ImageUrl) {
+  //   EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, s3ImageUrl).listen((event) {
+
   _callConsumeApi(BuildContext context, L10n l10n,
       {Map<CapturePartMediaType, List<String>>? imageUrlsMap,
+      String? s3ImageUrl,
       String? retrievedPartBarcode,
       int? reasonId,
       String? remarks}) {
     CshLoading().showLoading(context);
-    EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, imageUrlsMap,
-            retrievedPartBarcode: retrievedPartBarcode, remarks: remarks, reasonId: reasonId)
+    EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, null,
+            consumedImageUrl: s3ImageUrl)
         .listen((event) {
+      // EngineerAPIService.consumePart(partInfo.partBarcode!, partInfo.partId, partInfo.prId, imageUrlsMap,
+      //         retrievedPartBarcode: retrievedPartBarcode, remarks: remarks, reasonId: reasonId)
+      //     .listen((event) {
       CshLoading().hideLoading(context);
       if (event?.isSuccess == true) {
         if (onRequestCompletion != null) {
