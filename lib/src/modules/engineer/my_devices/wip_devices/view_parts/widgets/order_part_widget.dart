@@ -87,19 +87,6 @@ class _OrderPartWidget extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // const SizedBox(width: Dimens.space_8),
-                              // MyCounterButton(
-                              //   onIncrementClick: () {
-                              //     provider.updateDataForNIndex(part, 1);
-                              //   },
-                              //   onDecrementClick: () {
-                              //     provider.updateDataForNIndex(part, -1);
-                              //   },
-                              //   key: ValueKey(part.orderQuantity),
-                              //   isDismissed: part.selectedPartType == null,
-                              //   maxCount: provider.getMaxQuantity(part.selectedPartType),
-                              //   counter: part.orderQuantity ?? 0,
-                              // )
                             ],
                           ),
                         );

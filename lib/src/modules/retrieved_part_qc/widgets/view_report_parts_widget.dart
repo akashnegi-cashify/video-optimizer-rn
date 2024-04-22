@@ -1,8 +1,10 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/utils/time_utils.dart';
+import 'package:flutter_trc/src/utils/image_assest_helper.dart';
 
 import '../l10n.dart';
+import '../models/qc_repost_response.dart';
 import '../providers/qc_report_provider.dart';
 
 class ViewReportWidgetParts extends StatelessWidget {
@@ -13,6 +15,7 @@ class ViewReportWidgetParts extends StatelessWidget {
     var provider = QcRepostProvider.of(context);
     var theme = Theme.of(context);
     var l10n = L10n(context);
+    List<QcRepostCategoryResponseList?> dataList = provider.getSearchResults(provider.qcReportData.data!);
 
     CustomColors customTheme = theme.extension<CustomColors>() as CustomColors;
     if (provider.qcReportData.status == RequestStatus.initial) {
@@ -92,37 +95,125 @@ class ViewReportWidgetParts extends StatelessWidget {
           const SizedBox(height: Dimens.space_8),
           Expanded(
             child: ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: CshCard(
-                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_12),
-                      radius: CshRadius.rad8,
-                      elevation: CardElevation.dimen_10,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            provider.qcReportData.data![index]?.productCategory ?? "",
-                            style: theme.primaryTextTheme.headlineMedium,
-                          ),
-                          Text(
-                            provider.qcReportData.data![index]?.count?.toString() ?? "",
-                            style: theme.primaryTextTheme.headlineMedium?.copyWith(color: customTheme.warnColor),
-                          ),
-                        ],
-                      ),
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
+              itemBuilder: (context, index) {
+                return SizedBox(
+                  width: double.infinity,
+                  child: CshCard(
+                    padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_12),
+                    radius: CshRadius.rad8,
+                    elevation: CardElevation.dimen_10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          dataList[index]?.productCategory ?? "",
+                          style: theme.primaryTextTheme.headlineMedium,
+                        ),
+                        Text(
+                          dataList[index]?.count?.toString() ?? "",
+                          style: theme.primaryTextTheme.headlineMedium?.copyWith(color: customTheme.warnColor),
+                        ),
+                      ],
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: Dimens.space_12);
-                },
-                itemCount: provider.qcReportData.data!.length),
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(height: Dimens.space_12);
+              },
+              itemCount: dataList.length,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                _showFilterModal(context, theme);
+              },
+              child: CshCard(
+                radius: CshRadius.rad8,
+                elevation: CardElevation.dimen_10,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CshIcon.assets(
+                        ImageAssetHelper.imagePath("ic_filter.png"),
+                        padding: EdgeInsets.zero,
+                        iconSize: MobileIconSize.medium,
+                      ),
+                      const SizedBox(width: Dimens.space_12),
+                      Text(
+                        l10n.filter,
+                        style: theme.primaryTextTheme.headline4,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
           )
         ],
       );
     }
+  }
+
+  _showFilterModal(BuildContext context, ThemeData theme) {
+    var provider = QcRepostProvider.of(context, listen: false);
+    showCshBottomSheet(
+      context: context,
+      child: StatefulBuilder(
+        builder: (BuildContext insideContext, setState) {
+          return SizedBox(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.45,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox.shrink(),
+                Expanded(
+                  child: (!Validator.isListNullOrEmpty(provider.qcReportData.data))
+                      ? ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12, vertical: Dimens.space_16),
+                          itemBuilder: (context, index) {
+                            return Row(
+                              children: [
+                                CshCheckbox(
+                                  isSelected: provider.queries
+                                      .contains(provider.qcReportData.data![index]?.productCategory ?? ""),
+                                  onChanged: (bool? value) {
+                                    provider.onQueryChange(
+                                        provider.qcReportData.data![index]?.productCategory ?? "", value!);
+                                    setState(() {});
+                                  },
+                                ),
+                                Text(
+                                  provider.qcReportData.data![index]?.productCategory ?? "",
+                                  style: theme.primaryTextTheme.headlineMedium,
+                                ),
+                              ],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(height: Dimens.space_12);
+                          },
+                          itemCount: provider.qcReportData.data!.length,
+                        )
+                      : Center(
+                          child: Text(
+                            "No data found!!",
+                            style: theme.primaryTextTheme.headlineMedium,
+                          ),
+                        ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

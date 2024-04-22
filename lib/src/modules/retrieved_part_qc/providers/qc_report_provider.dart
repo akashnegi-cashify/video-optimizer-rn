@@ -15,6 +15,7 @@ class QcRepostProvider extends CshChangeNotifier {
   }
 
   ListState<QcRepostCategoryResponseList> qcReportData = ListState(status: RequestStatus.initial);
+  List<String> queries = [];
 
   QcRepostProvider({Map<String, dynamic>? bodyData}) {
     fetchQcReportData(data: bodyData);
@@ -39,6 +40,15 @@ class QcRepostProvider extends CshChangeNotifier {
     });
   }
 
+  onQueryChange(String query, bool state) {
+    if (state == false) {
+      queries.remove(query);
+    } else {
+      queries.add(query);
+    }
+    notifyListeners();
+  }
+
   onDateTimeChange(DateTimeRange range) {
     dateTimeRange = range;
     notifyListeners();
@@ -61,5 +71,14 @@ class QcRepostProvider extends CshChangeNotifier {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
     return completer.future;
+  }
+
+  List<QcRepostCategoryResponseList?> getSearchResults(List<QcRepostCategoryResponseList?> masterData) {
+    if (queries.isEmpty) {
+      return qcReportData.data!;
+    } else {
+      var searchData = qcReportData.data!.where((element) => queries.contains(element?.productCategory ?? "")).toSet();
+      return searchData.toList();
+    }
   }
 }
