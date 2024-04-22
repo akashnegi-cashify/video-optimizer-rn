@@ -106,10 +106,15 @@ class ViewReportWidgetParts extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          dataList[index]?.productCategory ?? "",
-                          style: theme.primaryTextTheme.headlineMedium,
+                        Expanded(
+                          child: Text(
+                            dataList[index]?.productCategory ?? "",
+                            style: theme.primaryTextTheme.headlineMedium,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
                         ),
+                        const SizedBox(width: Dimens.space_12),
                         Text(
                           dataList[index]?.count?.toString() ?? "",
                           style: theme.primaryTextTheme.headlineMedium?.copyWith(color: customTheme.warnColor),
