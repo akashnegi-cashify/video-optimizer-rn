@@ -17,6 +17,10 @@ class ActionProvider extends CshChangeNotifier {
 
   ListState<RetrievedPartListData> listState = ListState(status: RequestStatus.initial);
 
+  ActionProvider(String barcode) {
+    getItemData(barcode);
+  }
+
   Future<bool> getItemData(String barcode) {
     listState = ListState(status: RequestStatus.initial);
     var completer = Completer<bool>();
@@ -39,9 +43,9 @@ class ActionProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId, String imageUrl) {
+  Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId) {
     var completer = Completer<bool>();
-    PartQcServiceElss.updateRetrievedPartStatus(isFaulty, partId, imageUrl).listen((event) {
+    PartQcServiceElss.updateRetrievedPartStatus(isFaulty, partId).listen((event) {
       if (Validator.isTrue(event?.isSuccess)) {
         completer.complete(true);
       } else {

@@ -219,7 +219,7 @@ class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartList
     String imageUrl,
   ) {
     CshLoading().showLoading(context);
-    provider.updateRetrievedPartStatus(isFaulty, partId, imageUrl).then((value) {
+    provider.updateRetrievedPartStatus(isFaulty, partId).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: l10n.statusUpdatedSuccessfully);
       resetAndRefreshScreen();

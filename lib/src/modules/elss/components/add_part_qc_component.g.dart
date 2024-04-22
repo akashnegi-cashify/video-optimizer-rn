@@ -9,7 +9,7 @@ part of 'add_part_qc_component.dart';
 AddPartsQCCompParam fromMap(Map<String, dynamic> map) {
   AddPartsQCCompParam model = AddPartsQCCompParam(
     scannedBarcode: map["sb"],
-    selectedParts: map["sb"],
+    selectedParts: map["sp"],
   );
   return model;
 }
@@ -18,7 +18,7 @@ Widget paramBuilder(Widget Function(AddPartsQCCompParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "sb": provider.data["sb"],
-      "sb": provider.data["sb"],
+      "sp": provider.data["sp"],
     },
     builder: (context, data, child) {
       AddPartsQCCompParam model = fromMap(data);

@@ -55,7 +55,7 @@ class UserRoles {
       } else if (listOfRoles.contains(UserRoles.ROLE_INVENTORY_MANAGER)) {
         Navigator.of(context).pushNamedAndRemoveUntil(InventoryHomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.ROLE_QC)) {
-        Navigator.of(context).pushNamedAndRemoveUntil(RetrievedPartsQcDashboardScreen.route, (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(PartQCHomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.TRC_EXECUTIVE)) {
         Navigator.of(context).pushNamedAndRemoveUntil(TRCExecutiveScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.QC_ROLE)) {

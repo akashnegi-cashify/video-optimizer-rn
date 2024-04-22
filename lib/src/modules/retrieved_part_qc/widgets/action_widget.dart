@@ -2,7 +2,6 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/retrieved_part_qc/providers/action_provider.dart';
 
-import '../../../common/utils/csh_ml_scanner_util.dart';
 import '../l10n.dart';
 import 'action_item_widget.dart';
 
@@ -24,34 +23,19 @@ class _ActionWidgetState extends State<ActionWidget> {
     var provider = ActionProvider.of(context);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
-          child: CshTextFormField(
-            hintText: l10n.searchBarcode,
-            hintStyle: theme.textTheme.labelSmall,
-            controller: _barcodeController,
-            onChanged: (_) {
-              _debounce.start(() {
-                _onSearch();
-              });
-            },
-            suffixIcon: InkWell(
-              child: const Icon(Icons.qr_code_2),
-              onTap: () {
-                CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
-                  Navigator.pop(context); // close scanner
-                  _barcodeController.text = scannedData;
-                  _onSearch();
-                });
-              },
-            ),
-          ),
-        ),
-        const SizedBox(height: Dimens.space_16),
+
         if (!Validator.isListNullOrEmpty(provider.listState.data))
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
             child: ActionWidgetItem(dataModel: provider.listState.data!.first),
+          ),
+        if (Validator.isListNullOrEmpty(provider.listState.data))
+          Center(
+            child: Text(
+              "No Item Found",
+              style: theme.primaryTextTheme.headlineMedium,
+              textAlign: TextAlign.center,
+            ),
           )
       ],
     );

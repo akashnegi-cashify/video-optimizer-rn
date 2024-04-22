@@ -196,11 +196,7 @@ class _ActionWidgetItemState extends State<ActionWidgetItem> {
               },
               secondBtnClick: () async {
                 Navigator.of(context).pop();
-                _getFileUrl().then((imageUrl) {
-                  _updatePartStatus(context, isFaulty, l10n, item?.partId ?? -1, imageUrl);
-                }, onError: (error) {
-                  CshSnackBar.error(context: context, message: error.toString());
-                });
+                _updatePartStatus(context, isFaulty, l10n, item?.partId ?? -1);
               },
             )
           ],
@@ -239,15 +235,15 @@ class _ActionWidgetItemState extends State<ActionWidgetItem> {
     bool isFaulty,
     L10n l10n,
     int partId,
-    String imageUrl,
   ) {
     CshLoading().showLoading(context);
     var provider = ActionProvider.of(context, listen: false);
-    provider.updateRetrievedPartStatus(isFaulty, partId, imageUrl).then((value) {
+    provider.updateRetrievedPartStatus(isFaulty, partId).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: l10n.statusUpdatedSuccessfully);
       provider.resetListData();
       _remarkController.clear();
+      Navigator.of(context).pop();
       setState(() {});
     }, onError: (error) {
       CshLoading().hideLoading(context);

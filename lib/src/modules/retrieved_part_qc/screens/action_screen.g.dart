@@ -11,8 +11,11 @@ dynamic schema() => {
       "type": "@@page",
       "key": "TRC_action_screen",
       "pageGroup": "Action",
-      "title": "Action Screen",
+      "title": "Action Screen Arguments Key",
       "isActive": true,
-      "params": null
+      "params": [
+        {"key": "bc", "value": null}
+      ]
+
       //#adminscreen
     };

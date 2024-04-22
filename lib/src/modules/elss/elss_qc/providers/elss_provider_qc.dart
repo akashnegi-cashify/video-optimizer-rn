@@ -71,6 +71,7 @@ class ELssProviderQc extends CshChangeNotifier {
         isManualAdded: true,
         partColour: element.productColour,
         quantity: element.partQuantity,
+        categoryCode: element.categoryCode,
         // mark default value is required for manually added parts
         actionConstant: ElssPartsSelectionOptions.optimizationRequired.id,
       );
@@ -91,7 +92,8 @@ class ELssProviderQc extends CshChangeNotifier {
           "sku": elssPartList[index].sku,
           "pn": elssPartList[index].partName,
           "pcl": elssPartList[index].partColour,
-          "acc": elssPartList[index].actionConstant
+          "acc": elssPartList[index].actionConstant,
+          "cc": elssPartList[index].categoryCode,
         };
       });
     }

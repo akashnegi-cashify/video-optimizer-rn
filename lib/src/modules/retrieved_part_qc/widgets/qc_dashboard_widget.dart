@@ -124,9 +124,16 @@ class QcDashboardWidget extends StatelessWidget {
                 Expanded(
                   child: CshMediumButton(
                     text: l10n.action,
-                    onPressed: () async {
-                      await Navigator.of(context).pushNamed(ActionScreen.route);
-                      provider.fetchQcReportData();
+                    onPressed: () {
+                      CshMlScannerUtil().openScanner(
+                        context,
+                        onScanned: (scannedData, controller) async {
+                          Navigator.pop(context); //
+                          ActionScreenArgumentsKey args = ActionScreenArgumentsKey(barcode: scannedData.trim());
+                          await Navigator.of(context).pushNamed(ActionScreen.route, arguments: args);
+                          provider.fetchQcReportData();
+                        },
+                      );
                     },
                   ),
                 )
