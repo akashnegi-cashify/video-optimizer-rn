@@ -81,7 +81,7 @@ class EngineerAPIService {
 
   static Stream<SendToTlResponse?> consumePart(
       String? partBarcode, int? partId, int? productId, Map<CapturePartMediaType, List<String>>? imageUrlsMap,
-      {String? retrievedPartBarcode, int? reasonId, String? remarks}) {
+      {String? retrievedPartBarcode, int? reasonId, String? remarks, String? consumedImageUrl}) {
     Map<String, dynamic> req = {
       "pbr": partBarcode,
       "pid": partId,
@@ -91,16 +91,20 @@ class EngineerAPIService {
       if (reasonId != null) "rprid": reasonId,
     };
 
-    if (imageUrlsMap != null) {
-      List<String>? retrievedImages = imageUrlsMap[CapturePartMediaType.retrieved];
-      if (!Validator.isListNullOrEmpty(retrievedImages)) {
-        req["rpimg"] = retrievedImages;
-      }
-      List<String>? consumedImages = imageUrlsMap[CapturePartMediaType.consumed];
-      if (!Validator.isListNullOrEmpty(consumedImages)) {
-        req["imgUrl"] = consumedImages?.first;
-      }
+    if (!Validator.isNullOrEmpty(consumedImageUrl)) {
+      req["imgUrl"] = consumedImageUrl;
     }
+
+    // if (imageUrlsMap != null) {
+    //   List<String>? retrievedImages = imageUrlsMap[CapturePartMediaType.retrieved];
+    //   if (!Validator.isListNullOrEmpty(retrievedImages)) {
+    //     req["rpimg"] = retrievedImages;
+    //   }
+    //   List<String>? consumedImages = imageUrlsMap[CapturePartMediaType.consumed];
+    //   if (!Validator.isListNullOrEmpty(consumedImages)) {
+    //     req["imgUrl"] = consumedImages?.first;
+    //   }
+    // }
 
     return TrcService().post("/part/consume-part", SendToTlResponse.fromJson, body: jsonEncode(req));
   }
