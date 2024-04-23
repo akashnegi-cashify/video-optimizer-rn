@@ -33,7 +33,7 @@ class AssignedPartsProvider extends CshChangeNotifier {
 
   refreshPage(String? barcode) {
     _getJobCardDetails(barcode);
-    _getDeviceDetails(barcode);
+    // _getDeviceDetails(barcode);
   }
 
   _getDeviceDetails(String? deviceBarcode) {

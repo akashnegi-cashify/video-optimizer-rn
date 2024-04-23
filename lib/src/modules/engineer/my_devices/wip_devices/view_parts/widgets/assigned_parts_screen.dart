@@ -132,6 +132,7 @@ class _AssignedPartsWidget extends StatelessWidget {
                       await Navigator.pushNamed(context, OrderPartScreen.route,
                           arguments: OrderPartScreenArg(assignedPartsData?.deviceBarcode));
                       provider.refreshPage(barcode);
+                      listRef.currentState?.refreshData();
                     },
                   ),
                 ],
