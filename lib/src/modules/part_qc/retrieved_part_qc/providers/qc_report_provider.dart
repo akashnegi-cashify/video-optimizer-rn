@@ -17,20 +17,28 @@ class QcRepostProvider extends CshChangeNotifier {
   ListState<QcRepostCategoryResponseList> qcReportData = ListState(status: RequestStatus.initial);
   List<String> queries = [];
 
-  QcRepostProvider({Map<String, dynamic>? bodyData}) {
-    fetchQcReportData(data: bodyData);
+  QcRepostProvider() {
+    fetchQcReportData();
   }
 
   DateTimeRange? dateTimeRange;
 
-  fetchQcReportData({Map<String, dynamic>? data}) {
+  fetchQcReportData() {
     qcReportData = ListState(status: RequestStatus.initial);
     notifyListeners();
-    RetrievedPartQcService.getQcReport(bodyData: data).listen((event) {
+    Map<String, dynamic>? filterData;
+    if (dateTimeRange != null) {
+      filterData = {};
+      int from = dateTimeRange!.start.millisecondsSinceEpoch;
+      int to = dateTimeRange!.end.millisecondsSinceEpoch;
+      filterData["fp"] = {"from": from, "to": to};
+    }
+
+    RetrievedPartQcService.getQcReport(bodyData: filterData).listen((event) {
       if (!Validator.isListNullOrEmpty(event?.categoryList)) {
         qcReportData = ListState(status: RequestStatus.success, items: event!.categoryList!, errorMsg: null);
       } else {
-        qcReportData = ListState(status: RequestStatus.failure, items: [], errorMsg: "Something went wrong!!");
+        qcReportData = ListState(status: RequestStatus.success, items: [], errorMsg: "No Report found!!");
       }
     }, onError: (error) {
       String apiErr = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
@@ -51,11 +59,7 @@ class QcRepostProvider extends CshChangeNotifier {
 
   onDateTimeChange(DateTimeRange range) {
     dateTimeRange = range;
-    notifyListeners();
-    int from = dateTimeRange!.start.millisecondsSinceEpoch;
-    int to = dateTimeRange!.end.millisecondsSinceEpoch;
-    Map<String, dynamic> fromToData = {"from": from, "to": to};
-    fetchQcReportData(data: fromToData);
+    fetchQcReportData();
   }
 
   Future<bool> receivePart(String partBarcode) {
@@ -67,7 +71,6 @@ class QcRepostProvider extends CshChangeNotifier {
         completer.completeError(event?.errorMsg ?? "No data found");
       }
     }, onError: (error, stackTrace) {
-      Logger.debug('mydebug-----RetrievedPartListProvider.receivePart', [stackTrace]);
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
     return completer.future;
@@ -77,8 +80,7 @@ class QcRepostProvider extends CshChangeNotifier {
     if (queries.isEmpty) {
       return qcReportData.data!;
     } else {
-      var searchData = qcReportData.data!.where((element) => queries.contains(element?.productCategory ?? "")).toSet();
-      return searchData.toList();
+      return qcReportData.data!.where((element) => queries.contains(element?.productCategory ?? "")).toList();
     }
   }
 }

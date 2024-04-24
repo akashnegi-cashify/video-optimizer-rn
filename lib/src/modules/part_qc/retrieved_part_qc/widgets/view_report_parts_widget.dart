@@ -51,6 +51,7 @@ class ViewReportWidgetParts extends StatelessWidget {
               onTap: () {
                 showDateRangePicker(
                   context: context,
+                  initialDateRange: provider.dateTimeRange ?? DateTimeRange(start: DateTime.now(), end: DateTime.now()),
                   firstDate: DateTime(2013),
                   lastDate: DateTime.now(),
                 ).then((value) {
@@ -61,23 +62,22 @@ class ViewReportWidgetParts extends StatelessWidget {
               },
               child: SizedBox(
                 width: double.infinity,
-                child: CshCard(
-                  radius: CshRadius.rad4,
-                  elevation: CardElevation.dimen_10,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        l10n.dateRange,
-                        style: theme.primaryTextTheme.headlineMedium,
-                      ),
-                      if (provider.dateTimeRange != null)
-                        Text(
-                          "${provider.dateTimeRange!.start.formatToSimpleDate()} - ${provider.dateTimeRange!.end.formatToSimpleDate()}",
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      l10n.dateRange,
+                      style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
+                    ),
+                    if (provider.dateTimeRange != null)
+                      Padding(
+                        padding: const EdgeInsets.only(left: Dimens.space_2),
+                        child: Text(
+                          ": ${provider.dateTimeRange!.start.formatToSimpleDate()} - ${provider.dateTimeRange!.end.formatToSimpleDate()}",
                           style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
-                        )
-                    ],
-                  ),
+                        ),
+                      )
+                  ],
                 ),
               ),
             ),
@@ -94,79 +94,83 @@ class ViewReportWidgetParts extends StatelessWidget {
           ),
           const SizedBox(height: Dimens.space_8),
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  width: double.infinity,
-                  child: CshCard(
-                    padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_12),
-                    radius: CshRadius.rad8,
-                    elevation: CardElevation.dimen_10,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            dataList[index]?.productCategory ?? "",
-                            style: theme.primaryTextTheme.headlineMedium,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
+            child: !Validator.isListNullOrEmpty(dataList)
+                ? ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: CshCard(
+                          padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_12),
+                          radius: CshRadius.rad8,
+                          elevation: CardElevation.dimen_10,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  dataList[index]?.productCategory ?? "",
+                                  style: theme.primaryTextTheme.headlineMedium,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                ),
+                              ),
+                              const SizedBox(width: Dimens.space_12),
+                              Text(
+                                dataList[index]?.count?.toString() ?? "",
+                                style: theme.primaryTextTheme.headlineMedium?.copyWith(color: customTheme.warnColor),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: Dimens.space_12),
-                        Text(
-                          dataList[index]?.count?.toString() ?? "",
-                          style: theme.primaryTextTheme.headlineMedium?.copyWith(color: customTheme.warnColor),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: Dimens.space_12);
+                    },
+                    itemCount: dataList.length,
+                  )
+                : Text(
+                    provider.qcReportData.errorMsg ?? "",
+                    style: theme.primaryTextTheme.headlineMedium,
+                    textAlign: TextAlign.center,
+                  ),
+          ),
+          if (!Validator.isListNullOrEmpty(provider.qcReportData.data))
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  _showFilterModal(context, theme, provider.qcReportData.data!);
+                },
+                child: CshCard(
+                  radius: CshRadius.rad8,
+                  elevation: CardElevation.dimen_10,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CshIcon.assets(
+                          ImageAssetHelper.imagePath("ic_filter.png"),
+                          padding: EdgeInsets.zero,
+                          iconSize: MobileIconSize.medium,
                         ),
+                        const SizedBox(width: Dimens.space_4),
+                        CshTextNew.h4(l10n.filter),
                       ],
                     ),
                   ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(height: Dimens.space_12);
-              },
-              itemCount: dataList.length,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                _showFilterModal(context, theme);
-              },
-              child: CshCard(
-                radius: CshRadius.rad8,
-                elevation: CardElevation.dimen_10,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CshIcon.assets(
-                        ImageAssetHelper.imagePath("ic_filter.png"),
-                        padding: EdgeInsets.zero,
-                        iconSize: MobileIconSize.medium,
-                      ),
-                      const SizedBox(width: Dimens.space_12),
-                      Text(
-                        l10n.filter,
-                        style: theme.primaryTextTheme.headline4,
-                      )
-                    ],
-                  ),
                 ),
               ),
-            ),
-          )
+            )
         ],
       );
     }
   }
 
-  _showFilterModal(BuildContext context, ThemeData theme) {
+  _showFilterModal(BuildContext context, ThemeData theme, List<QcRepostCategoryResponseList?> list) {
     var provider = QcRepostProvider.of(context, listen: false);
     showCshBottomSheet(
       context: context,
@@ -174,45 +178,55 @@ class ViewReportWidgetParts extends StatelessWidget {
         builder: (BuildContext insideContext, setState) {
           return SizedBox(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.45,
+            height: MediaQuery.of(context).size.height * 0.8,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox.shrink(),
+                Padding(
+                  padding: const EdgeInsets.all(Dimens.space_16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CshTextNew.h3("Part List Filter"),
+                      CshIcon.assets(
+                        ImageAssetHelper.imagePath("ic_close.png"),
+                        padding: EdgeInsets.zero,
+                        iconSize: MobileIconSize.medium,
+                        onClick: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
-                  child: (!Validator.isListNullOrEmpty(provider.qcReportData.data))
-                      ? ListView.separated(
-                          padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12, vertical: Dimens.space_16),
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: [
-                                CshCheckbox(
-                                  isSelected: provider.queries
-                                      .contains(provider.qcReportData.data![index]?.productCategory ?? ""),
-                                  onChanged: (bool? value) {
-                                    provider.onQueryChange(
-                                        provider.qcReportData.data![index]?.productCategory ?? "", value!);
-                                    setState(() {});
-                                  },
-                                ),
-                                Text(
-                                  provider.qcReportData.data![index]?.productCategory ?? "",
-                                  style: theme.primaryTextTheme.headlineMedium,
-                                ),
-                              ],
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(height: Dimens.space_12);
-                          },
-                          itemCount: provider.qcReportData.data!.length,
-                        )
-                      : Center(
-                          child: Text(
-                            "No data found!!",
-                            style: theme.primaryTextTheme.headlineMedium,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12, vertical: Dimens.space_16),
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          CshCheckbox(
+                            isSelected: provider.queries.contains(list[index]?.productCategory ?? ""),
+                            onChanged: (bool? value) {
+                              provider.onQueryChange(list[index]?.productCategory ?? "", value!);
+                              setState(() {});
+                            },
                           ),
-                        ),
+                          Expanded(
+                            child: Text(
+                              list[index]?.productCategory ?? "",
+                              style: theme.primaryTextTheme.headlineMedium,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: Dimens.space_12);
+                    },
+                    itemCount: list.length,
+                  ),
                 ),
               ],
             ),

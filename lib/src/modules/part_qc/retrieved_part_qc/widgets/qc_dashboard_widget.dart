@@ -95,6 +95,9 @@ class QcDashboardWidget extends StatelessWidget {
                     context,
                     header: "Receive Retrieved Parts",
                     hintText: "Scan Retrieved Part Barcode",
+                    onDidPop: () {
+                      provider.fetchQcReportData();
+                    },
                     onScanned: (scannedData, controller) {
                       CshLoading().showLoading(context);
                       controller?.stop();

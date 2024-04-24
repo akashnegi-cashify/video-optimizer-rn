@@ -21,7 +21,7 @@ class ViewRepostQcScreen extends BaseScreen {
       pageKey: pageKey,
       setProviders: (BuildContext insideContext) => [
         ChangeNotifierProvider<QcRepostProvider>(
-          create: (_) => QcRepostProvider(bodyData: {"from": null, "to": null}),
+          create: (_) => QcRepostProvider(),
           lazy: false,
         )
       ],
