@@ -119,13 +119,19 @@ class OrderPartProvider extends CshChangeNotifier {
   }
 
   Future<RetrievedPartRequiredResponse> getRetrievedPartsData() {
-    var completer = Completer<RetrievedPartRequiredResponse>();
     List<Map<String, dynamic>> dataList = [];
     for (var value in _originalDataList) {
-      if (value.orderQuantity != null && value.orderQuantity! > 0) {
+      if (value.orderQuantity != null &&
+          value.orderQuantity! > 0 &&
+          value.selectedPartType?.id == ElssPartsSelectionOptions.repairRequired.id.toString()) {
         dataList.add({"prn": value.partName, "ccd": value.categoryCode});
       }
     }
+
+    if (dataList.isEmpty) {
+      return Future.error("No data Found");
+    }
+    var completer = Completer<RetrievedPartRequiredResponse>();
     try {
       EngineerAPIService.fetchRequiredPartsListingByDID({"pd": dataList}).listen((event) {
         if (!Validator.isListNullOrEmpty(event?.data?.partList)) {
