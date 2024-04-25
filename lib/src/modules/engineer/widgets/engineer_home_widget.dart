@@ -89,6 +89,7 @@ class _EngineerHomeWidgetState extends State<EngineerHomeWidget> {
               Navigator.pushNamed(context, RetrievedPartListScreen.route);
             },
           ),
+
           const Spacer(),
           const Align(alignment: Alignment.center, child: UserNameWidget()),
           const Align(

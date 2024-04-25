@@ -198,13 +198,6 @@ class QCActionWidget extends StatelessWidget {
                 );
               },
             ),
-            // const SizedBox(height: Dimens.space_16),
-            // CshBigButton(
-            //   text: l10n.stockIn,
-            //   onPressed: () {
-            //     Navigator.of(context).pushNamed(SearchItemScreen.route);
-            //   },
-            // ),
           ],
         ),
       ),

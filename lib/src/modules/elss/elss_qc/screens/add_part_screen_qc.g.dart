@@ -14,7 +14,8 @@ dynamic schema() => {
       "title": "Add Part Screen Qc Arguments",
       "isActive": true,
       "params": [
-        {"key": "sb", "value": null}
+        {"key": "sb", "value": null},
+        {"key": "sp", "value": null}
       ]
 
       //#adminscreen
