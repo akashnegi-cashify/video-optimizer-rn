@@ -207,9 +207,9 @@ class ViewReportWidgetParts extends StatelessWidget {
                       return Row(
                         children: [
                           CshCheckbox(
-                            isSelected: provider.queries.contains(list[index]?.productCategory ?? ""),
+                            isSelected: provider.queries.contains(list[index]?.categoryCode ?? ""),
                             onChanged: (bool? value) {
-                              provider.onQueryChange(list[index]?.productCategory ?? "", value!);
+                              provider.onQueryChange(list[index]?.categoryCode ?? "", value!);
                               setState(() {});
                             },
                           ),

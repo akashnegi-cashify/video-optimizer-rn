@@ -19,8 +19,10 @@ class QcRepostCategoryResponseList {
   String? productCategory;
   @JsonKey(name: "c")
   int? count;
+  @JsonKey(name: "cc")
+  String? categoryCode;
 
-  QcRepostCategoryResponseList({this.count, this.productCategory,});
+  QcRepostCategoryResponseList({this.count, this.productCategory, this.categoryCode});
 
   static QcRepostCategoryResponseList fromJson(Map<String, dynamic> data) =>
       _$QcRepostCategoryResponseListFromJson(data);

@@ -80,7 +80,7 @@ class QcRepostProvider extends CshChangeNotifier {
     if (queries.isEmpty) {
       return qcReportData.data!;
     } else {
-      return qcReportData.data!.where((element) => queries.contains(element?.productCategory ?? "")).toList();
+      return qcReportData.data!.where((element) => queries.contains(element?.categoryCode ?? "")).toList();
     }
   }
 }

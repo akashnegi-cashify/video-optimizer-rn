@@ -24,64 +24,58 @@ class QcDashboardWidget extends StatelessWidget {
           child: CircularProgressIndicator(),
         ),
       );
-    } else if (provider.qcReportData.status == RequestStatus.failure) {
-      return Center(
-        child: Row(
-          children: [
-            const SizedBox.shrink(),
-            Expanded(
-                child: Text(
-              provider.qcReportData.errorMsg ?? "",
-              style: theme.primaryTextTheme.headline4,
-              textAlign: TextAlign.center,
-            ))
-          ],
-        ),
-      );
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox.shrink(),
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
-              itemBuilder: (context, index) {
-                return CshCard(
-                  radius: CshRadius.rad4,
-                  elevation: CardElevation.dimen_10,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              provider.qcReportData.data![index]?.productCategory ?? "",
-                              style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.shadowColor),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+            child: (provider.qcReportData.status == RequestStatus.failure)
+                ? Center(
+                  child: Text(
+                      provider.qcReportData.errorMsg ?? "",
+                      style: theme.primaryTextTheme.headline4,
+                      textAlign: TextAlign.center,
+                    ),
+                )
+                : ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
+                    itemBuilder: (context, index) {
+                      return CshCard(
+                        radius: CshRadius.rad4,
+                        elevation: CardElevation.dimen_10,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    provider.qcReportData.data![index]?.productCategory ?? "",
+                                    style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.shadowColor),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                                const SizedBox(width: Dimens.space_12),
+                                Text(
+                                  provider.qcReportData.data![index]?.count?.toString() ?? "",
+                                  style: theme.primaryTextTheme.displaySmall?.copyWith(color: customTheme.warnColor),
+                                )
+                              ],
                             ),
                           ),
-                          const SizedBox(width: Dimens.space_12),
-                          Text(
-                            provider.qcReportData.data![index]?.count?.toString() ?? "",
-                            style: theme.primaryTextTheme.displaySmall?.copyWith(color: customTheme.warnColor),
-                          )
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: Dimens.space_12);
+                    },
+                    itemCount: provider.qcReportData.data!.length,
                   ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(height: Dimens.space_12);
-              },
-              itemCount: provider.qcReportData.data!.length,
-            ),
           ),
           const SizedBox(height: Dimens.space_12),
           Padding(

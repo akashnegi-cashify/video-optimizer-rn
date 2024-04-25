@@ -25,6 +25,7 @@ QcRepostCategoryResponseList _$QcRepostCategoryResponseListFromJson(
     QcRepostCategoryResponseList(
       count: json['c'] as int?,
       productCategory: json['pc'] as String?,
+      categoryCode: json['cc'] as String?,
     );
 
 Map<String, dynamic> _$QcRepostCategoryResponseListToJson(
@@ -32,4 +33,5 @@ Map<String, dynamic> _$QcRepostCategoryResponseListToJson(
     <String, dynamic>{
       'pc': instance.productCategory,
       'c': instance.count,
+      'cc': instance.categoryCode,
     };
