@@ -13,8 +13,8 @@ abstract class CommonEvents extends BaseTrackingEvent {
   }
 
   @override
-  String getSubordinateKey() {
-    return getKey();
+  String getEventKey() {
+    return getSubordinateKey();
   }
 
   @override

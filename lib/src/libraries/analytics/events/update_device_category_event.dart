@@ -10,13 +10,13 @@ class UpdateDeviceCategoryEvent extends CommonEvents {
   UpdateDeviceCategoryEvent(this.barcode, this.previousDeviceCategory, this.updatedDeviceCategory);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.updateDeviceCategory;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

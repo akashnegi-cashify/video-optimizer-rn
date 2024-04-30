@@ -9,13 +9,13 @@ class AutoSearchButtonClickedEvent extends CommonEvents {
   AutoSearchButtonClickedEvent(this.barcode, this.deviceCategory);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.autoSearchButtonClicked;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

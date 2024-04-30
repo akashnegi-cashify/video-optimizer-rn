@@ -10,8 +10,13 @@ class CalculatorFinishedEvent extends CommonEvents {
   CalculatorFinishedEvent(this.deviceBarcode, this.metaData);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.calFinished;
+  }
+
+  @override
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

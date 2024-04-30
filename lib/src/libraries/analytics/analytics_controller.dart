@@ -41,7 +41,7 @@ class AnalyticsController {
           break;
         case AnalyticTrackers.CASHIFY:
           CashifyAnalyticsHelper.sendAnalyticsEvent(
-              eventName: event.getKey(), subOrdinateKey: event.getSubordinateKey(), parameters: arguments);
+              subOrdinateKey: event.getSubordinateKey(), eventName: event.getEventKey(), parameters: arguments);
           break;
         default:
           Logger.log('Undefined analytics tracker.');

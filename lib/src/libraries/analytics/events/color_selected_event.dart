@@ -9,13 +9,13 @@ class ColorSelectedEvent extends CommonEvents {
   ColorSelectedEvent(this.barcode, this.selectedColor);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.colorSelected;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

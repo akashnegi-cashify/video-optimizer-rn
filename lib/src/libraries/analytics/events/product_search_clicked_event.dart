@@ -11,13 +11,13 @@ class ProductSearchClickedEvent extends CommonEvents {
   ProductSearchClickedEvent({required this.barcode, this.deviceCategory, this.productName, this.productId});
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.productSearchClicked;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

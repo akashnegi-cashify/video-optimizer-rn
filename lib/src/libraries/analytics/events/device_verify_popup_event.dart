@@ -9,13 +9,13 @@ class DeviceVerifyPopupEvent extends CommonEvents {
   DeviceVerifyPopupEvent(this.barcode, this.deviceCategory);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.deviceVerifyPopup;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override
