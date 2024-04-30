@@ -1,9 +1,10 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/part_qc/retrieved_part_qc/providers/part_qc_retrived_part_dashboard_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../common/utils/csh_ml_scanner_util.dart';
 import '../l10n.dart';
-import '../providers/qc_report_provider.dart';
 import '../screens/action_screen.dart';
 import '../screens/view_repost_qc_screen.dart';
 
@@ -12,7 +13,20 @@ class QcDashboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = QcRepostProvider.of(context);
+    return ChangeNotifierProvider(
+      create: (_) => PartQcRetrievedPartDashboardProvider(),
+      lazy: false,
+      child: const QcDashboardBody(),
+    );
+  }
+}
+
+class QcDashboardBody extends StatelessWidget {
+  const QcDashboardBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var provider = PartQcRetrievedPartDashboardProvider.of(context);
     var theme = Theme.of(context);
     var l10n = L10n(context);
     CustomColors customTheme = theme.extension<CustomColors>() as CustomColors;
@@ -32,12 +46,12 @@ class QcDashboardWidget extends StatelessWidget {
           Expanded(
             child: (provider.qcReportData.status == RequestStatus.failure)
                 ? Center(
-                  child: Text(
+                    child: Text(
                       provider.qcReportData.errorMsg ?? "",
                       style: theme.primaryTextTheme.headline4,
                       textAlign: TextAlign.center,
                     ),
-                )
+                  )
                 : ListView.separated(
                     padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
                     itemBuilder: (context, index) {

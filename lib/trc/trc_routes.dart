@@ -49,7 +49,6 @@ import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 import '../src/modules/engineer/retreived_parts/screens/image_view_screen.dart';
 import '../src/modules/engineer/retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 import '../src/modules/part_qc/retrieved_part_qc/screens/action_screen.dart';
-import '../src/modules/part_qc/retrieved_part_qc/screens/retrieved_parts_qc_dashboard_screen.dart';
 import '../src/modules/part_qc/retrieved_part_qc/screens/view_repost_qc_screen.dart';
 
 class TrcRoutes {
@@ -108,7 +107,6 @@ class TrcRoutes {
       CaptureConsumePartsMediaScreen.route: (_) => const CaptureConsumePartsMediaScreen(),
       RetrievedPartListScreen.route: (_) => const RetrievedPartListScreen(),
       RetrievedPartsDataDetailsScreen.route: (_) => const RetrievedPartsDataDetailsScreen(),
-      RetrievedPartsQcDashboardScreen.route: (_) => const RetrievedPartsQcDashboardScreen(),
       ViewRepostQcScreen.route: (_) => const ViewRepostQcScreen(),
       ActionScreen.route: (_) => const ActionScreen(),
       ProductImageViewScreen.route: (_) => const ProductImageViewScreen(),

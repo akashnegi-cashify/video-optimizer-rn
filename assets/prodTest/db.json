@@ -569,22 +569,6 @@
       ]
     },
     {
-      "pageId": 43,
-      "pageKey": "TRC_retrieved_parts_qc_dashboard_page",
-      "dt": [
-        {
-          "id": 71,
-          "key": "TRC_retrieved_part_qc_dashboard",
-          "type": "component"
-        },
-        {
-          "id": 72,
-          "key": "header_TRC_general_component",
-          "type": "component"
-        }
-      ]
-    },
-    {
       "pageId": 44,
       "pageKey": "TRC_view_report_qc_screen",
       "dt": [
@@ -2185,28 +2169,6 @@
       "configJson": {
         "config": {
           "none": "None"
-        }
-      }
-    },
-    {
-      "componentId": 71,
-      "locale": "en",
-      "key": "TRC_retrieved_part_qc_dashboard",
-      "configJson": {
-        "config": {
-          "none": "None"
-        }
-      }
-    },
-    {
-      "componentId": 72,
-      "locale": "en",
-      "key": "header_TRC_general_component",
-      "configJson": {
-        "config": {
-          "ht": "Dashboard",
-          "sbb": false,
-          "slb": true
         }
       }
     },
