@@ -1,6 +1,18 @@
 # TRC Releases
 
 
+# v3.1.7+38 (XX-04-2024)
+
+### Features And Improvements:
+
+* `TRC - PartQC - Retrieved parts flow`[(SCM-5877)](https://reglobe.atlassian.net/browse/SCM-5877)
+* `TRC - Engineer - Retrieved parts flow`[(SCM-5876)](https://reglobe.atlassian.net/browse/SCM-5876)
+* `TRC - PartQc - Disable image capture flow for part QC`[(SCM-5878)](https://reglobe.atlassian.net/browse/SCM-5878)
+* `QC - Analytics changes`[(SCM-6172)](https://reglobe.atlassian.net/browse/SCM-6172)
+* `QC - Warehouse audit - Block special character while scanning`[(SCM-6165)](https://reglobe.atlassian.net/browse/SCM-6165)
+
+
+
 # v3.1.6+37 (27-03-2024)
 
 ### Features And Improvements:
