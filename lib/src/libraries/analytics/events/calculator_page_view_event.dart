@@ -10,7 +10,7 @@ class CalculatorPageViewEvent extends CommonEvents {
   CalculatorPageViewEvent(this.deviceBarcode, this.pageNo, this.questionAnswerIds);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     String eventName = "${AnalyticEventKeys.manualTesting.calWithPageNo}${pageNo}_view";
     return eventName;
   }

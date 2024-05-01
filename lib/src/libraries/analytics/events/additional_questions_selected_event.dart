@@ -9,13 +9,13 @@ class AdditionalQuestionsSelectedEvent extends CommonEvents {
   AdditionalQuestionsSelectedEvent(this.barcode, this.selectedAdditionalQuestions);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.additionalQuestionSelected;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

@@ -9,7 +9,7 @@ class _ManualTesting with _CommonKeys {
 
   factory _ManualTesting() => _instance;
 
-  final String subOrdinateKey = "dmt_manual_testing";
+  final String parentEventKey = "dmt_manual_testing";
 
   final String startManualTesting = "dmt_start_manual_testing";
 

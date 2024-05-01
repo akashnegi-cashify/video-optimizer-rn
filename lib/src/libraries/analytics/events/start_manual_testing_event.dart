@@ -5,12 +5,12 @@ class StartManualTestingEvent extends CommonEvents {
   StartManualTestingEvent();
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.startManualTesting;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 }

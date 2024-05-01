@@ -8,7 +8,7 @@ class CalculatorSummaryViewEvent extends CommonEvents {
   CalculatorSummaryViewEvent(this.deviceBarcode);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.calculatorSummaryView;
   }
 

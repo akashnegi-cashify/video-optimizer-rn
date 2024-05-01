@@ -8,13 +8,13 @@ class ScanManualTestBarcodeEvent extends CommonEvents {
   ScanManualTestBarcodeEvent(this.barcode);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.scanManualTestBarcode;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

@@ -1,18 +1,18 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/utils/time_utils.dart';
+import 'package:flutter_trc/src/modules/part_qc/retrieved_part_qc/providers/part_qc_user_report_provider.dart';
 import 'package:flutter_trc/src/utils/image_assest_helper.dart';
 
 import '../l10n.dart';
 import '../models/qc_repost_response.dart';
-import '../providers/qc_report_provider.dart';
 
 class ViewReportWidgetParts extends StatelessWidget {
   const ViewReportWidgetParts({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var provider = QcRepostProvider.of(context);
+    var provider = PartQcUserReportProvider.of(context);
     var theme = Theme.of(context);
     var l10n = L10n(context);
     List<QcRepostCategoryResponseList?> dataList = provider.getSearchResults(provider.qcReportData.data!);
@@ -171,7 +171,7 @@ class ViewReportWidgetParts extends StatelessWidget {
   }
 
   _showFilterModal(BuildContext context, ThemeData theme, List<QcRepostCategoryResponseList?> list) {
-    var provider = QcRepostProvider.of(context, listen: false);
+    var provider = PartQcUserReportProvider.of(context, listen: false);
     showCshBottomSheet(
       context: context,
       child: StatefulBuilder(
