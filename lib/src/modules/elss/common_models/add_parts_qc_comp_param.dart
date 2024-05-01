@@ -6,7 +6,7 @@ class AddPartsQCCompParam {
   @ParamKey(key: AddPartsQCCompParamKeys.scannedBarcode)
   String? scannedBarcode;
 
-  @ParamKey(key: AddPartsQCCompParamKeys.scannedBarcode)
+  @ParamKey(key: AddPartsQCCompParamKeys.selectedParts)
   List<ElssPart>? selectedParts;
 
   AddPartsQCCompParam({

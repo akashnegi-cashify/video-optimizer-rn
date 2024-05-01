@@ -38,6 +38,8 @@ class PartItemDataResponse {
   int? partId;
   @JsonKey(name: "emsg")
   String? errorMessage;
+  @JsonKey(name: "cc")
+  String? categoryCode;
 
   PartItemDataResponse(
     this.sku,
@@ -47,6 +49,7 @@ class PartItemDataResponse {
     this.partId,
     this.partQuantity,
     this.errorMessage,
+    this.categoryCode,
   });
 
   static PartItemDataResponse fromJson(Map<String, dynamic> data) => _$PartItemDataResponseFromJson(data);

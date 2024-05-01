@@ -8,7 +8,7 @@ class MoveToPreviousScreenEvent extends CommonEvents {
   MoveToPreviousScreenEvent(this.deviceBarcode);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.moveToPreviousScreen;
   }
 

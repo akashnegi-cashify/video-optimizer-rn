@@ -11,14 +11,14 @@ class CalculatorAnswerSelectedEvent extends CommonEvents {
   CalculatorAnswerSelectedEvent(this.barcode, this.pageNo, this.questionAnswerRequest);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     String eventName = "${AnalyticEventKeys.manualTesting.calWithPageNo}$pageNo";
     return eventName;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

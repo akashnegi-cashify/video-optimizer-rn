@@ -69,7 +69,11 @@ class AppComponentBuilder {
           .map((e) => BottomTabConfig(tabTitle: e.tabTitle, iconPath: e.iconPath, iconType: _mapResType(e.iconType)))
           .toList(),
       selectedIndex: selectedIndex,
-      onClick: onClick,
+      onClick: (int index, BuildContext context) {
+        if (onClick != null) {
+          onClick(index);
+        }
+      },
       isFloating: isFloating,
       horizontalAlignment: MainAxisAlignment.spaceAround,
     );

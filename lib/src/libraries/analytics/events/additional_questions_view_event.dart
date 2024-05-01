@@ -8,13 +8,13 @@ class AdditionalQuestionsViewEvent extends CommonEvents {
   AdditionalQuestionsViewEvent(this.barcode);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.additionalQuestionView;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

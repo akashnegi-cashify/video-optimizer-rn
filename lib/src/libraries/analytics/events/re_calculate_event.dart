@@ -8,7 +8,7 @@ class ReCalculateEvent extends CommonEvents {
   ReCalculateEvent(this.deviceBarcode);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.reCalculate;
   }
 

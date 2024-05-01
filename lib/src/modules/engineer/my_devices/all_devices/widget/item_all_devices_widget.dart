@@ -5,6 +5,7 @@ import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/engineer_device_info.dart';
+import '../../../retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 import '../../wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import '../provider/all_devices_provider.dart';
 
@@ -43,41 +44,7 @@ class ItemAllDevicesWidget extends StatelessWidget {
                           child: CshBigOutlineButton(
                             text: l10n.sendToInProgress,
                             onPressed: () {
-                              CshLoading().showLoading(context);
-
-                              reader.markDeviceInProgress().listen((event) {
-                                // if response is null display error
-                                if (event == null) {
-                                  CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
-                                  return;
-                                }
-
-                                // if backend sends any error message
-                                if (event.errorMsg != null) {
-                                  CshSnackBar.error(context: context, message: event.errorMsg!);
-                                  return;
-                                }
-
-                                // if it's a success response
-                                if (event.isSuccess) {
-                                  CshSnackBar.success(context: context, message: l10n.deviceSentToInProgress);
-                                  return;
-                                }
-                              }, onError: (error) {
-                                // Display common API errors
-                                CshSnackBar.error(
-                                    context: context,
-                                    message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
-                              }, onDone: () {
-                                // hide loading
-
-                                if (reader.refreshAllDeviceList != null) {
-                                  reader.refreshAllDeviceList!();
-                                }
-                                CshLoading().hideLoading(context);
-                                // popping of bottom sheet after the request completion
-                                Navigator.pop(context);
-                              });
+                              _checkForRetrievedPartsDetailsData(context, l10n);
                             },
                           ),
                         ),
@@ -126,6 +93,65 @@ class ItemAllDevicesWidget extends StatelessWidget {
           child: Text(value, maxLines: 2, style: theme.textTheme.titleSmall, overflow: TextOverflow.ellipsis),
         ),
       ],
+    );
+  }
+
+  _checkForRetrievedPartsDetailsData(BuildContext context, L10n l10n) {
+    AllDevicesProvider reader = AllDevicesProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    reader.getRetrievedPartsData(_deviceInfo.deviceId).then((value) async {
+      CshLoading().hideLoading(context);
+      RetrievedPartsDataDetailsScreenArguments args = RetrievedPartsDataDetailsScreenArguments(
+          dataModel: value, deviceBarcode: reader.selectedDevice?.deviceBarcode);
+      await Navigator.of(context).pushNamed(RetrievedPartsDataDetailsScreen.route, arguments: args);
+      if (reader.refreshAllDeviceList != null) {
+        reader.refreshAllDeviceList!();
+      }
+      Navigator.of(context).pop();
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      _sendInProgress(context, l10n);
+    });
+  }
+
+  _sendInProgress(BuildContext context, L10n l10n) {
+    AllDevicesProvider provider = AllDevicesProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+
+    provider.markDeviceInProgress().listen(
+      (event) {
+        // if response is null display error
+        if (event == null) {
+          CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
+          return;
+        }
+
+        // if backend sends any error message
+        if (event.errorMsg != null) {
+          CshSnackBar.error(context: context, message: event.errorMsg!);
+          return;
+        }
+
+        // if it's a success response
+        if (event.isSuccess) {
+          CshSnackBar.success(context: context, message: l10n.deviceSentToInProgress);
+          return;
+        }
+      },
+      onError: (error) {
+        // Display common API errors
+        CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
+      },
+      onDone: () {
+        // hide loading
+
+        if (provider.refreshAllDeviceList != null) {
+          provider.refreshAllDeviceList!();
+        }
+        CshLoading().hideLoading(context);
+        // popping of bottom sheet after the request completion
+        Navigator.pop(context);
+      },
     );
   }
 }

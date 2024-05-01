@@ -31,6 +31,11 @@ class AssignedPartsProvider extends CshChangeNotifier {
     });
   }
 
+  refreshPage(String? barcode) {
+    _getJobCardDetails(barcode);
+    // _getDeviceDetails(barcode);
+  }
+
   _getDeviceDetails(String? deviceBarcode) {
     EngineerAPIService.getDeviceDetails(deviceBarcode).listen((event) {
       if (event?.detailsData != null) {

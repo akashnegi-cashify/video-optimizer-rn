@@ -94,9 +94,10 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
             const SizedBox(height: Dimens.space_16),
             CshBigOutlineButton(
               text: l10n.viewParts,
-              onPressed: () {
-                Navigator.pushNamed(context, AssignedPartsScreen.route,
+              onPressed: () async {
+                await Navigator.pushNamed(context, AssignedPartsScreen.route,
                     arguments: AssignedPartsData(true, deviceBarcode: provider.deviceBarcode));
+                provider.getDeviceDetails();
               },
             ),
             const SizedBox(height: Dimens.space_16),

@@ -4,11 +4,11 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
-import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 import '../providers/pq_provider.dart';
+import '../retrieved_part_qc/widgets/qc_dashboard_widget.dart';
 import '../widgets/qc_pending_tab_widget.dart';
 
 part 'part_qc_home_component.g.dart';
@@ -71,10 +71,7 @@ class _PartQcHomeWidgetState extends State<_PartQcHomeWidget> with SingleTickerP
               Tab(text: l10n.retrievedParts.toUpperCase()),
             ]),
         Expanded(
-          child: TabBarView(controller: _tabController, children: const [
-            QcPendingTabWidget(),
-            RetrievedPartListComponent(null, roleType: RoleType.partQc),
-          ]),
+          child: TabBarView(controller: _tabController, children: const [QcPendingTabWidget(), QcDashboardWidget()]),
         )
       ],
     );

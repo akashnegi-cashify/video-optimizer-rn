@@ -16,10 +16,30 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
     return TRCScannerWidget(
       hintText: "Scan Device Barcode",
       onScanDetected: (scannedData, controller) {
-        controller?.stop();
-        _onScanDetected(context, scannedData, controller);
+        if (_validateBarcode(scannedData, context)) {
+          controller?.stop();
+          _onScanDetected(context, scannedData, controller);
+        }
       },
     );
+  }
+
+  bool _containsSpecialCharacters(String input) {
+    RegExp regex = RegExp(r'[^a-zA-Z0-9]');
+    return regex.hasMatch(input);
+  }
+
+  _validateBarcode(String scannedData, BuildContext context) {
+    if (_containsSpecialCharacters(scannedData)) {
+      CshSnackBar.error(
+        context: context,
+        message: "Please scan the device again",
+        snackBarPosition: SnackBarPosition.TOP,
+        duration: SnackBarDuration.MEDIUM,
+      );
+      return false;
+    }
+    return true;
   }
 
   _onScanDetected(BuildContext context, String scannedData, MlScannerController? controller,

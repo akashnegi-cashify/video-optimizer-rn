@@ -9,13 +9,13 @@ class EndTestingSessionEvent extends CommonEvents {
   EndTestingSessionEvent(this.barcode, this.deviceGrade);
 
   @override
-  String getKey() {
+  String getSubordinateKey() {
     return AnalyticEventKeys.manualTesting.endTestingSession;
   }
 
   @override
-  String getSubordinateKey() {
-    return AnalyticEventKeys.manualTesting.subOrdinateKey;
+  String getEventKey() {
+    return AnalyticEventKeys.manualTesting.parentEventKey;
   }
 
   @override

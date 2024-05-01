@@ -23,7 +23,8 @@ class CaptureConsumePartMediaArg {
     String? remarks,
   ) onImageUploaded;
 
-  const CaptureConsumePartMediaArg(this.partRequestId, {required this.onImageUploaded, this.retrievedPartsMediaCount = 0});
+  const CaptureConsumePartMediaArg(this.partRequestId,
+      {required this.onImageUploaded, this.retrievedPartsMediaCount = 0});
 }
 
 class CaptureConsumePartsMediaScreen extends StatefulWidget {
@@ -237,25 +238,20 @@ class _CaptureMediaModuleState extends State<_CaptureMediaModule> {
               itemBuilder: (context, index) {
                 var item = _imageList[index];
                 return ChangeNotifierProvider(
-                    create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc),
-                    child: GeneralImageUploadCard(
-                      cardHeight: 100,
-                      cardWidth: 100,
-                      imageUrl: item,
-                      // onMediaUploadingStarted: () {
-                      //   setState(() {
-                      //     if (_imageList.length < 8 && index == _imageList.length - 1) {
-                      //       _imageList.add("");
-                      //     }
-                      //   });
-                      // },
-                      onMediaUploaded: (url) {
-                        setState(() {
-                          _imageList[index] = url!;
-                        });
-                        widget.onImageUploaded(_imageList);
-                      },
-                    ));
+                  create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc),
+                  child: GeneralImageUploadCard(
+                    cardHeight: 100,
+                    cardWidth: 100,
+                    imageUrl: item,
+
+                    onMediaUploaded: (url) {
+                      setState(() {
+                        _imageList[index] = url!;
+                      });
+                      widget.onImageUploaded(_imageList);
+                    },
+                  ),
+                );
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(width: Dimens.space_16);
