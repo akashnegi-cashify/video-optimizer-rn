@@ -47,7 +47,7 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
               pageSnapping: true,
               itemBuilder: (context, index) {
                 return AuditQuestionWidget(
-                  key: UniqueKey(),
+                  key: Key(_currentPage.toString()),
                   onOptionSelected: (int qId, String selectedOption) {
                     provider.onQuestionOptionSelected(qId, selectedOption);
                   },
@@ -78,8 +78,7 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                 ((_currentPage == (auditQuestionList.length - 1)))
                     ? CshMediumButton(
                         text: l10n.submit,
-                        onPressed: (!Validator.isNullOrEmpty(
-                                auditQuestionList[_currentPage].selectedOption))
+                        onPressed: (!Validator.isNullOrEmpty(auditQuestionList[_currentPage].selectedOption))
                             ? () {
                                 if (auditQuestionList[_currentPage].imageCount != null &&
                                     auditQuestionList[_currentPage].imageCount == 1) {
@@ -100,8 +99,7 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                       )
                     : CshMediumButton(
                         text: _currentPage == (auditQuestionList.length - 1) ? l10n.submit : l10n.next,
-                        onPressed: (!Validator.isNullOrEmpty(
-                                auditQuestionList[_currentPage].selectedOption))
+                        onPressed: (!Validator.isNullOrEmpty(auditQuestionList[_currentPage].selectedOption))
                             ? () {
                                 if (auditQuestionList[_currentPage].imageCount != null &&
                                     auditQuestionList[_currentPage].imageCount == 1) {
@@ -115,8 +113,6 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                                   pagerController.nextPage(
                                       duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
                                 }
-
-                                setState(() {});
                               }
                             : null,
                       )
