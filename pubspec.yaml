@@ -17,12 +17,12 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.7+38
+version: 3.2.1+39
 
 web_version: 1.0.0
 
 environment:
-  sdk: ">=3.0.0 <=3.2.6"
+  sdk: ">=3.0.0 <=3.3.4"
   flutter: '>=3.10.0'
 
 dependencies:
@@ -51,31 +51,31 @@ dependencies:
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v1.1.9
+      ref: v2.0.0
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: v2.0.0
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: v2.0.0
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: v2.0.0
       path: ml_barcode_scanner
 
   imei_serial_reader:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: v2.0.0
       path: imei_serial_reader
 
   s3_file_uploader_interface:
@@ -171,7 +171,7 @@ dev_dependencies:
   csh_schema_generator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.5
+      ref: v2.0.6
       path: csh_schema_generator
 
 
@@ -214,25 +214,20 @@ dependency_overrides:
       url: https://github.com/reglobe/flutter_packages.git
       ref: v2.0.6
       path: core
-  #  calculator:
-  #    git:
-  #      url: https://github.com/reglobe/flutter_packages.git
-  #      ref: v2.0.6
-  #      path: calculator
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: v2.0.0
       path: core_widgets
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
+      ref: v2.0.0
       path: calculator_ui
   calculator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: main
+      ref: v2.0.6
       path: calculator
 
 
