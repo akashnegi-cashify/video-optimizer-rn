@@ -1,7 +1,14 @@
 # TRC Releases
 
 
-# v3.2.0+38 (01-04-2024)
+# v3.2.1+39 (03-05-2024)
+
+### Bug Fixes:
+
+* `QC - Qc Tester - Audit bug fix`[(SCM-6209)](https://reglobe.atlassian.net/browse/SCM-6209)
+
+
+# v3.2.0+38 (01-05-2024)
 
 ### Features And Improvements:
 
