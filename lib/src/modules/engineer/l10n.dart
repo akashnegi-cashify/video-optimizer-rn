@@ -3,7 +3,7 @@ import 'package:flutter_trc/src/common/l10n.dart' as l10n_common;
 import 'package:intl/intl.dart';
 
 class L10n extends l10n_common.L10n {
-  L10n(BuildContext context, {bool listen = true}):super(context, listen: listen);
+  L10n(BuildContext context, {bool listen = true}) : super(context, listen: listen);
 
   String get home => Intl.message("Home", locale: localName, name: "home");
 
@@ -246,11 +246,13 @@ class L10n extends l10n_common.L10n {
 
   String get no => Intl.message("No", locale: localName, name: "no");
 
-  String areYouSureYouWantToMarkPartAsFaulty(String partBarcode) => Intl.message("Are you sure you want to mark $partBarcode as faulty?",
-      locale: localName, name: "areYouSureYouWantToMarkPartAsFaulty", args: [partBarcode]);
+  String areYouSureYouWantToMarkPartAsFaulty(String partBarcode) =>
+      Intl.message("Are you sure you want to mark $partBarcode as faulty?",
+          locale: localName, name: "areYouSureYouWantToMarkPartAsFaulty", args: [partBarcode]);
 
-  String areYouSureYouWantToMarkPartAsOk(String partBarcode) => Intl.message("Are you sure you want to mark $partBarcode as ok?",
-      locale: localName, name: "areYouSureYouWantToMarkPartAsOk", args: [partBarcode]);
+  String areYouSureYouWantToMarkPartAsOk(String partBarcode) =>
+      Intl.message("Are you sure you want to mark $partBarcode as ok?",
+          locale: localName, name: "areYouSureYouWantToMarkPartAsOk", args: [partBarcode]);
 
   String get statusUpdatedSuccessfully =>
       Intl.message("Status Updated Successfully", locale: localName, name: "statusUpdatedSuccessfully");
@@ -258,6 +260,7 @@ class L10n extends l10n_common.L10n {
   String get addRemarksOptional =>
       Intl.message("Add remarks (optional)", locale: localName, name: "addRemarksOptional");
 
-  String get additionalInfo =>
-      Intl.message("Additional Info", locale: localName, name: "additionalInfo");
+  String get additionalInfo => Intl.message("Additional Info", locale: localName, name: "additionalInfo");
+
+  String get deviceReport => Intl.message("Device Report", locale: localName, name: "deviceReport");
 }

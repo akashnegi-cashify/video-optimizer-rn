@@ -280,6 +280,55 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
     }
     return false;
   }
+
+  @override
+  void showTrcRemarksDialog() {
+    TextEditingController controller = TextEditingController();
+    showCshBottomSheet(
+      isDismissible: false,
+        context: context,
+        child: PopScope(
+          canPop: false,
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: Dimens.space_8),
+                CshTextNew.h4("Enter Testing Remarks"),
+                const SizedBox(height: Dimens.space_16),
+                CshTextFormField(
+                  minLines: 5,
+                  maxLines: 5,
+                  hintText: "Enter Testing Remarks",
+                  contentPadding: const EdgeInsets.all(Dimens.space_16),
+                  backgroundColor: Colors.grey.shade50,
+                  controller: controller,
+                ),
+                const Expanded(child: SizedBox()),
+                CshBigButton(
+                  text: "Submit",
+                  onPressed: () {
+                    String? remarks = controller.text;
+                    if (Validator.isNullOrEmpty(remarks)) {
+                      CshSnackBar.error(
+                        context: context,
+                        message: "Please enter remarks",
+                        snackBarPosition: SnackBarPosition.TOP,
+                      );
+                      return;
+                    }
+                    var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
+                    Navigator.pop(context); // Dismiss dialog
+                    provider.submitTrcRemarks(remarks);
+                  },
+                )
+              ],
+            ),
+          ),
+        ));
+  }
 }
 
 abstract interface class SubmitDeviceQuoteInterface {
@@ -294,4 +343,6 @@ abstract interface class SubmitDeviceQuoteInterface {
   void removeAllLoader();
 
   void onManualQuestionFetchedSuccess(List<ManualQuestionListData> questionList);
+
+  void showTrcRemarksDialog();
 }

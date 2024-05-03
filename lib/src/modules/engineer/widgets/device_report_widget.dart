@@ -50,11 +50,14 @@ class DeviceReportWidget extends StatelessWidget {
                       data?.testingRemarks ?? "N/A",
                       maxLines: 3,
                       style: theme.primaryTextTheme.titleSmall,
-
                     ),
                   )
                 ],
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: Dimens.space_16, bottom: Dimens.space_4, top: Dimens.space_16),
+              child: CshTextNew.subTitle1("Device Report:"),
             ),
             Expanded(
                 child: ListView.separated(

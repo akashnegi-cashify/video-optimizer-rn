@@ -284,9 +284,9 @@ class _DeviceCardWidget extends StatelessWidget {
             TitleValueRowWidget(title: l10n.deviceIMEI, value: deviceInfo?.imei ?? ""),
           if (!Validator.isNullOrEmpty(deviceInfo?.serialNumber))
             TitleValueRowWidget(title: l10n.serialNumber, value: deviceInfo?.serialNumber ?? ""),
-          CshMediumButton(text: "My Device Report", onPressed: () {
+          const SizedBox(height: Dimens.space_16),
+          CshMediumButton(text: l10n.deviceReport, onPressed: () {
             DeviceReportScreen.navigate(context, deviceInfo?.did.toString() ?? "");
-            // Navigator.pushNamed(context, MyDeviceReportScreen.route, arguments: MyDeviceReportData(deviceInfo?.deviceBarcode));
           }),
         ],
       ),
