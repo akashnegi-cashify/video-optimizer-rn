@@ -1,7 +1,7 @@
 # TRC Releases
 
 
-# v3.1.7+38 (XX-04-2024)
+# v3.2.0+38 (01-04-2024)
 
 ### Features And Improvements:
 
@@ -10,6 +10,7 @@
 * `TRC - PartQc - Disable image capture flow for part QC`[(SCM-5878)](https://reglobe.atlassian.net/browse/SCM-5878)
 * `QC - Analytics changes`[(SCM-6172)](https://reglobe.atlassian.net/browse/SCM-6172)
 * `QC - Warehouse audit - Block special character while scanning`[(SCM-6165)](https://reglobe.atlassian.net/browse/SCM-6165)
+* `Flutter upgrade to 3.19.6`[(SCM-6227)](https://reglobe.atlassian.net/browse/SCM-6227)
 
 
 
