@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/show_update_imei_dialog.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_category_id_type.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
@@ -204,8 +205,25 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     return false;
   }
 
+  String? _getMatchedImei(List<String>? scannedList) {
+    if (scannedList == null) {
+      return null;
+    }
+
+    if (scannedList.contains(widget.deviceDetails?.imei1)) {
+      return widget.deviceDetails?.imei1;
+    }
+
+    if (widget.deviceDetails?.imei2 != null && scannedList.contains(widget.deviceDetails?.imei2)) {
+      return widget.deviceDetails?.imei2;
+    }
+
+    return null;
+  }
+
   void _showErrorDialog(List<String> scannedList) {
     String scannedImeiData = scannedList.reduce((value, element) => "$value, $element");
+    bool? isImeiAvailable;
     var theme = Theme.of(context);
     var l10n = L10n(context, listen: false);
     showCshBottomSheet(
@@ -247,6 +265,14 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                 ),
               ],
             ),
+            const SizedBox(height: Dimens.space_8),
+            CshCheckbox(
+              title: Text(l10n.imeiNotAvailable, style: theme.primaryTextTheme.titleMedium),
+              visualDensity: VisualDensity.comfortable,
+              onChanged: (value) {
+                isImeiAvailable = value ?? false;
+              },
+            ),
             const SizedBox(height: Dimens.space_24),
             CshMediumOutlineButton(
               text: l10n.reScan,
@@ -260,7 +286,9 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
               text: l10n.reportMismatch,
               onPressed: () {
                 Navigator.pop(context); // close dialog
-                _onReportMismatch(scannedList, onComplete: () => Navigator.pop(context)); // move to previous screen,
+                _onReportMismatch(scannedList,
+                    isImeiAvailable: isImeiAvailable,
+                    onComplete: () => Navigator.pop(context)); // move to previous screen,
               },
             ),
           ],
@@ -278,6 +306,25 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
       builder: (_) {
         return ImeiScanner(
           onProceed: (List<String>? scannedList) {
+            if (!_isScannedSuccessfully && _is1ImeiAvailable()) {
+              String? matchedImei = _getMatchedImei(scannedList);
+              if (!Validator.isNullOrEmpty(matchedImei)) {
+                _isScannedSuccessfully = true;
+                showUpdateImeiDialog(
+                  context,
+                  scannedList!,
+                  matchedImei,
+                  onRescan: () {
+                    _openImeiScanner(isResetTimeoutReasons: false);
+                  },
+                  onUpdateImei: (updatedImei, isImeiAvailable, filePath, isAutoApproved) {
+                    _onImeiUpdate(updatedImei, isImeiAvailable, filePath, isAutoApproved);
+                  },
+                );
+              }
+              return;
+            }
+
             if (!_isScannedSuccessfully && (scannedList?.length ?? 0) >= getNeedToScannedValues()) {
               _isScannedSuccessfully = true;
               Navigator.pop(context); // close Imei Scanner
@@ -323,6 +370,13 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     ));
   }
 
+  _is1ImeiAvailable() {
+    if (!Validator.isNullOrEmpty(widget.deviceDetails?.imei1) && Validator.isNullOrEmpty(widget.deviceDetails?.imei2)) {
+      return true;
+    }
+    return false;
+  }
+
   _showTimeoutReasons(List<Reasons> reasons, {required Function(Reasons reason) onReasonSelected}) {
     var l10n = L10n(context, listen: false);
     showCshBottomSheet(
@@ -356,13 +410,13 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     );
   }
 
-  _onReportMismatch(List<String> scannedList, {VoidCallback? onComplete}) {
+  _onReportMismatch(List<String> scannedList, {bool? isImeiAvailable, VoidCallback? onComplete}) {
     var provider = LobDeviceScannerProvider.of(context, listen: false);
     ImagePicker platform = ImagePicker();
     platform.pickImage(source: ImageSource.camera, requestFullMetadata: false).then((value) async {
       if (value != null) {
         CshLoading().showLoading(context);
-        provider.reportMismatch(value.path, scannedList).then((value) {
+        provider.reportMismatch(value.path, scannedList, isImeiAvailable: isImeiAvailable).then((value) {
           CshLoading().hideLoading(context);
           CshSnackBar.success(context: context, message: "Mismatch reported successfully");
           if (onComplete != null) {
@@ -374,5 +428,18 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
         });
       }
     });
+  }
+
+  _onImeiUpdate(String? updatedImei, bool? isImeiAvailable, String filePath, bool isAutoApproved) {
+    var provider = LobDeviceScannerProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.updateImei(filePath, updatedImei, isImeiAvailable, isAutoApproved: isAutoApproved).then((value) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.success(context: context, message: "IMEI updated successfully");
+      _isImeiVerified = true;
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error.toString());
+    }).whenComplete(() => _isScannedSuccessfully = false);
   }
 }

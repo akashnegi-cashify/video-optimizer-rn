@@ -26,6 +26,8 @@ class L10n extends BaseL10n {
 
   String get selectCategory => Intl.message("Select Category", locale: localName, name: "selectCategory");
 
+  String get selectCorrectImei => Intl.message("Select correct Imei", locale: localName, name: "selectCorrectImei");
+
   String get deviceImei => Intl.message("Device Imei", locale: localName, name: "deviceImei");
 
   String get scannedImei => Intl.message("Scanned Imei", locale: localName, name: "scannedImei");
@@ -36,7 +38,17 @@ class L10n extends BaseL10n {
 
   String get unableToScan => Intl.message("Unable to Scan", locale: localName, name: "unableToScan");
 
+  String get updateMissingImei => Intl.message("Update Missing IMEI", locale: localName, name: "updateMissingImei");
+
   String get imeiMismatchDescription => Intl.message("Please capture Image of IMEI to report mismatch", locale: localName, name: "imeiMismatchDescription");
+
+  String get imeiUpdateDescription => Intl.message("Please update the missing IMEI carefully and capture image", locale: localName, name: "imeiUpdateDescription");
+
+  String get matchedImei => Intl.message("Matched Imei", locale: localName, name: "matchedImei");
+
+  String get imeiNotAvailable => Intl.message("IMEI not available", locale: localName, name: "imeiNotAvailable");
+
+  String get update => Intl.message("Update", locale: localName, name: "update");
 
   String get updateCategoryIfNeeded =>
       Intl.message("Update Category If needed", locale: localName, name: "updateCategoryIfNeeded");

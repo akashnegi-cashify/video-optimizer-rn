@@ -136,12 +136,14 @@ abstract class CalculatorService {
   }
 
   Stream<BaseActionResponse?> reportMismatch(List<String?> scannedImeiList, String deviceBarcode, String imeiImageUrl,
-      {String? timeoutReason}) {
+      {String? timeoutReason, bool? isImei2Available, bool isAutoApproved = false}) {
     var req = {
       "imei": scannedImeiList,
       "qr": deviceBarcode,
       "image_url": imeiImageUrl,
       "rm": timeoutReason,
+      "iaa": isAutoApproved,
+      if (isImei2Available != null) "imna": isImei2Available,
     };
 
     return service.post("/device/mismatch/report/save", BaseActionResponse.fromJson, body: jsonEncode(req));
