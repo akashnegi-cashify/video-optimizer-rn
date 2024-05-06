@@ -19,11 +19,9 @@ class DeviceReportWidget extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
+          return Center(
             child: Text(
               snapshot.error.toString(),
-              textAlign: TextAlign.center,
               style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.error),
             ),
           );
@@ -40,7 +38,7 @@ class DeviceReportWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CshTextNew.subTitle1("Testing Remarks:"),
+                  CshTextNew.subTitle1("QC Remarks:"),
                   Container(
                     margin: const EdgeInsets.only(top: Dimens.space_4),
                     width: double.infinity,
@@ -57,16 +55,23 @@ class DeviceReportWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: Dimens.space_16, bottom: Dimens.space_4, top: Dimens.space_16),
-              child: CshTextNew.subTitle1("Device Report:"),
+              child: CshTextNew.subTitle1("QC Failed Reasons:"),
             ),
             Expanded(
-                child: ListView.separated(
-                    padding: const EdgeInsets.all(Dimens.space_16),
-                    itemBuilder: (context, index) {
-                      return _DeviceReportItem(data!.deviceReportList![index]);
-                    },
-                    separatorBuilder: (__, _) => const SizedBox(height: Dimens.space_16),
-                    itemCount: data?.deviceReportList?.length ?? 0))
+              child: !Validator.isListNullOrEmpty(data?.deviceReportList)
+                  ? ListView.separated(
+                      padding: const EdgeInsets.all(Dimens.space_16),
+                      itemBuilder: (context, index) {
+                        return _DeviceReportItem(data!.deviceReportList![index]);
+                      },
+                      separatorBuilder: (__, _) => const SizedBox(height: Dimens.space_16),
+                      itemCount: data?.deviceReportList?.length ?? 0)
+                  : Center(
+                      child: Text(
+                      "No Report Generated",
+                      style: theme.textTheme.bodyLarge!.copyWith(color: theme.colorScheme.error),
+                    )),
+            ),
           ],
         );
       },
@@ -88,22 +93,15 @@ class _DeviceReportItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Part Name:", isPrimary: false)),
-              Flexible(flex: 3, child: CshTextNew.subTitle1(deviceReport.partName ?? "N/A")),
+              Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Question:", isPrimary: false)),
+              Flexible(flex: 4, child: CshTextNew.subTitle2(deviceReport.partName ?? "N/A")),
             ],
           ),
           const SizedBox(height: Dimens.space_8),
           Row(
             children: [
-              Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Variation Name:", isPrimary: false)),
-              Flexible(flex: 3, child: CshTextNew.subTitle1(deviceReport.variationName ?? "N/A")),
-            ],
-          ),
-          const SizedBox(height: Dimens.space_8),
-          Row(
-            children: [
-              Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Is Fail:", isPrimary: false)),
-              Flexible(flex: 3, child: CshTextNew.subTitle1(deviceReport.isFail.toString())),
+              Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Answer:", isPrimary: false)),
+              Flexible(flex: 4, child: CshTextNew.subTitle2(deviceReport.variationName ?? "N/A")),
             ],
           ),
         ],

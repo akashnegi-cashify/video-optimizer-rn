@@ -25,7 +25,7 @@ class DeviceReportProvider extends CshChangeNotifier {
     var completer = Completer<DeviceReportData>();
     EngineerAPIService.getDeviceReport(deviceId).listen((event) {
       if (event?.deviceReportData == null) {
-        completer.completeError("No data found");
+        completer.completeError("No Report Generated");
         return;
       }
       completer.complete(event!.deviceReportData);

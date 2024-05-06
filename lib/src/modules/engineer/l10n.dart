@@ -263,4 +263,6 @@ class L10n extends l10n_common.L10n {
   String get additionalInfo => Intl.message("Additional Info", locale: localName, name: "additionalInfo");
 
   String get deviceReport => Intl.message("Device Report", locale: localName, name: "deviceReport");
+
+  String get qcFailedReasons => Intl.message("Qc Fail Reasons", locale: localName, name: "qcFailedReasons");
 }

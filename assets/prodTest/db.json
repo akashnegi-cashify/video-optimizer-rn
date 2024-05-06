@@ -2248,7 +2248,7 @@
       "key": "header_TRC_general_component",
       "configJson": {
         "config": {
-          "ht": "Device Report",
+          "ht": "Reasons and Remarks",
           "sbb": true,
           "slb": false
         }

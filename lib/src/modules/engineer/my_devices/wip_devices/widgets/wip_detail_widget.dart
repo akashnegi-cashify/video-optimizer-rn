@@ -161,7 +161,16 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                     deviceBarcode: provider.deviceBarcode,
                     color: deviceInfo?.color,
                     productTitle: deviceInfo?.productName),
-              )
+              ),
+            Padding(
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              child: CshBigOutlineButton(
+                text: l10n.qcFailedReasons,
+                onPressed: () {
+                  DeviceReportScreen.navigate(context, deviceInfo?.did.toString() ?? "");
+                },
+              ),
+            ),
           ]
         ],
       ),
@@ -284,10 +293,6 @@ class _DeviceCardWidget extends StatelessWidget {
             TitleValueRowWidget(title: l10n.deviceIMEI, value: deviceInfo?.imei ?? ""),
           if (!Validator.isNullOrEmpty(deviceInfo?.serialNumber))
             TitleValueRowWidget(title: l10n.serialNumber, value: deviceInfo?.serialNumber ?? ""),
-          const SizedBox(height: Dimens.space_16),
-          CshMediumButton(text: l10n.deviceReport, onPressed: () {
-            DeviceReportScreen.navigate(context, deviceInfo?.did.toString() ?? "");
-          }),
         ],
       ),
     );

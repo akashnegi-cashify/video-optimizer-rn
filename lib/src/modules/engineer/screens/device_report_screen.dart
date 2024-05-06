@@ -13,7 +13,7 @@ class DeviceReportScreenArg extends BaseArguments {
 
   Map<String, dynamic> toJson() {
     return {
-      "deviceId": deviceId,
+      DeviceReportCompParamKeys.deviceId.value: deviceId,
     };
   }
 }

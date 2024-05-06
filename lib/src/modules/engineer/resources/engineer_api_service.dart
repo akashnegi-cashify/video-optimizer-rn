@@ -250,6 +250,6 @@ class EngineerAPIService {
   }
 
   static Stream<DeviceReportResponse?> getDeviceReport(String? deviceId) {
-    return TrcService().post("/device/report-v2?did=$deviceId&isFault=true", DeviceReportResponse.fromJson);
+    return TrcService().get("/device/report-v2?did=$deviceId&isFault=true", DeviceReportResponse.fromJson);
   }
 }
