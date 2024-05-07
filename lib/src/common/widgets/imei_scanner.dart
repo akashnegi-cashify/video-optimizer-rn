@@ -28,7 +28,6 @@ class _ImeiScannerState extends State<ImeiScanner> {
     scheduleMicrotask(() {
       var timeOutInSec = RemoteConfigHelper().getInt(AppRemoteConfig.KEY_IMEI_READER_TIMEOUT_SEC);
       _timer = Timer(Duration(seconds: timeOutInSec), () {
-        Logger.debug('mydebug-----_ImeiScannerState.initState', ['Time out']);
         widget.onTimeOut?.call();
       });
       super.initState();

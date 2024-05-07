@@ -42,11 +42,11 @@ class L10n extends BaseL10n {
 
   String get imeiMismatchDescription => Intl.message("Please capture Image of IMEI to report mismatch", locale: localName, name: "imeiMismatchDescription");
 
-  String get imeiUpdateDescription => Intl.message("Please update the missing IMEI carefully and capture image", locale: localName, name: "imeiUpdateDescription");
+  String get imeiUpdateDescription => Intl.message("Please update the missing IMEI carefully and capture image.", locale: localName, name: "imeiUpdateDescription");
 
   String get matchedImei => Intl.message("Matched Imei", locale: localName, name: "matchedImei");
 
-  String get imeiNotAvailable => Intl.message("IMEI not available", locale: localName, name: "imeiNotAvailable");
+  String get imeiNotAvailable => Intl.message("IMEI 2 not available", locale: localName, name: "imeiNotAvailable");
 
   String get update => Intl.message("Update", locale: localName, name: "update");
 
