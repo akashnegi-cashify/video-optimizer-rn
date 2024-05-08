@@ -43,12 +43,10 @@ class AuditQuestionComponent extends StatelessComponent<NoneConfigModel> {
 class _AuditQuestions extends StatelessWidget {
   final String scannedBarcode;
 
-  _AuditQuestions({
+  const _AuditQuestions({
     Key? key,
     required this.scannedBarcode,
   }) : super(key: key);
-
-  final PageController controller = PageController(initialPage: 0, keepPage: false);
 
   @override
   Widget build(BuildContext context) {
