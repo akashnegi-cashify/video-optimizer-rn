@@ -1,6 +1,14 @@
 # TRC Releases
 
 
+# v3.2.3+41 (XX-05-2024)
+
+### Features:
+
+* `QC - QC Tester - Update missing IMEI during manual testing`[(SCM-6160)](https://reglobe.atlassian.net/browse/SCM-6160)
+
+
+
 # v3.2.1+39 (03-05-2024)
 
 ### Bug Fixes:
