@@ -30,6 +30,24 @@ class ScanDeviceData {
   @JsonKey(name: "mm")
   Map<String, String>? requiredImageList;
 
+  @JsonKey(name: "cs")
+  String? currentStatus;
+
+  @JsonKey(name: "pn")
+  String? productName;
+
+  @JsonKey(name: "imei1")
+  String? imei1;
+
+  @JsonKey(name: "imei2")
+  String? imei2;
+
+  @JsonKey(name: "mod")
+  int? moneyOutDate;
+
+  @JsonKey(name: "sl")
+  String? storageLocation;
+
   static ScanDeviceData fromJson(Map<String, dynamic> json) => _$ScanDeviceDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$ScanDeviceDataToJson(this);

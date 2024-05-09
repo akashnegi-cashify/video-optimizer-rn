@@ -28,6 +28,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
   final TextEditingController _textEditController = TextEditingController();
   bool _enableButton = false;
   String? _lastScannedBarcode;
+  MlScannerController? _mlScannerController;
 
   @override
   void initState() {
@@ -57,8 +58,12 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
                 isPlayScanSound: true,
                 getLastScannedBarcode: () => _lastScannedBarcode,
                 zoomScale: 0.5,
+                onScannerStarted: (arguments, controller) {
+                  _mlScannerController = controller;
+                },
                 onScannerDetected: (String value, MlScannerController controller) {
                   _lastScannedBarcode = value;
+                  _mlScannerController = controller;
                   widget.onScanDetected(value, controller);
                 },
               ),
@@ -105,7 +110,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
       onPressed: _enableButton
           ? () {
               FocusScope.of(context).unfocus();
-              widget.onScanDetected(_textEditController.text, null);
+              widget.onScanDetected(_textEditController.text, _mlScannerController);
               _textEditController.clear();
               setState(() {});
             }

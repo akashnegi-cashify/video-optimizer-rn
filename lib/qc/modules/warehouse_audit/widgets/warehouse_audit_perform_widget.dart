@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/dialogs/show_audit_scanned_device_detail_dialog.dart';
 import 'package:flutter_trc/qc/modules/warehouse_audit/providers/warehouse_audit_perform_provider.dart';
 import 'package:flutter_trc/qc/modules/warehouse_audit/resources/upload_image_data.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
@@ -60,16 +61,11 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
           },
         );
       } else {
-        controller?.start();
-        CshSnackBar.success(
-          context: context,
-          message: value?.message ?? "",
-          snackBarPosition: SnackBarPosition.TOP,
-          duration: SnackBarDuration.SHORT,
-        );
+        showAuditScannedDeviceDetailsDialog(context, value).whenComplete(() => controller?.start());
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
+      controller?.start();
       CshSnackBar.error(
         context: context,
         message: error.toString(),
