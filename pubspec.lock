@@ -483,8 +483,8 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: "v2.0.0"
-      resolved-ref: "700b215c8efb25865eb8481b079f643d9cf240d8"
+      ref: i-radiolist
+      resolved-ref: "03bbdab3d31830bd9f757db4da93345fdb742839"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "2.0.0"
