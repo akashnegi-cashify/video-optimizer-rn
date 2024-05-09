@@ -70,7 +70,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     });
   }
 
-  _submitCalculatorRequest() {
+  _submitCalculatorRequest({String? testingRemarks}) {
     stepperDetails.add(
       StepDetails(
         title: "Requesting Quotes",
@@ -80,6 +80,9 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     );
     notifyListeners();
     iDeviceQuote?.showLoading(true);
+    if (!Validator.isNullOrEmpty(testingRemarks)) {
+      quoteRequest?.testingRemarks = testingRemarks;
+    }
     service.submitCalculatorResponse(quoteRequest, deviceBarcode, isDeviceTypeLob: isDeviceTypeLob).listen((event) {
       iDeviceQuote?.showLoading(false);
       var stepperItem = stepperDetails.last;
@@ -111,7 +114,13 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     stepperItem.subTitle = selectedColor;
     notifyListeners();
     quoteRequest?.selectedColor = selectedColor;
-    _submitCalculatorRequest();
+    isLoginFromQC().then((value) {
+      if (Validator.isTrue(value)) {
+        _submitCalculatorRequest();
+      } else {
+        iDeviceQuote?.showTrcRemarksDialog();
+      }
+    });
   }
 
   void _submitDeviceImages() {
@@ -229,5 +238,9 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
         onError: (error) {
       Logger.debug('mydebug-----SubmitDeviceQuoteProvider._submitManualQuestions error', [error]);
     });
+  }
+
+  void submitTrcRemarks(String testingRemarks) {
+    _submitCalculatorRequest(testingRemarks: testingRemarks);
   }
 }

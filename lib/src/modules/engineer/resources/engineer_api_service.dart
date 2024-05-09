@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
+import 'package:flutter_trc/src/modules/engineer/models/device_report_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retreived_part_required_list_reponse.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
@@ -246,5 +247,9 @@ class EngineerAPIService {
   static Stream<EngineerActionResponse?> updateRetrievedParts(Map<String, dynamic> data) {
     return TrcService()
         .post("/retrieved-part/update-extracted-part", EngineerActionResponse.fromJson, body: jsonEncode(data));
+  }
+
+  static Stream<DeviceReportResponse?> getDeviceReport(String? deviceId) {
+    return TrcService().get("/device/report-v2?did=$deviceId&isFault=true", DeviceReportResponse.fromJson);
   }
 }

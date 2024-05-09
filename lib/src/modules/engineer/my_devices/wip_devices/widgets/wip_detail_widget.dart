@@ -12,6 +12,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/e
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/providers/wip_device_detail_provider.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
+import 'package:flutter_trc/src/modules/engineer/screens/device_report_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 
@@ -160,7 +161,16 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                     deviceBarcode: provider.deviceBarcode,
                     color: deviceInfo?.color,
                     productTitle: deviceInfo?.productName),
-              )
+              ),
+            Padding(
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              child: CshBigOutlineButton(
+                text: l10n.qcFailedReasons,
+                onPressed: () {
+                  DeviceReportScreen.navigate(context, deviceInfo?.did.toString() ?? "");
+                },
+              ),
+            ),
           ]
         ],
       ),
@@ -282,7 +292,7 @@ class _DeviceCardWidget extends StatelessWidget {
           if (!Validator.isNullOrEmpty(deviceInfo?.imei))
             TitleValueRowWidget(title: l10n.deviceIMEI, value: deviceInfo?.imei ?? ""),
           if (!Validator.isNullOrEmpty(deviceInfo?.serialNumber))
-            TitleValueRowWidget(title: l10n.serialNumber, value: deviceInfo?.serialNumber ?? "")
+            TitleValueRowWidget(title: l10n.serialNumber, value: deviceInfo?.serialNumber ?? ""),
         ],
       ),
     );
