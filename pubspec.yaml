@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.2.1+39
+version: 3.2.2+40
 
 web_version: 1.0.0
 
@@ -57,7 +57,7 @@ dependencies:
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.0.0
+      ref: i-radiolist
       path: core_widgets
 
   calculator_ui:
@@ -217,7 +217,7 @@ dependency_overrides:
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.0.0
+      ref: i-radiolist
       path: core_widgets
   calculator_ui:
     git:

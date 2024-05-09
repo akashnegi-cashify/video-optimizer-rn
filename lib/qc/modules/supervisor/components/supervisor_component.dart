@@ -28,7 +28,7 @@ class SupervisorComponent extends StatelessComponent<NoneConfigModel> {
       (model) => ChangeNotifierProvider(
         create: (_) => SupervisorProvider(model.deviceBarcode!),
         lazy: false,
-        child: SupervisorWidget(),
+        child: const SupervisorWidget(),
       ),
     );
   }

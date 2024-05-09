@@ -1,11 +1,11 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_summary_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/widgets/question_widget.dart';
 
 import '../l10n.dart';
 import '../providers/audit_questions_provider.dart';
 import '../screens/audit_barcode_scanner_screen.dart';
-import '../screens/audit_question_summary_screen.dart';
 
 class AuditQuestionBuilder extends StatefulWidget {
   final String barcode;
@@ -47,7 +47,7 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
               pageSnapping: true,
               itemBuilder: (context, index) {
                 return AuditQuestionWidget(
-                  key: Key(_currentPage.toString()),
+                  key: ValueKey(_currentPage.toString()),
                   onOptionSelected: (int qId, String selectedOption) {
                     provider.onQuestionOptionSelected(qId, selectedOption);
                   },
@@ -56,8 +56,9 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
               },
               itemCount: auditQuestionList!.length,
               onPageChanged: (pageNumber) {
-                _currentPage = pageNumber;
-                setState(() {});
+                setState(() {
+                  _currentPage = pageNumber;
+                });
               },
             ),
           ),
@@ -75,47 +76,27 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                               duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
                         },
                 ),
-                ((_currentPage == (auditQuestionList.length - 1)))
-                    ? CshMediumButton(
-                        text: l10n.submit,
-                        onPressed: (!Validator.isNullOrEmpty(auditQuestionList[_currentPage].selectedOption))
-                            ? () {
-                                if (auditQuestionList[_currentPage].imageCount != null &&
-                                    auditQuestionList[_currentPage].imageCount == 1) {
-                                  if (Validator.isNullOrEmpty(auditQuestionList[_currentPage].s3url)) {
-                                    CshSnackBar.error(context: context, message: l10n.pleaseUploadRequiredImage);
-                                  } else {
-                                    AuditQuestionSummaryArguments args = AuditQuestionSummaryArguments(
-                                        questionDataModel: provider.auditData, scannedBarcode: widget.barcode);
-                                    Navigator.of(context).pushNamed(AuditQuestionSummaryScreen.route, arguments: args);
-                                  }
-                                } else {
-                                  AuditQuestionSummaryArguments args = AuditQuestionSummaryArguments(
-                                      questionDataModel: provider.auditData, scannedBarcode: widget.barcode);
-                                  Navigator.of(context).pushNamed(AuditQuestionSummaryScreen.route, arguments: args);
-                                }
-                              }
-                            : null,
-                      )
-                    : CshMediumButton(
-                        text: _currentPage == (auditQuestionList.length - 1) ? l10n.submit : l10n.next,
-                        onPressed: (!Validator.isNullOrEmpty(auditQuestionList[_currentPage].selectedOption))
-                            ? () {
-                                if (auditQuestionList[_currentPage].imageCount != null &&
-                                    auditQuestionList[_currentPage].imageCount == 1) {
-                                  if (Validator.isNullOrEmpty(auditQuestionList[_currentPage].s3url)) {
-                                    CshSnackBar.error(context: context, message: l10n.pleaseUploadRequiredImage);
-                                  } else {
-                                    pagerController.nextPage(
-                                        duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
-                                  }
-                                } else {
-                                  pagerController.nextPage(
-                                      duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
-                                }
-                              }
-                            : null,
-                      )
+                CshMediumButton(
+                  text: _currentPage == (auditQuestionList.length - 1) ? l10n.submit : l10n.next,
+                  onPressed: (!Validator.isNullOrEmpty(auditQuestionList[_currentPage].selectedOption))
+                      ? () {
+                          if (auditQuestionList[_currentPage].imageCount != null &&
+                              auditQuestionList[_currentPage].imageCount == 1 &&
+                              Validator.isNullOrEmpty(auditQuestionList[_currentPage].s3url)) {
+                            CshSnackBar.error(context: context, message: l10n.pleaseUploadRequiredImage);
+                            return;
+                          }
+
+                          if (_currentPage == (auditQuestionList.length - 1)) {
+                            AuditQuestionSummaryArguments args = AuditQuestionSummaryArguments(
+                                questionDataModel: provider.auditData, scannedBarcode: widget.barcode);
+                            Navigator.of(context).pushNamed(AuditQuestionSummaryScreen.route, arguments: args);
+                          } else {
+                            pagerController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+                          }
+                        }
+                      : null,
+                )
               ],
             ),
           ),
