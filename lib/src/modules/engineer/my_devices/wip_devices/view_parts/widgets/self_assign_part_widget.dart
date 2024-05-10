@@ -1,9 +1,12 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/replace_part_request.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/self_assign_presenter.dart';
+import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
 
 class SelfAssignPartScreen extends StatelessWidget {
   const SelfAssignPartScreen({Key? key}) : super(key: key);
@@ -25,6 +28,8 @@ class _SelfAssignPartWidget extends StatefulWidget {
 class _SelfAssignPartWidgetState extends State<_SelfAssignPartWidget> with ViewAction {
   late L10n l10n;
   late SelfAssignPresenter _presenter;
+  final TextEditingController partBarcodeController = TextEditingController();
+  final TextEditingController deviceBarcodeController = TextEditingController();
 
   @override
   void initState() {
@@ -40,9 +45,6 @@ class _SelfAssignPartWidgetState extends State<_SelfAssignPartWidget> with ViewA
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController partBarcodeController = TextEditingController();
-    final TextEditingController deviceBarcodeController = TextEditingController();
-
     String? previousDeviceBarcode = ModalRoute.of(context)?.settings.arguments as String?;
 
     return Scaffold(
@@ -60,11 +62,15 @@ class _SelfAssignPartWidgetState extends State<_SelfAssignPartWidget> with ViewA
                     hintText: l10n.enterPartBarcode,
                   )),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_4), child: CshTextNew.h3(l10n.or)),
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_4),
+                    child: CshTextNew.h3(l10n.or),
+                  ),
                   _ScanButtonWidget(
-                    scannerCallback: (String result, {BarcodeScannerController? controller}) {
+                    scannerCallback: (String result, MlScannerController? controller) {
                       Navigator.pop(context);
-                      partBarcodeController.text = result;
+                      setState(() {
+                        partBarcodeController.text = result;
+                      });
                     },
                   ),
                 ],
@@ -83,11 +89,15 @@ class _SelfAssignPartWidgetState extends State<_SelfAssignPartWidget> with ViewA
                     hintText: l10n.enterDeviceBarcode,
                   )),
                   Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_4), child: CshTextNew.h3(l10n.or)),
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_4),
+                    child: CshTextNew.h3(l10n.or),
+                  ),
                   _ScanButtonWidget(
-                    scannerCallback: (String result, {BarcodeScannerController? controller}) {
+                    scannerCallback: (String result, MlScannerController? controller) {
                       Navigator.pop(context);
-                      deviceBarcodeController.text = result;
+                      setState(() {
+                        deviceBarcodeController.text = result;
+                      });
                     },
                   ),
                 ],
@@ -134,7 +144,7 @@ mixin ViewAction {
 }
 
 class _ScanButtonWidget extends StatelessWidget {
-  final Function(String result, {BarcodeScannerController? controller}) scannerCallback;
+  final Function(String result, MlScannerController? controller) scannerCallback;
 
   const _ScanButtonWidget({
     required this.scannerCallback,
@@ -146,14 +156,9 @@ class _ScanButtonWidget extends StatelessWidget {
     return CshMediumButton(
       text: l10n.scan,
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return BarCodeScannerWidget(resultCallback: scannerCallback);
-            },
-          ),
-        );
+        CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+          scannerCallback(scannedData, controller);
+        });
       },
     );
   }
