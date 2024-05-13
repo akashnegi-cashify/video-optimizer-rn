@@ -12,6 +12,8 @@ RetrievedDataDetailsParamModel fromMap(Map<String, dynamic> map) {
     deviceBarcode: map["dbr"],
     isProgressCase: map["ipc"],
     orderDataList: map["opdl"],
+    partInfo: map["pInfo"],
+    onSuccess: map["onSuccess"],
   );
   return model;
 }
@@ -24,6 +26,8 @@ Widget paramBuilder(
       "dbr": provider.data["dbr"],
       "ipc": provider.data["ipc"],
       "opdl": provider.data["opdl"],
+      "pInfo": provider.data["pInfo"],
+      "onSuccess": provider.data["onSuccess"],
     },
     builder: (context, data, child) {
       RetrievedDataDetailsParamModel model = fromMap(data);
@@ -37,11 +41,15 @@ bool isValid(RetrievedDataDetailsParamModel model) {
   var deviceBarcode = model.deviceBarcode;
   var isProgressCase = model.isProgressCase;
   var orderDataList = model.orderDataList;
+  var partInfo = model.partInfo;
+  var onSuccess = model.onSuccess;
 
   return dataModel != null &&
       deviceBarcode != null &&
       isProgressCase != null &&
-      orderDataList != null;
+      orderDataList != null &&
+      partInfo != null &&
+      onSuccess != null;
 }
 
 dynamic schema() => {
@@ -55,6 +63,8 @@ dynamic schema() => {
         {"key": "opdl", "value": null},
         {"key": "ipc", "value": null},
         {"key": "dbr", "value": null},
+        {"key": "pInfo", "value": null},
+        {"key": "onSuccess", "value": null},
         {"key": "dm", "value": null}
       ], //#admincomponent
     };

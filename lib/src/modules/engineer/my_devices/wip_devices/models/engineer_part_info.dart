@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter_trc/src/common/model/device_part.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,6 +15,21 @@ class EngineerPartInfo extends DevicePart {
 
   @JsonKey(name: "rvc")
   int? retrievedImageCount;
+
+  @JsonKey(name: "isPartRetrieved")
+  bool? isPartRetrievedRequired;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? imageUrl;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  int? reasonId;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? retrievedPartBarcode;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? remarks;
 
   static EngineerPartInfo fromJson(Map<String, dynamic> data) => _$EngineerPartInfoFromJson(data);
 

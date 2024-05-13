@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:flutter_trc/src/modules/engineer/retreived_parts/widgets/retrieved_part_details_item_widget.dart';
 
 import '../../models/retreived_part_required_list_reponse.dart';
@@ -10,10 +11,12 @@ import '../utils/retrieved_parts_utils.dart';
 
 class RetrievedPartsDataDetailsWidget extends StatefulWidget {
   final RetrievedPartRequiredResponse? dataModel;
+  final EngineerPartInfo? partInfo;
 
   const RetrievedPartsDataDetailsWidget({
     super.key,
     this.dataModel,
+    this.partInfo,
   });
 
   @override
@@ -27,19 +30,7 @@ class _RetrievedPartsDataDetailsWidgetState extends State<RetrievedPartsDataDeta
     var provider = RetrievedPartsDataProviders.of(context);
     return Column(
       children: [
-        const SizedBox.shrink(),
-        Expanded(
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
-            itemBuilder: (BuildContext context, int index) {
-              return RetrievedPartDetailsItemWidget(itemModel: provider.partList[index]);
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: Dimens.space_12);
-            },
-            itemCount: provider.partList.length,
-          ),
-        ),
+        Expanded(child: RetrievedPartDetailsItemWidget(itemModel: widget.partInfo)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
           child: SizedBox(
@@ -47,7 +38,7 @@ class _RetrievedPartsDataDetailsWidgetState extends State<RetrievedPartsDataDeta
             child: CshMediumButton(
               text: l10n.submit,
               onPressed: () {
-                if (RetrievedPartsUtils.checkForMandatoryFields(widget.dataModel?.data?.partList) == false) {
+                if (!provider.isMandatoryFieldsSubmitted()) {
                   CshSnackBar.error(
                     context: context,
                     message: l10n.completeRequiredFieldToSubmit,

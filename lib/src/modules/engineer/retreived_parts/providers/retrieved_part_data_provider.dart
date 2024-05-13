@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/retrieved_part_reason_list_response.dart';
 import 'package:provider/provider.dart';
-
 
 import '../../models/retreived_part_required_list_reponse.dart';
 import '../../my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
@@ -21,10 +22,23 @@ class RetrievedPartsDataProviders extends CshChangeNotifier {
   List<RetrievedPartListResponseData> partList = [];
   bool? isDeviceInProgress;
   List<OrderEngineerPart>? orderDataList;
+  EngineerPartInfo? partInfo;
+  List<RetrievedPartReasonListData>? reasonList;
 
   RetrievedPartsDataProviders(this.dataModel,
-      {this.isDeviceInProgress = true, this.orderDataList, this.deviceBarcode}) {
+      {this.isDeviceInProgress = true, this.orderDataList, this.deviceBarcode, this.partInfo}) {
     partList = dataModel?.data?.partList ?? [];
+    _getReasonsList(partInfo?.prId);
+  }
+
+  void _getReasonsList(int? partRequestId) {
+    EngineerAPIService.getRetrievedPartReasonList(partRequestId).listen((event) {
+      if (!Validator.isListNullOrEmpty(event?.reasonList)) {
+        reasonList = event?.reasonList;
+      }
+    }, onDone: () {
+      notifyListeners();
+    });
   }
 
   onS3UrlChange(int id, String url) {
@@ -185,5 +199,15 @@ class RetrievedPartsDataProviders extends CshChangeNotifier {
       completer.completeError(e.toString());
     }
     return completer.future;
+  }
+
+  bool isMandatoryFieldsSubmitted() {
+    if (Validator.isNullOrEmpty(partInfo?.retrievedPartBarcode) ||
+        Validator.isNullOrEmpty(partInfo?.imageUrl) ||
+        Validator.isNullOrEmpty(partInfo?.reasonId?.toString())) {
+      return false;
+    }
+
+    return true;
   }
 }

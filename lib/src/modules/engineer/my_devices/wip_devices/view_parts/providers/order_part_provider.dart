@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:core/core.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_select
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 
-import '../../../../models/retreived_part_required_list_reponse.dart';
 import '../models/order_engineer_part.dart';
 
 class OrderPartProvider extends CshChangeNotifier {
@@ -116,39 +114,5 @@ class OrderPartProvider extends CshChangeNotifier {
 
   List<OrderEngineerPart> getSelectedPartList() {
     return _originalDataList.where((element) => (element.orderQuantity ?? 0) > 0).toList();
-  }
-
-  Future<RetrievedPartRequiredResponse> getRetrievedPartsData() {
-    List<Map<String, dynamic>> dataList = [];
-    for (var value in _originalDataList) {
-      if (value.orderQuantity != null &&
-          value.orderQuantity! > 0 &&
-          value.selectedPartType?.id == ElssPartsSelectionOptions.repairRequired.id.toString()) {
-        dataList.add({"prn": value.partName, "ccd": value.categoryCode});
-      }
-    }
-
-    if (dataList.isEmpty) {
-      return Future.error("No data Found");
-    }
-    var completer = Completer<RetrievedPartRequiredResponse>();
-    try {
-      EngineerAPIService.fetchRequiredPartsListingByDID({"pd": dataList}).listen((event) {
-        if (!Validator.isListNullOrEmpty(event?.data?.partList)) {
-          completer.complete(event!);
-        } else {
-          completer.completeError("No data Found");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        Logger.debug('mydebug------AllDevicesProvider.getRetrievedPartsData', [errorMessage]);
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
   }
 }

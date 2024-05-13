@@ -24,6 +24,7 @@ class RetrievedPartsDataDetailsComponents extends StatelessComponent {
     return paramBuilder((param) {
       return RetrievedPartsDataDetailsWidget(
         dataModel: param.dataModel,
+        partInfo: param.partInfo,
       );
     });
   }

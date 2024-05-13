@@ -17,6 +17,8 @@ dynamic schema() => {
         {"key": "opdl", "value": null},
         {"key": "ipc", "value": null},
         {"key": "dbr", "value": null},
+        {"key": "pInfo", "value": null},
+        {"key": "onSuccess", "value": null},
         {"key": "dm", "value": null}
       ]
 

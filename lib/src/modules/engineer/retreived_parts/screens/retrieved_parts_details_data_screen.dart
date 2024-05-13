@@ -2,6 +2,7 @@ import 'package:builder_project/builder_project.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/retreived_part_required_list_reponse.dart';
@@ -21,12 +22,16 @@ class RetrievedPartsDataDetailsScreenArguments extends BaseArguments {
   final String? deviceBarcode;
   final bool? inProgressCase;
   final List<OrderEngineerPart>? orderDataList;
+  final VoidCallback? onSuccess;
+  final EngineerPartInfo? partInfo;
 
   RetrievedPartsDataDetailsScreenArguments({
     this.dataModel,
     this.deviceBarcode,
     this.orderDataList,
     this.inProgressCase = true,
+    this.onSuccess,
+    this.partInfo,
   }) : super(RetrievedPartsDataDetailsScreen.pageKey);
 
   Map<String, dynamic> toJson() {
@@ -35,6 +40,8 @@ class RetrievedPartsDataDetailsScreenArguments extends BaseArguments {
     data[RetrievedDataDetailsParamModelKeys.deviceBarcode.value] = deviceBarcode;
     data[RetrievedDataDetailsParamModelKeys.inProgressCase.value] = inProgressCase;
     data[RetrievedDataDetailsParamModelKeys.orderPartDataList.value] = orderDataList;
+    data[RetrievedDataDetailsParamModelKeys.partInfo.value] = partInfo;
+    data[RetrievedDataDetailsParamModelKeys.onSuccess.value] = onSuccess;
     return data;
   }
 }
@@ -59,6 +66,7 @@ class RetrievedPartsDataDetailsScreen extends BaseScreen<RetrievedPartsDataDetai
               deviceBarcode: args?.deviceBarcode,
               isDeviceInProgress: args?.inProgressCase,
               orderDataList: args?.orderDataList,
+              partInfo: args?.partInfo,
             ),
             lazy: false,
           )
