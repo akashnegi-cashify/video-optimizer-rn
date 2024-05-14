@@ -1,5 +1,21 @@
 # TRC Releases
 
+# v3.2.3+41 (XX-05-2024)
+
+### Features:
+
+* `QC - QC Tester - Update missing IMEI during manual testing`[(SCM-6160)](https://reglobe.atlassian.net/browse/SCM-6160)
+
+
+# v3.2.2+40 (09-05-2024)
+
+### Feature and Bug Fixes:
+
+* `QC - ELSS - Show experimental tags in ELSS device details`[(SCM-6279)](https://reglobe.atlassian.net/browse/SCM-6279)
+* `TRC - Manual Testing/Engineer - Showing repair failures to Engineers`[(SCM-6073)](https://reglobe.atlassian.net/browse/SCM-6073)
+* `QC - Supervision - Bug fix`[(SCM-6264)](https://reglobe.atlassian.net/browse/SCM-6264)
+* `QC - Warehouse audit - Bug fix`[(SCM-6263)](https://reglobe.atlassian.net/browse/SCM-6263)
+
 
 # v3.2.3+41 (XX-05-2024)
 

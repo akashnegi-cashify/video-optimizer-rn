@@ -12,9 +12,14 @@ import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 
-class SupervisorWidget extends StatelessWidget {
-  SupervisorWidget({super.key});
+class SupervisorWidget extends StatefulWidget {
+  const SupervisorWidget({super.key});
 
+  @override
+  State<SupervisorWidget> createState() => _SupervisorWidgetState();
+}
+
+class _SupervisorWidgetState extends State<SupervisorWidget> {
   List<(GlobalKey, ExpansionTileController)>? _categoryGlobalKeys;
 
   @override

@@ -601,6 +601,22 @@
       ]
     },
     {
+      "pageId": 46,
+      "pageKey": "TRC_device_report_screen",
+      "dt": [
+        {
+          "id": 77,
+          "key": "TRC_device_report_component",
+          "type": "component"
+        },
+        {
+          "id": 78,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -2211,6 +2227,28 @@
       "configJson": {
         "config": {
           "ht": "Part QC",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 77,
+      "locale": "en",
+      "key": "TRC_device_report_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 78,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Reasons and Remarks",
           "sbb": true,
           "slb": false
         }

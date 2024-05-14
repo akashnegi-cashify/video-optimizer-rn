@@ -8,6 +8,7 @@ import 'package:flutter_trc/src/modules/elss/components/elss_home_component.dart
 import 'package:flutter_trc/src/modules/elss/components/elss_status_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/part_selection_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/part_selection_qc_component.dart';
+import 'package:flutter_trc/src/modules/engineer/components/device_report_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/engineer_home_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/manage_parts_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
@@ -179,6 +180,9 @@ class TrcComponentRegistry {
 
       case ActionComponent.COMP_KEY:
         return ActionComponent(jsonConfig);
+
+      case DeviceReportComponent.COMP_KEY:
+        return DeviceReportComponent(jsonConfig);
       default:
         return null;
     }

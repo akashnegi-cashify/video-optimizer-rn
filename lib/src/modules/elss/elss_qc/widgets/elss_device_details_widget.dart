@@ -55,8 +55,7 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
                     : const SizedBox(),
                 const SizedBox(width: Dimens.space_20),
                 (!Validator.isNullOrEmpty(dataModel?.deviceGrade))
-                    ? Expanded(
-                        child: _labelAndValueWidget(theme, l10n.currentGrade, dataModel!.deviceGrade!))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.currentGrade, dataModel!.deviceGrade!))
                     : const SizedBox(),
               ],
             ),
@@ -65,13 +64,15 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 (!Validator.isNullOrEmpty(dataModel?.suggestedGrade))
-                    ? Expanded(child: _labelAndValueWidget(theme, l10n.suggestedGrade, dataModel!.suggestedGrade!))
-                    : const SizedBox(),
-                const SizedBox(width: Dimens.space_20),
-                (!Validator.isNullOrEmpty(dataModel?.suggestedChannel))
                     ? Expanded(
-                    child: _labelAndValueWidget(theme, l10n.suggestedChannel, dataModel!.suggestedChannel!))
-                    : const SizedBox(),
+                        child: Padding(
+                            padding: const EdgeInsets.only(right: Dimens.space_20),
+                            child: _labelAndValueWidget(theme, l10n.suggestedGrade, dataModel!.suggestedGrade!)),
+                      )
+                    : const SizedBox.shrink(),
+                (!Validator.isNullOrEmpty(dataModel?.suggestedChannel))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.suggestedChannel, dataModel!.suggestedChannel!))
+                    : const SizedBox.shrink(),
               ],
             ),
             const SizedBox(height: Dimens.space_16),
@@ -79,8 +80,16 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 (!Validator.isNullOrEmpty(dataModel?.serialNumber))
-                    ? Expanded(child: _labelAndValueWidget(theme, l10n.serialNumber, dataModel!.serialNumber!))
-                    : const SizedBox(),
+                    ? Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: Dimens.space_20),
+                          child: _labelAndValueWidget(theme, l10n.serialNumber, dataModel!.serialNumber!),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                (!Validator.isListNullOrEmpty(dataModel?.stockTags))
+                    ? Expanded(child: _labelAndValueWidget(theme, l10n.tags, dataModel!.stockTags!.join(" | ")))
+                    : const SizedBox.shrink(),
               ],
             ),
           ],
