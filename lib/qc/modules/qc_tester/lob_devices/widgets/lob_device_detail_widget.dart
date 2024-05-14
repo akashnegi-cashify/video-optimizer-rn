@@ -109,15 +109,13 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
               Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(widget.deviceDetails?.imei1 ?? "NA")),
             ],
           ),
-          if (!Validator.isNullOrEmpty(widget.deviceDetails?.imei2)) ...[
-            const SizedBox(height: Dimens.space_16),
-            Row(
-              children: [
-                Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("${l10n.imei2}:", isPrimary: false)),
-                Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(widget.deviceDetails?.imei2 ?? "NA")),
-              ],
-            ),
-          ],
+          const SizedBox(height: Dimens.space_16),
+          Row(
+            children: [
+              Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("${l10n.imei2}:", isPrimary: false)),
+              Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(widget.deviceDetails?.imei2 ?? "NA")),
+            ],
+          ),
           const SizedBox(height: Dimens.space_16),
           Row(
             children: [
@@ -304,9 +302,9 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                   onReScan: () {
                     _openImeiScanner(isResetTimeoutReasons: false);
                   },
-                  onReportMismatch: (scannedList, isImeiAvailable) {
+                  onReportMismatch: (scannedList, isImei2Available) {
                     _onReportMismatch(scannedList,
-                        isImeiAvailable: isImeiAvailable,
+                        isImei2Available: isImei2Available,
                         onComplete: () => Navigator.pop(context)); // move to previous screen,
                   },
                 );
@@ -374,13 +372,13 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     );
   }
 
-  _onReportMismatch(List<String> scannedList, {bool? isImeiAvailable, VoidCallback? onComplete}) {
+  _onReportMismatch(List<String> scannedList, {bool? isImei2Available, VoidCallback? onComplete}) {
     var provider = LobDeviceScannerProvider.of(context, listen: false);
     ImagePicker platform = ImagePicker();
     platform.pickImage(source: ImageSource.camera, requestFullMetadata: false).then((value) async {
       if (value != null) {
         CshLoading().showLoading(context);
-        provider.reportMismatch(value.path, scannedList, isImeiAvailable: isImeiAvailable).then((value) {
+        provider.reportMismatch(value.path, scannedList, isImei2Available: isImei2Available).then((value) {
           CshLoading().hideLoading(context);
           CshSnackBar.success(context: context, message: "Mismatch reported successfully");
           if (onComplete != null) {
@@ -400,9 +398,13 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     provider.updateImei(filePath, updatedImei, isImeiAvailable, isAutoApproved: isAutoApproved).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: "IMEI updated successfully");
-      setState(() {
-        _isImeiVerified = true;
-      });
+      if (isAutoApproved) {
+        setState(() {
+          _isImeiVerified = true;
+        });
+      } else {
+        Navigator.pop(context); // move to previous screen
+      }
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error.toString());

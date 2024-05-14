@@ -7,9 +7,9 @@ Future showMismatchImeiDialog(BuildContext context, List<String> scannedList,
     {String? imei1,
     String? imei2,
     required VoidCallback onReScan,
-    required Function(List<String> scannedList, bool? isImeiAvailable) onReportMismatch}) {
+    required Function(List<String> scannedList, bool? isImei2Available) onReportMismatch}) {
+  bool isImei2Available = scannedList.length > 1 ? true : false;
   String scannedImeiData = scannedList.reduce((value, element) => "$value, $element");
-  bool? isImeiAvailable;
   var theme = Theme.of(context);
   var l10n = L10n(context, listen: false);
   return showCshBottomSheet(
@@ -53,16 +53,7 @@ Future showMismatchImeiDialog(BuildContext context, List<String> scannedList,
             if (scannedList.length <= 1)
               Padding(
                 padding: const EdgeInsets.only(top: Dimens.space_8),
-                child: CshCheckbox(
-                  title: Text(l10n.imeiNotAvailable, style: theme.primaryTextTheme.titleMedium),
-                  isSelected: isImeiAvailable ?? false,
-                  visualDensity: VisualDensity.comfortable,
-                  onChanged: (value) {
-                    setState(() {
-                      isImeiAvailable = value;
-                    });
-                  },
-                ),
+                child: Text(l10n.imeiNotAvailable, style: theme.primaryTextTheme.titleMedium),
               ),
             const SizedBox(height: Dimens.space_24),
             CshMediumOutlineButton(
@@ -77,7 +68,7 @@ Future showMismatchImeiDialog(BuildContext context, List<String> scannedList,
               text: l10n.reportMismatch,
               onPressed: () {
                 Navigator.pop(context); // close dialog
-                onReportMismatch(scannedList, isImeiAvailable);
+                onReportMismatch(scannedList, isImei2Available);
               },
             ),
           ],

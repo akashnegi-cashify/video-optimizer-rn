@@ -9,7 +9,7 @@ Future showUpdateImeiDialog(
   List<String> scannedList,
   String? matchedImei, {
   required VoidCallback onRescan,
-  required Function(String? updatedImei, bool? isImeiAvailable, String fileUrl, bool isAutoApproved) onUpdateImei,
+  required Function(String? updatedImei, bool? isImei2Available, String fileUrl, bool isAutoApproved) onUpdateImei,
 }) {
   List<DropDownItem>? imeiDropDownList;
   for (var element in scannedList) {
@@ -20,7 +20,7 @@ Future showUpdateImeiDialog(
   }
 
   DropDownItem? selectedImei;
-  bool? isImeiAvailable;
+  bool isImei2Available = scannedList.length > 1 ? true : false;
 
   var theme = Theme.of(context);
   var l10n = L10n(context, listen: false);
@@ -86,16 +86,7 @@ Future showUpdateImeiDialog(
               if (scannedList.length <= 1)
                 Padding(
                   padding: const EdgeInsets.only(top: Dimens.space_8),
-                  child: CshCheckbox(
-                    isSelected: isImeiAvailable ?? false,
-                    title: Text(l10n.imeiNotAvailable, style: theme.primaryTextTheme.titleMedium),
-                    visualDensity: VisualDensity.comfortable,
-                    onChanged: (value) {
-                      setState(() {
-                        isImeiAvailable = value ?? false;
-                      });
-                    },
-                  ),
+                  child: Text(l10n.imeiNotAvailable, style: theme.primaryTextTheme.titleMedium),
                 ),
               const SizedBox(height: Dimens.space_24),
               CshMediumOutlineButton(
@@ -118,7 +109,7 @@ Future showUpdateImeiDialog(
                   ImagePicker().pickImage(source: ImageSource.camera, requestFullMetadata: false).then((value) {
                     if (value != null) {
                       Navigator.pop(context); // close dialog
-                      onUpdateImei(selectedImei?.label, isImeiAvailable, value.path,
+                      onUpdateImei(selectedImei?.label, isImei2Available, value.path,
                           (scannedList.length > 1 && selectedImei != null));
                     }
                   });
