@@ -7,7 +7,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import '../l10n.dart';
 
 class TRCScannerWidget extends StatefulWidget {
-  final Function(String scannedData, MlScannerController? controller) onScanDetected;
+  final Function(String scannedData, MlScannerController? controller, {bool? isManualEntry}) onScanDetected;
   final List<BarcodeFormat> scanFormatList;
   final bool isEditTextSubmitButtonDirectionHorizontal;
   final String? hintText;
@@ -110,7 +110,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
       onPressed: _enableButton
           ? () {
               FocusScope.of(context).unfocus();
-              widget.onScanDetected(_textEditController.text, _mlScannerController);
+              widget.onScanDetected(_textEditController.text, _mlScannerController, isManualEntry: true);
               _textEditController.clear();
               setState(() {});
             }

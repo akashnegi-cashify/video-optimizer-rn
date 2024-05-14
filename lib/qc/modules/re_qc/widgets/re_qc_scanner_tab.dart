@@ -8,7 +8,7 @@ class ReQcScannerTab extends StatelessWidget {
   final ReQcListData reQcListData;
   final VoidCallback onDeviceListPressed;
   final String? doneStatusCount;
-  final Function(String scannedData, MlScannerController? controller) onScanDetected;
+  final Function(String scannedData, MlScannerController? controller, {bool? isManualEntry}) onScanDetected;
 
   const ReQcScannerTab({
     super.key,

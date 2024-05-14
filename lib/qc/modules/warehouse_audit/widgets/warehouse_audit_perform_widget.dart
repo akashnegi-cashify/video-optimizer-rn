@@ -16,10 +16,10 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TRCScannerWidget(
       hintText: "Scan Device Barcode",
-      onScanDetected: (scannedData, controller) {
+      onScanDetected: (scannedData, controller, {isManualEntry}) {
         if (_validateBarcode(scannedData, context)) {
           controller?.stop();
-          _onScanDetected(context, scannedData, controller);
+          _onScanDetected(context, scannedData, controller, isManualEntry: isManualEntry ?? false);
         }
       },
     );
@@ -44,10 +44,10 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
   }
 
   _onScanDetected(BuildContext context, String scannedData, MlScannerController? controller,
-      {Map<String, String>? uploadedImageMap}) {
+      {Map<String, String>? uploadedImageMap, bool isManualEntry = false}) {
     var provider = WarehouseAuditPerformProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.scanDevice(scannedData, imagesListMap: uploadedImageMap, isManualEntry: controller == null).then((value) {
+    provider.scanDevice(scannedData, imagesListMap: uploadedImageMap, isManualEntry: isManualEntry).then((value) {
       CshLoading().hideLoading(context);
       if (value?.status == 1 && (value?.requiredImageList?.length ?? 0) > 0) {
         var list = UploadImageData.encodeInList(value!.requiredImageList!);
@@ -57,7 +57,8 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
           list,
           onImageUploaded: (uploadedImageList) {
             var uploadedImageMap = UploadImageData.decodeInMap(uploadedImageList);
-            _onScanDetected(context, scannedData, controller, uploadedImageMap: uploadedImageMap);
+            _onScanDetected(context, scannedData, controller,
+                uploadedImageMap: uploadedImageMap, isManualEntry: isManualEntry);
           },
         );
       } else {

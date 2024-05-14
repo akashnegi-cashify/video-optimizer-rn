@@ -66,7 +66,7 @@ class _AwbScannerWidgetState extends State<AwbScannerWidget>{
                   height: MediaQuery.of(context).size.height * 0.60,
                   child: TRCScannerWidget(
                       isEditTextSubmitButtonDirectionHorizontal: true,
-                      onScanDetected: (scannedData, controller) {
+                      onScanDetected: (scannedData, controller, {isManualEntry}) {
                         if (scannedData.isNotEmpty) {
                           controller?.stop();
                           _checkValidityOfAwbNumber(context, scannedData.trim(), onScanner: () {

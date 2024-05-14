@@ -32,7 +32,7 @@ class DeviceReceiveComponent extends StatelessComponent<NoneConfigModel> {
       builder: (builderContext, _) {
         var provider = DeviceReceiveProvider.of(builderContext, listen: false);
         return TRCScannerWidget(
-          onScanDetected: (String scannedData, MlScannerController? controller) {
+          onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
             controller?.stop();
             CshLoading().showLoading(context);
             provider.onDeviceScanned(scannedData).then((value) {

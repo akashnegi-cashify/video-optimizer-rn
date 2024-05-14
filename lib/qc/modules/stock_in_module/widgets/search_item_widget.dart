@@ -87,7 +87,7 @@ class SearchItemWidget extends StatelessWidget {
 
   void _launchScanner(BuildContext context, TextEditingController textController) {
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-        onScanDetected: (String scannedData, MlScannerController? controller) {
+        onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
       if (scannedData.isNotEmpty) {
         Navigator.pop(context); // pop scanner screen
         textController.text = scannedData.trim();

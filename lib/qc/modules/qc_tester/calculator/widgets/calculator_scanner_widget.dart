@@ -52,7 +52,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
         key: ValueKey(key),
         hintText: _isDeviceBarcodeScanned ? l10n.scanCdpQrCode : l10n.scanDeviceBarcode,
         scanFormatList: _isDeviceBarcodeScanned ? [BarcodeFormat.qrCode] : [BarcodeFormat.code128],
-        onScanDetected: (scannedData, controller) {
+        onScanDetected: (scannedData, controller, {isManualEntry}) {
           if (!_isDeviceBarcodeScanned) {
             _onDeviceBarcodeScanned(scannedData);
           } else {
