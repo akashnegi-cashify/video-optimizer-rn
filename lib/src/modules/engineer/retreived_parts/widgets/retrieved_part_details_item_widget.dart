@@ -51,11 +51,9 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             child: GeneralImageUploadCard(
               cardHeight: 70.0,
               cardWidth: 70.0,
-              imageUrl: widget.itemModel?.imageUrl,
+              imageUrl: provider.retrievedPartRequest.imageUrl,
               onMediaUploaded: (url) {
-                widget.itemModel?.imageUrl = url;
-                provider.onS3UrlChange(widget.itemModel?.prId ?? -1, url ?? "");
-                setState(() {});
+                provider.onS3UrlChange(url ?? "");
               },
             ),
           ),
@@ -69,8 +67,7 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             onSelect: (DropDownItem item) {
               if (item.id != null) {
                 int id = int.parse(item.id!);
-                widget.itemModel?.reasonId = id;
-                provider.onReasonSelected(widget.itemModel?.prId ?? -1, item.label ?? "", id);
+                provider.onReasonSelected(item.label ?? "", id);
               }
             },
             items: !Validator.isListNullOrEmpty(provider.reasonList)
@@ -92,8 +89,7 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             hintText: l10n.barcode,
             labelText: l10n.barcode,
             onChanged: (String data) {
-              widget.itemModel?.retrievedPartBarcode = data.trim();
-              provider.onBarcodeChanged(widget.itemModel?.prId ?? -1, data.trim());
+              provider.onBarcodeChanged(data.trim());
             },
             maxLines: 1,
             maxLength: 50,
@@ -107,8 +103,7 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             labelText: l10n.remark,
             keyboardType: TextInputType.name,
             onChanged: (String data) {
-              widget.itemModel?.remarks = data.trim();
-              provider.onRemarkChanged(widget.itemModel?.prId ?? -1, data.trim());
+              provider.onRemarkChanged(data.trim());
             },
             maxLines: 1,
             maxLength: 50,

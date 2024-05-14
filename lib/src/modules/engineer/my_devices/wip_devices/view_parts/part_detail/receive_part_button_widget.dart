@@ -41,19 +41,19 @@ class ReceivePartButtonWidget extends StatelessWidget {
     context.showConfirmationDialog(l10n.areYouSureYouWantToReceive, negativeButtonData: (BuildContext innerContext) {
       return ButtonData(() {
         Navigator.pop(context);
-         // tODO: need to revert this if statement
-        if (!Validator.isTrue(partInfo.isPartRetrievedRequired)) {
+        if ((partInfo.retrievedImageCount ?? 0) > 0) {
           RetrievedPartsDataDetailsScreenArguments args = RetrievedPartsDataDetailsScreenArguments(
             partInfo: partInfo,
+            partBarcode: partBarcode,
+            partId: partId,
             onSuccess: () {
               Navigator.pop(context); // dismiss the retrieved parts details screen
               onRequestCompletion();
             },
-            deviceBarcode: partBarcode,
           );
           Navigator.of(context).pushNamed(RetrievedPartsDataDetailsScreen.route, arguments: args);
         } else {
-          // _proceedToReceivePart(context, l10n, partBarcode, partId, prId);
+          _proceedToReceivePart(context, l10n, partBarcode, partId, prId);
         }
       }, l10n.confirm);
     }, positiveButtonData: (BuildContext context) {
@@ -62,25 +62,6 @@ class ReceivePartButtonWidget extends StatelessWidget {
       }, l10n.cancel);
     });
   }
-
-  // Future<RetrievedPartRequiredResponse> _getRetrievedPartsData(EngineerPartInfo partInfo) {
-  //   List<Map<String, dynamic>> dataList = [
-  //     {"prn": partInfo.partName, "ccd": partInfo.categoryCode}
-  //   ];
-  //
-  //   var completer = Completer<RetrievedPartRequiredResponse>();
-  //   try {
-  //     EngineerAPIService.fetchRequiredPartsListingByDID({"pd": dataList}).listen((event) {
-  //       completer.complete(event!);
-  //     }, onError: (error) {
-  //       String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-  //       completer.completeError(errorMessage);
-  //     });
-  //   } catch (e) {
-  //     completer.completeError(e.toString());
-  //   }
-  //   return completer.future;
-  // }
 
   void _proceedToReceivePart(BuildContext context, L10n l10n, String? partBarcode, int? partId, int? prId) {
     EngineerAPIService.getReceivePartByEngineer(partBarcode, partId, prId).listen((event) {

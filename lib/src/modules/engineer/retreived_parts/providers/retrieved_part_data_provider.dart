@@ -7,27 +7,31 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/e
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/retrieved_part_reason_list_response.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/retreived_part_required_list_reponse.dart';
-import '../../my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
 import '../../resources/engineer_api_service.dart';
-import '../models/retreived_parts_data_model.dart';
+
+class RetrievedPartRequest {
+  String? imageUrl;
+  String? remarks;
+  String? partBarcode;
+  int? reasonId;
+  String? reasonLabel;
+  int? partRequestId;
+}
 
 class RetrievedPartsDataProviders extends CshChangeNotifier {
   static RetrievedPartsDataProviders of(BuildContext context, {bool listen = true}) {
     return Provider.of<RetrievedPartsDataProviders>(context, listen: listen);
   }
 
-  RetrievedPartRequiredResponse? dataModel;
-  String? deviceBarcode;
-  List<RetrievedPartListResponseData> partList = [];
-  bool? isDeviceInProgress;
-  List<OrderEngineerPart>? orderDataList;
+  String? partBarcode;
   EngineerPartInfo? partInfo;
+  int? partId;
+  VoidCallback? onSuccess;
   List<RetrievedPartReasonListData>? reasonList;
+  RetrievedPartRequest retrievedPartRequest = RetrievedPartRequest();
 
-  RetrievedPartsDataProviders(this.dataModel,
-      {this.isDeviceInProgress = true, this.orderDataList, this.deviceBarcode, this.partInfo}) {
-    partList = dataModel?.data?.partList ?? [];
+  RetrievedPartsDataProviders({this.partBarcode, this.partInfo, this.partId, this.onSuccess}) {
+    retrievedPartRequest.partRequestId = partInfo?.prId;
     _getReasonsList(partInfo?.prId);
   }
 
@@ -41,170 +45,85 @@ class RetrievedPartsDataProviders extends CshChangeNotifier {
     });
   }
 
-  onS3UrlChange(int id, String url) {
-    for (var element in partList) {
-      if (element.partRequestId == id) {
-        element.s3Url = url;
-        break;
-      }
-    }
+  onS3UrlChange(String url) {
+    retrievedPartRequest.imageUrl = url;
+    notifyListeners();
   }
 
-  onReasonSelected(int id, String reason, int reasonId) {
-    for (var element in partList) {
-      if (element.partRequestId == id) {
-        element.reasonId = reasonId;
-        element.reasonLabel = reason;
-        break;
-      }
-    }
+  onReasonSelected(String reason, int reasonId) {
+    retrievedPartRequest.reasonId = reasonId;
+    retrievedPartRequest.reasonLabel = reason;
   }
 
-  onBarcodeChanged(int id, String barcode) {
-    for (var element in partList) {
-      if (element.partRequestId == id) {
-        element.barcode = barcode;
-        break;
-      }
-    }
+  onBarcodeChanged(String barcode) {
+    retrievedPartRequest.partBarcode = barcode;
   }
 
-  onRemarkChanged(int id, String remark) {
-    for (var element in partList) {
-      if (element.partRequestId == id) {
-        element.remark = remark;
-        break;
-      }
-    }
+  onRemarkChanged(String remark) {
+    retrievedPartRequest.remarks = remark;
   }
 
-  Future<bool> sendDeviceToInProgress() {
-    var completer = Completer<bool>();
-    try {
-      EngineerAPIService.sendToInProgress(deviceBarcode ?? "").listen((event) {
-        if (Validator.isTrue(event?.isSuccess)) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something went wrong");
-        }
-      }, onError: (error) {
-        String err = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        completer.completeError(err);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
+  // List<RetrievedPartsDataModel> getModelDataList() {
+  //   List<RetrievedPartsDataModel> resDataList = [];
+  //   for (var element in partList) {
+  //     RetrievedPartsDataModel d = RetrievedPartsDataModel();
+  //     if (element.partRequestId != null) {
+  //       d.partRetrievedId = element.partRequestId;
+  //     }
+  //     if (element.categoryCode != null) {
+  //       d.categoryCode = element.categoryCode;
+  //     }
+  //     d.retrievedPartsReasonId = element.reasonId;
+  //     d.barcode = element.barcode;
+  //     d.retrievedPartImages = [element.s3Url ?? ""];
+  //     resDataList.add(d);
+  //   }
+  //   return resDataList;
+  // }
 
-  List<RetrievedPartsDataModel> getModelDataList() {
-    List<RetrievedPartsDataModel> resDataList = [];
-    for (var element in partList) {
-      RetrievedPartsDataModel d = RetrievedPartsDataModel();
-      if (element.partRequestId != null) {
-        d.partRetrievedId = element.partRequestId;
+  // List<Map<String, dynamic>> getBodyData() {
+  //   List<RetrievedPartsDataModel> resDataList = [];
+  //   for (var element in partList) {
+  //     RetrievedPartsDataModel d = RetrievedPartsDataModel();
+  //     if (element.partRequestId != null) {
+  //       d.partRetrievedId = element.partRequestId;
+  //     }
+  //     if (element.categoryCode != null) {
+  //       d.categoryCode = element.categoryCode;
+  //     }
+  //     d.retrievedPartsReasonId = element.reasonId;
+  //     d.barcode = element.barcode;
+  //     d.retrievedPartImages = [element.s3Url ?? ""];
+  //     resDataList.add(d);
+  //   }
+  //
+  //   List<Map<String, dynamic>> dataList = [];
+  //   for (var newElement in resDataList) {
+  //     dataList.add(newElement.toJson());
+  //   }
+  //   return dataList;
+  // }
+
+  Future<void> updateRetrievedPartWithDeviceReceive() {
+    var completer = Completer<void>();
+    EngineerAPIService.getReceivePartByEngineer(partBarcode, partId, partInfo?.prId,
+            retrievedPartRequest: retrievedPartRequest)
+        .listen((event) {
+      if (event?.isSuccess == true) {
+        completer.complete();
+      } else {
+        completer.completeError(event?.errorMsg ?? "Something went wrong");
       }
-      if (element.categoryCode != null) {
-        d.categoryCode = element.categoryCode;
-      }
-      d.retrievedPartsReasonId = element.reasonId;
-      d.barcode = element.barcode;
-      d.retrievedPartImages = [element.s3Url ?? ""];
-      resDataList.add(d);
-    }
-    return resDataList;
-  }
-
-  List<Map<String, dynamic>> getBodyData() {
-    List<RetrievedPartsDataModel> resDataList = [];
-    for (var element in partList) {
-      RetrievedPartsDataModel d = RetrievedPartsDataModel();
-      if (element.partRequestId != null) {
-        d.partRetrievedId = element.partRequestId;
-      }
-      if (element.categoryCode != null) {
-        d.categoryCode = element.categoryCode;
-      }
-      d.retrievedPartsReasonId = element.reasonId;
-      d.barcode = element.barcode;
-      d.retrievedPartImages = [element.s3Url ?? ""];
-      resDataList.add(d);
-    }
-
-    List<Map<String, dynamic>> dataList = [];
-    for (var newElement in resDataList) {
-      dataList.add(newElement.toJson());
-    }
-    return dataList;
-  }
-
-  Future<bool> updatePartsData(Map<String, dynamic> data) {
-    var completer = Completer<bool>();
-    try {
-      EngineerAPIService.updateRetrievedParts(data).listen((event) {
-        if (Validator.isTrue(event?.isSuccess)) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something went wrong");
-        }
-      }, onError: (e) {
-        String apiErr = ApiErrorHelper.getErrorMessage(e) ?? "Something went wrong";
-        completer.completeError(apiErr);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
-
-  Future<bool> orderPartsWithRetrievedData() {
-    var completer = Completer<bool>();
-    if (Validator.isListNullOrEmpty(orderDataList)) {
-      completer.completeError("No Order data list found");
-      return completer.future;
-    }
-    List<RetrievedPartsDataModel> dataList = getModelDataList();
-    List<OrderEngineerPart> submitList = [];
-
-    for (var master in orderDataList!) {
-      if (master.partType != null && master.partType == 1 && master.categoryCode != null) {
-        for (var slave in dataList) {
-          if (master.categoryCode == slave.categoryCode) {
-            master.retrievedPartData = slave.toJson();
-            submitList.add(master);
-            break;
-          }
-        }
-      }
-    }
-
-    try {
-      EngineerAPIService.orderDeviceParts(deviceBarcode, submitList).listen((event) {
-        if (Validator.isTrue(event?.isSuccess)) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something went wrong");
-        }
-      }, onError: (error) {
-        String apiErr = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        completer.completeError(apiErr);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
+    }, onError: (error, stackTrace) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
     return completer.future;
   }
 
   bool isMandatoryFieldsSubmitted() {
-    if (Validator.isNullOrEmpty(partInfo?.retrievedPartBarcode) ||
-        Validator.isNullOrEmpty(partInfo?.imageUrl) ||
-        Validator.isNullOrEmpty(partInfo?.reasonId?.toString())) {
+    if (Validator.isNullOrEmpty(retrievedPartRequest.partBarcode) ||
+        Validator.isNullOrEmpty(retrievedPartRequest.imageUrl) ||
+        Validator.isNullOrEmpty(retrievedPartRequest.reasonId?.toString())) {
       return false;
     }
 

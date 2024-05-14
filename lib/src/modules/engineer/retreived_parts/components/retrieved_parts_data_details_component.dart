@@ -2,6 +2,7 @@ import 'package:builder_component/builder_component.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/modules/engineer/retreived_parts/providers/retrieved_part_data_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../models/retrieved_parts_data_details_param.dart';
@@ -22,9 +23,14 @@ class RetrievedPartsDataDetailsComponents extends StatelessComponent {
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((param) {
-      return RetrievedPartsDataDetailsWidget(
-        dataModel: param.dataModel,
-        partInfo: param.partInfo,
+      return ChangeNotifierProvider(
+        create: (_) => RetrievedPartsDataProviders(
+          partBarcode: param.partBarcode,
+          partInfo: param.partInfo,
+          partId: param.partId,
+          onSuccess: param.onSuccess,
+        ),
+        child: const RetrievedPartsDataDetailsWidget(),
       );
     });
   }

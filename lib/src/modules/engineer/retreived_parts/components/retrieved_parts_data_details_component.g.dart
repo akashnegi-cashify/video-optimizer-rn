@@ -8,11 +8,9 @@ part of 'retrieved_parts_data_details_component.dart';
 
 RetrievedDataDetailsParamModel fromMap(Map<String, dynamic> map) {
   RetrievedDataDetailsParamModel model = RetrievedDataDetailsParamModel(
-    dataModel: map["dm"],
-    deviceBarcode: map["dbr"],
-    isProgressCase: map["ipc"],
-    orderDataList: map["opdl"],
+    partBarcode: map["br"],
     partInfo: map["pInfo"],
+    partId: map["pid"],
     onSuccess: map["onSuccess"],
   );
   return model;
@@ -22,11 +20,9 @@ Widget paramBuilder(
     Widget Function(RetrievedDataDetailsParamModel model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "dm": provider.data["dm"],
-      "dbr": provider.data["dbr"],
-      "ipc": provider.data["ipc"],
-      "opdl": provider.data["opdl"],
+      "br": provider.data["br"],
       "pInfo": provider.data["pInfo"],
+      "pid": provider.data["pid"],
       "onSuccess": provider.data["onSuccess"],
     },
     builder: (context, data, child) {
@@ -37,18 +33,14 @@ Widget paramBuilder(
 }
 
 bool isValid(RetrievedDataDetailsParamModel model) {
-  var dataModel = model.dataModel;
-  var deviceBarcode = model.deviceBarcode;
-  var isProgressCase = model.isProgressCase;
-  var orderDataList = model.orderDataList;
+  var partBarcode = model.partBarcode;
   var partInfo = model.partInfo;
+  var partId = model.partId;
   var onSuccess = model.onSuccess;
 
-  return dataModel != null &&
-      deviceBarcode != null &&
-      isProgressCase != null &&
-      orderDataList != null &&
+  return partBarcode != null &&
       partInfo != null &&
+      partId != null &&
       onSuccess != null;
 }
 
@@ -60,11 +52,9 @@ dynamic schema() => {
       "isActive": true,
       "title": "Retrieved Parts Data Details Components",
       "cpm": [
-        {"key": "opdl", "value": null},
-        {"key": "ipc", "value": null},
-        {"key": "dbr", "value": null},
+        {"key": "br", "value": null},
         {"key": "pInfo", "value": null},
         {"key": "onSuccess", "value": null},
-        {"key": "dm", "value": null}
+        {"key": "pid", "value": null}
       ], //#admincomponent
     };
