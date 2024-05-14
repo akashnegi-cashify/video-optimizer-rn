@@ -25,6 +25,7 @@ class PackagingProcessComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     return paramBuilder((param) {
       return PackagingProcessWidget(
+        key: const ValueKey("PackagingProcessWidgetKey"),
         dataModel: param.dataModel,
         isGroupLotPending: param.isGroupLotPending,
         isCCTVCameraSelected: param.isCCTVSelected ?? false,
