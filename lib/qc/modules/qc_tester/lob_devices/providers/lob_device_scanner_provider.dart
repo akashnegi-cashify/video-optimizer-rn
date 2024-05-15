@@ -155,7 +155,7 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     try {
       String imageUrl = await _getCompressedImageUrl(filePath);
       service.reportMismatch(
-        [updatedImei],
+        !Validator.isNullOrEmpty(updatedImei) ? [updatedImei] : null,
         deviceBarcode!,
         imageUrl,
         timeoutReason: timeoutSelectedReason?.name,

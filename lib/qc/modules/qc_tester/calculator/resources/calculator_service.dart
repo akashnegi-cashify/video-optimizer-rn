@@ -135,7 +135,7 @@ abstract class CalculatorService {
     return service.get("/manual-test/scan-device/$deviceBarcode", DeviceDetailResponse.fromJson);
   }
 
-  Stream<BaseActionResponse?> reportMismatch(List<String?> scannedImeiList, String deviceBarcode, String imeiImageUrl,
+  Stream<BaseActionResponse?> reportMismatch(List<String?>? scannedImeiList, String deviceBarcode, String imeiImageUrl,
       {String? timeoutReason, bool? isImei2Available, bool isAutoApproved = false}) {
     var req = {
       "imei": scannedImeiList,
