@@ -64,9 +64,9 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 (!Validator.isNullOrEmpty(dataModel?.suggestedGrade))
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: Dimens.space_20),
-                        child: Expanded(
+                    ? Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.only(right: Dimens.space_20),
                             child: _labelAndValueWidget(theme, l10n.suggestedGrade, dataModel!.suggestedGrade!)),
                       )
                     : const SizedBox.shrink(),
@@ -80,9 +80,9 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 (!Validator.isNullOrEmpty(dataModel?.serialNumber))
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: Dimens.space_20),
-                        child: Expanded(
+                    ? Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: Dimens.space_20),
                           child: _labelAndValueWidget(theme, l10n.serialNumber, dataModel!.serialNumber!),
                         ),
                       )

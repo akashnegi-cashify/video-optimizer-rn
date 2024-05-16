@@ -9,28 +9,45 @@ import 'package:provider/provider.dart';
 
 import '../models/group_lot_list_repsonse.dart';
 
-class PackagingProcessWidget extends StatelessWidget {
+class PackagingProcessWidget extends StatefulWidget {
   final GroupLotListData? dataModel;
   final bool? isGroupLotPending;
 
-  bool isCCTVCameraSelected;
+  final bool isCCTVCameraSelected;
 
-  PackagingProcessWidget({super.key, this.dataModel, this.isGroupLotPending, this.isCCTVCameraSelected = false});
+  const PackagingProcessWidget({super.key, this.dataModel, this.isGroupLotPending, this.isCCTVCameraSelected = false});
 
+  @override
+  State<PackagingProcessWidget> createState() => _PackagingProcessWidgetState();
+}
+
+class _PackagingProcessWidgetState extends State<PackagingProcessWidget> {
   PageController _pageController = PageController(initialPage: 0);
+
   final ValueNotifier<int> _currentIndex = ValueNotifier<int>(0);
+
+  late bool _isCCTVCameraSelected;
+
   final GlobalKey<PackagingProcessStepOneWidgetState> _stepAwbRef = GlobalKey<PackagingProcessStepOneWidgetState>();
+
   final GlobalKey<PackagingProcessStepOneWidgetState> _stepInvoiceRef = GlobalKey<PackagingProcessStepOneWidgetState>();
+
   final GlobalKey<PackagingProcessStepOneWidgetState> _stepDeviceRef = GlobalKey<PackagingProcessStepOneWidgetState>();
+
   final GlobalKey<VideoCreationProcessWidgetState> _videCreationProcess = GlobalKey<VideoCreationProcessWidgetState>();
 
   @override
-  Widget build(BuildContext context) {
-    if (Validator.isTrue(isGroupLotPending)) {
+  void initState() {
+    _isCCTVCameraSelected = widget.isCCTVCameraSelected;
+    if (Validator.isTrue(widget.isGroupLotPending)) {
       _currentIndex.value = 3;
       _pageController = PageController(initialPage: 3);
     }
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
         if (_currentIndex.value == 0) {
@@ -40,7 +57,7 @@ class PackagingProcessWidget extends StatelessWidget {
         return Future.value(false);
       },
       child: ChangeNotifierProvider<PackagingProvider>(
-        create: (_) => PackagingProvider(dataModel, isGroupLotPending),
+        create: (_) => PackagingProvider(widget.dataModel, widget.isGroupLotPending),
         lazy: false,
         builder: (BuildContext insideContext, __) {
           var provider = PackagingProvider.of(insideContext, listen: false);
@@ -62,8 +79,8 @@ class PackagingProcessWidget extends StatelessWidget {
                             return PackagingProcessStepOneWidget(
                               key: ref,
                               step: step,
-                              lotName: dataModel?.name,
-                              quantity: dataModel?.quantity,
+                              lotName: widget.dataModel?.name,
+                              quantity: widget.dataModel?.quantity,
                               onProcessFinished: (String data, PackagingStep step) {
                                 switch (step) {
                                   case PackagingStep.scanAWB:
@@ -79,7 +96,7 @@ class PackagingProcessWidget extends StatelessWidget {
                               },
                             );
                           default:
-                            return VideoCreationProcessWidget(key: _videCreationProcess, isCCTVCameraSelected);
+                            return VideoCreationProcessWidget(key: _videCreationProcess, _isCCTVCameraSelected);
                         }
                       },
                       itemCount: 4,
@@ -150,7 +167,7 @@ class PackagingProcessWidget extends StatelessWidget {
     showPackagingVideoSelectionDialog(context, onMonitoringAppSelected: (_) {
       onProceed();
     }, onCCTVCameraSelected: (scannedCameraBarcode, {bool? isSelectResetOption}) {
-      isCCTVCameraSelected = true;
+      _isCCTVCameraSelected = true;
       CshLoading().showLoading(context);
       provider.addCCTVCameraBarcode(scannedCameraBarcode).then((value) {
         CshLoading().hideLoading(context);
@@ -193,7 +210,7 @@ class PackagingProcessWidget extends StatelessWidget {
           CshMediumButton(
             text: "Yes",
             onPressed: () async {
-              if (!isCCTVCameraSelected) {
+              if (!widget.isCCTVCameraSelected) {
                 await _videCreationProcess.currentState?.disposeCamera();
               }
               Navigator.pop(context); // Dismiss dialog

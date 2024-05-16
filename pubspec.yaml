@@ -23,7 +23,7 @@ web_version: 1.0.0
 
 environment:
   sdk: ">=3.0.0 <=3.3.4"
-  flutter: '>=3.10.0'
+  flutter: '<=3.19.5'
 
 dependencies:
   flutter:
