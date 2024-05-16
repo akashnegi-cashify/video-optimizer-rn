@@ -18,34 +18,27 @@ class ReceivePartButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
-    return CshBigOutlineButton(
-      text: l10n.receive,
-      onPressed: () {
-        _onReceiveButtonClicked(partInfo, context, l10n);
-      },
-    );
+    return CshBigOutlineButton(text: l10n.receive, onPressed: () => _showConfirmationDialog(context, l10n));
   }
 
-  _onReceiveButtonClicked(EngineerPartInfo partInfo, BuildContext context, L10n l10n) {
+  _onProceedToReceive(BuildContext context, L10n l10n) {
     if (partInfo.isBulk ?? false) {
-      showConfirmationDialog(context, l10n, partInfo.partBarcode, partInfo.partId, partInfo.prId);
+      _updateReceivePart(context, l10n, partInfo.partBarcode, partInfo.partId, partInfo.prId);
     } else {
       CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
         Navigator.pop(context); // dismiss the scanner
-        showConfirmationDialog(context, l10n, scannedData, null, partInfo.prId);
+        _updateReceivePart(context, l10n, scannedData, null, partInfo.prId);
       });
     }
   }
 
-  void showConfirmationDialog(BuildContext context, L10n l10n, String? partBarcode, int? partId, int? prId) {
+  void _showConfirmationDialog(BuildContext context, L10n l10n) {
     context.showConfirmationDialog(l10n.areYouSureYouWantToReceive, negativeButtonData: (BuildContext innerContext) {
       return ButtonData(() {
-        Navigator.pop(context);
+        Navigator.pop(context); // dismiss dialog
         if ((partInfo.retrievedImageCount ?? 0) > 0) {
           RetrievedPartsDataDetailsScreenArguments args = RetrievedPartsDataDetailsScreenArguments(
             partInfo: partInfo,
-            partBarcode: partBarcode,
-            partId: partId,
             onSuccess: () {
               Navigator.pop(context); // dismiss the retrieved parts details screen
               onRequestCompletion();
@@ -53,17 +46,17 @@ class ReceivePartButtonWidget extends StatelessWidget {
           );
           Navigator.of(context).pushNamed(RetrievedPartsDataDetailsScreen.route, arguments: args);
         } else {
-          _proceedToReceivePart(context, l10n, partBarcode, partId, prId);
+          _onProceedToReceive(context, l10n);
         }
       }, l10n.confirm);
     }, positiveButtonData: (BuildContext context) {
       return ButtonData(() {
-        Navigator.pop(context);
+        Navigator.pop(context); // dismiss dialog
       }, l10n.cancel);
     });
   }
 
-  void _proceedToReceivePart(BuildContext context, L10n l10n, String? partBarcode, int? partId, int? prId) {
+  void _updateReceivePart(BuildContext context, L10n l10n, String? partBarcode, int? partId, int? prId) {
     EngineerAPIService.getReceivePartByEngineer(partBarcode, partId, prId).listen((event) {
       CshLoading().hideLoading(context);
       if (event == null) {

@@ -25,9 +25,7 @@ class RetrievedPartsDataDetailsComponents extends StatelessComponent {
     return paramBuilder((param) {
       return ChangeNotifierProvider(
         create: (_) => RetrievedPartsDataProviders(
-          partBarcode: param.partBarcode,
           partInfo: param.partInfo,
-          partId: param.partId,
           onSuccess: param.onSuccess,
         ),
         child: const RetrievedPartsDataDetailsWidget(),

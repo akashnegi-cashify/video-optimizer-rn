@@ -14,7 +14,6 @@ class RetrievedPartRequest {
   String? remarks;
   String? partBarcode;
   int? reasonId;
-  String? reasonLabel;
   int? partRequestId;
 }
 
@@ -23,14 +22,12 @@ class RetrievedPartsDataProviders extends CshChangeNotifier {
     return Provider.of<RetrievedPartsDataProviders>(context, listen: listen);
   }
 
-  String? partBarcode;
   EngineerPartInfo? partInfo;
-  int? partId;
   VoidCallback? onSuccess;
   List<RetrievedPartReasonListData>? reasonList;
   RetrievedPartRequest retrievedPartRequest = RetrievedPartRequest();
 
-  RetrievedPartsDataProviders({this.partBarcode, this.partInfo, this.partId, this.onSuccess}) {
+  RetrievedPartsDataProviders({this.partInfo, this.onSuccess}) {
     retrievedPartRequest.partRequestId = partInfo?.prId;
     _getReasonsList(partInfo?.prId);
   }
@@ -52,7 +49,6 @@ class RetrievedPartsDataProviders extends CshChangeNotifier {
 
   onReasonSelected(String reason, int reasonId) {
     retrievedPartRequest.reasonId = reasonId;
-    retrievedPartRequest.reasonLabel = reason;
   }
 
   onBarcodeChanged(String barcode) {
@@ -63,50 +59,13 @@ class RetrievedPartsDataProviders extends CshChangeNotifier {
     retrievedPartRequest.remarks = remark;
   }
 
-  // List<RetrievedPartsDataModel> getModelDataList() {
-  //   List<RetrievedPartsDataModel> resDataList = [];
-  //   for (var element in partList) {
-  //     RetrievedPartsDataModel d = RetrievedPartsDataModel();
-  //     if (element.partRequestId != null) {
-  //       d.partRetrievedId = element.partRequestId;
-  //     }
-  //     if (element.categoryCode != null) {
-  //       d.categoryCode = element.categoryCode;
-  //     }
-  //     d.retrievedPartsReasonId = element.reasonId;
-  //     d.barcode = element.barcode;
-  //     d.retrievedPartImages = [element.s3Url ?? ""];
-  //     resDataList.add(d);
-  //   }
-  //   return resDataList;
-  // }
-
-  // List<Map<String, dynamic>> getBodyData() {
-  //   List<RetrievedPartsDataModel> resDataList = [];
-  //   for (var element in partList) {
-  //     RetrievedPartsDataModel d = RetrievedPartsDataModel();
-  //     if (element.partRequestId != null) {
-  //       d.partRetrievedId = element.partRequestId;
-  //     }
-  //     if (element.categoryCode != null) {
-  //       d.categoryCode = element.categoryCode;
-  //     }
-  //     d.retrievedPartsReasonId = element.reasonId;
-  //     d.barcode = element.barcode;
-  //     d.retrievedPartImages = [element.s3Url ?? ""];
-  //     resDataList.add(d);
-  //   }
-  //
-  //   List<Map<String, dynamic>> dataList = [];
-  //   for (var newElement in resDataList) {
-  //     dataList.add(newElement.toJson());
-  //   }
-  //   return dataList;
-  // }
-
-  Future<void> updateRetrievedPartWithDeviceReceive() {
+  Future<void> updateRetrievedPartWithDeviceReceive(String? partBarcode) {
     var completer = Completer<void>();
-    EngineerAPIService.getReceivePartByEngineer(partBarcode, partId, partInfo?.prId,
+    int? partId = partInfo?.partId;
+    if (!Validator.isNullOrEmpty(partBarcode)) {
+      partId = null;
+    }
+    EngineerAPIService.getReceivePartByEngineer(partBarcode ?? partInfo?.partBarcode, partId, partInfo?.prId,
             retrievedPartRequest: retrievedPartRequest)
         .listen((event) {
       if (event?.isSuccess == true) {

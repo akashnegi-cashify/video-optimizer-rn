@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/engineer/retreived_parts/widgets/retrieved_part_details_item_widget.dart';
 
 import '../l10n.dart';
@@ -37,7 +38,7 @@ class _RetrievedPartsDataDetailsWidgetState extends State<RetrievedPartsDataDeta
                   );
                   return;
                 }
-                _updatePartsData();
+                _onProceedToReceive(l10n);
               },
             ),
           ),
@@ -46,10 +47,22 @@ class _RetrievedPartsDataDetailsWidgetState extends State<RetrievedPartsDataDeta
     );
   }
 
-  _updatePartsData() {
+  _onProceedToReceive(L10n l10n) {
+    var provider = RetrievedPartsDataProviders.of(context, listen: false);
+    if (Validator.isTrue(provider.partInfo?.isBulk)) {
+      _updatePartsData();
+    } else {
+      CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+        Navigator.pop(context); // dismiss the scanner
+        _updatePartsData(partBarcode: scannedData);
+      });
+    }
+  }
+
+  _updatePartsData({String? partBarcode}) {
     var provider = RetrievedPartsDataProviders.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.updateRetrievedPartWithDeviceReceive().then((value) {
+    provider.updateRetrievedPartWithDeviceReceive(partBarcode).then((value) {
       CshLoading().hideLoading(context);
       provider.onSuccess?.call();
     }, onError: (error) {

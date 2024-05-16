@@ -14,22 +14,16 @@ part 'retrieved_parts_details_data_screen.g.dart';
   params: RetrievedDataDetailsParamModelKeys.values,
 )
 class RetrievedPartsDataDetailsScreenArguments extends BaseArguments {
-  final String? partBarcode;
-  final int? partId;
   final VoidCallback? onSuccess;
   final EngineerPartInfo? partInfo;
 
   RetrievedPartsDataDetailsScreenArguments({
-    this.partBarcode,
-    this.partId,
     this.onSuccess,
     this.partInfo,
   }) : super(RetrievedPartsDataDetailsScreen.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
-    data[RetrievedDataDetailsParamModelKeys.partBarcode.value] = partBarcode;
-    data[RetrievedDataDetailsParamModelKeys.partId.value] = partId;
     data[RetrievedDataDetailsParamModelKeys.partInfo.value] = partInfo;
     data[RetrievedDataDetailsParamModelKeys.onSuccess.value] = onSuccess;
     return data;

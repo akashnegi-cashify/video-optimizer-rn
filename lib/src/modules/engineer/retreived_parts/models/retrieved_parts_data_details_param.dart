@@ -5,31 +5,21 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/e
 
 @CshPageParam()
 class RetrievedDataDetailsParamModel {
-  @ParamKey(key: RetrievedDataDetailsParamModelKeys.partBarcode)
-  String? partBarcode;
-
   @ParamKey(key: RetrievedDataDetailsParamModelKeys.partInfo)
   EngineerPartInfo? partInfo;
-
-  @ParamKey(key: RetrievedDataDetailsParamModelKeys.partId)
-  int? partId;
 
   @ParamKey(key: RetrievedDataDetailsParamModelKeys.onSuccess)
   VoidCallback? onSuccess;
 
   RetrievedDataDetailsParamModel({
-    this.partBarcode,
-    this.partId,
     this.partInfo,
     this.onSuccess,
   });
 }
 
 enum RetrievedDataDetailsParamModelKeys with AbsParamKey {
-  partBarcode("br"),
   partInfo("pInfo"),
-  onSuccess("onSuccess"),
-  partId("pid");
+  onSuccess("onSuccess");
 
   @override
   final String value;
