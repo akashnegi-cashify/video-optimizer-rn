@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v3.2.3+41 (XX-05-2024)
+
+### Feature:
+
+* `TRC - Engineer - Move Retrived part flow from WIP/Order parts to Receive part. `[(SCM-6271)](https://reglobe.atlassian.net/browse/SCM-6271)
+
+
 # v3.2.2+40 (09-05-2024)
 
 ### Feature and Bug Fixes:
