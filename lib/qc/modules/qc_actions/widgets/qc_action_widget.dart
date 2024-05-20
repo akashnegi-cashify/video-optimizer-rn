@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_trc/qc/modules/device_details/screens/device_details_scr
 import 'package:flutter_trc/qc/modules/device_receive_module/screens/device_receive_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
+import 'package:flutter_trc/qc/modules/imei_validator/resources/imei_qrcode_response.dart';
+import 'package:flutter_trc/qc/modules/imei_validator/screens/imei_validator_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/resources/services.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
@@ -18,6 +21,7 @@ import 'package:flutter_trc/qc/modules/warehouse_audit/screens/on_going_audit_sc
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../../src/modules/elss/common_screen/elss_home_screen.dart';
 import '../../dead_repair/screens/index.dart';
@@ -194,6 +198,29 @@ class QCActionWidget extends StatelessWidget {
                   onScanned: (scannedData, controller) {
                     Navigator.pop(context);
                     DeviceDetailsScreen.pushNamed(context, scannedData);
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: Dimens.space_16),
+            CshBigButton(
+              text: l10n.imeiValidator,
+              onPressed: () {
+                CshMlScannerUtil().openScanner(
+                  context,
+                  scanFormatList: [BarcodeFormat.qrCode],
+                  header: "Scan QR code from panel",
+                  onScanned: (scannedData, controller) {
+                    if (!Validator.isNullOrEmpty(scannedData)) {
+                      try {
+                        var resMap = jsonDecode(scannedData);
+                        ImeiQrcodeResponse res = ImeiQrcodeResponse.fromJson(resMap);
+                        Navigator.pop(context); // dismiss scanner screen
+                        ImeiValidatorScreen.navigate(context, res);
+                      } catch (e) {
+                        Logger.debug('mydebug-----QCActionWidget.build', [e]);
+                      }
+                    }
                   },
                 );
               },

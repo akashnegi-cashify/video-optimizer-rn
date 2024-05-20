@@ -5,6 +5,7 @@ import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_scr
 import 'package:flutter_trc/qc/modules/gaurd/screens/guard_device_counting_list_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/guard_upload_invoice_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
+import 'package:flutter_trc/qc/modules/imei_validator/screens/imei_validator_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_summary_screen.dart';
@@ -96,6 +97,7 @@ class QcRoutes {
       WarehouseAuditPerformScreen.route: (_) => const WarehouseAuditPerformScreen(),
       DeviceDetailsScreen.route: (_) => const DeviceDetailsScreen(),
       StorageDeviceListScreen.route: (_) => const StorageDeviceListScreen(),
+      ImeiValidatorScreen.route: (_) => const ImeiValidatorScreen(),
     };
   }
 }
