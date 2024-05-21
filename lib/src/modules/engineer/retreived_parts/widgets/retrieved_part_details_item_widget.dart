@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:provider/provider.dart';
 
@@ -88,6 +89,18 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             keyboardType: TextInputType.name,
             hintText: l10n.barcode,
             labelText: l10n.barcode,
+            suffixIcon: InkWell(
+              child: const Icon(Icons.qr_code_2),
+              onTap: () {
+                CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+                  Navigator.pop(context); // close scanner
+                  provider.onBarcodeChanged(scannedData.trim());
+                  setState(() {
+                    _barcodeTextController.text = scannedData;
+                  });
+                });
+              },
+            ),
             onChanged: (String data) {
               provider.onBarcodeChanged(data.trim());
             },
