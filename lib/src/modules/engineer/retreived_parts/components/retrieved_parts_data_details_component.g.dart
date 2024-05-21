@@ -8,22 +8,17 @@ part of 'retrieved_parts_data_details_component.dart';
 
 RetrievedDataDetailsParamModel fromMap(Map<String, dynamic> map) {
   RetrievedDataDetailsParamModel model = RetrievedDataDetailsParamModel(
-    dataModel: map["dm"],
-    deviceBarcode: map["dbr"],
-    isProgressCase: map["ipc"],
-    orderDataList: map["opdl"],
+    partInfo: map["pInfo"],
+    onSuccess: map["onSuccess"],
   );
   return model;
 }
 
-Widget paramBuilder(
-    Widget Function(RetrievedDataDetailsParamModel model) paramBuilder) {
+Widget paramBuilder(Widget Function(RetrievedDataDetailsParamModel model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "dm": provider.data["dm"],
-      "dbr": provider.data["dbr"],
-      "ipc": provider.data["ipc"],
-      "opdl": provider.data["opdl"],
+      "pInfo": provider.data["pInfo"],
+      "onSuccess": provider.data["onSuccess"],
     },
     builder: (context, data, child) {
       RetrievedDataDetailsParamModel model = fromMap(data);
@@ -33,15 +28,10 @@ Widget paramBuilder(
 }
 
 bool isValid(RetrievedDataDetailsParamModel model) {
-  var dataModel = model.dataModel;
-  var deviceBarcode = model.deviceBarcode;
-  var isProgressCase = model.isProgressCase;
-  var orderDataList = model.orderDataList;
+  var partInfo = model.partInfo;
+  var onSuccess = model.onSuccess;
 
-  return dataModel != null &&
-      deviceBarcode != null &&
-      isProgressCase != null &&
-      orderDataList != null;
+  return partInfo != null && onSuccess != null;
 }
 
 dynamic schema() => {
@@ -52,9 +42,7 @@ dynamic schema() => {
       "isActive": true,
       "title": "Retrieved Parts Data Details Components",
       "cpm": [
-        {"key": "opdl", "value": null},
-        {"key": "ipc", "value": null},
-        {"key": "dbr", "value": null},
-        {"key": "dm", "value": null}
+        {"key": "pInfo", "value": null},
+        {"key": "onSuccess", "value": null},
       ], //#admincomponent
     };

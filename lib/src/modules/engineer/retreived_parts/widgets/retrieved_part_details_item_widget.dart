@@ -1,17 +1,16 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:provider/provider.dart';
-
 
 import '../../../../utils/media_upload/models/image_upload_service_type_enum.dart';
 import '../../../../utils/media_upload/providers/image_upload_provider.dart';
 import '../../../../utils/media_upload/widgets/general_image_upload_card.dart';
-import '../../models/retreived_part_required_list_reponse.dart';
 import '../l10n.dart';
 import '../providers/retrieved_part_data_provider.dart';
 
 class RetrievedPartDetailsItemWidget extends StatefulWidget {
-  final RetrievedPartListResponseData? itemModel;
+  final EngineerPartInfo? itemModel;
 
   const RetrievedPartDetailsItemWidget({
     super.key,
@@ -39,9 +38,9 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (!Validator.isNullOrEmpty(widget.itemModel?.partRequestName))
+          if (!Validator.isNullOrEmpty(widget.itemModel?.partName))
             Text(
-              widget.itemModel!.partRequestName!,
+              widget.itemModel!.partName!,
               style: theme.primaryTextTheme.displaySmall,
             ),
           const SizedBox(height: Dimens.space_16),
@@ -52,11 +51,9 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             child: GeneralImageUploadCard(
               cardHeight: 70.0,
               cardWidth: 70.0,
-              imageUrl: widget.itemModel?.s3Url,
+              imageUrl: provider.retrievedPartRequest.imageUrl,
               onMediaUploaded: (url) {
-                widget.itemModel?.s3Url = url;
-                provider.onS3UrlChange(widget.itemModel?.partRequestId ?? -1, url ?? "");
-                setState(() {});
+                provider.onS3UrlChange(url ?? "");
               },
             ),
           ),
@@ -70,16 +67,15 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             onSelect: (DropDownItem item) {
               if (item.id != null) {
                 int id = int.parse(item.id!);
-                widget.itemModel?.reasonId = id;
-                provider.onReasonSelected(widget.itemModel?.partRequestId ?? -1, item.label ?? "", id);
+                provider.onReasonSelected(item.label ?? "", id);
               }
             },
-            items: !Validator.isListNullOrEmpty(widget.itemModel?.productRequiredReasonList)
+            items: !Validator.isListNullOrEmpty(provider.reasonList)
                 ? List.generate(
-                    widget.itemModel!.productRequiredReasonList!.length,
+                    provider.reasonList!.length,
                     (index) => DropDownItem(
-                      widget.itemModel!.productRequiredReasonList![index].id.toString(),
-                      widget.itemModel!.productRequiredReasonList![index].reason,
+                      provider.reasonList![index].id.toString(),
+                      provider.reasonList![index].reason,
                     ),
                   )
                 : [],
@@ -93,8 +89,7 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             hintText: l10n.barcode,
             labelText: l10n.barcode,
             onChanged: (String data) {
-              widget.itemModel?.barcode = data.trim();
-              provider.onBarcodeChanged(widget.itemModel?.partRequestId ?? -1, data.trim());
+              provider.onBarcodeChanged(data.trim());
             },
             maxLines: 1,
             maxLength: 50,
@@ -108,8 +103,7 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
             labelText: l10n.remark,
             keyboardType: TextInputType.name,
             onChanged: (String data) {
-              widget.itemModel?.remark = data.trim();
-              provider.onRemarkChanged(widget.itemModel?.partRequestId ?? -1, data.trim());
+              provider.onRemarkChanged(data.trim());
             },
             maxLines: 1,
             maxLength: 50,

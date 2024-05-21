@@ -16,6 +16,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/retrieved_part_reason_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/return_part_data.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_devices_response.dart';
+import 'package:flutter_trc/src/modules/engineer/retreived_parts/providers/retrieved_part_data_provider.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
 
 import '../../../services/trc_service.dart';
@@ -126,13 +127,29 @@ class EngineerAPIService {
         .post("/engineer/return-part", BaseActionResponse.fromJson, body: jsonEncode(returnPartData.toJson()));
   }
 
-  static Stream<BaseActionResponse?> getReceivePartByEngineer(String? partBarcode, int? partId, int? productId) {
-    Map<String, List<String>> paramData = {
-      if (partBarcode != null) "pbr": [partBarcode],
-      if (partId != null) "pid": [partId.toString()],
-      if (productId != null) "prid": [productId.toString()],
+  static Stream<BaseActionResponse?> getReceivePartByEngineer(
+    String? partBarcode,
+    int? partId,
+    int? productId, {
+    RetrievedPartRequest? retrievedPartRequest,
+  }) {
+    Map<String, dynamic> req = {
+      if (partBarcode != null) "pbr": partBarcode,
+      if (partId != null) "pid": partId,
+      if (productId != null) "prid": productId,
     };
-    return TrcService().get("/engineer/receive-part", BaseActionResponse.fromJson, params: paramData);
+
+    if (retrievedPartRequest != null) {
+      Map<String, dynamic> retrievedPartReq = {};
+      retrievedPartReq["prid"] = retrievedPartRequest.partRequestId;
+      retrievedPartReq["rp"] = retrievedPartRequest.partBarcode;
+      retrievedPartReq["rprid"] = retrievedPartRequest.reasonId;
+      retrievedPartReq["rm"] = retrievedPartRequest.remarks;
+      retrievedPartReq["rpimg"] = [retrievedPartRequest.imageUrl];
+      req["rpd"] = retrievedPartReq;
+    }
+
+    return TrcService().post("/engineer/receive-part", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<BaseActionResponse?> replacePart(ReplacePartRequest replacePartRequest) {

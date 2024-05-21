@@ -7,7 +7,6 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:provider/provider.dart';
 
 import '../../../../../../common/widgets/searchbar_widget.dart';
-import '../../../../retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 
 class OrderPartScreenArg {
   final String? deviceBarcode;
@@ -102,28 +101,12 @@ class _OrderPartWidget extends StatelessWidget {
             onPressed: context.watch<OrderPartProvider>().getSelectedPartList().isEmpty
                 ? null
                 : () {
-                    _fetchRetrievedPartsList(context, l10n, deviceInfo.deviceBarcode);
+                    _submitParts(context, l10n);
                   },
           ),
         );
       },
     );
-  }
-
-  _fetchRetrievedPartsList(BuildContext context, L10n l10n, String? deviceBarcode) {
-    CshLoading().showLoading(context);
-    context.read<OrderPartProvider>().getRetrievedPartsData().then((value) {
-      CshLoading().hideLoading(context);
-      RetrievedPartsDataDetailsScreenArguments args = RetrievedPartsDataDetailsScreenArguments(
-          dataModel: value,
-          inProgressCase: false,
-          deviceBarcode: deviceBarcode ?? "",
-          orderDataList: context.read<OrderPartProvider>().getSelectedPartList());
-      Navigator.of(context).pushNamed(RetrievedPartsDataDetailsScreen.route, arguments: args);
-    }, onError: (e) {
-      CshLoading().hideLoading(context);
-      _submitParts(context, l10n);
-    });
   }
 
   _submitParts(BuildContext context, L10n l10n) {
