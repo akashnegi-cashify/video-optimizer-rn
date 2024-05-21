@@ -213,12 +213,18 @@ class QCActionWidget extends StatelessWidget {
                   onScanned: (scannedData, controller) {
                     if (!Validator.isNullOrEmpty(scannedData)) {
                       try {
+                        scannedData = scannedData.replaceAll("\\", "");
+                        scannedData = scannedData.substring(1, scannedData.length-1);
                         var resMap = jsonDecode(scannedData);
                         ImeiQrcodeResponse res = ImeiQrcodeResponse.fromJson(resMap);
                         Navigator.pop(context); // dismiss scanner screen
                         ImeiValidatorScreen.navigate(context, res);
                       } catch (e) {
-                        Logger.debug('mydebug-----QCActionWidget.build', [e]);
+                        if (e is FormatException) {
+                          CshSnackBar.error(context: context, message: "Invalid QR code");
+                        } else {
+                          CshSnackBar.error(context: context, message: "Something went wrong");
+                        }
                       }
                     }
                   },

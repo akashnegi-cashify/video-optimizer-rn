@@ -10,7 +10,7 @@ class ImeiQrcodeResponse {
   @JsonKey(name: "imei2")
   String? imei2;
 
-  @JsonKey(name: "awb")
+  @JsonKey(name: "awb_number")
   String? awbNumber;
 
   static ImeiQrcodeResponse fromJson(Map<String, dynamic> json) => _$ImeiQrcodeResponseFromJson(json);
