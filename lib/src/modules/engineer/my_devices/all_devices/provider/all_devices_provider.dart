@@ -31,25 +31,4 @@ class AllDevicesProvider extends CshChangeNotifier {
     return EngineerAPIService.sendToInProgress(selectedDevice!.deviceBarcode!);
   }
 
-  Future<RetrievedPartRequiredResponse> getRetrievedPartsData(int did) {
-    var completer = Completer<RetrievedPartRequiredResponse>();
-    try {
-      EngineerAPIService.fetchRequiredPartsListingByDID({"did": did}).listen((event) {
-        if (!Validator.isListNullOrEmpty(event?.data?.partList)) {
-          completer.complete(event!);
-        } else {
-          completer.completeError("No data Found");
-        }
-      }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        Logger.debug('mydebug------AllDevicesProvider.getRetrievedPartsData', [errorMessage]);
-        completer.completeError(errorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
-  }
 }

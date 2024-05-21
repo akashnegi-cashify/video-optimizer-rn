@@ -46,4 +46,8 @@ class L10n extends BaseL10n {
   String get dateRange => Intl.message("Date Range", locale: localName, name: "dateRange");
 
   String get filter => Intl.message("Filter", locale: localName, name: "filter");
+
+  String get remarks => Intl.message("Remarks", locale: localName, name: "remarks");
+
+  String get reason => Intl.message("Reason", locale: localName, name: "reason");
 }

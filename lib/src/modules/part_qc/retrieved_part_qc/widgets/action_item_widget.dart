@@ -66,18 +66,15 @@ class _ActionWidgetItemState extends State<ActionWidgetItem> {
             ),
             const SizedBox(height: Dimens.space_12),
             DottedLineDivider(dashWidth: Dimens.space_2, width: 0.5, color: theme.shadowColor),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: Dimens.space_12, horizontal: Dimens.space_16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (!Validator.isNullOrEmpty(widget.dataModel?.deviceBarcode))
-                    _verticalKeyValuePair(theme, l10n.deviceBarcode, widget.dataModel!.deviceBarcode!),
-                  if (!Validator.isNullOrEmpty(widget.dataModel?.retrievedPartBarcode))
-                    _verticalKeyValuePair(theme, l10n.partBarcode, widget.dataModel!.retrievedPartBarcode!),
-                ],
-              ),
-            ),
+            const SizedBox(height: Dimens.space_12),
+            if (!Validator.isNullOrEmpty(widget.dataModel?.deviceBarcode))
+              _verticalKeyValuePair(theme, l10n.deviceBarcode, widget.dataModel!.deviceBarcode!),
+            if (!Validator.isNullOrEmpty(widget.dataModel?.retrievedPartBarcode))
+              _verticalKeyValuePair(theme, l10n.partBarcode, widget.dataModel!.retrievedPartBarcode!),
+            if (!Validator.isNullOrEmpty(widget.dataModel?.remark))
+              _verticalKeyValuePair(theme, l10n.remarks, widget.dataModel!.remark!),
+            if (!Validator.isNullOrEmpty(widget.dataModel?.reason))
+              _verticalKeyValuePair(theme, l10n.reason, widget.dataModel!.reason!),
             const SizedBox(height: Dimens.space_12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
@@ -132,19 +129,30 @@ class _ActionWidgetItemState extends State<ActionWidgetItem> {
   }
 
   _verticalKeyValuePair(ThemeData theme, String key, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          key,
-          style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.shadowColor),
-        ),
-        const SizedBox(height: Dimens.space_4),
-        Text(
-          value,
-          style: theme.primaryTextTheme.headlineMedium,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 2,
+            child: Text(
+              "$key :",
+              style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.shadowColor),
+            ),
+          ),
+          const SizedBox(height: Dimens.space_4),
+          Flexible(
+            fit: FlexFit.tight,
+            flex: 3,
+            child: Text(
+              value,
+              style: theme.primaryTextTheme.headlineMedium,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -195,7 +203,7 @@ class _ActionWidgetItemState extends State<ActionWidgetItem> {
   ) {
     CshLoading().showLoading(context);
     var provider = ActionProvider.of(context, listen: false);
-    provider.updateRetrievedPartStatus(isFaulty, partId).then((value) {
+    provider.updateRetrievedPartStatus(isFaulty, partId, _remarkController.text).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: l10n.statusUpdatedSuccessfully);
       provider.resetListData();

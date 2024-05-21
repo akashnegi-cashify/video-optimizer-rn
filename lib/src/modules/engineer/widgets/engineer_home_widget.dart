@@ -54,13 +54,13 @@ class _EngineerHomeWidgetState extends State<EngineerHomeWidget> {
               onPressed: () {
                 Navigator.of(context).pushNamed(MyDevicesScreen.route);
               }),
-          const SizedBox(height: Dimens.space_16),
-          CshBigButton(
-            text: l10n.manageParts,
-            onPressed: () {
-              Navigator.pushNamed(context, ManagePartsScreen.route);
-            },
-          ),
+          // const SizedBox(height: Dimens.space_16),
+          // CshBigButton(
+          //   text: l10n.manageParts,
+          //   onPressed: () {
+          //     Navigator.pushNamed(context, ManagePartsScreen.route);
+          //   },
+          // ),
           const SizedBox(height: Dimens.space_16),
           CshBigButton(
             text: l10n.viewReport,

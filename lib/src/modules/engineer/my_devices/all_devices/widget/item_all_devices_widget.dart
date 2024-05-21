@@ -5,7 +5,6 @@ import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/engineer_device_info.dart';
-import '../../../retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 import '../../wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import '../provider/all_devices_provider.dart';
 
@@ -43,9 +42,7 @@ class ItemAllDevicesWidget extends StatelessWidget {
                           alignment: Alignment.center,
                           child: CshBigOutlineButton(
                             text: l10n.sendToInProgress,
-                            onPressed: () {
-                              _checkForRetrievedPartsDetailsData(context, l10n);
-                            },
+                            onPressed: () => _sendInProgress(context, l10n),
                           ),
                         ),
                       ),
@@ -94,24 +91,6 @@ class ItemAllDevicesWidget extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  _checkForRetrievedPartsDetailsData(BuildContext context, L10n l10n) {
-    AllDevicesProvider reader = AllDevicesProvider.of(context, listen: false);
-    CshLoading().showLoading(context);
-    reader.getRetrievedPartsData(_deviceInfo.deviceId).then((value) async {
-      CshLoading().hideLoading(context);
-      RetrievedPartsDataDetailsScreenArguments args = RetrievedPartsDataDetailsScreenArguments(
-          dataModel: value, deviceBarcode: reader.selectedDevice?.deviceBarcode);
-      await Navigator.of(context).pushNamed(RetrievedPartsDataDetailsScreen.route, arguments: args);
-      if (reader.refreshAllDeviceList != null) {
-        reader.refreshAllDeviceList!();
-      }
-      Navigator.of(context).pop();
-    }, onError: (error) {
-      CshLoading().hideLoading(context);
-      _sendInProgress(context, l10n);
-    });
   }
 
   _sendInProgress(BuildContext context, L10n l10n) {

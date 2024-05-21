@@ -45,9 +45,9 @@ class ActionProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId) {
+  Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId, String? remarks) {
     var completer = Completer<bool>();
-    PartQcServiceElss.updateRetrievedPartStatus(isFaulty, partId).listen((event) {
+    PartQcServiceElss.updateRetrievedPartStatus(isFaulty, partId, remarks: remarks).listen((event) {
       if (Validator.isTrue(event?.isSuccess)) {
         completer.complete(true);
       } else {

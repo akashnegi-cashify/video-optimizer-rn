@@ -1,9 +1,11 @@
 # TRC Releases
 
+
 # v3.2.3+41 (XX-05-2024)
 
-### Features:
+### Feature:
 
+* `TRC - Engineer - Move Retrived part flow from WIP/Order parts to Receive part. `[(SCM-6271)](https://reglobe.atlassian.net/browse/SCM-6271)
 * `QC - QC Tester - Update missing IMEI during manual testing`[(SCM-6160)](https://reglobe.atlassian.net/browse/SCM-6160)
 
 
@@ -15,14 +17,6 @@
 * `TRC - Manual Testing/Engineer - Showing repair failures to Engineers`[(SCM-6073)](https://reglobe.atlassian.net/browse/SCM-6073)
 * `QC - Supervision - Bug fix`[(SCM-6264)](https://reglobe.atlassian.net/browse/SCM-6264)
 * `QC - Warehouse audit - Bug fix`[(SCM-6263)](https://reglobe.atlassian.net/browse/SCM-6263)
-
-
-# v3.2.3+41 (XX-05-2024)
-
-### Features:
-
-* `QC - QC Tester - Update missing IMEI during manual testing`[(SCM-6160)](https://reglobe.atlassian.net/browse/SCM-6160)
-
 
 
 # v3.2.1+39 (03-05-2024)
