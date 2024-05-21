@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/shipex/modules/packaging/providers/packaging_provider.dart';
 import 'package:flutter_trc/src/common/widgets/video_recoder_widget.dart';
@@ -60,7 +61,7 @@ class VideoCreationProcessWidgetState extends State<VideoCreationProcessWidget> 
                   onChanged: (data) {
                     if (_timer?.isActive ?? false) _timer?.cancel();
                     _timer = Timer(
-                      const Duration(milliseconds: 500),
+                      const Duration(milliseconds: kDebugMode ? 1500: 500),
                       () {
                         _onDeviceBarcodeScanned(provider, data);
                       },

@@ -22,7 +22,7 @@ class CshMlScannerUtil {
     VoidCallback? onDidPop,
   }) {
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-        onScanDetected: (String scannedData, MlScannerController? controller) {
+        onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
           if (scannedData.isNotEmpty) {
             onScanned(scannedData, controller);
           }

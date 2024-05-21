@@ -49,7 +49,7 @@ class _ReQcDetailWidgetState extends State<ReQcDetailWidget> {
                       onDeviceListPressed: () {
                         _animateToPage(1);
                       },
-                      onScanDetected: (String scannedData, MlScannerController? controller) {
+                      onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
                         _onScanDetected(scannedData, controller, provider);
                       },
                     );

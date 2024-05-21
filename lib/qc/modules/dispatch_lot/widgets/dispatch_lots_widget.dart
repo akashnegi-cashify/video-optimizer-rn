@@ -55,7 +55,7 @@ class _DispatchLotsWidgetState extends PaginatedListState<Lot, DispatchLotsWidge
 
   void _onItemClick(BuildContext context, {required int index, required L10n l10n}) {
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-        onScanDetected: (String scannedData, MlScannerController? controller) {
+        onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
           if (scannedData.isNotEmpty) {
             var provider = DispatchLotProvider.of(context: context, listen: false);
             core.CshLoading().showLoading(context);

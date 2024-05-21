@@ -19,7 +19,7 @@ class DeviceScannerWidget extends StatelessWidget {
       builder: (builderContext, _) {
         var provider = DeviceScannerProvider.of(builderContext);
         return TRCScannerWidget(
-          onScanDetected: (String scannedData, MlScannerController? controller) {
+          onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
             controller?.stop();
             CshLoading().showLoading(context);
             provider.onDeviceScanned(scannedData).then((value) {

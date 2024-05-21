@@ -5,7 +5,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 @CshPageParam()
 class DisputedImageCaptureScannerParam {
   @ParamKey(key: DisputedImageCaptureScannerParamKeys.scannerCallback)
-  Function(String scannedData, MlScannerController? controller)? onScanDetected;
+  Function(String scannedData, MlScannerController? controller, {bool? isManualEntry})? onScanDetected;
 
   @ParamKey(key: DisputedImageCaptureScannerParamKeys.header)
   String? header;

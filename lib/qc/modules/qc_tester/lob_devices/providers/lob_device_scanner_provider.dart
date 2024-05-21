@@ -82,12 +82,12 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     });
   }
 
-  Future<void> reportMismatch(String imagePath, List<String> scannedImeiList) async {
+  Future<void> reportMismatch(String imagePath, List<String> scannedImeiList, {bool? isImei2Available}) async {
     var completer = Completer<void>();
     try {
       String imageUrl = await _getCompressedImageUrl(imagePath);
       service
-          .reportMismatch(scannedImeiList, deviceBarcode!, imageUrl, timeoutReason: timeoutSelectedReason?.name)
+          .reportMismatch(scannedImeiList, deviceBarcode!, imageUrl, timeoutReason: timeoutSelectedReason?.name, isImei2Available: isImei2Available)
           .listen((event) {
         timeoutSelectedReason = null;
         completer.complete();
@@ -147,5 +147,29 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
 
   void updateReason(Reasons? reason) {
     timeoutSelectedReason = reason;
+  }
+
+  Future<String> updateImei(String filePath, String? updatedImei, bool? isImeiAvailable,
+      {bool isAutoApproved = false}) async {
+    var completer = Completer<String>();
+    try {
+      String imageUrl = await _getCompressedImageUrl(filePath);
+      service.reportMismatch(
+        !Validator.isNullOrEmpty(updatedImei) ? [updatedImei] : null,
+        deviceBarcode!,
+        imageUrl,
+        timeoutReason: timeoutSelectedReason?.name,
+        isImei2Available: isImeiAvailable,
+        isAutoApproved: isAutoApproved,
+      ).listen((event) {
+        timeoutSelectedReason = null;
+        completer.complete("Imei Updated Successfully");
+      }, onError: (error) {
+        completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+      });
+    } catch (e) {
+      completer.completeError(e);
+    }
+    return completer.future;
   }
 }

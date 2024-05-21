@@ -30,7 +30,13 @@ ScanDeviceData _$ScanDeviceDataFromJson(Map<String, dynamic> json) =>
       ..message = json['rm'] as String?
       ..requiredImageList = (json['mm'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
-      );
+      )
+      ..currentStatus = json['cs'] as String?
+      ..productName = json['pn'] as String?
+      ..imei1 = json['imei1'] as String?
+      ..imei2 = json['imei2'] as String?
+      ..moneyOutDate = json['mod'] as int?
+      ..storageLocation = json['sl'] as String?;
 
 Map<String, dynamic> _$ScanDeviceDataToJson(ScanDeviceData instance) =>
     <String, dynamic>{
@@ -38,4 +44,10 @@ Map<String, dynamic> _$ScanDeviceDataToJson(ScanDeviceData instance) =>
       's': instance.status,
       'rm': instance.message,
       'mm': instance.requiredImageList,
+      'cs': instance.currentStatus,
+      'pn': instance.productName,
+      'imei1': instance.imei1,
+      'imei2': instance.imei2,
+      'mod': instance.moneyOutDate,
+      'sl': instance.storageLocation,
     };

@@ -39,8 +39,11 @@ class DeviceDetailResponseData {
   @JsonKey(name: "rm")
   Map<String, int>? reasons;
 
+  @JsonKey(name: "idia")
+  bool? isDeviceImeiApproved;
+
   DeviceDetailResponseData(
-      this.qrCode, this.imei1, this.serialNo, this.selectedCategoryId, this.categories, this.imei2, this.reasons);
+      this.qrCode, this.imei1, this.serialNo, this.selectedCategoryId, this.categories, this.imei2, this.reasons, this.isDeviceImeiApproved);
 
   static DeviceDetailResponseData fromJson(Map<String, dynamic> json) => _$DeviceDetailResponseDataFromJson(json);
 

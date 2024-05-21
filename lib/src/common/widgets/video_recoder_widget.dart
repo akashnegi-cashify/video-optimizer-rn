@@ -85,6 +85,7 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   Future<File?> stopVideoRecording() async {
     try {
       final file = await _cameraController.stopVideoRecording();
+      _cameraController.pausePreview();
 
       File(file.path).logFileSize();
       if (!widget.isCompressionEnabled) {
@@ -93,12 +94,13 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       var completer = Completer<File>();
 
       CshLoading().showLoading(context);
-      MediaInfo? value = await _getCompressedFile(file.path);
-      CshLoading().hideLoading(context);
-      if (value?.file != null) {
-        value!.file!.logFileSize();
-        completer.complete(value?.file);
-      }
+      _getCompressedFile(file.path).then((value) {
+        CshLoading().hideLoading(context);
+        if (value?.file != null) {
+          value!.file!.logFileSize();
+          completer.complete(value.file);
+        }
+      });
 
       return completer.future;
     } catch (e) {

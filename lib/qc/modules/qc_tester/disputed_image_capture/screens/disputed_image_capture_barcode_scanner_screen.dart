@@ -14,7 +14,7 @@ part 'disputed_image_capture_barcode_scanner_screen.g.dart';
     pageGroup: PageGroup.disputedImageBarcodeScannerPageKey,
     params: DisputedImageCaptureScannerParamKeys.values)
 class DisputedImageCaptureBarcodeScannerArguments extends BaseArguments {
-  final Function(String scannedData, MlScannerController? controller)? onScanDetected;
+  final Function(String scannedData, MlScannerController? controller, {bool? isManualEntry})? onScanDetected;
   final String? header;
   final String? hintText;
   List<BarcodeFormat>? scanFormatList;

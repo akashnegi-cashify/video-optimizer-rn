@@ -123,7 +123,7 @@ class PreDispatchItemWidget extends StatelessWidget {
     var provider = PreDispatchProvider.of(context: context, listen: false);
 
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-        onScanDetected: (String scannedData, MlScannerController? controller) {
+        onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
           if (scannedData.isNotEmpty) {
             CshLoading().showLoading(context);
 

@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/warehouse_audit/dialogs/show_audit_scanned_device_detail_dialog.dart';
 import 'package:flutter_trc/qc/modules/warehouse_audit/providers/warehouse_audit_perform_provider.dart';
 import 'package:flutter_trc/qc/modules/warehouse_audit/resources/upload_image_data.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
@@ -15,10 +16,10 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TRCScannerWidget(
       hintText: "Scan Device Barcode",
-      onScanDetected: (scannedData, controller) {
+      onScanDetected: (scannedData, controller, {isManualEntry}) {
         if (_validateBarcode(scannedData, context)) {
           controller?.stop();
-          _onScanDetected(context, scannedData, controller);
+          _onScanDetected(context, scannedData, controller, isManualEntry: isManualEntry ?? false);
         }
       },
     );
@@ -43,10 +44,10 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
   }
 
   _onScanDetected(BuildContext context, String scannedData, MlScannerController? controller,
-      {Map<String, String>? uploadedImageMap}) {
+      {Map<String, String>? uploadedImageMap, bool isManualEntry = false}) {
     var provider = WarehouseAuditPerformProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.scanDevice(scannedData, imagesListMap: uploadedImageMap, isManualEntry: controller == null).then((value) {
+    provider.scanDevice(scannedData, imagesListMap: uploadedImageMap, isManualEntry: isManualEntry).then((value) {
       CshLoading().hideLoading(context);
       if (value?.status == 1 && (value?.requiredImageList?.length ?? 0) > 0) {
         var list = UploadImageData.encodeInList(value!.requiredImageList!);
@@ -56,20 +57,16 @@ class WarehouseAuditPerformWidget extends StatelessWidget {
           list,
           onImageUploaded: (uploadedImageList) {
             var uploadedImageMap = UploadImageData.decodeInMap(uploadedImageList);
-            _onScanDetected(context, scannedData, controller, uploadedImageMap: uploadedImageMap);
+            _onScanDetected(context, scannedData, controller,
+                uploadedImageMap: uploadedImageMap, isManualEntry: isManualEntry);
           },
         );
       } else {
-        controller?.start();
-        CshSnackBar.success(
-          context: context,
-          message: value?.message ?? "",
-          snackBarPosition: SnackBarPosition.TOP,
-          duration: SnackBarDuration.SHORT,
-        );
+        showAuditScannedDeviceDetailsDialog(context, value).whenComplete(() => controller?.start());
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
+      controller?.start();
       CshSnackBar.error(
         context: context,
         message: error.toString(),
