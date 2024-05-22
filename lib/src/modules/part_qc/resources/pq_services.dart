@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 
@@ -27,10 +28,11 @@ class PartQcServiceElss {
     return TrcService().post("/qc/parts/receive-retrieved-part?pbr=$partBarcode", BaseActionResponse.fromJson);
   }
 
-  static Stream<BaseActionResponse?> updateRetrievedPartStatus(bool isFaulty, int partId) {
+  static Stream<BaseActionResponse?> updateRetrievedPartStatus(bool isFaulty, int partId, {String? remarks}) {
     Map<String, dynamic> bodyData = {
       "isFault": isFaulty,
       "prid": partId,
+      if (!Validator.isNullOrEmpty(remarks)) "rm": remarks,
     };
     return TrcService()
         .post("/qc/parts/submit-retrieved-part-qc", BaseActionResponse.fromJson, body: jsonEncode(bodyData));

@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter_trc/src/common/model/device_part.dart';
 import 'package:json_annotation/json_annotation.dart';
 
