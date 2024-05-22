@@ -3,10 +3,12 @@
 
 # v3.2.3+41 (XX-05-2024)
 
-### Feature:
+### Feature and Bug fixes:
 
 * `TRC - Engineer - Move Retrived part flow from WIP/Order parts to Receive part. `[(SCM-6271)](https://reglobe.atlassian.net/browse/SCM-6271)
 * `QC - QC Tester - Update missing IMEI during manual testing`[(SCM-6160)](https://reglobe.atlassian.net/browse/SCM-6160)
+* `QC - Warehouse audit - show device detail dialog after scan`[(SCM-6194)](https://reglobe.atlassian.net/browse/SCM-6194)
+* `Shipex - Bug fix`[(SCM-6305)](https://reglobe.atlassian.net/browse/SCM-6305)
 
 
 # v3.2.2+40 (09-05-2024)
