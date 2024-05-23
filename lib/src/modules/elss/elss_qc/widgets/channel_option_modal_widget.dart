@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/modules/elss/common_models/elss_part.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../common_models/channel_option_response.dart';
@@ -75,11 +76,11 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                     ? RichText(
                         text: TextSpan(
                           text: "${l10n.profit}: ",
-                          style: theme.primaryTextTheme.overline,
+                          style: theme.primaryTextTheme.labelSmall,
                           children: <TextSpan>[
                             TextSpan(
                               text: l10n.formatPrice(widget.dataModel?.channelOptionPrice, defaultValue: 0),
-                              style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+                              style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
                             )
                           ],
                         ),
@@ -87,6 +88,8 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                     : const SizedBox.shrink(),
               ],
             ),
+            Text("Total Repair: ${_getTotalRepairAmount(widget.dataModel?.requestedParts, l10n)}",
+                style: theme.primaryTextTheme.labelSmall),
             const SizedBox(height: Dimens.space_8),
             Expanded(
               child: (!Validator.isListNullOrEmpty(widget.dataModel?.requestedParts))
@@ -119,5 +122,17 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
         ),
       ),
     );
+  }
+
+  String _getTotalRepairAmount(List<ElssPart>? requestedParts, L10n l10n) {
+    if (Validator.isListNullOrEmpty(requestedParts)) {
+      return l10n.formatPrice(0);
+    }
+
+    double totalAmount = 0;
+    for (var element in requestedParts!) {
+      totalAmount += element.price ?? 0;
+    }
+    return l10n.formatPrice(totalAmount);
   }
 }

@@ -35,6 +35,9 @@ class ElssPart {
   @JsonKey(name: "cc")
   String? categoryCode;
 
+  @JsonKey(name: "pr")
+  double? price;
+
   ElssPart({
     this.version = 0,
     this.action = "Repairable",
@@ -51,6 +54,7 @@ class ElssPart {
     this.actionConstant,
     this.quantity,
     this.categoryCode,
+    this.price,
   });
 
   static ElssPart fromJson(Map<String, dynamic> data) => _$ElssPartFromJson(data);
