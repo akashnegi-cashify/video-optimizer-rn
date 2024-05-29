@@ -1304,6 +1304,21 @@
       ]
     },
     {
+      "pageId": 10050,
+      "pageKey": "QC_d2c_video_page_key",
+      "dt": [
+        {
+          "id": 10131,
+          "key": "QC_d2c_video_component_key",
+          "type": "component"
+        },
+        {
+          "id": 10132,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -3144,6 +3159,29 @@
       "configJson": {
         "config": {
           "ht": "Imei Validator",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10131,
+      "locale": "en",
+      "key": "QC_d2c_video_component_key",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10132,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "D2C Videos",
           "sbb": true,
           "slb": false
         }

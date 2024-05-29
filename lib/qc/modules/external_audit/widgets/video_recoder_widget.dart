@@ -270,7 +270,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         setState(() {
           _isCompressionStarted = true;
         });
-        VideoUtil.compressVideo(xFile.path, _videoRecordedTime, onProgress: (value) {
+        VideoUtil.compressVideo(xFile.path, _videoRecordedTime, addTimeStamp: true, onProgress: (value) {
           Logger.debug('mydebug-----_VideoRecorderWidgetState._sendFileToListener onProgress', ['value: $value']);
           setState(() {
             _compressionProgress = value;

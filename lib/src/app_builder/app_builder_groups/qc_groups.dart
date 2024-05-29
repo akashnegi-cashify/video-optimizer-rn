@@ -33,7 +33,8 @@ enum QcComponentGroup with AbsComponentGroup {
   qcWarehouseAuditPerformComponentKey("QC Warehouse Audit Perform Component"),
   qcDeviceDetailsComponentKey("QC Device Details Component"),
   qcStorageDeviceListComponentKey("QC Storage Device List Component"),
-  qcImeiValidatorComponentKey("QC Imei Validator Component");
+  qcImeiValidatorComponentKey("QC Imei Validator Component"),
+  qcD2cVideoComponentKey("QC D2C Video Component");
 
   @override
   final String value;
@@ -75,7 +76,8 @@ enum QcPageGroup with AbsPageGroup {
   qcWarehouseAuditPerformPageKey("QC Warehouse Audit Perform"),
   qcDeviceDetailsPageKey("QC Device Details"),
   qcStorageDeviceListPageKey("QC Storage Device List"),
-  qcImeiValidatorPageKey("QC Imei Validator");
+  qcImeiValidatorPageKey("QC Imei Validator"),
+  qcD2cVideoPageKey("QC D2C Video");
 
   @override
   final String value;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_video_screen.dart';
 import 'package:flutter_trc/qc/modules/device_details/screens/device_details_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
@@ -98,6 +99,7 @@ class QcRoutes {
       DeviceDetailsScreen.route: (_) => const DeviceDetailsScreen(),
       StorageDeviceListScreen.route: (_) => const StorageDeviceListScreen(),
       ImeiValidatorScreen.route: (_) => const ImeiValidatorScreen(),
+      D2CVideoScreen.route: (_) => const D2CVideoScreen(),
     };
   }
 }

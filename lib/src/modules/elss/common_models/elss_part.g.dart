@@ -20,7 +20,7 @@ ElssPart _$ElssPartFromJson(Map<String, dynamic> json) => ElssPart(
       actionConstant: json['acc'] as int?,
       quantity: json['qt'] as int?,
       categoryCode: json['cc'] as String?,
-      price: json['pr'] as double?,
+      price: (json['pr'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$ElssPartToJson(ElssPart instance) => <String, dynamic>{
