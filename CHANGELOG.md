@@ -1,6 +1,14 @@
 # TRC Releases
 
 
+# v3.2.4+42 (29-05-2024)
+
+### Feature:
+
+* `QC - ELSS - Show part price on suggestion page.`[(SCM-6061)](https://reglobe.atlassian.net/browse/SCM-6061)
+* `QC - Imei Validator feature added.`[(SCM-6060)](https://reglobe.atlassian.net/browse/SCM-6060)
+
+
 # v3.2.3+41 (21-05-2024)
 
 ### Feature and Bug fixes:

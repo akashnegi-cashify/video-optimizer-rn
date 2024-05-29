@@ -1289,6 +1289,21 @@
       ]
     },
     {
+      "pageId": 10049,
+      "pageKey": "QC_IMEI_Validator_page_key",
+      "dt": [
+        {
+          "id": 10129,
+          "key": "QC_imei_validator_component",
+          "type": "component"
+        },
+        {
+          "id": 10130,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -3106,6 +3121,29 @@
       "configJson": {
         "config": {
           "ht": "Storage Device List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10129,
+      "locale": "en",
+      "key": "QC_imei_validator_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10130,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Imei Validator",
           "sbb": true,
           "slb": false
         }

@@ -6,6 +6,7 @@ import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_
 import 'package:flutter_trc/qc/modules/gaurd/components/guard_device_counting_list_component.dart';
 import 'package:flutter_trc/qc/modules/gaurd/components/guard_upload_invoice_component.dart';
 import 'package:flutter_trc/qc/modules/gaurd/components/qc_guard_home_component.dart';
+import 'package:flutter_trc/qc/modules/imei_validator/components/imei_validator_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_barcode_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_summary_component.dart';
@@ -153,6 +154,9 @@ class QcComponentRegistry {
 
       case StorageDeviceListComponent.COMP_KEY:
         return StorageDeviceListComponent(jsonConfig);
+
+      case ImeiValidatorComponent.COMP_KEY:
+        return ImeiValidatorComponent(jsonConfig);
 
       default:
         return null;
