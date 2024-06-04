@@ -25,6 +25,7 @@ enum QcRole {
   roleDeadDevice("ROLE_DEAD_DEVICE"),
   roleGuard("ROLE_GUARD"),
   qcElss("QC_ELSS"),
+  qcVideographer("ROLE_VIDEOGRAPHER"),
   qcSupervision("SUPERVISOR_ROLE");
 
   final String value;

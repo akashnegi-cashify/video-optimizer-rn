@@ -89,7 +89,7 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                           const SizedBox(height: Dimens.space_16),
                         ],
                       ),
-                    if (widget.loginType == LoginTypes.ocLogin)
+                    if (widget.loginType == LoginTypes.qcLogin)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -112,7 +112,7 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                   ],
                 ),
               ),
-              if (widget.loginType == LoginTypes.ocLogin) const QcLoginWidget(loginType: LoginTypes.ocLogin),
+              if (widget.loginType == LoginTypes.qcLogin) const QcLoginWidget(loginType: LoginTypes.qcLogin),
               if (widget.loginType == LoginTypes.trcLogin) const LoginWidget(),
               if (widget.loginType == LoginTypes.shipexLogin) const QcLoginWidget(loginType: LoginTypes.shipexLogin),
             ],

@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/version_updates/app_update_helper.dart';
@@ -32,8 +33,7 @@ class TrcAndQcLoginWidget extends StatelessWidget {
                       text: l10n.trcLogin,
                       onPressed: () {
                         _checkAppUpdate(context, () {
-                          LoginScreenArguments args = LoginScreenArguments(loginType: LoginTypes.trcLogin);
-                          Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
+                          _moveToLoginScreen(context, LoginTypes.trcLogin);
                         });
                       },
                     ),
@@ -41,10 +41,13 @@ class TrcAndQcLoginWidget extends StatelessWidget {
                     CshMediumButton(
                       text: l10n.qcLogin,
                       onPressed: () {
-                        _checkAppUpdate(context, () {
-                          LoginScreenArguments args = LoginScreenArguments(loginType: LoginTypes.ocLogin);
-                          Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
-                        });
+                        if (isIOS()) {
+                          _moveToLoginScreen(context, LoginTypes.qcLogin);
+                        } else {
+                          _checkAppUpdate(context, () {
+                            _moveToLoginScreen(context, LoginTypes.qcLogin);
+                          });
+                        }
                       },
                     ),
                     const SizedBox(height: Dimens.space_20),
@@ -52,8 +55,7 @@ class TrcAndQcLoginWidget extends StatelessWidget {
                       text: l10n.shipexLogin,
                       onPressed: () {
                         _checkAppUpdate(context, () {
-                          LoginScreenArguments args = LoginScreenArguments(loginType: LoginTypes.shipexLogin);
-                          Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
+                          _moveToLoginScreen(context, LoginTypes.shipexLogin);
                         });
                       },
                     ),
@@ -68,6 +70,11 @@ class TrcAndQcLoginWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _moveToLoginScreen(BuildContext context, LoginTypes loginType) {
+    LoginScreenArguments args = LoginScreenArguments(loginType: loginType);
+    Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
   }
 
   void _checkAppUpdate(BuildContext context, VoidCallback onProceed) {

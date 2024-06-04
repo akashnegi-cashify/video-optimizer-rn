@@ -3181,7 +3181,7 @@
       "key": "header_QC_qc_general",
       "configJson": {
         "config": {
-          "ht": "D2C Videos",
+          "ht": "Generic Device Media",
           "sbb": true,
           "slb": false
         }

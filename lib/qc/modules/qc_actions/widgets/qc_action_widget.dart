@@ -44,25 +44,33 @@ class QCActionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
+
+    if (QcRolePermissionHelper.hasPermission(QcRole.qcVideographer)) {
+      return Center(
+        child: SizedBox(
+          width: double.infinity,
+          child: CshBigButton(
+            text: l10n.genericDeviceMedia,
+            onPressed: () {
+              CshMlScannerUtil().openScanner(
+                context,
+                onScanned: (scannedData, controller) {
+                  Navigator.pop(context); // dismiss scanner screen
+                  D2CVideoScreen.navigate(context, scannedData);
+                },
+              );
+            },
+          ),
+        ),
+      );
+    }
+
     return Center(
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CshBigButton(
-              text: "D2C Videos",
-              onPressed: () {
-                CshMlScannerUtil().openScanner(
-                  context,
-                  onScanned: (scannedData, controller) {
-                    Navigator.pop(context); // dismiss scanner screen
-                    D2CVideoScreen.navigate(context, scannedData);
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: Dimens.space_16),
             QcRolePermissionWidget(
               role: QcRole.qcElss,
               child: CshBigButton(
