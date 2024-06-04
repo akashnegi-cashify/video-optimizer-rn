@@ -32,4 +32,8 @@ class D2CVideoScreen extends BaseScreen<D2CVideoArguments> {
   static navigate(BuildContext context, String? barcode) {
     Navigator.pushNamed(context, route, arguments: D2CVideoArguments(barcode));
   }
+
+  static replace(BuildContext context, String? barcode) {
+    Navigator.pushReplacementNamed(context, route, arguments: D2CVideoArguments(barcode));
+  }
 }

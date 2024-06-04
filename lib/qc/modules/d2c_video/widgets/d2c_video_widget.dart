@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/qc_common/video_tester/video_preview.dart';
-import 'package:flutter_trc/src/common/utils/file_util.dart';
-import 'package:flutter_trc/src/common/utils/video_util.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/providers/d2c_video_provider.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_video_screen.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
 
 class D2CVideoWidget extends StatefulWidget {
   const D2CVideoWidget({super.key});
@@ -18,60 +15,47 @@ class D2CVideoWidget extends StatefulWidget {
 }
 
 class _D2CVideoWidgetState extends State<D2CVideoWidget> {
-  int _videoCompressionProgress = 0;
-  bool _startVideoCompression = false;
+  ViewType _viewType = ViewType.productDetail;
 
   @override
   void initState() {
     scheduleMicrotask(() {
-      ImagePicker imagePicker = ImagePicker();
-      imagePicker.pickVideo(source: ImageSource.camera).then((value) {
-        if (value != null) {
-          _compressVideo(value.path);
-        }
+      var provider = D2CVideoProvider.of(context, listen: false);
+      provider.getDeviceDetails().then((value) {
+        setState(() {
+          _viewType = ViewType.productDetail;
+        });
+      }, onError: (error) {
+        setState(() {
+          _viewType = ViewType.productDetailFailed;
+        });
       });
     });
     super.initState();
   }
 
+  _createVideoRecording() {
+    ImagePicker imagePicker = ImagePicker();
+    imagePicker.pickVideo(source: ImageSource.camera).then((value) {
+      if (value != null) {
+        _compressVideo(value.path);
+      }
+    });
+  }
+
   _compressVideo(String path) async {
     try {
       setState(() {
-        _startVideoCompression = true;
+        _viewType = ViewType.compression;
       });
-      CshLoading().showLoading(context);
-      File(path).logFileSize();
-      VideoPlayerController videoPlayerController = VideoPlayerController.file(File(path));
-      await videoPlayerController.initialize();
-      VideoUtil.compressVideo(path, videoPlayerController.value.duration.inSeconds, onProgress: (value) {
-        Logger.debug('mydebug-----_VideoRecorderWidgetState._sendFileToListener onProgress', ['value: $value']);
-        setState(() {
-          _videoCompressionProgress = value;
-        });
-      }).then((String? outputPath) {
-        CshLoading().hideLoading(context);
-        if (outputPath != null) {
-          File(outputPath).logFileSize();
-          // TODO: upload video instead of preview video
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return VideoPreview(filePath: outputPath);
-            },
-          ));
-          // _uploadVideo(outputPath);
-        }
+      var provider = D2CVideoProvider.of(context, listen: false);
+      provider.compressVideo(path).then((outputPath) {
+        _uploadVideo(outputPath);
       }, onError: (error) {
         CshSnackBar.error(context: context, message: error.toString());
-      }).whenComplete(() {
-        setState(() {
-          _startVideoCompression = false;
-        });
       });
     } catch (e) {
       if (mounted) {
-        setState(() {
-          _startVideoCompression = false;
-        });
         CshSnackBar.error(context: context, message: e.toString());
         Navigator.of(context).pop();
       }
@@ -79,35 +63,89 @@ class _D2CVideoWidgetState extends State<D2CVideoWidget> {
   }
 
   _uploadVideo(String filePath) {
-    // TODO: upload file and then call api to save this data
+    setState(() {
+      _viewType = ViewType.uploading;
+    });
+    var provider = D2CVideoProvider.of(context, listen: false);
+    provider.uploadMedia(filePath).then((value) {
+      _updateData();
+    }, onError: (error) {
+      setState(() {
+        _viewType = ViewType.uploadingFailed;
+      });
+      CshSnackBar.error(context: context, message: error.toString());
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    if (_startVideoCompression) {
-      return _buildProgressContainer(theme);
+    if (_viewType == ViewType.compression) {
+      return _buildCompressionProgressContainer(theme);
     }
-    return const Center(child: Text("Video Uploading module"));
+    if (_viewType == ViewType.uploading) {
+      return _buildUploadingProgressContainer(theme);
+    }
+
+    if (_viewType == ViewType.uploadingFailed) {
+      return _buildUploadingFailed();
+    }
+
+    if (_viewType == ViewType.completed) {
+      return _buildCompletedState();
+    }
+
+    if (_viewType == ViewType.productDetail) {
+      return _buildProductDetailState();
+    }
+
+    if (_viewType == ViewType.productDetailFailed) {
+      return _buildProductDetailFailedState(theme);
+    }
+
+    return _buildProductDetailState();
   }
 
-  Widget _buildProgressContainer(ThemeData theme) {
+  Widget _buildProductDetailFailedState(ThemeData theme) {
+    var provider = D2CVideoProvider.of(context, listen: false);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CshCard(
             padding: const EdgeInsets.all(Dimens.space_24),
+            margin: const EdgeInsets.all(Dimens.space_16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CshTextNew.h3("Optimizing Video - $_videoCompressionProgress%"),
+                CshTextNew.h3("Failed to get device details"),
+                const SizedBox(height: Dimens.space_12),
+                CshTextNew.subTitle1("Device Barcode - ${provider.deviceBarcode}"),
+                const SizedBox(height: Dimens.space_12),
+                Text(
+                  provider.deviceError ?? "Unknown Error",
+                  textAlign: TextAlign.center,
+                  style: theme.primaryTextTheme.titleMedium?.copyWith(color: theme.colorScheme.error),
+                ),
                 const SizedBox(height: Dimens.space_16),
-                LinearProgressIndicator(
-                  value: _videoCompressionProgress / 100,
-                  valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
-                  backgroundColor: theme.primaryColor.withAlpha(20),
-                  borderRadius: BorderRadius.circular(Dimens.space_6),
+                CshBigButton(
+                  text: "Retry",
+                  onPressed: () {
+                    var provider = D2CVideoProvider.of(context, listen: false);
+                    CshLoading().showLoading(context);
+                    provider.getDeviceDetails().then((value) {
+                      CshLoading().hideLoading(context);
+                      setState(() {
+                        _viewType = ViewType.productDetail;
+                      });
+                    }, onError: (error) {
+                      CshLoading().hideLoading(context);
+                      setState(() {
+                        _viewType = ViewType.productDetailFailed;
+                      });
+                    });
+                  },
                 ),
               ],
             ),
@@ -116,4 +154,177 @@ class _D2CVideoWidgetState extends State<D2CVideoWidget> {
       ),
     );
   }
+
+  Widget _buildProductDetailState() {
+    var provider = D2CVideoProvider.of(context, listen: false);
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CshCard(
+            padding: const EdgeInsets.all(Dimens.space_24),
+            margin: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              children: [
+                CshTextNew.subTitle1("Device Barcode -  ${provider.deviceBarcode}"),
+                const SizedBox(height: Dimens.space_8),
+                CshTextNew.subTitle1("Device Name -  ${provider.deviceName ?? "NA"}"),
+                const SizedBox(height: Dimens.space_16),
+                CshBigButton(
+                  text: "Start Recording",
+                  onPressed: () {
+                    _createVideoRecording();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCompletedState() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CshCard(
+            padding: const EdgeInsets.all(Dimens.space_24),
+            margin: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              children: [
+                CshTextNew.h3("Video Submitted Successfully"),
+                const SizedBox(height: Dimens.space_16),
+                CshBigButton(
+                  text: "Next Recording",
+                  onPressed: () {
+                    CshMlScannerUtil().openScanner(
+                      context,
+                      onScanned: (scannedData, controller) {
+                        Navigator.pop(context); // dismiss dialog
+                        D2CVideoScreen.replace(context, scannedData);
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUploadingFailed() {
+    var provider = D2CVideoProvider.of(context, listen: false);
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CshCard(
+            padding: const EdgeInsets.all(Dimens.space_24),
+            margin: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              children: [
+                CshTextNew.h3("Uploading Failed"),
+                const SizedBox(height: Dimens.space_16),
+                CshBigButton(
+                  text: "Retry",
+                  onPressed: () {
+                    _uploadVideo(provider.compressedFilePath!);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUploadingProgressContainer(ThemeData theme) {
+    var provider = D2CVideoProvider.of(context, listen: false);
+    return StreamBuilder<int>(
+      stream: provider.fileUploadProgressStream.stream,
+      builder: (context, snapshot) {
+        return Center(
+          child: CshCard(
+            padding: const EdgeInsets.all(Dimens.space_24),
+            margin: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Uploading Videos - ${(snapshot.data ?? 0).toInt()}%", style: theme.textTheme.titleMedium),
+                const SizedBox(height: Dimens.space_16),
+                LinearProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
+                  backgroundColor: theme.primaryColor.withAlpha(20),
+                  borderRadius: BorderRadius.circular(Dimens.space_6),
+                  value: (snapshot.data ?? 0) / 100,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCompressionProgressContainer(ThemeData theme) {
+    var provider = D2CVideoProvider.of(context, listen: false);
+    return StreamBuilder(
+      stream: provider.fileCompressProgressStream.stream,
+      builder: (_, snapshot) {
+        var progress = snapshot.data;
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CshCard(
+                padding: const EdgeInsets.all(Dimens.space_24),
+                margin: const EdgeInsets.all(Dimens.space_16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CshTextNew.h3("Optimizing Video - ${progress ?? 0}%"),
+                    const SizedBox(height: Dimens.space_16),
+                    LinearProgressIndicator(
+                      value: (progress ?? 0) / 100,
+                      valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
+                      backgroundColor: theme.primaryColor.withAlpha(20),
+                      borderRadius: BorderRadius.circular(Dimens.space_6),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _updateData() {
+    var provider = D2CVideoProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.updateData().then((value) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.success(context: context, message: "Video Submitted Successfully");
+      setState(() {
+        _viewType = ViewType.completed;
+      });
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error.toString());
+    });
+  }
 }
+
+enum ViewType { productDetail, productDetailFailed, compression, uploading, uploadingFailed, completed }
