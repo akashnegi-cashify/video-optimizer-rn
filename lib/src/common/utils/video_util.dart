@@ -15,8 +15,9 @@ class VideoUtil {
     final ValueChanged<int>? onProgress,
     final VoidCallback? onProgressEnd,
     final ValueChanged<dynamic>? onError,
+    final String? configString,
   }) {
-    var configInString = RemoteConfigHelper().getString(AppRemoteConfig.KEY_VIDEO_OPTIMIZER_CONFIG);
+    var configInString = configString ?? RemoteConfigHelper().getString(AppRemoteConfig.KEY_VIDEO_OPTIMIZER_CONFIG);
     VideoOptimizerConfig config = VideoOptimizerConfig.fromJson(jsonDecode(configInString));
     return VideoConfig(
       crf: config.crf,
@@ -36,7 +37,8 @@ class VideoUtil {
     );
   }
 
-  static Future<String?> compressVideo(String filePath, int videoLength, {final ValueChanged<int>? onProgress}) async {
+  static Future<String?> compressVideo(String filePath, int videoLength,
+      {final ValueChanged<int>? onProgress, String? configString}) async {
     if (!_isInitialized) {
       await _optimizerController.init();
       _isInitialized = true;
@@ -46,6 +48,7 @@ class VideoUtil {
     String? errorWhileCompression;
     VideoConfig config = _getVideoOptimizerConfig(
         onProgress: onProgress,
+        configString: configString,
         onError: (value) {
           errorWhileCompression = value.toString();
         });

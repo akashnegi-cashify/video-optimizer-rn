@@ -14,7 +14,8 @@ RetrievedDataDetailsParamModel fromMap(Map<String, dynamic> map) {
   return model;
 }
 
-Widget paramBuilder(Widget Function(RetrievedDataDetailsParamModel model) paramBuilder) {
+Widget paramBuilder(
+    Widget Function(RetrievedDataDetailsParamModel model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "pInfo": provider.data["pInfo"],
@@ -43,6 +44,6 @@ dynamic schema() => {
       "title": "Retrieved Parts Data Details Components",
       "cpm": [
         {"key": "pInfo", "value": null},
-        {"key": "onSuccess", "value": null},
+        {"key": "onSuccess", "value": null}
       ], //#admincomponent
     };

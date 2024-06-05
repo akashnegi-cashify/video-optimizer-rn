@@ -45,4 +45,6 @@ class L10n extends BaseL10n {
 
   String get imeiValidator => Intl.message('IMEI Validator', locale: localName, name: 'imeiValidator');
 
+  String get genericDeviceMedia => Intl.message('Generic Device Media', locale: localName, name: 'genericDeviceMedia');
+
 }

@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
@@ -9,8 +10,13 @@ class DeviceInfoUtil {
 
   static Future<void> init() async {
     _deviceOsVersion = await DeviceUtil.getXOSAPPHeader();
-    AndroidDeviceInfo androidInfo = await _deviceInfoPlugin.androidInfo;
-    _deviceModel = androidInfo.model;
+    if (isAndroid()) {
+      AndroidDeviceInfo androidInfo = await _deviceInfoPlugin.androidInfo;
+      _deviceModel = androidInfo.model;
+    } else {
+      IosDeviceInfo iosDeviceInfo = await _deviceInfoPlugin.iosInfo;
+      _deviceModel = iosDeviceInfo.model;
+    }
   }
 
   static String? getOsVersion() {

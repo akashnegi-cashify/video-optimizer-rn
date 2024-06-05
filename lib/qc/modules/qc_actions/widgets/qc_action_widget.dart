@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_video_screen.dart';
 import 'package:flutter_trc/qc/modules/device_details/screens/device_details_screen.dart';
 import 'package:flutter_trc/qc/modules/device_receive_module/screens/device_receive_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
@@ -43,6 +44,27 @@ class QCActionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
+
+    if (QcRolePermissionHelper.hasPermission(QcRole.qcVideographer)) {
+      return Center(
+        child: SizedBox(
+          width: double.infinity,
+          child: CshBigButton(
+            text: l10n.genericDeviceMedia,
+            onPressed: () {
+              CshMlScannerUtil().openScanner(
+                context,
+                onScanned: (scannedData, controller) {
+                  Navigator.pop(context); // dismiss scanner screen
+                  D2CVideoScreen.navigate(context, scannedData);
+                },
+              );
+            },
+          ),
+        ),
+      );
+    }
+
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -214,7 +236,7 @@ class QCActionWidget extends StatelessWidget {
                     if (!Validator.isNullOrEmpty(scannedData)) {
                       try {
                         scannedData = scannedData.replaceAll("\\", "");
-                        scannedData = scannedData.substring(1, scannedData.length-1);
+                        scannedData = scannedData.substring(1, scannedData.length - 1);
                         var resMap = jsonDecode(scannedData);
                         ImeiQrcodeResponse res = ImeiQrcodeResponse.fromJson(resMap);
                         Navigator.pop(context); // dismiss scanner screen

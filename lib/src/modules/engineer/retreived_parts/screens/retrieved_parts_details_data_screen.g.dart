@@ -14,10 +14,8 @@ dynamic schema() => {
       "title": "Retrieved Parts Data Details Screen Arguments",
       "isActive": true,
       "params": [
-        {"key": "br", "value": null},
         {"key": "pInfo", "value": null},
-        {"key": "onSuccess", "value": null},
-        {"key": "pid", "value": null}
+        {"key": "onSuccess", "value": null}
       ]
 
       //#adminscreen

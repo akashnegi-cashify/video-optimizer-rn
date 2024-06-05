@@ -12,6 +12,7 @@ class AppRemoteConfig {
   static const KEY_VIDEO_RECORD_DURATION_IN_SEC = "key_video_record_duration_in_sec";
   static const KEY_APP_SUPPORTED_VERSIONS = "key_app_supported_versions";
   static const KEY_VIDEO_OPTIMIZER_CONFIG = "key_video_optimizer_config";
+  static const KEY_VIDEO_OPTIMIZER_CONFIG_D2C = "key_video_optimizer_config_d2c";
   static const KEY_IS_RUN_IMEI_VALIDATOR_FLOW = "key_is_run_imei_validator_flow";
   static const KEY_IMEI_READER_TIMEOUT_SEC = "key_imei_reader_timeout_sec";
 
@@ -25,6 +26,7 @@ class AppRemoteConfig {
     KEY_IMEI_READER_TIMEOUT_SEC: 5,
     KEY_VIDEO_OPTIMIZER_CONFIG:
         "{\"videoCodec\":\"libx264\",\"videoPreset\":\"superfast\",\"crf\":30,\"fontSize\":24,\"fontColor\":\"white\",\"borderColor\":\"black\",\"addTimeStamp\":true}",
+    KEY_VIDEO_OPTIMIZER_CONFIG_D2C: "{\"videoCodec\":\"libx264\",\"videoPreset\":\"ultrafast\",\"crf\":30}",
     KEY_APP_SUPPORTED_VERSIONS:
         '{"dt":[{"version":"3.1.0","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/72/Release/app-prod-release.apk"},{"version":"3.1.1","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/74/Release/app-prod-release.apk"},{"version":"3.1.2","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/76/Release/app-prod-release.apk"},{"version":"3.1.3","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/79/Release/app-prod-release.apk"},{"version":"3.1.4","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/80/Release/app-prod-release.apk"},{"version":"3.1.5","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/82/Release/app-prod-release.apk"},{"version":"3.1.6","isMajor":true,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/84/Release/app-prod-release.apk"}]}',
   };
