@@ -1,6 +1,14 @@
 # TRC Releases
 
 
+# v3.2.5+43 (05-06-2024)
+
+### Feature:
+
+* `QC - Generic Device Media.`[(SCM-6465)](https://reglobe.atlassian.net/browse/SCM-6465)
+* `Ios Build.`[(SCM-6482)](https://reglobe.atlassian.net/browse/SCM-6482)
+
+
 # v3.2.4+42 (29-05-2024)
 
 ### Feature:
