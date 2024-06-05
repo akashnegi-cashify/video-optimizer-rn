@@ -159,12 +159,20 @@ dependencies:
   mobile_scanner: ^4.0.1
   disk_space: ^0.2.1
 
+flutter_launcher_icons:
+  android: false
+  ios: true
+  image_path_ios: "assets/images/app_android_icon.png"
+  background_color_ios: "#ffffff"
+
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.1
   change_app_package_name: ^1.1.0
+  flutter_launcher_icons: ^0.13.1
   json_serializable: ^6.5.4
   build_runner: 2.3.3
 

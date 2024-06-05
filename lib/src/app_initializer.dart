@@ -17,7 +17,7 @@ import 'interceptors/log_interceptor.dart';
 import 'l10n/messages_all.dart';
 import 'libraries/analytics/analytics_controller.dart';
 
-const RUNNING_SYSTEM_ENV = String.fromEnvironment('env', defaultValue: 'stage');
+const RUNNING_SYSTEM_ENV = String.fromEnvironment('env', defaultValue: 'prod');
 
 class AppInitializer {
   static init({Map<String, HttpInterceptorFactory>? interceptors}) async {
