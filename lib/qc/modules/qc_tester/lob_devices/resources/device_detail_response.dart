@@ -34,7 +34,7 @@ class DeviceDetailResponseData {
   int? selectedCategoryId;
 
   @JsonKey(name: "cat")
-  Map<int, String>? categories;
+  List<CategoryData>? categoryList;
 
   @JsonKey(name: "rm")
   Map<String, int>? reasons;
@@ -42,10 +42,28 @@ class DeviceDetailResponseData {
   @JsonKey(name: "idia")
   bool? isDeviceImeiApproved;
 
-  DeviceDetailResponseData(
-      this.qrCode, this.imei1, this.serialNo, this.selectedCategoryId, this.categories, this.imei2, this.reasons, this.isDeviceImeiApproved);
+  DeviceDetailResponseData(this.qrCode, this.imei1, this.serialNo, this.selectedCategoryId, this.categoryList, this.imei2,
+      this.reasons, this.isDeviceImeiApproved);
 
   static DeviceDetailResponseData fromJson(Map<String, dynamic> json) => _$DeviceDetailResponseDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeviceDetailResponseDataToJson(this);
+}
+
+@JsonSerializable()
+class CategoryData {
+  @JsonKey(name: "id")
+  int? id;
+
+  @JsonKey(name: "name")
+  String? name;
+
+  @JsonKey(name: "allowVariant")
+  bool? allowVariant;
+
+  CategoryData(this.id, this.name, this.allowVariant);
+
+  static CategoryData fromJson(Map<String, dynamic> json) => _$CategoryDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CategoryDataToJson(this);
 }

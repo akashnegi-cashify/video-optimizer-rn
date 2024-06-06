@@ -49,16 +49,16 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
       }
     });
 
-    widget.deviceDetails?.categories?.forEach((key, value) {
-      var dropDownItem = DropDownItem("$key", value);
+    widget.deviceDetails?.categoryList?.forEach((value) {
+      var dropDownItem = DropDownItem(value.id.toString(), value.name);
       _categoryList.add(dropDownItem);
 
       /// check if selectedCategoryId exist in category list or not
-      if (widget.deviceDetails?.selectedCategoryId == key && _selectedCategory == null) {
+      if (widget.deviceDetails?.selectedCategoryId == value.id && _selectedCategory == null) {
         _selectedCategory = dropDownItem;
       }
     });
-    if (_selectedCategory?.id != "1") {
+    if (_selectedCategory?.id != DeviceCategoryIdType.mobile.value) {
       _isImeiVerified = true;
     }
     AnalyticsController.logEvent(DeviceVerifyPopupEvent(widget.scannedData, _selectedCategory?.id));

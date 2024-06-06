@@ -25,6 +25,8 @@ class _ManualTesting with _CommonKeys {
 
   final String productSearchClicked = "dmt_product_search_clicked";
 
+  final String variantSearchClicked = "dmt_variant_search_clicked";
+
   final String endTestingSession = "dmt_end_testing_session";
 
   final String colorSelected = "dmt_color_selected";
