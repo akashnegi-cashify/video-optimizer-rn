@@ -237,7 +237,8 @@ dependency_overrides:
       url: https://github.com/reglobe/flutter_packages.git
       ref: v2.0.6
       path: calculator
-
+  video_optimizer:
+    path: ../flutter_packages/video_optimizer
 
 
 
