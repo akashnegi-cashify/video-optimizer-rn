@@ -153,6 +153,7 @@ class ProductListWidget extends StatelessWidget {
         deviceBarcode,
         deviceType: DeviceType.lob_device,
         selectedCategoryId: selectedCategoryId,
+        variantData: variantItem,
       );
       Navigator.popUntil(context, (route) => route is PageRoute); // Dismiss all dialog
       Navigator.pushReplacementNamed(context, CalculationScreen.route);

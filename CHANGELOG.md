@@ -1,6 +1,13 @@
 # TRC Releases
 
 
+# v3.2.6+44 (XX-06-2024)
+
+### Feature:
+
+* `QC - Manual Testing - show variant list for laptop.`[(SCM-6411)](https://reglobe.atlassian.net/browse/SCM-6411)
+
+
 # v3.2.5+43 (05-06-2024)
 
 ### Feature:
