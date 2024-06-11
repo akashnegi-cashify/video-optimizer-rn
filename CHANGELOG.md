@@ -7,6 +7,7 @@
 
 * `Generic Media - Remove Audio from videos.`[(SCM-6555)](https://reglobe.atlassian.net/browse/SCM-6555)
 * `Add CrashLytics.`[(SCM-6554)](https://reglobe.atlassian.net/browse/SCM-6554)
+* `QC - Add login analytics.`[(SCM-6542)](https://reglobe.atlassian.net/browse/SCM-6542)
 * `Few depencies updates.`
 
 
