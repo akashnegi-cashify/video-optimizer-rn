@@ -11,6 +11,7 @@ class VideoOptimizerConfig {
   final int? fontSize;
   final String? fontColor;
   final String? borderColor;
+  final bool? isRemoveAudio;
 
   VideoOptimizerConfig({
     this.crf,
@@ -20,6 +21,7 @@ class VideoOptimizerConfig {
     this.fontSize,
     this.fontColor,
     this.borderColor,
+    this.isRemoveAudio = false,
   });
 
   static VideoOptimizerConfig fromJson(Map<String, dynamic> data) => _$VideoOptimizerConfigFromJson(data);

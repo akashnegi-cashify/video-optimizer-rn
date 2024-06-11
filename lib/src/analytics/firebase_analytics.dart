@@ -24,7 +24,7 @@ class FirebaseAnalyticsHelper {
     return _observer;
   }
 
-  static Future<void> sendAnalyticsEvent({required String name, Map<String, dynamic>? parameters}) async {
+  static Future<void> sendAnalyticsEvent({required String name, Map<String, Object>? parameters}) async {
     if (firebaseAnalytics == null) {
       print('Call FirebaseHelper.initialize() before using sendAnalyticsEvent method. Called event: $name');
       return;

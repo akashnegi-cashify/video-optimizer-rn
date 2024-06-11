@@ -26,6 +26,7 @@ class VideoUtil {
       onProgressEnd: onProgressEnd,
       onProgress: onProgress,
       onError: onError,
+      isRemoveAudio: config.isRemoveAudio ?? false,
       onProgressStart: onProgressStart,
       timeConfig: Validator.isTrue(config.addTimeStamp)
           ? VideoTimeConfig(
