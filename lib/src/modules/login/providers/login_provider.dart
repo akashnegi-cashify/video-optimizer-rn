@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:components/auth/handler/auth_handler.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/qc_login_event.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
-import 'package:core/core.dart';
 
 import '../../elss/common_resources/elss_service.dart';
 import '../models/send_otp_response.dart';
@@ -86,6 +88,7 @@ class TRCLoginProvider extends CshChangeNotifier {
             UserDetails().setUserDetailsData(event.accessToken!);
             if (Validator.isTrue(loginFromQc)) {
               AppPreferences().setIsLoginFromQC(true);
+              _fireLoginAnalytics();
               await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
                   loginToken: event.accessToken!, loginFromQC: true, loginFromShipex: false);
             } else if (Validator.isTrue(loginForShipex)) {
@@ -149,5 +152,9 @@ class TRCLoginProvider extends CshChangeNotifier {
 
     otpResponse = null;
     notifyListeners();
+  }
+
+  void _fireLoginAnalytics() {
+    AnalyticsController.logEvent(QcLoginEvent());
   }
 }

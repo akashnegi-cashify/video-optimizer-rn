@@ -75,3 +75,7 @@ Step2 :
 
 - bundletool build-apks --bundle=/Users/msc/Downloads/app-prod-release.aab --output=phoneshop.apks --ks=/Users/ravi/Workspace/Android/deploy_keys/deploy_keys_v2.jks --ks-key-alias=cashify
 - bundletool install-apks --apks=/Users/ravi/Workspace/Flutter/flutter_phoneshop/phoneshop.apks --adb=./adb
+
+### Crashlytics - Android
+- flutterfire configure
+- firebase crashlytics:symbols:upload --app=FIREBASE_APP_ID PATH/TO/symbols

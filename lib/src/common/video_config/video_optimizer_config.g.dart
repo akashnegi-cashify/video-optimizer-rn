@@ -16,6 +16,7 @@ VideoOptimizerConfig _$VideoOptimizerConfigFromJson(
       fontSize: json['fontSize'] as int?,
       fontColor: json['fontColor'] as String?,
       borderColor: json['borderColor'] as String?,
+      isRemoveAudio: json['isRemoveAudio'] as bool?,
     );
 
 Map<String, dynamic> _$VideoOptimizerConfigToJson(
@@ -28,4 +29,5 @@ Map<String, dynamic> _$VideoOptimizerConfigToJson(
       'fontSize': instance.fontSize,
       'fontColor': instance.fontColor,
       'borderColor': instance.borderColor,
+      'isRemoveAudio': instance.isRemoveAudio,
     };

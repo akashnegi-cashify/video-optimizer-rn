@@ -1,8 +1,9 @@
 final class AnalyticEventKeys {
   static final manualTesting = _ManualTesting();
+  static final common = _CommonKeys();
 }
 
-class _ManualTesting with _CommonKeys {
+class _ManualTesting extends _CommonKeys {
   _ManualTesting._private();
 
   static final _ManualTesting _instance = _ManualTesting._private();
@@ -49,6 +50,7 @@ class _ManualTesting with _CommonKeys {
 
 }
 
-mixin _CommonKeys {
+class _CommonKeys {
+  final String qcLogin = "qc_login";
   final String login = "login";
 }

@@ -1,11 +1,19 @@
 # TRC Releases
 
-
-# v3.2.6+44 (XX-06-2024)
+# v3.2.7+45 (XX-06-2024)
 
 ### Feature:
 
 * `QC - Manual Testing - show variant list for laptop.`[(SCM-6411)](https://reglobe.atlassian.net/browse/SCM-6411)
+
+# v3.2.6+44 (12-06-2024)
+
+### Feature:
+
+* `Generic Media - Remove Audio from videos.`[(SCM-6555)](https://reglobe.atlassian.net/browse/SCM-6555)
+* `Add CrashLytics.`[(SCM-6554)](https://reglobe.atlassian.net/browse/SCM-6554)
+* `QC - Add login analytics.`[(SCM-6542)](https://reglobe.atlassian.net/browse/SCM-6542)
+* `Few depencies updates.`
 
 
 # v3.2.5+43 (05-06-2024)
