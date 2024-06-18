@@ -491,8 +491,8 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: i-radiolist
-      resolved-ref: "03bbdab3d31830bd9f757db4da93345fdb742839"
+      ref: f_btn_multiclick
+      resolved-ref: "757337d92018efccb5cc00e3e534d67541553ce0"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "2.0.0"
