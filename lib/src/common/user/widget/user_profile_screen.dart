@@ -20,7 +20,7 @@ class UserProfileScreen extends StatelessWidget {
       appBar: const QcGeneralHeader("Profile", showBackBtn: true, showLogoutButton: false, showProfileButton: false),
       body: Padding(
         padding: const EdgeInsets.all(Dimens.space_16),
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
@@ -37,24 +37,6 @@ class UserProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: Dimens.space_16),
               CshTextNew.h3('Welcome ${userDetailsData?.userName}'),
-              const SizedBox(height: Dimens.space_16),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(Dimens.space_8),
-                decoration: BoxDecoration(
-                  border: Border.all(color: theme.primaryColor, width: 1),
-                  borderRadius: BorderRadius.circular(Dimens.space_6),
-                ),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(text: 'Qc Onsite Role - ', style: theme.textTheme.bodyMedium),
-                      TextSpan(text: '${userDetailsData?.role}', style: theme.textTheme.titleSmall),
-                    ],
-                  ),
-                ),
-              ),
               const SizedBox(height: Dimens.space_16),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
@@ -91,7 +73,22 @@ class UserProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(height: Dimens.space_16),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(Dimens.space_8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: theme.primaryColor, width: 1),
+                  borderRadius: BorderRadius.circular(Dimens.space_6),
+                ),
+                child: Row(
+                  children: [
+                    _buildPermissionWidget(context, userDetailsData?.listOfRoles ?? []),
+                  ],
+                ),
+              ),
+              const SizedBox(height: Dimens.space_16),
               CshBigButton(
                   text: "Logout",
                   onPressed: () async {
@@ -108,5 +105,19 @@ class UserProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _buildPermissionWidget(BuildContext context, List<String> roleList) {
+    var theme = Theme.of(context);
+    var listWidget = List.generate(
+      roleList.length,
+      (index) => Chip(
+        label: Text(roleList[index], style: theme.primaryTextTheme.bodySmall),
+        backgroundColor: theme.primaryColor.withAlpha(50),
+        elevation: 1,
+        visualDensity: VisualDensity.compact,
+      ),
+    );
+    return Expanded(child: Wrap(spacing: Dimens.space_8, children: listWidget));
   }
 }
