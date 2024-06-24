@@ -326,7 +326,7 @@ packages:
     source: git
     version: "2.0.0"
   camera:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: camera
       sha256: "9499cbc2e51d8eb0beadc158b288380037618ce4e30c9acbc4fae1ac3ecb5797"
@@ -597,7 +597,7 @@ packages:
     source: hosted
     version: "7.0.0"
   dio:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: dio
       sha256: "11e40df547d418cc0c4900a9318b26304e665da6fa4755399a9ff9efd09034b5"
@@ -1129,7 +1129,7 @@ packages:
     source: hosted
     version: "0.2.0"
   graphs:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: graphs
       sha256: f9e130f3259f52d26f0cfc0e964513796dafed572fa52e45d2f8d6ca14db39b2
@@ -1188,10 +1188,10 @@ packages:
     dependency: "direct main"
     description:
       name: image
-      sha256: "4c68bfd5ae83e700b5204c1e74451e7bf3cf750e6843c6e158289cf56bda018e"
+      sha256: "2237616a36c0d69aef7549ab439b833fb7f9fb9fc861af2cc9ac3eedddd69ca8"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.7"
+    version: "4.2.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -1407,10 +1407,10 @@ packages:
     dependency: "direct main"
     description:
       name: lottie
-      sha256: a93542cc2d60a7057255405f62252533f8e8956e7e06754955669fd32fb4b216
+      sha256: "6a24ade5d3d918c306bb1c21a6b9a04aab0489d51a2582522eea820b4093b62b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.0"
+    version: "3.1.2"
   matcher:
     dependency: transitive
     description:
@@ -2279,7 +2279,7 @@ packages:
     source: hosted
     version: "1.1.0"
   watcher:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: watcher
       sha256: "3d2ad6751b3c16cf07c7fca317a1413b3f26530319181b37e3b9039b84fc01d8"

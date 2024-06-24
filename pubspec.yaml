@@ -136,7 +136,7 @@ dependencies:
   flutter_feather_icons: ^2.0.0+1
   firebase_core: ^3.0.0
   firebase_analytics: ^11.0.0
-  lottie: ^2.0.0
+  lottie: ^3.1.2
   jwt_decoder: ^2.0.1
   cached_network_image: ^3.3.0
   image_picker: ^1.0.4
@@ -149,7 +149,7 @@ dependencies:
   video_compress: ^3.1.2
   path_provider: ^2.0.15
   firebase_remote_config: ^5.0.0
-  image: ^4.0.17
+  image: ^4.2.0
   url_launcher: ^6.1.12
   flutter_tts: ^4.0.2
   #  ffmpeg_kit_flutter_video: 5.1.0
@@ -192,10 +192,10 @@ dependency_overrides:
   #  flutter_html: ^2.2.1
   intl: ^0.18.0
   visibility_detector: ^0.3.3
-  graphs: 2.2.0
-  camera: ^0.10.5+3
-  watcher: ^1.1.0
-  dio: ^5.3.2
+#  graphs: 2.2.0
+#  camera: ^0.10.5+3
+#  watcher: ^1.1.0
+#  dio: ^5.3.2
   flutter_image_compress: ^2.0.4
   connectivity_plus: ^4.0.2
   image_picker: ^1.0.4
@@ -204,6 +204,7 @@ dependency_overrides:
   file_picker: ^8.0.3
   http: ^0.13.4
   firebase_core: ^3.0.0
+  lottie: ^3.1.2
   csh_annotation:
     git:
       url: https://github.com/reglobe/flutter_packages.git
@@ -229,11 +230,6 @@ dependency_overrides:
       url: https://github.com/reglobe/flutter_admin_ui.git
       ref: f_btn_multiclick
       path: core_widgets
-  calculator_ui:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.0.0
-      path: calculator_ui
   calculator:
     git:
       url: https://github.com/reglobe/flutter_packages.git

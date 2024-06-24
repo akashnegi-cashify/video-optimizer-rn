@@ -114,9 +114,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
               widget.onScanDetected(_textEditController.text, _mlScannerController, isManualEntry: true);
               _textEditController.clear();
               setState(() {});
-              Future.delayed(const Duration(milliseconds: 500), () {
-                controller.stopLoading();
-              });
+              controller.stopLoading();
             }
           : null,
     );
