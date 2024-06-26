@@ -44,7 +44,7 @@ class _AddPartItemListState extends State<AddPartItemList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (!Validator.isNullOrEmpty(widget.dataModel?.productName)) ...[
-                            Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.headline3),
+                            Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.displaySmall),
                             const SizedBox(height: Dimens.space_8),
                           ],
                           if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
@@ -106,12 +106,12 @@ class _AddPartItemListState extends State<AddPartItemList> {
   _labelAndValueWidget(ThemeData theme, String label, String value) {
     return Row(
       children: [
-        Text("$label: ", style: theme.primaryTextTheme.headline4),
+        Text("$label: ", style: theme.primaryTextTheme.headlineMedium),
         const SizedBox(width: Dimens.space_2),
         Expanded(
             child: Text(
           value,
-          style: theme.primaryTextTheme.bodyText2,
+          style: theme.primaryTextTheme.bodyMedium,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ))

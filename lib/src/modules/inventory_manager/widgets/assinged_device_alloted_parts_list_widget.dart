@@ -33,7 +33,7 @@ class AssignedDeviceAllottedPartsList extends StatelessWidget {
                   Expanded(
                     child: Text(
                       errorMessage!,
-                      style: theme.primaryTextTheme.headline4,
+                      style: theme.primaryTextTheme.headlineMedium,
                     ),
                   )
                 ],

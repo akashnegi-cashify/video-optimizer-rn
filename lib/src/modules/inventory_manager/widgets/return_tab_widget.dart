@@ -80,7 +80,7 @@ class _ReturnTabWidgetState extends PaginatedListState<ReturnItemData, ReturnTab
               return Center(
                 child: Text(
                   l10n.noDataFound,
-                  style: theme.primaryTextTheme.subtitle1,
+                  style: theme.primaryTextTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
               );
@@ -93,7 +93,7 @@ class _ReturnTabWidgetState extends PaginatedListState<ReturnItemData, ReturnTab
                     Expanded(
                       child: Text(
                         error,
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                         textAlign: TextAlign.center,
                       ),
                     )

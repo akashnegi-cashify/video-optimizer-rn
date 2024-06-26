@@ -88,7 +88,7 @@ class _PendingPartDetailsWidget extends StatelessWidget {
                   Expanded(
                     child: Text(
                       provider.errorMessage,
-                      style: theme.primaryTextTheme.headline4,
+                      style: theme.primaryTextTheme.headlineMedium,
                     ),
                   )
                 ],
@@ -115,7 +115,7 @@ class _PendingPartDetailsWidget extends StatelessWidget {
                         prefixIcon: CshIcon(
                           FeatherIcons.refreshCw,
                           padding: const EdgeInsets.only(right: Dimens.space_6),
-                          iconColor: theme.backgroundColor,
+                          iconColor: theme.colorScheme.surface,
                           iconSize: MobileIconSize.medium,
                         ),
                         onPressed: () {
@@ -222,7 +222,7 @@ class _PendingPartDetailsWidget extends StatelessWidget {
           children: [
             Text(
               l10n.areYouSureYouWantToLinkDeadPart,
-              style: theme.primaryTextTheme.headline3,
+              style: theme.primaryTextTheme.displaySmall,
             ),
             const SizedBox(height: Dimens.space_16),
             ComboButton(
@@ -253,7 +253,7 @@ class _PendingPartDetailsWidget extends StatelessWidget {
           children: [
             Text(
               l10n.areYouSureYouWantToCancel,
-              style: theme.primaryTextTheme.headline3,
+              style: theme.primaryTextTheme.displaySmall,
             ),
             const SizedBox(height: Dimens.space_16),
             ComboButton(
@@ -321,7 +321,7 @@ class _PendingPartDetailsWidget extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(width: Dimens.space_8),
@@ -329,7 +329,7 @@ class _PendingPartDetailsWidget extends StatelessWidget {
           child: Text(
             value,
             textDirection: TextDirection.rtl,
-            style: theme.primaryTextTheme.headline5,
+            style: theme.primaryTextTheme.headlineSmall,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

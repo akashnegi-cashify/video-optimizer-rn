@@ -48,7 +48,7 @@ class QcDashboardBody extends StatelessWidget {
                 ? Center(
                     child: Text(
                       provider.qcReportData.errorMsg ?? "",
-                      style: theme.primaryTextTheme.headline4,
+                      style: theme.primaryTextTheme.headlineMedium,
                       textAlign: TextAlign.center,
                     ),
                   )

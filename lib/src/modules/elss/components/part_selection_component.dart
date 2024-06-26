@@ -50,7 +50,7 @@ class PartSelectionComponent extends StatelessComponent<NoneConfigModel> {
                       child: Text(
                         (provider.apiErrorMessage.isNotEmpty) ? provider.apiErrorMessage : "No Data Found",
                         textAlign: TextAlign.center,
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                       ),
                     )
                   : _PartSelection(scannedBarCode: param.scannedBarcode ?? "");
@@ -95,7 +95,7 @@ class _PartSelection extends StatelessWidget {
               Expanded(
                 child: Text(
                   provider.elssDeviceDetails!.errorMessage!,
-                  style: theme.primaryTextTheme.headline3,
+                  style: theme.primaryTextTheme.displaySmall,
                   textAlign: TextAlign.center,
                 ),
               ),

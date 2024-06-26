@@ -27,8 +27,8 @@ extension DialogUtil on BuildContext {
                     children: [
                       if (negativeButtonData != null)
                         CshMediumOutlineButton(
-                          textColor: Theme.of(context).errorColor,
-                          bgColor: Theme.of(context).errorColor,
+                          textColor: Theme.of(context).colorScheme.error,
+                          bgColor: Theme.of(context).colorScheme.error,
                           text: negativeButtonData(context).buttonText,
                           onPressed: negativeButtonData(context).onPress,
                         ),

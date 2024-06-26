@@ -94,7 +94,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         l10n.resendOtp,
-                        style: theme.primaryTextTheme.bodyText1?.copyWith(color: theme.primaryColor),
+                        style: theme.primaryTextTheme.bodyLarge?.copyWith(color: theme.primaryColor),
                       ),
                     ),
                   )
@@ -103,11 +103,11 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                     children: [
                       Text(
                         '${l10n.resendOtp} | ',
-                        style: theme.primaryTextTheme.bodyText1,
+                        style: theme.primaryTextTheme.bodyLarge,
                       ),
                       Text(
                         '${provider.start}',
-                        style: theme.primaryTextTheme.bodyText1,
+                        style: theme.primaryTextTheme.bodyLarge,
                       ),
                     ],
                   ),

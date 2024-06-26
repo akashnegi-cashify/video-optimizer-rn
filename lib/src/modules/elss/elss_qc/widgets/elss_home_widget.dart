@@ -121,9 +121,9 @@ class ElssHomeWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("$label:", style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor)),
+        Text("$label:", style: theme.primaryTextTheme.labelLarge?.copyWith(color: theme.shadowColor)),
         const SizedBox(height: Dimens.space_2),
-        Text(value, style: theme.primaryTextTheme.subtitle2),
+        Text(value, style: theme.primaryTextTheme.titleSmall),
       ],
     );
   }

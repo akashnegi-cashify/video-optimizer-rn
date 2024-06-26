@@ -41,11 +41,11 @@ class ChannelOptionCardWidget extends StatelessWidget {
                         RichText(
                           text: TextSpan(
                             text: "${l10n.channelSuggestionCost}: ",
-                            style: theme.primaryTextTheme.headline5,
+                            style: theme.primaryTextTheme.headlineSmall,
                             children: <TextSpan>[
                               TextSpan(
                                 text: l10n.formatPrice(dataModel?.channelOptionPrice, defaultValue: 0),
-                                style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+                                style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
                               ),
                             ],
                           ),
@@ -54,11 +54,11 @@ class ChannelOptionCardWidget extends StatelessWidget {
                         RichText(
                           text: TextSpan(
                             text: "${l10n.repairType}: ",
-                            style: theme.primaryTextTheme.overline,
+                            style: theme.primaryTextTheme.labelLarge,
                             children: <TextSpan>[
                               TextSpan(
                                 text: dataModel!.channelName!,
-                                style: theme.primaryTextTheme.headline5,
+                                style: theme.primaryTextTheme.headlineSmall,
                               ),
                             ],
                           ),

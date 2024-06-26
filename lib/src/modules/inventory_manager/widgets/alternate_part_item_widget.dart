@@ -31,7 +31,7 @@ class AlternatePartItemWidget extends StatelessWidget {
                       Expanded(
                         child: Text(
                           dataModel!.productName!,
-                          style: theme.primaryTextTheme.headline4,
+                          style: theme.primaryTextTheme.headlineMedium,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -47,7 +47,7 @@ class AlternatePartItemWidget extends StatelessWidget {
                       Expanded(
                         child: Text(
                           dataModel!.sku!,
-                          style: theme.primaryTextTheme.headline4,
+                          style: theme.primaryTextTheme.headlineMedium,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),

@@ -132,8 +132,8 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                   child: CshMediumOutlineButton(
                     text: l10n.reject,
                     onPressed: () => _onRejectElss(),
-                    borderColor: theme.errorColor,
-                    textColor: theme.errorColor,
+                    borderColor: theme.colorScheme.error,
+                    textColor: theme.colorScheme.error,
                   ),
                 ),
                 const SizedBox(width: Dimens.space_20),
@@ -239,7 +239,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
               child: Text(
                 l10n.selectPartsForPna,
-                style: theme.primaryTextTheme.headline3,
+                style: theme.primaryTextTheme.displaySmall,
               ),
             ),
             const SizedBox(height: Dimens.space_8),
@@ -315,7 +315,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
               child: Text(
                 l10n.selectPartsForPna,
-                style: theme.primaryTextTheme.headline3,
+                style: theme.primaryTextTheme.displaySmall,
               ),
             ),
             const SizedBox(height: Dimens.space_8),

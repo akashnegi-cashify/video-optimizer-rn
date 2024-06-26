@@ -76,7 +76,7 @@ class _SubOrderGroupTabWidgetState extends PaginatedListState<SubOrderGroupListD
               return Center(
                 child: Text(
                   l10n.noDataFound,
-                  style: theme.primaryTextTheme.subtitle1,
+                  style: theme.primaryTextTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
               );
@@ -89,7 +89,7 @@ class _SubOrderGroupTabWidgetState extends PaginatedListState<SubOrderGroupListD
                     Expanded(
                       child: Text(
                         error,
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                         textAlign: TextAlign.center,
                       ),
                     )

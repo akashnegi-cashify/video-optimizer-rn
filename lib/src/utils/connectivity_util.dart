@@ -7,7 +7,8 @@ class ConnectivityUtil {
     Completer<bool> completer = Completer();
 
     Connectivity().checkConnectivity().then((connectivityResult) {
-      if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+      if (connectivityResult.contains(ConnectivityResult.mobile) ||
+          connectivityResult.contains(ConnectivityResult.wifi)) {
         completer.complete(true);
       } else {
         completer.complete(false);

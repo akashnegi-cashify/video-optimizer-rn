@@ -66,7 +66,7 @@ class TrcAndQcLoginWidget extends StatelessWidget {
             future: RemoteConfigHelper().fetchAndActivate(),
           ),
           Text("App Version - ${environment?.appVersion}",
-              textAlign: TextAlign.center, style: theme.primaryTextTheme.subtitle2),
+              textAlign: TextAlign.center, style: theme.primaryTextTheme.titleSmall),
         ],
       ),
     );

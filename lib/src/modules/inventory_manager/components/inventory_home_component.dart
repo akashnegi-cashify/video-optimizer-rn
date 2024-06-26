@@ -53,7 +53,7 @@ class InventoryHomeComponent extends StatelessComponent<NoneConfigModel> {
                   Expanded(
                     child: Text(
                       provider.errorMessage!,
-                      style: theme.primaryTextTheme.headline4,
+                      style: theme.primaryTextTheme.headlineMedium,
                       textAlign: TextAlign.center,
                     ),
                   )

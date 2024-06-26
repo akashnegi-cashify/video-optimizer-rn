@@ -158,7 +158,7 @@ class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
         child: Text(
           label,
           textAlign: TextAlign.center,
-          style: theme.primaryTextTheme.headline6?.copyWith(color: theme.backgroundColor),
+          style: theme.primaryTextTheme.titleLarge?.copyWith(color: theme.colorScheme.surface),
         ),
       ),
     );

@@ -51,7 +51,7 @@ class _QcPendingTabWidgetState extends State<QcPendingTabWidget> {
             Expanded(
               child: Text(
                 provider.errorMessage,
-                style: theme.primaryTextTheme.headline4,
+                style: theme.primaryTextTheme.headlineMedium,
                 textAlign: TextAlign.center,
               ),
             )

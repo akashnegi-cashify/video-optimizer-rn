@@ -32,14 +32,14 @@ class UserRoles {
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
       {String? loginToken, bool? loginFromQC = false, bool? loginFromShipex = false}) async {
-    var amplifyPro = AmplifyProvider.of(context, listen: false);
+    // var amplifyPro = AmplifyProvider.of(context, listen: false);
     if (Validator.isTrue(loginFromShipex)) {
       Navigator.of(context).pushNamedAndRemoveUntil(ShipexHomeScreen.route, (route) => false);
     } else if (loginFromQC == true) {
-      amplifyPro.getS3DetailsForQcAndConfigAmplify();
+      // amplifyPro.getS3DetailsForQcAndConfigAmplify();
       Navigator.of(context).pushNamedAndRemoveUntil(QcActionScreen.route, (route) => false);
     } else {
-      amplifyPro.getS3DetailsForTrcAndConfigureAmplify();
+      // amplifyPro.getS3DetailsForTrcAndConfigureAmplify();
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
         ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: loginFromQC);
         Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: args);

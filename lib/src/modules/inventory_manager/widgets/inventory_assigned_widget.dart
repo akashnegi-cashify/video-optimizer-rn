@@ -144,7 +144,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
                 ),
                 Text(
                   l10n.showUrgentRequestsOnly,
-                  style: theme.primaryTextTheme.headline4,
+                  style: theme.primaryTextTheme.headlineMedium,
                 )
               ],
             ),
@@ -175,7 +175,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
               return Center(
                 child: Text(
                   l10n.noDataFound,
-                  style: theme.primaryTextTheme.subtitle1,
+                  style: theme.primaryTextTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
               );
@@ -188,7 +188,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
                     Expanded(
                       child: Text(
                         error,
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -296,7 +296,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
                               Expanded(
                                 child: Text(
                                   dataList[index].riderName ?? "",
-                                  style: theme.primaryTextTheme.headline4,
+                                  style: theme.primaryTextTheme.headlineMedium,
                                 ),
                               )
                             ],

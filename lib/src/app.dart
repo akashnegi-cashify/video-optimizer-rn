@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:builder_project/builder_project.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -39,7 +38,7 @@ class CashifyApp extends StatefulWidget {
 class _CashifyAppState extends State<CashifyApp> {
   final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: false);
   GlobalKey<NavigatorState>? _navKey = GlobalKey<NavigatorState>();
-  StreamSubscription<ConnectivityResult>? _connectionSubscription;
+  // StreamSubscription<ConnectivityResult>? _connectionSubscription;
 
   @override
   void initState() {
@@ -52,30 +51,30 @@ class _CashifyAppState extends State<CashifyApp> {
     SessionExpiredCallback().setCallback(onSessionExpire);
     CashifyAlertHandler().setAlertCallback(registerAlert);
 
-    _connectionSubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
-      switch (result) {
-        case ConnectivityResult.none:
-          // TODO: Dev Action Required -> show no internet ui
-          // Navigator.pushReplacementNamed(_navKey.currentState.context, NoInternetScreen.routeName);
-          break;
-
-        case ConnectivityResult.wifi:
-        case ConnectivityResult.mobile:
-          // TODO: Dev Action Required -> Pass the NoInternetScreen route name
-          if (_navKey != null && _navKey!.currentContext != null) {
-            CshRouteObserver().openScreenBeforeInternetError(_navKey!.currentContext!, '' /* Route name */);
-          }
-          break;
-        case ConnectivityResult.bluetooth:
-          break;
-        case ConnectivityResult.ethernet:
-          break;
-        case ConnectivityResult.vpn:
-          break;
-        case ConnectivityResult.other:
-          break;
-      }
-    });
+    // _connectionSubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
+    //   switch (result) {
+    //     case ConnectivityResult.none:
+    //       // TODO: Dev Action Required -> show no internet ui
+    //       // Navigator.pushReplacementNamed(_navKey.currentState.context, NoInternetScreen.routeName);
+    //       break;
+    //
+    //     case ConnectivityResult.wifi:
+    //     case ConnectivityResult.mobile:
+    //       // TODO: Dev Action Required -> Pass the NoInternetScreen route name
+    //       if (_navKey != null && _navKey!.currentContext != null) {
+    //         CshRouteObserver().openScreenBeforeInternetError(_navKey!.currentContext!, '' /* Route name */);
+    //       }
+    //       break;
+    //     case ConnectivityResult.bluetooth:
+    //       break;
+    //     case ConnectivityResult.ethernet:
+    //       break;
+    //     case ConnectivityResult.vpn:
+    //       break;
+    //     case ConnectivityResult.other:
+    //       break;
+    //   }
+    // });
   }
 
   Future<String> onSessionExpire() async {
@@ -90,9 +89,9 @@ class _CashifyAppState extends State<CashifyApp> {
 
   @override
   void dispose() {
-    if (_connectionSubscription != null) {
-      _connectionSubscription!.cancel();
-    }
+    // if (_connectionSubscription != null) {
+    //   _connectionSubscription!.cancel();
+    // }
     super.dispose();
   }
 

@@ -106,7 +106,7 @@ class _AddPartListWidgetTrcState extends State<AddPartListWidgetTrc> {
                         : Center(
                             child: Text(
                               l10n.noResultsFound,
-                              style: theme.primaryTextTheme.headline3,
+                              style: theme.primaryTextTheme.displaySmall,
                             ),
                           ),
                   ),
@@ -161,7 +161,7 @@ class _AddPartListWidgetTrcState extends State<AddPartListWidgetTrc> {
         : Center(
             child: Text(
               l10n.noPartsFound,
-              style: theme.primaryTextTheme.headline3,
+              style: theme.primaryTextTheme.displaySmall,
             ),
           );
   }

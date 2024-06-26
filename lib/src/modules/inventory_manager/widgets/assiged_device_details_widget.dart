@@ -40,7 +40,7 @@ class AssignedDeviceDetailsWidget extends StatelessWidget {
                         Expanded(
                           child: Text(
                             errorMessage!,
-                            style: theme.primaryTextTheme.headline4,
+                            style: theme.primaryTextTheme.headlineMedium,
                           ),
                         ),
                       ],
@@ -78,14 +78,14 @@ class AssignedDeviceDetailsWidget extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.headline4?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(width: Dimens.space_8),
         Expanded(
           child: Text(
             value,
-            style: theme.primaryTextTheme.headline4,
+            style: theme.primaryTextTheme.headlineMedium,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textDirection: TextDirection.rtl,

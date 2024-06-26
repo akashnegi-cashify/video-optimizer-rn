@@ -34,7 +34,7 @@ class InventoryPendingDeliveryWidgetState
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(l10n.noDataFound, style: theme.primaryTextTheme.subtitle1),
+                  Text(l10n.noDataFound, style: theme.primaryTextTheme.titleMedium),
                   const SizedBox(height: core.Dimens.space_12),
                   core.CshMediumButton(
                     text: l10n.refresh,
@@ -50,7 +50,7 @@ class InventoryPendingDeliveryWidgetState
                 child: Row(
                   children: [
                     const SizedBox.shrink(),
-                    Expanded(child: Text(error, style: theme.primaryTextTheme.headline3, textAlign: TextAlign.center))
+                    Expanded(child: Text(error, style: theme.primaryTextTheme.displaySmall, textAlign: TextAlign.center))
                   ],
                 ),
               );

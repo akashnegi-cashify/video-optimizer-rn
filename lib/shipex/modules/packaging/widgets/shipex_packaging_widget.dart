@@ -26,8 +26,8 @@ class ShipexPackagingWidget extends StatelessWidget {
             bottom: TabBar(
               indicatorColor: theme.primaryColor,
               indicatorWeight: Dimens.space_4,
-              unselectedLabelStyle: theme.primaryTextTheme.bodyText2,
-              labelStyle: theme.primaryTextTheme.headline4,
+              unselectedLabelStyle: theme.primaryTextTheme.bodyMedium,
+              labelStyle: theme.primaryTextTheme.headlineMedium,
               tabs: [
                 Text(l10n.newString.toUpperCase()),
                 Text(l10n.pending.toUpperCase()),

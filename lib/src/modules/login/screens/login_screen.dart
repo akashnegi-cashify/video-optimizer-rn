@@ -83,9 +83,9 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(l10n.trcLogin, style: theme.primaryTextTheme.headline1),
+                          Text(l10n.trcLogin, style: theme.primaryTextTheme.displayLarge),
                           const SizedBox(height: Dimens.space_2),
-                          Text(l10n.pleaseEnterYourEmployeeId, style: theme.primaryTextTheme.bodyText2),
+                          Text(l10n.pleaseEnterYourEmployeeId, style: theme.primaryTextTheme.bodyMedium),
                           const SizedBox(height: Dimens.space_16),
                         ],
                       ),
@@ -93,9 +93,9 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(l10n.qcLogin, style: theme.primaryTextTheme.headline1),
+                          Text(l10n.qcLogin, style: theme.primaryTextTheme.displayLarge),
                           const SizedBox(height: Dimens.space_2),
-                          Text(l10n.pleaseEnterMobileNumber, style: theme.primaryTextTheme.bodyText2),
+                          Text(l10n.pleaseEnterMobileNumber, style: theme.primaryTextTheme.bodyMedium),
                           const SizedBox(height: Dimens.space_16),
                         ],
                       ),
@@ -103,9 +103,9 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(l10n.shipexLogin, style: theme.primaryTextTheme.headline1),
+                          Text(l10n.shipexLogin, style: theme.primaryTextTheme.displayLarge),
                           const SizedBox(height: Dimens.space_2),
-                          Text(l10n.pleaseEnterMobileNumber, style: theme.primaryTextTheme.bodyText2),
+                          Text(l10n.pleaseEnterMobileNumber, style: theme.primaryTextTheme.bodyMedium),
                           const SizedBox(height: Dimens.space_16),
                         ],
                       ),

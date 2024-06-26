@@ -113,7 +113,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTi
                 children: [
                   Text(
                     l10n.selectGroupNameS,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
                   Expanded(
@@ -137,7 +137,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTi
                                 Expanded(
                                   child: Text(
                                     provider.listOfGroupLocation[index].locationName ?? "",
-                                    style: theme.primaryTextTheme.headline3,
+                                    style: theme.primaryTextTheme.displaySmall,
                                   ),
                                 )
                               ],

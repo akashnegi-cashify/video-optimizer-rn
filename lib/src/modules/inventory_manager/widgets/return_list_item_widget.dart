@@ -45,14 +45,14 @@ class ReturnListItemWidget extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.overline?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(height: Dimens.space_6),
         Expanded(
           child: Text(
             value,
-            style: theme.primaryTextTheme.subtitle2,
+            style: theme.primaryTextTheme.titleSmall,
           ),
         ),
       ],

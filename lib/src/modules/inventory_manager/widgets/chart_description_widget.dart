@@ -23,7 +23,7 @@ class ChartDescriptionWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: theme.primaryTextTheme.headline4,
+          style: theme.primaryTextTheme.headlineMedium,
         ),
         const SizedBox(height: Dimens.space_8),
         Row(
@@ -36,11 +36,11 @@ class ChartDescriptionWidget extends StatelessWidget {
               margin: const EdgeInsets.only(top: Dimens.space_16),
             ),
             const SizedBox(width: Dimens.space_16),
-            Expanded(child: Text(description, style: theme.primaryTextTheme.bodyText2)),
+            Expanded(child: Text(description, style: theme.primaryTextTheme.bodyMedium)),
             const SizedBox(width: Dimens.space_16),
             Padding(
               padding: const EdgeInsets.only(top: Dimens.space_16),
-              child: Text(number.toString(), style: theme.primaryTextTheme.headline2),
+              child: Text(number.toString(), style: theme.primaryTextTheme.displayMedium),
             )
           ],
         ),

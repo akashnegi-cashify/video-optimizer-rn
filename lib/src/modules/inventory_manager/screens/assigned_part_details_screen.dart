@@ -100,7 +100,7 @@ class _AssignedPartDetailsCompWidgetState extends State<AssignedPartDetailsCompW
                   Expanded(
                     child: Text(
                       provider.errorMessage,
-                      style: theme.primaryTextTheme.headline4,
+                      style: theme.primaryTextTheme.headlineMedium,
                     ),
                   )
                 ],
@@ -161,7 +161,7 @@ class _AssignedPartDetailsCompWidgetState extends State<AssignedPartDetailsCompW
           children: [
             Text(
               l10n.areYouSureYouWantToCancel,
-              style: theme.primaryTextTheme.headline3,
+              style: theme.primaryTextTheme.displaySmall,
             ),
             const SizedBox(height: Dimens.space_16),
             ComboButton(

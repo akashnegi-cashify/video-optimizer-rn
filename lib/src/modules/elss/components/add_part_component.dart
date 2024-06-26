@@ -46,7 +46,7 @@ class AddPartComponent extends StatelessComponent<NoneConfigModel> {
                   ? Center(
                       child: Text(
                         "No Data Found",
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                       ),
                     )
                   : const _AddPartList();

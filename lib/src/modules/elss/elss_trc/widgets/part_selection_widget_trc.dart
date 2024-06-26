@@ -105,7 +105,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                       },
                     )
                   : Center(
-                      child: Text(l10n.noPartFound, style: theme.primaryTextTheme.headline3),
+                      child: Text(l10n.noPartFound, style: theme.primaryTextTheme.displaySmall),
                     ),
             ),
           if (!_isSearching)
@@ -157,7 +157,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
               ),
               Text(
                 l10n.addPart,
-                style: theme.primaryTextTheme.headline2,
+                style: theme.primaryTextTheme.displayMedium,
               )
             ],
           ),
@@ -188,7 +188,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                       color: theme.primaryColor,
                       child: Text(
                         l10n.swipeUpToOpen,
-                        style: theme.primaryTextTheme.headline3?.copyWith(color: theme.backgroundColor),
+                        style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.colorScheme.surface),
                       ),
                     ),
                   )
@@ -217,7 +217,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                     color: theme.primaryColor,
                     child: Text(
                       l10n.swipeDownToClose,
-                      style: theme.primaryTextTheme.headline3?.copyWith(color: theme.backgroundColor),
+                      style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.colorScheme.surface),
                     ),
                   ),
                   if (!Validator.isListNullOrEmpty(provider.productOptionList))
@@ -320,7 +320,7 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                   (Validator.isListNullOrEmpty(provider.elssPartList))
                       ? l10n.noPartAddedForPna
                       : l10n.selectedPartsForPna,
-                  style: theme.primaryTextTheme.headline3,
+                  style: theme.primaryTextTheme.displaySmall,
                 ),
               ),
               const SizedBox(height: Dimens.space_8),
@@ -391,11 +391,11 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
         return AlertDialog(
           title: Text(
             l10n.submitParts,
-            style: theme.primaryTextTheme.headline3,
+            style: theme.primaryTextTheme.displaySmall,
           ),
           content: Text(
             l10n.areYouSureYouWantToSubmit,
-            style: theme.primaryTextTheme.headline4,
+            style: theme.primaryTextTheme.headlineMedium,
           ),
           actions: [
             CshMediumButton(

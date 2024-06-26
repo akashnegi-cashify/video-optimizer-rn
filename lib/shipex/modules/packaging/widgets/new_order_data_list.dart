@@ -62,7 +62,7 @@ class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrd
               return Center(
                 child: Text(
                   l10n.noNewDataFound,
-                  style: theme.primaryTextTheme.subtitle1,
+                  style: theme.primaryTextTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
               );
@@ -75,7 +75,7 @@ class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrd
                     Expanded(
                       child: Text(
                         error,
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                         textAlign: TextAlign.center,
                       ),
                     )

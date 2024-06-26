@@ -22,8 +22,8 @@ version: 3.2.7+45
 web_version: 1.0.0
 
 environment:
-  sdk: ">=3.0.0 <=3.3.4"
-  flutter: '<=3.19.5'
+  sdk: ">=3.0.0 <=3.4.3"
+  flutter: '<=3.22.2'
 
 dependencies:
   flutter:
@@ -34,100 +34,100 @@ dependencies:
   calculator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: calculator
   core:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: core
 
   localization:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: localization
 
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.0.0
+      ref: main
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: i-radiolist
+      ref: main
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.0.0
+      ref: main
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.0.0
+      ref: main
       path: ml_barcode_scanner
 
   imei_serial_reader:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.0.0
+      ref: main
       path: imei_serial_reader
 
-  s3_file_uploader_interface:
-    git:
-      url: https://github.com/reglobe/flutter_plugins.git
-      ref: prod
-      path: s3_file_uploader_interface
-
-  s3_file_uploader:
-    git:
-      url: https://github.com/reglobe/flutter_plugins.git
-      ref: prod
-      path: s3_file_uploader
+#  s3_file_uploader_interface:
+#    git:
+#      url: https://github.com/reglobe/flutter_plugins.git
+#      ref: prod
+#      path: s3_file_uploader_interface
+#
+#  s3_file_uploader:
+#    git:
+#      url: https://github.com/reglobe/flutter_plugins.git
+#      ref: prod
+#      path: s3_file_uploader
   builder_component:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: builder_component
 
   builder_project:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: builder_project
   csh_db:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: csh_db
 
   csh_annotation:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: csh_annotation
 
   video_optimizer:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: video_optimizer
 
   csh_gallery_view:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: csh_gallery_view
 
   device_info_plus: ^10.1.0
   sentry_flutter: ^7.9.0
-  alice: ^0.3.2
-  connectivity_plus: ^4.0.2
+  alice: ^0.4.2
+  connectivity_plus: ^6.0.3
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.0
@@ -141,7 +141,7 @@ dependencies:
   cached_network_image: ^3.3.0
   image_picker: ^1.0.4
   #  open_filex: ^4.3.2
-  fl_chart: ^0.61.0
+  fl_chart: ^0.68.0
   visibility_detector: ^0.3.3
   file_picker: ^8.0.3
   path: ^1.8.3
@@ -157,7 +157,7 @@ dependencies:
   flutter_image_compress: ^2.0.4
   firebase_crashlytics: ^4.0.0
   qr_flutter: ^4.1.0
-  mobile_scanner: ^4.0.1
+  mobile_scanner: ^5.1.1
   disk_space: ^0.2.1
 
 flutter_launcher_icons:
@@ -180,7 +180,7 @@ dev_dependencies:
   csh_schema_generator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
+      ref: main
       path: csh_schema_generator
 
 
@@ -190,51 +190,83 @@ dependency_overrides:
   #  permission_handler: ^10.2.0
   #  open_filex: ^4.3.2
   #  flutter_html: ^2.2.1
-  intl: ^0.18.0
+  flutter_widget_from_html: ^0.15.1
+  intl: ^0.19.0
+  rxdart: ^0.28.0
   visibility_detector: ^0.3.3
+  uuid: ^4.4.0
+  share_plus_platform_interface: ^4.0.0
 #  graphs: 2.2.0
-#  camera: ^0.10.5+3
+  camera: ^0.11.0+1
 #  watcher: ^1.1.0
 #  dio: ^5.3.2
   flutter_image_compress: ^2.0.4
-  connectivity_plus: ^4.0.2
+  connectivity_plus: ^6.0.3
   image_picker: ^1.0.4
   device_info_plus: ^10.1.0
   package_info_plus: ^4.1.0
   file_picker: ^8.0.3
   http: ^0.13.4
   firebase_core: ^3.0.0
+  permission_handler: ^11.0.1
   lottie: ^3.1.2
   csh_annotation:
-    git:
-      url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
-      path: csh_annotation
+    path: ../flutter_packages/csh_annotation
   builder_component:
-    git:
-      url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
-      path: builder_component
+    path: ../flutter_packages/builder_component
   localization:
-    git:
-      url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
-      path: localization
+    path: ../flutter_packages/localization
   core:
-    git:
-      url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
-      path: core
-  core_widgets:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: f_btn_multiclick
-      path: core_widgets
+    path: ../flutter_packages/core
   calculator:
-    git:
-      url: https://github.com/reglobe/flutter_packages.git
-      ref: v2.0.8
-      path: calculator
+    path: ../flutter_packages/calculator
+
+  video_optimizer:
+    path: ../flutter_packages/video_optimizer
+  components:
+    path: ../flutter_admin_ui/components
+
+  core_widgets:
+    path: ../flutter_admin_ui/core_widgets
+
+  calculator_ui:
+    path: ../flutter_admin_ui/calculator_ui
+
+  ml_barcode_scanner:
+    path: ../flutter_admin_ui/ml_barcode_scanner
+
+  imei_serial_reader:
+    path: ../flutter_admin_ui/imei_serial_reader
+#  csh_annotation:
+#    git:
+#      url: https://github.com/reglobe/flutter_packages.git
+#      ref: main
+#      path: csh_annotation
+#  builder_component:
+#    git:
+#      url: https://github.com/reglobe/flutter_packages.git
+#      ref: main
+#      path: builder_component
+#  localization:
+#    git:
+#      url: https://github.com/reglobe/flutter_packages.git
+#      ref: main
+#      path: localization
+#  core:
+#    git:
+#      url: https://github.com/reglobe/flutter_packages.git
+#      ref: main
+#      path: core
+#  core_widgets:
+#    git:
+#      url: https://github.com/reglobe/flutter_admin_ui.git
+#      ref: f_btn_multiclick
+#      path: core_widgets
+#  calculator:
+#    git:
+#      url: https://github.com/reglobe/flutter_packages.git
+#      ref: main
+#      path: calculator
 
 
 

@@ -104,12 +104,12 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
       children: [
         Text(
           label,
-          style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
+          style: theme.primaryTextTheme.labelLarge?.copyWith(color: theme.shadowColor),
         ),
         const SizedBox(height: Dimens.space_6),
         Text(
           value,
-          style: theme.primaryTextTheme.subtitle2,
+          style: theme.primaryTextTheme.titleSmall,
         ),
       ],
     );

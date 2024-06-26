@@ -58,7 +58,7 @@ class ElssStatusComponent extends StatelessComponent<NoneConfigModel> {
                     Expanded(
                       child: Text(
                         provider.errMessage!,
-                        style: theme.primaryTextTheme.headline4,
+                        style: theme.primaryTextTheme.headlineMedium,
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -79,11 +79,11 @@ class ElssStatusComponent extends StatelessComponent<NoneConfigModel> {
     var statusData = _getStatusData(arg.elssStatus, l10n);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.elssStatus, style: theme.primaryTextTheme.headline3),
+        title: Text(l10n.elssStatus, style: theme.primaryTextTheme.displaySmall),
         automaticallyImplyLeading: false,
-        backgroundColor: theme.backgroundColor,
+        backgroundColor: theme.colorScheme.surface,
         elevation: 0.0,
-        shadowColor: theme.backgroundColor,
+        shadowColor: theme.colorScheme.surface,
       ),
       body: CshCard(
         padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_30),
@@ -109,7 +109,7 @@ class ElssStatusComponent extends StatelessComponent<NoneConfigModel> {
                                 child: Text(
                                   statusData.description,
                                   textAlign: TextAlign.center,
-                                  style: theme.primaryTextTheme.headline2,
+                                  style: theme.primaryTextTheme.displayMedium,
                                   maxLines: 2,
                                 ),
                               )

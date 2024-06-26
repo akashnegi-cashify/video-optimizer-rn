@@ -74,7 +74,7 @@ class PendingPartListComponent extends StatelessComponent<NoneConfigModel> {
             Expanded(
               child: Text(
                 provider.errorMessage,
-                style: theme.primaryTextTheme.headline3,
+                style: theme.primaryTextTheme.displaySmall,
               ),
             )
           ],

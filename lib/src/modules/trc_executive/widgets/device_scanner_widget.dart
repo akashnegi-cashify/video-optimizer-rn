@@ -75,9 +75,9 @@ class DeviceScannerWidget extends StatelessWidget {
   Widget _buildTitleValue(String title, String value, ThemeData theme) {
     return RichText(
       text: TextSpan(
-        style: theme.textTheme.bodyText1,
+        style: theme.textTheme.bodyLarge,
         text: "$title : ",
-        children: [TextSpan(text: value, style: theme.textTheme.subtitle1)],
+        children: [TextSpan(text: value, style: theme.textTheme.titleMedium)],
       ),
     );
   }

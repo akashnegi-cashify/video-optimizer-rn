@@ -58,7 +58,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
                 isPlayScanSound: true,
                 getLastScannedBarcode: () => _lastScannedBarcode,
                 zoomScale: 0.5,
-                onScannerStarted: (arguments, controller) {
+                onScannerStarted: (controller) {
                   _mlScannerController = controller;
                 },
                 onScannerDetected: (String value, MlScannerController controller) {

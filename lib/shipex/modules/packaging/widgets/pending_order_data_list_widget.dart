@@ -54,7 +54,7 @@ class _PendingOrderDataListState extends PaginatedListState<GroupLotListData, Pe
               return Center(
                 child: Text(
                   l10n.noNewDataFound,
-                  style: theme.primaryTextTheme.subtitle1,
+                  style: theme.primaryTextTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
               );
@@ -67,7 +67,7 @@ class _PendingOrderDataListState extends PaginatedListState<GroupLotListData, Pe
                     Expanded(
                       child: Text(
                         error,
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                         textAlign: TextAlign.center,
                       ),
                     )

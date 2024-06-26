@@ -52,7 +52,7 @@ class FunctionalityCard extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.headline4,
+            style: theme.primaryTextTheme.headlineMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

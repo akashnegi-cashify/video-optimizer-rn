@@ -31,7 +31,7 @@ class DefaultChannelOptionWidget extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: theme.primaryTextTheme.headline5,
+                  style: theme.primaryTextTheme.headlineSmall,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: Dimens.space_8),
@@ -75,11 +75,11 @@ class DefaultChannelOptionWidget extends StatelessWidget {
       children: [
         Text(
           "$label :",
-          style: theme.primaryTextTheme.overline,
+          style: theme.primaryTextTheme.labelLarge,
         ),
         const SizedBox(width: Dimens.space_4),
         Expanded(
-          child: Text(value, style: theme.primaryTextTheme.headline5),
+          child: Text(value, style: theme.primaryTextTheme.headlineSmall),
         )
       ],
     );
@@ -90,11 +90,11 @@ class DefaultChannelOptionWidget extends StatelessWidget {
       children: [
         Text(
           "$label: ",
-          style: theme.primaryTextTheme.overline,
+          style: theme.primaryTextTheme.labelLarge,
         ),
         Text(
           value,
-          style: theme.primaryTextTheme.headline5,
+          style: theme.primaryTextTheme.headlineSmall,
         )
       ],
     );
