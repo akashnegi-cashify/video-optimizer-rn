@@ -78,17 +78,6 @@ dependencies:
       ref: main
       path: imei_serial_reader
 
-#  s3_file_uploader_interface:
-#    git:
-#      url: https://github.com/reglobe/flutter_plugins.git
-#      ref: prod
-#      path: s3_file_uploader_interface
-#
-#  s3_file_uploader:
-#    git:
-#      url: https://github.com/reglobe/flutter_plugins.git
-#      ref: prod
-#      path: s3_file_uploader
   builder_component:
     git:
       url: https://github.com/reglobe/flutter_packages.git
@@ -178,10 +167,11 @@ dev_dependencies:
   build_runner: 2.3.3
 
   csh_schema_generator:
-    git:
-      url: https://github.com/reglobe/flutter_packages.git
-      ref: main
-      path: csh_schema_generator
+    path: ../flutter_packages/csh_schema_generator
+#    git:
+#      url: https://github.com/reglobe/flutter_packages.git
+#      ref: main
+#      path: csh_schema_generator
 
 
 
@@ -190,16 +180,18 @@ dependency_overrides:
   #  permission_handler: ^10.2.0
   #  open_filex: ^4.3.2
   #  flutter_html: ^2.2.1
+  source_gen: 1.2.7
+  analyzer: ^5.6.0
   flutter_widget_from_html: ^0.15.1
   intl: ^0.19.0
   rxdart: ^0.28.0
   visibility_detector: ^0.3.3
   uuid: ^4.4.0
   share_plus_platform_interface: ^4.0.0
-#  graphs: 2.2.0
+  #  graphs: 2.2.0
   camera: ^0.11.0+1
-#  watcher: ^1.1.0
-#  dio: ^5.3.2
+  #  watcher: ^1.1.0
+  #  dio: ^5.3.2
   flutter_image_compress: ^2.0.4
   connectivity_plus: ^6.0.3
   image_picker: ^1.0.4
