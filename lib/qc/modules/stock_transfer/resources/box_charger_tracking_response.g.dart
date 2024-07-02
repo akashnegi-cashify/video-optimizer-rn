@@ -28,8 +28,8 @@ Map<String, dynamic> _$BoxChargerTrackingResponseToJson(
 BoxChargerTrackingData _$BoxChargerTrackingDataFromJson(
         Map<String, dynamic> json) =>
     BoxChargerTrackingData(
-      json['hc'] as int?,
-      json['hb'] as int?,
+      (json['hc'] as num?)?.toInt(),
+      (json['hb'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$BoxChargerTrackingDataToJson(

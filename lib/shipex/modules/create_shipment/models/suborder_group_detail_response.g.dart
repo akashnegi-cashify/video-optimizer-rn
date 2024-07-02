@@ -9,25 +9,25 @@ part of 'suborder_group_detail_response.dart';
 SubOrderGroupDetailResponse _$SubOrderGroupDetailResponseFromJson(
         Map<String, dynamic> json) =>
     SubOrderGroupDetailResponse(
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['n'] as String?,
-      json['lt'] as int?,
+      (json['lt'] as num?)?.toInt(),
       json['ltn'] as String?,
       json['pbar'] as String?,
-      json['qty'] as int?,
-      json['si'] as int?,
+      (json['qty'] as num?)?.toInt(),
+      (json['si'] as num?)?.toInt(),
     )
       ..pinCode = json['pin'] as String?
-      ..monitoringCameraRecordStartDateTime = json['mcrsdt'] as int?
+      ..monitoringCameraRecordStartDateTime = (json['mcrsdt'] as num?)?.toInt()
       ..monitoringCameraBarcode = json['mcb'] as String?
       ..invoiceLink = json['il'] as String?
       ..courierName = json['cn'] as String?
       ..courierAwb = json['ca'] as String?
-      ..createDate = json['cd'] as int?
-      ..facilityId = json['fi'] as int?
+      ..createDate = (json['cd'] as num?)?.toInt()
+      ..facilityId = (json['fi'] as num?)?.toInt()
       ..facilityName = json['fn'] as String?
       ..vendorName = json['vn'] as String?
-      ..status = json['s'] as int?
+      ..status = (json['s'] as num?)?.toInt()
       ..statusDesc = json['sd'] as String?
       ..totalAmt = (json['ta'] as num?)?.toDouble()
       ..billingAddress = json['billAddr'] == null

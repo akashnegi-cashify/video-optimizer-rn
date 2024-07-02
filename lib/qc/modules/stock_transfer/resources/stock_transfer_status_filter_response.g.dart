@@ -33,7 +33,7 @@ StockTransferStatusFilterData _$StockTransferStatusFilterDataFromJson(
         Map<String, dynamic> json) =>
     StockTransferStatusFilterData(
       name: json['v'] as String?,
-      id: json['k'] as int?,
+      id: (json['k'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$StockTransferStatusFilterDataToJson(

@@ -32,9 +32,9 @@ PartListHistoryData _$PartListHistoryDataFromJson(Map<String, dynamic> json) =>
       partName: json['pn'] as String?,
       alternatePartName: json['apn'] as String?,
       status: json['st'] as String?,
-      statusCode: json['stc'] as int?,
+      statusCode: (json['stc'] as num?)?.toInt(),
       updatedBy: json['updby'] as String?,
-      updatedAt: json['updat'] as int?,
+      updatedAt: (json['updat'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PartListHistoryDataToJson(

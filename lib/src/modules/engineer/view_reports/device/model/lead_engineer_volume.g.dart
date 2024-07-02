@@ -8,7 +8,7 @@ part of 'lead_engineer_volume.dart';
 
 LeadEngineerVolume _$LeadEngineerVolumeFromJson(Map<String, dynamic> json) =>
     LeadEngineerVolume()
-      ..volume = json['mv'] as int?
+      ..volume = (json['mv'] as num?)?.toInt()
       ..engineerName = json['en'] as String?;
 
 Map<String, dynamic> _$LeadEngineerVolumeToJson(LeadEngineerVolume instance) =>

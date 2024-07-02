@@ -9,7 +9,7 @@ part of 'accept_reject_dead_request.dart';
 AcceptRejectDeadRequest _$AcceptRejectDeadRequestFromJson(
         Map<String, dynamic> json) =>
     AcceptRejectDeadRequest(
-      markId: json['id'] as int?,
+      markId: (json['id'] as num?)?.toInt(),
       remark: json['remark'] as String?,
       actionRemark: json['actionRemark'] as String?,
       skus: (json['skus'] as List<dynamic>?)?.map((e) => e as String).toList(),

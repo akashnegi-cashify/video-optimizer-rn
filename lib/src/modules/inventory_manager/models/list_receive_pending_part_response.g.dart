@@ -28,15 +28,15 @@ Map<String, dynamic> _$ListReceivePendingPartResponseToJson(
 ListResponsePendingDataResponse _$ListResponsePendingDataResponseFromJson(
         Map<String, dynamic> json) =>
     ListResponsePendingDataResponse(
-      prid: json['prid'] as int?,
+      prid: (json['prid'] as num?)?.toInt(),
       partBarcode: json['pbr'] as String?,
       partName: json['pn'] as String?,
       isBulk: json['isBulk'] as bool?,
       sku: json['sku'] as String?,
       status: json['st'] as String?,
-      statusCode: json['stc'] as int?,
+      statusCode: (json['stc'] as num?)?.toInt(),
       partColour: json['pc'] as String?,
-      requestedQuantity: json['rqty'] as int?,
+      requestedQuantity: (json['rqty'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ListResponsePendingDataResponseToJson(

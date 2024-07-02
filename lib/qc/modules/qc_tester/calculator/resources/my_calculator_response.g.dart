@@ -10,8 +10,8 @@ MyCalculatorResponse _$MyCalculatorResponseFromJson(
         Map<String, dynamic> json) =>
     MyCalculatorResponse(
       json['productName'] as String?,
-      json['bid'] as int?,
-      json['cid'] as int?,
+      (json['bid'] as num?)?.toInt(),
+      (json['cid'] as num?)?.toInt(),
       (json['plc'] as List<dynamic>?)
           ?.map((e) => ProductLineCategory.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25,22 +25,22 @@ MyCalculatorResponse _$MyCalculatorResponseFromJson(
           .toList(),
       json['imageUrl'] as String?,
       json['imei_key'] as String?,
-      json['xmd'] as int?,
-      json['isa'] as int?,
-      json['pid'] as int?,
-      json['plid'] as int?,
-      json['sse'] as int? ?? 0,
+      (json['xmd'] as num?)?.toInt(),
+      (json['isa'] as num?)?.toInt(),
+      (json['pid'] as num?)?.toInt(),
+      (json['plid'] as num?)?.toInt(),
+      (json['sse'] as num?)?.toInt() ?? 0,
       (json['r'] as List<dynamic>?)
           ?.map((e) => RuleResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['st'] as String?,
       json['sp'] as bool?,
       (json['us'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as int),
+        (k, e) => MapEntry(k, (e as num).toInt()),
       ),
-      json['dcr'] as int?,
+      (json['dcr'] as num?)?.toInt(),
       (json['da'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as int),
+        (k, e) => MapEntry(k, (e as num).toInt()),
       ),
     )
       ..manualAuditQuestions = (json['maq'] as List<dynamic>?)
@@ -80,7 +80,7 @@ Map<String, dynamic> _$MyCalculatorResponseToJson(
 ManualAuditQuestionItem _$ManualAuditQuestionItemFromJson(
         Map<String, dynamic> json) =>
     ManualAuditQuestionItem(
-      json['mmid'] as int?,
+      (json['mmid'] as num?)?.toInt(),
       json['q'] as String?,
     );
 

@@ -11,7 +11,7 @@ DeadMarkUpdateResponse _$DeadMarkUpdateResponseFromJson(
     DeadMarkUpdateResponse(
       markResponse: json['mr'] as String?,
       qrCode: json['qr_code'] as String?,
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DeadMarkUpdateResponseToJson(

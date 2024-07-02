@@ -8,12 +8,12 @@ part of 'device_report_data.dart';
 
 DeviceReportData _$DeviceReportDataFromJson(Map<String, dynamic> json) =>
     DeviceReportData()
-      ..totalAssignDevice = json['tad'] as int?
-      ..markedOkDevice = json['mod'] as int?
-      ..markedOkPassDevice = json['mopd'] as int?
-      ..markedOkFailDevice = json['mofd'] as int?
+      ..totalAssignDevice = (json['tad'] as num?)?.toInt()
+      ..markedOkDevice = (json['mod'] as num?)?.toInt()
+      ..markedOkPassDevice = (json['mopd'] as num?)?.toInt()
+      ..markedOkFailDevice = (json['mofd'] as num?)?.toInt()
       ..efficiency = (json['eff'] as num?)?.toDouble()
-      ..avgRepairTime = json['avgrt'] as int?;
+      ..avgRepairTime = (json['avgrt'] as num?)?.toInt();
 
 Map<String, dynamic> _$DeviceReportDataToJson(DeviceReportData instance) =>
     <String, dynamic>{

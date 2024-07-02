@@ -9,7 +9,7 @@ part of 're_qc_variant_request.dart';
 ReQcVariantRequest _$ReQcVariantRequestFromJson(Map<String, dynamic> json) =>
     ReQcVariantRequest(
       imageUrl: json['iurl'] as String?,
-      variantId: json['vi'] as int?,
+      variantId: (json['vi'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ReQcVariantRequestToJson(ReQcVariantRequest instance) =>

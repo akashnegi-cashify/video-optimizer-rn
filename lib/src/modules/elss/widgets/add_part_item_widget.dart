@@ -79,23 +79,23 @@ class _AddPartItemListState extends State<AddPartItemList> {
     );
   }
 
-  _buildErrorWidget(String errorMessage, theme) {
+  _buildErrorWidget(String errorMessage, ThemeData theme) {
     return Container(
       margin: const EdgeInsets.only(top: Dimens.space_8),
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8, vertical: Dimens.space_4),
       decoration: BoxDecoration(
-        color: theme.errorColor.withAlpha(100),
+        color: theme.colorScheme.error.withAlpha(100),
         borderRadius: BorderRadius.circular(Dimens.space_4),
       ),
       child: Row(
         children: [
-          CshIcon(Icons.info_outline, iconColor: theme.errorColor, padding: EdgeInsets.zero),
+          CshIcon(Icons.info_outline, iconColor: theme.colorScheme.error, padding: EdgeInsets.zero),
           const SizedBox(width: Dimens.space_8),
           Expanded(
             child: Text(
               errorMessage,
               maxLines: 2,
-              style: theme.textTheme.bodyMedium?.copyWith(color: theme.errorColor),
+              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
             ),
           ),
         ],

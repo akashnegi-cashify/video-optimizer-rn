@@ -26,8 +26,8 @@ Map<String, dynamic> _$PendingDeviceListResponseToJson(
 
 PendingDeviceData _$PendingDeviceDataFromJson(Map<String, dynamic> json) =>
     PendingDeviceData(
-      totalPage: json['tp'] as int?,
-      totalRecords: json['tr'] as int?,
+      totalPage: (json['tp'] as num?)?.toInt(),
+      totalRecords: (json['tr'] as num?)?.toInt(),
       dataList: (json['dl'] as List<dynamic>?)
           ?.map((e) =>
               PendingDeviceDetailData.fromJson(e as Map<String, dynamic>))
@@ -46,16 +46,16 @@ PendingDeviceDetailData _$PendingDeviceDetailDataFromJson(
     PendingDeviceDetailData(
       isUrgent: json['isUrgent'] as bool?,
       repairType: json['rt'] as String?,
-      partCount: json['pc'] as int?,
+      partCount: (json['pc'] as num?)?.toInt(),
       grade: json['gr'] as String?,
       deviceBarcode: json['dbr'] as String?,
-      assignedAt: json['asAt'] as int?,
-      did: json['did'] as int?,
+      assignedAt: (json['asAt'] as num?)?.toInt(),
+      did: (json['did'] as num?)?.toInt(),
       engineerName: json['en'] as String?,
       lc: json['lc'] as String?,
       pt: json['pt'] as String?,
       tbr: json['tbr'] as String?,
-      totalPartCount: json['tpc'] as int?,
+      totalPartCount: (json['tpc'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PendingDeviceDetailDataToJson(

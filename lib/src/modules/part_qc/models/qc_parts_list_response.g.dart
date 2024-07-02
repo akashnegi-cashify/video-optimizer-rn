@@ -25,15 +25,15 @@ Map<String, dynamic> _$QcPartsListResponseToJson(
 
 QcPartListData _$QcPartListDataFromJson(Map<String, dynamic> json) =>
     QcPartListData(
-      prid: json['prid'] as int?,
+      prid: (json['prid'] as num?)?.toInt(),
       sku: json['sku'] as String?,
       partName: json['pn'] as String?,
-      statusCode: json['stc'] as int?,
+      statusCode: (json['stc'] as num?)?.toInt(),
       status: json['st'] as String?,
       isBulk: json['isBulk'] as bool?,
       partBarcode: json['pbr'] as String?,
       isDamaged: json['isDamaged'] as bool?,
-      requestedQuantity: json['rqty'] as int?,
+      requestedQuantity: (json['rqty'] as num?)?.toInt(),
     )..partColor = json['pc'] as String?;
 
 Map<String, dynamic> _$QcPartListDataToJson(QcPartListData instance) =>

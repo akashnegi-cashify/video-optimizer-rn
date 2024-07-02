@@ -27,7 +27,7 @@ Map<String, dynamic> _$ReturnCountResponseToJson(
 ReturnCountDataResponse _$ReturnCountDataResponseFromJson(
         Map<String, dynamic> json) =>
     ReturnCountDataResponse(
-      pendingReturnCount: json['rc'] as int?,
+      pendingReturnCount: (json['rc'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ReturnCountDataResponseToJson(

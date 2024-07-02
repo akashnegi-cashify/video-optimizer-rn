@@ -13,18 +13,18 @@ EngineerPartInfo _$EngineerPartInfoFromJson(Map<String, dynamic> json) =>
       ..partBarcode = json['pbr'] as String?
       ..deviceName = json['dna'] as String?
       ..deviceBarcode = json['dbr'] as String?
-      ..partId = json['pid'] as int?
+      ..partId = (json['pid'] as num?)?.toInt()
       ..partColor = json['pcl'] as String?
       ..isBulk = json['isBulk'] as bool?
       ..isUrgent = json['isUrgent'] as bool?
-      ..prId = json['prid'] as int?
+      ..prId = (json['prid'] as num?)?.toInt()
       ..isService = json['isService'] as bool?
       ..action = json['ac'] as String?
       ..categoryCode = json['cc'] as String?
       ..retrievedPartData = json['rpd'] as Map<String, dynamic>?
       ..status = json['st'] as String?
-      ..statusCode = json['stc'] as int?
-      ..retrievedImageCount = json['rvc'] as int?;
+      ..statusCode = (json['stc'] as num?)?.toInt()
+      ..retrievedImageCount = (json['rvc'] as num?)?.toInt();
 
 Map<String, dynamic> _$EngineerPartInfoToJson(EngineerPartInfo instance) =>
     <String, dynamic>{

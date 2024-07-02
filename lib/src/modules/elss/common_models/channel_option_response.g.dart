@@ -10,7 +10,7 @@ ChannelOptionResponse _$ChannelOptionResponseFromJson(
         Map<String, dynamic> json) =>
     ChannelOptionResponse(
       isSuccess: json['s'] as bool?,
-      pm: json['pm'] as int?,
+      pm: (json['pm'] as num?)?.toInt(),
       refId: json['r_id'] as String?,
       channelOptionData: json['dt'] == null
           ? null
@@ -56,9 +56,9 @@ Map<String, dynamic> _$ChannelOptionDataModelToJson(
 
 ChannelOptionData _$ChannelOptionDataFromJson(Map<String, dynamic> json) =>
     ChannelOptionData(
-      optionId: json['oid'] as int?,
+      optionId: (json['oid'] as num?)?.toInt(),
       channelName: json['ch'] as String?,
-      channelOptionPrice: json['pr'] as int?,
+      channelOptionPrice: (json['pr'] as num?)?.toInt(),
       grade: json['gr'] as String?,
       requestedParts: (json['rp'] as List<dynamic>?)
           ?.map((e) => ElssPart.fromJson(e as Map<String, dynamic>))

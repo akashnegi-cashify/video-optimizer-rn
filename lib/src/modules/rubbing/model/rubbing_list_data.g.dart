@@ -8,8 +8,8 @@ part of 'rubbing_list_data.dart';
 
 RubbingListData _$RubbingListDataFromJson(Map<String, dynamic> json) =>
     RubbingListData()
-      ..tp = json['tp'] as int?
-      ..tr = json['tr'] as int?
+      ..tp = (json['tp'] as num?)?.toInt()
+      ..tr = (json['tr'] as num?)?.toInt()
       ..deviceList = (json['dl'] as List<dynamic>)
           .map((e) => RubbingDeviceData.fromJson(e as Map<String, dynamic>))
           .toList();

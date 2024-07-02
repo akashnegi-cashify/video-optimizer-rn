@@ -21,7 +21,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data()
   ..partList = (json['pl'] as List<dynamic>?)
       ?.map((e) => Part.fromJson(e as Map<String, dynamic>))
       .toList()
-  ..totalPage = json['tp'] as int?;
+  ..totalPage = (json['tp'] as num?)?.toInt();
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'pl': instance.partList,
@@ -35,7 +35,7 @@ Part _$PartFromJson(Map<String, dynamic> json) => Part()
   ..deviceName = json['dna'] as String? ?? ''
   ..partColor = json['pc'] as String? ?? ''
   ..deviceBarcode = json['dbr'] as String? ?? ''
-  ..partId = json['prid'] as int
+  ..partId = (json['prid'] as num).toInt()
   ..isBulk = json['isBulk'] as bool?
   ..isUrgent = json['isUrgent'] as bool? ?? false
   ..inventoryManageName = json['im'] as String? ?? '';

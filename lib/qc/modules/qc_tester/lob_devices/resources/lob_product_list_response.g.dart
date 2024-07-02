@@ -13,7 +13,7 @@ LobProductListResponse _$LobProductListResponseFromJson(
       (json['dt'] as List<dynamic>?)
           ?.map((e) => LobProductListData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['tc'] as int?,
+      (json['tc'] as num?)?.toInt(),
     )
       ..cashifyAlert = json['__ca'] == null
           ? null
@@ -32,11 +32,11 @@ Map<String, dynamic> _$LobProductListResponseToJson(
 
 LobProductListData _$LobProductListDataFromJson(Map<String, dynamic> json) =>
     LobProductListData(
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['n'] as String?,
-      json['bid'] as int?,
+      (json['bid'] as num?)?.toInt(),
       json['b'] as String?,
-      json['pmid'] as int?,
+      (json['pmid'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$LobProductListDataToJson(LobProductListData instance) =>

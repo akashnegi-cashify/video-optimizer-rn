@@ -30,16 +30,16 @@ Map<String, dynamic> _$SubOrderGroupListResponseToJson(
 SubOrderGroupListData _$SubOrderGroupListDataFromJson(
         Map<String, dynamic> json) =>
     SubOrderGroupListData(
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['n'] as String?,
-      json['lt'] as int?,
+      (json['lt'] as num?)?.toInt(),
       json['ltn'] as String?,
       json['pbar'] as String?,
-      json['qty'] as int?,
-      json['si'] as int?,
+      (json['qty'] as num?)?.toInt(),
+      (json['si'] as num?)?.toInt(),
       pinCode: json['pin'] as String?,
       monitoringCameraBarcode: json['mcb'] as String?,
-      monitoringCameraRecordStartDateTime: json['mcrsdt'] as int?,
+      monitoringCameraRecordStartDateTime: (json['mcrsdt'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SubOrderGroupListDataToJson(

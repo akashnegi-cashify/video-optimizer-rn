@@ -33,7 +33,7 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
       json['rr'] as String?,
       json['dna'] as String?,
       (json['rrs'] as List<dynamic>?)?.map((e) => e as String?).toList(),
-      json['pid'] as int?,
+      (json['pid'] as num?)?.toInt(),
       json['dst'] as String?,
       json['dcl'] as String?,
       json['imei'] as String?,

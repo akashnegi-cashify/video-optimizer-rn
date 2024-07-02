@@ -13,10 +13,10 @@ StLotDetailResponse _$StLotDetailResponseFromJson(Map<String, dynamic> json) =>
       json['qr'] as String?,
       json['dst'] as String?,
       json['lo'] as String?,
-      json['dcnt'] as int?,
-      json['scnt'] as int?,
+      (json['dcnt'] as num?)?.toInt(),
+      (json['scnt'] as num?)?.toInt(),
       json['st'] as String?,
-      json['did'] as int?,
+      (json['did'] as num?)?.toInt(),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),

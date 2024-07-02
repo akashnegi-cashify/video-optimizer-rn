@@ -29,10 +29,10 @@ Map<String, dynamic> _$DeviceReportListResponseToJson(
 DeviceReportListData _$DeviceReportListDataFromJson(
         Map<String, dynamic> json) =>
     DeviceReportListData(
-      partId: json['pi'] as int?,
+      partId: (json['pi'] as num?)?.toInt(),
       label: json['pn'] as String?,
-      imageCount: json['ic'] as int?,
-      preSelectedVariantId: json['svi'] as int?,
+      imageCount: (json['ic'] as num?)?.toInt(),
+      preSelectedVariantId: (json['svi'] as num?)?.toInt(),
       preSelectedVariantName: json['svn'] as String?,
       variation: (json['v'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),

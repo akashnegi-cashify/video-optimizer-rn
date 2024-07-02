@@ -27,7 +27,7 @@ Map<String, dynamic> _$RecommendedPartResponseToJson(
 RecommendedPartData _$RecommendedPartDataFromJson(Map<String, dynamic> json) =>
     RecommendedPartData(
       barcode: json['pbr'] as String?,
-      recommendedQuantity: json['rqty'] as int?,
+      recommendedQuantity: (json['rqty'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$RecommendedPartDataToJson(

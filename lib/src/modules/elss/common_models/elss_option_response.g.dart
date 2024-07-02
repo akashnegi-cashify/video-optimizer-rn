@@ -29,7 +29,7 @@ OptionResponse _$OptionResponseFromJson(Map<String, dynamic> json) =>
       json['isra'] as bool?,
       json['isPna'] as bool?,
       json['isGc'] as bool?,
-      json['k'] as int?,
+      (json['k'] as num?)?.toInt(),
       json['v'] as String?,
     );
 

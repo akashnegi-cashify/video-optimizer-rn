@@ -21,7 +21,7 @@ Map<String, dynamic> _$DeliveryResponseToJson(DeliveryResponse instance) =>
 
 EngineerDetail _$EngineerDetailFromJson(Map<String, dynamic> json) =>
     EngineerDetail()
-      ..id = json['id'] as int
+      ..id = (json['id'] as num).toInt()
       ..name = json['n'] as String?
       ..location = json['lc'] as String?;
 

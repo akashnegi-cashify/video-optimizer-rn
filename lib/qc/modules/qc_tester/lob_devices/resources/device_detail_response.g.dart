@@ -33,13 +33,13 @@ DeviceDetailResponseData _$DeviceDetailResponseDataFromJson(
       json['qc'] as String?,
       json['imei'] as String?,
       json['sn'] as String?,
-      json['cat_id'] as int?,
+      (json['cat_id'] as num?)?.toInt(),
       (json['cat'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(int.parse(k), e as String),
       ),
       json['imei2'] as String?,
       (json['rm'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as int),
+        (k, e) => MapEntry(k, (e as num).toInt()),
       ),
       json['idia'] as bool?,
     );

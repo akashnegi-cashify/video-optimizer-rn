@@ -30,7 +30,7 @@ PartItemDataResponse _$PartItemDataResponseFromJson(
       json['sku'] as String?,
       json['pcl'] as String?,
       json['pn'] as String?,
-      partQuantity: json['qty'] as int?,
+      partQuantity: (json['qty'] as num?)?.toInt(),
       errorMessage: json['emsg'] as String?,
       categoryCode: json['cc'] as String?,
     );

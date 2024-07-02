@@ -8,7 +8,7 @@ part of 'engineer_device_info.dart';
 
 EngineerDeviceInfo _$EngineerDeviceInfoFromJson(Map<String, dynamic> json) =>
     EngineerDeviceInfo()
-      ..deviceId = json['did'] as int
+      ..deviceId = (json['did'] as num).toInt()
       ..returnReason = json['rr'] as String?
       ..productTitle = json['pt'] as String?
       ..deviceBarcode = json['dbr'] as String?
@@ -17,7 +17,7 @@ EngineerDeviceInfo _$EngineerDeviceInfoFromJson(Map<String, dynamic> json) =>
       ..grade = json['gr'] as String?
       ..imei = json['dimei'] as String?
       ..color = json['dc'] as String?
-      ..returnCount = json['rc'] as int?
+      ..returnCount = (json['rc'] as num?)?.toInt()
       ..repairReasonList =
           (json['rrs'] as List<dynamic>?)?.map((e) => e as String).toList();
 

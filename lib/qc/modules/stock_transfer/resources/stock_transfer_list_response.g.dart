@@ -13,7 +13,7 @@ StockTransferListResponse _$StockTransferListResponseFromJson(
           ?.map(
               (e) => StockTransferListData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['tc'] as int?,
+      (json['tc'] as num?)?.toInt(),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -32,11 +32,11 @@ Map<String, dynamic> _$StockTransferListResponseToJson(
 StockTransferListData _$StockTransferListDataFromJson(
         Map<String, dynamic> json) =>
     StockTransferListData(
-      lotId: json['id'] as int?,
+      lotId: (json['id'] as num?)?.toInt(),
       lotName: json['na'] as String?,
-      deviceCount: json['dc'] as int?,
+      deviceCount: (json['dc'] as num?)?.toInt(),
       destinationFacility: json['dst'] as String?,
-      statusCode: json['stc'] as int?,
+      statusCode: (json['stc'] as num?)?.toInt(),
       status: json['st'] as String?,
     );
 

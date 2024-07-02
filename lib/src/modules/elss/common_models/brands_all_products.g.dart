@@ -29,7 +29,7 @@ BrandsAllProductDataList _$BrandsAllProductDataListFromJson(
         Map<String, dynamic> json) =>
     BrandsAllProductDataList(
       productName: json['pn'] as String?,
-      pid: json['pid'] as int?,
+      pid: (json['pid'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$BrandsAllProductDataListToJson(

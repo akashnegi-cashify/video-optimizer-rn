@@ -10,13 +10,13 @@ DisputedMediaDataResponse _$DisputedMediaDataResponseFromJson(
         Map<String, dynamic> json) =>
     DisputedMediaDataResponse(
       brand: json['b'] as String?,
-      auditStatus: json['as'] as int?,
+      auditStatus: (json['as'] as num?)?.toInt(),
       il: (json['il'] as List<dynamic>?)?.map((e) => e as String).toList(),
       m: json['m'] as String?,
       mediaDataList: (json['auditData'] as List<dynamic>?)
           ?.map((e) => DisputeMediaInfoData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pm: json['pm'] as int?,
+      pm: (json['pm'] as num?)?.toInt(),
       rid: json['r_id'] as String?,
     );
 
@@ -36,11 +36,11 @@ DisputeMediaInfoData _$DisputeMediaInfoDataFromJson(
         Map<String, dynamic> json) =>
     DisputeMediaInfoData(
       label: json['l'] as String?,
-      at: json['at'] as int?,
+      at: (json['at'] as num?)?.toInt(),
       auditKey: json['ak'] as String?,
-      imageCount: json['ic'] as int?,
+      imageCount: (json['ic'] as num?)?.toInt(),
       subHeading: json['sr'] as String?,
-      videoCount: json['vc'] as int?,
+      videoCount: (json['vc'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DisputeMediaInfoDataToJson(

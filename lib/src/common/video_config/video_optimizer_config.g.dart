@@ -9,14 +9,14 @@ part of 'video_optimizer_config.dart';
 VideoOptimizerConfig _$VideoOptimizerConfigFromJson(
         Map<String, dynamic> json) =>
     VideoOptimizerConfig(
-      crf: json['crf'] as int?,
+      crf: (json['crf'] as num?)?.toInt(),
       videoCodec: json['videoCodec'] as String?,
       videoPreset: json['videoPreset'] as String?,
       addTimeStamp: json['addTimeStamp'] as bool?,
-      fontSize: json['fontSize'] as int?,
+      fontSize: (json['fontSize'] as num?)?.toInt(),
       fontColor: json['fontColor'] as String?,
       borderColor: json['borderColor'] as String?,
-      isRemoveAudio: json['isRemoveAudio'] as bool?,
+      isRemoveAudio: json['isRemoveAudio'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$VideoOptimizerConfigToJson(

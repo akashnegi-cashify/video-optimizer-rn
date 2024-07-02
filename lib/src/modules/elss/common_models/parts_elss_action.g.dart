@@ -11,7 +11,7 @@ PartsElssActionResponse _$PartsElssActionResponseFromJson(
     PartsElssActionResponse(
       success: json['success'] as bool?,
       isSuccess: json['s'] as bool?,
-      pm: json['pm'] as int?,
+      pm: (json['pm'] as num?)?.toInt(),
       actionsData: json['dt'] == null
           ? null
           : ElssActionDataResponse.fromJson(json['dt'] as Map<String, dynamic>),
@@ -31,8 +31,8 @@ Map<String, dynamic> _$PartsElssActionResponseToJson(
 ElssActionDataResponse _$ElssActionDataResponseFromJson(
         Map<String, dynamic> json) =>
     ElssActionDataResponse(
-      required: json['Required'] as int?,
-      notRequired: json['Not Required'] as int?,
+      required: (json['Required'] as num?)?.toInt(),
+      notRequired: (json['Not Required'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ElssActionDataResponseToJson(

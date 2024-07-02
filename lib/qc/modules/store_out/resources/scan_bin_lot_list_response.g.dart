@@ -24,7 +24,7 @@ Map<String, dynamic> _$ScanBinLotListResponseToJson(
 
 ScanBinLotItem _$ScanBinLotItemFromJson(Map<String, dynamic> json) =>
     ScanBinLotItem(
-      storagePosition: json['sp'] as int?,
+      storagePosition: (json['sp'] as num?)?.toInt(),
       barcode: json['bc'] as String?,
       itemLocBarCode: json['il'] as String?,
       productTitle: json['pt'] as String?,

@@ -28,17 +28,17 @@ Map<String, dynamic> _$LotDeviceListResponseToJson(
 
 LotDeviceListData _$LotDeviceListDataFromJson(Map<String, dynamic> json) =>
     LotDeviceListData(
-      id: json['id'] as int?,
-      deviceId: json['did'] as int?,
-      mpid: json['mpid'] as int?,
+      id: (json['id'] as num?)?.toInt(),
+      deviceId: (json['did'] as num?)?.toInt(),
+      mpid: (json['mpid'] as num?)?.toInt(),
       qrCode: json['qr_code'] as String?,
       model: json['m'] as String?,
       brand: json['b'] as String?,
       imei: json['im'] as String?,
-      status: json['s'] as int?,
+      status: (json['s'] as num?)?.toInt(),
       grade: json['gr'] as String?,
       productTitle: json['pt'] as String?,
-      testAge: json['ta'] as int?,
+      testAge: (json['ta'] as num?)?.toInt(),
       statusDescription: json['sd'] as String?,
     );
 

@@ -29,7 +29,7 @@ PartAvailableQuantityData _$PartAvailableQuantityDataFromJson(
         Map<String, dynamic> json) =>
     PartAvailableQuantityData(
       isUrgent: json['isUrgent'] as bool?,
-      availableQuantity: json['aqty'] as int?,
+      availableQuantity: (json['aqty'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PartAvailableQuantityDataToJson(

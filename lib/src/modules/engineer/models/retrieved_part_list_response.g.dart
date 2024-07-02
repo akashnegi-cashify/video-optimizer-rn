@@ -44,7 +44,7 @@ RetrievedPartListData _$RetrievedPartListDataFromJson(
       json['pn'] as String?,
       json['dbr'] as String?,
       json['rpbr'] as String?,
-      json['prid'] as int?,
+      (json['prid'] as num?)?.toInt(),
       json['rr'] as String?,
       (json['imgs'] as List<dynamic>?)?.map((e) => e as String).toList(),
       json['rm'] as String?,

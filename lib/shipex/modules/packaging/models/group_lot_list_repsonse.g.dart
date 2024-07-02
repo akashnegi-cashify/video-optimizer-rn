@@ -24,11 +24,11 @@ Map<String, dynamic> _$GroupLotListResponseToJson(
 
 GroupLotListData _$GroupLotListDataFromJson(Map<String, dynamic> json) =>
     GroupLotListData(
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['n'] as String?,
-      json['s'] as int?,
+      (json['s'] as num?)?.toInt(),
       json['sd'] as String?,
-      json['qty'] as int?,
+      (json['qty'] as num?)?.toInt(),
       json['pbar'] as String?,
       json['mcb'] as String?,
     );

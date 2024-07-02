@@ -33,8 +33,8 @@ CollectedOrderListData _$CollectedOrderListDataFromJson(
         Map<String, dynamic> json) =>
     CollectedOrderListData(
       deliveryAgentName: json['an'] as String?,
-      time: json['tm'] as int?,
-      quantity: json['dc'] as int?,
+      time: (json['tm'] as num?)?.toInt(),
+      quantity: (json['dc'] as num?)?.toInt(),
       entryByUserName: json['un'] as String?,
       facilityName: json['fn'] as String?,
       imgUrl: json['im'] as String?,

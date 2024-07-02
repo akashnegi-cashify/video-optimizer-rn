@@ -43,7 +43,7 @@ Map<String, dynamic> _$DeviceReportDataToJson(DeviceReportData instance) =>
 DeviceReport _$DeviceReportFromJson(Map<String, dynamic> json) => DeviceReport(
       json['pn'] as String?,
       json['vn'] as String?,
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['isFail'] as bool?,
     );
 

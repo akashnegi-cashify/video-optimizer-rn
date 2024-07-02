@@ -12,7 +12,7 @@ StorageDeviceListResponse _$StorageDeviceListResponseFromJson(
       (json['dt'] as List<dynamic>?)
           ?.map((e) => StLotDetailResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['tc'] as int?,
+      (json['tc'] as num?)?.toInt(),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
