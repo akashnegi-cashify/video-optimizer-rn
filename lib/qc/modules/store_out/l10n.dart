@@ -25,6 +25,7 @@ class L10n extends BaseL10n {
   String get skip => Intl.message('Skip', locale: localName, name: 'skip');
   String get somethingWentWrong => Intl.message('Something Went Wrong.', locale: localName, name: 'somethingWentWrong');
   String get lotName => Intl.message('Lot Name : ', locale: localName, name: 'lotName');
+  String get groupName => Intl.message('Group Name : ', locale: localName, name: 'groupName');
   String get noOfDevices => Intl.message('No. Of Devices : ', locale: localName, name: 'noOfDevices');
   String get id => Intl.message('Id: ', locale: localName, name: 'id');
   String get lotType => Intl.message('Lot Type : ', locale: localName, name: 'lotType');

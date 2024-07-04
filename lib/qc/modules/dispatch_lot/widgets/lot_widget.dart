@@ -25,7 +25,7 @@ class LotWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CshTextNew(
-                '#${index + 1}   ${lot?.lotName}',
+                '#${index + 1}   ${lot?.lotGroupName}',
                 textStyle: theme.textTheme.headlineMedium?.copyWith(color: theme.primaryColor),
               ),
               const SizedBox(height: Dimens.space_12),
