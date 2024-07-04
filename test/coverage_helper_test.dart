@@ -4,9 +4,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/main.dart';
 import 'package:flutter_trc/src/actions/project_actions.dart';
-import 'package:flutter_trc/src/amplify/amplifier.dart';
-import 'package:flutter_trc/src/amplify/amplify_configuration.dart';
-import 'package:flutter_trc/src/amplify/amplify_provider.dart';
 import 'package:flutter_trc/src/analytics/firebase_analytics.dart';
 import 'package:flutter_trc/src/app.dart';
 import 'package:flutter_trc/src/app_initializer.dart';
@@ -270,7 +267,7 @@ import 'package:flutter_trc/src/modules/login/resources/login_service.dart';
 import 'package:flutter_trc/src/modules/login/resources/notification_type.dart';
 import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
-import 'package:flutter_trc/src/modules/login/widgets/login_widget.dart';
+import 'package:flutter_trc/src/modules/login/widgets/trc_login_widget.dart';
 import 'package:flutter_trc/src/modules/login/widgets/qc_login_widget.dart';
 import 'package:flutter_trc/src/modules/page_not_found.dart';
 import 'package:flutter_trc/src/modules/part_qc/l10n.dart';

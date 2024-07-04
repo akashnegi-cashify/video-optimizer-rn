@@ -8,7 +8,6 @@ import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 
-import '../../../amplify/amplify_provider.dart';
 import '../../../resources/models/send_native_data.dart';
 import '../../elss/common_screen/elss_home_screen.dart';
 import '../../engineer/widgets/engineer_home_widget.dart';

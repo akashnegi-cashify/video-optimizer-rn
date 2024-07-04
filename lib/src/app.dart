@@ -17,7 +17,6 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import './l10n.dart';
-import 'amplify/amplify_provider.dart';
 import 'app_initializer.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
@@ -38,6 +37,7 @@ class CashifyApp extends StatefulWidget {
 class _CashifyAppState extends State<CashifyApp> {
   final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: false);
   GlobalKey<NavigatorState>? _navKey = GlobalKey<NavigatorState>();
+
   // StreamSubscription<ConnectivityResult>? _connectionSubscription;
 
   @override
@@ -102,14 +102,7 @@ class _CashifyAppState extends State<CashifyApp> {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
-          ChangeNotifierProvider(
-            create: (_) => UserSessionProvider(),
-            lazy: false,
-          ),
-          ChangeNotifierProvider<AmplifyProvider>(
-            lazy: false,
-            create: (_) => AmplifyProvider(),
-          ),
+          ChangeNotifierProvider(create: (_) => UserSessionProvider(), lazy: false),
         ],
         builder: (BuildContext context, _) {
           LocaleProvider localProvider = Provider.of<LocaleProvider>(context);
