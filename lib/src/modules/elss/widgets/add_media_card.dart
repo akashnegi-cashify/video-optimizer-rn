@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/common/no_usage.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
@@ -13,6 +14,7 @@ import 'package:path/path.dart' as path;
 import '../elss_trc/l10n.dart';
 import 'network_image_widget.dart';
 
+@NoUsage(reason: "It is not longer used as we remove image capturing of spare parts from TRC ELSS")
 class AddMediaCards extends StatefulWidget {
   final String? imageUrl;
   final int index;

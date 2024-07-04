@@ -157,22 +157,6 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                     icon: const Icon(FeatherIcons.chevronDown),
                   ),
                 ),
-              const SizedBox(width: Dimens.space_8),
-              GestureDetector(
-                onTap: () {
-                  AddDeviceMediaArgumentsTrc args = AddDeviceMediaArgumentsTrc(
-                    partsImage: widget.dataModel?.partsImageList,
-                    onImageUploadCallback: widget.onImageUploadCallback,
-                  );
-                  AddDeviceMediaScreenTrcArguments arg = AddDeviceMediaScreenTrcArguments(argumentsData: args);
-                  Navigator.of(context).pushNamed(AddDeviceMediaScreenTrc.route, arguments: arg);
-                },
-                child: CshIcon(
-                  FeatherIcons.camera,
-                  iconSize: MobileIconSize.large,
-                  iconColor: theme.primaryColor,
-                ),
-              )
             ],
           )
         ],
