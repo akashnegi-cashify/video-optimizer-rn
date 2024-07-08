@@ -8,14 +8,14 @@ import 'package:flutter_trc/src/resources/user_details.dart';
 import '../l10n.dart';
 import '../providers/login_provider.dart';
 
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({Key? key}) : super(key: key);
+class TrcLoginWidget extends StatefulWidget {
+  const TrcLoginWidget({Key? key}) : super(key: key);
 
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
+  State<TrcLoginWidget> createState() => _TrcLoginWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _TrcLoginWidgetState extends State<TrcLoginWidget> {
   final TextEditingController _empIdController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();

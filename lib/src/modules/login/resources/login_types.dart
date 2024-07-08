@@ -1,7 +1,8 @@
 enum LoginTypes {
   trcLogin("TRC"),
   qcLogin("QC"),
-  shipexLogin("Shipex");
+  shipexLogin("Shipex"),
+  rmsLogin("RMS");
 
   final String value;
 

@@ -3,10 +3,10 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/modules/login/widgets/combined_login_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../models/login_comp_param.dart';
-import '../screens/login_screen.dart';
 
 part 'login_component.g.dart';
 
@@ -24,9 +24,7 @@ class LoginComponent extends StatelessComponent<NoneConfigModel> {
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((param) {
-      return CombinedLoginWidget(
-        loginType: param.loginType,
-      );
+      return CombinedLoginWidget(loginType: param.loginType);
     });
   }
 

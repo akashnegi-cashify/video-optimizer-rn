@@ -5,6 +5,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/qc/qc_routes.dart';
+import 'package:flutter_trc/rms/rms_routes.dart';
 import 'package:flutter_trc/shipex/shipex_routes.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
@@ -152,6 +153,7 @@ class _AppRoutes {
     routes.addAll(TrcRoutes.getRoutes());
     routes.addAll(QcRoutes.getQcRoutes());
     routes.addAll(ShipexRoutes.getRoutes());
+    routes.addAll(RmsRoutes.getRoutes());
     return routes;
   }
 }

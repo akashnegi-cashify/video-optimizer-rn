@@ -59,6 +59,15 @@ class TrcAndQcLoginWidget extends StatelessWidget {
                         });
                       },
                     ),
+                    const SizedBox(height: Dimens.space_20),
+                    CshMediumButton(
+                      text: l10n.rmsLogin,
+                      onPressed: () {
+                        _checkAppUpdate(context, () {
+                          _moveToLoginScreen(context, LoginTypes.rmsLogin);
+                        });
+                      },
+                    ),
                   ],
                 ),
               );
