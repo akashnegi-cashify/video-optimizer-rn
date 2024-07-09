@@ -47,8 +47,7 @@ class AuthHeaderInterceptor extends HttpRetryWhenInterceptor {
   }
 
   bool _userAuthRequired(HttpHeaders headers) {
-    // return headers.has(AppHeaders.X_USER_AUTH_KEY) || headers.has(CoreHeaders.xSSOTokenKey);
-    return headers.has(AppHeaders.X_USER_AUTH_KEY);
+    return headers.has(AppHeaders.X_USER_AUTH_KEY) || headers.has(CoreHeaders.xSSOTokenKey);
   }
 
   @override

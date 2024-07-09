@@ -186,7 +186,7 @@ class ElssService {
       "at": [at],
     };
 
-    var headers = CasService().getHeaders(true);
+    var headers = CasService().getHeaders(false);
     headers["content-type"] = "application/x-www-form-urlencoded";
 
     return CasService().post("/v1/auth/otp/send", SendOTPResponse.fromJson,

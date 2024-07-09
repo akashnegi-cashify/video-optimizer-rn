@@ -3441,8 +3441,8 @@
       "configJson": {
         "config": {
           "ht": "RMS Home",
-          "sbb": true,
-          "slb": false
+          "sbb": false,
+          "slb": true
         }
       }
     }

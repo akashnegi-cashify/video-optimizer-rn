@@ -11,6 +11,7 @@ import '../../shipex/shipex_component_registry.dart';
 import '../common/widgets/not_registred_component_widget.dart';
 import 'app_headers/general_app_header/component/general_header_component.dart';
 import 'app_headers/qc_general_header/component/qc_general_header_component.dart';
+import 'app_headers/rms_general_header/component/rms_general_header_component.dart';
 import 'app_headers/shipex_general_header/component/shipex_general_header_component.dart';
 
 class AppComponentBuilder {
@@ -56,6 +57,8 @@ class AppComponentBuilder {
         return QcGeneralHeaderComponent(jsonConfig);
       case ShipexGeneralHeaderComponent.COMP_KEY:
         return ShipexGeneralHeaderComponent(jsonConfig);
+      case RmsGeneralHeaderComponent.COMP_KEY:
+        return RmsGeneralHeaderComponent(jsonConfig);
       default:
         return null;
     }

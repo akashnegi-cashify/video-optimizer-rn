@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
+import 'package:flutter_trc/rms/modules/home/screens/rms_home_screen.dart';
 import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
@@ -64,8 +65,7 @@ class UserRoles {
         NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
       }
     } else if (loginType == LoginTypes.rmsLogin) {
-      // TODO: RMS login
-      // Navigator.of(context).pushNamedAndRemoveUntil(ShipexHomeScreen.route, (route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(RmsHomeScreen.route, (route) => false);
     }
   }
 }
