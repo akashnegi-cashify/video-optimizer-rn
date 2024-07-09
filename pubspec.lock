@@ -451,9 +451,11 @@ packages:
   csh_schema_generator:
     dependency: "direct dev"
     description:
-      path: "../flutter_packages/csh_schema_generator"
-      relative: true
-    source: path
+      path: csh_schema_generator
+      ref: main
+      resolved-ref: "51fd16ca165a0e706f765d7b84d453c25b9abe31"
+      url: "https://github.com/reglobe/flutter_packages.git"
+    source: git
     version: "2.0.8"
   csslib:
     dependency: transitive
