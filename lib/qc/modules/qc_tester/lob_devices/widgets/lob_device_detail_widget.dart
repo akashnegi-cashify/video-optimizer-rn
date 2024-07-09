@@ -14,6 +14,7 @@ import 'package:flutter_trc/src/libraries/analytics/events/manual_search_button_
 import 'package:flutter_trc/src/libraries/analytics/events/update_device_category_event.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../l10n.dart';
@@ -40,11 +41,12 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
 
   @override
   void initState() {
-    AppPreferences().getIsLoginFromQC().then((value) {
+    AppPreferences().getLoginType().then((value) {
       if (value != null) {
+        var loginTypeEnum = LoginTypes.fromValue(value);
         setState(() {
           _isRunImeiValidatorFlow =
-              value ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW) : false;
+          loginTypeEnum == LoginTypes.qcLogin ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW) : false;
         });
       }
     });

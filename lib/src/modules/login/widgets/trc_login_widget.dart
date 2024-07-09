@@ -3,6 +3,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 
 import '../l10n.dart';
@@ -147,7 +148,7 @@ class _TrcLoginWidgetState extends State<TrcLoginWidget> {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: successMessage, snackBarPosition: SnackBarPosition.TOP);
       await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-          loginToken: token, loginFromQC: false);
+          loginToken: token, loginType: LoginTypes.trcLogin);
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);

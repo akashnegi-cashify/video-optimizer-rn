@@ -14,6 +14,7 @@ import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/common/calculator_analytics/calculator_analytics_helper.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
 part 'calculator_component.g.dart';
@@ -31,10 +32,11 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     var calculatorResponse = CalculatorDataHolderModel().calculatorResponse;
     var deviceBarcode = CalculatorDataHolderModel().deviceBarcode;
-    return FutureBuilder<bool?>(
+    return FutureBuilder<String?>(
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          var isQcLogin = Validator.isTrue(snapshot.data);
+          var loginTypeEnum = snapshot.data;
+          var isQcLogin = loginTypeEnum == LoginTypes.qcLogin;
           return CalculatorScreen(
             CalculatorScreenArgs(
                 isCurrentDevice: 0,
@@ -71,7 +73,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
           return const Center(child: CircularProgressIndicator());
         }
       },
-      future: AppPreferences().getIsLoginFromQC(),
+      future: AppPreferences().getLoginType(),
     );
   }
 

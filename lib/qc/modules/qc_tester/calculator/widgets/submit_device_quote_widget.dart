@@ -12,6 +12,7 @@ import 'package:flutter_trc/src/libraries/analytics/events/color_selected_event.
 import 'package:flutter_trc/src/libraries/analytics/events/color_view_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/end_testing_session_event.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -105,8 +106,10 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   }
 
   _moveToHomeScreen() {
-    AppPreferences().getIsLoginFromQC().then((value) {
-      if (Validator.isTrue(value)) {
+    AppPreferences().getLoginType().then((value) {
+      var loginTypeEnum = LoginTypes.fromValue(value ?? "");
+
+      if (loginTypeEnum == LoginTypes.qcLogin) {
         Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
       } else {
         Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
@@ -285,7 +288,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   void showTrcRemarksDialog() {
     TextEditingController controller = TextEditingController();
     showCshBottomSheet(
-      isDismissible: false,
+        isDismissible: false,
         context: context,
         child: PopScope(
           canPop: false,

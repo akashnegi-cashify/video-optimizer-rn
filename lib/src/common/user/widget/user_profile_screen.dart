@@ -4,6 +4,7 @@ import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widget
 import 'package:flutter_trc/src/common/user/user_util.dart';
 import 'package:flutter_trc/src/environments/environment_config.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 
@@ -92,8 +93,10 @@ class UserProfileScreen extends StatelessWidget {
               CshBigButton(
                   text: "Logout",
                   onPressed: () async {
-                    bool? loginFromShipex = await AppPreferences().getIsLoginFromShipex();
-                    if (Validator.isTrue(loginFromShipex)) {
+                    // TODO: RMS logout needed
+                    var loginType = await AppPreferences().getLoginType();
+                    var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+                    if (loginTypeEnum == LoginTypes.shipexLogin) {
                       AppPreferences().resetAndClearAll();
                       Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
                     } else {

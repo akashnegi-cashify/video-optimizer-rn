@@ -14,6 +14,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_de
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/trc/trc_calculator_service.dart';
 
 abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
@@ -35,8 +36,10 @@ abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
 
   void onServiceInitialized() {}
 
-  Future<bool?> isLoginFromQC() {
-    return AppPreferences().getIsLoginFromQC();
+  Future<bool?> isLoginFromQC() async {
+    var loginType = await AppPreferences().getLoginType();
+    var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+    return loginTypeEnum == LoginTypes.qcLogin;
   }
 }
 

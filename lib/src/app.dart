@@ -36,7 +36,7 @@ class CashifyApp extends StatefulWidget {
 }
 
 class _CashifyAppState extends State<CashifyApp> {
-  final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: false);
+  final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: true);
   GlobalKey<NavigatorState>? _navKey = GlobalKey<NavigatorState>();
 
   // StreamSubscription<ConnectivityResult>? _connectionSubscription;

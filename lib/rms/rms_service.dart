@@ -1,5 +1,4 @@
 import 'package:core_widgets/core_widgets.dart';
-import 'package:flutter_trc/src/services/service_groups.dart';
 
 class RmsService extends BaseService {
   final bool addAuthorization;
@@ -7,8 +6,8 @@ class RmsService extends BaseService {
   RmsService({this.addAuthorization = false});
 
   @override
-  TRCServiceGroups getServiceGroup() {
-    return TRCServiceGroups.rms;
+  ServiceGroupsMixin getServiceGroup() {
+    return ServiceGroups.console;
   }
 
   @override
@@ -19,7 +18,7 @@ class RmsService extends BaseService {
   @override
   Map<String, String> getHeaders(bool? isToAddAuth) {
     return {
-      ...(isToAddAuth ?? isToAddUserAuth()) ? CoreHeaders.X_USER_AUTH : {},
+      ...(isToAddAuth ?? isToAddUserAuth()) ? CoreHeaders.xSSOToken : {},
     };
   }
 

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/qc_login_event.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
 
@@ -87,14 +88,14 @@ class TRCLoginProvider extends CshChangeNotifier {
             AuthHandler().setUserAuth(event.accessToken!);
             UserDetails().setUserDetailsData(event.accessToken!);
             if (Validator.isTrue(loginFromQc)) {
-              AppPreferences().setIsLoginFromQC(true);
+              AppPreferences().setLoginType(LoginTypes.qcLogin.value);
               _fireLoginAnalytics();
               await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                  loginToken: event.accessToken!, loginFromQC: true, loginFromShipex: false);
+                  loginToken: event.accessToken!, loginType: LoginTypes.qcLogin);
             } else if (Validator.isTrue(loginForShipex)) {
-              AppPreferences().setIsLoginFromShipex(true);
+              AppPreferences().setLoginType(LoginTypes.shipexLogin.value);
               await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                  loginToken: event.accessToken!, loginFromQC: false, loginFromShipex: true);
+                  loginToken: event.accessToken!, loginType: LoginTypes.shipexLogin);
             }
           }
           completer.complete(true);
