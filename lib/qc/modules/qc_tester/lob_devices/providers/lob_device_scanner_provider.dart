@@ -8,6 +8,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/src/utils/connectivity_util.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
@@ -54,9 +55,9 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
   }
 
   Future<MyCalculatorResponse?> getLobCalculator(
-      String deviceBarcode, int? productMasterId, int? productId, int? categoryId) {
+      String deviceBarcode, int? productMasterId, int? productId, int? categoryId, VariantListData? variantItem) {
     var completer = Completer<MyCalculatorResponse?>();
-    service.getLobCalculator(deviceBarcode, productMasterId, productId, categoryId).listen((event) {
+    service.getLobCalculator(deviceBarcode, productMasterId, productId, categoryId, variantItem).listen((event) {
       completer.complete(event);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
@@ -87,7 +88,8 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     try {
       String imageUrl = await _getCompressedImageUrl(imagePath);
       service
-          .reportMismatch(scannedImeiList, deviceBarcode!, imageUrl, timeoutReason: timeoutSelectedReason?.name, isImei2Available: isImei2Available)
+          .reportMismatch(scannedImeiList, deviceBarcode!, imageUrl,
+              timeoutReason: timeoutSelectedReason?.name, isImei2Available: isImei2Available)
           .listen((event) {
         timeoutSelectedReason = null;
         completer.complete();
@@ -154,14 +156,16 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     var completer = Completer<String>();
     try {
       String imageUrl = await _getCompressedImageUrl(filePath);
-      service.reportMismatch(
+      service
+          .reportMismatch(
         !Validator.isNullOrEmpty(updatedImei) ? [updatedImei] : null,
         deviceBarcode!,
         imageUrl,
         timeoutReason: timeoutSelectedReason?.name,
         isImei2Available: isImeiAvailable,
         isAutoApproved: isAutoApproved,
-      ).listen((event) {
+      )
+          .listen((event) {
         timeoutSelectedReason = null;
         completer.complete("Imei Updated Successfully");
       }, onError: (error) {
@@ -170,6 +174,29 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     } catch (e) {
       completer.completeError(e);
     }
+    return completer.future;
+  }
+
+  bool isAllowedVariants(int selectedCategoryId) {
+    for (CategoryData category in deviceDetails?.categoryList ?? []) {
+      if (category.id == selectedCategoryId) {
+        return category.allowVariant ?? false;
+      }
+    }
+    return false;
+  }
+
+  Future<List<VariantListData>> getVariantList(int? productId) {
+    var completer = Completer<List<VariantListData>>();
+    service.getVariantList(productId).listen((event) {
+      if (!Validator.isListNullOrEmpty(event?.variantListResponseData)) {
+        completer.complete(event?.variantListResponseData);
+      } else {
+        completer.completeError("No variant found for this product");
+      }
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
     return completer.future;
   }
 }

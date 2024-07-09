@@ -10,6 +10,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/manual_que
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/submit_device_quote_widget.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/additional_questions_selected_event.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   late final List<MediaSubmitRequest>? mediaList;
   late final String? deviceBarcode;
   late final bool isDeviceTypeLob;
+  VariantListData? _variantData;
   SubmitDeviceQuoteInterface? iDeviceQuote;
   bool isShowCompleteState = false;
   bool isShowTryAgainState = false;
@@ -38,6 +40,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     mediaList = CalculatorDataHolderModel().mediaList;
     deviceBarcode = CalculatorDataHolderModel().deviceBarcode;
     isDeviceTypeLob = CalculatorDataHolderModel().isDeviceTypeLob();
+    _variantData = CalculatorDataHolderModel().variantData;
   }
 
   setDeviceQuoteInterface(SubmitDeviceQuoteInterface value) {
@@ -82,6 +85,10 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     iDeviceQuote?.showLoading(true);
     if (!Validator.isNullOrEmpty(testingRemarks)) {
       quoteRequest?.testingRemarks = testingRemarks;
+    }
+    if (_variantData != null) {
+      quoteRequest?.variantId = _variantData?.id;
+      quoteRequest?.variantName = _variantData?.name;
     }
     service.submitCalculatorResponse(quoteRequest, deviceBarcode, isDeviceTypeLob: isDeviceTypeLob).listen((event) {
       iDeviceQuote?.showLoading(false);
