@@ -47,6 +47,10 @@ class _AddPartItemListState extends State<AddPartItemList> {
                             Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.displaySmall),
                             const SizedBox(height: Dimens.space_8),
                           ],
+                          if (!Validator.isNullOrEmpty(widget.dataModel?.productVariantName)) ...[
+                            _labelAndValueWidget(theme, l10n.skuName, widget.dataModel!.productVariantName!),
+                            const SizedBox(height: Dimens.space_8),
+                          ],
                           if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
                             _labelAndValueWidget(theme, l10n.sku, widget.dataModel!.sku!),
                             const SizedBox(height: Dimens.space_8),
@@ -105,6 +109,7 @@ class _AddPartItemListState extends State<AddPartItemList> {
 
   _labelAndValueWidget(ThemeData theme, String label, String value) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("$label: ", style: theme.primaryTextTheme.headlineMedium),
         const SizedBox(width: Dimens.space_2),
@@ -112,7 +117,7 @@ class _AddPartItemListState extends State<AddPartItemList> {
             child: Text(
           value,
           style: theme.primaryTextTheme.bodyMedium,
-          maxLines: 1,
+          maxLines: 4,
           overflow: TextOverflow.ellipsis,
         ))
       ],

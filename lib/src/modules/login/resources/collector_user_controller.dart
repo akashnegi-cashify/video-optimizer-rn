@@ -1,5 +1,4 @@
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
@@ -31,7 +30,7 @@ class UserRoles {
   static const String QC_ROLE = "QC_ROLE";
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
-      {String? loginToken, bool? loginFromQC = false, bool? loginFromShipex = false, LoginTypes? loginType}) async {
+      {String? loginToken, required LoginTypes loginType}) async {
     // var amplifyPro = AmplifyProvider.of(context, listen: false);
     if (loginType == LoginTypes.shipexLogin) {
       Navigator.of(context).pushNamedAndRemoveUntil(ShipexHomeScreen.route, (route) => false);
@@ -41,7 +40,7 @@ class UserRoles {
     } else if (loginType == LoginTypes.trcLogin) {
       // amplifyPro.getS3DetailsForTrcAndConfigureAmplify();
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
-        ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: loginFromQC);
+        ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);
         Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: args);
       } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
         Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeScreen.route, (route) => false);

@@ -36,6 +36,7 @@ class TRCLoginProvider extends CshChangeNotifier {
         if (!Validator.isNullOrEmpty(token)) {
           AuthHandler().setUserAuth(token!);
           UserDetails().setUserDetailsData(token);
+          AppPreferences().setLoginType(LoginTypes.trcLogin.value);
           completer.complete(token);
         }
       }, onError: (error) {

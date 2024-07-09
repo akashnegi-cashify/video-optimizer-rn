@@ -35,7 +35,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
     return FutureBuilder<String?>(
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          var loginTypeEnum = snapshot.data;
+          var loginTypeEnum = LoginTypes.fromValue(snapshot.data!);
           var isQcLogin = loginTypeEnum == LoginTypes.qcLogin;
           return CalculatorScreen(
             CalculatorScreenArgs(
