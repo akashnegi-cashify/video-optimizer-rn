@@ -41,9 +41,9 @@ Map<String, dynamic> _$PartItemDataResponseToJson(
     <String, dynamic>{
       'sku': instance.sku,
       'pn': instance.productName,
+      'pvn': instance.productVariantName,
       'pcl': instance.productColour,
       'qty': instance.partQuantity,
       'emsg': instance.errorMessage,
       'cc': instance.categoryCode,
-      'pvn': instance.productVariantName,
     };

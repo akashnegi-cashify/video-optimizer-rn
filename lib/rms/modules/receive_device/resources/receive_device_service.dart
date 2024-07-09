@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_trc/rms/modules/receive_device/barcode_types.dart';
+import 'package:flutter_trc/rms/modules/receive_device/resources/receive_device_detail_response.dart';
 import 'package:flutter_trc/rms/rms_service.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 
@@ -9,5 +10,18 @@ class ReceiveDeviceService {
     Map<String, dynamic> req = {"v": barcode, "vt": barcodeType.value};
 
     return RmsService().post("/app/receive/device", BaseActionResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<ReceiveDeviceDetailResponse?> getDeviceDetails(String barcode, BarcodeTypes barcodeType) {
+    Map<String, dynamic> req = {"v": barcode, "vt": barcodeType.value};
+
+    return RmsService().post("/app/receive/device/detail", ReceiveDeviceDetailResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<ReceiveDeviceDetailResponse?> saveVideo(
+      String barcode, BarcodeTypes barcodeType, int receiveType, String videoUrl) {
+    Map<String, dynamic> req = {"v": barcode, "vt": barcodeType.value, "rt": receiveType, "vu": videoUrl};
+
+    return RmsService().post("/app/receive/device/detail", ReceiveDeviceDetailResponse.fromJson, body: jsonEncode(req));
   }
 }

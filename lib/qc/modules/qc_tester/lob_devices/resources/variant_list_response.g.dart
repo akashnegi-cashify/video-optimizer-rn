@@ -8,7 +8,7 @@ part of 'variant_list_response.dart';
 
 VariantListResponse _$VariantListResponseFromJson(Map<String, dynamic> json) =>
     VariantListResponse(
-      json['pm'] as int?,
+      (json['pm'] as num?)?.toInt(),
       (json['dt'] as List<dynamic>?)
           ?.map((e) => VariantListData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -29,7 +29,7 @@ Map<String, dynamic> _$VariantListResponseToJson(
 
 VariantListData _$VariantListDataFromJson(Map<String, dynamic> json) =>
     VariantListData(
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['name'] as String?,
     );
 
