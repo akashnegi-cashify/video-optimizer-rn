@@ -14,6 +14,7 @@ import 'package:flutter_trc/src/libraries/analytics/events/manual_search_button_
 import 'package:flutter_trc/src/libraries/analytics/events/update_device_category_event.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../l10n.dart';
@@ -40,25 +41,26 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
 
   @override
   void initState() {
-    AppPreferences().getIsLoginFromQC().then((value) {
+    AppPreferences().getLoginType().then((value) {
       if (value != null) {
+        var loginTypeEnum = LoginTypes.fromValue(value);
         setState(() {
           _isRunImeiValidatorFlow =
-              value ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW) : false;
+          loginTypeEnum == LoginTypes.qcLogin ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW) : false;
         });
       }
     });
 
-    widget.deviceDetails?.categories?.forEach((key, value) {
-      var dropDownItem = DropDownItem("$key", value);
+    widget.deviceDetails?.categoryList?.forEach((value) {
+      var dropDownItem = DropDownItem(value.id.toString(), value.name);
       _categoryList.add(dropDownItem);
 
       /// check if selectedCategoryId exist in category list or not
-      if (widget.deviceDetails?.selectedCategoryId == key && _selectedCategory == null) {
+      if (widget.deviceDetails?.selectedCategoryId == value.id && _selectedCategory == null) {
         _selectedCategory = dropDownItem;
       }
     });
-    if (_selectedCategory?.id != "1") {
+    if (_selectedCategory?.id != DeviceCategoryIdType.mobile.value) {
       _isImeiVerified = true;
     }
     AnalyticsController.logEvent(DeviceVerifyPopupEvent(widget.scannedData, _selectedCategory?.id));

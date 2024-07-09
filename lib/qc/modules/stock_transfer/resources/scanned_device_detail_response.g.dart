@@ -15,7 +15,7 @@ ScannedDeviceDetailResponse _$ScannedDeviceDetailResponseFromJson(
       json['br'] as String?,
       json['st'] as String?,
       json['src'] as String?,
-      json['el'] as int?,
+      (json['el'] as num?)?.toInt(),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),

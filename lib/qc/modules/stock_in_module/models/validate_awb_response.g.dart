@@ -16,7 +16,7 @@ ValidateAwbResponse _$ValidateAwbResponseFromJson(Map<String, dynamic> json) =>
           ?.map((e) =>
               e == null ? null : Groups.fromJson(e as Map<String, dynamic>))
           .toList()
-      ..videoTime = json['video_time'] as int?
+      ..videoTime = (json['video_time'] as num?)?.toInt()
       ..sourceName = json['sourceName'] as String?;
 
 Map<String, dynamic> _$ValidateAwbResponseToJson(
@@ -33,7 +33,7 @@ Map<String, dynamic> _$ValidateAwbResponseToJson(
 
 Groups _$GroupsFromJson(Map<String, dynamic> json) => Groups()
   ..label = json['l'] as String?
-  ..priority = json['p'] as int?
+  ..priority = (json['p'] as num?)?.toInt()
   ..items = (json['items'] as List<dynamic>?)
       ?.map((e) => e == null ? null : Items.fromJson(e as Map<String, dynamic>))
       .toList();
@@ -47,9 +47,9 @@ Map<String, dynamic> _$GroupsToJson(Groups instance) => <String, dynamic>{
 Items _$ItemsFromJson(Map<String, dynamic> json) => Items(
       key: json['k'] as String?,
       label: json['l'] as String?,
-      priority: json['p'] as int?,
-      imageCount: json['img'] as int?,
-      videoCount: json['video'] as int?,
+      priority: (json['p'] as num?)?.toInt(),
+      imageCount: (json['img'] as num?)?.toInt(),
+      videoCount: (json['video'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ItemsToJson(Items instance) => <String, dynamic>{

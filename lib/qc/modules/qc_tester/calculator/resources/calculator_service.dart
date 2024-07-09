@@ -10,10 +10,12 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_subm
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/trc/trc_calculator_service.dart';
 
 abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
@@ -35,8 +37,10 @@ abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
 
   void onServiceInitialized() {}
 
-  Future<bool?> isLoginFromQC() {
-    return AppPreferences().getIsLoginFromQC();
+  Future<bool?> isLoginFromQC() async {
+    var loginType = await AppPreferences().getLoginType();
+    var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+    return loginTypeEnum == LoginTypes.qcLogin;
   }
 }
 
@@ -121,13 +125,18 @@ abstract class CalculatorService {
   }
 
   Stream<MyCalculatorResponse?> getLobCalculator(
-      String? deviceBarcode, int? productMasterId, int? productId, int? categoryId) {
+      String? deviceBarcode, int? productMasterId, int? productId, int? categoryId, VariantListData? variantItem) {
     Map<String, dynamic> req = {
       "qc": deviceBarcode,
       "pmid": productMasterId.toString(),
       "pid": productId.toString(),
       "cat_id": categoryId.toString(),
     };
+    if (variantItem != null) {
+      req["vid"] = variantItem.id;
+      req["vn"] = variantItem.name;
+    }
+
     return service.post("/manual-test/calculator/render", MyCalculatorResponse.fromJson, body: jsonEncode(req));
   }
 
@@ -147,5 +156,9 @@ abstract class CalculatorService {
     };
 
     return service.post("/device/mismatch/report/save", BaseActionResponse.fromJson, body: jsonEncode(req));
+  }
+
+  Stream<VariantListResponse?> getVariantList(int? productId) {
+    return service.get("/manual-test/variant/$productId", VariantListResponse.fromJson);
   }
 }

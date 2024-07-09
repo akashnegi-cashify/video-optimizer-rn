@@ -30,10 +30,10 @@ PendingPartDataResponse _$PendingPartDataResponseFromJson(
     PendingPartDataResponse(
       sku: json['sku'] as String?,
       pn: json['pn'] as String?,
-      prid: json['prid'] as int?,
-      requestedTime: json['prdt'] as int?,
+      prid: (json['prid'] as num?)?.toInt(),
+      requestedTime: (json['prdt'] as num?)?.toInt(),
       st: json['st'] as String?,
-      statusCode: json['stc'] as int?,
+      statusCode: (json['stc'] as num?)?.toInt(),
       requestedType: json['rt'] as String?,
       engineerName: json['en'] as String?,
     );

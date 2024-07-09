@@ -59,7 +59,7 @@ class AssignedAllottedDeviceListItem extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(width: Dimens.space_8),
@@ -67,8 +67,8 @@ class AssignedAllottedDeviceListItem extends StatelessWidget {
           child: Text(
             value,
             style: textColor != null
-                ? theme.primaryTextTheme.headline5?.copyWith(color: textColor)
-                : theme.primaryTextTheme.headline5,
+                ? theme.primaryTextTheme.headlineSmall?.copyWith(color: textColor)
+                : theme.primaryTextTheme.headlineSmall,
           ),
         ),
       ],

@@ -13,7 +13,7 @@ DispatchLotsResponse _$DispatchLotsResponseFromJson(
           ?.map(
               (e) => e == null ? null : Lot.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalLot: json['tc'] as int?,
+      totalLot: (json['tc'] as num?)?.toInt(),
       isSuccess: json['s'] as bool?,
     );
 
@@ -29,8 +29,8 @@ Lot _$LotFromJson(Map<String, dynamic> json) => Lot(
       lotGroupName: json['lgn'] as String?,
       lotName: json['ln'] as String?,
       invoiceNumber: json['in'] as String?,
-      invoiceDate: json['idt'] as int?,
-      deviceQty: json['dc'] as int?,
+      invoiceDate: (json['idt'] as num?)?.toInt(),
+      deviceQty: (json['dc'] as num?)?.toInt(),
       vendorCode: json['vc'] as String?,
       vendorName: json['vn'] as String?,
     );

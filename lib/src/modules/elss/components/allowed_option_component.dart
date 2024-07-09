@@ -44,7 +44,7 @@ class AllowedOptionsComponent extends StatelessComponent<NoneConfigModel> {
                   ? Center(
                       child: Text(
                         (provider.errorOfChannel.isNotEmpty) ? provider.errorOfChannel : "No Data Found",
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                       ),
                     )
                   : ChannelOptionWidget(

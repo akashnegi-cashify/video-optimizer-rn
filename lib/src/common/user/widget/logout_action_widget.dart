@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/user/user_util.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 
 class LogoutActionWidget extends StatelessWidget {
@@ -13,8 +14,10 @@ class LogoutActionWidget extends StatelessWidget {
     var theme = Theme.of(context);
     return GestureDetector(
       onTap: () async {
-        bool? loginFromShipex = await AppPreferences().getIsLoginFromShipex();
-        if (Validator.isTrue(loginFromShipex)) {
+        // TODO: RMS logout needed
+        var loginType = await AppPreferences().getLoginType();
+        var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+        if (loginTypeEnum == LoginTypes.shipexLogin) {
           AppPreferences().resetAndClearAll();
           Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
         } else {

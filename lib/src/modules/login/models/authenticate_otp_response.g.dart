@@ -11,8 +11,8 @@ AuthenticateOTPResponse _$AuthenticateOTPResponseFromJson(
     AuthenticateOTPResponse(
       json['token_type'] as String?,
       json['access_token'] as String?,
-      json['expires_in'] as int? ?? 0,
-      json['isp'] as int? ?? 0,
+      (json['expires_in'] as num?)?.toInt() ?? 0,
+      (json['isp'] as num?)?.toInt() ?? 0,
       json['refresh_token'] as String?,
     );
 

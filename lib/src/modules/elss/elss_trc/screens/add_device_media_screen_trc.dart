@@ -2,6 +2,7 @@ import 'package:builder_project/builder_project.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/no_usage.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 
 import '../../../../app_builder/app_builder_groups/groups.dart';
@@ -34,6 +35,7 @@ class AddDeviceMediaScreenTrcArguments extends BaseArguments {
   }
 }
 
+@NoUsage(reason: "It is not longer used as we remove image capturing of spare parts from TRC ELSS")
 class AddDeviceMediaScreenTrc extends BaseScreen<AddDeviceMediaScreenTrcArguments> {
   static const String pageKey = "TRC_add_media_screen_trc";
   static const route = '/add_device_media_screen_trc';

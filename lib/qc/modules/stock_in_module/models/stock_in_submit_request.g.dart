@@ -32,7 +32,7 @@ SelectionData _$SelectionDataFromJson(Map<String, dynamic> json) =>
     SelectionData(
       groupLabel: json['gl'] as String?,
       key: json['k'] as String?,
-      value: json['v'] as int?,
+      value: (json['v'] as num?)?.toInt(),
       imgList:
           (json['imgs'] as List<dynamic>?)?.map((e) => e as String?).toList(),
       videoList:
@@ -60,9 +60,9 @@ AccessoriesData _$AccessoriesDataFromJson(Map<String, dynamic> json) =>
     AccessoriesData(
       source: json['s'] as String?,
       qrCode: json['qr'] as String?,
-      hasBox: json['hb'] as int?,
-      hasCharger: json['hc'] as int?,
-      hasBoxCharger: json['hbc'] as int?,
+      hasBox: (json['hb'] as num?)?.toInt(),
+      hasCharger: (json['hc'] as num?)?.toInt(),
+      hasBoxCharger: (json['hbc'] as num?)?.toInt(),
       action: json['a'] as String?,
     );
 

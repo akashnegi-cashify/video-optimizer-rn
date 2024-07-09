@@ -9,7 +9,7 @@ part of 'add_remove_part_request.dart';
 AddRemovePartRequest _$AddRemovePartRequestFromJson(
         Map<String, dynamic> json) =>
     AddRemovePartRequest(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       sku: json['sku'] as String?,
     );
 

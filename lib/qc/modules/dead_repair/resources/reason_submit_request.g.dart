@@ -11,7 +11,7 @@ ReasonSubmitRequest _$ReasonSubmitRequestFromJson(Map<String, dynamic> json) =>
       code: json['qrCode'] as String?,
       remark: json['remark'] as String?,
       qr: json['qr'] as String?,
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       actionRemark: json['actionRemark'] as String?,
     );
 

@@ -8,11 +8,12 @@ part of 'dispatch_lot_list_request.dart';
 
 DispatchLotRequest _$DispatchLotRequestFromJson(Map<String, dynamic> json) =>
     DispatchLotRequest()
-      ..pageNo = json['os'] as int?
-      ..pageSize = json['ps'] as int?
+      ..pageNo = (json['os'] as num?)?.toInt()
+      ..pageSize = (json['ps'] as num?)?.toInt()
       ..searchQuery = json['q'] as String?
-      ..lotType =
-          (json['chq'] as List<dynamic>?)?.map((e) => e as int).toList();
+      ..lotType = (json['chq'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList();
 
 Map<String, dynamic> _$DispatchLotRequestToJson(DispatchLotRequest instance) {
   final val = <String, dynamic>{};

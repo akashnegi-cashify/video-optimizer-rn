@@ -44,7 +44,11 @@ class _AddPartItemListState extends State<AddPartItemList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           if (!Validator.isNullOrEmpty(widget.dataModel?.productName)) ...[
-                            Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.headline3),
+                            Text(widget.dataModel!.productName!, style: theme.primaryTextTheme.displaySmall),
+                            const SizedBox(height: Dimens.space_8),
+                          ],
+                          if (!Validator.isNullOrEmpty(widget.dataModel?.productVariantName)) ...[
+                            _labelAndValueWidget(theme, l10n.skuName, widget.dataModel!.productVariantName!),
                             const SizedBox(height: Dimens.space_8),
                           ],
                           if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
@@ -79,23 +83,23 @@ class _AddPartItemListState extends State<AddPartItemList> {
     );
   }
 
-  _buildErrorWidget(String errorMessage, theme) {
+  _buildErrorWidget(String errorMessage, ThemeData theme) {
     return Container(
       margin: const EdgeInsets.only(top: Dimens.space_8),
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8, vertical: Dimens.space_4),
       decoration: BoxDecoration(
-        color: theme.errorColor.withAlpha(100),
+        color: theme.colorScheme.error.withAlpha(100),
         borderRadius: BorderRadius.circular(Dimens.space_4),
       ),
       child: Row(
         children: [
-          CshIcon(Icons.info_outline, iconColor: theme.errorColor, padding: EdgeInsets.zero),
+          CshIcon(Icons.info_outline, iconColor: theme.colorScheme.error, padding: EdgeInsets.zero),
           const SizedBox(width: Dimens.space_8),
           Expanded(
             child: Text(
               errorMessage,
               maxLines: 2,
-              style: theme.textTheme.bodyMedium?.copyWith(color: theme.errorColor),
+              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
             ),
           ),
         ],
@@ -105,14 +109,15 @@ class _AddPartItemListState extends State<AddPartItemList> {
 
   _labelAndValueWidget(ThemeData theme, String label, String value) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("$label: ", style: theme.primaryTextTheme.headline4),
+        Text("$label: ", style: theme.primaryTextTheme.headlineMedium),
         const SizedBox(width: Dimens.space_2),
         Expanded(
             child: Text(
           value,
-          style: theme.primaryTextTheme.bodyText2,
-          maxLines: 1,
+          style: theme.primaryTextTheme.bodyMedium,
+          maxLines: 4,
           overflow: TextOverflow.ellipsis,
         ))
       ],

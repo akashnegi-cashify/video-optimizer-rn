@@ -143,7 +143,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                   ),
                   Text(
                     l10n.showUrgentRequestsOnly,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   )
                 ],
               ),
@@ -176,7 +176,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                 return Center(
                   child: Text(
                     l10n.noDataFound,
-                    style: theme.primaryTextTheme.subtitle1,
+                    style: theme.primaryTextTheme.titleMedium,
                     textAlign: TextAlign.center,
                   ),
                 );
@@ -189,7 +189,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                       Expanded(
                         child: Text(
                           error,
-                          style: theme.primaryTextTheme.headline3,
+                          style: theme.primaryTextTheme.displaySmall,
                           textAlign: TextAlign.center,
                         ),
                       )

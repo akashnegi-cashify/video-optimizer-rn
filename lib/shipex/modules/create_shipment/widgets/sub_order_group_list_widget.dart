@@ -24,9 +24,9 @@ class SubOrderGroupListWidget extends StatelessWidget {
               l10n.createShipment,
               showBackBtn: true,
               bottom: TabBar(
-                labelStyle: theme.primaryTextTheme.headline4,
+                labelStyle: theme.primaryTextTheme.headlineMedium,
                 labelColor: theme.primaryColor,
-                unselectedLabelStyle: theme.primaryTextTheme.bodyText2,
+                unselectedLabelStyle: theme.primaryTextTheme.bodyMedium,
                 unselectedLabelColor: theme.primaryColor,
                 indicatorColor: theme.primaryColor,
                 indicatorWeight: Dimens.space_5,

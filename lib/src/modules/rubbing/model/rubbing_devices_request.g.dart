@@ -9,8 +9,8 @@ part of 'rubbing_devices_request.dart';
 RubbingDeviceListRequest _$RubbingDeviceListRequestFromJson(
         Map<String, dynamic> json) =>
     RubbingDeviceListRequest()
-      ..pageNo = json['pno'] as int
-      ..pageSize = json['ln'] as int
+      ..pageNo = (json['pno'] as num).toInt()
+      ..pageSize = (json['ln'] as num).toInt()
       ..searchQuery = json['fp'] == null
           ? null
           : SearchQuery.fromJson(json['fp'] as Map<String, dynamic>);

@@ -5,6 +5,7 @@ import '../../../../src/utils/paginate_list_abstract.dart';
 import '../providers/store_out_provider.dart';
 import '../resources/index.dart';
 import 'index.dart';
+import '../l10n.dart';
 
 class StoreOutLotListWidget extends StatefulWidget {
   const StoreOutLotListWidget({
@@ -24,6 +25,7 @@ class StoreOutLotListWidgetState extends PaginatedListState<StoreOutLotListItem,
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    var l10n = L10n(context);
     return iterate(
       (item, index) => Padding(
         padding: EdgeInsets.only(
@@ -34,7 +36,8 @@ class StoreOutLotListWidgetState extends PaginatedListState<StoreOutLotListItem,
         ),
         child: cshGestureDetector(
             child: ListItemWidget(
-              lotName: item.lotGrpName,
+              l10n.groupName,
+              lotValue: item.lotGrpName,
               noOfDevices: "${item.deviceCount ?? 0}",
               lotType: item.lotType,
             ),

@@ -11,9 +11,9 @@ SupervisorDeviceDetailResponse _$SupervisorDeviceDetailResponseFromJson(
     SupervisorDeviceDetailResponse(
       json['dbr'] as String?,
       json['mtb'] as String?,
-      json['mta'] as int?,
+      (json['mta'] as num?)?.toInt(),
       json['ctb'] as String?,
-      json['cta'] as int?,
+      (json['cta'] as num?)?.toInt(),
       (json['pv'] as List<dynamic>?)
           ?.map((e) => PartVariationData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -62,12 +62,12 @@ Map<String, dynamic> _$DeviceMediaDataToJson(DeviceMediaData instance) =>
 
 PartVariationData _$PartVariationDataFromJson(Map<String, dynamic> json) =>
     PartVariationData(
-      partId: json['pi'] as int?,
+      partId: (json['pi'] as num?)?.toInt(),
       partName: json['pn'] as String?,
       value: (json['v'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      selectedVariationId: json['svi'] as int?,
+      selectedVariationId: (json['svi'] as num?)?.toInt(),
       selectedVariationName: json['svn'] as String?,
       category: json['c'] as String?,
     );

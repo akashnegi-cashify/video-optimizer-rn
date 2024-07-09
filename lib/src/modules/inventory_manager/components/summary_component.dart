@@ -54,7 +54,7 @@ class SummaryComponent extends StatelessComponent<NoneConfigModel> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "${l10n.delivery} :",
-                    style: theme.primaryTextTheme.headline3?.copyWith(color: theme.primaryColor),
+                    style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.primaryColor),
                   ),
                 ),
                 const SizedBox(height: Dimens.space_16),

@@ -34,12 +34,12 @@ DeviceDetailResponseData _$DeviceDetailResponseDataFromJson(
       json['imei'] as String?,
       json['sn'] as String?,
       json['cat_id'] as int?,
-      (json['cat'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(int.parse(k), e as String),
-      ),
+      (json['cat'] as List<dynamic>?)
+          ?.map((e) => CategoryData.fromJson(e as Map<String, dynamic>))
+          .toList(),
       json['imei2'] as String?,
       (json['rm'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as int),
+        (k, e) => MapEntry(k, (e as num).toInt()),
       ),
       json['idia'] as bool?,
     );
@@ -52,7 +52,20 @@ Map<String, dynamic> _$DeviceDetailResponseDataToJson(
       'imei2': instance.imei2,
       'sn': instance.serialNo,
       'cat_id': instance.selectedCategoryId,
-      'cat': instance.categories?.map((k, e) => MapEntry(k.toString(), e)),
+      'cat': instance.categoryList,
       'rm': instance.reasons,
       'idia': instance.isDeviceImeiApproved,
+    };
+
+CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) => CategoryData(
+      json['id'] as int?,
+      json['name'] as String?,
+      json['allowVariant'] as bool?,
+    );
+
+Map<String, dynamic> _$CategoryDataToJson(CategoryData instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'allowVariant': instance.allowVariant,
     };

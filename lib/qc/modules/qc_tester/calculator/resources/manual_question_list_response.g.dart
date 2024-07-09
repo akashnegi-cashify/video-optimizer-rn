@@ -31,7 +31,7 @@ ManualQuestionListData _$ManualQuestionListDataFromJson(
         Map<String, dynamic> json) =>
     ManualQuestionListData(
       json['q'] as String?,
-    )..value = json['a'] as int?;
+    )..value = (json['a'] as num?)?.toInt();
 
 Map<String, dynamic> _$ManualQuestionListDataToJson(
         ManualQuestionListData instance) =>

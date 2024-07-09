@@ -7,7 +7,7 @@ part of 'device_info.dart';
 // **************************************************************************
 
 DeviceInfo _$DeviceInfoFromJson(Map<String, dynamic> json) => DeviceInfo()
-  ..deviceId = json['did'] as int
+  ..deviceId = (json['did'] as num).toInt()
   ..productTitle = json['pt'] as String?
   ..deviceBarcode = json['dbr'] as String?
   ..status = json['st'] as String?;

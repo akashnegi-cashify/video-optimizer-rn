@@ -26,10 +26,10 @@ Map<String, dynamic> _$ReQcListResponseToJson(ReQcListResponse instance) =>
 
 ReQcListData _$ReQcListDataFromJson(Map<String, dynamic> json) => ReQcListData(
       lotGroupName: json['lgn'] as String?,
-      lotCount: json['lc'] as int?,
-      pendingCount: json['pc'] as int?,
-      doneCount: json['dc'] as int?,
-      auditCount: json['ac'] as int?,
+      lotCount: (json['lc'] as num?)?.toInt(),
+      pendingCount: (json['pc'] as num?)?.toInt(),
+      doneCount: (json['dc'] as num?)?.toInt(),
+      auditCount: (json['ac'] as num?)?.toInt(),
       lotType: json['lt'] as String?,
       skipReQc: json['srqc'] as bool?,
     );

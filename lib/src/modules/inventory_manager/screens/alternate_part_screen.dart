@@ -102,7 +102,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
                   Expanded(
                     child: Text(
                       provider.errorMessage,
-                      style: theme.primaryTextTheme.headline4,
+                      style: theme.primaryTextTheme.headlineMedium,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -214,7 +214,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
       child: Text(
         label,
-        style: theme.primaryTextTheme.headline4?.copyWith(color: theme.cardColor),
+        style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.cardColor),
       ),
     );
   }
@@ -225,13 +225,13 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
         Expanded(
           child: Text(
             "$label: ",
-            style: theme.primaryTextTheme.headline4?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
           ),
         ),
         Expanded(
           child: Text(
             value,
-            style: theme.primaryTextTheme.headline4,
+            style: theme.primaryTextTheme.headlineMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textDirection: TextDirection.rtl,
@@ -251,7 +251,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
           children: [
             Text(
               "Are you sure you want to request part $sku",
-              style: theme.primaryTextTheme.headline3,
+              style: theme.primaryTextTheme.displaySmall,
             ),
             const SizedBox(height: Dimens.space_16),
             ComboButton(

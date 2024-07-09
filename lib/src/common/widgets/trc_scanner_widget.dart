@@ -58,7 +58,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
                 isPlayScanSound: true,
                 getLastScannedBarcode: () => _lastScannedBarcode,
                 zoomScale: 0.5,
-                onScannerStarted: (arguments, controller) {
+                onScannerStarted: (controller) {
                   _mlScannerController = controller;
                 },
                 onScannerDetected: (String value, MlScannerController controller) {
@@ -105,14 +105,16 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
   }
 
   Widget _buildSubmitWidget(L10n l10n) {
-    return CshBigButton(
+    return CshBigButtonWithLoader(
       text: l10n.submit,
       onPressed: _enableButton
-          ? () {
+          ? (controller) {
+              controller.startLoading();
               FocusScope.of(context).unfocus();
               widget.onScanDetected(_textEditController.text, _mlScannerController, isManualEntry: true);
               _textEditController.clear();
               setState(() {});
+              controller.stopLoading();
             }
           : null,
     );

@@ -32,11 +32,11 @@ PackagingSubOrderItemListData _$PackagingSubOrderItemListDataFromJson(
       json['pn'] as String?,
       json['bn'] as String?,
       json['sd'] as String?,
-      json['s'] as int?,
+      (json['s'] as num?)?.toInt(),
       json['udid'] as String?,
       json['qr_code'] as String?,
-      json['id'] as int?,
-      json['qty'] as int?,
+      (json['id'] as num?)?.toInt(),
+      (json['qty'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PackagingSubOrderItemListDataToJson(

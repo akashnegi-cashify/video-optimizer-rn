@@ -46,12 +46,12 @@ Map<String, dynamic> _$AuditQuestionResponseToJson(
 
 AuditQuestionData _$AuditQuestionDataFromJson(Map<String, dynamic> json) =>
     AuditQuestionData(
-      json['pi'] as int?,
+      (json['pi'] as num?)?.toInt(),
       json['pn'] as String?,
       (json['v'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-    )..imageCount = json['ic'] as int?;
+    )..imageCount = (json['ic'] as num?)?.toInt();
 
 Map<String, dynamic> _$AuditQuestionDataToJson(AuditQuestionData instance) =>
     <String, dynamic>{
@@ -64,7 +64,7 @@ Map<String, dynamic> _$AuditQuestionDataToJson(AuditQuestionData instance) =>
 ManualAuditQuestionItem _$ManualAuditQuestionItemFromJson(
         Map<String, dynamic> json) =>
     ManualAuditQuestionItem(
-      json['mmid'] as int?,
+      (json['mmid'] as num?)?.toInt(),
       json['q'] as String?,
     )..isSelected = json['is'] as bool?;
 

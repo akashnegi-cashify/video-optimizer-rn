@@ -57,7 +57,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                 if (!Validator.isListNullOrEmpty(provider.brandDetailsData?.brandDataList)) ...[
                   Text(
                     l10n.selectBrand,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
                   CshDropDown(
@@ -85,7 +85,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                   const SizedBox(height: Dimens.space_20),
                   Text(
                     l10n.selectProduct,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
                   CshDropDown(
@@ -109,7 +109,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                   const SizedBox(height: Dimens.space_20),
                   Text(
                     l10n.selectColor,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
                   CshDropDown(
@@ -187,8 +187,8 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
   _labelValueWidget(ThemeData theme, String label, String value) {
     return Row(
       children: [
-        Expanded(child: Text("$label:", style: theme.primaryTextTheme.headline4)),
-        Expanded(child: Text(value, style: theme.primaryTextTheme.headline4))
+        Expanded(child: Text("$label:", style: theme.primaryTextTheme.headlineMedium)),
+        Expanded(child: Text(value, style: theme.primaryTextTheme.headlineMedium))
       ],
     );
   }

@@ -58,11 +58,11 @@ class ElssDeviceDetailsWidgetTrc extends StatelessWidget {
   _labelAndValueWidget(ThemeData theme, String label, String value) {
     return Row(
       children: [
-        Text("$label: ", style: theme.primaryTextTheme.headline3),
+        Text("$label: ", style: theme.primaryTextTheme.displaySmall),
         Expanded(
           child: Text(
             value,
-            style: theme.primaryTextTheme.bodyText1,
+            style: theme.primaryTextTheme.bodyLarge,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

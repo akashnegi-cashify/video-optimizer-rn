@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/libraries/analytics/cashify/resources/cashify_analytics_service.dart';
 import 'package:flutter_trc/src/libraries/analytics/cashify/resources/save_analytic_request.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 
 typedef SaveEventFun = Function({required String eventName, String? subOrdinateKey, Map<String, dynamic>? parameters});
 
@@ -15,9 +15,9 @@ class CashifyAnalyticsHelper {
 
   static Future<void> sendAnalyticsEvent(
       {required String eventName, String? subOrdinateKey, Map<String, dynamic>? parameters}) async {
-
-    var isLoginFromQc = await AppPreferences().getIsLoginFromQC();
-    if (!Validator.isTrue(isLoginFromQc)) {
+    var loginType = await AppPreferences().getLoginType();
+    var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+    if (loginTypeEnum != LoginTypes.qcLogin) {
       return;
     }
 

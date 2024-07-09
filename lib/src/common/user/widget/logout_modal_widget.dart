@@ -21,12 +21,12 @@ class LogoutModalWidget extends StatelessWidget {
         children: [
           Text(
             l10n.logout,
-            style: theme.primaryTextTheme.headline2,
+            style: theme.primaryTextTheme.displayMedium,
           ),
           const SizedBox(height: Dimens.space_16),
           Text(
             l10n.doYouWantToLogout,
-            style: theme.primaryTextTheme.bodyText1,
+            style: theme.primaryTextTheme.bodyLarge,
           ),
           const SizedBox(height: Dimens.space_30),
           ComboButton(

@@ -8,27 +8,27 @@ part of 'order_engineer_part.dart';
 
 OrderEngineerPart _$OrderEngineerPartFromJson(Map<String, dynamic> json) =>
     OrderEngineerPart(
-      json['qty'] as int?,
-      version: json['_v'] as int? ?? 0,
+      (json['qty'] as num?)?.toInt(),
+      version: (json['_v'] as num?)?.toInt() ?? 0,
     )
       ..sku = json['sku'] as String?
       ..partName = json['pn'] as String?
       ..partBarcode = json['pbr'] as String?
       ..deviceName = json['dna'] as String?
       ..deviceBarcode = json['dbr'] as String?
-      ..partId = json['pid'] as int?
+      ..partId = (json['pid'] as num?)?.toInt()
       ..partColor = json['pcl'] as String?
       ..isBulk = json['isBulk'] as bool?
       ..isUrgent = json['isUrgent'] as bool?
-      ..prId = json['prid'] as int?
+      ..prId = (json['prid'] as num?)?.toInt()
       ..isService = json['isService'] as bool?
       ..action = json['ac'] as String?
       ..categoryCode = json['cc'] as String?
       ..retrievedPartData = json['rpd'] as Map<String, dynamic>?
       ..status = json['st'] as String?
-      ..statusCode = json['stc'] as int?
-      ..retrievedImageCount = json['rvc'] as int?
-      ..partType = json['action'] as int?;
+      ..statusCode = (json['stc'] as num?)?.toInt()
+      ..retrievedImageCount = (json['rvc'] as num?)?.toInt()
+      ..partType = (json['action'] as num?)?.toInt();
 
 Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) =>
     <String, dynamic>{

@@ -9,9 +9,9 @@ part of 'store_in_location_verify_response.dart';
 StoreInLocationVerifyResponse _$StoreInLocationVerifyResponseFromJson(
         Map<String, dynamic> json) =>
     StoreInLocationVerifyResponse(
-      success: json['s'] as int?,
-      availableSpace: json['ac'] as int?,
-      totalSpace: json['tc'] as int?,
+      success: (json['s'] as num?)?.toInt(),
+      availableSpace: (json['ac'] as num?)?.toInt(),
+      totalSpace: (json['tc'] as num?)?.toInt(),
       message: json['message'] as String?,
     );
 

@@ -35,9 +35,9 @@ class ReturnComponent extends StatelessComponent<NoneConfigModel> {
               l10n.returns,
               showBackBtn: true,
               bottom: TabBar(
-                labelStyle: theme.primaryTextTheme.headline4,
+                labelStyle: theme.primaryTextTheme.headlineMedium,
                 labelColor: theme.primaryColor,
-                unselectedLabelStyle: theme.primaryTextTheme.bodyText2,
+                unselectedLabelStyle: theme.primaryTextTheme.bodyMedium,
                 indicatorWeight: Dimens.space_4,
                 indicatorColor: theme.primaryColor,
                 tabs: [

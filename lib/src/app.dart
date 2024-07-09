@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:builder_project/builder_project.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/qc/qc_routes.dart';
+import 'package:flutter_trc/rms/rms_routes.dart';
 import 'package:flutter_trc/shipex/shipex_routes.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
@@ -18,7 +18,6 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import './l10n.dart';
-import 'amplify/amplify_provider.dart';
 import 'app_initializer.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
@@ -37,9 +36,10 @@ class CashifyApp extends StatefulWidget {
 }
 
 class _CashifyAppState extends State<CashifyApp> {
-  final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: false);
+  final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: true);
   GlobalKey<NavigatorState>? _navKey = GlobalKey<NavigatorState>();
-  StreamSubscription<ConnectivityResult>? _connectionSubscription;
+
+  // StreamSubscription<ConnectivityResult>? _connectionSubscription;
 
   @override
   void initState() {
@@ -52,30 +52,30 @@ class _CashifyAppState extends State<CashifyApp> {
     SessionExpiredCallback().setCallback(onSessionExpire);
     CashifyAlertHandler().setAlertCallback(registerAlert);
 
-    _connectionSubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
-      switch (result) {
-        case ConnectivityResult.none:
-          // TODO: Dev Action Required -> show no internet ui
-          // Navigator.pushReplacementNamed(_navKey.currentState.context, NoInternetScreen.routeName);
-          break;
-
-        case ConnectivityResult.wifi:
-        case ConnectivityResult.mobile:
-          // TODO: Dev Action Required -> Pass the NoInternetScreen route name
-          if (_navKey != null && _navKey!.currentContext != null) {
-            CshRouteObserver().openScreenBeforeInternetError(_navKey!.currentContext!, '' /* Route name */);
-          }
-          break;
-        case ConnectivityResult.bluetooth:
-          break;
-        case ConnectivityResult.ethernet:
-          break;
-        case ConnectivityResult.vpn:
-          break;
-        case ConnectivityResult.other:
-          break;
-      }
-    });
+    // _connectionSubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
+    //   switch (result) {
+    //     case ConnectivityResult.none:
+    //       // TODO: Dev Action Required -> show no internet ui
+    //       // Navigator.pushReplacementNamed(_navKey.currentState.context, NoInternetScreen.routeName);
+    //       break;
+    //
+    //     case ConnectivityResult.wifi:
+    //     case ConnectivityResult.mobile:
+    //       // TODO: Dev Action Required -> Pass the NoInternetScreen route name
+    //       if (_navKey != null && _navKey!.currentContext != null) {
+    //         CshRouteObserver().openScreenBeforeInternetError(_navKey!.currentContext!, '' /* Route name */);
+    //       }
+    //       break;
+    //     case ConnectivityResult.bluetooth:
+    //       break;
+    //     case ConnectivityResult.ethernet:
+    //       break;
+    //     case ConnectivityResult.vpn:
+    //       break;
+    //     case ConnectivityResult.other:
+    //       break;
+    //   }
+    // });
   }
 
   Future<String> onSessionExpire() async {
@@ -90,9 +90,9 @@ class _CashifyAppState extends State<CashifyApp> {
 
   @override
   void dispose() {
-    if (_connectionSubscription != null) {
-      _connectionSubscription!.cancel();
-    }
+    // if (_connectionSubscription != null) {
+    //   _connectionSubscription!.cancel();
+    // }
     super.dispose();
   }
 
@@ -103,14 +103,7 @@ class _CashifyAppState extends State<CashifyApp> {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
-          ChangeNotifierProvider(
-            create: (_) => UserSessionProvider(),
-            lazy: false,
-          ),
-          ChangeNotifierProvider<AmplifyProvider>(
-            lazy: false,
-            create: (_) => AmplifyProvider(),
-          ),
+          ChangeNotifierProvider(create: (_) => UserSessionProvider(), lazy: false),
         ],
         builder: (BuildContext context, _) {
           LocaleProvider localProvider = Provider.of<LocaleProvider>(context);
@@ -160,6 +153,7 @@ class _AppRoutes {
     routes.addAll(TrcRoutes.getRoutes());
     routes.addAll(QcRoutes.getQcRoutes());
     routes.addAll(ShipexRoutes.getRoutes());
+    routes.addAll(RmsRoutes.getRoutes());
     return routes;
   }
 }

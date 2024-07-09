@@ -3,19 +3,20 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 
 import '../l10n.dart';
 import '../providers/login_provider.dart';
 
-class LoginWidget extends StatefulWidget {
-  const LoginWidget({Key? key}) : super(key: key);
+class TrcLoginWidget extends StatefulWidget {
+  const TrcLoginWidget({Key? key}) : super(key: key);
 
   @override
-  State<LoginWidget> createState() => _LoginWidgetState();
+  State<TrcLoginWidget> createState() => _TrcLoginWidgetState();
 }
 
-class _LoginWidgetState extends State<LoginWidget> {
+class _TrcLoginWidgetState extends State<TrcLoginWidget> {
   final TextEditingController _empIdController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -147,7 +148,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: successMessage, snackBarPosition: SnackBarPosition.TOP);
       await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-          loginToken: token, loginFromQC: false);
+          loginToken: token, loginType: LoginTypes.trcLogin);
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);

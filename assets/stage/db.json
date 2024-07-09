@@ -1474,6 +1474,21 @@
           "key": "header_shipex_general"
         }
       ]
+    },
+    {
+      "pageId": 30001,
+      "pageKey": "RMS_home_screen",
+      "dt": [
+        {
+          "id": 30001,
+          "key": "RMS_home_component",
+          "type": "component"
+        },
+        {
+          "id": 30002,
+          "key": "header_rms_general"
+        }
+      ]
     }
   ],
   "componentData": [
@@ -3404,6 +3419,28 @@
       "configJson": {
         "config": {
           "ht": "Complete Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 30001,
+      "locale": "en",
+      "key": "RMS_home_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 30002,
+      "locale": "en",
+      "key": "header_rms_general",
+      "configJson": {
+        "config": {
+          "ht": "RMS Home",
           "sbb": true,
           "slb": false
         }

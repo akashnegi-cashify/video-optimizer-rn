@@ -48,7 +48,7 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                   }
                 },
               ),
-              Text(widget.dataModel.optionName ?? "", style: theme.primaryTextTheme.headline4)
+              Text(widget.dataModel.optionName ?? "", style: theme.primaryTextTheme.headlineMedium)
             ],
           ),
           if (widget.keyValue == widget.groupValueKey && (widget.dataModel.isApplicableReasonRequired ?? false))
@@ -69,7 +69,7 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                         },
                       ),
                       const SizedBox(width: Dimens.space_8),
-                      Text(l10n.rubbingApplicable, style: theme.primaryTextTheme.headline5)
+                      Text(l10n.rubbingApplicable, style: theme.primaryTextTheme.headlineSmall)
                     ],
                   ),
                   Row(
@@ -84,7 +84,7 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                         },
                       ),
                       const SizedBox(width: Dimens.space_8),
-                      Text(l10n.pnaApplicable, style: theme.primaryTextTheme.headline5)
+                      Text(l10n.pnaApplicable, style: theme.primaryTextTheme.headlineSmall)
                     ],
                   ),
                   Row(
@@ -99,7 +99,7 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                         },
                       ),
                       const SizedBox(width: Dimens.space_8),
-                      Text(l10n.glassChangeApplicable, style: theme.primaryTextTheme.headline5)
+                      Text(l10n.glassChangeApplicable, style: theme.primaryTextTheme.headlineSmall)
                     ],
                   ),
                 ],

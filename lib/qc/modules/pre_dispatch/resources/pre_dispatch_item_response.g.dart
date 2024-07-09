@@ -14,7 +14,7 @@ PreDispatchItemResponse _$PreDispatchItemResponseFromJson(
               ? null
               : PreDispatchItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalCount: json['tc'] as int?,
+      totalCount: (json['tc'] as num?)?.toInt(),
       success: json['success'] as bool?,
       status: json['s'] as bool?,
     );
@@ -30,17 +30,17 @@ Map<String, dynamic> _$PreDispatchItemResponseToJson(
 
 PreDispatchItem _$PreDispatchItemFromJson(Map<String, dynamic> json) =>
     PreDispatchItem(
-      id: json['id'] as int?,
-      deviceId: json['did'] as int?,
-      mpid: json['mpid'] as int?,
+      id: (json['id'] as num?)?.toInt(),
+      deviceId: (json['did'] as num?)?.toInt(),
+      mpid: (json['mpid'] as num?)?.toInt(),
       qrCode: json['qr_code'] as String?,
       model: json['m'] as String?,
       brand: json['b'] as String?,
       imei: json['im'] as String?,
-      status: json['s'] as int?,
+      status: (json['s'] as num?)?.toInt(),
       grade: json['gr'] as String?,
       productTitle: json['pt'] as String?,
-      testAge: json['ta'] as int?,
+      testAge: (json['ta'] as num?)?.toInt(),
       statusDescription: json['sd'] as String?,
     );
 

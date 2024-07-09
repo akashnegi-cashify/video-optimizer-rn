@@ -163,7 +163,7 @@ abstract class PaginatedListState<TItem, TStatefulWidget extends StatefulWidget>
         constraints: const BoxConstraints.expand(),
         child: Text(
           _errorMessage ?? l10n.noDataFound,
-          style: theme.primaryTextTheme.subtitle1,
+          style: theme.primaryTextTheme.titleMedium,
           textAlign: TextAlign.center,
         ),
       ),

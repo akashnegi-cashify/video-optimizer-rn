@@ -10,7 +10,7 @@ CalculatorQuestionAnswerRequest _$CalculatorQuestionAnswerRequestFromJson(
         Map<String, dynamic> json) =>
     CalculatorQuestionAnswerRequest(
       json['qId'] as String?,
-      json['optionId'] as int?,
+      (json['optionId'] as num?)?.toInt(),
       json['timeStamp'] as String?,
     );
 

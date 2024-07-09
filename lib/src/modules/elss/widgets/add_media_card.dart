@@ -1,15 +1,20 @@
 import 'dart:async';
 import 'dart:io';
 
-import '../../../amplify/amplifier.dart';
-import '../../../amplify/amplify_provider.dart';
-import '../elss_trc/l10n.dart';
-import 'package:core_widgets/core_widgets.dart';
+import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/common/no_usage.dart';
+import 'package:flutter_trc/src/utils/image_util.dart';
+import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
+import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+
+import '../elss_trc/l10n.dart';
 import 'network_image_widget.dart';
 
+@NoUsage(reason: "It is not longer used as we remove image capturing of spare parts from TRC ELSS")
 class AddMediaCards extends StatefulWidget {
   final String? imageUrl;
   final int index;
@@ -39,6 +44,10 @@ class _AddMediaCardsState extends State<AddMediaCards> {
     super.initState();
   }
 
+  _getCompressedImage(File imageFile) async {
+    await ImageUtil.compressImage(imageFile);
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -60,34 +69,22 @@ class _AddMediaCardsState extends State<AddMediaCards> {
                   try {
                     XFile? imageFilex = await picker.pickImage(source: ImageSource.camera);
                     if (imageFilex != null) {
-                      AmplifyProvider amplifyProvider = AmplifyProvider.of(context, listen: false);
-                      File imageFile = File(imageFilex.path);
-                      String fileName = Amplifier.fileNameFromPath(imageFile.path);
-
                       CshLoading().showLoading(context);
-                      amplifyProvider.uploadFile(
-                        fileName: fileName,
-                        folderName: amplifyProvider.configResponse?.data?.folderName,
-                        file: imageFile,
-                        onProgress: (int currentBytes, int totalBytes) {},
-                        onFileUploaded: (String imagePath) async {
-                          CshLoading().hideLoading(context);
+                      var compressedFile = await ImageUtil.compressImage(File(imageFilex.path));
+                      String fileName = path.basename(compressedFile.path);
+                      MediaUploadUtil(service: ImageUploadServiceType.trc.service)
+                          .uploadMediaWithType(mediaFile: compressedFile, fileName: fileName)
+                          .then((value) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.success(context: context, message: l10n.imageUploadedSuccessfully);
+                        _selectedImageUrl = value;
 
-                          String s3Key = imagePath;
-                          if (!Validator.isNullOrEmpty(s3Key)) {
-                            String s3Url = await amplifyProvider.getS3FileUrlFromS3Key(filePath: s3Key, fullPath: true);
-                            CshSnackBar.success(context: context, message: l10n.imageUploadedSuccessfully);
-                            _selectedImageUrl = s3Url;
-
-                            setState(() {});
-                            widget.setS3UrlToList(widget.index, s3Url);
-                          }
-                        },
-                        onFailed: (String errorMsg) {
-                          CshLoading().hideLoading(context);
-                          CshSnackBar.error(context: context, message: errorMsg);
-                        },
-                      );
+                        setState(() {});
+                        widget.setS3UrlToList(widget.index, value);
+                      }, onError: (error) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.error(context: context, message: error.toString());
+                      });
                     }
                   } catch (e) {
                     CshSnackBar.error(context: context, message: e.toString());

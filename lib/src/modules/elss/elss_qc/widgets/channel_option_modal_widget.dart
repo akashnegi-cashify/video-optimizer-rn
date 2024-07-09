@@ -45,7 +45,7 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(widget.modalHeading, style: theme.primaryTextTheme.headline3),
+                Text(widget.modalHeading, style: theme.primaryTextTheme.displaySmall),
                 CshIcon(
                   FeatherIcons.x,
                   iconSize: MobileIconSize.large,
@@ -62,11 +62,11 @@ class _ChannelOptionModalWidgetState extends State<ChannelOptionModalWidget> {
                     ? RichText(
                         text: TextSpan(
                           text: "${l10n.repairType}: ",
-                          style: theme.primaryTextTheme.overline,
+                          style: theme.primaryTextTheme.labelLarge,
                           children: <TextSpan>[
                             TextSpan(
                               text: widget.dataModel!.channelName!,
-                              style: theme.primaryTextTheme.headline5,
+                              style: theme.primaryTextTheme.headlineSmall,
                             )
                           ],
                         ),

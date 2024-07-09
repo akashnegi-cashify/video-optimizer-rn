@@ -28,7 +28,7 @@ Map<String, dynamic> _$AssignedDeviceDetailsToJson(
 AssignDeviceDetailsData _$AssignDeviceDetailsDataFromJson(
         Map<String, dynamic> json) =>
     AssignDeviceDetailsData(
-      did: json['did'] as int?,
+      did: (json['did'] as num?)?.toInt(),
       lc: json['lc'] as String?,
       engineerName: json['en'] as String?,
       deviceBarcode: json['dbr'] as String?,
@@ -37,7 +37,7 @@ AssignDeviceDetailsData _$AssignDeviceDetailsDataFromJson(
       repairType: json['rt'] as String?,
       productName: json['pt'] as String?,
       deadRemark: json['dr'] as String?,
-      returnCount: json['rc'] as int?,
+      returnCount: (json['rc'] as num?)?.toInt(),
       isScrewMediaUploaded: json['ismu'] as bool?,
       imei: json['dimei'] as String?,
       repairReasonList:

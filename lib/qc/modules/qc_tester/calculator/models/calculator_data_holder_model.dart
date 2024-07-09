@@ -1,6 +1,7 @@
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 
 enum DeviceType {
@@ -19,6 +20,9 @@ class CalculatorDataHolderModel {
   MyCalculatorResponse? _calculatorResponse;
   List<MediaSubmitRequest>? _mediaList;
   int? _selectedCategoryId;
+  VariantListData? _variantData;
+
+  VariantListData? get variantData => _variantData;
 
   DeviceType _deviceType = DeviceType.mobile_device;
 
@@ -30,7 +34,7 @@ class CalculatorDataHolderModel {
   bool get isCaptureDeviceMediaJourney => _isCaptureDeviceMediaJourney;
 
   void startCalculatorJourney(MyCalculatorResponse? calculatorResponse, String? deviceBarcode,
-      {DeviceType deviceType = DeviceType.mobile_device, int? selectedCategoryId}) {
+      {DeviceType deviceType = DeviceType.mobile_device, int? selectedCategoryId, VariantListData? variantData}) {
     resetAllData();
 
     // add Experiment for server side rule executor or not
@@ -48,6 +52,7 @@ class CalculatorDataHolderModel {
     _selectedCategoryId = selectedCategoryId;
     _deviceBarcode = deviceBarcode;
     _deviceType = deviceType;
+    _variantData = variantData;
   }
 
   void startImageCaptureJourney(String? deviceBarcode) {
@@ -89,6 +94,7 @@ class CalculatorDataHolderModel {
     _selectedCategoryId = null;
     _isCaptureDeviceMediaJourney = false;
     _deviceType = DeviceType.mobile_device;
+    _variantData = null;
   }
 
   bool get isCaptureMediaMandatoryInQC =>

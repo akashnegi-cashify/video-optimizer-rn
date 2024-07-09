@@ -9,7 +9,7 @@ part of 'guard_entry_scan_response.dart';
 GuardEntryScanResponse _$GuardEntryScanResponseFromJson(
         Map<String, dynamic> json) =>
     GuardEntryScanResponse(
-      json['s'] as int?,
+      (json['s'] as num?)?.toInt(),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),

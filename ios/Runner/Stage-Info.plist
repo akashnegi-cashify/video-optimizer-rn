@@ -2,12 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow Microphone permission to record video</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow camera to scan the barcode and create video.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Cashify Ops Stage</string>
 	<key>CFBundleExecutable</key>
@@ -26,20 +22,26 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
 	<false/>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Allow flutter tools to connect and debug your application</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_dartVmService._tcp</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow camera to scan the barcode and create video.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Allow flutter tools to connect and debug your application</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow Microphone permission to record video</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We are using your gallary to choose video to optimize</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

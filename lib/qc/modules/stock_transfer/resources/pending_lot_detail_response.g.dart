@@ -9,14 +9,14 @@ part of 'pending_lot_detail_response.dart';
 PendingLotDetailResponse _$PendingLotDetailResponseFromJson(
         Map<String, dynamic> json) =>
     PendingLotDetailResponse(
-      json['lid'] as int?,
+      (json['lid'] as num?)?.toInt(),
       json['lotName'] as String?,
-      json['deviceCount'] as int?,
+      (json['deviceCount'] as num?)?.toInt(),
       json['destination'] as String?,
       json['rm'] as String?,
-      json['statusCode'] as int?,
+      (json['statusCode'] as num?)?.toInt(),
       json['status'] as String?,
-      json['cb'] as int?,
+      (json['cb'] as num?)?.toInt(),
       json['cd'] as String?,
       (json['deviceDetailsList'] as List<dynamic>?)
           ?.map((e) =>
@@ -54,7 +54,7 @@ PendingLotDeviceListData _$PendingLotDeviceListDataFromJson(
       json['im'] as String?,
       json['ab'] as String?,
       json['src'] as String?,
-      json['aa'] as int?,
+      (json['aa'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PendingLotDeviceListDataToJson(

@@ -25,8 +25,8 @@ Map<String, dynamic> _$PartSummaryResponseToJson(
 
 PartSummaryData _$PartSummaryDataFromJson(Map<String, dynamic> json) =>
     PartSummaryData(
-      assignedCount: json['ac'] as int?,
-      pendingCount: json['pdc'] as int?,
+      assignedCount: (json['ac'] as num?)?.toInt(),
+      pendingCount: (json['pdc'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PartSummaryDataToJson(PartSummaryData instance) =>

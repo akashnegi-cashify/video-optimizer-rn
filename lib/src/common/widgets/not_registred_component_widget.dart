@@ -12,7 +12,7 @@ class NotRegistered extends StatelessWidget {
         padding: const EdgeInsets.all(Dimens.space_16),
         child: Text(
           "Your Component is not registered yet",
-          style: theme.textTheme.subtitle1,
+          style: theme.textTheme.titleMedium,
         ),
       ),
     );

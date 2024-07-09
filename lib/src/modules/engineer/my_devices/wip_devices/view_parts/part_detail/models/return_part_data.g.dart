@@ -12,7 +12,7 @@ ReturnPartData _$ReturnPartDataFromJson(Map<String, dynamic> json) =>
       json['pid'] as String?,
       json['rr'] as String?,
       json['remark'] as String?,
-      json['prid'] as int?,
+      (json['prid'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ReturnPartDataToJson(ReturnPartData instance) =>

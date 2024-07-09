@@ -58,18 +58,18 @@ class ChannelSuggestionWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(title, style: theme.primaryTextTheme.headline5),
+                  Text(title, style: theme.primaryTextTheme.headlineSmall),
                   Row(
                     children: [
                       if (dataModel?.channelOptionPrice != null)
                         RichText(
                           text: TextSpan(
                             text: "${l10n.profit}: ",
-                            style: theme.primaryTextTheme.overline,
+                            style: theme.primaryTextTheme.labelLarge,
                             children: <TextSpan>[
                               TextSpan(
                                 text: l10n.formatPrice(dataModel!.channelOptionPrice, defaultValue: 0),
-                                style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+                                style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
                               )
                             ],
                           ),
@@ -134,17 +134,17 @@ class ChannelSuggestionWidget extends StatelessWidget {
                                             "${index + 1}. ${elssPart.sku}",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: theme.textTheme.subtitle2,
+                                            style: theme.textTheme.titleSmall,
                                           ),
                                           const SizedBox(height: Dimens.space_2),
                                           RichText(
                                             text: TextSpan(
                                                 text: "Service Type:  ",
-                                                style: theme.primaryTextTheme.overline?.copyWith(
+                                                style: theme.primaryTextTheme.labelLarge?.copyWith(
                                                   color: theme.shadowColor,
                                                 ),
                                                 children: [
-                                                  TextSpan(text: serviceType, style: theme.textTheme.subtitle2)
+                                                  TextSpan(text: serviceType, style: theme.textTheme.titleSmall)
                                                 ]),
                                           ),
                                         ],
@@ -158,7 +158,7 @@ class ChannelSuggestionWidget extends StatelessWidget {
                                           RichText(
                                             text: TextSpan(
                                                 text: "Price:  ",
-                                                style: theme.primaryTextTheme.overline?.copyWith(
+                                                style: theme.primaryTextTheme.labelLarge?.copyWith(
                                                   color: theme.shadowColor,
                                                 ),
                                                 children: [
@@ -171,13 +171,13 @@ class ChannelSuggestionWidget extends StatelessWidget {
                                           RichText(
                                             text: TextSpan(
                                                 text: "Qty:  ",
-                                                style: theme.primaryTextTheme.overline?.copyWith(
+                                                style: theme.primaryTextTheme.labelLarge?.copyWith(
                                                   color: theme.shadowColor,
                                                 ),
                                                 children: [
                                                   TextSpan(
                                                     text: "${elssPart.quantity ?? 0}",
-                                                    style: theme.textTheme.subtitle2,
+                                                    style: theme.textTheme.titleSmall,
                                                   )
                                                 ]),
                                           ),
@@ -244,7 +244,7 @@ class ChannelSuggestionWidget extends StatelessWidget {
       children: [
         Text(
           "$label: ",
-          style: theme.primaryTextTheme.overline,
+          style: theme.primaryTextTheme.labelLarge,
         ),
         Expanded(
           child: Text(
@@ -252,8 +252,8 @@ class ChannelSuggestionWidget extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: (textColor != null)
-                ? theme.primaryTextTheme.headline5?.copyWith(color: textColor)
-                : theme.primaryTextTheme.headline5,
+                ? theme.primaryTextTheme.headlineSmall?.copyWith(color: textColor)
+                : theme.primaryTextTheme.headlineSmall,
           ),
         )
       ],

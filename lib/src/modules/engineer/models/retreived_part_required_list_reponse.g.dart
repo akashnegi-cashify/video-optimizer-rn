@@ -44,7 +44,7 @@ RetrievedPartListResponseData _$RetrievedPartListResponseDataFromJson(
         Map<String, dynamic> json) =>
     RetrievedPartListResponseData(
       categoryCode: json['ccd'] as String?,
-      partRequestId: json['prid'] as int?,
+      partRequestId: (json['prid'] as num?)?.toInt(),
       partRequestName: json['prn'] as String?,
       productRequiredReasonList: (json['prr'] as List<dynamic>?)
           ?.map((e) =>

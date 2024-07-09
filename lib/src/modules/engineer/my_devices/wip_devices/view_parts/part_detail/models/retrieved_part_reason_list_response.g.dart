@@ -30,7 +30,7 @@ Map<String, dynamic> _$RetrievedPartReasonListResponseToJson(
 RetrievedPartReasonListData _$RetrievedPartReasonListDataFromJson(
         Map<String, dynamic> json) =>
     RetrievedPartReasonListData(
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['rr'] as String?,
     );
 

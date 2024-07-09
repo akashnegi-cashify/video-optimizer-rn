@@ -78,20 +78,20 @@ class _AssignedPartDetailsWidgetState extends State<AssignedPartDetailsWidget> {
               children: [
                 Text(
                   l10n.partBarcode,
-                  style: theme.primaryTextTheme.headline4?.copyWith(color: theme.primaryColor),
+                  style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
                 ),
                 Row(
                   children: [
                     Text(
                       widget.detailsData!.data!.productBarcode!,
-                      style: theme.primaryTextTheme.headline4,
+                      style: theme.primaryTextTheme.headlineMedium,
                     ),
                     const SizedBox(width: Dimens.space_4),
                     CshIcon(
                       FeatherIcons.link2,
                       iconSize: MobileIconSize.medium,
                       padding: EdgeInsets.zero,
-                      iconColor: theme.errorColor,
+                      iconColor: theme.colorScheme.error,
                       onClick: () {
                         _showUnlinkModal(context, theme, l10n, widget.prid);
                       },
@@ -122,7 +122,7 @@ class _AssignedPartDetailsWidgetState extends State<AssignedPartDetailsWidget> {
       children: [
         Text(
           label,
-          style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+          style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
         ),
         (value == null)
             ? CshMediumButton(
@@ -133,7 +133,7 @@ class _AssignedPartDetailsWidgetState extends State<AssignedPartDetailsWidget> {
               )
             : Text(
                 value.toString(),
-                style: theme.primaryTextTheme.headline5,
+                style: theme.primaryTextTheme.headlineSmall,
               )
       ],
     );
@@ -145,7 +145,7 @@ class _AssignedPartDetailsWidgetState extends State<AssignedPartDetailsWidget> {
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(width: Dimens.space_8),
@@ -154,8 +154,8 @@ class _AssignedPartDetailsWidgetState extends State<AssignedPartDetailsWidget> {
             value,
             textDirection: TextDirection.rtl,
             style: textColor != null
-                ? theme.primaryTextTheme.headline5?.copyWith(color: textColor)
-                : theme.primaryTextTheme.headline5,
+                ? theme.primaryTextTheme.headlineSmall?.copyWith(color: textColor)
+                : theme.primaryTextTheme.headlineSmall,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -173,7 +173,7 @@ class _AssignedPartDetailsWidgetState extends State<AssignedPartDetailsWidget> {
           children: [
             Text(
               l10n.areYouSureYouWantToUnlinkThePart,
-              style: theme.primaryTextTheme.headline3,
+              style: theme.primaryTextTheme.displaySmall,
             ),
             const SizedBox(height: Dimens.space_16),
             ComboButton(

@@ -32,7 +32,7 @@ DeliveryPartnerListData _$DeliveryPartnerListDataFromJson(
     DeliveryPartnerListData(
       json['n'] as String?,
       json['k'] as String?,
-    )..count = json['c'] as int?;
+    )..count = (json['c'] as num?)?.toInt();
 
 Map<String, dynamic> _$DeliveryPartnerListDataToJson(
         DeliveryPartnerListData instance) =>

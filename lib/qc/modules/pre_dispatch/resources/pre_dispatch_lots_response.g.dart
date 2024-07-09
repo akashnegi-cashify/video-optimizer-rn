@@ -14,7 +14,7 @@ PreDispatchLotsResponse _$PreDispatchLotsResponseFromJson(
               ? null
               : PreDispatchLotInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalLot: json['tc'] as int?,
+      totalLot: (json['tc'] as num?)?.toInt(),
       isSuccess: json['s'] as bool?,
     );
 
@@ -29,9 +29,9 @@ Map<String, dynamic> _$PreDispatchLotsResponseToJson(
 PreDispatchLotInfo _$PreDispatchLotInfoFromJson(Map<String, dynamic> json) =>
     PreDispatchLotInfo(
       lotGroupName: json['lgn'] as String?,
-      lotQty: json['lc'] as int?,
-      pendingQty: json['sp'] as int?,
-      scannedQty: json['sd'] as int?,
+      lotQty: (json['lc'] as num?)?.toInt(),
+      pendingQty: (json['sp'] as num?)?.toInt(),
+      scannedQty: (json['sd'] as num?)?.toInt(),
       lotType: json['lt'] as String?,
     );
 

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:components/auth/handler/auth_handler.dart';
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../libraries/shared_prefrences/app_prefrences.dart';
@@ -49,18 +49,24 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
       Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
     } else {
       UserDetails().setUserDetailsData(AuthHandler().userAuth!);
-      bool? isLoginFromQC = await AppPreferences().getIsLoginFromQC();
-      bool? isLoginFromShipex = await AppPreferences().getIsLoginFromShipex();
-      if (Validator.isTrue(isLoginFromQC)) {
-        await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-            loginToken: AuthHandler().userAuth!, loginFromQC: true, loginFromShipex: false);
-      } else if (Validator.isTrue(isLoginFromShipex)) {
-        await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-            loginToken: AuthHandler().userAuth!, loginFromQC: false, loginFromShipex: true);
-      } else {
-        await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-            loginToken: AuthHandler().userAuth!, loginFromQC: false, loginFromShipex: false);
-      }
+
+      var loginType = await AppPreferences().getLoginType();
+      var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+
+      await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+          loginToken: AuthHandler().userAuth!, loginType: loginTypeEnum);
+      // if (loginTypeEnum == LoginTypes.qcLogin) {
+      //   await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+      //       loginToken: AuthHandler().userAuth!, loginType: LoginTypes.qcLogin);
+      // } else if (loginTypeEnum == LoginTypes.shipexLogin) {
+      //   await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+      //       loginToken: AuthHandler().userAuth!, loginType: LoginTypes.shipexLogin);
+      // } else if (loginTypeEnum == LoginTypes.trcLogin){
+      //   await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+      //       loginToken: AuthHandler().userAuth!, loginType: LoginTypes.trcLogin);
+      // } else {
+      //
+      // }
     }
   }
 

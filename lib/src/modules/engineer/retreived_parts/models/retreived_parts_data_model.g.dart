@@ -11,10 +11,10 @@ RetrievedPartsDataModel _$RetrievedPartsDataModelFromJson(
     RetrievedPartsDataModel(
       categoryCode: json['ccd'] as String?,
       barcode: json['rp'] as String?,
-      partRetrievedId: json['prid'] as int?,
+      partRetrievedId: (json['prid'] as num?)?.toInt(),
       retrievedPartImages:
           (json['rpimg'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      retrievedPartsReasonId: json['rprid'] as int?,
+      retrievedPartsReasonId: (json['rprid'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$RetrievedPartsDataModelToJson(

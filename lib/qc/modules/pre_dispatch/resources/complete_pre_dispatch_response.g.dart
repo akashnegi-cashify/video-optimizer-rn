@@ -12,7 +12,7 @@ CompletePreDispatchResponse _$CompletePreDispatchResponseFromJson(
       message: json['cm'] as String?,
       status: json['s'] as bool?,
       success: json['success'] as bool?,
-      totalCount: json['tc'] as int?,
+      totalCount: (json['tc'] as num?)?.toInt(),
       errorMessage: json['em'] as String?,
     );
 

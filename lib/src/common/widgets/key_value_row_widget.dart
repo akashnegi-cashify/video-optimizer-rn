@@ -18,7 +18,7 @@ class KeyValueRowWidget extends StatelessWidget {
         Expanded(
           child: Text(
             value,
-            style: theme.primaryTextTheme.headline4,
+            style: theme.primaryTextTheme.headlineMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

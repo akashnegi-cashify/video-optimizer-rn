@@ -50,11 +50,11 @@ class ReturnItemStatusComponent extends StatelessComponent<NoneConfigModel> {
                         },
                         child: Container(
                           height: Dimens.space_40,
-                          color: theme.errorColor,
+                          color: theme.colorScheme.error,
                           alignment: Alignment.center,
                           child: Text(
                             l10n.faultySpare,
-                            style: theme.primaryTextTheme.headline6?.copyWith(color: theme.cardColor),
+                            style: theme.primaryTextTheme.titleLarge?.copyWith(color: theme.cardColor),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -74,7 +74,7 @@ class ReturnItemStatusComponent extends StatelessComponent<NoneConfigModel> {
                           alignment: Alignment.center,
                           child: Text(
                             l10n.sendPartBackToInventory,
-                            style: theme.primaryTextTheme.headline6?.copyWith(color: theme.cardColor),
+                            style: theme.primaryTextTheme.titleLarge?.copyWith(color: theme.cardColor),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,

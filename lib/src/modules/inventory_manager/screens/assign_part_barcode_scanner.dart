@@ -245,7 +245,7 @@ class _AssignBarcodeScannerCompWidgetState extends State<AssignBarcodeScannerCom
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(width: Dimens.space_8),
@@ -253,7 +253,7 @@ class _AssignBarcodeScannerCompWidgetState extends State<AssignBarcodeScannerCom
           child: Text(
             value,
             textDirection: TextDirection.rtl,
-            style: theme.primaryTextTheme.headline5,
+            style: theme.primaryTextTheme.headlineSmall,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

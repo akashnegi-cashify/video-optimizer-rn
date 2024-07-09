@@ -293,7 +293,7 @@ class ELssProviderTrc extends CshChangeNotifier {
             List<String> shortUrlList = [];
             for (String s3Url in item.partsImageList!) {
               if (s3Url.isNotEmpty) {
-                shortUrlList.add(s3Url.substring(0, s3Url.indexOf("?")));
+                shortUrlList.add(s3Url);
               }
             }
             clubbedSkuImage.addAll(shortUrlList);

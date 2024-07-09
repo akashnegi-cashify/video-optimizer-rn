@@ -28,9 +28,9 @@ Map<String, dynamic> _$OnGoingAuditResponseToJson(
 
 OnGoingAuditData _$OnGoingAuditDataFromJson(Map<String, dynamic> json) =>
     OnGoingAuditData(
-      json['aid'] as int?,
+      (json['aid'] as num?)?.toInt(),
       json['fn'] as String?,
-      json['s'] as int?,
+      (json['s'] as num?)?.toInt(),
       json['std'] as String?,
       json['rm'] as String?,
       (json['sd'] as num?)?.toDouble(),

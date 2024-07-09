@@ -10,10 +10,10 @@ PartReportData _$PartReportDataFromJson(Map<String, dynamic> json) =>
     PartReportData()
       ..avgPartCost = (json['avgpc'] as num?)?.toDouble()
       ..avgPartConsumption = (json['avgpcon'] as num?)?.toDouble()
-      ..partsAssign = json['pr'] as int?
-      ..partsConsume = json['pc'] as int?
-      ..partsReturn = json['pret'] as int?
-      ..partsRequested = json['preq'] as int?;
+      ..partsAssign = (json['pr'] as num?)?.toInt()
+      ..partsConsume = (json['pc'] as num?)?.toInt()
+      ..partsReturn = (json['pret'] as num?)?.toInt()
+      ..partsRequested = (json['preq'] as num?)?.toInt();
 
 Map<String, dynamic> _$PartReportDataToJson(PartReportData instance) =>
     <String, dynamic>{

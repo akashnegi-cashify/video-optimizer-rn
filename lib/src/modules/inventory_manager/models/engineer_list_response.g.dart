@@ -31,8 +31,8 @@ EngineerListDataResponse _$EngineerListDataResponseFromJson(
       engineerDataList: (json['dl'] as List<dynamic>?)
           ?.map((e) => EngineerDataResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalPage: json['tp'] as int?,
-      totalRecord: json['tr'] as int?,
+      totalPage: (json['tp'] as num?)?.toInt(),
+      totalRecord: (json['tr'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$EngineerListDataResponseToJson(
@@ -47,7 +47,7 @@ EngineerDataResponse _$EngineerDataResponseFromJson(
         Map<String, dynamic> json) =>
     EngineerDataResponse(
       name: json['n'] as String?,
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       isUrgent: json['isUrgent'] as bool?,
       location: json['lc'] as String?,
     );

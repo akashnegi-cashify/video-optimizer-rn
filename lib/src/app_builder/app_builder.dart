@@ -4,6 +4,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/qc_component_registry.dart';
+import 'package:flutter_trc/rms/rms_component_registry.dart';
 import 'package:flutter_trc/trc/trc_component_registry.dart';
 
 import '../../shipex/shipex_component_registry.dart';
@@ -36,6 +37,10 @@ class AppComponentBuilder {
       return componentWidget;
     }
     componentWidget = ShipexComponentRegistry.getRegisteredComponent(componentKey, jsonConfig);
+    if (componentWidget != null) {
+      return componentWidget;
+    }
+    componentWidget = RmsComponentRegistry.getRegisteredComponent(componentKey, jsonConfig);
     if (componentWidget != null) {
       return componentWidget;
     }

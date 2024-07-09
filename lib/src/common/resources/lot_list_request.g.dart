@@ -8,8 +8,8 @@ part of 'lot_list_request.dart';
 
 LotListRequest _$LotListRequestFromJson(Map<String, dynamic> json) =>
     LotListRequest(
-      pageNo: json['offset'] as int?,
-      pageSize: json['pageSize'] as int?,
+      pageNo: (json['offset'] as num?)?.toInt(),
+      pageSize: (json['pageSize'] as num?)?.toInt(),
       filterMap: json['filterObjectMap'] == null
           ? null
           : FilterMap.fromJson(json['filterObjectMap'] as Map<String, dynamic>),
@@ -32,7 +32,9 @@ Map<String, dynamic> _$LotListRequestToJson(LotListRequest instance) {
 
 FilterMap _$FilterMapFromJson(Map<String, dynamic> json) => FilterMap(
       searchQuery: json['q'] as String?,
-      lotType: (json['lt'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      lotType: (json['lt'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
     );
 
 Map<String, dynamic> _$FilterMapToJson(FilterMap instance) {

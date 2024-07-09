@@ -26,18 +26,28 @@ class PartDeviceListResponse {
 class PartItemDataResponse {
   @JsonKey(name: "sku")
   String? sku;
+
   @JsonKey(name: "pn")
   String? productName;
+
+  @JsonKey(name: "pvn")
+  String? productVariantName;
+
   @JsonKey(name: "pcl")
   String? productColour;
+
   @JsonKey(name: "qty")
   int? partQuantity;
+
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isCardSelected;
+
   @JsonKey(includeFromJson: false, includeToJson: false)
   int? partId;
+
   @JsonKey(name: "emsg")
   String? errorMessage;
+
   @JsonKey(name: "cc")
   String? categoryCode;
 
@@ -50,6 +60,7 @@ class PartItemDataResponse {
     this.partQuantity,
     this.errorMessage,
     this.categoryCode,
+    this.productVariantName,
   });
 
   static PartItemDataResponse fromJson(Map<String, dynamic> data) => _$PartItemDataResponseFromJson(data);

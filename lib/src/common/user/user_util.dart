@@ -2,6 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/elss/common_providers/user_session_provider.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 
 import 'widget/logout_modal_widget.dart';
@@ -12,15 +13,17 @@ class UserUtil {
       context: context,
       child: LogoutModalWidget(
         onLogoutCallback: () async {
-          bool? isLoginFromQC = await AppPreferences().getIsLoginFromQC();
-          bool? isLoginFromShipex = await AppPreferences().getIsLoginFromShipex();
-          if (Validator.isTrue(isLoginFromQC)) {
+          var loginType = await AppPreferences().getLoginType();
+          var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+          if (loginTypeEnum == LoginTypes.qcLogin) {
             _onLogout(context, true);
-          } else if (Validator.isTrue(isLoginFromShipex)) {
+          } else if (loginTypeEnum == LoginTypes.shipexLogin) {
             AppPreferences().resetAndClearAll();
             Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
-          } else if (Validator.isTrue(isLoginFromQC) == false && Validator.isTrue(isLoginFromShipex) == false) {
+          } else if (loginTypeEnum == LoginTypes.trcLogin) {
             _onLogout(context, false);
+          } else {
+            // TODO: call api for RMS logout
           }
         },
       ),

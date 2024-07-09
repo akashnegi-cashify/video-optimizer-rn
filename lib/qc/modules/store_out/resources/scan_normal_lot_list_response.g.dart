@@ -15,7 +15,7 @@ ScanNormalLotListResponse _$ScanNormalLotListResponseFromJson(
               : ScanNormalLotItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     )
-      ..totalCount = json['tc'] as int?
+      ..totalCount = (json['tc'] as num?)?.toInt()
       ..status = json['s'] as bool?
       ..success = json['success'] as bool?;
 
@@ -30,13 +30,13 @@ Map<String, dynamic> _$ScanNormalLotListResponseToJson(
 
 ScanNormalLotItem _$ScanNormalLotItemFromJson(Map<String, dynamic> json) =>
     ScanNormalLotItem(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       qrCode: json['qr_code'] as String?,
       model: json['m'] as String?,
       brand: json['b'] as String?,
       imei: json['im'] as String?,
       stockBarcode: json['stbr'] as String?,
-      storagePosition: json['p'] as int?,
+      storagePosition: (json['p'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ScanNormalLotItemToJson(ScanNormalLotItem instance) {

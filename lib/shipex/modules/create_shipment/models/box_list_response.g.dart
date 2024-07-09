@@ -25,7 +25,7 @@ Map<String, dynamic> _$BoxListResponseToJson(BoxListResponse instance) =>
     };
 
 BoxListData _$BoxListDataFromJson(Map<String, dynamic> json) => BoxListData(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       boxName: json['bname'] as String?,
     );
 

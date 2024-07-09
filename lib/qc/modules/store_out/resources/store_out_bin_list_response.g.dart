@@ -24,9 +24,9 @@ Map<String, dynamic> _$StoreOutBinListResponseToJson(
 
 StoreOutBinListItem _$StoreOutBinListItemFromJson(Map<String, dynamic> json) =>
     StoreOutBinListItem(
-      totalCount: json['tc'] as int?,
+      totalCount: (json['tc'] as num?)?.toInt(),
       lotName: json['ln'] as String?,
-      ic: json['ic'] as int?,
+      ic: (json['ic'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$StoreOutBinListItemToJson(

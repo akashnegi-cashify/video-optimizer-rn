@@ -59,6 +59,15 @@ class TrcAndQcLoginWidget extends StatelessWidget {
                         });
                       },
                     ),
+                    // const SizedBox(height: Dimens.space_20),
+                    // CshMediumButton(
+                    //   text: l10n.rmsLogin,
+                    //   onPressed: () {
+                    //     _checkAppUpdate(context, () {
+                    //       _moveToLoginScreen(context, LoginTypes.rmsLogin);
+                    //     });
+                    //   },
+                    // ),
                   ],
                 ),
               );
@@ -66,7 +75,7 @@ class TrcAndQcLoginWidget extends StatelessWidget {
             future: RemoteConfigHelper().fetchAndActivate(),
           ),
           Text("App Version - ${environment?.appVersion}",
-              textAlign: TextAlign.center, style: theme.primaryTextTheme.subtitle2),
+              textAlign: TextAlign.center, style: theme.primaryTextTheme.titleSmall),
         ],
       ),
     );

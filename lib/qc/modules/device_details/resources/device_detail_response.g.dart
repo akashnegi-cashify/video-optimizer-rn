@@ -15,7 +15,7 @@ DeviceDetailResponse _$DeviceDetailResponseFromJson(
           ?.map((e) => e as String)
           .toList(),
       json['message'] as String?,
-      json['stockAge'] as int?,
+      (json['stockAge'] as num?)?.toInt(),
       json['barCode'] as String?,
       json['model'] as String?,
       json['imei'] as String?,

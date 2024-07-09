@@ -65,7 +65,7 @@ class PartSelectionWidget extends StatelessWidget {
                 if (!Validator.isListNullOrEmpty(provider.elssPartList)) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-                    child: Text(l10n.deviceParts, style: theme.primaryTextTheme.headline4),
+                    child: Text(l10n.deviceParts, style: theme.primaryTextTheme.headlineMedium),
                   ),
                   const SizedBox(height: Dimens.space_4),
                   ListView.separated(

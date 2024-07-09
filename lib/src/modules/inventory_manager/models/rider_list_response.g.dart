@@ -26,7 +26,7 @@ Map<String, dynamic> _$RiderListResponseToJson(RiderListResponse instance) =>
 RiderListDataResponse _$RiderListDataResponseFromJson(
         Map<String, dynamic> json) =>
     RiderListDataResponse(
-      riderId: json['rid'] as int?,
+      riderId: (json['rid'] as num?)?.toInt(),
       riderName: json['rn'] as String?,
     );
 

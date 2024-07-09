@@ -23,7 +23,7 @@ Map<String, dynamic> _$LotTypeFilterResponseToJson(
 LotTypeFilterItem _$LotTypeFilterItemFromJson(Map<String, dynamic> json) =>
     LotTypeFilterItem(
       lotName: json['ln'] as String?,
-      lotType: json['lt'] as int?,
+      lotType: (json['lt'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$LotTypeFilterItemToJson(LotTypeFilterItem instance) =>

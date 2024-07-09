@@ -2,6 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/store_out/providers/store_out_provider.dart';
 import 'package:flutter_trc/qc/modules/store_out/widgets/index.dart';
+import '../l10n.dart';
 
 class StoreOutBinListWidget extends StatefulWidget {
   final Function(String? lotName)? onItemClick;
@@ -29,6 +30,7 @@ class _StoreOutBinListWidgetState extends State<StoreOutBinListWidget> with Auto
     var provider = StoreOutProvider.of(context);
     var isLoading = provider.binListDataState.status == RequestStatus.initial;
     var itemCount = isLoading ? 20 : provider.binListDataState.data?.binList?.length ?? 0;
+    var l10n = L10n(context);
 
     return RefreshIndicator(
       onRefresh: () {
@@ -46,7 +48,8 @@ class _StoreOutBinListWidgetState extends State<StoreOutBinListWidget> with Auto
                 ? Container(height: Dimens.space_40)
                 : cshGestureDetector(
                     child: ListItemWidget(
-                      lotName: item?.lotName,
+                      l10n.lotName,
+                      lotValue: item?.lotName,
                       noOfDevices: item?.totalCount?.toString(),
                     ),
                     onTap: () => isLoading ? null : widget.onItemClick?.call(item?.lotName)),

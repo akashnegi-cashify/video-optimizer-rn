@@ -89,7 +89,7 @@ class _AddPartListWidgetQcState extends State<AddPartListWidgetQc> {
                 : Center(
                     child: Text(
                       l10n.noPartsFound,
-                      style: theme.primaryTextTheme.headline3,
+                      style: theme.primaryTextTheme.displaySmall,
                     ),
                   ),
           ),

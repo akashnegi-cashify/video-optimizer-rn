@@ -26,7 +26,7 @@ Map<String, dynamic> _$BrandsListingResponseToJson(
 
 BrandsDataModel _$BrandsDataModelFromJson(Map<String, dynamic> json) =>
     BrandsDataModel(
-      brandId: json['bid'] as int?,
+      brandId: (json['bid'] as num?)?.toInt(),
       brandName: json['bn'] as String?,
     );
 

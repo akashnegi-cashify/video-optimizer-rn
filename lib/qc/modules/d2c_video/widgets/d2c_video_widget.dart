@@ -283,6 +283,9 @@ class _D2CVideoWidgetState extends State<D2CVideoWidget> {
       stream: provider.fileCompressProgressStream.stream,
       builder: (_, snapshot) {
         var progress = snapshot.data;
+        if ((progress ?? 0) > 100) {
+          progress = 100;
+        }
         return Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

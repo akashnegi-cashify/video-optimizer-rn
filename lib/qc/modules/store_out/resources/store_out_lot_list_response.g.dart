@@ -13,7 +13,7 @@ StoreOutLotListResponse _$StoreOutLotListResponseFromJson(
           ?.map((e) => StoreOutLotListItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     )
-      ..totalCount = json['tc'] as int?
+      ..totalCount = (json['tc'] as num?)?.toInt()
       ..status = json['s'] as bool?;
 
 Map<String, dynamic> _$StoreOutLotListResponseToJson(
@@ -26,11 +26,11 @@ Map<String, dynamic> _$StoreOutLotListResponseToJson(
 
 StoreOutLotListItem _$StoreOutLotListItemFromJson(Map<String, dynamic> json) =>
     StoreOutLotListItem(
-      lotCount: json['lc'] as int?,
+      lotCount: (json['lc'] as num?)?.toInt(),
       lotGrpName: json['lgn'] as String?,
       lotType: json['lt'] as String?,
       ch: json['ch'] as String?,
-      deviceCount: json['dc'] as int?,
+      deviceCount: (json['dc'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$StoreOutLotListItemToJson(
