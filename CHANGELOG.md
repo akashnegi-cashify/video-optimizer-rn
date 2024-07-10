@@ -1,16 +1,14 @@
 # TRC Releases
 
-# v3.3.0+46 (XX-07-2024)
-
-### Feature:
-
-* `QC - Manual Testing - show variant list for laptop.`[(SCM-6411)](https://reglobe.atlassian.net/browse/SCM-6411)
-
-# v3.2.7+45 (XX-06-2024)
+# v3.3.0+46 (09-07-2024)
 
 ### Feature:
 
 * `Stop multi click in device receive module.`[(SCM-6606)](https://reglobe.atlassian.net/browse/SCM-6606)
+* `QC - Manual Testing - show variant list for laptop.`[(SCM-6411)](https://reglobe.atlassian.net/browse/SCM-6411)
+* `Flutter version upgrade to 3.22.`[(SCM-6669)](https://reglobe.atlassian.net/browse/SCM-6669)
+* `Remove Amplify from app.`[(SCM-6669)](https://reglobe.atlassian.net/browse/SCM-6669)
+* `Remove image capturing during ELSS in TRC.`[(SCM-6769)](https://reglobe.atlassian.net/browse/SCM-6769)
 
 
 # v3.2.6+44 (12-06-2024)
