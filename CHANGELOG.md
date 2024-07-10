@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.3.1+47 (10-07-2024)
+
+### Improvements:
+
+* `Fix zoom scale in scanner`[(SCM-6830)](https://reglobe.atlassian.net/browse/SCM-6830)
+
+
 # v3.3.0+46 (09-07-2024)
 
 ### Feature:
