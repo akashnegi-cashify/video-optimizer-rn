@@ -13,6 +13,9 @@ class BaseActionResponse extends BaseResponse {
   @JsonKey(name: "em")
   String? errorMsg;
 
+  @JsonKey(name: "sm")
+  String? successMessage;
+
   BaseActionResponse(super.cashifyAlert, super.trackUrl);
 
   static BaseActionResponse fromJson(Map<String, dynamic> json) => _$BaseActionResponseFromJson(json);
@@ -25,7 +28,8 @@ class BaseActionResponse extends BaseResponse {
       )
         ..refId = json['r_id'] as String?
         ..isSuccess = (json['s'] as int? ?? 0) == 1 ? true : false
-        ..errorMsg = json['em'] as String?;
+        ..errorMsg = json['em'] as String?
+        ..successMessage = json['sm'] as String?;
 
   @override
   Map<String, dynamic> toJson() => _$BaseActionResponseToJson(this);

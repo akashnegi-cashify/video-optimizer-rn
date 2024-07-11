@@ -9,7 +9,7 @@ class ReceiveDeviceService {
   static Stream<BaseActionResponse?> receiveDevice(String barcode, BarcodeTypes barcodeType) {
     Map<String, dynamic> req = {"v": barcode, "vt": barcodeType.value};
 
-    return RmsService().post("/app/receive/device", BaseActionResponse.fromJson, body: jsonEncode(req));
+    return RmsService().post("/app/receive/device", BaseActionResponse.fromJsonWithInt, body: jsonEncode(req));
   }
 
   static Stream<ReceiveDeviceDetailResponse?> getDeviceDetails(String barcode, BarcodeTypes barcodeType) {
@@ -18,10 +18,11 @@ class ReceiveDeviceService {
     return RmsService().post("/app/receive/device/detail", ReceiveDeviceDetailResponse.fromJson, body: jsonEncode(req));
   }
 
-  static Stream<ReceiveDeviceDetailResponse?> saveVideo(
+  static Stream<BaseActionResponse?> saveVideo(
       String barcode, BarcodeTypes barcodeType, int receiveType, String videoUrl) {
     Map<String, dynamic> req = {"v": barcode, "vt": barcodeType.value, "rt": receiveType, "vu": videoUrl};
 
-    return RmsService().post("/app/receive/device/detail", ReceiveDeviceDetailResponse.fromJson, body: jsonEncode(req));
+    return RmsService()
+        .post("/app/receive/device/video/save", BaseActionResponse.fromJsonWithInt, body: jsonEncode(req));
   }
 }

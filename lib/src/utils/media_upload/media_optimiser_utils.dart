@@ -4,10 +4,10 @@ import 'dart:io';
 
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
-import 'package:flutter_trc/src/utils/media_upload/image_optimiser_service.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/image_optimiser_service.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/media_uploader_service.dart';
 
-import 'media_uploader_service.dart';
 import 'models/presigned_url_response.dart';
 
 class MediaUploadUtil {

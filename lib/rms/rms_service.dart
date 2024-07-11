@@ -1,4 +1,5 @@
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 
 class RmsService extends BaseService {
   final bool addAuthorization;
@@ -7,7 +8,7 @@ class RmsService extends BaseService {
 
   @override
   ServiceGroupsMixin getServiceGroup() {
-    return ServiceGroups.console;
+    return TRCServiceGroups.rms;
   }
 
   @override

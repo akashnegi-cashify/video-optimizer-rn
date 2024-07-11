@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:core_widgets/core_widgets.dart';
 
 import 'image_optimiser_service.dart';
-import 'models/media_acknowledge_response.dart';
-import 'models/presigned_url_response.dart';
+import '../models/media_acknowledge_response.dart';
+import '../models/presigned_url_response.dart';
 
 class MediaUploaderService {
   static Stream<PreSignedUrlResponse?> getPreSignedUrl(

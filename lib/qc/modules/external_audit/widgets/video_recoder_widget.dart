@@ -47,10 +47,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   late int _videoRecorderTimeInSeconds;
   int _videoRecordedTime = 0;
 
-  /// _startVideoTimer is used as a timer to start video recording
-  Timer? _startVideoTimer;
-  late int _startVideoTimerInSec;
-
   bool _isCompressionEnabled = true;
 
   int _compressionProgress = 0;
@@ -75,7 +71,9 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       });
     });
     Future.delayed(const Duration(seconds: 5), () {
-      FocusScope.of(context).requestFocus(_stopVideoFocusNode);
+      if (mounted) {
+        FocusScope.of(context).requestFocus(_stopVideoFocusNode);
+      }
     });
 
     _getVideoRecordingTimerInSec();
