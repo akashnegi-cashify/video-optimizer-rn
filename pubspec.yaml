@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.3.0+47
+version: 3.3.1+47
 
 web_version: 1.0.0
 
@@ -166,12 +166,12 @@ dev_dependencies:
   json_serializable: ^6.8.0
   build_runner: 2.3.3
 
+#    path: ../flutter_packages/csh_schema_generator
   csh_schema_generator:
-    path: ../flutter_packages/csh_schema_generator
-#    git:
-#      url: https://github.com/reglobe/flutter_packages.git
-#      ref: main
-#      path: csh_schema_generator
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: main
+      path: csh_schema_generator
 
 
 
