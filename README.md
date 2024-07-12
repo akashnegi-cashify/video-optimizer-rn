@@ -78,4 +78,6 @@ Step2 :
 
 ### Crashlytics - Android
 - flutterfire configure
-- firebase crashlytics:symbols:upload --app=FIREBASE_APP_ID PATH/TO/symbols
+```shell
+sh firebase crashlytics:symbols:upload --app=1:81194165828:android:17cea7d1cfbce40fdf3e11 mapping/symbols
+```

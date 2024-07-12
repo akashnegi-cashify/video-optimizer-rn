@@ -204,7 +204,7 @@ class ElssService {
       "otp": [otp],
       "at": [at],
     };
-    var headers = CasService().getHeaders(true);
+    var headers = CasService().getHeaders(false);
     headers["content-type"] = "application/x-www-form-urlencoded";
 
     return CasService()
