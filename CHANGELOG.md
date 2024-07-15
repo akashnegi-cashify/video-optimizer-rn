@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.3.2+48 (XX-07-2024)
+
+### Feature:
+
+* `RMS Login - Receive Device`[(SCM-6678)](https://reglobe.atlassian.net/browse/SCM-6678)
+
+
 # v3.3.1+47 (10-07-2024)
 
 ### Improvements:
