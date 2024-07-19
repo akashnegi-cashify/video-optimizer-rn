@@ -376,8 +376,8 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     return FloatingActionButton(
       backgroundColor: theme.colorScheme.error,
       focusNode: _stopVideoFocusNode,
-      onPressed: () => _isRecording ? _stopVideoRecording() : _startVideoRecording(),
-      child: Icon(_isRecording ? Icons.stop : Icons.play_arrow),
+      onPressed: _isCompressionStarted ? null : () => _isRecording ? _stopVideoRecording() : _startVideoRecording(),
+      child: Icon((_isRecording || _isCompressionStarted) ? Icons.stop : Icons.play_arrow),
     );
   }
 
