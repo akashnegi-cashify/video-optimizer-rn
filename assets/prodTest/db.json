@@ -1489,6 +1489,21 @@
           "key": "header_rms_general"
         }
       ]
+    },
+    {
+      "pageId": 30002,
+      "pageKey": "RMS_facility_list_screen",
+      "dt": [
+        {
+          "id": 30003,
+          "key": "RMS_facility_list_component",
+          "type": "component"
+        },
+        {
+          "id": 30004,
+          "key": "header_rms_general"
+        }
+      ]
     }
   ],
   "componentData": [
@@ -3442,6 +3457,28 @@
         "config": {
           "ht": "RMS Home",
           "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 30003,
+      "locale": "en",
+      "key": "RMS_facility_list_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 30004,
+      "locale": "en",
+      "key": "header_rms_general",
+      "configJson": {
+        "config": {
+          "ht": "Select Facility",
+          "sbb": true,
           "slb": true
         }
       }

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/rms/modules/receive_device/barcode_types.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_trc/src/common/utils/csh_video_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
 import 'barcode_type_selection_dialog.dart';
 
 class ReceiveDeviceCreateVideoModule extends StatelessWidget {
@@ -27,7 +27,8 @@ class _CreateVideoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = CreateVideoModuleProvider.of(context);
-    return CshBigButton(text: "Create Video", onPressed: () => _onCreateVideoButtonClicked(context, provider));
+    var l10n = L10n(context);
+    return CshBigButton(text: l10n.createVideo, onPressed: () => _onCreateVideoButtonClicked(context, provider));
   }
 
   _onCreateVideoButtonClicked(BuildContext context, CreateVideoModuleProvider provider) {
@@ -56,6 +57,7 @@ class _CreateVideoButton extends StatelessWidget {
   }
 
   _createVideo(BuildContext context, CreateVideoModuleProvider provider, String barcode, BarcodeTypes barcodeType) {
+    var l10n = L10n(context, listen: false);
     CshVideoPicker(context).pickVideo(
       (file) async {
         try {
@@ -64,7 +66,7 @@ class _CreateVideoButton extends StatelessWidget {
           provider.uploadVideoFile(file, fileName).then((value) {
             Navigator.pop(context); // close progress dialog
             provider.saveVideo(barcode, barcodeType, value).then((value) {
-              CshSnackBar.success(context: context, message: "Video uploaded successfully");
+              CshSnackBar.success(context: context, message: l10n.videoUploadedSuccessfully);
             }, onError: (error) {
               CshSnackBar.error(context: context, message: error.toString());
             });
@@ -72,7 +74,6 @@ class _CreateVideoButton extends StatelessWidget {
             CshSnackBar.error(context: context, message: error.toString());
           });
         } catch (e) {
-          Logger.debug('mydebug-----_CreateVideoButton._onCreateVideoButtonClicked', [e]);
           CshSnackBar.error(context: context, message: e.toString());
           return null;
         }
@@ -86,6 +87,7 @@ class _CreateVideoButton extends StatelessWidget {
       barrierDismissible: false,
       builder: (_) {
         var theme = Theme.of(context);
+        var l10n = L10n(context, listen: false);
         return PopScope(
           canPop: false,
           child: StreamBuilder<int>(
@@ -96,7 +98,7 @@ class _CreateVideoButton extends StatelessWidget {
                 progress = 100;
               }
               return AlertDialog(
-                title: Text("Uploading Videos - $progress%", style: theme.textTheme.titleMedium),
+                title: Text("${l10n.uploadingVideo} - $progress%", style: theme.textTheme.titleMedium),
                 content: LinearProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
                   backgroundColor: theme.primaryColor.withAlpha(20),

@@ -17,6 +17,7 @@ ReturnReasonResponse _$ReturnReasonResponseFromJson(
       ..refId = json['r_id'] as String?
       ..isSuccess = json['s'] as bool? ?? false
       ..errorMsg = json['em'] as String?
+      ..successMessage = json['sm'] as String?
       ..reasons =
           (json['dt'] as List<dynamic>?)?.map((e) => e as String).toList();
 
@@ -28,5 +29,6 @@ Map<String, dynamic> _$ReturnReasonResponseToJson(
       'r_id': instance.refId,
       's': instance.isSuccess,
       'em': instance.errorMsg,
+      'sm': instance.successMessage,
       'dt': instance.reasons,
     };

@@ -148,6 +148,7 @@ dependencies:
   qr_flutter: ^4.1.0
   mobile_scanner: ^5.1.1
   disk_space: ^0.2.1
+  get_storage: ^2.1.1
 
 flutter_launcher_icons:
   android: false

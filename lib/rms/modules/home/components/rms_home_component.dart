@@ -19,7 +19,7 @@ class RmsHomeComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    return const RmsHomeWidget();
+    return RmsHomeWidget();
   }
 
   @override

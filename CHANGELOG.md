@@ -5,6 +5,7 @@
 ### Feature:
 
 * `RMS Login - Receive Device`[(SCM-6678)](https://reglobe.atlassian.net/browse/SCM-6678)
+* `RMS - facility selection flow during receive device`[(SCM-6982)](https://reglobe.atlassian.net/browse/SCM-6982)
 
 
 # v3.3.1+47 (10-07-2024)
