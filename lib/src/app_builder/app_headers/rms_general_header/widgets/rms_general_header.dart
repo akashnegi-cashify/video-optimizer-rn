@@ -31,15 +31,10 @@ class RmsGeneralHeader extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     List<Widget> actionsList = [
       if (Validator.isTrue(environment?.enableAlice))
-        CshIcon(
-          FeatherIcons.info,
-          iconColor: Colors.amber,
-          iconSize: MobileIconSize.medium,
-          padding: EdgeInsets.zero,
-          onClick: () {
-            CshAlice().alice?.showInspector();
-          },
-        ),
+        CshIcon(FeatherIcons.info, iconColor: Colors.amber, iconSize: MobileIconSize.medium, padding: EdgeInsets.zero,
+            onClick: () {
+          CshAlice().alice?.showInspector();
+        }),
       if (Validator.isTrue(showLogoutButton)) const LogoutActionWidget(),
       if (Validator.isTrue(showProfileButton)) const UserProfileActionWidget(),
       if (!Validator.isListNullOrEmpty(actions)) ...actions!

@@ -3,6 +3,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/libraries/firebase/firebase_helper.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
+import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/utils/device_info_util.dart';
 import 'package:localization/localization.dart';
 
@@ -21,6 +22,7 @@ const RUNNING_SYSTEM_ENV = String.fromEnvironment('env', defaultValue: 'prod');
 
 class AppInitializer {
   static init({Map<String, HttpInterceptorFactory>? interceptors}) async {
+    await AppPreferences().init();
     await AuthHandler().syncAuth();
     await FirebaseHelper().initFirebase();
     await RemoteConfigHelper().initialize();

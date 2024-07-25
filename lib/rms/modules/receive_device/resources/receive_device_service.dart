@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter_trc/rms/modules/receive_device/barcode_types.dart';
 import 'package:flutter_trc/rms/modules/receive_device/resources/receive_device_detail_response.dart';
-import 'package:flutter_trc/src/services/rms_service.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
+import 'package:flutter_trc/src/services/rms_service.dart';
 
 class ReceiveDeviceService {
-  static Stream<BaseActionResponse?> receiveDevice(String barcode, BarcodeTypes barcodeType) {
-    Map<String, dynamic> req = {"v": barcode, "vt": barcodeType.value};
+  static Stream<BaseActionResponse?> receiveDevice(String barcode, int facilityId, BarcodeTypes barcodeType) {
+    Map<String, dynamic> req = {"v": barcode, "fid": facilityId, "vt": barcodeType.value};
 
     return RmsService().post("/app/receive/device", BaseActionResponse.fromJsonWithInt, body: jsonEncode(req));
   }
