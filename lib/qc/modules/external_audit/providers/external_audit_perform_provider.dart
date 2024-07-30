@@ -6,6 +6,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/external_audit/models/external_audit_enum.dart';
 import 'package:flutter_trc/qc/modules/external_audit/resources/external_audit_service.dart';
+import 'package:flutter_trc/src/common/video_upload_exception.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:path/path.dart' as path;
@@ -51,9 +52,13 @@ class ExternalAuditPerformProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
 
     if (_videoFilePathList.isNotEmpty) {
-      var list = await _uploadVideoFilesAndGetUrls();
-      if (list != null) {
-        _videoUrlList.addAll(list);
+      try {
+        var list = await _uploadVideoFilesAndGetUrls();
+        if (list != null) {
+          _videoUrlList.addAll(list);
+        }
+      } catch (e) {
+        return Future.error(e);
       }
     }
 
@@ -92,13 +97,16 @@ class ExternalAuditPerformProvider extends CshChangeNotifier {
           contentType: MediaContentType.mp4,
           onProgress: (value) {
             _totalProgress = value / _videoFilePathList.length;
+            if (_totalProgress > 100) {
+              _totalProgress = 100;
+            }
             _fileUploadProgressStream.add(_totalProgress);
           },
         );
         urlList.add(url);
       } catch (e) {
         Logger.debug('mydebug-----ExternalAuditPerformProvider._uploadVideoFilesAndGetUrls errors', [e]);
-        return null;
+        throw VideoUploadException(e.toString());
       }
     }
     return urlList;
@@ -113,5 +121,4 @@ class ExternalAuditPerformProvider extends CshChangeNotifier {
     _fileUploadProgressStream.close();
     super.dispose();
   }
-
 }

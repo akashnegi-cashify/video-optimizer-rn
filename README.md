@@ -81,3 +81,7 @@ Step2 :
 ```shell
 sh firebase crashlytics:symbols:upload --app=1:81194165828:android:17cea7d1cfbce40fdf3e11 mapping/symbols
 ```
+
+```shell
+sh export CRASHLYTICS_LOCAL_JAR=/Users/apple/Downloads/firebase-crashlytics-buildtools-2.9.1.jar
+```

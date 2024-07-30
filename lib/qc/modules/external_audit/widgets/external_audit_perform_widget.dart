@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/external_audit/providers/external_audit_perform_provider.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_trc/qc/modules/external_audit/widgets/scan_barcode_widge
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
 import 'package:flutter_trc/src/common/dialogs/csh_no_internet_dialog.dart';
 import 'package:flutter_trc/src/common/utils/csh_video_picker.dart';
+import 'package:flutter_trc/src/common/video_upload_exception.dart';
 import 'package:flutter_trc/src/utils/connectivity_util.dart';
 
 import '../l10n.dart';
@@ -121,13 +123,36 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
     _showUploadDialog(provider?.fileUploadProgressStream);
     provider?.callExternalAuditApi().then((value) {
       Navigator.pop(context); // dismiss dialog
-      // CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: "Request Submitted Successfully");
       Navigator.pop(context);
     }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+      Navigator.pop(context); // dismiss dialog
+      if (error is VideoUploadException) {
+        _showRetryUploadVideoDialog(error.message, onRetry: () {
+          Navigator.pop(context); // dismiss dialog
+          _callExternalAuditApi();
+        });
+      } else {
+        CshSnackBar.error(context: context, message: error);
+      }
     });
+  }
+
+  _showRetryUploadVideoDialog(String errorMessage, {required VoidCallback onRetry}) {
+    showPopup(
+      context,
+      title: "Video Uploading Failed!",
+      desc: errorMessage,
+      barrierDismissible: false,
+      actions: [
+        CshMediumButton(
+          text: "Retry",
+          onPressed: () {
+            onRetry();
+          },
+        )
+      ],
+    );
   }
 
   _showUploadDialog(StreamController<double>? fileUploadProgressStream) {
