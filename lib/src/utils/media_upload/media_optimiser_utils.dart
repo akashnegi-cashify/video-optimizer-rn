@@ -138,7 +138,7 @@ class MediaUploadUtil {
             completer.completeError(em);
           } on io.SocketException catch (error) {
             Logger.debug('Http Timeout Exception at backend $error');
-            completer.completeError("Internet connection is weak or not connected");
+            completer.completeError("Slow or No Internet Connection.");
           } on io.HttpException catch (error) {
             Logger.debug('Http Timeout Exception at backend $error');
             completer.completeError(error.message);
