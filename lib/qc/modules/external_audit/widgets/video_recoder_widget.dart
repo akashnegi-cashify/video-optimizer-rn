@@ -13,10 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/utils/disk_util.dart';
 import 'package:flutter_trc/src/common/utils/video_util.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
+import 'package:flutter_trc/src/utils/csh_tts_util.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 const int _DEFAULT_VIDEO_TIMER = 600;
-const int _DEFAULT_START_TIMER = 3;
+const int _VIDEO_NOT_INITIALIZED_TIMER = 3;
 
 abstract interface class VideoRecordingListener {
   onVideoRecorded(File file);
@@ -47,10 +48,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   late int _videoRecorderTimeInSeconds;
   int _videoRecordedTime = 0;
 
-  /// _startVideoTimer is used as a timer to start video recording
-  Timer? _startVideoTimer;
-  late int _startVideoTimerInSec;
-
   bool _isCompressionEnabled = true;
 
   int _compressionProgress = 0;
@@ -68,6 +65,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       DiskUtil.getDeviceStorageInfo(isGb: true).then((value) {
         if ((value ?? 0) > 1) {
           _initCamera();
+          _showErrorIfVideoNotStarted();
           WakelockPlus.enable();
         } else {
           _showInSufficientStorageDialog();
@@ -75,11 +73,42 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       });
     });
     Future.delayed(const Duration(seconds: 5), () {
-      FocusScope.of(context).requestFocus(_stopVideoFocusNode);
+      if (mounted) {
+        FocusScope.of(context).requestFocus(_stopVideoFocusNode);
+      }
     });
 
     _getVideoRecordingTimerInSec();
     super.initState();
+  }
+
+  _showErrorIfVideoNotStarted() {
+    Timer(
+      const Duration(seconds: _VIDEO_NOT_INITIALIZED_TIMER),
+      () {
+        if (_cameraController?.value.isRecordingVideo == false) {
+          CshTtsUtil().speak("Recording is not started. Please try again.");
+          _showVideoNotStartedDialog();
+        }
+      },
+    );
+  }
+
+  _showVideoNotStartedDialog() {
+    showPopup(context,
+        title: "Video Error",
+        desc: "Video is not started. Please try again.",
+        barrierDismissible: false,
+        actions: [
+          CshBigButton(
+            text: "Try Again",
+            onPressed: () {
+              Navigator.of(context).pop(); // dismiss dialog
+              _showErrorIfVideoNotStarted();
+              _startVideoRecording();
+            },
+          )
+        ]);
   }
 
   _getVideoRecordingTimerInSec() {
@@ -347,8 +376,8 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     return FloatingActionButton(
       backgroundColor: theme.colorScheme.error,
       focusNode: _stopVideoFocusNode,
-      onPressed: () => _isRecording ? _stopVideoRecording() : null,
-      child: Icon(_isRecording ? Icons.stop : Icons.circle),
+      onPressed: _isCompressionStarted ? null : () => _isRecording ? _stopVideoRecording() : _startVideoRecording(),
+      child: Icon((_isRecording || _isCompressionStarted) ? Icons.stop : Icons.play_arrow),
     );
   }
 

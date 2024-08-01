@@ -10,6 +10,7 @@ import 'package:flutter_trc/src/modules/login/resources/collector_user_controlle
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
+import '../l10n.dart';
 
 class RmsLoginWidget extends StatefulWidget {
   const RmsLoginWidget({super.key});
@@ -21,6 +22,7 @@ class RmsLoginWidget extends StatefulWidget {
 class _RmsLoginWidgetState extends State<RmsLoginWidget> {
   @override
   Widget build(BuildContext context) {
+    var l10n = L10n(context);
     return ChangeNotifierProvider(
       create: (_) => LoginProvider(false),
       child: Padding(
@@ -29,6 +31,7 @@ class _RmsLoginWidgetState extends State<RmsLoginWidget> {
             serviceName: ServiceGroups.console.value,
             serviceVersion: "v1",
             enterMobileNumberTitle: "RMS Login",
+            enterMobileNumberSubTitle : l10n.pleaseEnterMobileNumber,
             mfaBypassClientId: "sales-rms:epoch",
             versionNumber: "",
             loginType: LoginType.mobile,
@@ -46,7 +49,7 @@ class _RmsLoginWidgetState extends State<RmsLoginWidget> {
                 companyKey
               ]);
               AuthHandler().setUserAuth(userAuth!);
-              // UserDetails().setUserDetailsData(userAuth);
+              UserDetails().setUserDetailsData(userAuth);
               AppPreferences().setLoginType(LoginTypes.rmsLogin.value);
               await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
                   loginToken: userAuth, loginType: LoginTypes.rmsLogin);

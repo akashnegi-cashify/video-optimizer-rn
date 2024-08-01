@@ -4,10 +4,10 @@ import 'dart:io';
 
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
-import 'package:flutter_trc/src/utils/media_upload/image_optimiser_service.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/image_optimiser_service.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/media_uploader_service.dart';
 
-import 'media_uploader_service.dart';
 import 'models/presigned_url_response.dart';
 
 class MediaUploadUtil {
@@ -37,14 +37,14 @@ class MediaUploadUtil {
       if (event != null) {
         onSuccess(event);
       } else {
-        onError("Something went wrong");
+        onError("Error in getting Pre-Signed Url");
       }
     }, onError: (error) {
       String errorMessage;
       if (error?.cause is SocketException) {
         errorMessage = "No Internet Connection";
       } else {
-        errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+        errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Error in getting Pre-Signed Url";
       }
       Logger.debug('mydebug------ImageUploadUtil.getPreSignedUrlForUpload', [errorMessage]);
       onError(errorMessage);
@@ -62,7 +62,7 @@ class MediaUploadUtil {
         onError("Something went wrong");
       }
     }, onError: (error) {
-      String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+      String em = ApiErrorHelper.getErrorMessage(error) ?? "Error in verify uploaded urls";
       Logger.debug('mydebug------ImageUploadUtil.getPreSignedUrlForUpload', [em]);
       onError(em);
     });
@@ -133,21 +133,18 @@ class MediaUploadUtil {
               completer.completeError("error");
             }
           } on TimeoutException catch (error) {
-            String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+            String em = error.message ?? "Timeout Exception";
             Logger.debug('Http Timeout Exception at backend $error');
             completer.completeError(em);
           } on io.SocketException catch (error) {
-            String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
             Logger.debug('Http Timeout Exception at backend $error');
-            completer.completeError(em);
+            completer.completeError("Slow or No Internet Connection.");
           } on io.HttpException catch (error) {
-            String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
             Logger.debug('Http Timeout Exception at backend $error');
-            completer.completeError(em);
+            completer.completeError(error.message);
           } on Error catch (error) {
-            String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
             Logger.debug('Http Timeout Exception at backend $error');
-            completer.completeError(em);
+            completer.completeError(error.toString());
           } catch (e) {
             completer.completeError(e.toString());
           }

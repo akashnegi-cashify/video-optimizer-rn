@@ -1,9 +1,9 @@
 import 'package:core_widgets/core_widgets.dart';
 
-class RmsService extends BaseService {
+class ConsoleService extends BaseService {
   final bool addAuthorization;
 
-  RmsService({this.addAuthorization = false});
+  ConsoleService({this.addAuthorization = true});
 
   @override
   ServiceGroupsMixin getServiceGroup() {

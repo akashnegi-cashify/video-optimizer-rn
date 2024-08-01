@@ -1,5 +1,16 @@
 # TRC Releases
 
+# v3.3.2+48 (XX-07-2024)
+
+### Feature and Improvements:
+
+* `RMS Login - Receive Device`[(SCM-6678)](https://reglobe.atlassian.net/browse/SCM-6678)
+* `RMS - facility selection flow during receive device`[(SCM-6982)](https://reglobe.atlassian.net/browse/SCM-6982)
+* `Add Retry mechanism for weak internet and no internet`[(SCM-7028)](https://reglobe.atlassian.net/browse/SCM-7028)
+* `Show group lot name instead of lot name on store out listing and lot dispatch page.`[(SCM-6774)](https://reglobe.atlassian.net/browse/SCM-6774)
+* `Video Recording not initiated`[(SCM-6882)](https://reglobe.atlassian.net/browse/SCM-6882)
+
+
 # v3.3.1+47 (10-07-2024)
 
 ### Improvements:

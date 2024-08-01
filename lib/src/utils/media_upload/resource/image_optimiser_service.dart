@@ -1,13 +1,5 @@
 import 'package:core_widgets/core_widgets.dart';
-
-enum ImageOptimiserGroup with ServiceGroupsMixin {
-  imageOptimiser("image-optimizer");
-
-  @override
-  final String value;
-
-  const ImageOptimiserGroup(this.value);
-}
+import 'package:flutter_trc/src/services/service_groups.dart';
 
 class ImageOptimizerService extends BaseService {
   final bool isAuthNeeded;
@@ -28,6 +20,6 @@ class ImageOptimizerService extends BaseService {
 
   @override
   ServiceGroupsMixin getServiceGroup() {
-    return ImageOptimiserGroup.imageOptimiser;
+    return TRCServiceGroups.imageOptimiser;
   }
 }

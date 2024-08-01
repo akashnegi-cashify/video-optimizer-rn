@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 showNoInternetDialog(BuildContext context, {required VoidCallback onRetry}) {
   showPopup(
     context,
-    title: "No Internet Connection",
+    title: "Slow or No Internet Connection",
     desc: "Please check your internet connection and try again.",
     barrierDismissible: false,
     actions: [

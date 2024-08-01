@@ -196,7 +196,7 @@ class _ImeiValidatorWidgetState extends State<ImeiValidatorWidget> {
         .listen((event) {
       CshLoading().hideLoading(context);
       Navigator.pop(context); // dismiss this screen
-      CshSnackBar.success(context: context, message: "Validation Completes");
+      CshSnackBar.success(context: context, message: "Validation Completed");
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error).toString());

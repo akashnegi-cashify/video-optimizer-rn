@@ -33,7 +33,7 @@ DeviceDetailResponseData _$DeviceDetailResponseDataFromJson(
       json['qc'] as String?,
       json['imei'] as String?,
       json['sn'] as String?,
-      json['cat_id'] as int?,
+      (json['cat_id'] as num?)?.toInt(),
       (json['cat'] as List<dynamic>?)
           ?.map((e) => CategoryData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -58,7 +58,7 @@ Map<String, dynamic> _$DeviceDetailResponseDataToJson(
     };
 
 CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) => CategoryData(
-      json['id'] as int?,
+      (json['id'] as num?)?.toInt(),
       json['name'] as String?,
       json['allowVariant'] as bool?,
     );

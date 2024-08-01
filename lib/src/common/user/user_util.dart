@@ -15,33 +15,37 @@ class UserUtil {
         onLogoutCallback: () async {
           var loginType = await AppPreferences().getLoginType();
           var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
-          if (loginTypeEnum == LoginTypes.qcLogin) {
-            _onLogout(context, true);
-          } else if (loginTypeEnum == LoginTypes.shipexLogin) {
-            AppPreferences().resetAndClearAll();
-            Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
-          } else if (loginTypeEnum == LoginTypes.trcLogin) {
-            _onLogout(context, false);
-          } else {
-            // TODO: call api for RMS logout
+          switch (loginTypeEnum) {
+            case LoginTypes.trcLogin:
+            case LoginTypes.qcLogin:
+            case LoginTypes.rmsLogin:
+              _onLogout(context, loginTypeEnum);
+              break;
+            case LoginTypes.shipexLogin:
+              _onLogoutComplete(context);
+              break;
           }
         },
       ),
     );
   }
 
-  static _onLogout(BuildContext context, bool loginFromQC) {
+  static _onLogout(BuildContext context, LoginTypes loginTypeEnum) {
     var provider = UserSessionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.logoutUserAndClearSession(loginFromQC).then((value) {
+    provider.logoutUserAndClearSession(loginTypeEnum).then((value) {
       if (value) {
         CshLoading().hideLoading(context);
-        AppPreferences().resetAndClearAll();
-        Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
+        _onLogoutComplete(context);
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
     });
+  }
+
+  static _onLogoutComplete(BuildContext context) {
+    AppPreferences().resetAndClearAll();
+    Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
   }
 }

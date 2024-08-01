@@ -1,7 +1,8 @@
 import 'package:csh_annotation/annotation.dart';
 
 enum RmsComponentGroup with AbsComponentGroup {
-  rmsHomeComponent("RMS Home Component");
+  rmsHomeComponent("RMS Home Component"),
+  rmsFacilityListComponent("RMS Facility List Component");
 
   @override
   final String value;
@@ -10,7 +11,8 @@ enum RmsComponentGroup with AbsComponentGroup {
 }
 
 enum RmsPageGroup with AbsPageGroup {
-  rmsHomePageKey("RMS Home Page");
+  rmsHomePageKey("RMS Home Page"),
+  rmsFacilityListPageKey("RMS Facility List Page");
 
   @override
   final String value;

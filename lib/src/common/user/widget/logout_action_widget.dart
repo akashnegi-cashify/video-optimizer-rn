@@ -14,15 +14,7 @@ class LogoutActionWidget extends StatelessWidget {
     var theme = Theme.of(context);
     return GestureDetector(
       onTap: () async {
-        // TODO: RMS logout needed
-        var loginType = await AppPreferences().getLoginType();
-        var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
-        if (loginTypeEnum == LoginTypes.shipexLogin) {
-          AppPreferences().resetAndClearAll();
-          Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
-        } else {
           UserUtil.applicationLogout(context);
-        }
       },
       child: CshIcon(
         FeatherIcons.logOut,
