@@ -1,6 +1,13 @@
 # TRC Releases
 
-# v3.3.2+48 (XX-07-2024)
+# v3.3.3+49 (XX-08-2024)
+
+### Feature and Improvements:
+
+* `Trc - Engineer - Allow user to cancel a part request during approval pending state`[(SCM-6132)](https://reglobe.atlassian.net/browse/SCM-6132)
+
+
+# v3.3.2+48 (01-08-2024)
 
 ### Feature and Improvements:
 

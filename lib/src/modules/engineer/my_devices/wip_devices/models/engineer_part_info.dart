@@ -37,7 +37,8 @@ enum StatusCode {
   requestedStatusCode(11),
   allottedStatusCode(22),
   riderDeliveryPickedStatusCode(25),
-  receiveStatusCode(33);
+  receiveStatusCode(33),
+  initiated(0);
 
   final int value;
 

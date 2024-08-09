@@ -31,7 +31,8 @@ class _ViewPartDetailWidget extends StatelessWidget {
     isCancelAvailable() {
       return data.partInfo.statusCode == StatusCode.requestedStatusCode.value ||
           data.partInfo.statusCode == StatusCode.availableStatusCode.value ||
-          data.partInfo.statusCode == StatusCode.notAvailableStatusCode.value;
+          data.partInfo.statusCode == StatusCode.notAvailableStatusCode.value ||
+          data.partInfo.statusCode == StatusCode.initiated.value;
     }
 
     isConsumeAvailable() {
