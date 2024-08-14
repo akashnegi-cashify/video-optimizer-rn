@@ -4,8 +4,9 @@
 
 ### Feature and Improvements:
 
-* `Trc - Engineer - Allow user to cancel a part request during approval pending state`[(SCM-6132)](https://reglobe.atlassian.net/browse/SCM-6132)
+* `TRC - Engineer - Allow user to cancel a part request during approval pending state`[(SCM-6132)](https://reglobe.atlassian.net/browse/SCM-6132)
 * `RMS - Add company field while login`[(SCM-7180)](https://reglobe.atlassian.net/browse/SCM-7180)
+* `TRC - Inventory Role - Remove dead part button from Pending part details`[(SCM-7187)](https://reglobe.atlassian.net/browse/SCM-7187)
 
 
 # v3.3.2+48 (01-08-2024)
