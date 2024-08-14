@@ -5,6 +5,7 @@
 ### Feature and Improvements:
 
 * `Trc - Engineer - Allow user to cancel a part request during approval pending state`[(SCM-6132)](https://reglobe.atlassian.net/browse/SCM-6132)
+* `RMS - Add company field while login`[(SCM-7180)](https://reglobe.atlassian.net/browse/SCM-7180)
 
 
 # v3.3.2+48 (01-08-2024)
