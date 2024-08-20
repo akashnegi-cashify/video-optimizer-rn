@@ -8,7 +8,6 @@ import androidx.annotation.NonNull
 import com.example.video_compress.Utility
 import com.otaliastudios.transcoder.Transcoder
 import com.otaliastudios.transcoder.TranscoderListener
-import com.otaliastudios.transcoder.internal.MediaFormatConstants
 import com.otaliastudios.transcoder.source.UriDataSource
 import com.otaliastudios.transcoder.strategy.DefaultAudioStrategy
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
@@ -19,7 +18,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 import java.util.concurrent.Future
 
 class MainActivity : FlutterActivity() {
@@ -53,14 +52,17 @@ class MainActivity : FlutterActivity() {
                     var flutterSideData: String = call.arguments as String
                     result.success("android")
                 }
+
                 "registerLogout" -> {
 
                     logoutResult = result;
                 }
+
                 "cancelCompression" -> {
                     transcodeFuture?.cancel(true)
                     result.success(false);
                 }
+
                 "compressVideo" -> {
                     val path = call.argument<String>("path")!!
                     val deleteOrigin = call.argument<Boolean>("deleteOrigin")!!
