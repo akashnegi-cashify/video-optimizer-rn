@@ -131,6 +131,8 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       setState(() => _isLoading = false);
     } on CameraException catch (e) {
       _handleException(e);
+    } catch (e) {
+      _showError('Error: $e');
     }
   }
 
@@ -175,10 +177,13 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
 
   _stopVideoRecording() async {
     if (_cameraController != null && _isRecording) {
-      final file = await _cameraController!.stopVideoRecording();
-      _resetTimers();
-      setState(() => _isRecording = false);
-      _sendFileToListener(file);
+      _cameraController!.stopVideoRecording().then((file) {
+        _resetTimers();
+        setState(() => _isRecording = false);
+        _sendFileToListener(file);
+      }, onError: (error) {
+        _showError(error.toString());
+      });
     }
   }
 

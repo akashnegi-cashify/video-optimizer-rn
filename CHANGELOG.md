@@ -1,6 +1,6 @@
 # TRC Releases
 
-# v3.3.3+49 (XX-08-2024)
+# v3.3.3+49 (20-08-2024)
 
 ### Feature and Improvements:
 
