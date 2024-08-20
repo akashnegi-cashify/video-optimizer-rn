@@ -16,6 +16,15 @@ read -r env
 echo "${GREEN}Enter Flavor${NC}"
 read -r flavor
 
+echo "${GREEN}Release notes line number range from CHANGELOG${NC}"
+echo "${GREEN}Start Line no${NC}"
+read -r startLine
+
+echo "${GREEN}End Line no${NC}"
+read -r endLine
+
+sed -n "${startLine},${endLine}p" "./CHANGELOG.md" > "./release-notes.txt"
+
 if [ "$flavor" == "" ]; then
   flavor="$env"
 fi
@@ -36,12 +45,12 @@ buildCommand="build apk --dart-define=env=$env --flavor $flavor --obfuscate --sp
 echo "${GREEN}executing flutter $buildCommand${NC}"
 flutter $buildCommand
 
+echo "${GREEN}Start distributing apk to firebase app distribution${NC}"
+firebase appdistribution:distribute ./build/app/outputs/flutter-apk/app-$flavor-release.apk --app $fKey --release-notes-file "./release-notes.txt" --groups "trc-tester"
+
 exportedCrashlyticsTool="CRASHLYTICS_LOCAL_JAR=/Users/apple/Downloads/firebase-crashlytics-buildtools-2.9.1.jar"
 echo "${GREEN}export $exportedCrashlyticsTool ${NC}"
 export $exportedCrashlyticsTool
 
 echo "${GREEN}uploading debug symbols to firebase${NC}"
 firebase crashlytics:symbols:upload --app=$fKey ./mapping
-
-echo "${GREEN}Start distributing apk to firebase app distribution${NC}"
-firebase appdistribution:distribute ./build/app/outputs/flutter-apk/app-$flavor-release.apk --app $fKey --release-notes "Testing" --groups "trc-tester"
