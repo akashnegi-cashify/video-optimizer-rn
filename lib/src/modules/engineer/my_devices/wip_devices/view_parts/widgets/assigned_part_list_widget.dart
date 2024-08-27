@@ -59,9 +59,11 @@ class AssignedPartListWidgetState extends State<AssignedPartListWidget> {
   }
 
   void refreshData() {
-    setState(() {
-      stream = EngineerAPIService.getAssignedParts(widget.deviceInfo.deviceId);
-    });
+    if (mounted) {
+      setState(() {
+        stream = EngineerAPIService.getAssignedParts(widget.deviceInfo.deviceId);
+      });
+    }
   }
 }
 

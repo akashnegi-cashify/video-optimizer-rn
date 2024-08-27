@@ -21,7 +21,9 @@ class _PreDispatchLotsWidgetState extends PaginatedListState<PreDispatchLotInfo,
     super.initState();
     var provider = PreDispatchLotProvider.of(context: context, listen: false);
     provider.controller.stream.listen((event) {
-      resetAndRefreshScreen();
+      if(mounted) {
+        resetAndRefreshScreen();
+      }
     });
   }
 

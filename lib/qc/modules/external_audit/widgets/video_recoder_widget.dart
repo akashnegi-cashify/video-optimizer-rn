@@ -5,15 +5,15 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:calculator_ui/calculator_ui.dart';
 import 'package:camera/camera.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/external_audit/widgets/timer_widget.dart';
 import 'package:flutter_trc/src/common/utils/disk_util.dart';
-import 'package:flutter_trc/src/common/utils/video_util.dart';
+import 'package:flutter_trc/src/common/video_compression_mixin.dart';
+import 'package:flutter_trc/src/common/video_recording_error_handling_mixin.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
-import 'package:flutter_trc/src/utils/csh_tts_util.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 const int _DEFAULT_VIDEO_TIMER = 600;
@@ -36,39 +36,40 @@ class VideoRecorderWidget extends StatefulWidget {
   const VideoRecorderWidget({Key? key}) : super(key: key);
 
   @override
-  _VideoRecorderWidgetState createState() => _VideoRecorderWidgetState();
+  State<VideoRecorderWidget> createState() => _VideoRecorderWidgetState();
 }
 
-class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
+class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
+    with VideoRecordingErrorHandlingMixin, VideoCompressionMixin {
   bool _isLoading = true;
   bool _isRecording = false;
   bool _isCompressionStarted = false;
   late CameraController? _cameraController;
-  Timer? _videoRecorderTimer;
   late int _videoRecorderTimeInSeconds;
-  int _videoRecordedTime = 0;
+  final GlobalKey<TimerWidgetState> timerWidgetKey = GlobalKey<TimerWidgetState>();
 
   bool _isCompressionEnabled = true;
-
-  int _compressionProgress = 0;
 
   _VideoRecorderWidgetState() {
     _videoRecorderTimeInSeconds = _DEFAULT_VIDEO_TIMER;
   }
 
   VideoRecordingListener? _listener;
-  FocusNode _stopVideoFocusNode = FocusNode();
+  final FocusNode _stopVideoFocusNode = FocusNode(); // used for physical scanner button
 
   @override
   void initState() {
+    _videoRecorderTimeInSeconds = RemoteConfigHelper().getInt(AppRemoteConfig.KEY_VIDEO_RECORD_DURATION_IN_SEC);
     scheduleMicrotask(() {
       DiskUtil.getDeviceStorageInfo(isGb: true).then((value) {
         if ((value ?? 0) > 1) {
-          _initCamera();
-          _showErrorIfVideoNotStarted();
+          Future.delayed(const Duration(milliseconds: 500), () => _getAvailableCamera());
           WakelockPlus.enable();
         } else {
-          _showInSufficientStorageDialog();
+          showInSufficientStorageDialog(context, onProceed: () {
+            Navigator.of(context).pop(); // dismiss dialog
+            Navigator.of(context).pop(); // back to previous screen
+          });
         }
       });
     });
@@ -77,138 +78,99 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         FocusScope.of(context).requestFocus(_stopVideoFocusNode);
       }
     });
-
-    _getVideoRecordingTimerInSec();
     super.initState();
   }
 
-  _showErrorIfVideoNotStarted() {
-    Timer(
-      const Duration(seconds: _VIDEO_NOT_INITIALIZED_TIMER),
-      () {
-        if (_cameraController?.value.isRecordingVideo == false) {
-          CshTtsUtil().speak("Recording is not started. Please try again.");
-          _showVideoNotStartedDialog();
-        }
-      },
-    );
-  }
+  // _showErrorIfVideoNotStarted() {
+  //   Future.delayed(const Duration(seconds: _VIDEO_NOT_INITIALIZED_TIMER), () {
+  //     if (_cameraController?.value.isRecordingVideo == false) {
+  //       CshTtsUtil().speak("Recording is not started. Please try again.");
+  //       showVideoNotStartedDialog(context, onTryAgain: () {
+  //         Navigator.of(context).pop(); // dismiss dialog
+  //         _showErrorIfVideoNotStarted();
+  //         _startVideoRecording();
+  //       });
+  //     }
+  //   });
+  // }
 
-  _showVideoNotStartedDialog() {
-    showPopup(context,
-        title: "Video Error",
-        desc: "Video is not started. Please try again.",
-        barrierDismissible: false,
-        actions: [
-          CshBigButton(
-            text: "Try Again",
-            onPressed: () {
-              Navigator.of(context).pop(); // dismiss dialog
-              _showErrorIfVideoNotStarted();
-              _startVideoRecording();
-            },
-          )
-        ]);
-  }
-
-  _getVideoRecordingTimerInSec() {
-    _videoRecorderTimeInSeconds = RemoteConfigHelper().getInt(AppRemoteConfig.KEY_VIDEO_RECORD_DURATION_IN_SEC);
-  }
-
-  void _showError(String message) {
-    CshSnackBar.error(context: context, message: message, snackBarPosition: SnackBarPosition.TOP);
-  }
-
-  _initCamera() async {
-    try {
-      final cameras = await availableCameras();
+  void _getAvailableCamera() {
+    availableCameras().then((cameras) {
       final backCamera = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.back);
       _cameraController = CameraController(backCamera, ResolutionPreset.medium,
           imageFormatGroup: ImageFormatGroup.nv21, enableAudio: false);
-
-      await _cameraController!.initialize();
-      _startVideoRecording();
-      setState(() => _isLoading = false);
-    } on CameraException catch (e) {
-      _handleException(e);
-    } catch (e) {
-      _showError('Error: $e');
-    }
+      _initCamera();
+    }).catchError((error) {
+      showCameraNotAvailableDialog(context, message: error.toString(), onTryAgain: () {
+        Navigator.of(context).pop(); // dismiss dialog
+        _getAvailableCamera();
+      });
+      // return "";
+    });
   }
 
-  _handleException(CameraException e) {
-    switch (e.code) {
-      case 'CameraAccessDenied':
-        _showError('You have denied camera access.');
-        break;
-      case 'CameraAccessDeniedWithoutPrompt':
-        // iOS only
-        _showError('Please go to Settings app to enable camera access.');
-        break;
-      case 'CameraAccessRestricted':
-        // iOS only
-        _showError('Camera access is restricted.');
-        break;
-      case 'AudioAccessDenied':
-        _showError('You have denied audio access.');
-        break;
-      case 'AudioAccessDeniedWithoutPrompt':
-        // iOS only
-        _showError('Please go to Settings app to enable audio access.');
-        break;
-      case 'AudioAccessRestricted':
-        // iOS only
-        _showError('Audio access is restricted.');
-        break;
-      default:
-        _showError('Error: ${e.code}\n${e.description}');
-        break;
-    }
+  _initCamera() {
+    _cameraController!.initialize().then((value) {
+      _startVideoRecording();
+      setState(() => _isLoading = false);
+    }).catchError((error) {
+      showCameraInitializationErrorDialog(context, message: error.toString(), onTryAgain: () {
+        Navigator.of(context).pop(); // dismiss dialog
+        _initCamera();
+      });
+    });
   }
 
   _resetTimers() {
-    if (_videoRecorderTimer?.isActive == true) {
-      _videoRecorderTimer?.cancel();
-    }
-
-    _videoRecorderTimer == null;
-    _getVideoRecordingTimerInSec();
+    timerWidgetKey.currentState?.reset();
   }
 
   _stopVideoRecording() async {
-    if (_cameraController != null && _isRecording) {
+    if (_cameraController?.value.isRecordingVideo == true) {
       _cameraController!.stopVideoRecording().then((file) {
+        _cameraController!.pausePreview();
         _resetTimers();
         setState(() => _isRecording = false);
         _sendFileToListener(file);
-      }, onError: (error) {
-        _showError(error.toString());
+      }).catchError((error) {
+        showStopVideoErrorDialog(context, message: error.toString(), onTryAgain: () {
+          Navigator.of(context).pop(); // dismiss dialog
+          _stopVideoRecording();
+        });
       });
+    } else {
+      showStopVideoErrorDialog(
+        context,
+        message: "Recording is already closed. Please create new video",
+        onTryAgain: () {
+          Navigator.of(context).pop(); // dismiss dialog
+          Navigator.of(context).pop(); // back to previous screen
+        },
+      );
     }
   }
 
   _startVideoRecording() async {
     if (_cameraController != null) {
-      await _cameraController!.prepareForVideoRecording();
-      await _cameraController!.startVideoRecording();
-      _startVideoRecordingTimer();
-      if (mounted) {
-        setState(() => _isRecording = true);
+      try {
+        await _cameraController!.prepareForVideoRecording();
+        await _cameraController!.startVideoRecording();
+        timerWidgetKey.currentState?.startTimer();
+        if (mounted) {
+          setState(() => _isRecording = true);
+        }
+      } on CameraException catch (e) {
+        handleException(context, error: e, onRetry: _startVideoRecording);
+      } catch (e) {
+        if (mounted) {
+          showCameraPrepareErrorDialog(context, title: "Video Recording Error!!", message: e.toString(),
+              onTryAgain: () {
+            Navigator.pop(context);
+            _startVideoRecording();
+          });
+        }
       }
     }
-  }
-
-  _startVideoRecordingTimer() {
-    _videoRecorderTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _videoRecordedTime++;
-        _videoRecorderTimeInSeconds--;
-        if (_videoRecorderTimeInSeconds == 0) {
-          timer.cancel();
-          _stopVideoRecording();
-        }
-      });
-    });
   }
 
   @override
@@ -265,10 +227,9 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        _getTimeString(_videoRecorderTimeInSeconds),
-                        style: theme.primaryTextTheme.displayMedium?.copyWith(color: theme.colorScheme.error),
-                      )
+                      TimerWidget(_videoRecorderTimeInSeconds, key: timerWidgetKey, onTimerEnd: () {
+                        _stopVideoRecording();
+                      }),
                     ],
                   ),
                 ),
@@ -279,7 +240,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
                     top: 0,
                     left: Dimens.space_16,
                     right: Dimens.space_16,
-                    child: _buildProgressContainer(theme),
+                    child: buildProgressContainer(theme),
                   ),
               ],
             ),
@@ -304,16 +265,10 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         setState(() {
           _isCompressionStarted = true;
         });
-        VideoUtil.compressVideo(xFile.path, _videoRecordedTime, onProgress: (value) {
-          Logger.debug('mydebug-----_VideoRecorderWidgetState._sendFileToListener onProgress', ['value: $value']);
-          setState(() {
-            _compressionProgress = value;
-          });
-        }).then((String? outputPath) {
-          if (outputPath != null) {
-            Navigator.pop(context);
-            _listener?.onVideoRecorded(File(outputPath));
-          }
+
+        compressVideo(xFile.path).then((compressedVideoPath) {
+          Navigator.pop(context);
+          _listener?.onVideoRecorded(File(compressedVideoPath));
         }, onError: (error) {
           Navigator.pop(context);
           CshSnackBar.error(context: context, message: error.toString());
@@ -329,52 +284,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       Navigator.pop(context);
       _listener?.onVideoRecorded(file);
     }
-  }
-
-  String _getTimeString(int seconds) {
-    String res = "";
-
-    int mins = seconds ~/ 60;
-    int secs = seconds % 60;
-
-    if (mins < 10) {
-      res += "0$mins";
-    } else {
-      res += "$mins";
-    }
-
-    if (secs < 10) {
-      res += ":0$secs";
-    } else {
-      res += ":$secs";
-    }
-    return res;
-  }
-
-  Widget _buildProgressContainer(ThemeData theme) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CshCard(
-            padding: const EdgeInsets.all(Dimens.space_24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CshTextNew.h3("Optimizing Video - $_compressionProgress%"),
-                const SizedBox(height: Dimens.space_16),
-                LinearProgressIndicator(
-                  value: _compressionProgress / 100,
-                  valueColor: AlwaysStoppedAnimation<Color>(theme.primaryColor),
-                  backgroundColor: theme.primaryColor.withAlpha(20),
-                  borderRadius: BorderRadius.circular(Dimens.space_6),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   _buildRecordButton(ThemeData theme) {
@@ -394,27 +303,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       Logger.error('mydebug-----_VideoRecorderWidgetState.dispose', ['error: $e']);
     }
 
-    if (_videoRecorderTimer?.isActive == true) {
-      _videoRecorderTimer?.cancel();
-    }
-
     WakelockPlus.disable();
     super.dispose();
-  }
-
-  void _showInSufficientStorageDialog() {
-    showPopup(context,
-        title: "Insufficient Storage",
-        desc: "This device does not have enough storage to record video.",
-        barrierDismissible: false,
-        actions: [
-          CshBigButton(
-            text: "Ok",
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-          )
-        ]);
   }
 }
