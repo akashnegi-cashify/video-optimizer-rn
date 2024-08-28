@@ -15,6 +15,7 @@ import 'package:flutter_trc/qc/modules/qc_actions/resources/services.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
 import 'package:flutter_trc/qc/modules/store_in/dialog/show_store_in_type_dialog.dart';
+import 'package:flutter_trc/qc/modules/store_in/screens/store_in_location_scan_screen.dart';
 import 'package:flutter_trc/qc/modules/store_out/screens/index.dart';
 import 'package:flutter_trc/qc/modules/supervisor/dialogs/supervisor_device_detail_dialog.dart';
 import 'package:flutter_trc/qc/modules/supervisor/resources/supervisor_service.dart';
@@ -94,7 +95,12 @@ class QCActionWidget extends StatelessWidget {
               child: CshBigButton(
                 text: l10n.storeIn,
                 onPressed: () {
-                  showStoreInTypeDialog(context);
+                  showStoreInTypeDialog(
+                    context,
+                    onScanned: (qrCode, isBinStoreIn) {
+                      StoreInLocationScanScreen.navigateTo(context, barcode: qrCode, isBinStoreIn: isBinStoreIn);
+                    },
+                  );
                 },
               ),
             ),

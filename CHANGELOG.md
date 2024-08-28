@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.3.5+51 (XX-09-2024)
+
+### Feature and Improvements:
+
+* `QC - Store In flow improvements`[(SCM-7246)](https://reglobe.atlassian.net/browse/SCM-7246)
+
+
 # v3.3.4+50 (27-08-2024)
 
 ### Bug fix:
