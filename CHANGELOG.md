@@ -4,7 +4,8 @@
 
 ### Feature and Improvements:
 
-* `QC - Store In flow improvements`[(SCM-7246)](https://reglobe.atlassian.net/browse/SCM-7246)
+* `QC - Store In - Flow improvements`[(SCM-7246)](https://reglobe.atlassian.net/browse/SCM-7246)
+* `QC - ReQc - Show serial number`[(SCM-7099)](https://reglobe.atlassian.net/browse/SCM-7099)
 
 
 # v3.3.4+50 (27-08-2024)

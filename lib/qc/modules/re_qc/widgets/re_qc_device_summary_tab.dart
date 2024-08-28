@@ -33,18 +33,50 @@ class ReQcDeviceSummaryTab extends StatelessWidget {
             child: Column(
               children: [
                 _LabelValueWidget(title: "Lot Name: ", value: reQcListData.lotGroupName ?? ""),
-                const SizedBox(height: Dimens.space_6),
-                _LabelValueWidget(title: "Barcode: ", value: lotDeviceListData?.qrCode ?? "", isBarcode: true),
-                const SizedBox(height: Dimens.space_6),
-                _LabelValueWidget(title: "Product Name: ", value: lotDeviceListData?.productTitle ?? ""),
-                const SizedBox(height: Dimens.space_6),
-                _LabelValueWidget(title: "IMEI: ", value: lotDeviceListData?.imei ?? ""),
-                const SizedBox(height: Dimens.space_6),
-                _LabelValueWidget(title: "Grade: ", value: lotDeviceListData?.grade ?? ""),
-                const SizedBox(height: Dimens.space_6),
-                _LabelValueWidget(title: "Device Tested Age: ", value: lotDeviceListData?.testAge.toString() ?? ""),
-                const SizedBox(height: Dimens.space_6),
-                _LabelValueWidget(title: "Status: ", value: "$doneStatusCount Done"),
+                _LabelValueWidget(
+                  title: "Barcode: ",
+                  value: lotDeviceListData?.qrCode ?? "",
+                  isBarcode: true,
+                  padding: const EdgeInsets.only(top: Dimens.space_6),
+                ),
+                _LabelValueWidget(
+                  title: "Product Name: ",
+                  value: lotDeviceListData?.productTitle ?? "",
+                  padding: const EdgeInsets.only(top: Dimens.space_6),
+                ),
+                if (!Validator.isNullOrEmpty(lotDeviceListData?.imei1))
+                  _LabelValueWidget(
+                    title: "IMEI 1: ",
+                    value: lotDeviceListData!.imei1!,
+                    padding: const EdgeInsets.only(top: Dimens.space_6),
+                  ),
+                if (!Validator.isNullOrEmpty(lotDeviceListData?.imei2))
+                  _LabelValueWidget(
+                    title: "IMEI 2: ",
+                    value: lotDeviceListData!.imei2!,
+                    padding: const EdgeInsets.only(top: Dimens.space_6),
+                  ),
+                if (!Validator.isNullOrEmpty(lotDeviceListData?.serialNumber))
+                  _LabelValueWidget(
+                    title: "Serial No: ",
+                    value: lotDeviceListData!.serialNumber!,
+                    padding: const EdgeInsets.only(top: Dimens.space_6),
+                  ),
+                _LabelValueWidget(
+                  title: "Grade: ",
+                  value: lotDeviceListData?.grade ?? "",
+                  padding: const EdgeInsets.only(top: Dimens.space_6),
+                ),
+                _LabelValueWidget(
+                  title: "Device Tested Age: ",
+                  value: lotDeviceListData?.testAge.toString() ?? "",
+                  padding: const EdgeInsets.only(top: Dimens.space_6),
+                ),
+                _LabelValueWidget(
+                  title: "Status: ",
+                  value: "$doneStatusCount Done",
+                  padding: const EdgeInsets.only(top: Dimens.space_6),
+                ),
                 const SizedBox(height: Dimens.space_12),
                 CshMediumButton(text: "Accessories", onPressed: onAccessoriesClicked)
               ],
@@ -62,8 +94,9 @@ class _LabelValueWidget extends StatelessWidget {
   final String title;
   final String value;
   final bool isBarcode;
+  final EdgeInsets? padding;
 
-  const _LabelValueWidget({super.key, required this.title, required this.value, this.isBarcode = false});
+  const _LabelValueWidget({super.key, required this.title, required this.value, this.isBarcode = false, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -74,20 +107,23 @@ class _LabelValueWidget extends StatelessWidget {
     } else {
       valueStyle = theme.primaryTextTheme.titleSmall;
     }
-    return Row(
-      children: [
-        Flexible(flex: 2, fit: FlexFit.tight, child: Text(title, style: theme.textTheme.bodyMedium)),
-        Flexible(
-            flex: 5,
-            fit: FlexFit.tight,
-            child: InkWell(
-                onTap: () {
-                  if (isBarcode) {
-                    _showQrCode(context, value);
-                  }
-                },
-                child: Text(value, style: valueStyle))),
-      ],
+    return Padding(
+      padding: padding ?? EdgeInsets.zero,
+      child: Row(
+        children: [
+          Flexible(flex: 2, fit: FlexFit.tight, child: Text(title, style: theme.textTheme.bodyMedium)),
+          Flexible(
+              flex: 5,
+              fit: FlexFit.tight,
+              child: InkWell(
+                  onTap: () {
+                    if (isBarcode) {
+                      _showQrCode(context, value);
+                    }
+                  },
+                  child: Text(value, style: valueStyle))),
+        ],
+      ),
     );
   }
 
