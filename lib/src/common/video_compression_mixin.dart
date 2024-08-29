@@ -1,30 +1,25 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/utils/video_util.dart';
-import 'package:video_player/video_player.dart';
 
 mixin VideoCompressionMixin {
   final StreamController<int> _fileCompressProgressStream = StreamController.broadcast();
 
-  Future<String> compressVideo(String filePath) {
+  Future<String> compressVideo(String filePath, int videoTimeInSec) {
     var completer = Completer<String>();
-    VideoPlayerController videoPlayerController = VideoPlayerController.file(File(filePath));
-    videoPlayerController.initialize().then((_) {
-      VideoUtil.compressVideo(filePath, videoPlayerController.value.duration.inSeconds, onProgress: (value) {
-        _fileCompressProgressStream.add(value);
-      }).then((String? outputPath) {
-        if (outputPath != null) {
-          completer.complete(outputPath);
-        } else {
-          completer.completeError('Error while compressing video');
-        }
-      }, onError: (error) {
-        completer.completeError(error.toString());
-      });
+    VideoUtil.compressVideo(filePath, videoTimeInSec, onProgress: (value) {
+      _fileCompressProgressStream.add(value);
+    }).then((String? outputPath) {
+      if (outputPath != null) {
+        completer.complete(outputPath);
+      } else {
+        completer.completeError('Error while compressing video');
+      }
     }, onError: (error) {
+      Logger.debug('mydebug-----VideoCompressionMixin.compressVideo', ['error', error]);
       completer.completeError(error.toString());
     });
     return completer.future;

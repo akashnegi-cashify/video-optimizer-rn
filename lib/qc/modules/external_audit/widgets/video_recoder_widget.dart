@@ -81,19 +81,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
     super.initState();
   }
 
-  // _showErrorIfVideoNotStarted() {
-  //   Future.delayed(const Duration(seconds: _VIDEO_NOT_INITIALIZED_TIMER), () {
-  //     if (_cameraController?.value.isRecordingVideo == false) {
-  //       CshTtsUtil().speak("Recording is not started. Please try again.");
-  //       showVideoNotStartedDialog(context, onTryAgain: () {
-  //         Navigator.of(context).pop(); // dismiss dialog
-  //         _showErrorIfVideoNotStarted();
-  //         _startVideoRecording();
-  //       });
-  //     }
-  //   });
-  // }
-
   void _getAvailableCamera() {
     availableCameras().then((cameras) {
       final backCamera = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.back);
@@ -266,17 +253,26 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
           _isCompressionStarted = true;
         });
 
-        compressVideo(xFile.path).then((compressedVideoPath) {
+        compressVideo(xFile.path, timerWidgetKey.currentState!.getVideoTimeInSec()).then((compressedVideoPath) {
           Navigator.pop(context);
           _listener?.onVideoRecorded(File(compressedVideoPath));
-        }, onError: (error) {
+        }, onError: (error) async {
+          var file = File(xFile.path);
+          if (xFile.path.contains(".temp")) {
+            file = await _getRenamedFile(xFile.path);
+          }
           Navigator.pop(context);
-          CshSnackBar.error(context: context, message: error.toString());
+          _listener?.onVideoRecorded(file);
         });
       } catch (e) {
         if (mounted) {
-          CshSnackBar.error(context: context, message: e.toString());
+          var file = File(xFile.path);
+          if (xFile.path.contains(".temp")) {
+            file = await _getRenamedFile(xFile.path);
+          }
           Navigator.of(context).pop();
+          CshSnackBar.error(context: context, message: e.toString());
+          _listener?.onVideoRecorded(file);
         }
       }
     } else {
@@ -305,5 +301,13 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
 
     WakelockPlus.disable();
     super.dispose();
+  }
+
+  Future<File> _getRenamedFile(String path) async {
+    var file = File(path);
+    String oldExtension = path.split('.').last;
+    String newPath = path.replaceAll(oldExtension, "mp4");
+    file = await file.rename(newPath);
+    return file;
   }
 }

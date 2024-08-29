@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class TimerWidget extends StatefulWidget {
   final int totalTimeInSeconds;
-  final Function onTimerEnd;
+  final VoidCallback onTimerEnd;
 
   const TimerWidget(this.totalTimeInSeconds, {required this.onTimerEnd, super.key});
 
@@ -36,6 +36,10 @@ class TimerWidgetState extends State<TimerWidget> {
     return res;
   }
 
+  int getVideoTimeInSec() {
+    return widget.totalTimeInSeconds - _remainingTimeInSeconds;
+  }
+
   void startTimer() {
     _videoRecorderTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -49,7 +53,7 @@ class TimerWidgetState extends State<TimerWidget> {
   }
 
   void reset() {
-    _remainingTimeInSeconds = widget.totalTimeInSeconds;
+    // _remainingTimeInSeconds = widget.totalTimeInSeconds;
     if (_videoRecorderTimer?.isActive == true) {
       _videoRecorderTimer?.cancel();
     }
