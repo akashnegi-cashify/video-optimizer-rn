@@ -28,10 +28,12 @@ ListAlternateData _$ListAlternateDataFromJson(Map<String, dynamic> json) =>
     ListAlternateData(
       sku: json['sku'] as String?,
       productName: json['pn'] as String?,
+      partVariantName: json['pvn'] as String?,
     );
 
 Map<String, dynamic> _$ListAlternateDataToJson(ListAlternateData instance) =>
     <String, dynamic>{
       'sku': instance.sku,
       'pn': instance.productName,
+      'pvn': instance.partVariantName,
     };

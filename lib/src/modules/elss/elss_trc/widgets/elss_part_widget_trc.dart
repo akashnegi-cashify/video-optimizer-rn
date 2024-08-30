@@ -116,6 +116,23 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                         ),
                         const SizedBox(height: Dimens.space_4)
                       ],
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.partVariantName)) ...[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("${l10n.skuName}: ", style: theme.primaryTextTheme.headlineMedium),
+                            Expanded(
+                              child: Text(
+                                widget.dataModel!.partVariantName!,
+                                maxLines: 3,
+                                style: theme.primaryTextTheme.bodyMedium,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: Dimens.space_4)
+                      ],
                     ],
                   ),
                 )

@@ -21,6 +21,7 @@ ElssPart _$ElssPartFromJson(Map<String, dynamic> json) => ElssPart(
       quantity: (json['qt'] as num?)?.toInt(),
       categoryCode: json['cc'] as String?,
       price: (json['pr'] as num?)?.toDouble(),
+      partVariantName: json['pvn'] as String?,
     );
 
 Map<String, dynamic> _$ElssPartToJson(ElssPart instance) => <String, dynamic>{
@@ -38,4 +39,5 @@ Map<String, dynamic> _$ElssPartToJson(ElssPart instance) => <String, dynamic>{
       '_v': instance.version,
       'cc': instance.categoryCode,
       'pr': instance.price,
+      'pvn': instance.partVariantName,
     };

@@ -184,6 +184,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
                               widget.arg?.prid ?? 0,
                               provider.listAlternatePartsResponse!.dataList![index].productName ?? "",
                               provider.listAlternatePartsResponse!.dataList![index].sku ?? "",
+                              provider.listAlternatePartsResponse!.dataList![index].partVariantName ?? "",
                               widget.arg,
                             );
                           },
@@ -242,7 +243,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
   }
 
   _showRequestAlternatePartRequest(BuildContext context, ThemeData theme, L10n l10n, int partId, String productName,
-      String sku, AlternatePartArguments? args) {
+      String sku, String partVariantName, AlternatePartArguments? args) {
     showCshBottomSheet(
       context: context,
       child: Padding(
@@ -264,7 +265,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
               },
               secondBtnClick: () {
                 Navigator.of(context).pop();
-                _requestAlternativePart(context, l10n, partId, productName, sku, args);
+                _requestAlternativePart(context, l10n, partId, productName, partVariantName, sku, args);
               },
             )
           ],
@@ -274,10 +275,10 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
   }
 
   _requestAlternativePart(
-      BuildContext context, L10n l10n, int partId, String productName, String sku, AlternatePartArguments? args) {
+      BuildContext context, L10n l10n, int partId, String productName, String partVariantName, String sku, AlternatePartArguments? args) {
     var provider = AlternatePartListProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.alternatePartRequest(partId, productName, sku, args?.detailsModelData?.did ?? -1).then((value) {
+    provider.alternatePartRequest(partId, productName, sku, args?.detailsModelData?.did ?? -1, partVariantName).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: l10n.alternatePartDataFetched);
