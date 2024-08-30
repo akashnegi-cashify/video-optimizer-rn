@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.3.5+51 (XX-09-2024)
+
+### Bug fix:
+
+* `App freezes and users are not able to initiate recording`[(SCM-7277)](https://reglobe.atlassian.net/browse/SCM-7277)
+
+
 # v3.3.4+50 (27-08-2024)
 
 ### Bug fix:
