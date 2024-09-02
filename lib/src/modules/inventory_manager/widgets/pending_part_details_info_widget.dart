@@ -60,6 +60,10 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
               _labelValueWidget(theme, l10n.alternatePartSku, widget.detailsData!.alternatePartSku!),
               const SizedBox(height: Dimens.space_8),
             ],
+            if (!Validator.isNullOrEmpty(widget.detailsData?.partVariantName)) ...[
+              _labelValueWidget(theme, l10n.alternatePartSkuName, widget.detailsData!.partVariantName!),
+              const SizedBox(height: Dimens.space_8),
+            ],
             if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartStatus)) ...[
               _labelValueWidget(theme, l10n.alternatePartStatus, widget.detailsData!.alternatePartStatus!),
               const SizedBox(height: Dimens.space_8),

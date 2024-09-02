@@ -7,7 +7,9 @@ part of 'facility_list_component.dart';
 // **************************************************************************
 
 FacilityListPageParamModel fromMap(Map<String, dynamic> map) {
-  FacilityListPageParamModel model = FacilityListPageParamModel(map["fs"]);
+  FacilityListPageParamModel model = FacilityListPageParamModel(
+    map["fs"],
+  );
   return model;
 }
 
@@ -24,9 +26,9 @@ Widget paramBuilder(Widget Function(FacilityListPageParamModel model) paramBuild
 }
 
 bool isValid(FacilityListPageParamModel model) {
-  var facilityListListener = model.onFacilitySelected;
+  var onFacilitySelected = model.onFacilitySelected;
 
-  return facilityListListener != null;
+  return onFacilitySelected != null;
 }
 
 dynamic schema() => {

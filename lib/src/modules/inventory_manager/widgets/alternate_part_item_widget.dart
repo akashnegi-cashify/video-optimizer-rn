@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+
 import '../l10n.dart';
 import '../models/list_alternate_parts_response.dart';
 
@@ -54,6 +55,22 @@ class AlternatePartItemWidget extends StatelessWidget {
                       ),
                     ],
                   ),
+                if (!Validator.isNullOrEmpty(dataModel?.partVariantName)) ...[
+                  const SizedBox(height: Dimens.space_8),
+                  Row(
+                    children: [
+                      const SizedBox.shrink(),
+                      Expanded(
+                        child: Text(
+                          dataModel!.partVariantName!,
+                          style: theme.primaryTextTheme.headlineMedium,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

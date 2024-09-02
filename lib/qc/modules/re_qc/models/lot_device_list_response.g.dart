@@ -6,19 +6,28 @@ part of 'lot_device_list_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LotDeviceListResponse _$LotDeviceListResponseFromJson(Map<String, dynamic> json) => LotDeviceListResponse(
-      (json['dt'] as List<dynamic>?)?.map((e) => LotDeviceListData.fromJson(e as Map<String, dynamic>)).toList(),
-      json['__ca'] == null ? null : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+LotDeviceListResponse _$LotDeviceListResponseFromJson(
+        Map<String, dynamic> json) =>
+    LotDeviceListResponse(
+      (json['dt'] as List<dynamic>?)
+          ?.map((e) => LotDeviceListData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['__ca'] == null
+          ? null
+          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
     );
 
-Map<String, dynamic> _$LotDeviceListResponseToJson(LotDeviceListResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$LotDeviceListResponseToJson(
+        LotDeviceListResponse instance) =>
+    <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'dt': instance.deviceList,
     };
 
-LotDeviceListData _$LotDeviceListDataFromJson(Map<String, dynamic> json) => LotDeviceListData(
+LotDeviceListData _$LotDeviceListDataFromJson(Map<String, dynamic> json) =>
+    LotDeviceListData(
       id: (json['id'] as num?)?.toInt(),
       deviceId: (json['did'] as num?)?.toInt(),
       mpid: (json['mpid'] as num?)?.toInt(),
@@ -35,19 +44,20 @@ LotDeviceListData _$LotDeviceListDataFromJson(Map<String, dynamic> json) => LotD
       serialNumber: json['sno'] as String?,
     );
 
-Map<String, dynamic> _$LotDeviceListDataToJson(LotDeviceListData instance) => <String, dynamic>{
+Map<String, dynamic> _$LotDeviceListDataToJson(LotDeviceListData instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'did': instance.deviceId,
       'mpid': instance.mpid,
       'qr_code': instance.qrCode,
       'm': instance.model,
       'b': instance.brand,
+      'imei1': instance.imei1,
+      'imei2': instance.imei2,
+      'sno': instance.serialNumber,
       's': instance.status,
       'gr': instance.grade,
       'pt': instance.productTitle,
       'ta': instance.testAge,
       'sd': instance.statusDescription,
-      'imei1': instance.imei1,
-      'imei2': instance.imei2,
-      'sno': instance.serialNumber,
     };

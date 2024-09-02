@@ -200,6 +200,8 @@ class L10n extends BaseL10n {
 
   String get alternatePartSku => Intl.message("Alternate Part SKU", locale: localName, name: "alternatePartSku");
 
+  String get alternatePartSkuName => Intl.message("Alternate Part SKU Name", locale: localName, name: "alternatePartSkuName");
+
   String get alternatePartStatus =>
       Intl.message("Alternate Part Status", locale: localName, name: "alternatePartStatus");
 

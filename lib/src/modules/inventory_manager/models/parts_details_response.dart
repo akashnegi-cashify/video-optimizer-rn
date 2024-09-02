@@ -44,6 +44,8 @@ class PartDetailsData {
   String? alternatePartSku;
   @JsonKey(name: "ast")
   String? alternatePartStatus;
+  @JsonKey(name: "pvn")
+  String? partVariantName;
 
   PartDetailsData({
     this.barcode,
@@ -56,6 +58,7 @@ class PartDetailsData {
     this.alternatePartName,
     this.alternatePartSku,
     this.alternatePartStatus,
+    this.partVariantName,
   });
 
   static PartDetailsData fromJson(Map<String, dynamic> data) => _$PartDetailsDataFromJson(data);
