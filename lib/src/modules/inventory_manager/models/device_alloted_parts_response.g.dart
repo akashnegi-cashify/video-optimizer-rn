@@ -36,6 +36,7 @@ DeviceAllottedPartsData _$DeviceAllottedPartsDataFromJson(
       statusCode: (json['stc'] as num?)?.toInt(),
       requestedTime: (json['prdt'] as num?)?.toInt(),
       productName: json['pn'] as String?,
+      partVariantName: json['pvn'] as String?,
     );
 
 Map<String, dynamic> _$DeviceAllottedPartsDataToJson(
@@ -49,4 +50,5 @@ Map<String, dynamic> _$DeviceAllottedPartsDataToJson(
       'prdt': instance.requestedTime,
       'isUrgent': instance.isUrgent,
       'en': instance.engineerName,
+      'pvn': instance.partVariantName,
     };

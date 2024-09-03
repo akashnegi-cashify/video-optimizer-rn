@@ -42,6 +42,10 @@ class AssignedAllottedDeviceListItem extends StatelessWidget {
                 _labelValueWidget(theme, l10n.sku, dataModel!.sku!),
                 const SizedBox(height: Dimens.space_8),
               ],
+              if (!Validator.isNullOrEmpty(dataModel!.partVariantName)) ...[
+                _labelValueWidget(theme, l10n.skuName, dataModel!.partVariantName!),
+                const SizedBox(height: Dimens.space_8),
+              ],
               if (dataModel?.requestedTime != null) ...[
                 _labelValueWidget(theme, l10n.requestedAt, _getTimeAndDateString(dataModel!.requestedTime!)),
               ]

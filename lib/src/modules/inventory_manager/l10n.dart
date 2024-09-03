@@ -67,6 +67,8 @@ class L10n extends BaseL10n {
 
   String get sku => Intl.message("SKU", locale: localName, name: "sku");
 
+  String get skuName => Intl.message("SKU Name", locale: localName, name: "skuName");
+
   String get requestedAt => Intl.message("Requested At", locale: localName, name: "requestedAt");
 
   String get assignRider => Intl.message("Assign Rider", locale: localName, name: "assignRider");

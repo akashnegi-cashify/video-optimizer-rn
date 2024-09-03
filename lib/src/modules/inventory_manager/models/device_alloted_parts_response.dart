@@ -40,6 +40,8 @@ class DeviceAllottedPartsData {
   bool? isUrgent;
   @JsonKey(name: "en")
   String? engineerName;
+  @JsonKey(name: "pvn")
+  String? partVariantName;
 
   DeviceAllottedPartsData({
     this.status,
@@ -50,6 +52,7 @@ class DeviceAllottedPartsData {
     this.statusCode,
     this.requestedTime,
     this.productName,
+    this.partVariantName,
   });
 
   static DeviceAllottedPartsData fromJson(Map<String, dynamic> data) => _$DeviceAllottedPartsDataFromJson(data);
