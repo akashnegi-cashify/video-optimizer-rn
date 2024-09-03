@@ -37,6 +37,7 @@ Part _$PartFromJson(Map<String, dynamic> json) => Part()
   ..deviceBarcode = json['dbr'] as String? ?? ''
   ..partId = (json['prid'] as num).toInt()
   ..isBulk = json['isBulk'] as bool?
+  ..partVariantName = json['pvn'] as String?
   ..isUrgent = json['isUrgent'] as bool? ?? false
   ..inventoryManageName = json['im'] as String? ?? '';
 
@@ -49,6 +50,7 @@ Map<String, dynamic> _$PartToJson(Part instance) => <String, dynamic>{
       'dbr': instance.deviceBarcode,
       'prid': instance.partId,
       'isBulk': instance.isBulk,
+      'pvn': instance.partVariantName,
       'isUrgent': instance.isUrgent,
       'im': instance.inventoryManageName,
     };

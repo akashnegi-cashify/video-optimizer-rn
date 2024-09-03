@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
@@ -7,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../../../../common/widgets/key_value_row_widget.dart';
 import '../../../../../common/widgets/paginated_listview.dart';
 import '../../../pending_delivery/receive/models/receive_response_model.dart';
-import 'package:core/core.dart';
 
 class PickupDeliverListWidget extends StatefulWidget {
   const PickupDeliverListWidget({Key? key}) : super(key: key);
@@ -61,13 +61,16 @@ class _Item extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
       child: CshCard(
-          child: Column(
-        children: [
-          KeyValueRowWidget(title: l10n.partName, value: part.partName),
-          KeyValueRowWidget(title: l10n.partBarcode, value: part.partBarcode),
-          KeyValueRowWidget(title: l10n.partSku, value: part.partSku),
-        ],
-      )),
+        child: Column(
+          children: [
+            KeyValueRowWidget(title: l10n.partName, value: part.partName),
+            KeyValueRowWidget(title: l10n.partBarcode, value: part.partBarcode),
+            KeyValueRowWidget(title: l10n.partSku, value: part.partSku),
+            if (!Validator.isNullOrEmpty(part.partVariantName))
+              KeyValueRowWidget(title: l10n.skuName, value: part.partVariantName!),
+          ],
+        ),
+      ),
     );
   }
 }
