@@ -8,12 +8,13 @@ part of 'facility_list_component.dart';
 
 FacilityListPageParamModel fromMap(Map<String, dynamic> map) {
   FacilityListPageParamModel model = FacilityListPageParamModel(
-    map["fs"],
+    onFacilitySelected: map["fs"],
   );
   return model;
 }
 
-Widget paramBuilder(Widget Function(FacilityListPageParamModel model) paramBuilder) {
+Widget paramBuilder(
+    Widget Function(FacilityListPageParamModel model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "fs": provider.data["fs"],
@@ -44,7 +45,13 @@ dynamic schema() => {
       "configJson": {
         "type": "list",
         "config": [
-          {"uiType": "input", "type": "String", "isRequired": false, "label": "None", "key": "none"}
+          {
+            "uiType": "input",
+            "type": "String",
+            "isRequired": false,
+            "label": "None",
+            "key": "none"
+          }
         ]
       }
       //#admincomponent

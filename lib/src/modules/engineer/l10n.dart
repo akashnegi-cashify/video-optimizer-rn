@@ -240,6 +240,8 @@ class L10n extends l10n_common.L10n {
 
   String get sku => Intl.message("Sku", locale: localName, name: "sku");
 
+  String get skuName => Intl.message("Sku name", locale: localName, name: "skuName");
+
   String get noPridFound => Intl.message("No prid found", locale: localName, name: "noPridFound");
 
   String get yes => Intl.message("Yes", locale: localName, name: "yes");
