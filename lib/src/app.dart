@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:builder_project/builder_project.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/qc/qc_routes.dart';
@@ -15,7 +16,6 @@ import 'package:localization/localization/csh_localization.dart';
 import 'package:localization/localization/language_util.dart';
 import 'package:localization/localization/locale_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import './l10n.dart';
 import 'app_initializer.dart';
@@ -125,7 +125,7 @@ class _CashifyAppState extends State<CashifyApp> {
                   theme: theme.copyWith(useMaterial3: false),
                   navigatorObservers: [
                     CshRouteObserver().instance,
-                    SentryNavigatorObserver(),
+                    FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
                   ],
                   title: L10n(context).appName,
                   localizationsDelegates: const [
