@@ -66,119 +66,115 @@ class _PendingPartDetailsWidget extends StatelessWidget {
       builder: (BuildContext insideContext, __) {
         var provider = PendingPartDetailsProvider.of(insideContext);
         if (provider.isDataLoading) {
-          return const Scaffold(
-            body: Center(
-              child: SizedBox(
-                height: Dimens.space_30,
-                width: Dimens.space_30,
-                child: CircularProgressIndicator(),
-              ),
+          return const Center(
+            child: SizedBox(
+              height: Dimens.space_30,
+              width: Dimens.space_30,
+              child: CircularProgressIndicator(),
             ),
           );
         } else if (provider.isDataLoading == false && !Validator.isNullOrEmpty(provider.errorMessage)) {
-          return Scaffold(
-            appBar: CshHeader(
-              l10n.pendingPartDetails,
-              showBackBtn: true,
-            ),
-            body: Center(
-              child: Row(
-                children: [
-                  const SizedBox.shrink(),
-                  Expanded(
-                    child: Text(
-                      provider.errorMessage,
-                      style: theme.primaryTextTheme.headlineMedium,
-                    ),
-                  )
-                ],
-              ),
+          return Center(
+            child: Row(
+              children: [
+                const SizedBox.shrink(),
+                Expanded(
+                  child: Text(
+                    provider.errorMessage,
+                    style: theme.primaryTextTheme.headlineMedium,
+                  ),
+                )
+              ],
             ),
           );
         } else {
-          return Scaffold(
-            appBar: CshHeader(
-              l10n.pendingPartDetails,
-              showBackBtn: true,
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
-              child: Column(
-                children: [
-                  _detailsWidget(args?.detailsModelData, l10n, theme),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Dimens.space_16),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: CshIconButton(
-                        text: l10n.sync,
-                        prefixIcon: CshIcon(
-                          FeatherIcons.refreshCw,
-                          padding: const EdgeInsets.only(right: Dimens.space_6),
-                          iconColor: theme.colorScheme.surface,
-                          iconSize: MobileIconSize.medium,
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
+                    child: Column(
+                      children: [
+                        _detailsWidget(args?.detailsModelData, l10n, theme),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: Dimens.space_16),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: CshIconButton(
+                              text: l10n.sync,
+                              prefixIcon: CshIcon(
+                                FeatherIcons.refreshCw,
+                                padding: const EdgeInsets.only(right: Dimens.space_6),
+                                iconColor: theme.colorScheme.surface,
+                                iconSize: MobileIconSize.medium,
+                              ),
+                              onPressed: () {
+                                provider.syncPartRequest();
+                              },
+                            ),
+                          ),
                         ),
-                        onPressed: () {
-                          provider.syncPartRequest();
-                        },
-                      ),
+                        PendingPartDetailsInfoWidget(
+                          detailsData: provider.partsDetailsResponse?.partsDetails,
+                          suggestedBarcode: provider.recommendedPartResponse?.dataResponse?.barcode,
+                          statusCode: args?.statusCode,
+                        ),
+                      ],
                     ),
                   ),
-                  PendingPartDetailsInfoWidget(
-                    detailsData: provider.partsDetailsResponse?.partsDetails,
-                    suggestedBarcode: provider.recommendedPartResponse?.dataResponse?.barcode,
-                    statusCode: args?.statusCode,
-                  ),
-                  const Expanded(child: SizedBox.shrink()),
-                  if (provider.showBottomButtons)
-                    PartDetailsButtonWidget(
-                      statusCode: args?.statusCode ?? 0,
-                      cancelBtnOnPressed: () {
-                        if (args?.prid != null) {
-                          _showCancelModal(insideContext, theme, l10n, args!.prid!);
-                        } else {
-                          CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                        }
-                      },
-                      assignBtnOnPressed: () {
-                        if (provider.partsDetailsResponse?.partsDetails?.prid != null) {
-                          AssignPartBarcodeCompArguments arg = AssignPartBarcodeCompArguments(
-                              arguments: AssignBarcodeScannerArguments(
-                                  pendingDeviceDetailData: args?.detailsModelData,
-                                  detailsData: provider.partsDetailsResponse?.partsDetails,
-                                  prid: provider.partsDetailsResponse!.partsDetails!.prid!));
-
-                          Navigator.of(context).pushNamed(AssignPartBarcodeScreen.route, arguments: arg);
-                        } else {
-                          CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                        }
-                      },
-                      deadPartOnPressed: () {
-                        if (args?.prid != null) {
-                          _showLinkDeadPartModal(insideContext, theme, l10n, args!.prid, args);
-                        } else {
-                          CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                        }
-                      },
-                      alternatePartBtnOnPressed: () async {
-                        if (args?.prid != null) {
-                          AlternatePartCompArguments arguments = AlternatePartCompArguments(
-                              arguments: AlternatePartArguments(
-                            prid: args!.prid,
-                            detailsModelData: args?.detailsModelData,
-                            itemDataModel: provider.partsDetailsResponse?.partsDetails,
-                          ));
-
-                          await Navigator.of(context).pushNamed(AlternatePartScreen.route, arguments: arguments);
-                          provider.syncData();
-                        } else {
-                          CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
-                        }
-                      },
-                    ),
-                ],
+                ),
               ),
-            ),
+              if (provider.showBottomButtons)
+                Padding(
+                  padding: const EdgeInsets.all(Dimens.space_16),
+                  child: PartDetailsButtonWidget(
+                    statusCode: args?.statusCode ?? 0,
+                    cancelBtnOnPressed: () {
+                      if (args?.prid != null) {
+                        _showCancelModal(insideContext, theme, l10n, args!.prid);
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                      }
+                    },
+                    assignBtnOnPressed: () {
+                      if (provider.partsDetailsResponse?.partsDetails?.prid != null) {
+                        AssignPartBarcodeCompArguments arg = AssignPartBarcodeCompArguments(
+                            arguments: AssignBarcodeScannerArguments(
+                                pendingDeviceDetailData: args?.detailsModelData,
+                                detailsData: provider.partsDetailsResponse?.partsDetails,
+                                prid: provider.partsDetailsResponse!.partsDetails!.prid!));
+
+                        Navigator.of(context).pushNamed(AssignPartBarcodeScreen.route, arguments: arg);
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                      }
+                    },
+                    deadPartOnPressed: () {
+                      if (args?.prid != null) {
+                        _showLinkDeadPartModal(insideContext, theme, l10n, args!.prid, args);
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                      }
+                    },
+                    alternatePartBtnOnPressed: () async {
+                      if (args?.prid != null) {
+                        AlternatePartCompArguments arguments = AlternatePartCompArguments(
+                            arguments: AlternatePartArguments(
+                          prid: args!.prid,
+                          detailsModelData: args?.detailsModelData,
+                          itemDataModel: provider.partsDetailsResponse?.partsDetails,
+                        ));
+
+                        await Navigator.of(context).pushNamed(AlternatePartScreen.route, arguments: arguments);
+                        provider.syncData();
+                      } else {
+                        CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
+                      }
+                    },
+                  ),
+                ),
+            ],
           );
         }
       },

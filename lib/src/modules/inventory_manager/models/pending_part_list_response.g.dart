@@ -36,6 +36,7 @@ PendingPartDataResponse _$PendingPartDataResponseFromJson(
       statusCode: (json['stc'] as num?)?.toInt(),
       requestedType: json['rt'] as String?,
       engineerName: json['en'] as String?,
+      partVariantName: json['pvn'] as String?,
     );
 
 Map<String, dynamic> _$PendingPartDataResponseToJson(
@@ -49,4 +50,5 @@ Map<String, dynamic> _$PendingPartDataResponseToJson(
       'prdt': instance.requestedTime,
       'rt': instance.requestedType,
       'en': instance.engineerName,
+      'pvn': instance.partVariantName,
     };

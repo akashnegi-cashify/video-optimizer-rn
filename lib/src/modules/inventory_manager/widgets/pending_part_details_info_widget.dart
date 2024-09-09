@@ -34,6 +34,9 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
         suggestedBarcode = widget.suggestedBarcode!.replaceAll(",", "\n");
       }
 
+      String skuNameTitle =
+          !Validator.isNullOrEmpty(widget.detailsData?.alternatePartSku) ? l10n.alternatePartSkuName : l10n.skuName;
+
       return CshCard(
         radius: CshRadius.rad8,
         elevation: CardElevation.dimen_10,
@@ -61,7 +64,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
               const SizedBox(height: Dimens.space_8),
             ],
             if (!Validator.isNullOrEmpty(widget.detailsData?.partVariantName)) ...[
-              _labelValueWidget(theme, l10n.alternatePartSkuName, widget.detailsData!.partVariantName!),
+              _labelValueWidget(theme, skuNameTitle, widget.detailsData!.partVariantName!),
               const SizedBox(height: Dimens.space_8),
             ],
             if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartStatus)) ...[
@@ -150,6 +153,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
           child: Text(
             value,
             textDirection: TextDirection.rtl,
+            maxLines: 5,
             style: textColor != null
                 ? theme.primaryTextTheme.headlineSmall?.copyWith(color: textColor)
                 : theme.primaryTextTheme.headlineSmall,
