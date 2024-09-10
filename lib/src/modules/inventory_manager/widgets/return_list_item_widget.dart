@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+
 import '../l10n.dart';
 import '../models/return_part_response.dart';
 
@@ -24,38 +25,42 @@ class ReturnListItemWidget extends StatelessWidget {
         elevation: CardElevation.dimen_10,
         child: Column(
           children: [
-            if (!Validator.isNullOrEmpty(dataModel?.productName)) ...[
+            if (!Validator.isNullOrEmpty(dataModel?.productName))
               _labelAndValueWidget(theme, l10n.partName, dataModel!.productName!),
-              const SizedBox(height: Dimens.space_8),
-            ],
-            if (!Validator.isNullOrEmpty(dataModel?.productBarcode)) ...[
+            if (!Validator.isNullOrEmpty(dataModel?.productBarcode))
               _labelAndValueWidget(theme, l10n.partBarcode, dataModel!.productBarcode!),
-              const SizedBox(height: Dimens.space_8),
-            ],
-            if (!Validator.isNullOrEmpty(dataModel?.sku)) _labelAndValueWidget(theme, l10n.sku, dataModel!.sku!),
+            if (!Validator.isNullOrEmpty(dataModel?.sku))
+              _labelAndValueWidget(theme, l10n.sku, dataModel!.sku!, padding: EdgeInsets.zero),
+            if (!Validator.isNullOrEmpty(dataModel?.partVariantName))
+              _labelAndValueWidget(theme, l10n.skuName, dataModel!.partVariantName!,
+                  padding: const EdgeInsets.only(top: Dimens.space_8)),
           ],
         ),
       ),
     );
   }
 
-  _labelAndValueWidget(ThemeData theme, String label, String value) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            label,
-            style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
+  _labelAndValueWidget(ThemeData theme, String label, String value,
+      {EdgeInsets padding = const EdgeInsets.only(bottom: Dimens.space_8)}) {
+    return Padding(
+      padding: padding,
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
+            ),
           ),
-        ),
-        const SizedBox(height: Dimens.space_6),
-        Expanded(
-          child: Text(
-            value,
-            style: theme.primaryTextTheme.titleSmall,
+          const SizedBox(height: Dimens.space_6),
+          Expanded(
+            child: Text(
+              value,
+              style: theme.primaryTextTheme.titleSmall,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
