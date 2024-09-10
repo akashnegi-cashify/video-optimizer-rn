@@ -34,9 +34,6 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
         suggestedBarcode = widget.suggestedBarcode!.replaceAll(",", "\n");
       }
 
-      String skuNameTitle =
-          !Validator.isNullOrEmpty(widget.detailsData?.alternatePartSku) ? l10n.alternatePartSkuName : l10n.skuName;
-
       return CshCard(
         radius: CshRadius.rad8,
         elevation: CardElevation.dimen_10,
@@ -51,6 +48,10 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
               _labelValueWidget(theme, l10n.partSku, widget.detailsData!.sku!),
               const SizedBox(height: Dimens.space_8),
             ],
+            if (!Validator.isNullOrEmpty(widget.detailsData?.partVariantName)) ...[
+              _labelValueWidget(theme, l10n.skuName, widget.detailsData!.partVariantName!),
+              const SizedBox(height: Dimens.space_8),
+            ],
             if (!Validator.isNullOrEmpty(widget.detailsData?.partStatus)) ...[
               _labelValueWidget(theme, l10n.partStatus, widget.detailsData!.partStatus!),
               const SizedBox(height: Dimens.space_8),
@@ -63,8 +64,8 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
               _labelValueWidget(theme, l10n.alternatePartSku, widget.detailsData!.alternatePartSku!),
               const SizedBox(height: Dimens.space_8),
             ],
-            if (!Validator.isNullOrEmpty(widget.detailsData?.partVariantName)) ...[
-              _labelValueWidget(theme, skuNameTitle, widget.detailsData!.partVariantName!),
+            if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartVariantName)) ...[
+              _labelValueWidget(theme, l10n.alternatePartSkuName, widget.detailsData!.alternatePartVariantName!),
               const SizedBox(height: Dimens.space_8),
             ],
             if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartStatus)) ...[
