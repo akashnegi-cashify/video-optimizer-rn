@@ -15,7 +15,10 @@ class DeviceStatusResponse extends BaseResponse {
   @JsonKey(name: "stockAge")
   int? stockAge;
 
-  DeviceStatusResponse(this.trcStatus, this.salesChannels, this.stockAge, super.cashifyAlert, super.trackUrl);
+  @JsonKey(name: "isCaptureQcImages")
+  bool? isCaptureQcImages;
+
+  DeviceStatusResponse(this.trcStatus, this.salesChannels, this.stockAge, this.isCaptureQcImages, super.cashifyAlert, super.trackUrl);
 
   static DeviceStatusResponse fromJson(Map<String, dynamic> json) => _$DeviceStatusResponseFromJson(json);
 

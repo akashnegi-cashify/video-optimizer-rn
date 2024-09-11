@@ -6,6 +6,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/submit_dev
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/manual_question_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/qc_alert_pop_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
+import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/additional_questions_view_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/color_selected_event.dart';
@@ -65,44 +66,78 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
             isShowedButton: false,
           ),
           const SizedBox(height: Dimens.space_16),
-          if (Validator.isTrue(provider.isShowCompleteState))
-            CshBigButton(
-              text: "Done",
-              onPressed: () {
-                AnalyticsController.logEvent(EndTestingSessionEvent(provider.deviceBarcode, provider.gradeObtained));
-                _moveToHomeScreen();
-              },
-            ),
-          if (Validator.isTrue(provider.isShowTryAgainState))
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CshBigButton(
-                      text: "Try Again",
-                      onPressed: () {
-                        CshLoading().isLoading = false;
-                        CshLoading().showLoading(context);
-                        provider.getDeviceStatus();
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: Dimens.space_16),
-                  Expanded(
-                    child: CshBigButton(
-                      text: "Go back",
-                      onPressed: () {
-                        _moveToHomeScreen();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            )
+          _getActionButtons(provider),
         ],
       ),
     );
+  }
+
+  Widget _getActionButtons(SubmitDeviceQuoteProvider provider) {
+    Widget actionButtons;
+    /// This condition should be the first one to check
+    if (Validator.isTrue(provider.isCaptureQcImages)) {
+      actionButtons = CshBigButton(
+        text: "Capture QC Images",
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => MultipleImageUploadScreen(
+                DeviceMediaType.markFail,
+                provider.deviceBarcode.toString(),
+                isImageMarkingRequired: true,
+                callStatusUpdateApi: () {
+                  return Future.value();
+                },
+                onMediaUploaded: () {
+                  Navigator.pop(context); // dismiss MultipleImageUploadScreen screen
+                  CshSnackBar.success(context: context, message: "Qc Images captured successfully");
+                  provider.resetQcImageCaptureFlag();
+                },
+              ),
+            ),
+          );
+        },
+      );
+    } else if (Validator.isTrue(provider.isShowCompleteState)) {
+      actionButtons = CshBigButton(
+        text: "Done",
+        onPressed: () {
+          AnalyticsController.logEvent(EndTestingSessionEvent(provider.deviceBarcode, provider.gradeObtained));
+          _moveToHomeScreen();
+        },
+      );
+    } else if (Validator.isTrue(provider.isShowTryAgainState)) {
+      actionButtons = Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+        child: Row(
+          children: [
+            Expanded(
+              child: CshBigButton(
+                text: "Try Again",
+                onPressed: () {
+                  CshLoading().isLoading = false;
+                  CshLoading().showLoading(context);
+                  provider.getDeviceStatus();
+                },
+              ),
+            ),
+            const SizedBox(width: Dimens.space_16),
+            Expanded(
+              child: CshBigButton(
+                text: "Go back",
+                onPressed: () {
+                  _moveToHomeScreen();
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      actionButtons = const SizedBox.shrink();
+    }
+    return actionButtons;
   }
 
   _moveToHomeScreen() {

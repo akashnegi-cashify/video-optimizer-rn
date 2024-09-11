@@ -24,6 +24,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   SubmitDeviceQuoteInterface? iDeviceQuote;
   bool isShowCompleteState = false;
   bool isShowTryAgainState = false;
+  bool isCaptureQcImages = false;
   List<ManualQuestionListData>? _questionList;
   String? gradeObtained;
 
@@ -178,6 +179,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
           stepperItem.subTitle = subTitle + deviceStatusResponse.salesChannels!.join(",");
         }
         isShowCompleteState = true;
+        isCaptureQcImages = deviceStatusResponse.isCaptureQcImages ?? false;
         errorMessage = null;
         break;
       } catch (e) {
@@ -249,5 +251,10 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
 
   void submitTrcRemarks(String testingRemarks) {
     _submitCalculatorRequest(testingRemarks: testingRemarks);
+  }
+
+  void resetQcImageCaptureFlag() {
+    isCaptureQcImages = false;
+    notifyListeners();
   }
 }

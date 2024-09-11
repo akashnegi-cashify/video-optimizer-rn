@@ -14,11 +14,12 @@ class MultipleImageUploadScreen extends StatefulWidget {
   final Function()? onMediaUploaded;
   final DeviceMediaType mediaType;
   final String deviceBarcode;
+  final bool isImageMarkingRequired;
 
   static String route = "/multiple_image_upload_screen";
 
   const MultipleImageUploadScreen(this.mediaType, this.deviceBarcode,
-      {super.key, this.callStatusUpdateApi, this.onMediaUploaded});
+      {super.key, this.callStatusUpdateApi, this.onMediaUploaded, this.isImageMarkingRequired = false});
 
   @override
   State<MultipleImageUploadScreen> createState() => _MultipleImageUploadScreenState();
@@ -49,6 +50,7 @@ class _MultipleImageUploadScreenState extends State<MultipleImageUploadScreen> {
                         cardHeight: cardSize,
                         cardWidth: cardSize,
                         imageUrl: item,
+                        isImageMarkingRequired: widget.isImageMarkingRequired,
                         onMediaUploadingStarted: () {
                           setState(() {
                             if (_imageList.length < 8 && index == _imageList.length - 1) {
@@ -119,7 +121,8 @@ class _MultipleImageUploadScreenState extends State<MultipleImageUploadScreen> {
 enum DeviceMediaType {
   markOk(1),
   markToTl(2),
-  screwSealImages(3);
+  screwSealImages(3),
+  markFail(4);
 
   final int val;
 
