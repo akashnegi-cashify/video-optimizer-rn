@@ -220,10 +220,11 @@ class InventoryService {
   }
 
   static Stream<AlternatePartRequestResponse?> alternatePartRequest(
-      int partId, String productName, String sku, int did) {
+      int partId, String productName, String sku, int did, String partVariantName) {
     Map<String, dynamic> mapData = {
       "partId": partId,
       "pn": productName,
+      "pvn": partVariantName,
       "sku": sku,
       "version": 0,
     };

@@ -124,7 +124,7 @@ class QcDashboardBody extends StatelessWidget {
           ),
           const SizedBox(height: Dimens.space_12),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_12),
+            padding: const EdgeInsets.fromLTRB(Dimens.space_12, 0, Dimens.space_12, Dimens.space_16),
             child: Row(
               children: [
                 Expanded(

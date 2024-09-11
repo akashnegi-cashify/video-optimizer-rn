@@ -36,6 +36,8 @@ PartDetailsData _$PartDetailsDataFromJson(Map<String, dynamic> json) =>
       alternatePartName: json['apn'] as String?,
       alternatePartSku: json['asku'] as String?,
       alternatePartStatus: json['ast'] as String?,
+      partVariantName: json['pvn'] as String?,
+      alternatePartVariantName: json['apvn'] as String?,
     );
 
 Map<String, dynamic> _$PartDetailsDataToJson(PartDetailsData instance) =>
@@ -50,4 +52,6 @@ Map<String, dynamic> _$PartDetailsDataToJson(PartDetailsData instance) =>
       'apn': instance.alternatePartName,
       'asku': instance.alternatePartSku,
       'ast': instance.alternatePartStatus,
+      'pvn': instance.partVariantName,
+      'apvn': instance.alternatePartVariantName,
     };

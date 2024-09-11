@@ -137,6 +137,7 @@ class ELssProviderTrc extends CshChangeNotifier {
         sku: element.sku,
         isManualAdded: true,
         categoryCode: element.categoryCode,
+        partVariantName: element.productVariantName,
       );
       data.elssPartId = elssPartList.length + 1;
       data.partsImageList = ["", "", "", "", "", ""];
@@ -262,6 +263,7 @@ class ELssProviderTrc extends CshChangeNotifier {
           "pc": 1,
           if (!Validator.isNullOrEmpty(elssPartList[index].action)) "ac": elssPartList[index].action,
           "pn": elssPartList[index].partName,
+          if (!Validator.isNullOrEmpty(elssPartList[index].partVariantName)) "pvn": elssPartList[index].partVariantName,
           "sku": elssPartList[index].sku,
           "selectedPos": elssPartList[index].isManualAdded == true ? -1 : 0,
           "_v": 0,

@@ -48,6 +48,10 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
               _labelValueWidget(theme, l10n.partSku, widget.detailsData!.sku!),
               const SizedBox(height: Dimens.space_8),
             ],
+            if (!Validator.isNullOrEmpty(widget.detailsData?.partVariantName)) ...[
+              _labelValueWidget(theme, l10n.skuName, widget.detailsData!.partVariantName!),
+              const SizedBox(height: Dimens.space_8),
+            ],
             if (!Validator.isNullOrEmpty(widget.detailsData?.partStatus)) ...[
               _labelValueWidget(theme, l10n.partStatus, widget.detailsData!.partStatus!),
               const SizedBox(height: Dimens.space_8),
@@ -58,6 +62,10 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
             ],
             if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartSku)) ...[
               _labelValueWidget(theme, l10n.alternatePartSku, widget.detailsData!.alternatePartSku!),
+              const SizedBox(height: Dimens.space_8),
+            ],
+            if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartVariantName)) ...[
+              _labelValueWidget(theme, l10n.alternatePartSkuName, widget.detailsData!.alternatePartVariantName!),
               const SizedBox(height: Dimens.space_8),
             ],
             if (!Validator.isNullOrEmpty(widget.detailsData?.alternatePartStatus)) ...[
@@ -146,6 +154,7 @@ class _PendingPartDetailsInfoWidgetState extends State<PendingPartDetailsInfoWid
           child: Text(
             value,
             textDirection: TextDirection.rtl,
+            maxLines: 5,
             style: textColor != null
                 ? theme.primaryTextTheme.headlineSmall?.copyWith(color: textColor)
                 : theme.primaryTextTheme.headlineSmall,

@@ -67,6 +67,8 @@ class L10n extends BaseL10n {
 
   String get sku => Intl.message("SKU", locale: localName, name: "sku");
 
+  String get skuName => Intl.message("SKU Name", locale: localName, name: "skuName");
+
   String get requestedAt => Intl.message("Requested At", locale: localName, name: "requestedAt");
 
   String get assignRider => Intl.message("Assign Rider", locale: localName, name: "assignRider");
@@ -199,6 +201,8 @@ class L10n extends BaseL10n {
       Intl.message("Alternate part data fetched!!", locale: localName, name: "alternatePartDataFetched");
 
   String get alternatePartSku => Intl.message("Alternate Part SKU", locale: localName, name: "alternatePartSku");
+
+  String get alternatePartSkuName => Intl.message("Alternate Part SKU Name", locale: localName, name: "alternatePartSkuName");
 
   String get alternatePartStatus =>
       Intl.message("Alternate Part Status", locale: localName, name: "alternatePartStatus");

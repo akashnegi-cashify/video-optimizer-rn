@@ -33,6 +33,7 @@ AssignedPartData _$AssignedPartDataFromJson(Map<String, dynamic> json) =>
       productColour: json['pc'] as String?,
       productBarcode: json['pbr'] as String?,
       requiredQuantity: (json['rqty'] as num?)?.toInt(),
+      partVariantName: json['pvn'] as String?,
     );
 
 Map<String, dynamic> _$AssignedPartDataToJson(AssignedPartData instance) =>
@@ -44,4 +45,5 @@ Map<String, dynamic> _$AssignedPartDataToJson(AssignedPartData instance) =>
       'st': instance.status,
       'rqty': instance.requiredQuantity,
       'pbr': instance.productBarcode,
+      'pvn': instance.partVariantName,
     };

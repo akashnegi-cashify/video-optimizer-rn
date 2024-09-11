@@ -26,12 +26,17 @@ class ListAlternatePartsResponse {
 class ListAlternateData {
   @JsonKey(name: "sku")
   String? sku;
+
   @JsonKey(name: "pn")
   String? productName;
+
+  @JsonKey(name: "pvn")
+  String? partVariantName;
 
   ListAlternateData({
     this.sku,
     this.productName,
+    this.partVariantName,
   });
 
   static ListAlternateData fromJson(Map<String, dynamic> data) => _$ListAlternateDataFromJson(data);

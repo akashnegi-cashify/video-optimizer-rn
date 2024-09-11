@@ -29,6 +29,8 @@ class DevicePart {
   String? action;
   @JsonKey(name:"cc")
   String? categoryCode;
+  @JsonKey(name:"pvn")
+  String? partVariantName;
   @JsonKey(name:"rpd")
   Map<String, dynamic>? retrievedPartData;
 

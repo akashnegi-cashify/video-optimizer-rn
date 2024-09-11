@@ -31,6 +31,10 @@ class QcPartListItemWidget extends StatelessWidget {
             _labelValueWidget(theme, l10n.partSku, dataModel!.sku!),
             const SizedBox(height: Dimens.space_6),
           ],
+          if (!Validator.isNullOrEmpty(dataModel?.partVariantName)) ...[
+            _labelValueWidget(theme, l10n.skuName, dataModel!.partVariantName!),
+            const SizedBox(height: Dimens.space_6),
+          ],
           if (!Validator.isNullOrEmpty(dataModel?.partName)) ...[
             _labelValueWidget(theme, l10n.partName, dataModel!.partName!),
             const SizedBox(height: Dimens.space_8),

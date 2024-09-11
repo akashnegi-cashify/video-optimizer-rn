@@ -40,6 +40,8 @@ class QcPartListData {
   String? partBarcode;
   @JsonKey(name: "pc")
   String? partColor;
+  @JsonKey(name: "pvn")
+  String? partVariantName;
 
   bool? isDamaged;
   bool? isBulk;
@@ -54,6 +56,7 @@ class QcPartListData {
     this.partBarcode,
     this.isDamaged,
     this.requestedQuantity,
+    this.partVariantName,
   });
 
   static QcPartListData fromJson(Map<String, dynamic> data) => _$QcPartListDataFromJson(data);

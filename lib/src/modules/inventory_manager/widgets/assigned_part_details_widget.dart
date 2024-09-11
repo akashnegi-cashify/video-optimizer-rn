@@ -42,6 +42,10 @@ class _AssignedPartDetailsWidgetState extends State<AssignedPartDetailsWidget> {
                 _labelValueWidget(theme, l10n.partSku, widget.detailsData!.data!.sku!),
                 const SizedBox(height: Dimens.space_8),
               ],
+              if (!Validator.isNullOrEmpty(widget.detailsData?.data?.partVariantName)) ...[
+                _labelValueWidget(theme, l10n.skuName, widget.detailsData!.data!.partVariantName!),
+                const SizedBox(height: Dimens.space_8),
+              ],
               if (!Validator.isNullOrEmpty(widget.detailsData?.data?.status)) ...[
                 _labelValueWidget(theme, l10n.partStatus, widget.detailsData!.data!.status!),
                 const SizedBox(height: Dimens.space_8),

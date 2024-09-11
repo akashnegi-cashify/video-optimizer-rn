@@ -38,11 +38,11 @@ class AlternatePartListProvider extends CshChangeNotifier {
     });
   }
 
-  Future<bool> alternatePartRequest(int partId, String productName, String sku, int did) {
+  Future<bool> alternatePartRequest(int partId, String productName, String sku, int did, String partVariantName) {
     var completer = Completer<bool>();
 
     try {
-      InventoryService.alternatePartRequest(partId, productName, sku, did).listen((event) {
+      InventoryService.alternatePartRequest(partId, productName, sku, did, partVariantName).listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {

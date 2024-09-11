@@ -73,6 +73,8 @@ class _OrderPartWidget extends StatelessWidget {
                                   children: [
                                     CshTextNew.h3("${l10n.partName} - ${part.partName}"),
                                     CshTextNew.h6("${l10n.partSku} - ${part.sku}"),
+                                    if (!Validator.isNullOrEmpty(part.partVariantName))
+                                      CshTextNew.h6("${l10n.skuName} - ${part.partVariantName}"),
                                     CshTextNew.h6("${l10n.color} - ${part.partColor}"),
                                     const SizedBox(height: Dimens.space_6),
                                     CshDropDown(

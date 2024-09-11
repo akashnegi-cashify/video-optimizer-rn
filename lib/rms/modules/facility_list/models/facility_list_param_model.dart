@@ -6,7 +6,7 @@ class FacilityListPageParamModel {
   @ParamKey(key: FacilityListPageParamKeys.facilitySelected)
   Function(FacilityListData facility)? onFacilitySelected;
 
-  FacilityListPageParamModel(this.onFacilitySelected);
+  FacilityListPageParamModel({this.onFacilitySelected});
 }
 
 enum FacilityListPageParamKeys with AbsParamKey {

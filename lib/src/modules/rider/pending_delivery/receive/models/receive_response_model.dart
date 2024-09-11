@@ -54,6 +54,9 @@ class Part {
   @JsonKey(name: "isBulk")
   bool? isBulk;
 
+  @JsonKey(name: "pvn")
+  String? partVariantName;
+
   @JsonKey(name: "isUrgent", defaultValue: false)
   late bool isUrgent;
 

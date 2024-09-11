@@ -460,6 +460,10 @@
           "id": 57,
           "key": "TRC_pending_part_details_comp",
           "type": "component"
+        },
+        {
+          "id": 79,
+          "key": "header_TRC_general_component"
         }
       ]
     },
@@ -2309,6 +2313,18 @@
       "configJson": {
         "config": {
           "ht": "Reasons and Remarks",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 79,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Pending Part Details",
           "sbb": true,
           "slb": false
         }

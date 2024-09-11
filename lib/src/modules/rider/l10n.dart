@@ -29,6 +29,8 @@ class L10n extends BaseL10n {
 
   String get partSku => Intl.message("Part Sku", locale: localName, name: "partSku");
 
+  String get skuName => Intl.message("Sku Name", locale: localName, name: "skuName");
+
   String get partColor => Intl.message("Part Color", locale: localName, name: "partColor");
 
   String get deviceBarcode => Intl.message("Device Barcode", locale: localName, name: "deviceBarcode");

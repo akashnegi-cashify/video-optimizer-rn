@@ -42,6 +42,8 @@ class ReturnItemData {
   bool? isDamaged;
   @JsonKey(name: "isBulk")
   bool? isBulk;
+  @JsonKey(name: "pvn")
+  String? partVariantName;
 
   ReturnItemData({
     this.statusCode,
@@ -53,6 +55,7 @@ class ReturnItemData {
     this.isBulk,
     this.isDamaged,
     this.requestedQuantity,
+    this.partVariantName,
   });
 
   static ReturnItemData fromJson(Map<String, dynamic> data) => _$ReturnItemDataFromJson(data);

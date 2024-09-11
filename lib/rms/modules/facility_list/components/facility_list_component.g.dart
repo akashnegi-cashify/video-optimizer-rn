@@ -7,11 +7,14 @@ part of 'facility_list_component.dart';
 // **************************************************************************
 
 FacilityListPageParamModel fromMap(Map<String, dynamic> map) {
-  FacilityListPageParamModel model = FacilityListPageParamModel(map["fs"]);
+  FacilityListPageParamModel model = FacilityListPageParamModel(
+    onFacilitySelected: map["fs"],
+  );
   return model;
 }
 
-Widget paramBuilder(Widget Function(FacilityListPageParamModel model) paramBuilder) {
+Widget paramBuilder(
+    Widget Function(FacilityListPageParamModel model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "fs": provider.data["fs"],
@@ -24,9 +27,9 @@ Widget paramBuilder(Widget Function(FacilityListPageParamModel model) paramBuild
 }
 
 bool isValid(FacilityListPageParamModel model) {
-  var facilityListListener = model.onFacilitySelected;
+  var onFacilitySelected = model.onFacilitySelected;
 
-  return facilityListListener != null;
+  return onFacilitySelected != null;
 }
 
 dynamic schema() => {
@@ -42,7 +45,13 @@ dynamic schema() => {
       "configJson": {
         "type": "list",
         "config": [
-          {"uiType": "input", "type": "String", "isRequired": false, "label": "None", "key": "none"}
+          {
+            "uiType": "input",
+            "type": "String",
+            "isRequired": false,
+            "label": "None",
+            "key": "none"
+          }
         ]
       }
       //#admincomponent

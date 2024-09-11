@@ -46,6 +46,9 @@ class PendingPartDataResponse {
   @JsonKey(name: "en")
   String? engineerName;
 
+  @JsonKey(name: "pvn")
+  String? partVariantName;
+
   PendingPartDataResponse({
     this.sku,
     this.pn,
@@ -55,6 +58,7 @@ class PendingPartDataResponse {
     this.statusCode,
     this.requestedType,
     this.engineerName,
+    this.partVariantName,
   });
 
   PartStatus getPartStatus() {

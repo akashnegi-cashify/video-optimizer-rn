@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
@@ -9,7 +10,6 @@ import '../../../engineer_card_widget.dart';
 import '../../../pending_delivery/deliver/models/engineer_parts_response.dart';
 import '../../../pending_delivery/receive/models/receive_response_model.dart';
 import '../models/pickup_receive_engineer_parts_param.dart';
-import 'package:core/core.dart';
 
 class PickupReceiveEngineerPartsWidget extends StatefulWidget {
   final PickUpReceiveEngineerPartsParams? paramModel;
@@ -79,6 +79,8 @@ class _PartListWidget extends StatelessWidget {
                           CshTextNew(parts[index].partName),
                           CshTextNew(parts[index].partBarcode),
                           CshTextNew(parts[index].partSku),
+                          if (!Validator.isNullOrEmpty(parts[index].partVariantName))
+                            CshTextNew(parts[index].partVariantName!),
                         ],
                       ),
                     ),

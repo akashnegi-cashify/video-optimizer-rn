@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/key_value_row_widget.dart';
@@ -6,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../models/receive_response_model.dart';
 import '../providers/delivery_receive_provider.dart';
-import 'package:core/core.dart';
 
 // requires DeliveryReceiveProvider
 class ItemDeliveryReceiveWidget extends StatelessWidget {
@@ -24,24 +24,27 @@ class ItemDeliveryReceiveWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
       child: CshCard(
-          child: Column(
-        children: [
-          KeyValueRowWidget(title: l10.partName, value: item.partName),
-          KeyValueRowWidget(title: l10.partBarcode, value: item.partBarcode),
-          KeyValueRowWidget(title: l10.partSku, value: item.partSku),
-          KeyValueRowWidget(title: l10.pickFrom, value: item.inventoryManageName),
-          CshMediumOutlineButton(
-              text: l10.receiveAllCaps,
-              onPressed: () {
-                CshAlertPopup(context,
-                    desc: l10.clickOnConfirmToReceive,
-                    negBtnText: l10.cancel,
-                    posBtnText: l10.confirm, onPosBtnPressed: () {
-                  confirmReceiveRequest(item.partId, context);
-                });
-              })
-        ],
-      )),
+        child: Column(
+          children: [
+            KeyValueRowWidget(title: l10.partName, value: item.partName),
+            KeyValueRowWidget(title: l10.partBarcode, value: item.partBarcode),
+            KeyValueRowWidget(title: l10.partSku, value: item.partSku),
+            if (!Validator.isNullOrEmpty(item.partVariantName))
+              KeyValueRowWidget(title: l10.skuName, value: item.partVariantName!),
+            KeyValueRowWidget(title: l10.pickFrom, value: item.inventoryManageName),
+            CshMediumOutlineButton(
+                text: l10.receiveAllCaps,
+                onPressed: () {
+                  CshAlertPopup(context,
+                      desc: l10.clickOnConfirmToReceive,
+                      negBtnText: l10.cancel,
+                      posBtnText: l10.confirm, onPosBtnPressed: () {
+                    confirmReceiveRequest(item.partId, context);
+                  });
+                })
+          ],
+        ),
+      ),
     );
   }
 

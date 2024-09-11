@@ -20,7 +20,7 @@ class TitleValueRowWidget extends StatelessWidget {
           child: Text(
             value,
             style: theme.primaryTextTheme.headlineMedium,
-            maxLines: 2,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
         )

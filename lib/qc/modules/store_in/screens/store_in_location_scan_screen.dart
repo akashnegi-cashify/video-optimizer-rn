@@ -37,6 +37,11 @@ class StoreInLocationScanScreen extends BaseScreen<StoreInLocationScanScreenArgs
     return Navigator.pushNamed(context, route,
         arguments: StoreInLocationScanScreenArgs(barcode: barcode, isBinStoreIn: isBinStoreIn));
   }
+
+  static Future replaceTo(BuildContext context, {String? barcode, bool? isBinStoreIn}) {
+    return Navigator.pushReplacementNamed(context, route,
+        arguments: StoreInLocationScanScreenArgs(barcode: barcode, isBinStoreIn: isBinStoreIn));
+  }
 }
 
 class StoreInLocationScanScreenArgs extends BaseArguments {

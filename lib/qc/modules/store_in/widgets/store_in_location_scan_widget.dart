@@ -1,5 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/store_in/dialog/show_store_in_type_dialog.dart';
+import 'package:flutter_trc/qc/modules/store_in/screens/store_in_location_scan_screen.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -12,6 +14,7 @@ class StoreInLocationScanWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
+    var theme = Theme.of(context);
     var provider = StoreInProvider.of(context);
     if (provider.isScreenLoading) {
       return const CshShimmer();
@@ -21,45 +24,90 @@ class StoreInLocationScanWidget extends StatelessWidget {
       return _buildErrorBody(context, provider.errorMessage!, provider);
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CshTextNew.h2("${l10n.trayBarcode}${provider.locQrCode}"),
-              const SizedBox(height: Dimens.space_4),
-              CshTextNew.h2("${l10n.totalSpace}${provider.totalCount ?? 0}"),
-              const SizedBox(height: Dimens.space_4),
-              CshTextNew.h2("${l10n.totalAvailableSpace}${provider.availableSpace ?? 0}"),
-              const SizedBox(height: Dimens.space_4),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(Dimens.space_16),
-          child: Row(
-            children: [
-              Expanded(child: CshBigButton(text: l10n.goBack, onPressed: () => _goBack(context))),
-              if (provider.availableSpace != 0)
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: Dimens.space_8),
-                    child: CshBigButton(text: l10n.scanDevice, onPressed: () => _scanDevice(context, l10n)),
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.space_16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          FutureBuilder(
+              future: provider.isLoginFromQC(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.data == true) {
+                    return CshCard(
+                      margin: const EdgeInsets.only(bottom: Dimens.space_16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CshTextNew.subTitle2("${l10n.storageType}:"),
+                              CshTextNew.h3(provider.isBinStoreIn ? l10n.binStorage : l10n.storeIn),
+                            ],
+                          ),
+                          CshMediumOutlineButton(
+                            text: l10n.change,
+                            onPressed: () => _changeLocationType(context),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                }
+                return const SizedBox.shrink();
+              }),
+          Expanded(
+            child: CshCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(text: l10n.trayBarcode, style: theme.textTheme.titleSmall),
+                      TextSpan(
+                        text: provider.locQrCode,
+                        style: theme.textTheme.displaySmall,
+                      ),
+                    ]),
                   ),
-                ),
-            ],
+                  const SizedBox(height: Dimens.space_8),
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(text: l10n.totalSpace, style: theme.textTheme.titleSmall),
+                      TextSpan(
+                        text: "${provider.totalCount ?? 0}",
+                        style: theme.textTheme.displaySmall,
+                      ),
+                    ]),
+                  ),
+                  const SizedBox(height: Dimens.space_8),
+                  RichText(
+                    text: TextSpan(children: [
+                      TextSpan(text: l10n.availableSpace, style: theme.textTheme.titleSmall),
+                      TextSpan(
+                        text: "${provider.availableSpace ?? 0}",
+                        style: theme.textTheme.displaySmall,
+                      ),
+                    ]),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: Dimens.space_16),
+          if (provider.availableSpace != 0)
+            CshBigButton(text: l10n.scanDevice, onPressed: () => _scanDevice(context, l10n)),
+        ],
+      ),
     );
   }
 
-  void _goBack(BuildContext context) {
-    Navigator.pop(context);
+  void _changeLocationType(BuildContext context) {
+    showStoreInTypeDialog(context, onScanned: (qrCode, isBinStoreIn) {
+      StoreInLocationScanScreen.replaceTo(context, barcode: qrCode, isBinStoreIn: isBinStoreIn);
+    });
   }
 
   void _scanDevice(BuildContext context, L10n l10n) {
@@ -69,49 +117,51 @@ class StoreInLocationScanWidget extends StatelessWidget {
       hintText: l10n.scanDeviceCamelCase,
       onScanned: (scannedData, controller) {
         Navigator.pop(context); // pop scanner screen
-        _showAlert(context, scannedData, l10n);
+        _showConfirmationDialog(context, scannedData, l10n);
       },
     );
   }
 
-  void _showAlert(BuildContext context, String message, L10n l10n) {
+  void _showConfirmationDialog(BuildContext context, String deviceBarcode, L10n l10n) {
     var provider = StoreInProvider.of(context, listen: false);
     var theme = Theme.of(context);
-    var btnText = provider.isBinStoreIn ? l10n.binIn : l10n.storeIn;
+    var title = provider.isBinStoreIn ? l10n.binStorage : l10n.storeIn;
 
     showDialog(
       context: context,
       builder: (builderContext) {
         return AlertDialog(
-          title: CshTextNew.h3(btnText),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CshTextNew.h3("${l10n.stockBarcode}$message"),
-              const SizedBox(height: Dimens.space_4),
-              CshTextNew.h3("${l10n.locationBarcode}${provider.locQrCode}"),
-            ],
+          title: RichText(
+            text: TextSpan(children: [
+              TextSpan(text: title, style: theme.textTheme.titleSmall),
+              TextSpan(
+                text: " (${provider.locQrCode})",
+                style: theme.textTheme.displaySmall,
+              ),
+            ]),
+          ),
+          content: RichText(
+            text: TextSpan(children: [
+              TextSpan(text: l10n.stockBarcode, style: theme.textTheme.titleSmall),
+              TextSpan(
+                text: deviceBarcode,
+                style: theme.textTheme.displaySmall,
+              ),
+            ]),
           ),
           actions: <Widget>[
-            TextButton(
-              child: CshTextNew(
-                l10n.scanOther,
-                textStyle: theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor),
-              ),
+            CshMediumButton(
+              text: l10n.scanOther,
               onPressed: () {
                 Navigator.pop(context); // pop alert dialog
                 _scanDevice(context, l10n);
               },
             ),
-            TextButton(
-              child: CshTextNew(
-                btnText,
-                textStyle: theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor),
-              ),
+            CshMediumButton(
+              text: l10n.save,
               onPressed: () {
                 Navigator.pop(context); // pop alert dialog
-                _storeInDevice(context, message, l10n);
+                _storeInDevice(context, deviceBarcode, l10n);
               },
             )
           ],
@@ -126,8 +176,10 @@ class StoreInLocationScanWidget extends StatelessWidget {
     provider.storeInDevice(deviceBarcode).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: value?.message ?? 'Success');
-      if (value != null && value.availableSpace != 0) {
+      if ((value?.availableSpace ?? 0) > 0) {
         _scanDevice(context, l10n);
+      } else {
+        _showChangeLocationDialog(context);
       }
     }, onError: (error, stack) {
       CshLoading().hideLoading(context);
@@ -160,21 +212,58 @@ class StoreInLocationScanWidget extends StatelessWidget {
               Navigator.pop(context);
             },
             secondBtnClick: () {
-              CshMlScannerUtil().openScanner(
-                context,
-                header: "Scan location Qr Code",
-                hintText: "Scan location Qr Code",
-                scanFormatList: [BarcodeFormat.qrCode],
-                onScanned: (scannedData, controller) {
-                  Navigator.pop(context); // pop scanner screen
-                  provider.locQrCode = scannedData;
-                  provider.verifyStoreInDetails();
-                },
-              );
+              _onScanAnotherLocation(context, provider);
             },
           ),
         ],
       ),
+    );
+  }
+
+  _onScanAnotherLocation(BuildContext context, StoreInProvider provider) {
+    var l10n = L10n(context, listen: false);
+    var hint = provider.isBinStoreIn ? l10n.scanBinLocationQrCode : l10n.scanLocationQrCode;
+    CshMlScannerUtil().openScanner(
+      context,
+      header: hint,
+      hintText: hint,
+      scanFormatList: [BarcodeFormat.qrCode],
+      onScanned: (scannedData, controller) {
+        Navigator.pop(context); // pop scanner screen
+        provider.locQrCode = scannedData;
+        provider.verifyStoreInDetails();
+      },
+    );
+  }
+
+  _showChangeLocationDialog(BuildContext context) {
+    var provider = StoreInProvider.of(context, listen: false);
+    var l10n = L10n(context, listen: false);
+
+    showDialog(
+      context: context,
+      builder: (builderContext) {
+        return AlertDialog(
+          title: CshTextNew.h3("${l10n.spaceIsFull}!"),
+          content: CshTextNew.h3(l10n.doYouWantToChangeLocation),
+          actions: <Widget>[
+            CshMediumOutlineButton(
+              text: l10n.goBack,
+              onPressed: () {
+                Navigator.pop(context); // pop alert dialog
+                Navigator.pop(context); // pop screen
+              },
+            ),
+            CshMediumButton(
+              text: l10n.scan,
+              onPressed: () {
+                Navigator.pop(context); // pop alert dialog
+                _onScanAnotherLocation(context, provider);
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }

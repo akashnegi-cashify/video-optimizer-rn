@@ -6,32 +6,25 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../l10n.dart';
 
-void showStoreInTypeDialog(BuildContext context) {
-  var theme = Theme.of(context);
+void showStoreInTypeDialog(BuildContext context, {required Function(String qrCode, bool isBinStoreIn) onScanned}) {
   var l10n = L10n(context, listen: false);
   showDialog(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: CshTextNew.h3(l10n.storeIn),
+          content: CshTextNew.h3(l10n.selectStorageType),
           contentPadding: const EdgeInsets.all(Dimens.space_12),
           actions: <Widget>[
-            TextButton(
-              child: CshTextNew(
-                l10n.binStoreIn,
-                textStyle: theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor),
-              ),
+            CshMediumButton(
+              text: l10n.binStorage,
               onPressed: () {
-                _onPressed(context, true);
+                _onPressed(context, true, l10n, onScanned);
               },
             ),
-            TextButton(
-              child: CshTextNew(
-                l10n.storeIn,
-                textStyle: theme.textTheme.displaySmall?.copyWith(color: theme.primaryColor),
-              ),
+            CshMediumButton(
+              text: l10n.storeIn,
               onPressed: () {
-                _onPressed(context, false);
+                _onPressed(context, false, l10n, onScanned);
               },
             ),
           ],
@@ -39,16 +32,17 @@ void showStoreInTypeDialog(BuildContext context) {
       });
 }
 
-void _onPressed(BuildContext context, bool isBinStoreIn) {
-  Navigator.pop(context);
+void _onPressed(BuildContext context, bool isBinStoreIn, L10n l10n, Function(String qrCode, bool isBinStoreIn) onScanned) {
+  var message = isBinStoreIn ? l10n.scanBinLocationQrCode : l10n.scanLocationQrCode;
+  Navigator.pop(context); // Close dialog
   CshMlScannerUtil().openScanner(
     context,
-    header: "Scan location Qr Code",
-    hintText: "Scan location Qr Code",
+    header: message,
+    hintText: message,
     scanFormatList: [BarcodeFormat.qrCode],
     onScanned: (scannedData, controller) {
-      Navigator.pop(context);
-      StoreInLocationScanScreen.navigateTo(context, barcode: scannedData, isBinStoreIn: isBinStoreIn);
+      Navigator.pop(context); // Close scanner screen
+      onScanned(scannedData, isBinStoreIn);
     },
   );
 }

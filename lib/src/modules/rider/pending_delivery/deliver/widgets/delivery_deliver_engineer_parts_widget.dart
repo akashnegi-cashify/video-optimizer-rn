@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
@@ -8,7 +9,6 @@ import '../../../../../common/widgets/key_value_row_widget.dart';
 import '../../receive/models/receive_response_model.dart';
 import '../resources/delivery_deliver_api_service.dart';
 import 'item_delivery_deliver_widget.dart';
-import 'package:core/core.dart';
 
 class DeliveryDeliverEngineerPartsWidget extends StatelessWidget {
   final EngineerDetail? engineerDetail;
@@ -83,6 +83,8 @@ class _ItemDeliveryDeliverEngineerPart extends StatelessWidget {
           KeyValueRowWidget(title: l10n.partName, value: part.partName),
           KeyValueRowWidget(title: l10n.partBarcode, value: part.partBarcode),
           KeyValueRowWidget(title: l10n.partSku, value: part.partSku),
+          if (!Validator.isNullOrEmpty(part.partVariantName))
+            KeyValueRowWidget(title: l10n.skuName, value: part.partVariantName!),
           KeyValueRowWidget(title: l10n.deviceBarcode, value: part.deviceBarcode),
           KeyValueRowWidget(title: l10n.deviceName, value: part.deviceName),
         ],
