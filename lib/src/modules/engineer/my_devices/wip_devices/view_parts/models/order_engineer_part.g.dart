@@ -29,7 +29,11 @@ OrderEngineerPart _$OrderEngineerPartFromJson(Map<String, dynamic> json) =>
       ..status = json['st'] as String?
       ..statusCode = (json['stc'] as num?)?.toInt()
       ..retrievedImageCount = (json['rvc'] as num?)?.toInt()
-      ..partType = (json['action'] as num?)?.toInt();
+      ..partType = (json['action'] as num?)?.toInt()
+      ..reasonId = json['reason_id'] as String?
+      ..imageList = (json['img_list'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList();
 
 Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) =>
     <String, dynamic>{
@@ -54,4 +58,6 @@ Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) =>
       'qty': instance.orderQuantity,
       '_v': instance.version,
       'action': instance.partType,
+      'reason_id': instance.reasonId,
+      'img_list': instance.imageList,
     };

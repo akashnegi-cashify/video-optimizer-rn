@@ -67,8 +67,11 @@ class OrderPartProvider extends CshChangeNotifier {
     }
   }
 
-  void orderParts(L10n l10n, {required Function(String errorMessage) handleError, required VoidCallback callback}) {
-    EngineerAPIService.orderDeviceParts(deviceBarcode, getSelectedPartList()).listen((event) {
+  void orderParts(L10n l10n,
+      {required Function(String errorMessage) handleError,
+      required VoidCallback callback,
+      required List<OrderEngineerPart> partList}) {
+    EngineerAPIService.orderDeviceParts(deviceBarcode, partList).listen((event) {
       if (event?.isSuccess == true) {
         callback();
       } else {

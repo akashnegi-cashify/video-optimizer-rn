@@ -621,6 +621,22 @@
       ]
     },
     {
+      "pageId": 47,
+      "pageKey": "TRC_part_request_reasons_screen",
+      "dt": [
+        {
+          "id": 80,
+          "key": "TRC_part_request_reasons_component",
+          "type": "component"
+        },
+        {
+          "id": 81,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -2325,6 +2341,28 @@
       "configJson": {
         "config": {
           "ht": "Pending Part Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 80,
+      "locale": "en",
+      "key": "TRC_part_request_reasons_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 81,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part Request Reasons",
           "sbb": true,
           "slb": false
         }
