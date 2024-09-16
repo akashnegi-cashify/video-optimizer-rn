@@ -129,6 +129,7 @@ class _OrderPartWidget extends StatelessWidget {
             },
             callback: () {
               CshLoading().hideLoading(context);
+              Navigator.pop(context); // dismiss the part request reason screen
               Navigator.pop(context, true);
               CshSnackBar.success(context: context, message: l10n.partsOrderedSuccessfully);
             },

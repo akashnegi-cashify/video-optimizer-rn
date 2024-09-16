@@ -1,35 +1,82 @@
+import 'dart:async';
+
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
+import 'package:flutter_trc/src/modules/engineer/models/reason_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
+import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:provider/provider.dart';
 
 class PartRequestReasonsProvider extends CshChangeNotifier {
   List<OrderEngineerPart> partRequestList = [];
 
-  List<Reasons>? _reasons;
-  List<DropDownItem<Reasons>> reasonsDropdownList = [];
+  List<ReasonListData>? _reasonsList;
+  List<DropDownItem<ReasonListData>> reasonsDropdownList = [];
+  String? reasonListError;
+  bool isPageLoading = true;
+
+  PartRequestReasonInterface? partRequestReasonInterface;
+
+  List<String>? _categoryCodeList;
 
   static PartRequestReasonsProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<PartRequestReasonsProvider>(context, listen: listen);
   }
 
   PartRequestReasonsProvider(this.partRequestList) {
-    // TODO: dummy data, need data from api
-    _reasons = [
-      Reasons("1", "Reason 1", true),
-      Reasons("2", "Reason 2", false),
-      Reasons("3", "Reason 3", true),
-      Reasons("4", "Reason 4", false),
-      Reasons("5", "Reason 5", true),
-    ];
+    Future.wait([_getReasonList(), _getCategoryCodeList()]).catchError((error) {
+      reasonListError = error.toString();
+    }).whenComplete(
+      () {
+        isPageLoading = false;
+        bool isReasonNeeded = false;
+        if (Validator.isNullOrEmpty(reasonListError)) {
+          for (var item in partRequestList) {
+            if (isReasonRequired(item)) {
+              isReasonNeeded = true;
+              break;
+            }
+          }
+          if (!isReasonNeeded) {
+            partRequestReasonInterface?.noReasonRequired(partRequestList);
+          }
+        }
 
-    reasonsDropdownList = _reasons!.map((e) => DropDownItem<Reasons>(e.id, e.name, extraData: e)).toList();
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> _getCategoryCodeList() {
+    var completer = Completer<void>();
+    EngineerAPIService.getCategoryCodeList().listen((event) {
+      _categoryCodeList = event?.categoryCodeList;
+      completer.complete();
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
+  }
+
+  Future<void> _getReasonList() {
+    var completer = Completer<void>();
+    EngineerAPIService.getPartRequestReasonList().listen((event) {
+      _reasonsList = event?.reasonList;
+      reasonsDropdownList = _reasonsList!
+          .map((e) => DropDownItem<ReasonListData>(e.reasonId.toString(), e.reason, extraData: e))
+          .toList();
+      completer.complete();
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
   }
 
   bool isReasonRequired(OrderEngineerPart item) {
-    // TODO: add categoryCode Condition
-    return ElssPartsSelectionOptions.getEnumById(item.partType) == ElssPartsSelectionOptions.repairRequired;
+    return ElssPartsSelectionOptions.getEnumById(item.partType) == ElssPartsSelectionOptions.repairRequired &&
+        _categoryCodeList?.contains(item.categoryCode) == true;
   }
 
   void updatePartRequestItem(OrderEngineerPart item) {
@@ -45,10 +92,11 @@ class PartRequestReasonsProvider extends CshChangeNotifier {
       }
 
       /// If reasons is not selected
-      if (Validator.isNullOrEmpty(item.reasonId)) {
+      if (item.reasonId == null) {
         return false;
       }
-      bool isImageRequired = _reasons?.firstWhere((element) => element.id == item.reasonId).imageRequired ?? false;
+      bool isImageRequired =
+          _reasonsList?.firstWhere((element) => element.reasonId == item.reasonId).isImageRequired ?? false;
 
       /// If reasons is selected but image is required and not uploaded
       if (isImageRequired && Validator.isListNullOrEmpty(item.imageList)) {
@@ -64,10 +112,6 @@ class PartRequestReasonsProvider extends CshChangeNotifier {
   }
 }
 
-class Reasons {
-  String? id;
-  String? name;
-  bool? imageRequired;
-
-  Reasons(this.id, this.name, this.imageRequired);
+abstract interface class PartRequestReasonInterface {
+  void noReasonRequired(List<OrderEngineerPart> partList);
 }

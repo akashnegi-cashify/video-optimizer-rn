@@ -1,5 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/models/reason_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
 import 'package:flutter_trc/src/modules/engineer/providers/part_request_reasons_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provider.dart';
@@ -8,7 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../../utils/media_upload/models/image_upload_service_type_enum.dart';
 
-class PartRequestReasonsWidget extends StatelessWidget {
+class PartRequestReasonsWidget extends StatelessWidget implements PartRequestReasonInterface {
   final Function(List<OrderEngineerPart> partList)? onReasonsSubmitted;
 
   const PartRequestReasonsWidget(this.onReasonsSubmitted, {super.key});
@@ -16,6 +18,18 @@ class PartRequestReasonsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = PartRequestReasonsProvider.of(context);
+    provider.partRequestReasonInterface ??= this;
+
+    if (provider.isPageLoading) {
+      return const ShimmerListWidget();
+    }
+
+    if (!Validator.isNullOrEmpty(provider.reasonListError)) {
+      return Center(
+        child: CshTextNew.bodyText1(provider.reasonListError ?? ""),
+      );
+    }
+
     return Column(
       children: [
         Expanded(
@@ -30,7 +44,7 @@ class PartRequestReasonsWidget extends StatelessWidget {
                   return _PartRequestReasonItem(
                     item,
                     onChanged: (selectedReasonId, imageUrlList) {
-                      item.reasonId = selectedReasonId;
+                      item.reasonId = int.parse(selectedReasonId);
                       item.imageList = imageUrlList;
                       provider.updatePartRequestItem(item);
                     },
@@ -53,6 +67,11 @@ class PartRequestReasonsWidget extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  void noReasonRequired(List<OrderEngineerPart> partList) {
+    onReasonsSubmitted?.call(partList);
+  }
 }
 
 class _PartRequestReasonItem extends StatefulWidget {
@@ -66,12 +85,13 @@ class _PartRequestReasonItem extends StatefulWidget {
 }
 
 class _PartRequestReasonItemState extends State<_PartRequestReasonItem> {
-  DropDownItem<Reasons>? _selectedItem;
+  DropDownItem<ReasonListData>? _selectedItem;
   final List<String> _imageList = [""];
 
   @override
   Widget build(BuildContext context) {
     var provider = PartRequestReasonsProvider.of(context);
+
     return CshCard(
       padding: const EdgeInsets.all(Dimens.space_12),
       child: Column(
@@ -86,7 +106,7 @@ class _PartRequestReasonItemState extends State<_PartRequestReasonItem> {
           CshDropDown(
             items: provider.reasonsDropdownList,
             selectedItem: _selectedItem,
-            onChanged: (DropDownItem<Reasons> value) {
+            onChanged: (DropDownItem<ReasonListData> value) {
               setState(() {
                 _selectedItem = value;
                 widget.onChanged(value.id!, _imageList);
@@ -94,7 +114,7 @@ class _PartRequestReasonItemState extends State<_PartRequestReasonItem> {
             },
           ),
           const SizedBox(height: Dimens.space_16),
-          if (Validator.isTrue(_selectedItem?.extraData?.imageRequired))
+          if (Validator.isTrue(_selectedItem?.extraData?.isImageRequired))
             SizedBox(
               height: Dimens.space_100,
               child: ListView.separated(

@@ -21,12 +21,10 @@ class OrderEngineerPart extends EngineerPartInfo {
   @JsonKey(includeToJson: false, includeFromJson: false)
   DropDownItem? get selectedPartType => _selectedPartType;
 
-  // TODO: verify name from backend
-  @JsonKey(name: "reason_id")
-  String? reasonId;
+  @JsonKey(name: "rrid")
+  int? reasonId;
 
-  // TODO: verify name from backend
-  @JsonKey(name: "img_list")
+  @JsonKey(name: "imgs")
   List<String>? imageList;
 
   OrderEngineerPart(this.orderQuantity, {this.version = 0});

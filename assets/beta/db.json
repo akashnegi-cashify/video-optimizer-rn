@@ -1339,6 +1339,21 @@
       ]
     },
     {
+      "pageId": 10051,
+      "pageKey": "QC_product_list_screen",
+      "dt": [
+        {
+          "id": 10133,
+          "key": "QC_product_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10134,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -3266,6 +3281,29 @@
       "configJson": {
         "config": {
           "ht": "Generic Device Media",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10133,
+      "locale": "en",
+      "key": "QC_product_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10134,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Product List",
           "sbb": true,
           "slb": false
         }

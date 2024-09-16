@@ -25,8 +25,11 @@ class PartRequestReasonsComponent extends StatelessComponent<NoneConfigModel> {
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((model) {
-      return ChangeNotifierProvider(create: (_) => PartRequestReasonsProvider(model.partRequestList),
-        child: PartRequestReasonsWidget(model.onReasonsSubmitted),);
+      return ChangeNotifierProvider(
+        create: (_) => PartRequestReasonsProvider(model.partRequestList),
+        lazy: false,
+        child: PartRequestReasonsWidget(model.onReasonsSubmitted),
+      );
     });
   }
 
