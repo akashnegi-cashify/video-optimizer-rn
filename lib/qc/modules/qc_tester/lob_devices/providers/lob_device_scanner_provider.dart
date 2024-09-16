@@ -6,8 +6,8 @@ import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/brand_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/src/utils/connectivity_util.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
@@ -26,6 +26,8 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
 
   String? errorMsg;
 
+  List<BrandListData>? _brandList;
+
   LobDeviceScannerProvider(this.deviceBarcode);
 
   @override
@@ -39,23 +41,8 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
 
   List<Reasons> get timeoutReasons => _transformTimeoutReasonsIntoList();
 
-  Future<List<LobProductListData>?> getProductsList(
-      String deviceBarcode, String? imei, String? serialNo, bool isManualSearch, int? categoryId) {
-    var completer = Completer<List<LobProductListData>?>();
-    service.getProductList(deviceBarcode, imei, serialNo, isManualSearch, categoryId).listen((event) {
-      if (!Validator.isListNullOrEmpty(event?.productList)) {
-        completer.complete(event?.productList);
-      } else {
-        completer.completeError("Product List is empty");
-      }
-    }, onError: (error) {
-      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-    });
-    return completer.future;
-  }
-
   Future<MyCalculatorResponse?> getLobCalculator(
-      String deviceBarcode, int? productMasterId, int? productId, int? categoryId, VariantListData? variantItem) {
+      int? productMasterId, int? productId, int? categoryId, VariantListData? variantItem) {
     var completer = Completer<MyCalculatorResponse?>();
     service.getLobCalculator(deviceBarcode, productMasterId, productId, categoryId, variantItem).listen((event) {
       completer.complete(event);
@@ -81,6 +68,10 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
       isLoading = false;
       notifyListeners();
     });
+  }
+
+  List<CategoryData>? getCategoryList() {
+    return deviceDetails?.categoryList;
   }
 
   Future<void> reportMismatch(String imagePath, List<String> scannedImeiList, {bool? isImei2Available}) async {
@@ -177,25 +168,16 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     return completer.future;
   }
 
-  bool isAllowedVariants(int selectedCategoryId) {
-    for (CategoryData category in deviceDetails?.categoryList ?? []) {
-      if (category.id == selectedCategoryId) {
-        return category.allowVariant ?? false;
-      }
-    }
-    return false;
-  }
+  List<DropDownItem>? get brandList => _brandList?.map((e) => DropDownItem(e.brandId.toString(), e.brandName)).toList();
 
-  Future<List<VariantListData>> getVariantList(int? productId) {
-    var completer = Completer<List<VariantListData>>();
-    service.getVariantList(productId).listen((event) {
-      if (!Validator.isListNullOrEmpty(event?.variantListResponseData)) {
-        completer.complete(event?.variantListResponseData);
-      } else {
-        completer.completeError("No variant found for this product");
-      }
+  Future<void> getBrandList(String categoryId) {
+    var completer = Completer<void>();
+    service.getBrandList(categoryId).listen((event) {
+      _brandList = event?.brandList;
+      completer.complete();
+      notifyListeners();
     }, onError: (error) {
-      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+      // errorMsg = ApiErrorHelper.getErrorMessage(error).toString();
     });
     return completer.future;
   }

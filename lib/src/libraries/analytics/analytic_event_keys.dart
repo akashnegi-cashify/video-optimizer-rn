@@ -20,6 +20,8 @@ class _ManualTesting extends _CommonKeys {
 
   final String updateDeviceCategory = "dmt_update_device_category";
 
+  final String selectBrand = "dmt_select_brand";
+
   final String manualSearchButtonClicked = "dmt_manual_search_button_clicked";
 
   final String autoSearchButtonClicked = "dmt_auto_search_button_clicked";

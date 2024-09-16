@@ -6,6 +6,7 @@
 
 * `TRC - QC Tester - Multiple Photos to be clicked at Mark Ok fail status`[(SCM-7314)](https://reglobe.atlassian.net/browse/SCM-7314)
 * `TRC - Engineer/L4 - Reasons and images to be captured at time of requesting new parts`[(SCM-7349)](https://reglobe.atlassian.net/browse/SCM-7349)
+* `QC/TRC - Manual Testing - Add Search in Laptop Variant`[(SCM-7349)](https://reglobe.atlassian.net/browse/SCM-7349)
 
 
 # v3.3.6+52 (11-09-2024)

@@ -22,6 +22,8 @@ final class AnalyticEventParams {
 
   static const String deviceCategory = "deviceCategory";
 
+  static const String brandId = "brandId";
+
   static const String additionalQuestions = "additionalQuestions";
 
   static const String metaData = "metaData";

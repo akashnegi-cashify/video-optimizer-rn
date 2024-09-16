@@ -8,9 +8,9 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_de
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/reasons.dart';
 import 'package:flutter_trc/src/common/widgets/imei_scanner.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
-import 'package:flutter_trc/src/libraries/analytics/events/auto_search_button_clicked_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/device_verify_popup_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/manual_search_button_clicked_event.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/select_brand_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/update_device_category_event.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
@@ -22,7 +22,7 @@ import '../l10n.dart';
 class LobDeviceDetailWidget extends StatefulWidget {
   final String scannedData;
   final DeviceDetailResponseData? deviceDetails;
-  final Function(bool isManual, int selectedCategoryId) onSearchClicked;
+  final Function(int brandId, int selectedCategoryId) onSearchClicked;
 
   const LobDeviceDetailWidget(
       {required this.scannedData, this.deviceDetails, required this.onSearchClicked, super.key});
@@ -34,6 +34,7 @@ class LobDeviceDetailWidget extends StatefulWidget {
 class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
   final List<DropDownItem> _categoryList = [];
   DropDownItem? _selectedCategory;
+  DropDownItem? _selectedBrand;
   bool _isImeiVerified = false;
   late bool _isRunImeiValidatorFlow = false;
 
@@ -45,8 +46,9 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
       if (value != null) {
         var loginTypeEnum = LoginTypes.fromValue(value);
         setState(() {
-          _isRunImeiValidatorFlow =
-          loginTypeEnum == LoginTypes.qcLogin ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW) : false;
+          _isRunImeiValidatorFlow = loginTypeEnum == LoginTypes.qcLogin
+              ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW)
+              : false;
         });
       }
     });
@@ -63,6 +65,12 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     if (_selectedCategory?.id != DeviceCategoryIdType.mobile.value) {
       _isImeiVerified = true;
     }
+
+    if (_selectedCategory != null) {
+      var provider = LobDeviceScannerProvider.of(context, listen: false);
+      provider.getBrandList(_selectedCategory!.id!);
+    }
+
     AnalyticsController.logEvent(DeviceVerifyPopupEvent(widget.scannedData, _selectedCategory?.id));
     super.initState();
   }
@@ -70,6 +78,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
+    var provider = LobDeviceScannerProvider.of(context, listen: false);
     return Container(
       padding: const EdgeInsets.all(Dimens.space_20),
       child: Column(
@@ -89,14 +98,43 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                   onChanged: (DropDownItem? value) {
                     AnalyticsController.logEvent(
                         UpdateDeviceCategoryEvent(widget.scannedData, _selectedCategory?.id, value?.id));
-                    setState(() {
-                      _selectedCategory = value;
-                    });
+                    _selectedBrand = null;
+                    provider.getBrandList(value!.id!).whenComplete(
+                      () {
+                        setState(() {
+                          _selectedCategory = value;
+                        });
+                      },
+                    );
                   },
                 ),
               ),
             ],
           ),
+          if (_selectedCategory != null && !Validator.isListNullOrEmpty(provider.brandList)) ...[
+            const SizedBox(height: Dimens.space_16),
+            Row(
+              children: [
+                Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle1("${l10n.brand}:", isPrimary: false)),
+                Flexible(
+                  flex: 4,
+                  fit: FlexFit.tight,
+                  child: CshDropDown(
+                    key: ValueKey(_selectedCategory?.id),
+                    items: provider.brandList,
+                    hintText: l10n.selectBrand,
+                    selectedItem: _selectedBrand,
+                    onChanged: (DropDownItem? value) {
+                      AnalyticsController.logEvent(SelectBrandEvent(widget.scannedData, value?.id));
+                      setState(() {
+                        _selectedBrand = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
           const SizedBox(height: Dimens.space_16),
           Row(
             children: [
@@ -136,27 +174,18 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                 }),
           ],
           const SizedBox(height: Dimens.space_24),
-          ComboButton(
-            firstBtnText: l10n.manualSearch,
-            padding: EdgeInsets.zero,
-            secondBtnText: l10n.search,
-            isFirstPrimary: true,
-            buttonType: ButtonType.mini,
-            firstBtnClick: _isSearchButtonEnabled()
+          CshMediumButton(
+            text: l10n.search,
+            onPressed: _isSearchButtonEnabled()
                 ? () {
+                    // AnalyticsController.logEvent(
+                    //     AutoSearchButtonClickedEvent(widget.scannedData, _selectedCategory?.id));
                     AnalyticsController.logEvent(
                         ManualSearchButtonClickedEvent(widget.scannedData, _selectedCategory?.id));
-                    widget.onSearchClicked(true, int.parse(_selectedCategory!.id!));
+                    widget.onSearchClicked(int.parse(_selectedBrand!.id!), int.parse(_selectedCategory!.id!));
                   }
                 : null,
-            secondBtnClick: _isSearchButtonEnabled()
-                ? () {
-                    AnalyticsController.logEvent(
-                        AutoSearchButtonClickedEvent(widget.scannedData, _selectedCategory?.id));
-                    widget.onSearchClicked(false, int.parse(_selectedCategory!.id!));
-                  }
-                : null,
-          )
+          ),
         ],
       ),
     );
@@ -176,6 +205,10 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
 
   _isSearchButtonEnabled() {
     if (_selectedCategory == null) {
+      return false;
+    }
+
+    if (_selectedBrand == null) {
       return false;
     }
 
