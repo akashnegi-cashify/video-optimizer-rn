@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/gallery_screen.dart';
 import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/models/device_report_response.dart';
 import 'package:flutter_trc/src/modules/engineer/providers/device_report_provider.dart';
@@ -55,6 +56,34 @@ class DeviceReportWidget extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: Dimens.space_16, bottom: Dimens.space_4, top: Dimens.space_16),
+              child: Row(
+                children: [
+                  const CshTextNew.subTitle1("Qc Images:"),
+                  const SizedBox(width: Dimens.space_16),
+                  GestureDetector(
+                    onTap: () {
+                      CshLoading().showLoading(context);
+                      provider.getDeviceMedia().then((value) {
+                        CshLoading().hideLoading(context);
+                        Navigator.pushNamed(context, GalleryScreen.route, arguments: GalleryScreenArguments(value));
+                      }, onError: (error) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.error(context: context, message: error);
+                      });
+                    },
+                    child: Text(
+                      "View Images",
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: theme.primaryColor,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: Dimens.space_16, bottom: Dimens.space_4, top: Dimens.space_16),
               child: CshTextNew.subTitle1("QC Failed Reasons:"),
             ),
             Expanded(
@@ -93,14 +122,14 @@ class _DeviceReportItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Question:", isPrimary: false)),
+              const Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Question:", isPrimary: false)),
               Flexible(flex: 4, child: CshTextNew.subTitle2(deviceReport.partName ?? "N/A")),
             ],
           ),
           const SizedBox(height: Dimens.space_8),
           Row(
             children: [
-              Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Answer:", isPrimary: false)),
+              const Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.subTitle2("Answer:", isPrimary: false)),
               Flexible(flex: 4, child: CshTextNew.subTitle2(deviceReport.variationName ?? "N/A")),
             ],
           ),

@@ -122,7 +122,7 @@ enum DeviceMediaType {
   markOk(1),
   markToTl(2),
   screwSealImages(3),
-  markFail(4);
+  markFail(5);
 
   final int val;
 

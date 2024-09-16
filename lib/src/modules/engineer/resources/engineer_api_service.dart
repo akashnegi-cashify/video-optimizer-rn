@@ -6,6 +6,7 @@ import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_
 import 'package:flutter_trc/src/modules/engineer/models/category_code_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/device_report_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
+import 'package:flutter_trc/src/modules/engineer/models/generic_device_media_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/reason_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retreived_part_required_list_reponse.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
@@ -278,5 +279,13 @@ class EngineerAPIService {
 
   static Stream<CategoryCodeListResponse?> getCategoryCodeList() {
     return TrcService().get("/part/approval-categories", CategoryCodeListResponse.fromJson);
+  }
+
+  static Stream<GenericDeviceMediaResponse?> getDeviceMedia(int mediaType, String deviceId) {
+    Map<String, List<String>> params = {
+      "imid": [mediaType.toString()],
+      "did": [deviceId.toString()],
+    };
+    return TrcService().get("/device/v2/media", GenericDeviceMediaResponse.fromJson, params: params);
   }
 }
