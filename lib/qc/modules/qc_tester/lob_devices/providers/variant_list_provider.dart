@@ -19,8 +19,9 @@ class VariantListProvider extends CalculatorServiceInitProvider with Searchable 
   ServiceInitializeInterface? initializedInterface;
 
   final int productId;
+  final String seriesName;
 
-  VariantListProvider(this.productId);
+  VariantListProvider(this.productId, this.seriesName);
 
   @override
   void onServiceInitialized() {

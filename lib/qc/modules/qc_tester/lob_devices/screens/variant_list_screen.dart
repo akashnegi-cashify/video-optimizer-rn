@@ -44,11 +44,20 @@ class _VariantListScreenState extends PaginatedListState<VariantListData, Varian
               },
             ),
           ),
-          iterate(
-            (item, index) {
-              return VariantListItemWidget(item, onTap: widget.onVariantSelected);
-            },
-            separator: const SizedBox(height: Dimens.space_12),
+          CshCard(
+            margin: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+            cardWidth: double.infinity,
+            child: CshTextNew.h3(provider.seriesName),
+          ),
+          const SizedBox(height: Dimens.space_16),
+          Expanded(
+            child: iterate(
+              (item, index) {
+                return VariantListItemWidget(item, onTap: widget.onVariantSelected);
+              },
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+              separator: const SizedBox(height: Dimens.space_12),
+            ),
           ),
         ],
       ),

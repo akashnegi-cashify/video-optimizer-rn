@@ -120,7 +120,7 @@ abstract class CalculatorService {
       if (!Validator.isNullOrEmpty(searchQuery)) "pn": searchQuery,
     };
 
-    return service.post("/manual-test/fetch/product/list", LobProductListResponse.fromJson, body: jsonEncode(req));
+    return service.post("/manual-test/product/list", LobProductListResponse.fromJson, body: jsonEncode(req));
   }
 
   Stream<MyCalculatorResponse?> getLobCalculator(
@@ -168,6 +168,6 @@ abstract class CalculatorService {
   }
 
   Stream<BrandListResponse?> getBrandList(String? categoryId) {
-    return service.get("/manual-test/fetch/brand/list/$categoryId", BrandListResponse.fromJson);
+    return service.get("/manual-test/brand/list/$categoryId", BrandListResponse.fromJson);
   }
 }

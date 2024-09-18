@@ -54,23 +54,26 @@ class _NewProductListWidgetState extends PaginatedListState<LobProductListData, 
             ),
           ),
           const SizedBox(height: Dimens.space_16),
-          iterate(
-            (item, index) {
-              return GestureDetector(
-                onTap: () => _onItemClicked(context, item),
-                child: CshCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CshTextNew.subTitle1(item.brand ?? ""),
-                      const SizedBox(height: Dimens.space_4),
-                      CshTextNew.subTitle1(item.name ?? ""),
-                    ],
+          Expanded(
+            child: iterate(
+              (item, index) {
+                return GestureDetector(
+                  onTap: () => _onItemClicked(context, item),
+                  child: CshCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CshTextNew.subTitle1(item.brand ?? ""),
+                        const SizedBox(height: Dimens.space_4),
+                        CshTextNew.subTitle1(item.name ?? ""),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-            separator: const SizedBox(height: Dimens.space_12),
+                );
+              },
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+              separator: const SizedBox(height: Dimens.space_12),
+            ),
           ),
         ],
       ),
@@ -84,7 +87,7 @@ class _NewProductListWidgetState extends PaginatedListState<LobProductListData, 
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
           return ChangeNotifierProvider(
-            create: (_) => VariantListProvider(item.productId!),
+            create: (_) => VariantListProvider(item.productId!, item.name ?? ""),
             child: VariantListScreen(
               onVariantSelected: (variantItem) {
                 Navigator.pop(context); // pop variant list screen

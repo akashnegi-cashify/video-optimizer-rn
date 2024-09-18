@@ -62,7 +62,7 @@ class ProductListScreen extends BaseScreen<ProductListScreenArg> {
         arguments: ProductListScreenArg(
             deviceBarcode: deviceBarcode,
             categoryId: selectedCategoryId,
-            brandId: 1,
+            brandId: brandId,
             onProductSelected: (productItem, variantItem) {
               Navigator.pop(context); // pop this screen
               onProductSelected(productItem, variantItem);
