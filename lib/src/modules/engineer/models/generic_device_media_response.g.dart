@@ -31,7 +31,7 @@ GenericDeviceMediaData _$GenericDeviceMediaDataFromJson(
         Map<String, dynamic> json) =>
     GenericDeviceMediaData(
       json['mt'] as String?,
-      json['mb'] as String?,
+      json['mp'] as String?,
       json['iv'] as bool?,
     );
 
@@ -39,6 +39,6 @@ Map<String, dynamic> _$GenericDeviceMediaDataToJson(
         GenericDeviceMediaData instance) =>
     <String, dynamic>{
       'mt': instance.mediaLabel,
-      'mb': instance.imageUrl,
+      'mp': instance.imageUrl,
       'iv': instance.isVideo,
     };

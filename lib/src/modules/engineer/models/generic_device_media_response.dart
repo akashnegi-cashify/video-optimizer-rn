@@ -22,7 +22,7 @@ class GenericDeviceMediaData {
   @JsonKey(name: "mt")
   String? mediaLabel;
 
-  @JsonKey(name: "mb")
+  @JsonKey(name: "mp")
   String? imageUrl;
 
   @JsonKey(name: "iv")
