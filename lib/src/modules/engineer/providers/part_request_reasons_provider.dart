@@ -110,6 +110,16 @@ class PartRequestReasonsProvider extends CshChangeNotifier {
     }
     return true;
   }
+
+  List<OrderEngineerPart> filterRequestedPartList() {
+    for (var element in partRequestList) {
+      var index = element.imageList?.indexWhere((element) => Validator.isNullOrEmpty(element));
+      if (index != null && index > -1) {
+        element.imageList?.removeAt(index);
+      }
+    }
+    return partRequestList;
+  }
 }
 
 abstract interface class PartRequestReasonInterface {

@@ -60,8 +60,9 @@ class PartRequestReasonsWidget extends StatelessWidget implements PartRequestRea
           margin: const EdgeInsets.all(Dimens.space_16),
           child: CshMediumButton(
             text: "Complete Part Request",
-            onPressed:
-                provider.isAllReasonsSelected() ? () => onReasonsSubmitted?.call(provider.partRequestList) : null,
+            onPressed: provider.isAllReasonsSelected()
+                ? () => onReasonsSubmitted?.call(provider.filterRequestedPartList())
+                : null,
           ),
         ),
       ],
