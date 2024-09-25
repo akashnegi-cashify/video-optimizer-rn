@@ -15,7 +15,7 @@ class ImageUploadProvider extends CshChangeNotifier {
   String? s3Url = "";
   ImageUploadServiceType serviceType;
 
-  ImageUploadProvider({this.serviceType = ImageUploadServiceType.image_optimize});
+  ImageUploadProvider({this.serviceType = ImageUploadServiceType.image_optimize, this.s3Url});
 
   static ImageUploadProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<ImageUploadProvider>(context, listen: listen);
@@ -46,5 +46,10 @@ class ImageUploadProvider extends CshChangeNotifier {
       notifyListeners();
     });
     return completer.future;
+  }
+
+  void clearImage() {
+    s3Url = "";
+    notifyListeners();
   }
 }

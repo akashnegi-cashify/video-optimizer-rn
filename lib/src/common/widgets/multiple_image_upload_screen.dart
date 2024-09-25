@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
@@ -41,16 +43,29 @@ class _MultipleImageUploadScreenState extends State<MultipleImageUploadScreen> {
             children: [
               Expanded(
                 child: GridView.builder(
+                  key: ValueKey(_imageList.length.toString()),
                   itemCount: _imageList.length,
                   itemBuilder: (context, index) {
                     var item = _imageList[index];
                     return ChangeNotifierProvider(
-                      create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc),
+                      create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc, s3Url: item),
                       child: GeneralImageUploadCard(
                         cardHeight: cardSize,
                         cardWidth: cardSize,
                         imageUrl: item,
                         isImageMarkingRequired: widget.isImageMarkingRequired,
+                        onImageDelete: () {
+                          setState(() {
+                            _imageList.removeAt(index);
+                          });
+                          Future.delayed(const Duration(milliseconds: 500)).then((value) {
+                            setState(() {
+                              if (!Validator.isNullOrEmpty(_imageList.last)) {
+                                _imageList.add("");
+                              }
+                            });
+                          });
+                        },
                         onMediaUploadingStarted: () {
                           setState(() {
                             if (_imageList.length < 8 && index == _imageList.length - 1) {

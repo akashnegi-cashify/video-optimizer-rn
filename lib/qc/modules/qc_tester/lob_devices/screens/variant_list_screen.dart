@@ -53,7 +53,15 @@ class _VariantListScreenState extends PaginatedListState<VariantListData, Varian
           Expanded(
             child: iterate(
               (item, index) {
-                return VariantListItemWidget(item, onTap: widget.onVariantSelected);
+                return VariantListItemWidget(item, onTap: (item) {
+                  if (Validator.isNullOrEmpty(item.commonName)) {
+                    CshSnackBar.error(
+                        context: context, message: "Model no. is missing.", snackBarPosition: SnackBarPosition.TOP);
+                    return;
+                  }
+
+                  widget.onVariantSelected(item);
+                });
               },
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
               separator: const SizedBox(height: Dimens.space_12),
