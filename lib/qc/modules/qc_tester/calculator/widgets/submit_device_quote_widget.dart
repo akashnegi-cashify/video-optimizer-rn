@@ -44,7 +44,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
     Future.delayed(const Duration(milliseconds: 500), () async {
       var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
       provider.setDeviceQuoteInterface(this);
-      var isLoginFromQc = await provider.isLoginFromQC();
+      var isLoginFromQc = provider.isLoginFromQC();
       if (Validator.isTrue(isLoginFromQc)) {
         provider.getManualQuestions();
       } else {
@@ -74,6 +74,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
 
   Widget _getActionButtons(SubmitDeviceQuoteProvider provider) {
     Widget actionButtons;
+
     /// This condition should be the first one to check
     if (Validator.isTrue(provider.isCaptureQcImages)) {
       actionButtons = CshBigButton(
@@ -141,15 +142,14 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   }
 
   _moveToHomeScreen() {
-    AppPreferences().getLoginType().then((value) {
-      var loginTypeEnum = LoginTypes.fromValue(value ?? "");
+    String? loginType = AppPreferences().getLoginType();
+    var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
 
-      if (loginTypeEnum == LoginTypes.qcLogin) {
-        Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
-      } else {
-        Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
-      }
-    });
+    if (loginTypeEnum == LoginTypes.qcLogin) {
+      Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
+    } else {
+      Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
+    }
   }
 
   @override

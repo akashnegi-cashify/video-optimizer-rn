@@ -32,48 +32,40 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     var calculatorResponse = CalculatorDataHolderModel().calculatorResponse;
     var deviceBarcode = CalculatorDataHolderModel().deviceBarcode;
-    return FutureBuilder<String?>(
-      builder: (_, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          var loginTypeEnum = LoginTypes.fromValue(snapshot.data!);
-          var isQcLogin = loginTypeEnum == LoginTypes.qcLogin;
-          return CalculatorScreen(
-            CalculatorScreenArgs(
-                isCurrentDevice: 0,
-                pickupMode: '',
-                exppt: '',
-                serviceId: '',
-                sourceId: '',
-                calculatorResponse: calculatorResponse,
-                preSelection: null,
-                deviceBarcode: deviceBarcode,
-                showHint: false),
-            showSummary: true,
-            calculatorAnalytics: isQcLogin ? CalculatorAnalyticsHelper(deviceBarcode ?? "") : null,
-            deviceId: "d_id",
-            ruleExecutorServiceGroup: isQcLogin ? TRCServiceGroups.qc : TRCServiceGroups.trc,
-            handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
-              if (calculatorResponse?.manualAuditQuestions != null) {
-                _showDisputedQuestions(
-                    context, calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId, udid, isQcLogin);
-              } else {
-                var myRequest = MyQuoteRequestData(requestData: requestData);
-                _moveToNextScreen(
-                  context,
-                  requestData: myRequest,
-                  partialQuoteId: partialQuoteId,
-                  udid: udid,
-                  isLoginFromQC: isQcLogin,
-                );
-              }
-              // exit(0);
-            },
-          );
+
+    var loginTypeEnum = LoginTypes.fromValue(AppPreferences().getLoginType() ?? LoginTypes.qcLogin.value);
+    var isQcLogin = loginTypeEnum == LoginTypes.qcLogin;
+    return CalculatorScreen(
+      CalculatorScreenArgs(
+          isCurrentDevice: 0,
+          pickupMode: '',
+          exppt: '',
+          serviceId: '',
+          sourceId: '',
+          calculatorResponse: calculatorResponse,
+          preSelection: null,
+          deviceBarcode: deviceBarcode,
+          showHint: false),
+      showSummary: true,
+      calculatorAnalytics: isQcLogin ? CalculatorAnalyticsHelper(deviceBarcode ?? "") : null,
+      deviceId: "d_id",
+      ruleExecutorServiceGroup: isQcLogin ? TRCServiceGroups.qc : TRCServiceGroups.trc,
+      handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
+        if (calculatorResponse?.manualAuditQuestions != null) {
+          _showDisputedQuestions(
+              context, calculatorResponse?.manualAuditQuestions, requestData, partialQuoteId, udid, isQcLogin);
         } else {
-          return const Center(child: CircularProgressIndicator());
+          var myRequest = MyQuoteRequestData(requestData: requestData);
+          _moveToNextScreen(
+            context,
+            requestData: myRequest,
+            partialQuoteId: partialQuoteId,
+            udid: udid,
+            isLoginFromQC: isQcLogin,
+          );
         }
+        // exit(0);
       },
-      future: AppPreferences().getLoginType(),
     );
   }
 

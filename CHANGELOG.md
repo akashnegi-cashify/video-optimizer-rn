@@ -1,5 +1,13 @@
 # TRC Releases
 
+# v3.4.0+54 (XX-09-2024)
+
+### Feature and Improvements:
+
+* `Flutter version upgrade`[(SCM-7588)](https://reglobe.atlassian.net/browse/SCM-7588)
+* `Console login in OMS`[(SCM-7589)](https://reglobe.atlassian.net/browse/SCM-7589)
+
+
 # v3.3.7+53 (XX-09-2024)
 
 ### Feature and Improvements:

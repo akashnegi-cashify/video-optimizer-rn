@@ -28,17 +28,8 @@ class StoreOutComponent extends StatelessComponent<NoneConfigModel> {
       create: (_) => StoreOutProvider(),
       builder: (buildContext, child) {
         var provider = StoreOutProvider.of(buildContext, listen: false);
-        return FutureBuilder(
-          future: provider.isLoginFromQC(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              var storeOutFacility = Validator.isTrue(snapshot.data) ? StoreOutFacility.qc : StoreOutFacility.trc;
-              return StoreOutWidget(storeOutFacility);
-            } else {
-              return const CshShimmer();
-            }
-          },
-        );
+        var storeOutFacility = Validator.isTrue(provider.isLoginFromQC()) ? StoreOutFacility.qc : StoreOutFacility.trc;
+        return StoreOutWidget(storeOutFacility);
       },
     );
   }

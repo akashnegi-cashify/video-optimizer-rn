@@ -122,13 +122,11 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     stepperItem.subTitle = selectedColor;
     notifyListeners();
     quoteRequest?.selectedColor = selectedColor;
-    isLoginFromQC().then((value) {
-      if (Validator.isTrue(value)) {
-        _submitCalculatorRequest();
-      } else {
-        iDeviceQuote?.showTrcRemarksDialog();
-      }
-    });
+    if (isLoginFromQC()) {
+      _submitCalculatorRequest();
+    } else {
+      iDeviceQuote?.showTrcRemarksDialog();
+    }
   }
 
   void _submitDeviceImages() {

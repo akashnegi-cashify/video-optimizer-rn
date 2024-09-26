@@ -32,14 +32,11 @@ class UserRoles {
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
       {String? loginToken, required LoginTypes loginType}) async {
-    // var amplifyPro = AmplifyProvider.of(context, listen: false);
     if (loginType == LoginTypes.shipexLogin) {
       Navigator.of(context).pushNamedAndRemoveUntil(ShipexHomeScreen.route, (route) => false);
     } else if (loginType == LoginTypes.qcLogin) {
-      // amplifyPro.getS3DetailsForQcAndConfigAmplify();
       Navigator.of(context).pushNamedAndRemoveUntil(QcActionScreen.route, (route) => false);
     } else if (loginType == LoginTypes.trcLogin) {
-      // amplifyPro.getS3DetailsForTrcAndConfigureAmplify();
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
         ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);
         Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: args);

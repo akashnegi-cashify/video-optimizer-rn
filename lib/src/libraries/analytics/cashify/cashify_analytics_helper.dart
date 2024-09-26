@@ -15,7 +15,7 @@ class CashifyAnalyticsHelper {
 
   static Future<void> sendAnalyticsEvent(
       {required String eventName, String? subOrdinateKey, Map<String, dynamic>? parameters}) async {
-    var loginType = await AppPreferences().getLoginType();
+    var loginType = AppPreferences().getLoginType();
     var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
     if (loginTypeEnum != LoginTypes.qcLogin) {
       return;

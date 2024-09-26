@@ -26,8 +26,8 @@ abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
     initCalculatorService();
   }
 
-  Future<void> initCalculatorService() async {
-    var isLoginFromQc = await isLoginFromQC();
+  void initCalculatorService() {
+    var isLoginFromQc = isLoginFromQC();
     if (Validator.isTrue(isLoginFromQc)) {
       service = QcCalculatorService();
     } else {
@@ -38,9 +38,8 @@ abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
 
   void onServiceInitialized() {}
 
-  Future<bool?> isLoginFromQC() async {
-    var loginType = await AppPreferences().getLoginType();
-    var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+  bool isLoginFromQC() {
+    var loginTypeEnum = LoginTypes.fromValue(AppPreferences().getLoginType() ?? "");
     return loginTypeEnum == LoginTypes.qcLogin;
   }
 }

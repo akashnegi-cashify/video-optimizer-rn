@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/sso_image_optimiser_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -54,18 +55,18 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
             show: provider.providerDataListLoading || provider.estimatedProviderDataLoading,
             child: (!Validator.isListNullOrEmpty(provider.providerList))
                 ? CshDropDown(
-              hintText: l10n.selectBox,
-              onChanged: (DropDownItem data) {
-                provider.onProviderChange(ShipmentProviderListData(key: data.id, name: data.label));
-              },
-              selectedItem: provider.estimatedProvider != null
-                  ? DropDownItem(provider.estimatedProvider?.key, provider.estimatedProvider?.name)
-                  : null,
-              items: List.generate(
-                provider.providerList!.length,
-                    (index) => DropDownItem(provider.providerList![index].key, provider.providerList![index].name),
-              ),
-            )
+                    hintText: l10n.selectBox,
+                    onChanged: (DropDownItem data) {
+                      provider.onProviderChange(ShipmentProviderListData(key: data.id, name: data.label));
+                    },
+                    selectedItem: provider.estimatedProvider != null
+                        ? DropDownItem(provider.estimatedProvider?.key, provider.estimatedProvider?.name)
+                        : null,
+                    items: List.generate(
+                      provider.providerList!.length,
+                      (index) => DropDownItem(provider.providerList![index].key, provider.providerList![index].name),
+                    ),
+                  )
                 : const SizedBox.shrink(),
           ),
           const SizedBox(height: Dimens.space_20),
@@ -195,7 +196,9 @@ class _CreateManualShipmentWidgetState extends State<CreateManualShipmentWidget>
   _uploadMediaWithContentType(File data, MediaContentType contentType) {
     CshLoading().showLoading(context);
     String fileName = path.basename(data.path);
-    MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: contentType).then((value) {
+    MediaUploadUtil(service: SSOImageOptimizerService())
+        .uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: contentType)
+        .then((value) {
       CshLoading().hideLoading(context);
       if (!Validator.isNullOrEmpty(value)) {
         _docS3Url = value;

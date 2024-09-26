@@ -68,7 +68,7 @@ class ElssService {
     return QcService().post("/user/destroy", LogoutResponse.fromJson);
   }
 
-  static Stream<LogoutResponse?> rmsLogout() {
+  static Stream<LogoutResponse?> consoleLogout() {
     return ConsoleService().put("/v1/logout", LogoutResponse.fromJson);
   }
 

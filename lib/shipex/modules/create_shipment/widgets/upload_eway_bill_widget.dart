@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/sso_image_optimiser_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
@@ -252,7 +253,9 @@ class _UploadEwayBillWidgetState extends State<UploadEwayBillWidget> {
   _uploadMediaWithContentType(File data, MediaContentType value) {
     CshLoading().showLoading(context);
     String fileName = path.basename(data.path);
-    MediaUploadUtil().uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: value).then((value) {
+    MediaUploadUtil(service: SSOImageOptimizerService())
+        .uploadMediaWithType(mediaFile: data, fileName: fileName, contentType: value)
+        .then((value) {
       CshLoading().hideLoading(context);
       if (!Validator.isNullOrEmpty(value)) {
         _docS3Url = value;

@@ -8,6 +8,7 @@ import 'package:flutter_trc/src/common/utils/file_util.dart';
 import 'package:flutter_trc/src/common/widgets/video_recoder_widget.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/sso_image_optimiser_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:video_compress/video_compress.dart';
@@ -67,7 +68,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                 if (compressedFile != null) {
                   compressedFile.file!.logFileSize();
                   String fileName = path.basename(compressedFile.path!);
-                  MediaUploadUtil()
+                  MediaUploadUtil(service: SSOImageOptimizerService())
                       .uploadMediaWithType(
                           mediaFile: compressedFile.file!, fileName: fileName, contentType: MediaContentType.mp4)
                       .then((value) {

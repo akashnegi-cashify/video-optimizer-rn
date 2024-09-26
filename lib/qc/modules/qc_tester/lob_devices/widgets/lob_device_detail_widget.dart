@@ -42,16 +42,15 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
 
   @override
   void initState() {
-    AppPreferences().getLoginType().then((value) {
-      if (value != null) {
-        var loginTypeEnum = LoginTypes.fromValue(value);
-        setState(() {
-          _isRunImeiValidatorFlow = loginTypeEnum == LoginTypes.qcLogin
-              ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW)
-              : false;
-        });
-      }
-    });
+    String? loginType = AppPreferences().getLoginType();
+    if (loginType != null) {
+      var loginTypeEnum = LoginTypes.fromValue(loginType);
+      setState(() {
+        _isRunImeiValidatorFlow = loginTypeEnum == LoginTypes.qcLogin
+            ? RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_RUN_IMEI_VALIDATOR_FLOW)
+            : false;
+      });
+    }
 
     widget.deviceDetails?.categoryList?.forEach((value) {
       var dropDownItem = DropDownItem(value.id.toString(), value.name);

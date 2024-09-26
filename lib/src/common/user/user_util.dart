@@ -12,19 +12,10 @@ class UserUtil {
     showCshBottomSheet(
       context: context,
       child: LogoutModalWidget(
-        onLogoutCallback: () async {
-          var loginType = await AppPreferences().getLoginType();
+        onLogoutCallback: () {
+          var loginType = AppPreferences().getLoginType();
           var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
-          switch (loginTypeEnum) {
-            case LoginTypes.trcLogin:
-            case LoginTypes.qcLogin:
-            case LoginTypes.rmsLogin:
-              _onLogout(context, loginTypeEnum);
-              break;
-            case LoginTypes.shipexLogin:
-              _onLogoutComplete(context);
-              break;
-          }
+          _onLogout(context, loginTypeEnum);
         },
       ),
     );

@@ -12,7 +12,7 @@ class QcTrcServiceInitProvider extends CshChangeNotifier {
   }
 
   Future<void> initService() async {
-    var isLoginFromQc = await isLoginFromQC();
+    var isLoginFromQc = isLoginFromQC();
     if (Validator.isTrue(isLoginFromQc)) {
       service = QcService();
     } else {
@@ -23,8 +23,8 @@ class QcTrcServiceInitProvider extends CshChangeNotifier {
 
   void onServiceInitialized() {}
 
-  Future<bool?> isLoginFromQC() async {
-    var loginType = await AppPreferences().getLoginType();
+  bool? isLoginFromQC() {
+    var loginType = AppPreferences().getLoginType();
     var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
     return loginTypeEnum == LoginTypes.qcLogin;
   }

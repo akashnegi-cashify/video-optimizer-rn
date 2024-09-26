@@ -34,11 +34,11 @@ class AppPreferences {
   }
 
   setLoginType(String loginType) {
-    _util.setString(_AppPreferencesKeys.loginType.value, loginType);
+    _cshGetStorageUtil.setString(_AppPreferencesKeys.loginType.value, loginType);
   }
 
-  Future<String?> getLoginType() async {
-    return await _util.getString(_AppPreferencesKeys.loginType.value);
+  String? getLoginType() {
+    return _cshGetStorageUtil.getString(_AppPreferencesKeys.loginType.value);
   }
 
   Future<void> setFacility(FacilityListData facility) {

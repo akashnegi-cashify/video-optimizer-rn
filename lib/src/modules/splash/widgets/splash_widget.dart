@@ -50,7 +50,7 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
     } else {
       UserDetails().setUserDetailsData(AuthHandler().userAuth!);
 
-      var loginType = await AppPreferences().getLoginType();
+      var loginType = AppPreferences().getLoginType();
       var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
 
       await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
