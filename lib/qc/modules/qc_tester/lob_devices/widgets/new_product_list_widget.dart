@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/product_list_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/variant_list_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/service_initialize_interface.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/variant_list_screen.dart';
 import 'package:flutter_trc/src/common/widgets/my_search_bar_widget.dart';
@@ -22,14 +21,7 @@ class NewProductListWidget extends StatefulWidget {
   State<NewProductListWidget> createState() => _NewProductListWidgetState();
 }
 
-class _NewProductListWidgetState extends PaginatedListState<LobProductListData, NewProductListWidget>
-    implements ServiceInitializeInterface {
-  @override
-  void initState() {
-    var provider = ProductListProvider.of(context, listen: false);
-    provider.setServiceInitializedListener(this);
-  }
-
+class _NewProductListWidgetState extends PaginatedListState<LobProductListData, NewProductListWidget> {
   @override
   Widget build(BuildContext context) {
     var provider = ProductListProvider.of(context);
@@ -125,17 +117,10 @@ class _NewProductListWidgetState extends PaginatedListState<LobProductListData, 
   void requestApi(int pageNo,
       {Function(List<LobProductListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = ProductListProvider.of(context, listen: false);
-    if (!provider.isPageInitializing) {
-      provider.getProductsList(pageNo, pageSize).then((value) {
-        onSuccess?.call(value);
-      }, onError: (error) {
-        onError?.call(error);
-      });
-    }
-  }
-
-  @override
-  void initialize() {
-    resetAndRefreshScreen();
+    provider.getProductsList(pageNo, pageSize).then((value) {
+      onSuccess?.call(value);
+    }, onError: (error) {
+      onError?.call(error);
+    });
   }
 }

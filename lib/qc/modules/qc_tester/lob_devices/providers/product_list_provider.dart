@@ -7,7 +7,6 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/models/product_list_screen_arg_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/service_initialize_interface.dart';
 import 'package:flutter_trc/src/common/searchable.dart';
 import 'package:provider/provider.dart';
 
@@ -16,9 +15,6 @@ class ProductListProvider extends CalculatorServiceInitProvider with Searchable 
   late final int? brandId;
   late final int? categoryId;
   late final List<CategoryData>? categoryList;
-
-  ServiceInitializeInterface? initializedInterface;
-  bool isPageInitializing = true;
 
   ProductListProvider(ProductListScreenArgModel model) {
     deviceBarcode = model.deviceBarcode;
@@ -29,12 +25,6 @@ class ProductListProvider extends CalculatorServiceInitProvider with Searchable 
 
   static ProductListProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<ProductListProvider>(context, listen: listen);
-  }
-
-  @override
-  void onServiceInitialized() {
-    isPageInitializing = false;
-    initializedInterface?.initialize();
   }
 
   Future<List<LobProductListData>?> getProductsList(int pageNo, int pageSize) {
@@ -61,9 +51,5 @@ class ProductListProvider extends CalculatorServiceInitProvider with Searchable 
       }
     }
     return false;
-  }
-
-  void setServiceInitializedListener(ServiceInitializeInterface interface) {
-    initializedInterface = interface;
   }
 }
