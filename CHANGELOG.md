@@ -1,17 +1,12 @@
 # TRC Releases
 
-# v3.4.0+54 (XX-09-2024)
+# v3.4.0+54 (03-10-2024)
 
 ### Feature and Improvements:
 
 * `Flutter version upgrade`[(SCM-7588)](https://reglobe.atlassian.net/browse/SCM-7588)
 * `Console login in OMS`[(SCM-7589)](https://reglobe.atlassian.net/browse/SCM-7589)
-
-
-# v3.3.7+53 (XX-09-2024)
-
-### Feature and Improvements:
-
+* `Fix back behaviour on IMEI validation screen`[(SCM-7626)](https://reglobe.atlassian.net/browse/SCM-7626)
 * `TRC - QC Tester - Multiple Photos to be clicked at Mark Ok fail status`[(SCM-7314)](https://reglobe.atlassian.net/browse/SCM-7314)
 * `TRC - Engineer/L4 - Reasons and images to be captured at time of requesting new parts`[(SCM-7349)](https://reglobe.atlassian.net/browse/SCM-7349)
 * `QC/TRC - Manual Testing - Add Search in Laptop Variant`[(SCM-7349)](https://reglobe.atlassian.net/browse/SCM-7349)

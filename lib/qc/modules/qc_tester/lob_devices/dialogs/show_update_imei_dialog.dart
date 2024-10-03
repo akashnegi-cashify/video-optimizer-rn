@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../l10n.dart';
@@ -36,7 +37,19 @@ Future showUpdateImeiDialog(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CshTextNew.h3(l10n.updateMissingImei),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CshTextNew.h3(l10n.updateMissingImei),
+                  CshIcon(
+                    FeatherIcons.x,
+                    iconSize: MobileIconSize.medium,
+                    onClick: () {
+                      Navigator.pop(context); // close dialog
+                    },
+                  ),
+                ],
+              ),
               const SizedBox(height: Dimens.space_16),
               Text(
                 l10n.imeiUpdateDescription,
