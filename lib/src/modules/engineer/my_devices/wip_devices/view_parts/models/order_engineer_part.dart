@@ -18,10 +18,16 @@ class OrderEngineerPart extends EngineerPartInfo {
   @JsonKey(includeToJson: false, includeFromJson: false)
   DropDownItem? _selectedPartType;
 
-  OrderEngineerPart(this.orderQuantity, {this.version = 0});
-
   @JsonKey(includeToJson: false, includeFromJson: false)
   DropDownItem? get selectedPartType => _selectedPartType;
+
+  @JsonKey(name: "rrid")
+  int? reasonId;
+
+  @JsonKey(name: "imgs")
+  List<String>? imageList;
+
+  OrderEngineerPart(this.orderQuantity, {this.version = 0});
 
   set selectedPartType(DropDownItem? value) {
     _selectedPartType = value;

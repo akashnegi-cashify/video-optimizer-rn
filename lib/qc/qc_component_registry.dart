@@ -16,6 +16,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/disputed_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/submit_device_quote_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_device_scanner_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/product_list_component.dart';
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_detail_component.dart';
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_list_component.dart';
 import 'package:flutter_trc/qc/modules/stock_in_module/components/media_file_upload_component.dart';
@@ -161,6 +162,9 @@ class QcComponentRegistry {
 
       case D2CVideoComponent.COMP_KEY:
         return D2CVideoComponent(jsonConfig);
+
+      case ProductListComponent.COMP_KEY:
+        return ProductListComponent(jsonConfig);
 
       default:
         return null;

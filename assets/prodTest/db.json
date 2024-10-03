@@ -621,6 +621,22 @@
       ]
     },
     {
+      "pageId": 47,
+      "pageKey": "TRC_part_request_reasons_screen",
+      "dt": [
+        {
+          "id": 80,
+          "key": "TRC_part_request_reasons_component",
+          "type": "component"
+        },
+        {
+          "id": 81,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -1318,6 +1334,21 @@
         },
         {
           "id": 10132,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10051,
+      "pageKey": "QC_product_list_screen",
+      "dt": [
+        {
+          "id": 10133,
+          "key": "QC_product_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10134,
           "key": "header_QC_qc_general"
         }
       ]
@@ -2331,6 +2362,28 @@
       }
     },
     {
+      "componentId": 80,
+      "locale": "en",
+      "key": "TRC_part_request_reasons_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 81,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part Request Reasons",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
       "componentId": 10001,
       "locale": "en",
       "key": "QC_qc_tester_home",
@@ -3228,6 +3281,29 @@
       "configJson": {
         "config": {
           "ht": "Generic Device Media",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10133,
+      "locale": "en",
+      "key": "QC_product_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10134,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Product List",
           "sbb": true,
           "slb": false
         }

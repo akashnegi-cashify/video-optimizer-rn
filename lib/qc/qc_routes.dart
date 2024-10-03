@@ -43,6 +43,7 @@ import 'modules/qc_actions/qc_action_screen.dart';
 import 'modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_screen.dart';
+import 'modules/qc_tester/lob_devices/screens/product_list_screen.dart';
 import 'modules/stock_in_module/screens/index.dart';
 import 'modules/store_out/screens/index.dart';
 
@@ -100,6 +101,7 @@ class QcRoutes {
       StorageDeviceListScreen.route: (_) => const StorageDeviceListScreen(),
       ImeiValidatorScreen.route: (_) => const ImeiValidatorScreen(),
       D2CVideoScreen.route: (_) => const D2CVideoScreen(),
+      ProductListScreen.route: (_) => const ProductListScreen(),
     };
   }
 }

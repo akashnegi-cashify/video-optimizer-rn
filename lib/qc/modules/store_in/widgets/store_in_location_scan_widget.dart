@@ -29,34 +29,27 @@ class StoreInLocationScanWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          FutureBuilder(
-              future: provider.isLoginFromQC(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.data == true) {
-                    return CshCard(
-                      margin: const EdgeInsets.only(bottom: Dimens.space_16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Validator.isTrue(provider.isLoginFromQC())
+              ? CshCard(
+                  margin: const EdgeInsets.only(bottom: Dimens.space_16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CshTextNew.subTitle2("${l10n.storageType}:"),
-                              CshTextNew.h3(provider.isBinStoreIn ? l10n.binStorage : l10n.storeIn),
-                            ],
-                          ),
-                          CshMediumOutlineButton(
-                            text: l10n.change,
-                            onPressed: () => _changeLocationType(context),
-                          ),
+                          CshTextNew.subTitle2("${l10n.storageType}:"),
+                          CshTextNew.h3(provider.isBinStoreIn ? l10n.binStorage : l10n.storeIn),
                         ],
                       ),
-                    );
-                  }
-                }
-                return const SizedBox.shrink();
-              }),
+                      CshMediumOutlineButton(
+                        text: l10n.change,
+                        onPressed: () => _changeLocationType(context),
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink(),
           Expanded(
             child: CshCard(
               child: Column(

@@ -13,6 +13,7 @@ import 'package:flutter_trc/src/common/searchable.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
+import 'package:flutter_trc/src/utils/media_upload/resource/sso_image_optimiser_service.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -99,7 +100,7 @@ class CompleteDispatchProvider extends CshChangeNotifier with Searchable {
     var completer = Completer<String>();
     try {
       String fileName = path.basename(file.path);
-      MediaUploadUtil()
+      MediaUploadUtil(service: SSOImageOptimizerService())
           .uploadMediaWithType(
         mediaFile: file,
         fileName: fileName,

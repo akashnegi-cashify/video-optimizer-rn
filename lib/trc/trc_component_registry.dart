@@ -11,6 +11,7 @@ import 'package:flutter_trc/src/modules/elss/components/part_selection_qc_compon
 import 'package:flutter_trc/src/modules/engineer/components/device_report_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/engineer_home_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/manage_parts_component.dart';
+import 'package:flutter_trc/src/modules/engineer/components/part_request_reasons_component.dart';
 import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/widgets/components/my_devices_component.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/components/wip_devices_details_comp.dart';
@@ -183,6 +184,9 @@ class TrcComponentRegistry {
 
       case DeviceReportComponent.COMP_KEY:
         return DeviceReportComponent(jsonConfig);
+
+      case PartRequestReasonsComponent.COMP_KEY:
+        return PartRequestReasonsComponent(jsonConfig);
       default:
         return null;
     }

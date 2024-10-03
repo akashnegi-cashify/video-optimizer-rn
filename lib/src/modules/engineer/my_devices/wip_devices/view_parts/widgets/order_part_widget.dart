@@ -4,6 +4,7 @@ import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/order_part_provider.dart';
+import 'package:flutter_trc/src/modules/engineer/screens/part_request_reasons_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../common/widgets/searchbar_widget.dart';
@@ -112,18 +113,29 @@ class _OrderPartWidget extends StatelessWidget {
   }
 
   _submitParts(BuildContext context, L10n l10n) {
-    CshLoading().showLoading(context);
-    context.read<OrderPartProvider>().orderParts(
-      l10n,
-      handleError: (errorMessage) {
-        CshLoading().hideLoading(context);
-        CshSnackBar.error(context: context, message: errorMessage);
-      },
-      callback: () {
-        CshLoading().hideLoading(context);
-        Navigator.pop(context, true);
-        CshSnackBar.success(context: context, message: l10n.partsOrderedSuccessfully);
-      },
+    Navigator.pushNamed(
+      context,
+      PartRequestReasonsScreen.route,
+      arguments: PartRequestReasonsScreenArg(
+        context.read<OrderPartProvider>().getSelectedPartList(),
+        onReasonsSubmitted: (partList) {
+          CshLoading().showLoading(context);
+          context.read<OrderPartProvider>().orderParts(
+            l10n,
+            partList: partList,
+            handleError: (errorMessage) {
+              CshLoading().hideLoading(context);
+              CshSnackBar.error(context: context, message: errorMessage);
+            },
+            callback: () {
+              CshLoading().hideLoading(context);
+              Navigator.pop(context); // dismiss the part request reason screen
+              Navigator.pop(context, true);
+              CshSnackBar.success(context: context, message: l10n.partsOrderedSuccessfully);
+            },
+          );
+        },
+      ),
     );
   }
 }

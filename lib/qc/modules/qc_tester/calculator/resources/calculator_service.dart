@@ -10,9 +10,10 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_subm
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/brand_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
@@ -25,8 +26,8 @@ abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
     initCalculatorService();
   }
 
-  Future<void> initCalculatorService() async {
-    var isLoginFromQc = await isLoginFromQC();
+  void initCalculatorService() {
+    var isLoginFromQc = isLoginFromQC();
     if (Validator.isTrue(isLoginFromQc)) {
       service = QcCalculatorService();
     } else {
@@ -37,9 +38,8 @@ abstract class CalculatorServiceInitProvider extends CshChangeNotifier {
 
   void onServiceInitialized() {}
 
-  Future<bool?> isLoginFromQC() async {
-    var loginType = await AppPreferences().getLoginType();
-    var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+  bool isLoginFromQC() {
+    var loginTypeEnum = LoginTypes.fromValue(AppPreferences().getLoginType() ?? "");
     return loginTypeEnum == LoginTypes.qcLogin;
   }
 }
@@ -108,20 +108,18 @@ abstract class CalculatorService {
     return service.get("/manaul-question/list?qrCode=$qrCode", ManualQuestionListResponse.fromJson);
   }
 
-  Stream<LobProductListResponse?> getProductList(
-      String? deviceBarcode, String? imei, String? serialNo, bool isManualSearch, int? categoryId) {
+  Stream<LobProductListResponse?> getProductList(String? deviceBarcode, int? brandId, int? categoryId,
+      {int? pageNo, int? pageSize, String? searchQuery}) {
     Map<String, dynamic> req = {
       "qr": deviceBarcode,
-      "im": isManualSearch,
-      "cat_id": categoryId.toString(),
+      "cid": categoryId,
+      "bid": brandId,
+      "os": pageNo,
+      "ps": pageSize,
+      if (!Validator.isNullOrEmpty(searchQuery)) "pn": searchQuery,
     };
-    if (!Validator.isNullOrEmpty(imei)) {
-      req["imei"] = imei;
-    } else {
-      req["sno"] = serialNo;
-    }
 
-    return service.post("/manual-test/search-device", LobProductListResponse.fromJson, body: jsonEncode(req));
+    return service.post("/manual-test/product/list", LobProductListResponse.fromJson, body: jsonEncode(req));
   }
 
   Stream<MyCalculatorResponse?> getLobCalculator(
@@ -158,7 +156,17 @@ abstract class CalculatorService {
     return service.post("/device/mismatch/report/save", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
-  Stream<VariantListResponse?> getVariantList(int? productId) {
-    return service.get("/manual-test/variant/$productId", VariantListResponse.fromJson);
+  Stream<VariantListResponse?> getVariantList(int? productId, {int? pageNo, int? pageSize, String? searchQuery}) {
+    Map<String, dynamic> req = {
+      "pdid": productId,
+      "os": pageNo,
+      "ps": pageSize,
+      if (!Validator.isNullOrEmpty(searchQuery)) "pn": searchQuery,
+    };
+    return service.post("/manual-test/search/variant", VariantListResponse.fromJson, body: jsonEncode(req));
+  }
+
+  Stream<BrandListResponse?> getBrandList(String? categoryId) {
+    return service.get("/manual-test/brand/list/$categoryId", BrandListResponse.fromJson);
   }
 }

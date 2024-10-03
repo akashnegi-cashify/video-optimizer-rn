@@ -18,6 +18,7 @@ class GeneralImageUploadCard extends StatelessWidget {
   final String? imageUrl;
   final bool isImageMarkingRequired;
   final VoidCallback? onMediaUploadingStarted;
+  final VoidCallback? onImageDelete;
 
   const GeneralImageUploadCard({
     super.key,
@@ -26,6 +27,7 @@ class GeneralImageUploadCard extends StatelessWidget {
     this.cardWidth,
     this.imageUrl,
     this.onMediaUploadingStarted,
+    this.onImageDelete,
     this.isImageMarkingRequired = false,
   });
 
@@ -47,31 +49,48 @@ class GeneralImageUploadCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CshCard(
-            padding: EdgeInsets.zero,
-            elevation: CardElevation.dimen_10,
-            radius: CshRadius.rad8,
-            child: Container(
-              height: cardHeight ?? Dimens.space_60,
-              width: cardWidth ?? Dimens.space_60,
-              alignment: Alignment.center,
-              child: provider.isDataLoading
-                  ? const Center(
-                      child: SizedBox(
-                        height: Dimens.space_20,
-                        width: Dimens.space_20,
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  : Validator.isNullOrEmpty(imageUrl)
-                      ? CshIcon(
-                          FeatherIcons.camera,
-                          iconSize: MobileIconSize.large,
-                          iconColor: theme.shadowColor,
+          Stack(
+            children: [
+              CshCard(
+                padding: EdgeInsets.zero,
+                elevation: CardElevation.dimen_10,
+                radius: CshRadius.rad8,
+                child: Container(
+                  height: cardHeight ?? Dimens.space_60,
+                  width: cardWidth ?? Dimens.space_60,
+                  alignment: Alignment.center,
+                  child: provider.isDataLoading
+                      ? const Center(
+                          child: SizedBox(
+                            height: Dimens.space_20,
+                            width: Dimens.space_20,
+                            child: CircularProgressIndicator(),
+                          ),
                         )
-                      : fetchImage(ImageAssetHelper.imagePath("placeholder.png"), imageUrl,
-                          fit: BoxFit.contain, isUseCacheImage: true),
-            ),
+                      : Validator.isNullOrEmpty(imageUrl)
+                          ? CshIcon(
+                              FeatherIcons.camera,
+                              iconSize: MobileIconSize.large,
+                              iconColor: theme.shadowColor,
+                            )
+                          : fetchImage(ImageAssetHelper.imagePath("placeholder.png"), imageUrl,
+                              fit: BoxFit.contain, isUseCacheImage: true),
+                ),
+              ),
+              if (onImageDelete != null && !Validator.isNullOrEmpty(provider.s3Url))
+                Positioned(
+                    top: Dimens.space_4,
+                    right: Dimens.space_4,
+                    child: CshIcon(
+                      FeatherIcons.xCircle,
+                      iconColor: Colors.red,
+                      iconSize: MobileIconSize.medium,
+                      onClick: () {
+                        provider.clearImage();
+                        onImageDelete?.call();
+                      },
+                    )),
+            ],
           ),
         ],
       ),

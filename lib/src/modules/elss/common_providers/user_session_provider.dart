@@ -21,10 +21,8 @@ class UserSessionProvider extends CshChangeNotifier {
       case LoginTypes.qcLogin:
         return ElssService.qcLogout();
       case LoginTypes.rmsLogin:
-        return ElssService.rmsLogout();
       case LoginTypes.shipexLogin:
-        // in shepex, we are not calling any logout api
-        return null;
+        return ElssService.consoleLogout();
     }
   }
 

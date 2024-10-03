@@ -27,7 +27,16 @@ class VariantListData {
   @JsonKey(name: 'name')
   String? name;
 
-  VariantListData(this.id, this.name);
+  @JsonKey(name: 'commonName')
+  String? commonName;
+
+  @JsonKey(name: 'screenSize')
+  String? screenSize;
+
+  @JsonKey(name: 'processor')
+  String? processor;
+
+  VariantListData(this.id, this.name, this.commonName, this.screenSize, this.processor);
 
   static VariantListData fromJson(Map<String, dynamic> json) => _$VariantListDataFromJson(json);
 

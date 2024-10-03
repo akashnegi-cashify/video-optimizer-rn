@@ -17,8 +17,26 @@ class VariantListItemWidget extends StatelessWidget {
         }
       },
       child: CshCard(
-        child: CshTextNew.subTitle1(item.name ?? ""),
+        child: Column(
+          children: [
+            buildValues(context, "Model", item.commonName ?? "Not found"),
+            buildValues(context, "Screen Size", item.screenSize ?? ""),
+            buildValues(context, "Processor", item.processor ?? ""),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget buildValues(BuildContext context, String key, String value) {
+    var theme = Theme.of(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(flex: 2, fit: FlexFit.tight, child: Text(key, style: theme.textTheme.headlineSmall)),
+        const SizedBox(width: Dimens.space_8),
+        Flexible(flex: 4, fit: FlexFit.tight, child: Text(value, style: theme.textTheme.headlineMedium, maxLines: 2))
+      ],
     );
   }
 }

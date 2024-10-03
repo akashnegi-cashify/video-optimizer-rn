@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/login/providers/login_provider.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
+import 'package:flutter_trc/src/modules/login/widgets/console_login_widget.dart';
 import 'package:flutter_trc/src/modules/login/widgets/qc_login_widget.dart';
-import 'package:flutter_trc/src/modules/login/widgets/rms_login_widget.dart';
 import 'package:flutter_trc/src/modules/login/widgets/trc_login_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -41,8 +41,8 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
               _buildLoginHeading(context, widget.loginType!),
               if (widget.loginType == LoginTypes.qcLogin) const QcLoginWidget(loginType: LoginTypes.qcLogin),
               if (widget.loginType == LoginTypes.trcLogin) const TrcLoginWidget(),
-              if (widget.loginType == LoginTypes.shipexLogin) const QcLoginWidget(loginType: LoginTypes.shipexLogin),
-              if (widget.loginType == LoginTypes.rmsLogin) const RmsLoginWidget(),
+              if (widget.loginType == LoginTypes.shipexLogin) const ConsoleLoginWidget(LoginTypes.shipexLogin),
+              if (widget.loginType == LoginTypes.rmsLogin) const ConsoleLoginWidget(LoginTypes.rmsLogin),
             ],
           ),
         );
@@ -51,7 +51,7 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
   }
 
   Widget _buildLoginHeading(BuildContext context, LoginTypes loginType) {
-    if (loginType == LoginTypes.rmsLogin) {
+    if (loginType == LoginTypes.rmsLogin || loginType == LoginTypes.shipexLogin) {
       return const SizedBox.shrink();
     }
 
