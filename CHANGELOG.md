@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.4.1+55 (XX-10-2024)
+
+### Feature and Improvements:
+
+* `Allow barcode search on pre dispatch page`[(SCM-7551)](https://reglobe.atlassian.net/browse/SCM-7551)
+
+
 # v3.4.0+54 (03-10-2024)
 
 ### Feature and Improvements:
