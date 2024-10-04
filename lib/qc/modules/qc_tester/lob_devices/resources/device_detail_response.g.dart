@@ -42,6 +42,7 @@ DeviceDetailResponseData _$DeviceDetailResponseDataFromJson(
         (k, e) => MapEntry(k, (e as num).toInt()),
       ),
       json['idia'] as bool?,
+      (json['br_id'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DeviceDetailResponseDataToJson(
@@ -55,6 +56,7 @@ Map<String, dynamic> _$DeviceDetailResponseDataToJson(
       'cat': instance.categoryList,
       'rm': instance.reasons,
       'idia': instance.isDeviceImeiApproved,
+      'br_id': instance.brandId,
     };
 
 CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) => CategoryData(

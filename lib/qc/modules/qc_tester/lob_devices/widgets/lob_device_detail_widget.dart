@@ -67,7 +67,9 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
 
     if (_selectedCategory != null) {
       var provider = LobDeviceScannerProvider.of(context, listen: false);
-      provider.getBrandList(_selectedCategory!.id!);
+      provider.getBrandList(_selectedCategory!.id!).whenComplete(() {
+        _selectedBrand = provider.selectedBrand;
+      });
     }
 
     AnalyticsController.logEvent(DeviceVerifyPopupEvent(widget.scannedData, _selectedCategory?.id));
@@ -102,6 +104,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                       () {
                         setState(() {
                           _selectedCategory = value;
+                          _selectedBrand = provider.selectedBrand;
                         });
                       },
                     );
