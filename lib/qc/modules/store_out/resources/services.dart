@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/qc/modules/store_out/resources/store_out_in_process_response.dart';
 
 import '../../../../src/common/resources/lot_list_request.dart';
 import 'index.dart';
@@ -59,5 +60,12 @@ class StoreOutServices {
     var header = service.getHeaders(null);
     return service.post("/store-out/v2/device", NormalLotVerifyResponse.fromJson,
         body: jsonEncode(request), headers: header);
+  }
+
+  static Stream<StoreOutInProcessResponse?> getStoreOutInProcessStatus(int? lotId, {required BaseService service}) {
+    return service.get(
+      "/store-out/v2/store-out-status?lid=$lotId",
+      StoreOutInProcessResponse.fromJson,
+    );
   }
 }

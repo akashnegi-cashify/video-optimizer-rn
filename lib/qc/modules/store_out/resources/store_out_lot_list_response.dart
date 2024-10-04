@@ -31,6 +31,9 @@ class StoreOutLotListItem {
 
   Map<String, dynamic> toJson() => _$StoreOutLotListItemToJson(this);
 
+  @JsonKey(name: 'lid')
+  int? lotId;
+
   @JsonKey(name: 'lc')
   int? lotCount;
 
@@ -46,11 +49,16 @@ class StoreOutLotListItem {
   @JsonKey(name: 'dc')
   int? deviceCount;
 
+  @JsonKey(name: 'isinstout')
+  bool? isStoreOutInProcess;
+
   StoreOutLotListItem({
+    this.lotId,
     this.lotCount,
     this.lotGrpName,
     this.lotType,
     this.ch,
     this.deviceCount,
+    this.isStoreOutInProcess,
   });
 }
