@@ -30,12 +30,13 @@ class ConsoleLoginWidget extends StatelessWidget {
             serviceVersion: "v1",
             enterMobileNumberTitle: loginType == LoginTypes.rmsLogin ? "RMS Login" : "Shipex Login",
             companyName: "cashify",
+            otpEventKey: "otp_oms_event_active",
             isCompanyNameEditable: true,
             enterMobileNumberSubTitle: l10n.pleaseEnterCredentials,
             mfaBypassClientId: "sales-rms:epoch",
             versionNumber: "",
             loginType: LoginType.mobile,
-            onSubmit: (userAuth, mobileNumber, mode, pin, {companyKey}) async {
+            onSubmit: (userAuth, mobileNumber, mode, pin, {required companyKey}) async {
               Logger.debug('mydebug-----_RmsLoginWidgetState.build', [
                 'userAuth',
                 userAuth,
