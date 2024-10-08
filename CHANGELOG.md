@@ -1,5 +1,13 @@
 # TRC Releases
 
+# v3.4.1+55 (XX-10-2024)
+
+### Feature and Improvements:
+
+* `Email based otp from Console`[(SCM-7716)](https://reglobe.atlassian.net/browse/SCM-7716)
+* `QC/TRC - Manual Testing - Brand is not auto-picked at the time of testing`[(SCM-7711)](https://reglobe.atlassian.net/browse/SCM-7711)
+
+
 # v3.4.0+54 (03-10-2024)
 
 ### Feature and Improvements:
