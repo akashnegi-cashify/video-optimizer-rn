@@ -22,7 +22,6 @@ class MediaFileUploadScreenArguments extends BaseArguments {
   params: MediaFileUploadCompParamKeys.values,
   pageGroup: QcPageGroup.qcMediaFileUploadPageKey
 )
-// todo ask page grp
 
 class MediaFileUploadScreen extends BaseScreen<MediaFileUploadScreenArguments> {
   static const String pageKey = "QC_qc_media_file_upload";

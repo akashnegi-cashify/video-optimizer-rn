@@ -14,7 +14,7 @@ import '../resources/services.dart';
 class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
   bool _showSearchBox = false;
   List<int>? _selectedLotTypeList;
-  bool _isStoreOutInProgress = true;
+  bool _isStoreOutInProgress = false;
 
   bool get isStoreOutInProgress => _isStoreOutInProgress;
 
@@ -41,6 +41,7 @@ class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
       pageSize: offset,
       filterMap: FilterMap(
           searchQuery: searchQuery,
+          isStoreOut: _isStoreOutInProgress ? 1 : 0,
           lotType: Validator.isListNullOrEmpty(_selectedLotTypeList) ? null : _selectedLotTypeList),
     );
     StoreOutServices.fetchStoreOutLotList(request, service: service).listen(
@@ -105,7 +106,6 @@ class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
 
   List<int>? get selectedLotTypeList => _selectedLotTypeList;
 
-  // TODO: need to check this method is working or not
   void refreshLotList() {
     _selectedLotTypeList?.clear();
     setSearchQuery("");

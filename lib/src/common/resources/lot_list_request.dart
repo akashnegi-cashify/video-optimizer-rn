@@ -28,9 +28,13 @@ class FilterMap {
   @JsonKey(name: "lt", includeIfNull: false)
   List<int>? lotType;
 
+  @JsonKey(name: "iso", includeIfNull: false)
+  int? isStoreOut;
+
   FilterMap({
     this.searchQuery,
     this.lotType,
+    this.isStoreOut,
   });
 
   static FilterMap fromJson(Map<String, dynamic> data) => _$FilterMapFromJson(data);

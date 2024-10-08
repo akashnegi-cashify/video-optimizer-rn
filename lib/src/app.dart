@@ -39,8 +39,6 @@ class _CashifyAppState extends State<CashifyApp> {
   final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: true);
   GlobalKey<NavigatorState>? _navKey = GlobalKey<NavigatorState>();
 
-  // StreamSubscription<ConnectivityResult>? _connectionSubscription;
-
   @override
   void initState() {
     super.initState();
@@ -51,31 +49,6 @@ class _CashifyAppState extends State<CashifyApp> {
 
     SessionExpiredCallback().setCallback(onSessionExpire);
     CashifyAlertHandler().setAlertCallback(registerAlert);
-
-    // _connectionSubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
-    //   switch (result) {
-    //     case ConnectivityResult.none:
-    //       // TODO: Dev Action Required -> show no internet ui
-    //       // Navigator.pushReplacementNamed(_navKey.currentState.context, NoInternetScreen.routeName);
-    //       break;
-    //
-    //     case ConnectivityResult.wifi:
-    //     case ConnectivityResult.mobile:
-    //       // TODO: Dev Action Required -> Pass the NoInternetScreen route name
-    //       if (_navKey != null && _navKey!.currentContext != null) {
-    //         CshRouteObserver().openScreenBeforeInternetError(_navKey!.currentContext!, '' /* Route name */);
-    //       }
-    //       break;
-    //     case ConnectivityResult.bluetooth:
-    //       break;
-    //     case ConnectivityResult.ethernet:
-    //       break;
-    //     case ConnectivityResult.vpn:
-    //       break;
-    //     case ConnectivityResult.other:
-    //       break;
-    //   }
-    // });
   }
 
   Future<String> onSessionExpire() async {

@@ -36,10 +36,9 @@ class PreDispatchLotProvider extends CshChangeNotifier {
       filterMap = FilterMap(searchQuery: _lotName);
     }
 
-    // TODO: Implement the following logic
     if (!Validator.isNullOrEmpty(_barcode)) {
       filterMap = filterMap ?? FilterMap();
-      filterMap.searchQuery = _barcode;
+      filterMap.barcode = _barcode;
     }
 
     if (!Validator.isListNullOrEmpty(lotTypeQuery)) {

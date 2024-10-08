@@ -26,7 +26,6 @@ class StockInProductDetailScreenArguments extends BaseArguments {
   params: ProductDetailCompParamKeys.values,
   pageGroup: QcPageGroup.qcStockInProductDetailPageKey
 )
-// todo ask page grp
 
 class StockInProductDetailScreen extends BaseScreen<StockInProductDetailScreenArguments> {
   static const String pageKey = "QC_qc_stock_in_product_detail";
