@@ -8,9 +8,13 @@ part of 'reason_list_response.dart';
 
 ReasonListResponse _$ReasonListResponseFromJson(Map<String, dynamic> json) =>
     ReasonListResponse(
-      (json['dt'] as List<dynamic>?)
-          ?.map((e) => ReasonListData.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      (json['dt'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+            k,
+            (e as List<dynamic>)
+                .map((e) => ReasonListData.fromJson(e as Map<String, dynamic>))
+                .toList()),
+      ),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -21,7 +25,7 @@ Map<String, dynamic> _$ReasonListResponseToJson(ReasonListResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'dt': instance.reasonList,
+      'dt': instance.reasonsMap,
     };
 
 ReasonListData _$ReasonListDataFromJson(Map<String, dynamic> json) =>

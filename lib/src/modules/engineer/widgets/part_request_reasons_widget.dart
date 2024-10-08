@@ -105,7 +105,7 @@ class _PartRequestReasonItemState extends State<_PartRequestReasonItem> {
           CshTextNew.subTitle2(widget.item.partColor ?? ""),
           const SizedBox(height: Dimens.space_16),
           CshDropDown(
-            items: provider.reasonsDropdownList,
+            items: provider.getReasonsAccToCategoryCode(widget.item.categoryCode ?? ""),
             selectedItem: _selectedItem,
             onChanged: (DropDownItem<ReasonListData> value) {
               setState(() {

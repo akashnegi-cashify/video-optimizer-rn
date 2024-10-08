@@ -12,8 +12,7 @@ import 'package:provider/provider.dart';
 class PartRequestReasonsProvider extends CshChangeNotifier {
   List<OrderEngineerPart> partRequestList = [];
 
-  List<ReasonListData>? _reasonsList;
-  List<DropDownItem<ReasonListData>> reasonsDropdownList = [];
+  Map<String, List<ReasonListData>>? _categoryReasonsMap;
   String? reasonListError;
   bool isPageLoading = true;
 
@@ -63,10 +62,7 @@ class PartRequestReasonsProvider extends CshChangeNotifier {
   Future<void> _getReasonList() {
     var completer = Completer<void>();
     EngineerAPIService.getPartRequestReasonList().listen((event) {
-      _reasonsList = event?.reasonList;
-      reasonsDropdownList = _reasonsList!
-          .map((e) => DropDownItem<ReasonListData>(e.reasonId.toString(), e.reason, extraData: e))
-          .toList();
+      _categoryReasonsMap = event?.reasonsMap;
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
@@ -95,8 +91,9 @@ class PartRequestReasonsProvider extends CshChangeNotifier {
       if (item.reasonId == null) {
         return false;
       }
+      var reasonsList = _categoryReasonsMap?[item.categoryCode];
       bool isImageRequired =
-          _reasonsList?.firstWhere((element) => element.reasonId == item.reasonId).isImageRequired ?? false;
+          reasonsList?.firstWhere((element) => element.reasonId == item.reasonId).isImageRequired ?? false;
 
       /// If reasons is selected but image is required and not uploaded
       if (isImageRequired && Validator.isListNullOrEmpty(item.imageList)) {
@@ -119,6 +116,15 @@ class PartRequestReasonsProvider extends CshChangeNotifier {
       }
     }
     return partRequestList;
+  }
+
+  List<DropDownItem<ReasonListData>>? getReasonsAccToCategoryCode(String categoryCode) {
+    if (_categoryReasonsMap == null) {
+      return [];
+    }
+
+    var reasonList = _categoryReasonsMap?[categoryCode];
+    return reasonList?.map((e) => DropDownItem<ReasonListData>(e.reasonId.toString(), e.reason ?? "", extraData: e)).toList();
   }
 }
 

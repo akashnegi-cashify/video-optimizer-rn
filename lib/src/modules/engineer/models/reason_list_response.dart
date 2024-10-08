@@ -5,11 +5,10 @@ part 'reason_list_response.g.dart';
 
 @JsonSerializable()
 class ReasonListResponse extends BaseResponse {
-
   @JsonKey(name: 'dt')
-  List<ReasonListData>? reasonList;
+  Map<String, List<ReasonListData>>? reasonsMap;
 
-  ReasonListResponse(this.reasonList, super.cashifyAlert, super.trackUrl);
+  ReasonListResponse(this.reasonsMap, super.cashifyAlert, super.trackUrl);
 
   static ReasonListResponse fromJson(Map<String, dynamic> json) => _$ReasonListResponseFromJson(json);
 
@@ -19,7 +18,6 @@ class ReasonListResponse extends BaseResponse {
 
 @JsonSerializable()
 class ReasonListData {
-
   @JsonKey(name: 'rrid')
   int? reasonId;
 
