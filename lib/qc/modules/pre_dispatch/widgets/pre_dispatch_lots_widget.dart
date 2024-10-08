@@ -46,11 +46,17 @@ class _PreDispatchLotsWidgetState extends PaginatedListState<PreDispatchLotInfo,
           },
         ),
         Expanded(
-          child: iterate((item, index) => PreDispatchLotWidget(
-                lot: item,
-                index: index,
-                onItemClick: () => _onItemClick(context, index: index, l10n: l10n),
-              )),
+          child: iterate(
+            (item, index) => PreDispatchLotWidget(
+              lot: item,
+              index: index,
+              onItemClick: () => _onItemClick(context, index: index, l10n: l10n),
+            ),
+            onNoDataFound: () => Padding(
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              child: CshTextNew.subTitle1(l10n.noLotFound),
+            ),
+          ),
         ),
       ],
     );
