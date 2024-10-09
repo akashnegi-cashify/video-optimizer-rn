@@ -1,8 +1,15 @@
 # TRC Releases
 
-# v3.4.1+55 (XX-10-2024)
+# v3.4.2+56 (09-10-2024)
 
-### Feature and Improvements:
+### Hot fix:
+
+* `Change client key for console login`[(SCM-7761)](https://reglobe.atlassian.net/browse/SCM-7761)
+
+
+# v3.4.1+55 (08-10-2024)
+
+### Hotfix and Improvements:
 
 * `Email based otp from Console`[(SCM-7716)](https://reglobe.atlassian.net/browse/SCM-7716)
 * `QC/TRC - Manual Testing - Brand is not auto-picked at the time of testing`[(SCM-7711)](https://reglobe.atlassian.net/browse/SCM-7711)
