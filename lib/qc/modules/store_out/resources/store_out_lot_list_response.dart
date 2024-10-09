@@ -31,7 +31,7 @@ class StoreOutLotListItem {
 
   Map<String, dynamic> toJson() => _$StoreOutLotListItemToJson(this);
 
-  @JsonKey(name: 'lid')
+  @JsonKey(name: 'lot_id')
   int? lotId;
 
   @JsonKey(name: 'lc')

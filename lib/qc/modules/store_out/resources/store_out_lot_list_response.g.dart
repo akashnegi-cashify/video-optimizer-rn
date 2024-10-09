@@ -26,7 +26,7 @@ Map<String, dynamic> _$StoreOutLotListResponseToJson(
 
 StoreOutLotListItem _$StoreOutLotListItemFromJson(Map<String, dynamic> json) =>
     StoreOutLotListItem(
-      lotId: (json['lid'] as num?)?.toInt(),
+      lotId: (json['lot_id'] as num?)?.toInt(),
       lotCount: (json['lc'] as num?)?.toInt(),
       lotGrpName: json['lgn'] as String?,
       lotType: json['lt'] as String?,
@@ -38,7 +38,7 @@ StoreOutLotListItem _$StoreOutLotListItemFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$StoreOutLotListItemToJson(
         StoreOutLotListItem instance) =>
     <String, dynamic>{
-      'lid': instance.lotId,
+      'lot_id': instance.lotId,
       'lc': instance.lotCount,
       'lgn': instance.lotGrpName,
       'lt': instance.lotType,
