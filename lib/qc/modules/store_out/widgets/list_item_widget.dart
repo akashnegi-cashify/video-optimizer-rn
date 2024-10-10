@@ -29,7 +29,7 @@ class ListItemWidget extends StatelessWidget {
     var valueTextStyle = theme.primaryTextTheme.headlineMedium;
 
     return CshCard(
-      bgColor: isInProcess ? theme.colorScheme.error.withAlpha(40) : null,
+      bgColor: isInProcess ? theme.colorScheme.error.withAlpha(200) : null,
       padding: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
