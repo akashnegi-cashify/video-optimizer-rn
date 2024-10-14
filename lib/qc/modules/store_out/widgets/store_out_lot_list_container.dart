@@ -24,6 +24,7 @@ class StoreOutLotListContainer extends StatelessWidget {
       CshLoading().hideLoading(context);
       if (value) {
         showInProgressDialog(context, onProceed: () {
+          Navigator.pop(context);
           onItemClick?.call(lotName);
         }, onCancel: () {
           listKey.currentState?.resetAndRefreshScreen();
