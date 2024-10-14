@@ -14,10 +14,10 @@ import 'package:flutter_trc/src/common/utils/disk_util.dart';
 import 'package:flutter_trc/src/common/video_compression_mixin.dart';
 import 'package:flutter_trc/src/common/video_recording_error_handling_mixin.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
+import 'package:flutter_trc/src/libraries/logging/logging_service.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 const int _DEFAULT_VIDEO_TIMER = 600;
-const int _VIDEO_NOT_INITIALIZED_TIMER = 3;
 
 abstract interface class VideoRecordingListener {
   onVideoRecorded(File file);
@@ -26,8 +26,9 @@ abstract interface class VideoRecordingListener {
 class VideoRecorderArguments {
   bool isVideoCompressionEnabled;
   VideoRecordingListener listener;
+  final String? barcode;
 
-  VideoRecorderArguments(this.listener, {this.isVideoCompressionEnabled = true});
+  VideoRecorderArguments(this.listener, {this.isVideoCompressionEnabled = true, this.barcode});
 }
 
 class VideoRecorderWidget extends StatefulWidget {
@@ -41,10 +42,12 @@ class VideoRecorderWidget extends StatefulWidget {
 
 class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
     with VideoRecordingErrorHandlingMixin, VideoCompressionMixin {
+  final StreamController<bool> _recordingController = StreamController.broadcast();
+
   bool _isLoading = true;
-  bool _isRecording = false;
+  String? barcode;
   bool _isCompressionStarted = false;
-  late CameraController? _cameraController;
+  late CameraController _cameraController;
   late int _videoRecorderTimeInSeconds;
   final GlobalKey<TimerWidgetState> timerWidgetKey = GlobalKey<TimerWidgetState>();
 
@@ -62,10 +65,13 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
     _videoRecorderTimeInSeconds = RemoteConfigHelper().getInt(AppRemoteConfig.KEY_VIDEO_RECORD_DURATION_IN_SEC);
     scheduleMicrotask(() {
       DiskUtil.getDeviceStorageInfo(isGb: true).then((value) {
+        _logs("Available space is $value GB", LogType.info);
         if ((value ?? 0) > 1) {
+          _logs("Comes in available space", LogType.info);
           Future.delayed(const Duration(milliseconds: 500), () => _getAvailableCamera());
           WakelockPlus.enable();
         } else {
+          _logs("Comes in not available space", LogType.error);
           showInSufficientStorageDialog(context, onProceed: () {
             Navigator.of(context).pop(); // dismiss dialog
             Navigator.of(context).pop(); // back to previous screen
@@ -73,8 +79,9 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
         }
       });
     });
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
+        _logs("Setting focus on stop video button", LogType.info);
         FocusScope.of(context).requestFocus(_stopVideoFocusNode);
       }
     });
@@ -83,11 +90,19 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
 
   void _getAvailableCamera() {
     availableCameras().then((cameras) {
+      _logs("availableCameras successfully initialized", LogType.success);
       final backCamera = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.back);
-      _cameraController = CameraController(backCamera, ResolutionPreset.medium,
-          imageFormatGroup: ImageFormatGroup.nv21, enableAudio: false);
+      _cameraController = CameraController(
+        backCamera,
+        ResolutionPreset.medium,
+        imageFormatGroup: ImageFormatGroup.nv21,
+        enableAudio: false,
+      );
+      _logs("Camera controller successfully created", LogType.success);
+      _cameraController.addListener(() => _recordingController.add(_cameraController.value.isRecordingVideo));
       _initCamera();
     }).catchError((error) {
+      _logs("Error in availableCameras $error", LogType.error);
       showCameraNotAvailableDialog(context, message: error.toString(), onTryAgain: () {
         Navigator.of(context).pop(); // dismiss dialog
         _getAvailableCamera();
@@ -97,10 +112,12 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
   }
 
   _initCamera() {
-    _cameraController!.initialize().then((value) {
-      _startVideoRecording();
+    _cameraController.initialize().then((value) {
+      _logs("Camera controller successfully initialized", LogType.success);
+      Future.delayed(const Duration(seconds: 1), () => _startVideoRecording());
       setState(() => _isLoading = false);
     }).catchError((error) {
+      _logs("Error in Camera controller initialized $error", LogType.error);
       showCameraInitializationErrorDialog(context, message: error.toString(), onTryAgain: () {
         Navigator.of(context).pop(); // dismiss dialog
         _initCamera();
@@ -113,19 +130,23 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
   }
 
   _stopVideoRecording() async {
-    if (_cameraController?.value.isRecordingVideo == true) {
-      _cameraController!.stopVideoRecording().then((file) {
-        _cameraController!.pausePreview();
+    _logs("Calling _stopVideoRecording isRecordingVideo- ${_cameraController.value.isRecordingVideo}", LogType.info);
+    if (_cameraController.value.isRecordingVideo == true) {
+      _cameraController.stopVideoRecording().then((file) {
+        _logs("StopVideoRecording successfully called", LogType.success);
+        _cameraController.pausePreview();
+        _logs("PausePreview successfully called", LogType.success);
         _resetTimers();
-        setState(() => _isRecording = false);
         _sendFileToListener(file);
       }).catchError((error) {
+        _logs("Error in stopVideoRecording $error", LogType.error);
         showStopVideoErrorDialog(context, message: error.toString(), onTryAgain: () {
           Navigator.of(context).pop(); // dismiss dialog
           _stopVideoRecording();
         });
       });
     } else {
+      _logs("Else part of isRecordingVideo  ${_cameraController.value.isRecordingVideo}", LogType.error);
       showStopVideoErrorDialog(
         context,
         message: "Recording is already closed. Please create new video",
@@ -138,24 +159,22 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
   }
 
   _startVideoRecording() async {
-    if (_cameraController != null) {
-      try {
-        await _cameraController!.prepareForVideoRecording();
-        await _cameraController!.startVideoRecording();
-        timerWidgetKey.currentState?.startTimer();
-        if (mounted) {
-          setState(() => _isRecording = true);
-        }
-      } on CameraException catch (e) {
-        handleException(context, error: e, onRetry: _startVideoRecording);
-      } catch (e) {
-        if (mounted) {
-          showCameraPrepareErrorDialog(context, title: "Video Recording Error!!", message: e.toString(),
-              onTryAgain: () {
-            Navigator.pop(context);
-            _startVideoRecording();
-          });
-        }
+    try {
+      await _cameraController.prepareForVideoRecording();
+      _logs("PrepareForVideoRecording successfully initialized", LogType.success);
+      await _cameraController.startVideoRecording();
+      _logs("StartVideoRecording successfully initialized", LogType.success);
+      timerWidgetKey.currentState?.startTimer();
+    } on CameraException catch (e) {
+      _logs("CameraException in startVideoRecording $e", LogType.error);
+      handleException(context, error: e, onRetry: _startVideoRecording);
+    } catch (e) {
+      _logs("Catch error in startVideoRecording $e", LogType.error);
+      if (mounted) {
+        showCameraPrepareErrorDialog(context, title: "Video Recording Error!!", message: e.toString(), onTryAgain: () {
+          Navigator.pop(context);
+          _startVideoRecording();
+        });
       }
     }
   }
@@ -163,6 +182,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
   @override
   Widget build(BuildContext context) {
     VideoRecorderArguments? arg = ModalRoute.of(context)?.settings.arguments as VideoRecorderArguments?;
+    barcode = arg?.barcode;
     ThemeData theme = Theme.of(context);
     assert(arg != null);
     _listener ??= arg!.listener;
@@ -176,10 +196,10 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
       );
     } else {
       return PopScope(
-        canPop: (_isRecording || _isCompressionStarted) ? false : true,
+        canPop: (_cameraController.value.isRecordingVideo || _isCompressionStarted) ? false : true,
         onPopInvoked: (didPop) {
           if (!didPop) {
-            if (_isRecording) {
+            if (_cameraController.value.isRecordingVideo) {
               CshSnackBar.error(
                   context: context, message: "Video Recording is in progress", snackBarPosition: SnackBarPosition.TOP);
             }
@@ -194,19 +214,18 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
           body: Center(
             child: Stack(
               children: [
-                if (_cameraController != null)
-                  CameraPreview(
-                    _cameraController!,
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return GestureDetector(
-                          onTapDown: (details) {
-                            onViewFinderTap(details, constraints);
-                          },
-                        );
-                      },
-                    ),
+                CameraPreview(
+                  _cameraController,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return GestureDetector(
+                        onTapDown: (details) {
+                          onViewFinderTap(details, constraints);
+                        },
+                      );
+                    },
                   ),
+                ),
                 Positioned(
                   top: Dimens.space_24,
                   left: 0,
@@ -214,7 +233,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TimerWidget(_videoRecorderTimeInSeconds, key: timerWidgetKey, onTimerEnd: () {
+                      TimerWidget(_videoRecorderTimeInSeconds, barcode: barcode, key: timerWidgetKey, onTimerEnd: () {
                         _stopVideoRecording();
                       }),
                     ],
@@ -242,8 +261,8 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
       details.localPosition.dx / constraints.maxWidth,
       details.localPosition.dy / constraints.maxHeight,
     );
-    _cameraController?.setExposurePoint(offset);
-    _cameraController?.setFocusPoint(offset);
+    _cameraController.setExposurePoint(offset);
+    _cameraController.setFocusPoint(offset);
   }
 
   _sendFileToListener(XFile xFile) async {
@@ -253,10 +272,13 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
           _isCompressionStarted = true;
         });
 
+        _logs("Compression started", LogType.info);
         compressVideo(xFile.path, timerWidgetKey.currentState!.getVideoTimeInSec()).then((compressedVideoPath) {
+          _logs("Compression successfully completed", LogType.success);
           Navigator.pop(context);
           _listener?.onVideoRecorded(File(compressedVideoPath));
         }, onError: (error) async {
+          _logs("Error in Compression $error", LogType.error);
           var file = File(xFile.path);
           if (xFile.path.contains(".temp")) {
             file = await _getRenamedFile(xFile.path);
@@ -265,6 +287,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
           _listener?.onVideoRecorded(file);
         });
       } catch (e) {
+        _logs("Catch in Compression $e", LogType.error);
         if (mounted) {
           var file = File(xFile.path);
           if (xFile.path.contains(".temp")) {
@@ -283,18 +306,25 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
   }
 
   _buildRecordButton(ThemeData theme) {
-    return FloatingActionButton(
-      backgroundColor: theme.colorScheme.error,
-      focusNode: _stopVideoFocusNode,
-      onPressed: _isCompressionStarted ? null : () => _isRecording ? _stopVideoRecording() : _startVideoRecording(),
-      child: Icon((_isRecording || _isCompressionStarted) ? Icons.stop : Icons.play_arrow),
+    return StreamBuilder<bool>(
+      stream: _recordingController.stream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        bool isRecording = snapshot.data ?? false;
+        return FloatingActionButton(
+          backgroundColor: theme.colorScheme.error,
+          focusNode: _stopVideoFocusNode,
+          onPressed: _isCompressionStarted ? null : () => isRecording ? _stopVideoRecording() : _startVideoRecording(),
+          child: Icon((isRecording || _isCompressionStarted) ? Icons.stop : Icons.play_arrow),
+        );
+      },
     );
   }
 
   @override
   void dispose() {
     try {
-      _cameraController?.dispose();
+      _cameraController.dispose();
+      _stopVideoFocusNode.dispose();
     } catch (e) {
       Logger.error('mydebug-----_VideoRecorderWidgetState.dispose', ['error: $e']);
     }
@@ -309,5 +339,9 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
     String newPath = path.replaceAll(oldExtension, "mp4");
     file = await file.rename(newPath);
     return file;
+  }
+
+  _logs(String log, LogType type) {
+    LoggingService.log(log, barcode: barcode, type: type);
   }
 }

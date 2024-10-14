@@ -7,6 +7,7 @@
 * `Allow barcode search on pre dispatch page`[(SCM-7551)](https://reglobe.atlassian.net/browse/SCM-7551)
 * `Store out page to have colour coding on in progress lots`[(SCM-7554)](https://reglobe.atlassian.net/browse/SCM-7554)
 * `TRC - Engineer - Approval reasons selection and visibility on basis of category`[(SCM-7709)](https://reglobe.atlassian.net/browse/SCM-7709)
+* `QC - External Recording - Add logging provision`[(SCM-7570)](https://reglobe.atlassian.net/browse/SCM-7570)
 
 
 # v3.4.2+56 (09-10-2024)

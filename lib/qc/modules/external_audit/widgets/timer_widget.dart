@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/libraries/logging/logging_service.dart';
 
 class TimerWidget extends StatefulWidget {
   final int totalTimeInSeconds;
   final VoidCallback onTimerEnd;
+  final String? barcode;
 
-  const TimerWidget(this.totalTimeInSeconds, {required this.onTimerEnd, super.key});
+  const TimerWidget(this.totalTimeInSeconds, {required this.onTimerEnd, super.key, this.barcode});
 
   @override
   State<TimerWidget> createState() => TimerWidgetState();
@@ -41,6 +43,7 @@ class TimerWidgetState extends State<TimerWidget> {
   }
 
   void startTimer() {
+    LoggingService.log("StartTimer successfully called", barcode: widget.barcode, type: LogType.info);
     _videoRecorderTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _remainingTimeInSeconds--;

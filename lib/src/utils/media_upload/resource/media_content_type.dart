@@ -4,7 +4,8 @@ enum MediaContentType {
   jpg("image/jpg"),
   pdf("application/pdf"),
   webp("image/webp"),
-  mp4("video/mp4");
+  mp4("video/mp4"),
+  txt("text/plain"),;
 
   final String value;
 

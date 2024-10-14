@@ -105,7 +105,7 @@ class _ExternalAuditPerformWidgetState extends State<ExternalAuditPerformWidget>
       } else {
         _pageController.jumpToPage(1);
       }
-    });
+    }, barcode: scannedData);
   }
 
   _callExternalAuditApi() async {
