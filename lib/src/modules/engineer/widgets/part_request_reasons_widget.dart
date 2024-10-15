@@ -110,6 +110,8 @@ class _PartRequestReasonItemState extends State<_PartRequestReasonItem> {
             onChanged: (DropDownItem<ReasonListData> value) {
               setState(() {
                 _selectedItem = value;
+                _imageList.clear();
+                _imageList.add("");
                 widget.onChanged(value.id!, _imageList);
               });
             },
