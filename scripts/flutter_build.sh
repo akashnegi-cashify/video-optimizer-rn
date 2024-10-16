@@ -53,4 +53,4 @@ firebase appdistribution:distribute ./build/app/outputs/flutter-apk/app-$flavor-
 #export $exportedCrashlyticsTool
 
 echo "${GREEN}uploading debug symbols to firebase${NC}"
-sudo firebase crashlytics:symbols:upload --app=$fKey ./mapping
+firebase crashlytics:symbols:upload --app=$fKey ./mapping

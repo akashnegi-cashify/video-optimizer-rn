@@ -5,28 +5,50 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../src/common/searchable.dart';
 import '../resources/index.dart';
 import '../resources/services.dart';
 
-class PreDispatchLotProvider extends CshChangeNotifier with Searchable {
-  bool _showSearchBox = false;
+class PreDispatchLotProvider extends CshChangeNotifier {
   List<int>? _lotTypeQuery;
-  late StreamController<List<int>?> controller ;
+  late StreamController<List<int>?> controller;
+  String? _lotName;
+  String? _barcode;
 
+  set barcode(String value) {
+    _barcode = value;
+  }
+
+  set lotName(String? value) {
+    _lotName = value;
+  }
 
   PreDispatchLotProvider() {
     controller = StreamController.broadcast();
   }
 
-  Stream<PreDispatchLotsResponse?> getDataStream(PreDispatchLotRequest request){
-    return DispatchLotServices.getPreDispatchListData(request);
-  }
+  Stream<PreDispatchLotsResponse?> getDataStream(int pageNo, int pageSize) {
+    FilterMap? filterMap;
+    PreDispatchLotRequest request = PreDispatchLotRequest()
+      ..pageNo = pageNo * pageSize
+      ..pageSize = pageSize;
 
-  @override
-  set searchQuery(String? value) {
-    super.searchQuery = value;
-    notifyListeners();
+    if (!Validator.isNullOrEmpty(_lotName)) {
+      filterMap = FilterMap(searchQuery: _lotName);
+    }
+
+    if (!Validator.isNullOrEmpty(_barcode)) {
+      filterMap = filterMap ?? FilterMap();
+      filterMap.barcode = _barcode;
+    }
+
+    if (!Validator.isListNullOrEmpty(lotTypeQuery)) {
+      filterMap = filterMap ?? FilterMap();
+      filterMap.lotType = lotTypeQuery;
+    }
+
+    request.filterMap = filterMap;
+
+    return DispatchLotServices.getPreDispatchListData(request);
   }
 
   set lotTypeQuery(List<int>? value) {
@@ -34,26 +56,17 @@ class PreDispatchLotProvider extends CshChangeNotifier with Searchable {
     _lotTypeQuery = value;
   }
 
-  List<int>? get lotTypeQuery => _lotTypeQuery ;
+  List<int>? get lotTypeQuery => _lotTypeQuery;
 
   static PreDispatchLotProvider of({required BuildContext context, bool listen = true}) {
     return Provider.of<PreDispatchLotProvider>(context, listen: listen);
   }
-
-  bool get showSearchBox => _showSearchBox;
-
-  set showSearchBox(bool value) {
-    _showSearchBox = value;
-    notifyListeners();
-  }
-
 
   @override
   void dispose() {
     super.dispose();
     controller.close();
   }
-
 
   Future<CompletePreDispatchResponse?> completePreDispatchLot(String groupLotName) {
     var completer = Completer<CompletePreDispatchResponse?>();
@@ -69,5 +82,8 @@ class PreDispatchLotProvider extends CshChangeNotifier with Searchable {
     return completer.future;
   }
 
-
+  void resetSearchFilters() {
+    _lotName = null;
+    _barcode = null;
+  }
 }

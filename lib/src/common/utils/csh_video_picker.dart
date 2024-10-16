@@ -17,9 +17,9 @@ class CshVideoPicker implements VideoRecordingListener {
     return _instance;
   }
 
-  void pickVideo(Function(File file) onVideoRecorded) {
+  void pickVideo(Function(File file) onVideoRecorded, {String? barcode}) {
     _instance.mOnVideoRecorded = onVideoRecorded;
-    Navigator.pushNamed(mContext, VideoRecorderWidget.route, arguments: VideoRecorderArguments(this));
+    Navigator.pushNamed(mContext, VideoRecorderWidget.route, arguments: VideoRecorderArguments(this, barcode: barcode));
   }
 
   @override

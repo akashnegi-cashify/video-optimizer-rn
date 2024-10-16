@@ -29,9 +29,13 @@ class FilterMap {
   @JsonKey(name: "lt", includeIfNull: false)
   List<int>? lotType;
 
+  @JsonKey(name: "br", includeIfNull: false)
+  String? barcode;
+
   FilterMap({
     this.searchQuery,
     this.lotType,
+    this.barcode,
   });
 
   static FilterMap fromJson(Map<String, dynamic> data) => _$FilterMapFromJson(data);

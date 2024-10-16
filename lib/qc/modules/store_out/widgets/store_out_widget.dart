@@ -18,7 +18,7 @@ class StoreOutWidget extends StatefulWidget {
   State<StoreOutWidget> createState() => _StoreOutWidgetState();
 }
 
-class _StoreOutWidgetState extends State<StoreOutWidget> with SingleTickerProviderStateMixin {
+class _StoreOutWidgetState extends State<StoreOutWidget> with TickerProviderStateMixin {
   late TabController _controller;
   late List<Tab> tabList;
 

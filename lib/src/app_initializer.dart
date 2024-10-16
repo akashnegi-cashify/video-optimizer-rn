@@ -3,6 +3,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/libraries/firebase/firebase_helper.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
+import 'package:flutter_trc/src/libraries/logging/logging_service.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/utils/device_info_util.dart';
 import 'package:localization/localization.dart';
@@ -26,6 +27,7 @@ class AppInitializer {
     await AuthHandler().syncAuth();
     await FirebaseHelper().initFirebase();
     await RemoteConfigHelper().initialize();
+    await LoggingService.initialize();
     await DeviceInfoUtil.init();
     await AnalyticsController.init();
     await _initApp(interceptors: interceptors);

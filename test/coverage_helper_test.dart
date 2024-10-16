@@ -14,7 +14,6 @@ import 'package:flutter_trc/src/common/l10n.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/common/model/device_part.dart';
 import 'package:flutter_trc/src/common/searchable.dart';
-import 'package:flutter_trc/src/common/session/session.controller.dart';
 import 'package:flutter_trc/src/common/session/session_expired_callback.dart';
 import 'package:flutter_trc/src/common/user/user_util.dart';
 import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_action_widget.dart';
 import 'package:flutter_trc/src/libraries/alice/csh_alice.dart';
+import 'package:flutter_trc/src/libraries/logging/logging_service.dart';
 
 import '../../../../common/user/widget/logout_action_widget.dart';
 import '../../../../environments/environment_config.dart';
@@ -40,6 +41,15 @@ class QcGeneralHeader extends StatelessWidget implements PreferredSizeWidget {
             CshAlice().alice?.showInspector();
           },
         ),
+      // CshIcon(
+      //   FeatherIcons.externalLink,
+      //   iconColor: Colors.amber,
+      //   iconSize: MobileIconSize.medium,
+      //   padding: EdgeInsets.zero,
+      //   onClick: () {
+      //     LoggingService.showLogScreen(context);
+      //   },
+      // ),
       if (Validator.isTrue(showLogoutButton)) const LogoutActionWidget(),
       if (Validator.isTrue(showProfileButton)) const UserProfileActionWidget(),
       if (!Validator.isListNullOrEmpty(actions)) ...actions!

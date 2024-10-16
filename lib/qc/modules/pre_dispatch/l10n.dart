@@ -38,5 +38,7 @@ class L10n extends BaseL10n {
   String get preDispatch => Intl.message('Pre Dispatch', locale: localName, name: 'preDispatch');
   String get statusValid => Intl.message('Status- Valid', locale: localName, name: 'statusValid');
 
+  String get noLotFound => Intl.message('No Lot Found', locale: localName, name: 'noLotFound');
+
 
 }

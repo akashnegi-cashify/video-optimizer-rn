@@ -37,6 +37,7 @@ FilterMap _$FilterMapFromJson(Map<String, dynamic> json) => FilterMap(
       lotType: (json['lt'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
+      barcode: json['br'] as String?,
     );
 
 Map<String, dynamic> _$FilterMapToJson(FilterMap instance) {
@@ -50,5 +51,6 @@ Map<String, dynamic> _$FilterMapToJson(FilterMap instance) {
 
   writeNotNull('q', instance.searchQuery);
   writeNotNull('lt', instance.lotType);
+  writeNotNull('br', instance.barcode);
   return val;
 }

@@ -1,8 +1,18 @@
 # TRC Releases
 
+# v3.4.3+57 (XX-10-2024)
+
+### Feature and Improvements:
+
+* `Allow barcode search on pre dispatch page`[(SCM-7551)](https://reglobe.atlassian.net/browse/SCM-7551)
+* `Store out page to have colour coding on in progress lots`[(SCM-7554)](https://reglobe.atlassian.net/browse/SCM-7554)
+* `TRC - Engineer - Approval reasons selection and visibility on basis of category`[(SCM-7709)](https://reglobe.atlassian.net/browse/SCM-7709)
+* `QC - External Recording - Add logging provision`[(SCM-7570)](https://reglobe.atlassian.net/browse/SCM-7570)
+
+
 # v3.4.2+56 (09-10-2024)
 
-### Hot fix:
+### Hotfix:
 
 * `Change client key for console login`[(SCM-7761)](https://reglobe.atlassian.net/browse/SCM-7761)
 
@@ -11,8 +21,8 @@
 
 ### Hotfix and Improvements:
 
-* `Email based otp from Console`[(SCM-7716)](https://reglobe.atlassian.net/browse/SCM-7716)
-* `QC/TRC - Manual Testing - Brand is not auto-picked at the time of testing`[(SCM-7711)](https://reglobe.atlassian.net/browse/SCM-7711)
+* `Email based otp from console`[(SCM-7716)](https://reglobe.atlassian.net/browse/SCM-7716)
+* `QC/TRC - Manual Testing - Brand is not auto-picked at the time of testing.`[(SCM-7711)](https://reglobe.atlassian.net/browse/SCM-7711)
 
 
 # v3.4.0+54 (03-10-2024)

@@ -42,7 +42,14 @@ class LotScanProvider extends QcTrcServiceInitProvider {
 
   void fetchNormalLotScanList() {
     StoreOutServices.fetchNormalScanLotList(lotName, lotType, service: service).listen((event) {
-      dataState = dataState.copyWith(data: event, status: RequestStatus.success);
+      if (Validator.isListNullOrEmpty(event?.lotList)) {
+        dataState = dataState.copyWith(
+            data: null,
+            status: RequestStatus.failure,
+            errorMsg: "All devices store-out done!\nPlease refresh lot list for update info.");
+      } else {
+        dataState = dataState.copyWith(data: event, status: RequestStatus.success);
+      }
       notifyListeners();
     }, onError: (error, stackTrace) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong.";

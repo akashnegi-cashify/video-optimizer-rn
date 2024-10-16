@@ -5,6 +5,7 @@ import 'package:flutter_trc/shipex/modules/pending_dispatch/resources/delivery_p
 import 'package:flutter_trc/shipex/modules/pending_dispatch/resources/pending_dispatch_service.dart';
 import 'package:flutter_trc/shipex/modules/pending_dispatch/screens/complete_dispatch_screen.dart';
 import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
+
 import '../../l10n.dart';
 
 class PendingDispatchProviderListWidget extends StatefulWidget {
@@ -69,7 +70,9 @@ class _PendingDispatchProviderListWidgetState extends State<PendingDispatchProvi
                   CshMediumButton(
                       text: l10n.retry,
                       onPressed: () {
-                        setState(() {});
+                        if (mounted) {
+                          setState(() {});
+                        }
                       }),
                 ],
               ),

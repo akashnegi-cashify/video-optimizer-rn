@@ -6,7 +6,7 @@ import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_list_provider.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
-import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+import 'package:flutter_trc/src/common/widgets/search_with_dropdown_widget.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
 import '../l10n.dart';
@@ -44,9 +44,9 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
     super.initState();
   }
 
-  _setSearchFilterAndReset(String value) {
+  _setSearchFilterAndReset(SearchType type, String value) {
     var provider = ReQcListProvider.of(context, listen: false);
-    if (_isSearchTypeBarcode()) {
+    if (type == LotSearchType.barcode) {
       provider.deviceBarcode = value;
     } else {
       provider.lotName = value;
@@ -61,57 +61,17 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
+        SearchWithDropdownWidget(
           padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Flexible(
-                flex: 1,
-                fit: FlexFit.tight,
-                child: CshDropDown(
-                  items: _dropDownItems,
-                  selectedItem: _selectedSearchType,
-                  onChanged: (value) {
-                    setState(() {
-                      _searchController.text = "";
-                      var provider = ReQcListProvider.of(context, listen: false);
-                      provider.resetSearchFilters();
-                      _selectedSearchType = value;
-                      resetAndRefreshScreen();
-                    });
-                  },
-                ),
-              ),
-              Flexible(
-                flex: 2,
-                fit: FlexFit.tight,
-                child: CshTextFormField(
-                  hintText: _isSearchTypeBarcode() ? l10n.searchByBarcode : l10n.searchByLotName,
-                  controller: _searchController,
-                  suffixIcon: _isSearchTypeBarcode()
-                      ? InkWell(
-                          child: const Icon(Icons.qr_code_2),
-                          onTap: () {
-                            CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
-                              Navigator.pop(context); // close scanner
-                              _searchController.text = scannedData;
-                              _setSearchFilterAndReset(scannedData);
-                            });
-                          },
-                        )
-                      : null,
-                  onChanged: (value) {
-                    if (value.length > 2) {
-                      _timer.start(() {
-                        _setSearchFilterAndReset(value);
-                      });
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
+          searchTypeValues: LotSearchType.values,
+          onSearch: (type, value) {
+            _setSearchFilterAndReset(type, value);
+          },
+          onDropDownChange: (item) {
+            var provider = ReQcListProvider.of(context, listen: false);
+            provider.resetSearchFilters();
+            resetAndRefreshScreen();
+          },
         ),
         Expanded(
           child: Stack(

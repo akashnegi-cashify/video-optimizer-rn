@@ -23,7 +23,7 @@ class NormalLotScanContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n= L10n(context);
+    var l10n = L10n(context);
     var theme = Theme.of(context);
     var labelTextStyle = theme.textTheme.headlineMedium;
     var valueTextStyle = theme.primaryTextTheme.displayMedium?.copyWith(color: theme.primaryColor);
@@ -37,85 +37,97 @@ class NormalLotScanContainer extends StatelessWidget {
         var itemList = provider.dataState.data?.lotList;
         var itemCount = itemList?.length ?? 0;
 
-        return isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : LotScanWidget(
-                topContent: Selector<LotScanProvider, int>(
-                  builder: (BuildContext context, value, Widget? child) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_8),
-                      alignment: Alignment.center,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(width: Dimens.space_100, child: LinearProgressIndicator(value: (value / itemCount))),
-                          const SizedBox(height: Dimens.space_4),
-                          CshTextNew.h4('$value/$itemCount')
-                        ],
-                      ),
-                    );
-                  },
-                  selector: (BuildContext context, LotScanProvider provider) {
-                    return provider.scanPosition;
-                  },
-                ),
-                onScannerDetected: (value, controller) => _onScannerDetected(builderContext, value, controller,l10n),
-                content: Selector<LotScanProvider, int>(
-                  builder: (BuildContext context, value, Widget? child) {
-                    if(value >= itemCount){
-                      value = itemCount-1;
-                    }
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        LabeledText(
-                          label: l10n.barCode,
-                          value: itemList?[value]?.qrCode,
-                          valueTextStyle: valueTextStyle,
-                          labelTextStyle: labelTextStyle,
-                          labelFlex: 1,
-                          valueFlex: 2,
-                          padding: EdgeInsets.zero,
-                        ),
-                        const SizedBox(height: Dimens.space_4),
-                        LabeledText(
-                          label: l10n.productTitle,
-                          value: itemList?[value]?.model,
-                          valueTextStyle: valueTextStyle,
-                          labelTextStyle: labelTextStyle,
-                          labelFlex: 1,
-                          valueFlex: 2,
-                          padding: EdgeInsets.zero,
-                        ),
-                        const SizedBox(height: Dimens.space_4),
-                        LabeledText(
-                          label: l10n.location,
-                          value: itemList?[value]?.stockBarcode,
-                          valueTextStyle: valueTextStyle,
-                          labelTextStyle: labelTextStyle,
-                          labelFlex: 1,
-                          valueFlex: 2,
-                          padding: EdgeInsets.zero,
-                        ),
-                        const SizedBox(height: Dimens.space_4),
-                      ],
-                    );
-                  },
-                  selector: (BuildContext context, LotScanProvider provider) {
-                    return provider.scanPosition;
-                  },
-                ),
-                footer: Row(
+        if (isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (provider.dataState.status == RequestStatus.failure) {
+          return Center(
+            child: Text(
+              provider.dataState.errorMsg ?? 'Something went wrong',
+              textAlign: TextAlign.center,
+              style: theme.primaryTextTheme.bodyLarge?.copyWith(color: theme.colorScheme.error),
+            ),
+          );
+        }
+
+        return LotScanWidget(
+          topContent: Selector<LotScanProvider, int>(
+            builder: (BuildContext context, value, Widget? child) {
+              return Container(
+                padding: const EdgeInsets.symmetric(vertical: Dimens.space_8),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                        child: CshBigButton(
-                      text: l10n.skip,
-                      onPressed: () => _onSkipClick(builderContext),
-                    )),
+                    SizedBox(width: Dimens.space_100, child: LinearProgressIndicator(value: (value / itemCount))),
+                    const SizedBox(height: Dimens.space_4),
+                    CshTextNew.h4('$value/$itemCount')
                   ],
                 ),
               );
+            },
+            selector: (BuildContext context, LotScanProvider provider) {
+              return provider.scanPosition;
+            },
+          ),
+          onScannerDetected: (value, controller) => _onScannerDetected(builderContext, value, controller, l10n),
+          content: Selector<LotScanProvider, int>(
+            builder: (BuildContext context, value, Widget? child) {
+              if (value >= itemCount) {
+                value = itemCount - 1;
+              }
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LabeledText(
+                    label: l10n.barCode,
+                    value: itemList?[value]?.qrCode,
+                    valueTextStyle: valueTextStyle,
+                    labelTextStyle: labelTextStyle,
+                    labelFlex: 1,
+                    valueFlex: 2,
+                    padding: EdgeInsets.zero,
+                  ),
+                  const SizedBox(height: Dimens.space_4),
+                  LabeledText(
+                    label: l10n.productTitle,
+                    value: itemList?[value]?.model,
+                    valueTextStyle: valueTextStyle,
+                    labelTextStyle: labelTextStyle,
+                    labelFlex: 1,
+                    valueFlex: 2,
+                    padding: EdgeInsets.zero,
+                  ),
+                  const SizedBox(height: Dimens.space_4),
+                  LabeledText(
+                    label: l10n.location,
+                    value: itemList?[value]?.stockBarcode,
+                    valueTextStyle: valueTextStyle,
+                    labelTextStyle: labelTextStyle,
+                    labelFlex: 1,
+                    valueFlex: 2,
+                    padding: EdgeInsets.zero,
+                  ),
+                  const SizedBox(height: Dimens.space_4),
+                ],
+              );
+            },
+            selector: (BuildContext context, LotScanProvider provider) {
+              return provider.scanPosition;
+            },
+          ),
+          footer: Row(
+            children: [
+              Expanded(
+                  child: CshBigButton(
+                text: l10n.skip,
+                onPressed: () => _onSkipClick(builderContext),
+              )),
+            ],
+          ),
+        );
       }),
     );
   }
@@ -129,25 +141,28 @@ class NormalLotScanContainer extends StatelessWidget {
     }
   }
 
-  void _showAlert(BuildContext context, {MlScannerController? controller}){
+  void _showAlert(BuildContext context, {MlScannerController? controller}) {
     showDialog(
         barrierDismissible: false,
-        context: context, builder: (context){
-      controller?.stop();
-      return AlertDialog(
-        title: CshTextNew.h3('Warning'),
-        content: CshTextNew.h4('Store Out Completed'),
-        actions: [
-          TextButton(onPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName(StoreOutScreen.route));
-          }, child: CshTextNew.h3('Ok'),)
-        ],
-      );
-    });
+        context: context,
+        builder: (context) {
+          controller?.stop();
+          return AlertDialog(
+            title: CshTextNew.h3('Warning'),
+            content: CshTextNew.h4('Store Out Completed'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.popUntil(context, ModalRoute.withName(StoreOutScreen.route));
+                },
+                child: CshTextNew.h3('Ok'),
+              )
+            ],
+          );
+        });
   }
 
-
-  _onScannerDetected(BuildContext context, String value, MlScannerController controller,L10n l10n) {
+  _onScannerDetected(BuildContext context, String value, MlScannerController controller, L10n l10n) {
     var provider = LotScanProvider.of(context, listen: false);
     var item = provider.dataState.data?.lotList?[provider.scanPosition];
 
@@ -163,9 +178,8 @@ class NormalLotScanContainer extends StatelessWidget {
         CshSnackBar.success(context: context, message: l10n.lotOutSuccessfully);
         var res = provider.moveNext();
         if (res == false) {
-          _showAlert(context,controller:controller);
-        }
-        else{
+          _showAlert(context, controller: controller);
+        } else {
           controller.start();
         }
       }, onError: (error, stack) {

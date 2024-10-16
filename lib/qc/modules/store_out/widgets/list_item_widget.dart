@@ -10,6 +10,7 @@ class ListItemWidget extends StatelessWidget {
   final String? noOfDevices;
   final String? id;
   final String? lotType;
+  final bool isInProcess;
 
   const ListItemWidget(this.lotLabel, {
     super.key,
@@ -17,6 +18,7 @@ class ListItemWidget extends StatelessWidget {
     this.noOfDevices,
     this.id,
     this.lotType,
+    this.isInProcess = false,
   });
 
   @override
@@ -27,6 +29,7 @@ class ListItemWidget extends StatelessWidget {
     var valueTextStyle = theme.primaryTextTheme.headlineMedium;
 
     return CshCard(
+      bgColor: isInProcess ? theme.colorScheme.error.withAlpha(200) : null,
       padding: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
