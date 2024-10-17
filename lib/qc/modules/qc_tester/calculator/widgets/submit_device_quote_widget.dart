@@ -9,8 +9,6 @@ import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_scr
 import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/additional_questions_view_event.dart';
-import 'package:flutter_trc/src/libraries/analytics/events/color_selected_event.dart';
-import 'package:flutter_trc/src/libraries/analytics/events/color_view_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/end_testing_session_event.dart';
 import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
@@ -48,7 +46,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
       if (Validator.isTrue(isLoginFromQc)) {
         provider.getManualQuestions();
       } else {
-        provider.getDeviceColors();
+        provider.updateSelectedColor();
       }
     });
   }
@@ -153,11 +151,6 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   }
 
   @override
-  void onDeviceColorFetchedSuccess(List<String> colors) {
-    _showColorSelectionDialog(colors);
-  }
-
-  @override
   void onSubmitCalculatorSuccess(String? grade, String? cautionMessage) {
     String message;
     if (Validator.isNullOrEmpty(grade)) {
@@ -176,65 +169,6 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
     qcAlertPopDialog(context, errorMessage ?? "", onButtonPressed: () {
       _moveToHomeScreen();
     }, buttonTitle: "Go Back");
-  }
-
-  void _showColorSelectionDialog(List<String> colors) {
-    var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
-    AnalyticsController.logEvent(ColorViewEvent(provider.deviceBarcode));
-    String? selectedColor;
-    showCshBottomSheet(
-      isDismissible: false,
-      context: context,
-      child: PopScope(
-        canPop: false,
-        child: StatefulBuilder(builder: (_, setState) {
-          return Padding(
-            padding: const EdgeInsets.all(Dimens.space_16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CshTextNew.h4("Select Color"),
-                const SizedBox(height: Dimens.space_16),
-                ListView.separated(
-                  itemCount: colors.length,
-                  shrinkWrap: true,
-                  itemBuilder: (_, index) {
-                    var item = colors[index];
-                    return CshRadio<String>(
-                      value: item,
-                      groupValue: selectedColor,
-                      title: CshTextNew.subTitle1(item),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedColor = value;
-                        });
-                      },
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: Dimens.space_8);
-                  },
-                ),
-                Center(
-                  child: CshBigButton(
-                    text: "Proceed",
-                    onPressed: selectedColor == null
-                        ? null
-                        : () {
-                            Navigator.pop(context); // dismiss color dialog
-                            var provider = SubmitDeviceQuoteProvider.of(context, listen: false);
-                            AnalyticsController.logEvent(ColorSelectedEvent(provider.deviceBarcode, selectedColor));
-                            provider.onColorSelected(selectedColor!);
-                          },
-                  ),
-                )
-              ],
-            ),
-          );
-        }),
-      ),
-    );
   }
 
   @override
@@ -370,8 +304,6 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
 }
 
 abstract interface class SubmitDeviceQuoteInterface {
-  void onDeviceColorFetchedSuccess(List<String> colors);
-
   void onSubmitCalculatorSuccess(String? grade, String? cautionMessage);
 
   void onSubmitCalculatorError(String? errorMessage);

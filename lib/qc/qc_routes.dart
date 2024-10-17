@@ -15,6 +15,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculator_s
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_questions_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_device_quote_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/color_selection_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/lob_device_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
@@ -102,6 +103,7 @@ class QcRoutes {
       ImeiValidatorScreen.route: (_) => const ImeiValidatorScreen(),
       D2CVideoScreen.route: (_) => const D2CVideoScreen(),
       ProductListScreen.route: (_) => const ProductListScreen(),
+      ColorSelectionScreen.route: (_) => const ColorSelectionScreen(),
     };
   }
 }

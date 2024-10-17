@@ -48,32 +48,6 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     iDeviceQuote = value;
   }
 
-  void getDeviceColors() {
-    iDeviceQuote?.showLoading(true);
-    service.getDeviceColors(quoteRequest?.productId).listen((event) {
-      iDeviceQuote?.showLoading(false);
-      if (!Validator.isListNullOrEmpty(event?.deviceColorList)) {
-        iDeviceQuote?.onDeviceColorFetchedSuccess(event!.deviceColorList!);
-      } else {
-        var stepperItem = stepperDetails.last;
-        stepperItem.title = "Color Error";
-        stepperItem.subTitle = "No color found";
-        iDeviceQuote?.onSubmitCalculatorError("No Color Found");
-        // _submitCalculatorRequest();
-      }
-    }, onError: (error) {
-      iDeviceQuote?.showLoading(false);
-      var errorMessage = ApiErrorHelper.getErrorMessage(error);
-      var stepperItem = stepperDetails.last;
-      stepperItem.title = "Color Error";
-      stepperItem.subTitle = errorMessage.toString();
-      iDeviceQuote?.onSubmitCalculatorError(errorMessage ?? "No Color Found");
-      // _submitCalculatorRequest();
-    }, onDone: () {
-      notifyListeners();
-    });
-  }
-
   _submitCalculatorRequest({String? testingRemarks}) {
     stepperDetails.add(
       StepDetails(
@@ -116,12 +90,11 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     });
   }
 
-  onColorSelected(String selectedColor) {
+  updateSelectedColor() {
     var stepperItem = stepperDetails.last;
     stepperItem.title = "Selected Color";
-    stepperItem.subTitle = selectedColor;
+    stepperItem.subTitle = quoteRequest?.selectedColor ?? "";
     notifyListeners();
-    quoteRequest?.selectedColor = selectedColor;
     if (isLoginFromQC()) {
       _submitCalculatorRequest();
     } else {
@@ -219,11 +192,11 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
       if (!Validator.isListNullOrEmpty(event?.questionList)) {
         iDeviceQuote?.onManualQuestionFetchedSuccess(event!.questionList!);
       } else {
-        getDeviceColors();
+        updateSelectedColor();
       }
     }, onError: (error) {
       // var errorMessage = ApiErrorHelper.getErrorMessage(error);
-      getDeviceColors();
+      updateSelectedColor();
     }, onDone: () {
       notifyListeners();
     });
@@ -234,7 +207,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
     AnalyticsController.logEvent(
         AdditionalQuestionsSelectedEvent(deviceBarcode, questionList.map((e) => e.question).toList()));
     _questionList = questionList;
-    getDeviceColors();
+    updateSelectedColor();
   }
 
   _submitManualQuestions() {

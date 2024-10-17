@@ -1354,6 +1354,21 @@
       ]
     },
     {
+      "pageId": 10052,
+      "pageKey": "QC_color_selection_screen",
+      "dt": [
+        {
+          "id": 10135,
+          "key": "QC_color_selection_component",
+          "type": "component"
+        },
+        {
+          "id": 10136,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -3304,6 +3319,29 @@
       "configJson": {
         "config": {
           "ht": "Product List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10135,
+      "locale": "en",
+      "key": "QC_color_selection_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10136,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Select Color",
           "sbb": true,
           "slb": false
         }
