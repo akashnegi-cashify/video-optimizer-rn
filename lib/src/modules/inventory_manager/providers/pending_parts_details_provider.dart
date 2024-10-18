@@ -21,14 +21,14 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
   bool isDataLoading = true;
   PartAvailableQuantityResponse? availableQuantityResponse;
   String errorMessage = "";
-  RecommendedPartResponse? recommendedPartResponse;
+  List<RecommendedPartData>? recommendedPartList;
   bool showBottomButtons = true;
 
   PendingPartDetailsProvider(this.prid, this.statusCode) {
     _fetchPartsDetailsData();
     if (PartStatus.getEnumByValue(statusCode!) == PartStatus.AVAILABLE) {
       showBottomButtons = false;
-      _getDoRecommendedPartApi();
+      _getRecommendedPartList();
     }
   }
 
@@ -88,11 +88,11 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  _getDoRecommendedPartApi() {
+  _getRecommendedPartList() {
     InventoryService.doRecommendedApiCall(prid!).listen(
       (event) {
-        if (event != null) {
-          recommendedPartResponse = event;
+        if (!Validator.isListNullOrEmpty(event?.dataList)) {
+          recommendedPartList = event?.dataList;
         }
       },
       onError: (error) {

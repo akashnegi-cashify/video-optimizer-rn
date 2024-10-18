@@ -117,7 +117,7 @@ class _PendingPartDetailsWidget extends StatelessWidget {
                         ),
                         PendingPartDetailsInfoWidget(
                           detailsData: provider.partsDetailsResponse?.partsDetails,
-                          suggestedBarcode: provider.recommendedPartResponse?.dataResponse?.barcode,
+                          recommendedPartList: provider.recommendedPartList,
                           statusCode: args?.statusCode,
                         ),
                       ],
