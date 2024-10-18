@@ -27,6 +27,7 @@ class ColorSelectionComponent extends StatelessComponent<NoneConfigModel> {
     return paramBuilder((model) {
       return ChangeNotifierProvider(
         create: (_) => ColorSelectionProvider(model.productId),
+        lazy: false,
         child: ColorSelectionWidget(model.deviceBarcode, model.onColorSelected),
       );
     });
