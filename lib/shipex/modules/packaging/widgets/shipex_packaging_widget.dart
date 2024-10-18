@@ -1,6 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/shipex/modules/packaging/widgets/pending_order_data_list_widget.dart';
+import 'package:flutter_trc/shipex/modules/packaging/resouces/packaging_status_type.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
@@ -39,8 +39,8 @@ class ShipexPackagingWidget extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    NewOrderDataList(),
-                    PendingOrderDataList(),
+                    NewOrderDataList(PackagingStatusType.packagingPending, key: ValueKey("New")),
+                    NewOrderDataList(PackagingStatusType.packagingInProcess, key: ValueKey("In Process")),
                   ],
                 ),
               ),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/shipex/modules/packaging/resouces/packaging_status_type.dart';
 import 'package:provider/provider.dart';
 
 import '../models/group_lot_list_repsonse.dart';
@@ -13,33 +14,21 @@ class GroupListProvider extends CshChangeNotifier {
     return Provider.of<GroupListProvider>(context, listen: listen);
   }
 
-  Future<List<GroupLotListData>?> fetchPendingDataList(int pageNo, {String? query}) {
+  Future<List<GroupLotListData>?> fetchNewDataListData(
+      PackagingStatusType type, int pageNumber, String? lotName, String? awbNumber) {
     var completer = Completer<List<GroupLotListData>?>();
     try {
-      PackingService.getGroupPendingDataList(pageNo, query: query).listen((event) {
-        if (!Validator.isListNullOrEmpty(event?.groupLotList)) {
-          completer.complete(event?.groupLotList);
-        } else {
-          completer.completeError("No data found...");
-        }
-      }, onError: (error) {
-        String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        Logger.debug('mydebug------GroupListProvider.fetchPendingDataList', [em]);
-        completer.completeError(em);
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
+      Map<String, dynamic> filterMap = {"s": type.value};
+      if (!Validator.isNullOrEmpty(lotName)) {
+        filterMap["gn"] = lotName;
+      }
+      if (!Validator.isNullOrEmpty(awbNumber)) {
+        filterMap["awb"] = awbNumber;
+      }
 
-    return completer.future;
-  }
-
-  Future<GroupLotListResponse> fetchNewDataListData(int pageNumber, {String? query}) {
-    var completer = Completer<GroupLotListResponse>();
-    try {
-      PackingService.getGroupNewDataList(pageNumber, query: query).listen((event) {
+      PackingService.getGroupNewDataList(pageNumber, filter: filterMap).listen((event) {
         if (event != null && !Validator.isListNullOrEmpty(event.groupLotList)) {
-          completer.complete(event);
+          completer.complete(event.groupLotList);
         } else {
           completer.completeError("No data found...");
         }

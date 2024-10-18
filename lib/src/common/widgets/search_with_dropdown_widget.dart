@@ -51,7 +51,7 @@ class _SearchWithDropdownWidgetState extends State<SearchWithDropdownWidget> {
                 setState(() {
                   _selectedSearchType = value;
                   _searchController.text = "";
-                  if (value.id == "br") {
+                  if (_isBarcodeSearchSelected(value.id)) {
                     _openScanner();
                   }
                   widget.onDropDownChange(value);
@@ -65,15 +65,21 @@ class _SearchWithDropdownWidgetState extends State<SearchWithDropdownWidget> {
             child: CshTextFormField(
               hintText: _selectedSearchType?.extraData?.hintName ?? "",
               controller: _searchController,
-              suffixIcon: _isSearchTypeBarcode()
+              readOnly: _isBarcodeSearchSelected(_selectedSearchType?.id) ? true : false,
+              onTap: () {
+                if (_isBarcodeSearchSelected(_selectedSearchType?.id)) {
+                  _openScanner();
+                }
+              },
+              suffixIcon: _isBarcodeSearchSelected(_selectedSearchType?.id)
                   ? InkWell(child: const Icon(Icons.qr_code_2), onTap: () => _openScanner())
                   : null,
               onChanged: (value) {
-                if (value.length > 2) {
-                  _timer.start(() {
-                    widget.onSearch(_selectedSearchType!.extraData!, value);
-                  });
-                }
+                // if (value.length > 2) {
+                _timer.start(() {
+                  widget.onSearch(_selectedSearchType!.extraData!, value);
+                });
+                // }
               },
             ),
           ),
@@ -82,16 +88,16 @@ class _SearchWithDropdownWidgetState extends State<SearchWithDropdownWidget> {
     );
   }
 
+  bool _isBarcodeSearchSelected(String? id) {
+    return id == "br";
+  }
+
   void _openScanner() {
     CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
       Navigator.pop(context); // close scanner
       _searchController.text = scannedData;
       widget.onSearch(_selectedSearchType!.extraData!, scannedData);
     });
-  }
-
-  bool _isSearchTypeBarcode() {
-    return _selectedSearchType?.id == "br";
   }
 }
 

@@ -1,6 +1,9 @@
-import 'package:core_widgets/core_widgets.dart' as core;
+import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/shipex/modules/packaging/modal/packaging_video_selection_dialog.dart';
 import 'package:flutter_trc/shipex/modules/packaging/providers/group_list_provider.dart';
+import 'package:flutter_trc/shipex/modules/packaging/resouces/packaging_status_type.dart';
+import 'package:flutter_trc/src/common/widgets/search_with_dropdown_widget.dart';
 
 import '../../../../src/utils/paginate_list_abstract.dart';
 import '../l10n.dart';
@@ -9,7 +12,9 @@ import '../packaging_process_screen.dart';
 import 'group_list_data_card_widget.dart';
 
 class NewOrderDataList extends StatefulWidget {
-  const NewOrderDataList({super.key});
+  final PackagingStatusType type;
+
+  const NewOrderDataList(this.type, {super.key});
 
   @override
   State<NewOrderDataList> createState() => _NewOrderDataListState();
@@ -18,32 +23,47 @@ class NewOrderDataList extends StatefulWidget {
 class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrderDataList> {
   _NewOrderDataListState() : super(initialScrollOffset: 10, pageSize: 10);
 
-  String _query = "";
+  String? _awbNumber;
+  String? _lotName;
+
+  String? get awbNumber => _awbNumber;
+
+  set awbNumber(String? value) {
+    _awbNumber = value;
+    _lotName = null;
+  }
+
+  String? get lotName => _lotName;
+
+  set lotName(String? value) {
+    _lotName = value;
+    _awbNumber = null;
+  }
 
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
-
+    var provider = GroupListProvider.of(context, listen: false);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(core.Dimens.space_16),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: theme.primaryColor),
-              borderRadius: BorderRadius.circular(core.Dimens.space_4),
-            ),
-            child: core.SearchBarWidget(
-              hintText: "Search by name",
-              onQuery: (query) {
-                setState(() {
-                  _query = query;
-                  resetAndRefreshScreen();
-                });
-              },
-            ),
-          ),
+        SearchWithDropdownWidget(
+          padding: const EdgeInsets.only(left: Dimens.space_16, right: Dimens.space_16, top: Dimens.space_16),
+          key: ValueKey(widget.type),
+          searchTypeValues: GroupNameSearchType.values,
+          onDropDownChange: (item) {
+            _awbNumber = null;
+            _lotName = null;
+            resetAndRefreshScreen();
+          },
+          onSearch: (type, value) {
+            if (type == GroupNameSearchType.awbNumber) {
+              awbNumber = value;
+            } else {
+              lotName = value;
+            }
+            resetAndRefreshScreen();
+          },
         ),
         Expanded(
           child: iterate(
@@ -51,13 +71,12 @@ class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrd
               return GroupListDataCardWidget(
                 dataModel: item,
                 onCardTap: () {
-                  PackagingProcessScreenArguments args = PackagingProcessScreenArguments(dataModel: item);
-                  Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args);
+                  _onItemSelected(item);
                 },
               );
             },
             onRefresh: () async {},
-            separator: const SizedBox(height: core.Dimens.space_12),
+            separator: const SizedBox(height: Dimens.space_12),
             onNoDataFound: () {
               return Center(
                 child: Text(
@@ -83,7 +102,7 @@ class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrd
                 ),
               );
             },
-            padding: const EdgeInsets.symmetric(horizontal: core.Dimens.space_16, vertical: core.Dimens.space_12),
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
           ),
         )
       ],
@@ -94,9 +113,10 @@ class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrd
   void requestApi(int pageNo,
       {Function(List<GroupLotListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = GroupListProvider.of(context, listen: false);
-    provider.fetchNewDataListData(++pageNo, query: _query).then((value) {
+
+    provider.fetchNewDataListData(widget.type, pageNo, lotName, awbNumber).then((value) {
       if (onSuccess != null) {
-        onSuccess(value.groupLotList);
+        onSuccess(value);
       }
     }, onError: (error) {
       if (onError != null) {
@@ -104,4 +124,68 @@ class _NewOrderDataListState extends PaginatedListState<GroupLotListData, NewOrd
       }
     });
   }
+
+  _onItemSelected(GroupLotListData item) {
+    if (widget.type == PackagingStatusType.packagingPending) {
+      PackagingProcessScreenArguments args = PackagingProcessScreenArguments(dataModel: item);
+      Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args);
+    } else {
+      _showPackagingVideoSelectionDialog(item, onProceed: (isCCTCSelected) {
+        PackagingProcessScreenArguments args = PackagingProcessScreenArguments(
+            dataModel: item, isPendingGroupLot: true, isCCTCCameraSelected: isCCTCSelected);
+        Navigator.of(context).pushNamed(PackagingProcessScreen.route, arguments: args).whenComplete(() {
+          resetAndRefreshScreen();
+        });
+      });
+    }
+  }
+
+  _showPackagingVideoSelectionDialog(GroupLotListData item, {required Function(bool isCCTCSelected) onProceed}) {
+    var provider = GroupListProvider.of(context, listen: false);
+    showPackagingVideoSelectionDialog(
+      context,
+      isCheckValidation: true,
+      cameraBarcode: item.monitoringCameraBarcode,
+      onMonitoringAppSelected: (bool? isSelectResetOption) {
+        if (Validator.isTrue(isSelectResetOption)) {
+          CshLoading().showLoading(context);
+          provider.resetItemPackaging(item.packagingBarcode).then((value) {
+            CshLoading().hideLoading(context);
+            onProceed(false);
+          }, onError: (error) {
+            CshLoading().hideLoading(context);
+            CshSnackBar.error(context: context, message: error.toString());
+          });
+        } else {
+          onProceed(false);
+        }
+      },
+      onCCTVCameraSelected: (scannedCameraBarcode, {bool? isSelectResetOption}) {
+        CshLoading().showLoading(context);
+        provider.addCCTVCameraBarcode(scannedCameraBarcode, item.packagingBarcode, isSelectResetOption).then((value) {
+          CshLoading().hideLoading(context);
+          onProceed(true);
+        }, onError: (error) {
+          CshLoading().hideLoading(context);
+          CshSnackBar.error(context: context, message: error.toString());
+        });
+      },
+    );
+  }
+}
+
+enum GroupNameSearchType with SearchType {
+  lotName("ln", "Lot Name", "Search by name"),
+  awbNumber("br", "Awb No", "Search by awbNumber");
+
+  @override
+  final String code;
+
+  @override
+  final String label;
+
+  @override
+  final String hintName;
+
+  const GroupNameSearchType(this.code, this.label, this.hintName);
 }

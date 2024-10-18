@@ -6,6 +6,7 @@
 
 * `QC/TRC - Testing - Validate Colour at the time of initiating calculator`[(SCM-7628)](https://reglobe.atlassian.net/browse/SCM-7628)
 * `TRC - Inventory - Show location in suggested barcode`[(SCM-7770)](https://reglobe.atlassian.net/browse/SCM-7770)
+* `Shipex - Add Awb barcode search on packaging list`[(SCM-7610)](https://reglobe.atlassian.net/browse/SCM-7610)
 
 
 # v3.4.3+57 (XX-10-2024)
