@@ -22,4 +22,5 @@ class L10n extends BaseL10n {
 
   String get close => Intl.message("Close", locale: localName, name: "close");
 
+  String get searchByName => Intl.message("Search by name", locale: localName, name: "searchByName");
 }

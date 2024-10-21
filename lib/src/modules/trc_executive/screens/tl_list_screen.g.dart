@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'device_scanner_screen.dart';
+part of 'tl_list_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,13 +9,10 @@ part of 'device_scanner_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "TRC_device_scanner_screen",
-      "pageGroup": "Device Scanner",
-      "title": "Device Scanner Screen",
+      "key": "TRC_tl_list_screen",
+      "pageGroup": "Trc TL List",
+      "title": "Tl List Screen",
       "isActive": true,
-      "params": [
-        {"key": "tlUser", "value": null}
-      ]
-
+      "params": null
       //#adminscreen
     };

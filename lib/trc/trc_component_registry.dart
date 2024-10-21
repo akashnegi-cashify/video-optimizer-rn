@@ -39,6 +39,7 @@ import 'package:flutter_trc/src/modules/rubbing/components/receive_rubbing_devic
 import 'package:flutter_trc/src/modules/rubbing/components/rubbing_home_component.dart';
 import 'package:flutter_trc/src/modules/splash/components/splash_component.dart';
 import 'package:flutter_trc/src/modules/trc_executive/components/device_scanner_comp.dart';
+import 'package:flutter_trc/src/modules/trc_executive/components/tl_list_component.dart';
 import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_component.dart';
 import 'package:flutter_trc/src/modules/trc_tester/components/trc_tester_component.dart';
 
@@ -187,6 +188,9 @@ class TrcComponentRegistry {
 
       case PartRequestReasonsComponent.COMP_KEY:
         return PartRequestReasonsComponent(jsonConfig);
+
+      case TlListComponent.COMP_KEY:
+        return TlListComponent(jsonConfig);
       default:
         return null;
     }

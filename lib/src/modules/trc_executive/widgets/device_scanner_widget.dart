@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/trc_executive/models/tl_list_response.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -9,31 +10,44 @@ import '../models/device_receive_response.dart';
 import '../providers/device_scanner_provider.dart';
 
 class DeviceScannerWidget extends StatelessWidget {
-  const DeviceScannerWidget({Key? key}) : super(key: key);
+  final TlListData? tlUserData;
+
+  const DeviceScannerWidget(this.tlUserData, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => DeviceScannerProvider(),
+      create: (_) => DeviceScannerProvider(tlData: tlUserData),
       lazy: false,
       builder: (builderContext, _) {
         var provider = DeviceScannerProvider.of(builderContext);
-        return TRCScannerWidget(
-          onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
-            controller?.stop();
-            CshLoading().showLoading(context);
-            provider.onDeviceScanned(scannedData).then((value) {
-              CshLoading().hideLoading(context);
-              _showDeviceDetails(value, context).whenComplete(() {
-                FocusScope.of(context).unfocus();
-                controller?.start();
-              });
-            }, onError: (error) {
-              controller?.start();
-              CshLoading().hideLoading(context);
-              CshSnackBar.error(context: context, message: error.toString());
-            });
-          },
+        return Column(
+          children: [
+            CshCard(
+              margin: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
+              cardWidth: double.infinity,
+              child: CshTextNew.subTitle1(tlUserData!.name ?? ""),
+            ),
+            Expanded(
+              child: TRCScannerWidget(
+                onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
+                  controller?.stop();
+                  CshLoading().showLoading(context);
+                  provider.onDeviceScanned(scannedData).then((value) {
+                    CshLoading().hideLoading(context);
+                    _showDeviceDetails(value, context).whenComplete(() {
+                      FocusScope.of(context).unfocus();
+                      controller?.start();
+                    });
+                  }, onError: (error) {
+                    controller?.start();
+                    CshLoading().hideLoading(context);
+                    CshSnackBar.error(context: context, message: error.toString());
+                  });
+                },
+              ),
+            ),
+          ],
         );
       },
     );

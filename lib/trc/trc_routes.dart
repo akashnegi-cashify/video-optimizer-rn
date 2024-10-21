@@ -52,6 +52,7 @@ import '../src/modules/engineer/retreived_parts/screens/image_view_screen.dart';
 import '../src/modules/engineer/retreived_parts/screens/retrieved_parts_details_data_screen.dart';
 import '../src/modules/part_qc/retrieved_part_qc/screens/action_screen.dart';
 import '../src/modules/part_qc/retrieved_part_qc/screens/view_repost_qc_screen.dart';
+import '../src/modules/trc_executive/screens/tl_list_screen.dart';
 
 class TrcRoutes {
   static Map<String, WidgetBuilder> getRoutes() {
@@ -114,6 +115,7 @@ class TrcRoutes {
       ProductImageViewScreen.route: (_) => const ProductImageViewScreen(),
       DeviceReportScreen.route: (_) => const DeviceReportScreen(),
       PartRequestReasonsScreen.route: (_) => const PartRequestReasonsScreen(),
+      TlListScreen.route: (_) => const TlListScreen(),
     };
   }
 }

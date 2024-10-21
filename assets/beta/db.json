@@ -637,6 +637,22 @@
       ]
     },
     {
+      "pageId": 48,
+      "pageKey": "TRC_tl_list_screen",
+      "dt": [
+        {
+          "id": 82,
+          "key": "TRC_tl_list_component",
+          "type": "component"
+        },
+        {
+          "id": 83,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -2393,6 +2409,28 @@
       "configJson": {
         "config": {
           "ht": "Part Request Reasons",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 82,
+      "locale": "en",
+      "key": "TRC_tl_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 83,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Select TL",
           "sbb": true,
           "slb": false
         }
