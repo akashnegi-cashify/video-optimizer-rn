@@ -16,6 +16,8 @@ class DeviceScannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var l10n = L10n(context);
     return ChangeNotifierProvider(
       create: (_) => DeviceScannerProvider(tlData: tlUserData),
       lazy: false,
@@ -26,7 +28,18 @@ class DeviceScannerWidget extends StatelessWidget {
             CshCard(
               margin: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
               cardWidth: double.infinity,
-              child: CshTextNew.subTitle1(tlUserData!.name ?? ""),
+              child: Row(
+                children: [
+                  CshTextNew.h4("${l10n.tlName}:-", isPrimary: false),
+                  const SizedBox(width: Dimens.space_16),
+                  Expanded(
+                    child: Text(
+                      tlUserData!.name ?? "",
+                      style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: TRCScannerWidget(
@@ -75,6 +88,8 @@ class DeviceScannerWidget extends StatelessWidget {
             _buildTitleValue(l10n.status, value.status.toString(), theme),
             const SizedBox(height: Dimens.space_16),
             _buildTitleValue(l10n.repairType, value.repairType.toString(), theme),
+            const SizedBox(height: Dimens.space_16),
+            _buildTitleValue(l10n.repairOrder, value.repairOrder ?? "NA", theme),
             const SizedBox(height: Dimens.space_16),
             SizedBox(
               width: double.infinity,

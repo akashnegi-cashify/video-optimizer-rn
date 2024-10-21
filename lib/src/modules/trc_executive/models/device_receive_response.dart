@@ -16,7 +16,6 @@ class DeviceReceiveResponse extends BaseActionResponse {
 
   @override
   Map<String, dynamic> toJson() => _$DeviceReceiveResponseToJson(this);
-
 }
 
 @JsonSerializable()
@@ -33,6 +32,9 @@ class DeviceReceiveData {
   @JsonKey(name: "rt")
   String? repairType;
 
+  @JsonKey(name: "ro")
+  String? repairOrder;
+
   @JsonKey(name: "isUrgent")
   bool? isUrgent;
 
@@ -46,6 +48,7 @@ class DeviceReceiveData {
     this.repairType,
     this.isUrgent,
     this.elssEngineerName,
+    this.repairOrder,
   );
 
   static DeviceReceiveData fromJson(Map<String, dynamic> json) => _$DeviceReceiveDataFromJson(json);

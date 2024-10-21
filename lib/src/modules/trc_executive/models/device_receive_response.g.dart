@@ -42,6 +42,7 @@ DeviceReceiveData _$DeviceReceiveDataFromJson(Map<String, dynamic> json) =>
       json['rt'] as String?,
       json['isUrgent'] as bool?,
       json['ele'] as String?,
+      json['ro'] as String?,
     );
 
 Map<String, dynamic> _$DeviceReceiveDataToJson(DeviceReceiveData instance) =>
@@ -52,4 +53,5 @@ Map<String, dynamic> _$DeviceReceiveDataToJson(DeviceReceiveData instance) =>
       'rt': instance.repairType,
       'isUrgent': instance.isUrgent,
       'ele': instance.elssEngineerName,
+      'ro': instance.repairOrder,
     };
