@@ -68,7 +68,7 @@ class DeviceScannerWidget extends StatelessWidget {
 
   Future _showDeviceDetails(DeviceReceiveData value, BuildContext context) {
     var theme = Theme.of(context);
-    var l10n = L10n(context);
+    var l10n = L10n(context, listen:false);
     return showCshBottomSheet(
       context: context,
       child: Padding(
