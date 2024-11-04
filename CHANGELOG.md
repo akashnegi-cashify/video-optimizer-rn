@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.5.0+59 (XX-10-2024)
+
+### Feature and Improvements:
+
+* `QC - Biometric Authenticaion`[(SCM-7943)](https://reglobe.atlassian.net/browse/SCM-7943)
+
+
 # v3.4.4+58 (XX-10-2024)
 
 ### Feature and Improvements:

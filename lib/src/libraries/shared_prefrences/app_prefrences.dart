@@ -7,7 +7,9 @@ import 'package:flutter_trc/src/libraries/get_storage/csh_get_storage.dart';
 
 enum _AppPreferencesKeys {
   loginType("loginType"),
-  facility("facility");
+  facility("facility"),
+  qcPin("qcPin"),
+  qcBiometrics("qcBiometrics");
 
   final String value;
 
@@ -52,6 +54,22 @@ class AppPreferences {
       facility = FacilityListData.fromJson(jsonDecode(value!));
     }
     return facility;
+  }
+
+  Future<void> setQcMPin(String mPin) {
+    return _cshGetStorageUtil.setString(_AppPreferencesKeys.qcPin.value, mPin);
+  }
+
+  String? getQcMPin() {
+    return _cshGetStorageUtil.getString(_AppPreferencesKeys.qcPin.value);
+  }
+
+  Future<void> setIsBioMetricEnabled(bool isBioMetricEnabled) {
+    return _cshGetStorageUtil.setBool(_AppPreferencesKeys.qcBiometrics.value, isBioMetricEnabled);
+  }
+
+  bool? getIsBioMetricEnabled() {
+    return _cshGetStorageUtil.getBool(_AppPreferencesKeys.qcBiometrics.value);
   }
 
   resetAndClearAll() async {

@@ -1,0 +1,78 @@
+import 'package:core/core.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
+
+enum AuthenticationType { face, fingerprint, none }
+
+class FingerPrintAuthentication {
+  late LocalAuthentication _auth;
+  AuthenticationType? availableAuthenticationType;
+
+  FingerPrintAuthentication() {
+    _auth = LocalAuthentication();
+  }
+
+  Future<AuthenticationType?> getAvailableAuthenticationType() async {
+    if (availableAuthenticationType != null) {
+      return availableAuthenticationType!;
+    }
+    var isAuthSupported = await canAuthenticate();
+    if (isAuthSupported == false) {
+      availableAuthenticationType = AuthenticationType.none;
+      return null;
+    }
+
+    List<BiometricType> availableBiometrics = await _auth.getAvailableBiometrics();
+
+    if (isIOS()) {
+      if (availableBiometrics.contains(BiometricType.face)) {
+        // Face ID.
+        availableAuthenticationType = AuthenticationType.face;
+      } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
+        // Touch ID.
+        availableAuthenticationType = AuthenticationType.fingerprint;
+      }
+    } else {
+      availableAuthenticationType = AuthenticationType.fingerprint;
+    }
+    return availableAuthenticationType;
+  }
+
+  Future<bool> authenticate() async {
+    bool authenticated = false;
+    try {
+      authenticated = await _auth.authenticate(
+          localizedReason: 'Scan your fingerprint to authenticate',
+          options: const AuthenticationOptions(useErrorDialogs: true, stickyAuth: true));
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    return authenticated;
+  }
+
+  Future<bool> canAuthenticate() async {
+    return await _auth.canCheckBiometrics;
+  }
+
+  Future<bool> checkForAuthenticate() async {
+    bool canAuthenticate = false;
+    try {
+      if (!await _auth.canCheckBiometrics) {
+        canAuthenticate = false;
+      } else {
+        List<BiometricType> list = await _auth.getAvailableBiometrics();
+        // list.forEach((element) {
+        //
+        // });
+        if ((!list.contains(BiometricType.iris))) {
+          canAuthenticate = await authenticate();
+        } else {
+          canAuthenticate = true;
+        }
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    return canAuthenticate;
+  }
+}
