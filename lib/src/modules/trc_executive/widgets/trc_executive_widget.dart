@@ -1,9 +1,9 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/trc_executive/screens/tl_list_screen.dart';
 
 import '../l10n.dart';
 import '../models/trc_executive_config_model.dart';
-import '../screens/device_scanner_screen.dart';
 
 class TrcExecutiveWidget extends StatelessWidget {
   final TrcExecutiveConfigModel? configModel;
@@ -22,7 +22,7 @@ class TrcExecutiveWidget extends StatelessWidget {
         children: [
           CshMediumButton(
             text: configModel?.buttonText ?? l10n.receiveDevice,
-            onPressed: () => Navigator.pushNamed(context, DeviceScannerScreen.route),
+            onPressed: () => Navigator.pushNamed(context, TlListScreen.route),
           )
         ],
       ),

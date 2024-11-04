@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/calculator_scanner_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/color_selection_screen.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
@@ -84,12 +85,21 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
     _pQuote = scannedData;
     CshLoading().showLoading(context);
     provider.getCalculatorRequest(_pQuote, _deviceBarcode).then((value) {
-      CshLoading().hideLoading(context);
-      CalculatorDataHolderModel().startCalculatorJourney(value, _deviceBarcode);
-      Navigator.pushReplacementNamed(context, CalculationScreen.route);
+      if (mounted) {
+        CshLoading().hideLoading(context);
+        CalculatorDataHolderModel().startCalculatorJourney(value, _deviceBarcode);
+
+        ColorSelectionScreen.navigateTo(context, value.productId, _deviceBarcode, (color) {
+          Navigator.pop(context); // Dismiss color selection screen
+          CalculatorDataHolderModel().setSelectedColor(color);
+          Navigator.pushReplacementNamed(context, CalculationScreen.route);
+        });
+      }
     }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+      if (mounted) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: error);
+      }
     });
   }
 }

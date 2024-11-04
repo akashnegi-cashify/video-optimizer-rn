@@ -8,28 +8,14 @@ import 'package:flutter_trc/shipex/shipex_service.dart';
 import '../models/group_lot_list_repsonse.dart';
 
 class PackingService {
-  static Stream<GroupLotListResponse?> getGroupNewDataList(int pageNumber, {String? query}) {
-    Map<String, List<String>> queryParam = {
-      "os": [pageNumber.toString()],
-      "ps": ["10"],
+  static Stream<GroupLotListResponse?> getGroupNewDataList(int pageNumber, {required Map<String, dynamic> filter}) {
+    Map<String, dynamic> body = {
+      "os": pageNumber.toString(),
+      "ps": "10",
+      "fr": filter
     };
-    if (!Validator.isNullOrEmpty(query)) {
-      queryParam["gn"] = [query!];
-    }
 
-    return ShipexService().get("/app/packaging/group/list", GroupLotListResponse.fromJson, params: queryParam);
-  }
-
-  static Stream<GroupLotListResponse?> getGroupPendingDataList(int pageNo, {String? query}) {
-    Map<String, List<String>> queryParam = {
-      "os": [pageNo.toString()],
-      "ps": ["10"],
-    };
-    if (!Validator.isNullOrEmpty(query)) {
-      queryParam["gn"] = [query!];
-    }
-    return ShipexService()
-        .get("/app/packaging/group/list/in-process", GroupLotListResponse.fromJson, params: queryParam);
+    return ShipexService().post("/app/packaging/group/list", GroupLotListResponse.fromJson, body: jsonEncode(body));
   }
 
   static Stream<PackagingSubOrderListResponse?> getPackagingSubOrderList(int? lotId) {

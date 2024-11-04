@@ -637,6 +637,22 @@
       ]
     },
     {
+      "pageId": 48,
+      "pageKey": "TRC_tl_list_screen",
+      "dt": [
+        {
+          "id": 82,
+          "key": "TRC_tl_list_component",
+          "type": "component"
+        },
+        {
+          "id": 83,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -1349,6 +1365,21 @@
         },
         {
           "id": 10134,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10052,
+      "pageKey": "QC_color_selection_screen",
+      "dt": [
+        {
+          "id": 10135,
+          "key": "QC_color_selection_component",
+          "type": "component"
+        },
+        {
+          "id": 10136,
           "key": "header_QC_qc_general"
         }
       ]
@@ -2384,6 +2415,28 @@
       }
     },
     {
+      "componentId": 82,
+      "locale": "en",
+      "key": "TRC_tl_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 83,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Select TL",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
       "componentId": 10001,
       "locale": "en",
       "key": "QC_qc_tester_home",
@@ -3304,6 +3357,29 @@
       "configJson": {
         "config": {
           "ht": "Product List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10135,
+      "locale": "en",
+      "key": "QC_color_selection_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10136,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Select Color",
           "sbb": true,
           "slb": false
         }

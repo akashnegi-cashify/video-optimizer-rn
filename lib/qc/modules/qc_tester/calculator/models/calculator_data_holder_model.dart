@@ -16,6 +16,7 @@ class CalculatorDataHolderModel {
 
   MyQuoteRequestData? _quoteRequestData;
   String? _deviceBarcode;
+  String? _selectedColor;
 
   MyCalculatorResponse? _calculatorResponse;
   List<MediaSubmitRequest>? _mediaList;
@@ -77,13 +78,14 @@ class CalculatorDataHolderModel {
 
   set quoteRequestData(MyQuoteRequestData? value) {
     _quoteRequestData = value;
+    _quoteRequestData?.selectedColor = _selectedColor;
     if (_selectedCategoryId != null) {
       _quoteRequestData?.categoryId = _selectedCategoryId;
     }
   }
 
   setSelectedColor(String color) {
-    _quoteRequestData?.selectedColor = color;
+    _selectedColor = color;
   }
 
   resetAllData() {
@@ -95,6 +97,7 @@ class CalculatorDataHolderModel {
     _isCaptureDeviceMediaJourney = false;
     _deviceType = DeviceType.mobile_device;
     _variantData = null;
+    _selectedColor = null;
   }
 
   bool get isCaptureMediaMandatoryInQC =>

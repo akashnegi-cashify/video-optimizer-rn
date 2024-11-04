@@ -10,9 +10,9 @@ RecommendedPartResponse _$RecommendedPartResponseFromJson(
         Map<String, dynamic> json) =>
     RecommendedPartResponse(
       isSuccess: json['s'] as bool?,
-      dataResponse: json['dt'] == null
-          ? null
-          : RecommendedPartData.fromJson(json['dt'] as Map<String, dynamic>),
+      dataList: (json['dt'] as List<dynamic>?)
+          ?.map((e) => RecommendedPartData.fromJson(e as Map<String, dynamic>))
+          .toList(),
       refId: json['r_id'] as String?,
     );
 
@@ -21,13 +21,14 @@ Map<String, dynamic> _$RecommendedPartResponseToJson(
     <String, dynamic>{
       'r_id': instance.refId,
       's': instance.isSuccess,
-      'dt': instance.dataResponse,
+      'dt': instance.dataList,
     };
 
 RecommendedPartData _$RecommendedPartDataFromJson(Map<String, dynamic> json) =>
     RecommendedPartData(
       barcode: json['pbr'] as String?,
       recommendedQuantity: (json['rqty'] as num?)?.toInt(),
+      location: json['lc'] as String?,
     );
 
 Map<String, dynamic> _$RecommendedPartDataToJson(
@@ -35,4 +36,5 @@ Map<String, dynamic> _$RecommendedPartDataToJson(
     <String, dynamic>{
       'rqty': instance.recommendedQuantity,
       'pbr': instance.barcode,
+      'lc': instance.location,
     };

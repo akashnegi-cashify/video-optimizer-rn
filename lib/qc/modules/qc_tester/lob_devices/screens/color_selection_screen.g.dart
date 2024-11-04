@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'device_scanner_screen.dart';
+part of 'color_selection_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,12 +9,14 @@ part of 'device_scanner_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "TRC_device_scanner_screen",
-      "pageGroup": "Device Scanner",
-      "title": "Device Scanner Screen",
+      "key": "QC_color_selection_screen",
+      "pageGroup": "QC Color Selection Page",
+      "title": "Color Selection Screen",
       "isActive": true,
       "params": [
-        {"key": "tlUser", "value": null}
+        {"key": "dbr", "value": null},
+        {"key": "bid", "value": null},
+        {"key": "ocs", "value": null}
       ]
 
       //#adminscreen

@@ -20,6 +20,11 @@ class L10n extends BaseL10n {
 
   String get repairType => Intl.message("Repair Type", locale: localName, name: "repairType");
 
+  String get repairOrder => Intl.message("Repair Order", locale: localName, name: "repairOrder");
+
   String get close => Intl.message("Close", locale: localName, name: "close");
 
+  String get searchByName => Intl.message("Search by name", locale: localName, name: "searchByName");
+
+  String get tlName => Intl.message("TL Name", locale: localName, name: "tlName");
 }

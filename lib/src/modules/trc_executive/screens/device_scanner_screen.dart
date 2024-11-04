@@ -2,11 +2,25 @@ import 'package:builder_project/builder_project.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/modules/trc_executive/models/device_scanner_screen_arguments_model.dart';
+import 'package:flutter_trc/src/modules/trc_executive/models/tl_list_response.dart';
 
 part 'device_scanner_screen.g.dart';
 
-@CshPage(key: DeviceScannerScreen.pageKey, pageGroup: PageGroup.deviceScannerPageKey)
-class DeviceScannerScreen extends BaseScreen {
+class DeviceScannerScreenArguments extends BaseArguments {
+  TlListData? tlData;
+
+  DeviceScannerScreenArguments(this.tlData) : super(DeviceScannerScreen.pageKey);
+
+  toMap() => {DeviceScannerScreenArgumentsModelParams.tlUser.value: tlData};
+}
+
+@CshPage(
+  key: DeviceScannerScreen.pageKey,
+  pageGroup: PageGroup.deviceScannerPageKey,
+  params: DeviceScannerScreenArgumentsModelParams.values,
+)
+class DeviceScannerScreen extends BaseScreen<DeviceScannerScreenArguments> {
   static const String pageKey = "TRC_device_scanner_screen";
   static const String route = "/device_scanner_screen";
 
@@ -14,6 +28,12 @@ class DeviceScannerScreen extends BaseScreen {
 
   @override
   Widget buildView(BuildContext context) {
-    return const PageWidget(pageKey: pageKey);
+    var arguments = getArguments(context);
+    return PageWidget(pageKey: pageKey, initialValue: arguments?.toMap());
   }
+
+  static navigate(BuildContext context, TlListData tlData) {
+    Navigator.pushNamed(context, route, arguments: DeviceScannerScreenArguments(tlData));
+  }
+
 }

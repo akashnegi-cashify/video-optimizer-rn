@@ -6,6 +6,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/color_selection_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/product_list_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/widgets/lob_device_detail_widget.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
@@ -33,20 +34,27 @@ class LobDeviceScannerWidget extends StatelessWidget {
     CshLoading().showLoading(context);
     provider.getLobCalculator(item.productMasterId, item.productId, selectedCategoryId, variantItem).then(
         (calculatorResponse) {
-      CshLoading().hideLoading(context);
-      calculatorResponse?.brandId ??= item.brandId;
-      CalculatorDataHolderModel().startCalculatorJourney(
-        calculatorResponse,
-        provider.deviceBarcode,
-        deviceType: DeviceType.lob_device,
-        selectedCategoryId: selectedCategoryId,
-        variantData: variantItem,
-      );
-      Navigator.popUntil(context, (route) => route is PageRoute); // Dismiss all dialog
-      Navigator.pushReplacementNamed(context, CalculationScreen.route);
+      if (context.mounted) {
+        CshLoading().hideLoading(context);
+        calculatorResponse?.brandId ??= item.brandId;
+        CalculatorDataHolderModel().startCalculatorJourney(
+          calculatorResponse,
+          provider.deviceBarcode,
+          deviceType: DeviceType.lob_device,
+          selectedCategoryId: selectedCategoryId,
+          variantData: variantItem,
+        );
+        ColorSelectionScreen.navigateTo(context, item.productId, provider.deviceBarcode, (color) {
+          Navigator.pop(context); // Dismiss color selection screen
+          CalculatorDataHolderModel().setSelectedColor(color);
+          Navigator.pushReplacementNamed(context, CalculationScreen.route);
+        });
+      }
     }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error).toString());
+      if (context.mounted) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error).toString());
+      }
     });
   }
 

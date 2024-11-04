@@ -15,6 +15,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/disputed_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/submit_device_quote_component.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/color_selection_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/lob_device_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/component/product_list_component.dart';
 import 'package:flutter_trc/qc/modules/re_qc/components/re_qc_detail_component.dart';
@@ -165,6 +166,9 @@ class QcComponentRegistry {
 
       case ProductListComponent.COMP_KEY:
         return ProductListComponent(jsonConfig);
+
+      case ColorSelectionComponent.COMP_KEY:
+        return ColorSelectionComponent(jsonConfig);
 
       default:
         return null;

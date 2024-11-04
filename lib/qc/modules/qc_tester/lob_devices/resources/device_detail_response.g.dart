@@ -52,11 +52,11 @@ Map<String, dynamic> _$DeviceDetailResponseDataToJson(
       'imei': instance.imei1,
       'imei2': instance.imei2,
       'sn': instance.serialNo,
+      'br_id': instance.brandId,
       'cat_id': instance.selectedCategoryId,
       'cat': instance.categoryList,
       'rm': instance.reasons,
       'idia': instance.isDeviceImeiApproved,
-      'br_id': instance.brandId,
     };
 
 CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) => CategoryData(

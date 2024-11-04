@@ -9,11 +9,11 @@ class RecommendedPartResponse {
   @JsonKey(name: "s")
   bool? isSuccess;
   @JsonKey(name: "dt")
-  RecommendedPartData? dataResponse;
+  List<RecommendedPartData>? dataList;
 
   RecommendedPartResponse({
     this.isSuccess,
-    this.dataResponse,
+    this.dataList,
     this.refId,
   });
 
@@ -28,10 +28,13 @@ class RecommendedPartData {
   int? recommendedQuantity;
   @JsonKey(name: "pbr")
   String? barcode;
+  @JsonKey(name: "lc")
+  String? location;
 
   RecommendedPartData({
     this.barcode,
     this.recommendedQuantity,
+    this.location,
   });
 
   static RecommendedPartData fromJson(Map<String, dynamic> data) => _$RecommendedPartDataFromJson(data);

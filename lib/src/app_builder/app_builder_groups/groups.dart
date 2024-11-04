@@ -79,7 +79,8 @@ enum ComponentGroup with AbsComponentGroup {
   pendingDispatchProviderListComponentKey("Pending Dispatch Provider List Component"),
   completeDispatchComponentKey("Complete Dispatch Component"),
   trcDeviceReportComponentKey("Trc Device Report Component"),
-  trcPartRequestReasonsComponentKey("Trc Part Request Reasons Component");
+  trcPartRequestReasonsComponentKey("Trc Part Request Reasons Component"),
+  trcTlListComponentKey("Trc TL List Component");
 
   @override
   final String value;
@@ -162,7 +163,8 @@ enum PageGroup with AbsPageGroup {
   pendingDispatchProviderListPageKey("Pending Dispatch Provider List"),
   completeDispatchPageKey("Complete Dispatch"),
   trcDeviceReportPageKey("Trc Device Report"),
-  trcPartRequestReasonsPageKey("Trc Part Request Reasons");
+  trcPartRequestReasonsPageKey("Trc Part Request Reasons"),
+  trcTlListPageKey("Trc TL List");
 
   @override
   final String value;
