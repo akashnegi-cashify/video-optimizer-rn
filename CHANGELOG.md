@@ -1,6 +1,6 @@
 # TRC Releases
 
-# v3.4.4+58 (XX-10-2024)
+# v3.4.4+58 (04-11-2024)
 
 ### Feature and Improvements:
 
@@ -10,7 +10,7 @@
 * `TRC - Executive - TL assignment at time of receiving devices `[(SCM-7676)](https://reglobe.atlassian.net/browse/SCM-7676)
 
 
-# v3.4.3+57 (XX-10-2024)
+# v3.4.3+57 (21-10-2024)
 
 ### Feature and Improvements:
 
