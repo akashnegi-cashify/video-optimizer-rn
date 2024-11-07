@@ -53,10 +53,10 @@ class _CashifyAppState extends State<CashifyApp> {
   }
 
   Future<String> onSessionExpire() async {
-    await AppPreferences.instance.resetAndClearAll();
     if (AppPreferences.app.getLoginType() == LoginTypes.qcLogin.value) {
-      AppPreferences.qc.clear();
+      await AppPreferences.qc.clear();
     }
+    await AppPreferences.instance.resetAndClearAll();
     Navigator.of(_navKey!.currentState!.context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
     return Future.error("Session Expire");
   }

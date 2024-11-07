@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_question_tab_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../src/common/dialogs/csh_remarks_dialog.dart';
+import '../dialog/csh_remarks_dialog.dart';
 
 class ReQcQuestionsTab extends StatefulWidget {
   final Function(bool isMismatchMarked) onReQcSubmitted;
@@ -104,17 +104,40 @@ class _ReQcQuestionsTabState extends State<ReQcQuestionsTab> {
   }
 
   void _submitReQc(ReQcQuestionsProvider provider) {
-    showRemarksDialog(context, onProceed: (remarks) {
-      Navigator.pop(context); // dismiss dialog
-      CshLoading().showLoading(context);
-      provider.submitReQcData(remarks).then((value) {
-        CshLoading().hideLoading(context);
-        CshSnackBar.success(context: context, message: "ReQC submitted successfully");
-        widget.onReQcSubmitted(provider.isMismatchMarked());
-      }, onError: (error) {
-        CshLoading().hideLoading(context);
-        CshSnackBar.error(context: context, message: error);
-      });
+    showRemarksDialog(
+      context,
+      onProceed: (remarks) {
+        Navigator.pop(context); // dismiss dialog
+        _onRemarksProceed(provider, remarks);
+      },
+      onMarkFail: (remarks) async {
+        XFile? file = await ImagePickerUtils.instance.openCamera();
+        if (file == null) {
+          return;
+        }
+        CshLoading().showLoading(context);
+        provider.uploadImage(file.path).then((value) {
+          CshLoading().hideLoading(context);
+          Navigator.pop(context); // dismiss dialog
+          _onRemarksProceed(provider, remarks, isMarkFail: true, imagePath: value);
+        }, onError: (error) {
+          CshLoading().hideLoading(context);
+          CshSnackBar.error(context: context, message: error.toString());
+        });
+      },
+    );
+  }
+
+  _onRemarksProceed(ReQcQuestionsProvider provider, String? remarks,
+      {bool isMarkFail = false, String? imagePath}) async {
+    CshLoading().showLoading(context);
+    provider.submitReQcData(remarks, imagePath, isMarkFail: isMarkFail).then((value) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.success(context: context, message: "ReQC submitted successfully");
+      widget.onReQcSubmitted(provider.isMismatchMarked());
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error);
     });
   }
 }

@@ -5,6 +5,7 @@
 ### Feature and Improvements:
 
 * `QC - Biometric Authenticaion`[(SCM-7943)](https://reglobe.atlassian.net/browse/SCM-7943)
+* `QC - RE-QC - Add Mark Fail Button`[(SCM-7737)](https://reglobe.atlassian.net/browse/SCM-7737)
 
 
 # v3.4.4+58 (XX-10-2024)
