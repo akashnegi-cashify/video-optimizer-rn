@@ -8,7 +8,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_trc/qc/qc_routes.dart';
 import 'package:flutter_trc/rms/rms_routes.dart';
 import 'package:flutter_trc/shipex/shipex_routes.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
 import 'package:flutter_trc/trc/trc_routes.dart';
@@ -52,7 +53,10 @@ class _CashifyAppState extends State<CashifyApp> {
   }
 
   Future<String> onSessionExpire() async {
-    await AppPreferences().resetAndClearAll();
+    await AppPreferences.instance.resetAndClearAll();
+    if (AppPreferences.app.getLoginType() == LoginTypes.qcLogin.value) {
+      AppPreferences.qc.clear();
+    }
     Navigator.of(_navKey!.currentState!.context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
     return Future.error("Session Expire");
   }

@@ -51,7 +51,7 @@ import 'package:flutter_trc/src/libraries/analytics/analytic_event_params.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/base_tracking_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/common_events.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/elss/common_models/brands_all_products.dart';
 import 'package:flutter_trc/src/modules/elss/common_models/brands_listing_models.dart';
 import 'package:flutter_trc/src/modules/elss/common_models/channel_option_response.dart';

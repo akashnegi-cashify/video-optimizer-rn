@@ -31,7 +31,9 @@ import 'package:flutter_trc/qc/modules/warehouse_audit/screens/on_going_audit_sc
 import 'package:flutter_trc/qc/modules/warehouse_audit/screens/warehouse_audit_perform_screen.dart';
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
 import 'package:flutter_trc/src/common/gallery_screen.dart';
-import 'package:flutter_trc/src/common/mpin/mpin_setup_screen.dart';
+import 'package:flutter_trc/src/common/mpin/screens/mpin_login_screen.dart';
+import 'package:flutter_trc/src/common/mpin/screens/mpin_registration_successful_screen.dart';
+import 'package:flutter_trc/src/common/mpin/screens/mpin_setup_screen.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_screen.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
@@ -106,6 +108,8 @@ class QcRoutes {
       ProductListScreen.route: (_) => const ProductListScreen(),
       ColorSelectionScreen.route: (_) => const ColorSelectionScreen(),
       MPinSetupScreen.route: (_) => const MPinSetupScreen(),
+      MPinRegistrationSuccessfulScreen.route: (_) => const MPinRegistrationSuccessfulScreen(),
+      MPinLoginScreen.route: (_) => const MPinLoginScreen(),
     };
   }
 }

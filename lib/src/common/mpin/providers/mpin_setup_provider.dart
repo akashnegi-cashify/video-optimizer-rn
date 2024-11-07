@@ -4,9 +4,9 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/mpin/mpin_controller.dart';
-import 'package:flutter_trc/src/common/mpin/mpin_service.dart';
+import 'package:flutter_trc/src/common/mpin/resources/mpin_service.dart';
 import 'package:flutter_trc/src/common/mpin/mpin_validation_state.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:provider/provider.dart';
 
 class MPinSetupProvider extends CshChangeNotifier {
@@ -42,7 +42,7 @@ class MPinSetupProvider extends CshChangeNotifier {
 
     var completer = Completer<void>();
     MPinService.submitMPin(_confirmMPin).listen((event) {
-      AppPreferences().setQcMPin(_confirmMPin!);
+      AppPreferences.qc.setQcMPin(_confirmMPin!);
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

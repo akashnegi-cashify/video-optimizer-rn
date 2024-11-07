@@ -1,10 +1,8 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/common/mpin/mpin_setup_screen.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_action_widget.dart';
 import 'package:flutter_trc/src/libraries/alice/csh_alice.dart';
-import 'package:flutter_trc/src/libraries/logging/logging_service.dart';
 
 import '../../../../common/user/widget/logout_action_widget.dart';
 import '../../../../environments/environment_config.dart';
@@ -39,7 +37,6 @@ class QcGeneralHeader extends StatelessWidget implements PreferredSizeWidget {
           iconSize: MobileIconSize.medium,
           padding: EdgeInsets.zero,
           onClick: () {
-            Navigator.pushNamed(context, MPinSetupScreen.route);
             CshAlice().alice?.showInspector();
           },
         ),

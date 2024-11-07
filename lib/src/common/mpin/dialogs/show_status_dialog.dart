@@ -2,7 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
-void showStatusDialog(BuildContext context, bool isSuccess, {String? errorMessage}) {
+void showStatusDialog(BuildContext context, bool isSuccess, {String? errorMessage, VoidCallback? onProceed}) {
   var theme = Theme.of(context);
   var customColor = theme.extension<CustomColors>() as CustomColors;
   showDialog(
@@ -31,7 +31,7 @@ void showStatusDialog(BuildContext context, bool isSuccess, {String? errorMessag
                 ),
               ),
               const SizedBox(height: Dimens.space_24),
-              CshTextNew.subTitle1(isSuccess ? "Success!" : "Failed!"),
+              CshTextNew.h4(isSuccess ? "Success!" : "Failed!"),
               const SizedBox(height: Dimens.space_8),
               Text(
                 isSuccess
@@ -46,7 +46,7 @@ void showStatusDialog(BuildContext context, bool isSuccess, {String? errorMessag
                 child: CshBigButton(
                   text: isSuccess ? "Okay" : "Retry",
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    onProceed?.call();
                   },
                 ),
               ),

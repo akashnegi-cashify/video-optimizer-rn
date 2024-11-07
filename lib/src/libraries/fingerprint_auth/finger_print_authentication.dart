@@ -6,20 +6,17 @@ enum AuthenticationType { face, fingerprint, none }
 
 class FingerPrintAuthentication {
   late LocalAuthentication _auth;
-  AuthenticationType? availableAuthenticationType;
 
   FingerPrintAuthentication() {
     _auth = LocalAuthentication();
   }
 
   Future<AuthenticationType?> getAvailableAuthenticationType() async {
-    if (availableAuthenticationType != null) {
-      return availableAuthenticationType!;
-    }
+    AuthenticationType? availableAuthenticationType;
     var isAuthSupported = await canAuthenticate();
     if (isAuthSupported == false) {
       availableAuthenticationType = AuthenticationType.none;
-      return null;
+      return availableAuthenticationType;
     }
 
     List<BiometricType> availableBiometrics = await _auth.getAvailableBiometrics();
@@ -43,7 +40,7 @@ class FingerPrintAuthentication {
     try {
       authenticated = await _auth.authenticate(
           localizedReason: 'Scan your fingerprint to authenticate',
-          options: const AuthenticationOptions(useErrorDialogs: true, stickyAuth: true));
+          options: const AuthenticationOptions(useErrorDialogs: true, stickyAuth: true, biometricOnly: true));
     } on PlatformException catch (e) {
       print(e);
     }

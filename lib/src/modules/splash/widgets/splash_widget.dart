@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:components/auth/handler/auth_handler.dart';
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../libraries/shared_prefrences/app_prefrences.dart';
 import '../../../resources/user_details.dart';
 import '../../login/resources/collector_user_controller.dart';
 import '../../login/screens/trc_and_qc_login_screen.dart';
@@ -44,29 +45,17 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
     }
   }
 
-  void _checkAuth(BuildContext context) async {
-    if (AuthHandler().userAuth == null) {
+  void _checkAuth(BuildContext context) {
+    var loginType = AppPreferences.app.getLoginType();
+    var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+    String? userAuth = loginTypeEnum == LoginTypes.qcLogin ? AppPreferences.qc.getUserAuth() : AuthHandler().userAuth;
+    if (Validator.isNullOrEmpty(userAuth)) {
       Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
     } else {
-      UserDetails().setUserDetailsData(AuthHandler().userAuth!);
-
-      var loginType = AppPreferences().getLoginType();
-      var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
-
-      await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-          loginToken: AuthHandler().userAuth!, loginType: loginTypeEnum);
-      // if (loginTypeEnum == LoginTypes.qcLogin) {
-      //   await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-      //       loginToken: AuthHandler().userAuth!, loginType: LoginTypes.qcLogin);
-      // } else if (loginTypeEnum == LoginTypes.shipexLogin) {
-      //   await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-      //       loginToken: AuthHandler().userAuth!, loginType: LoginTypes.shipexLogin);
-      // } else if (loginTypeEnum == LoginTypes.trcLogin){
-      //   await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-      //       loginToken: AuthHandler().userAuth!, loginType: LoginTypes.trcLogin);
-      // } else {
-      //
-      // }
+      AuthHandler().setUserAuth(userAuth!);
+      UserDetails().setUserDetailsData(userAuth);
+      UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+          loginType: loginTypeEnum);
     }
   }
 
@@ -78,6 +67,7 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
       child: Lottie.asset(
         'assets/json/cashify_splash.json',
         frameRate: FrameRate.composition,
+        repeat: false,
         controller: _lottieAnimationController,
         onLoaded: (LottieComposition composition) {
           playAnimation(composition);

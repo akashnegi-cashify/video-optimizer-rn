@@ -1,15 +1,21 @@
 import 'package:components/auth/widget/pin_code_text_field/csh_pin_code_text_field.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
-import 'package:flutter_trc/src/common/mpin/mpin_setup_provider.dart';
+import 'package:flutter_trc/src/common/mpin/dialogs/show_fingerprint_dialog.dart';
+import 'package:flutter_trc/src/common/mpin/dialogs/show_fingerprint_not_enabled_dialog.dart';
+import 'package:flutter_trc/src/common/mpin/dialogs/show_status_dialog.dart';
 import 'package:flutter_trc/src/common/mpin/mpin_validation_state.dart';
-import 'package:flutter_trc/src/common/mpin/show_status_dialog.dart';
+import 'package:flutter_trc/src/common/mpin/providers/mpin_setup_provider.dart';
+import 'package:flutter_trc/src/common/mpin/screens/mpin_registration_successful_screen.dart';
+import 'package:flutter_trc/src/libraries/fingerprint_auth/finger_print_authentication.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
-import './l10n.dart';
+import '../l10n.dart';
 
 class MPinSetupScreen extends StatelessWidget {
   static const String route = "/mpin_setup_screen";
@@ -38,7 +44,7 @@ class MPinSetupScreen extends StatelessWidget {
                   CshTextNew.subTitle2(l10n.enterMPin),
                   const SizedBox(height: Dimens.space_6),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.8,
                     child: CshPinCodeTextField(
                       length: 6,
                       autoDismissKeyboard: true,
@@ -62,7 +68,7 @@ class MPinSetupScreen extends StatelessWidget {
                   CshTextNew.subTitle2(l10n.confirmMPin),
                   const SizedBox(height: Dimens.space_8),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.8,
                     child: CshPinCodeTextField(
                       length: 6,
                       autoDismissKeyboard: true,
@@ -84,7 +90,7 @@ class MPinSetupScreen extends StatelessWidget {
                       text: "Submit",
                       onPressed: provider.isEnableSubmitButton() ? () => _onSubmit(context, provider) : null,
                     ),
-                  )
+                  ),
                 ],
               ),
             );
@@ -96,11 +102,38 @@ class MPinSetupScreen extends StatelessWidget {
     CshLoading().showLoading(context);
     provider.onSubmit().then((_) {
       CshLoading().hideLoading(context);
-      showStatusDialog(context, true);
+      showStatusDialog(context, true, onProceed: () {
+        Navigator.of(context).pop();
+        _askBiometricAuthentication(context);
+      });
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      showStatusDialog(context, false, errorMessage: error.toString());
+      showStatusDialog(context, false, errorMessage: error.toString(), onProceed: () {
+        Navigator.of(context).pop();
+      });
     });
+  }
+
+  _askBiometricAuthentication(BuildContext context) async {
+    var authentication = await FingerPrintAuthentication().getAvailableAuthenticationType();
+    if (authentication == AuthenticationType.none) {
+      showFingerprintNotEnabledDialog(context);
+    } else {
+      showFingerprintDialog(
+        context,
+        onEnable: () {
+          Navigator.pop(context); // pop dialog
+          FingerPrintAuthentication().checkForAuthenticate().then((value) {
+            if (Validator.isTrue(value)) {
+              AppPreferences.qc.setIsBioMetricEnabled(true);
+              Navigator.pushNamed(context, MPinRegistrationSuccessfulScreen.route);
+            } else {
+              Logger.debug('mydebug-----MPinSetupScreen.build', ['Fingerprint not enabled']);
+            }
+          });
+        },
+      );
+    }
   }
 }
 
