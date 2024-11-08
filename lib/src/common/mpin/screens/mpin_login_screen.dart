@@ -1,7 +1,9 @@
 import 'package:components/auth/widget/pin_code_text_field/csh_pin_code_text_field.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
+import 'package:flutter_trc/src/common/mpin/resources/mpin_service.dart';
 import 'package:flutter_trc/src/libraries/fingerprint_auth/finger_print_authentication.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
@@ -73,6 +75,9 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> {
                   shape: PinCodeFieldShape.circle,
                   obscureText: true,
                   enableAutoFill: false,
+                  onCompleted: (value) {
+                    _onMPinSubmit();
+                  },
                   onChanged: (value) {
                     _mPin = value;
                   },
@@ -129,12 +134,21 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> {
   }
 
   _onMPinSubmit() {
-    var savedMPin = AppPreferences.qc.getQcMPin();
-    if (savedMPin == _mPin) {
-      _moveToHomeScreen();
-    } else {
-      CshSnackBar.error(context: context, message: "MPin not matched", snackBarPosition: SnackBarPosition.TOP);
-    }
+    CshLoading().showLoading(context);
+    MPinService.validateMPin(_mPin).listen((event) {
+      CshLoading().hideLoading(context);
+      if (Validator.isTrue(event.isSuccess)) {
+        _moveToHomeScreen();
+      } else {
+        CshSnackBar.error(context: context, message: "MPin doesn't match", snackBarPosition: SnackBarPosition.TOP);
+      }
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(
+          context: context,
+          message: ApiErrorHelper.getErrorMessage(error).toString(),
+          snackBarPosition: SnackBarPosition.TOP);
+    });
   }
 
   _showForgetMPinConfirmationDialog() {
