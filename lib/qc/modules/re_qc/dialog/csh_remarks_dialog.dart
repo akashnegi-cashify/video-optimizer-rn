@@ -7,7 +7,7 @@ void showRemarksDialog(BuildContext context,
   showCshBottomSheet(
     isDismissible: false,
     context: context,
-    child: Builder(builder: (innerContext) {
+    child: StatefulBuilder(builder: (innerContext, setState) {
       var theme = Theme.of(innerContext);
       return Container(
         padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
@@ -16,15 +16,16 @@ void showRemarksDialog(BuildContext context,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CshTextNew.subTitle1("Enter Remarks (Optional)"),
+              CshTextNew.subTitle1("Enter Remarks"),
               const SizedBox(height: Dimens.space_16),
               CshTextFormField(
-                hintText: "Enter Remarks",
-                maxLines: 2,
-                onChanged: (value) {
-                  remarks = value;
-                },
-              ),
+                  hintText: "Enter Remarks",
+                  maxLines: 2,
+                  onChanged: (value) {
+                    setState(() {
+                      remarks = value;
+                    });
+                  }),
               const SizedBox(height: Dimens.space_16),
               Row(
                 children: [
@@ -33,20 +34,11 @@ void showRemarksDialog(BuildContext context,
                       text: "Mark Fail",
                       bgColor: theme.colorScheme.error,
                       textColor: theme.colorScheme.surface,
-                      onPressed: () {
-                        onMarkFail(remarks);
-                      },
+                      onPressed: Validator.isNullOrEmpty(remarks) ? null : () => onMarkFail(remarks),
                     ),
                   ),
                   const SizedBox(width: Dimens.space_16),
-                  Expanded(
-                    child: CshBigButton(
-                      text: "Submit",
-                      onPressed: () {
-                        onProceed(remarks);
-                      },
-                    ),
-                  ),
+                  Expanded(child: CshBigButton(text: "Submit", onPressed: () => onProceed(remarks))),
                 ],
               ),
             ],
