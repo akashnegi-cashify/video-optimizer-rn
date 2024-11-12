@@ -41,6 +41,8 @@ class L10n extends BaseL10n {
 
   String get forgetMPin => Intl.message('Forgot MPIN', locale: localName, name: 'forgetMPin');
 
+  String get changeUser => Intl.message('Change User', locale: localName, name: 'changeUser');
+
   String get submit => Intl.message('Submit', locale: localName, name: 'submit');
 
   String get loginUsingFingerprint =>

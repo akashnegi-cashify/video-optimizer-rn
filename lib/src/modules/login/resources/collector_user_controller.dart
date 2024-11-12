@@ -39,7 +39,7 @@ class UserRoles {
     } else if (loginType == LoginTypes.qcLogin) {
       String? savedPin = AppPreferences.qc.getQcMPin();
       if (Validator.isTrue(AppPreferences.qc.getIsBioMetricEnabled()) || !Validator.isNullOrEmpty(savedPin)) {
-        Navigator.pushNamed(context, MPinLoginScreen.route);
+        Navigator.pushNamedAndRemoveUntil(context, MPinLoginScreen.route, (route) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(context, MPinSetupScreen.route, (route) => false);
       }

@@ -1,8 +1,10 @@
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:components/auth/widget/pin_code_text_field/csh_pin_code_text_field.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
+import 'package:flutter_trc/src/common/mpin/dialogs/show_fingerprint_not_enabled_dialog.dart';
 import 'package:flutter_trc/src/common/mpin/resources/mpin_service.dart';
 import 'package:flutter_trc/src/libraries/fingerprint_auth/finger_print_authentication.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
@@ -21,17 +23,29 @@ class MPinLoginScreen extends StatefulWidget {
   State<MPinLoginScreen> createState() => _MPinLoginScreenState();
 }
 
-class _MPinLoginScreenState extends State<MPinLoginScreen> {
+class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingObserver {
   String? _mPin;
+  bool _isDeviceSupportFingerprint = true;
+  bool _isListenAppLifeCycle = false;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
         _authentication();
       }
     });
     super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed && _isListenAppLifeCycle) {
+      _isListenAppLifeCycle = false;
+      _authentication();
+    }
   }
 
   @override
@@ -62,7 +76,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                CshTextNew.h5("Welcome ${userDetailsData?.userName}"),
+                CshTextNew.h4("Welcome ${userDetailsData?.userName}"),
                 const SizedBox(height: Dimens.space_8),
                 CshTextNew.h5(l10n.enterSixDigitPin),
                 const SizedBox(height: Dimens.space_8),
@@ -84,12 +98,17 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> {
                 ),
                 const SizedBox(height: Dimens.space_12),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        _showForgetMPinConfirmationDialog();
-                      },
+                      onTap: () => _showForgetMPinConfirmationDialog(),
+                      child: Text(
+                        l10n.changeUser,
+                        style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => _showForgetMPinConfirmationDialog(),
                       child: Text(
                         l10n.forgetMPin,
                         style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
@@ -114,7 +133,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: _authentication,
+                      onTap: _isDeviceSupportFingerprint ? _authentication : null,
                       child: Padding(
                         padding: const EdgeInsets.all(Dimens.space_8),
                         child: Text(
@@ -152,24 +171,59 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> {
   }
 
   _showForgetMPinConfirmationDialog() {
-    showErrorDialog(
-      context,
-      "You need to setup again if you proceed",
-      "Are you sure?",
-      "Forget",
-      (_) {
-        AppPreferences.qc.clear();
-        Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
-      },
-    );
+    showPopup(context,
+        title: "Are you sure?",
+        barrierDismissible: true,
+        desc: "You need to setup again if you proceed.",
+        actions: [
+          CshMediumButton(
+            text: 'Cancel',
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          CshMediumButton(
+            text: 'Proceed',
+            onPressed: () {
+              AppPreferences.qc.clear();
+              AppPreferences.instance.resetAndClearAll();
+              Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
+            },
+          ),
+        ]);
   }
 
   _authentication() async {
+    bool isSupported = await FingerPrintAuthentication().canAuthenticate();
+    if (!isSupported) {
+      setState(() {
+        _isDeviceSupportFingerprint = false;
+      });
+      return;
+    }
+
+    var authentication = await FingerPrintAuthentication().getAvailableAuthenticationType();
+
+    if (authentication == AuthenticationType.none) {
+      showFingerprintNotEnabledDialog(
+        context,
+        onEnableSetting: () {
+          Navigator.pop(context);
+          _isListenAppLifeCycle = true;
+        },
+      );
+      return;
+    }
+
     FingerPrintAuthentication().checkForAuthenticate().then((value) {
       if (Validator.isTrue(value)) {
         _moveToHomeScreen();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   _moveToHomeScreen() {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 void showRemarksDialog(BuildContext context,
     {required Function(String? remarks) onProceed, required Function(String? remarks) onMarkFail}) {
   String? remarks;
+  String? remarksError;
   showCshBottomSheet(
     isDismissible: false,
     context: context,
@@ -20,11 +21,10 @@ void showRemarksDialog(BuildContext context,
               const SizedBox(height: Dimens.space_16),
               CshTextFormField(
                   hintText: "Enter Remarks",
+                  errorText: remarksError,
                   maxLines: 2,
                   onChanged: (value) {
-                    setState(() {
-                      remarks = value;
-                    });
+                    remarks = value;
                   }),
               const SizedBox(height: Dimens.space_16),
               Row(
@@ -34,7 +34,15 @@ void showRemarksDialog(BuildContext context,
                       text: "Mark Fail",
                       bgColor: theme.colorScheme.error,
                       textColor: theme.colorScheme.surface,
-                      onPressed: Validator.isNullOrEmpty(remarks) ? null : () => onMarkFail(remarks),
+                      onPressed: () {
+                        if (Validator.isNullOrEmpty(remarks)) {
+                          setState(() {
+                            remarksError = "Please add remarks to mark-fail";
+                          });
+                          return;
+                        }
+                        onMarkFail(remarks);
+                      },
                     ),
                   ),
                   const SizedBox(width: Dimens.space_16),

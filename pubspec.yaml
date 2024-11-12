@@ -113,37 +113,37 @@ dependencies:
       ref: v2.0.9
       path: csh_gallery_view
 
-  device_info_plus: ^10.1.0
+  device_info_plus: ^11.1.1
   alice: ^0.4.2
   connectivity_plus: ^6.0.3
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.0
-  package_info_plus: ^8.0.2
+  package_info_plus: ^8.1.1
   provider: ^6.0.4
   flutter_feather_icons: ^2.0.0+1
-  firebase_core: ^3.0.0
-  firebase_analytics: ^11.0.0
-  lottie: ^3.1.2
+  firebase_core: ^3.7.0
+  firebase_analytics: ^11.3.4
+  lottie: ^3.1.3
   jwt_decoder: ^2.0.1
   cached_network_image: ^3.3.0
   image_picker: ^1.0.4
   #  open_filex: ^4.3.2
   fl_chart: ^0.68.0
   visibility_detector: ^0.4.0+2
-  file_picker: ^8.0.3
-  path: ^1.8.3
+  file_picker: ^8.1.3
+  path: ^1.9.1
   video_thumbnail: ^0.5.3
   video_compress: ^3.1.2
-  path_provider: ^2.0.15
-  firebase_remote_config: ^5.0.0
+  path_provider: ^2.1.5
+  firebase_remote_config: ^5.1.4
   image: ^4.2.0
-  url_launcher: ^6.1.12
+  url_launcher: ^6.3.1
   flutter_tts: ^4.0.2
   #  ffmpeg_kit_flutter_video: 5.1.0
   video_player: ^2.7.0
   flutter_image_compress: ^2.0.4
-  firebase_crashlytics: ^4.0.0
+  firebase_crashlytics: ^4.1.4
   qr_flutter: ^4.1.0
   mobile_scanner: ^5.1.1
   disk_space: ^0.2.1
@@ -169,7 +169,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   build_runner: ^2.4.13
 
-#    path: ../flutter_packages/csh_schema_generator
+  #    path: ../flutter_packages/csh_schema_generator
   csh_schema_generator:
     git:
       url: https://github.com/reglobe/flutter_packages.git
@@ -180,84 +180,77 @@ dev_dependencies:
 
 
 dependency_overrides:
-  build: ^2.4.1
-  build_runner: ^2.4.13
-  source_gen: ^1.5.0
+  device_info_plus: ^11.1.1
+  web: ^1.0.0
+  path: ^1.9.1
   wakelock_plus: 1.2.5
-#  source_helper: ^1.3.4
   analyzer: ^6.5.0
-  meta: ^1.15.0
-#  dart_style: ^2.3.6
-
-#  source_gen: 1.2.7
-  graphs: 2.2.0
   flutter_widget_from_html: ^0.15.1
   intl: ^0.19.0
   rxdart: ^0.28.0
   uuid: ^4.4.0
-  #  graphs: 2.2.0
   camera: ^0.11.0+2
-  camera_android_camerax: 0.6.7+2
+  camera_android_camerax: ^0.6.10
   flutter_image_compress: ^2.0.4
-  package_info_plus : ^8.0.2
-#  csh_annotation:
-#    path: ../flutter_packages/csh_annotation
-#  builder_component:
-#    path: ../flutter_packages/builder_component
-#  localization:
-#    path: ../flutter_packages/localization
-#  core:
-#    path: ../flutter_packages/core
-#  calculator:
-#    path: ../flutter_packages/calculator
-#
-#  video_optimizer:
-#    path: ../flutter_packages/video_optimizer
+  package_info_plus: ^8.1.1
+  #  csh_annotation:
+  #    path: ../flutter_packages/csh_annotation
+  #  builder_component:
+  #    path: ../flutter_packages/builder_component
+  #  localization:
+  #    path: ../flutter_packages/localization
+  #  core:
+  #    path: ../flutter_packages/core
+  #  calculator:
+  #    path: ../flutter_packages/calculator
+  #
+  #  video_optimizer:
+  #    path: ../flutter_packages/video_optimizer
 #  components:
 #    path: ../flutter_admin_ui/components
-#
-#  core_widgets:
-#    path: ../flutter_admin_ui/core_widgets
-#
-#  calculator_ui:
-#    path: ../flutter_admin_ui/calculator_ui
-#
-#  ml_barcode_scanner:
-#    path: ../flutter_admin_ui/ml_barcode_scanner
-#
-#  imei_serial_reader:
-#    path: ../flutter_admin_ui/imei_serial_reader
+  #
+  #  core_widgets:
+  #    path: ../flutter_admin_ui/core_widgets
+  #
+  #  calculator_ui:
+  #    path: ../flutter_admin_ui/calculator_ui
+  #
+  #  ml_barcode_scanner:
+  #    path: ../flutter_admin_ui/ml_barcode_scanner
+  #
+  #  imei_serial_reader:
+  #    path: ../flutter_admin_ui/imei_serial_reader
 
-#  csh_annotation:
-#    git:
-#      url: https://github.com/reglobe/flutter_packages.git
-#      ref: v2.0.9
-#      path: csh_annotation
-#  builder_component:
-#    git:
-#      url: https://github.com/reglobe/flutter_packages.git
-#      ref: v2.0.9
-#      path: builder_component
-#  localization:
-#    git:
-#      url: https://github.com/reglobe/flutter_packages.git
-#      ref: v2.0.9
-#      path: localization
-#  core:
-#    git:
-#      url: https://github.com/reglobe/flutter_packages.git
-#      ref: v2.0.9
-#      path: core
-#  core_widgets:
-#    git:
-#      url: https://github.com/reglobe/flutter_admin_ui.git
-#      ref: v2.1.2
-#      path: core_widgets
-#  calculator:
-#    git:
-#      url: https://github.com/reglobe/flutter_packages.git
-#      ref: v2.0.9
-#      path: calculator
+  #  csh_annotation:
+  #    git:
+  #      url: https://github.com/reglobe/flutter_packages.git
+  #      ref: v2.0.9
+  #      path: csh_annotation
+  #  builder_component:
+  #    git:
+  #      url: https://github.com/reglobe/flutter_packages.git
+  #      ref: v2.0.9
+  #      path: builder_component
+  #  localization:
+  #    git:
+  #      url: https://github.com/reglobe/flutter_packages.git
+  #      ref: v2.0.9
+  #      path: localization
+  #  core:
+  #    git:
+  #      url: https://github.com/reglobe/flutter_packages.git
+  #      ref: v2.0.9
+  #      path: core
+  #  core_widgets:
+  #    git:
+  #      url: https://github.com/reglobe/flutter_admin_ui.git
+  #      ref: v2.1.2
+  #      path: core_widgets
+  #  calculator:
+  #    git:
+  #      url: https://github.com/reglobe/flutter_packages.git
+  #      ref: v2.0.9
+  #      path: calculator
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git

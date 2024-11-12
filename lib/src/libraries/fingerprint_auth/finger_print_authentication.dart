@@ -13,13 +13,11 @@ class FingerPrintAuthentication {
 
   Future<AuthenticationType?> getAvailableAuthenticationType() async {
     AuthenticationType? availableAuthenticationType;
-    var isAuthSupported = await canAuthenticate();
-    if (isAuthSupported == false) {
+    List<BiometricType> availableBiometrics = await _auth.getAvailableBiometrics();
+    if (availableBiometrics.isEmpty) {
       availableAuthenticationType = AuthenticationType.none;
       return availableAuthenticationType;
     }
-
-    List<BiometricType> availableBiometrics = await _auth.getAvailableBiometrics();
 
     if (isIOS()) {
       if (availableBiometrics.contains(BiometricType.face)) {
@@ -55,12 +53,12 @@ class FingerPrintAuthentication {
     bool canAuthenticate = false;
     try {
       if (!await _auth.canCheckBiometrics) {
-        canAuthenticate = false;
+        return false;
       } else {
         List<BiometricType> list = await _auth.getAvailableBiometrics();
-        // list.forEach((element) {
-        //
-        // });
+        if (list.isEmpty) {
+          return false;
+        }
         if ((!list.contains(BiometricType.iris))) {
           canAuthenticate = await authenticate();
         } else {

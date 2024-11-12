@@ -41,8 +41,8 @@ class MPinSetupProvider extends CshChangeNotifier {
     }
 
     var completer = Completer<void>();
-    MPinService.submitMPin(_confirmMPin).listen((event) {
-      AppPreferences.qc.setQcMPin(_confirmMPin!);
+    MPinService.submitMPin(_confirmMPin).listen((event) async {
+      await AppPreferences.qc.setQcMPin(_confirmMPin!);
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

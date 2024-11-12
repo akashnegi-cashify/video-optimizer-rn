@@ -1,5 +1,4 @@
 import 'package:components/auth/widget/pin_code_text_field/csh_pin_code_text_field.dart';
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -17,10 +16,38 @@ import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 
-class MPinSetupScreen extends StatelessWidget {
+class MPinSetupScreen extends StatefulWidget {
   static const String route = "/mpin_setup_screen";
 
   const MPinSetupScreen({super.key});
+
+  @override
+  State<MPinSetupScreen> createState() => _MPinSetupScreenState();
+}
+
+class _MPinSetupScreenState extends State<MPinSetupScreen> with WidgetsBindingObserver {
+  late bool isListenAppLifeCycle = false;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _onResume();
+    }
+  }
+
+  _onResume() {
+    if (isListenAppLifeCycle) {
+      isListenAppLifeCycle = false;
+      _askBiometricAuthentication(context);
+    }
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +73,7 @@ class MPinSetupScreen extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: CshPinCodeTextField(
+                      isUiLibraryUse: true,
                       length: 6,
                       autoDismissKeyboard: true,
                       textInputType: TextInputType.number,
@@ -70,6 +98,7 @@ class MPinSetupScreen extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: CshPinCodeTextField(
+                      isUiLibraryUse: true,
                       length: 6,
                       autoDismissKeyboard: true,
                       textInputType: TextInputType.number,
@@ -115,9 +144,21 @@ class MPinSetupScreen extends StatelessWidget {
   }
 
   _askBiometricAuthentication(BuildContext context) async {
+    bool isSupported = await FingerPrintAuthentication().canAuthenticate();
+    if (!isSupported) {
+      Navigator.pushNamed(context, MPinRegistrationSuccessfulScreen.route);
+      return;
+    }
+
     var authentication = await FingerPrintAuthentication().getAvailableAuthenticationType();
     if (authentication == AuthenticationType.none) {
-      showFingerprintNotEnabledDialog(context);
+      showFingerprintNotEnabledDialog(
+        context,
+        onEnableSetting: () {
+          Navigator.pop(context); // pop dialog
+          isListenAppLifeCycle = true;
+        },
+      );
     } else {
       showFingerprintDialog(
         context,
@@ -127,13 +168,17 @@ class MPinSetupScreen extends StatelessWidget {
             if (Validator.isTrue(value)) {
               AppPreferences.qc.setIsBioMetricEnabled(true);
               Navigator.pushNamed(context, MPinRegistrationSuccessfulScreen.route);
-            } else {
-              Logger.debug('mydebug-----MPinSetupScreen.build', ['Fingerprint not enabled']);
             }
           });
         },
       );
     }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }
 
