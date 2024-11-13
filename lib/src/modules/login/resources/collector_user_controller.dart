@@ -1,15 +1,17 @@
-import 'package:core/core.dart';
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/rms/modules/home/screens/rms_home_screen.dart';
 import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
+import 'package:flutter_trc/src/common/mpin/screens/mpin_login_screen.dart';
+import 'package:flutter_trc/src/common/mpin/screens/mpin_setup_screen.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
+import 'package:flutter_trc/src/resources/user_details.dart';
 
-import '../../../resources/models/send_native_data.dart';
 import '../../elss/common_screen/elss_home_screen.dart';
 import '../../engineer/widgets/engineer_home_widget.dart';
 import '../../inventory_manager/screens/inventory_home_screen.dart';
@@ -31,11 +33,16 @@ class UserRoles {
   static const String QC_ROLE = "QC_ROLE";
 
   static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
-      {String? loginToken, required LoginTypes loginType}) async {
+      {required LoginTypes loginType}) async {
     if (loginType == LoginTypes.shipexLogin) {
       Navigator.of(context).pushNamedAndRemoveUntil(ShipexHomeScreen.route, (route) => false);
     } else if (loginType == LoginTypes.qcLogin) {
-      Navigator.of(context).pushNamedAndRemoveUntil(QcActionScreen.route, (route) => false);
+      String? savedPin = AppPreferences.qc.getQcMPin();
+      if (Validator.isTrue(AppPreferences.qc.getIsBioMetricEnabled()) || !Validator.isNullOrEmpty(savedPin)) {
+        Navigator.pushNamedAndRemoveUntil(context, MPinLoginScreen.route, (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(context, MPinSetupScreen.route, (route) => false);
+      }
     } else if (loginType == LoginTypes.trcLogin) {
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
         ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);
@@ -59,7 +66,12 @@ class UserRoles {
       } else if (listOfRoles.contains(UserRoles.ROLE_STORAGE_MANAGER)) {
         Navigator.of(context).pushNamedAndRemoveUntil(StoreManagerHomeScreen.route, (route) => false);
       } else {
-        NativeData obj = NativeData(token: loginToken ?? "", authResponse: OAuthProvider.getAuth());
+        CshSnackBar.error(
+          context: context,
+          message: "Assigned role - ${UserDetails().userDetailsData?.role} is not created for app",
+          duration: SnackBarDuration.LONG,
+          snackBarPosition: SnackBarPosition.TOP,
+        );
       }
     } else if (loginType == LoginTypes.rmsLogin) {
       Navigator.of(context).pushNamedAndRemoveUntil(RmsHomeScreen.route, (route) => false);

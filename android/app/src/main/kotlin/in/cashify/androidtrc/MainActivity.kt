@@ -13,15 +13,15 @@ import com.otaliastudios.transcoder.strategy.DefaultAudioStrategy
 import com.otaliastudios.transcoder.strategy.DefaultVideoStrategy
 import com.otaliastudios.transcoder.strategy.RemoveTrackStrategy
 import com.otaliastudios.transcoder.strategy.TrackStrategy
-import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.embedding.android.FlutterFragmentActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.concurrent.Future
 
-class MainActivity : FlutterActivity() {
+class MainActivity : FlutterFragmentActivity() {
 
     companion object {
 
@@ -73,8 +73,7 @@ class MainActivity : FlutterActivity() {
                     val frameRate =
                         if (call.argument<Int>("frameRate") == null) 30 else call.argument<Int>("frameRate")
 
-                    val tempDir: String =
-                        context.getExternalFilesDir("video_compress")!!.absolutePath
+                    val tempDir: String = getExternalFilesDir("video_compress")!!.absolutePath
                     val out = SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(Date())
                     val destPath: String =
                         tempDir + File.separator + "VID_" + out + path.hashCode() + ".mp4"
@@ -103,7 +102,8 @@ class MainActivity : FlutterActivity() {
                         RemoveTrackStrategy()
                     }
 
-                    val dataSource = UriDataSource(context, Uri.parse(path))
+                    val dataSource = UriDataSource(this, Uri.parse(path))
+                    var context = this;
 
                     transcodeFuture = Transcoder.into(destPath)
                         .addDataSource(dataSource).setSpeed(setSpeed.toFloat())
@@ -143,7 +143,7 @@ class MainActivity : FlutterActivity() {
     fun getVideoBitrate(videoUri: Uri?): Long {
         var bitrate: Long = 0
         val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(context, videoUri)
+        retriever.setDataSource(this, videoUri)
         val bitrateString: String? =
             retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE)
         Log.d("mydebug getVideoBitrate ", "getVideoBitrate: $bitrateString")

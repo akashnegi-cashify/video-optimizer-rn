@@ -5,7 +5,7 @@ import 'package:components/auth/widget/login/login_widget.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
@@ -38,7 +38,7 @@ class ConsoleLoginWidget extends StatelessWidget {
             // mfaBypassClientId: "sales-rms:epoch",
             versionNumber: "",
             loginType: LoginType.mobile,
-            onSubmit: (userAuth, mobileNumber, mode, pin, {required companyKey}) async {
+            onSubmit: (userAuth, mobileNumber, mode, pin, {required companyKey}) {
               Logger.debug('mydebug-----_RmsLoginWidgetState.build', [
                 'userAuth',
                 userAuth,
@@ -53,9 +53,9 @@ class ConsoleLoginWidget extends StatelessWidget {
               ]);
               AuthHandler().setUserAuth(userAuth!);
               UserDetails().setUserDetailsData(userAuth);
-              AppPreferences().setLoginType(loginType.value);
-              await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                  loginToken: userAuth, loginType: loginType);
+              AppPreferences.app.setLoginType(loginType.value);
+              UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+                  loginType: loginType);
             }),
       ),
     );
