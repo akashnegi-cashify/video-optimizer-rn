@@ -27,36 +27,37 @@ class ConsoleLoginWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
         child: LoginWidget(
-            serviceName: ServiceGroups.console.value,
-            serviceVersion: "v1",
-            enterMobileNumberTitle: loginType == LoginTypes.rmsLogin ? "RMS Login" : "Shipex Login",
-            companyName: "cashify",
-            otpEventKey: "otp_oms_event_active",
-            isCompanyNameEditable: true,
-            enterMobileNumberSubTitle: l10n.pleaseEnterCredentials,
-            mfaBypassClientId: getClientId(),
-            // mfaBypassClientId: "sales-rms:epoch",
-            versionNumber: "",
-            loginType: LoginType.mobile,
-            onSubmit: (userAuth, mobileNumber, mode, pin, {required companyKey}) {
-              Logger.debug('mydebug-----_RmsLoginWidgetState.build', [
-                'userAuth',
-                userAuth,
-                'mobileNumber',
-                mobileNumber,
-                'mode',
-                mode,
-                'pin',
-                pin,
-                'companyKey',
-                companyKey
-              ]);
-              AuthHandler().setUserAuth(userAuth!);
-              UserDetails().setUserDetailsData(userAuth);
-              AppPreferences.app.setLoginType(loginType.value);
-              UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                  loginType: loginType);
-            }),
+          serviceName: ServiceGroups.console.value,
+          serviceVersion: "v1",
+          enterMobileNumberTitle: loginType == LoginTypes.rmsLogin ? "RMS Login" : "Shipex Login",
+          companyName: "cashify",
+          otpEventKey: "otp_oms_event_active",
+          isCompanyNameEditable: true,
+          enterMobileNumberSubTitle: l10n.pleaseEnterCredentials,
+          mfaBypassClientId: getClientId(),
+          // mfaBypassClientId: "sales-rms:epoch",
+          versionNumber: "",
+          loginType: LoginType.mobile,
+          onSubmit: (userAuth, mode, mobileNumber, pin, {required companyKey, required credential}) {
+            Logger.debug('mydebug-----_RmsLoginWidgetState.build', [
+              'userAuth',
+              userAuth,
+              'mobileNumber',
+              mobileNumber,
+              'mode',
+              mode,
+              'pin',
+              pin,
+              'companyKey',
+              companyKey
+            ]);
+            AuthHandler().setUserAuth(userAuth!);
+            UserDetails().setUserDetailsData(userAuth);
+            AppPreferences.app.setLoginType(loginType.value);
+            UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+                loginType: loginType);
+          },
+        ),
       ),
     );
   }
