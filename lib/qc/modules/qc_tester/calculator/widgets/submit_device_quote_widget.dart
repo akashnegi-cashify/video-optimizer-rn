@@ -10,7 +10,7 @@ import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/additional_questions_view_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/end_testing_session_event.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 import 'package:provider/provider.dart';
@@ -140,7 +140,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
   }
 
   _moveToHomeScreen() {
-    String? loginType = AppPreferences().getLoginType();
+    String? loginType = AppPreferences.app.getLoginType();
     var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
 
     if (loginTypeEnum == LoginTypes.qcLogin) {

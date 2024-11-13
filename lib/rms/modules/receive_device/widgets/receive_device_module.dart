@@ -6,7 +6,7 @@ import 'package:flutter_trc/rms/modules/facility_list/screens/facility_list_scre
 import 'package:flutter_trc/rms/modules/receive_device/resources/receive_device_service.dart';
 import 'package:flutter_trc/rms/modules/receive_device/widgets/barcode_type_selection_dialog.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 
 import '../l10n.dart';
 
@@ -22,11 +22,11 @@ class ReceiveDeviceModule extends StatelessWidget {
   }
 
   _onReceiveDeviceButtonClicked(BuildContext context) {
-    FacilityListData? facility = AppPreferences().getFacility();
+    FacilityListData? facility = AppPreferences.app.getFacility();
     if (facility == null) {
       FacilityListScreen.openFacilityScreen(context, onFacilitySelected: (facility) {
         Navigator.pop(context); // Close the facility list screen
-        AppPreferences().setFacility(facility).then((_) {
+        AppPreferences.app.setFacility(facility).then((_) {
           onFacilityChanged?.call();
           _onProceed(context);
         });
@@ -45,7 +45,7 @@ class ReceiveDeviceModule extends StatelessWidget {
           context,
           onScanned: (scannedData, controller) {
             CshLoading().showLoading(context);
-            int facilityId = AppPreferences().getFacility()?.id ?? 0;
+            int facilityId = AppPreferences.app.getFacility()?.id ?? 0;
             ReceiveDeviceService.receiveDevice(scannedData, facilityId, barcodeType).listen((event) {
               CshLoading().hideLoading(context);
               Navigator.pop(context); // Close the scanner

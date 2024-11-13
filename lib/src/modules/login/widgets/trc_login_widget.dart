@@ -144,14 +144,18 @@ class _TrcLoginWidgetState extends State<TrcLoginWidget> {
     var provider = TRCLoginProvider.of(context, listen: false);
 
     CshLoading().showLoading(context);
-    provider.userLogin(employeeId, password, location).then((String token) async {
-      CshLoading().hideLoading(context);
-      CshSnackBar.success(context: context, message: successMessage, snackBarPosition: SnackBarPosition.TOP);
-      await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-          loginToken: token, loginType: LoginTypes.trcLogin);
+    provider.userLogin(employeeId, password, location).then((_) {
+      if (mounted) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.success(context: context, message: successMessage, snackBarPosition: SnackBarPosition.TOP);
+        UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+            loginType: LoginTypes.trcLogin);
+      }
     }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+      if (mounted) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+      }
     });
   }
 }

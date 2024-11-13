@@ -22,7 +22,7 @@ class TlListProvider extends CshChangeNotifier with Searchable {
         completer.completeError("No Team Lead found");
       }
     }, onError: (error) {
-      completer.completeError(ApiErrorHelper.getError(error));
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
     return completer.future;
   }

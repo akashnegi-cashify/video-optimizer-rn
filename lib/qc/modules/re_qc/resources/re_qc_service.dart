@@ -55,8 +55,12 @@ class ReQcService {
   }
 
   static Stream<BaseActionResponse?> submitReQcData(
-      Map<String, dynamic> misMatch, String? deviceBarcode, String? remarks) {
-    Map<String, dynamic> req = {"remarks": remarks, "mismatch": misMatch};
+      Map<String, dynamic> misMatch, String? deviceBarcode, String? remarks, int status,
+      {String? imagePath}) {
+    Map<String, dynamic> req = {"remarks": remarks, "mismatch": misMatch, "s": status};
+    if (!Validator.isNullOrEmpty(imagePath)) {
+      req["iurl"] = imagePath;
+    }
 
     return QcService()
         .post("/lot-re-qc/v3/device-re-qc/$deviceBarcode", BaseActionResponse.fromJson, body: jsonEncode(req));

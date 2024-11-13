@@ -2,7 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/rms/modules/facility_list/resources/facility_list_response.dart';
 import 'package:flutter_trc/rms/modules/facility_list/screens/facility_list_screen.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 
 import '../l10n.dart';
 
@@ -20,7 +20,7 @@ class CurrentFacilityState extends State<CurrentFacility> {
 
   @override
   Widget build(BuildContext context) {
-    FacilityListData? facility = AppPreferences().getFacility();
+    FacilityListData? facility = AppPreferences.app.getFacility();
     if (facility == null) {
       return const SizedBox.shrink();
     }
@@ -43,7 +43,7 @@ class CurrentFacilityState extends State<CurrentFacility> {
               onPressed: () {
                 FacilityListScreen.openFacilityScreen(context, onFacilitySelected: (facility) {
                   Navigator.pop(context); // Close the facility list screen
-                  AppPreferences().setFacility(facility).then((_) => setState(() {}));
+                  AppPreferences.app.setFacility(facility).then((_) => setState(() {}));
                 });
               }),
         ],

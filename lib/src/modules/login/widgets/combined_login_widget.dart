@@ -39,7 +39,7 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
             children: [
               const SizedBox(height: Dimens.space_20),
               _buildLoginHeading(context, widget.loginType!),
-              if (widget.loginType == LoginTypes.qcLogin) const QcLoginWidget(loginType: LoginTypes.qcLogin),
+              if (widget.loginType == LoginTypes.qcLogin) const QcLoginWidget(),
               if (widget.loginType == LoginTypes.trcLogin) const TrcLoginWidget(),
               if (widget.loginType == LoginTypes.shipexLogin) const ConsoleLoginWidget(LoginTypes.shipexLogin),
               if (widget.loginType == LoginTypes.rmsLogin) const ConsoleLoginWidget(LoginTypes.rmsLogin),

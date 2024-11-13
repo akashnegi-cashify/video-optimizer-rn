@@ -13,7 +13,7 @@ import 'package:flutter_trc/src/libraries/analytics/events/manual_search_button_
 import 'package:flutter_trc/src/libraries/analytics/events/select_brand_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/update_device_category_event.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -42,7 +42,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
 
   @override
   void initState() {
-    String? loginType = AppPreferences().getLoginType();
+    String? loginType = AppPreferences.app.getLoginType();
     if (loginType != null) {
       var loginTypeEnum = LoginTypes.fromValue(loginType);
       setState(() {

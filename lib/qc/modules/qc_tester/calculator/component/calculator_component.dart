@@ -13,7 +13,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calcul
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/common/calculator_analytics/calculator_analytics_helper.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
@@ -33,7 +33,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
     var calculatorResponse = CalculatorDataHolderModel().calculatorResponse;
     var deviceBarcode = CalculatorDataHolderModel().deviceBarcode;
 
-    var loginTypeEnum = LoginTypes.fromValue(AppPreferences().getLoginType() ?? LoginTypes.qcLogin.value);
+    var loginTypeEnum = LoginTypes.fromValue(AppPreferences.app.getLoginType() ?? LoginTypes.qcLogin.value);
     var isQcLogin = loginTypeEnum == LoginTypes.qcLogin;
     return CalculatorScreen(
       CalculatorScreenArgs(
