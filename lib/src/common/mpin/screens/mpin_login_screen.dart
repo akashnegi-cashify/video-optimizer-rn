@@ -81,6 +81,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
                 CshTextNew.h5(l10n.enterSixDigitPin),
                 const SizedBox(height: Dimens.space_8),
                 CshPinCodeTextField(
+                  isUiLibraryUse: true,
                   length: 6,
                   autoDismissKeyboard: true,
                   textInputType: TextInputType.number,
