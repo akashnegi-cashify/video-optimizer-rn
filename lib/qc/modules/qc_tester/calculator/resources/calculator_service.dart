@@ -122,6 +122,10 @@ abstract class CalculatorService {
     return service.post("/manual-test/product/list", LobProductListResponse.fromJson, body: jsonEncode(req));
   }
 
+  Stream<LobProductListResponse?> getProductListAccToImei(String? imei) {
+    return service.get("/manual-test/product/imei/list?imei=$imei", LobProductListResponse.fromJson);
+  }
+
   Stream<MyCalculatorResponse?> getLobCalculator(
       String? deviceBarcode, int? productMasterId, int? productId, int? categoryId, VariantListData? variantItem) {
     Map<String, dynamic> req = {

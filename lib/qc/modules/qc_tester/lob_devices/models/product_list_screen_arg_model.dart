@@ -8,6 +8,9 @@ class ProductListScreenArgModel {
   @ParamKey(key: ProductListScreenArgModelKeys.deviceBarcode)
   String? deviceBarcode;
 
+  @ParamKey(key: ProductListScreenArgModelKeys.imei)
+  String? imei;
+
   @ParamKey(key: ProductListScreenArgModelKeys.brandId)
   int? brandId;
 
@@ -21,7 +24,7 @@ class ProductListScreenArgModel {
   Function(LobProductListData productItem, VariantListData? variantItem) onProductSelected;
 
   ProductListScreenArgModel(
-      {this.deviceBarcode, this.brandId, this.categoryId, required this.onProductSelected, this.categoryList});
+      {this.deviceBarcode, this.imei, this.brandId, this.categoryId, required this.onProductSelected, this.categoryList});
 }
 
 enum ProductListScreenArgModelKeys with AbsParamKey {
@@ -29,6 +32,7 @@ enum ProductListScreenArgModelKeys with AbsParamKey {
   brandId('bid'),
   categoryId('cid'),
   categoryList('cat'),
+  imei('imei'),
   onProductSelected('ops');
 
   @override

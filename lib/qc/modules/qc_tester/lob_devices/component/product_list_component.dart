@@ -1,9 +1,11 @@
 import 'package:builder_component/builder_component.dart';
+import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/models/product_list_screen_arg_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/product_list_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/widgets/new_product_list_widget.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/widgets/product_list_acc_to_imei.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +29,15 @@ class ProductListComponent extends StatelessComponent<NoneConfigModel> {
     return paramBuilder((model) {
       return ChangeNotifierProvider(
         create: (_) => ProductListProvider(model),
-        child: NewProductListWidget(model.onProductSelected),
+        child: Selector<ProductListProvider, bool>(
+            builder: (builderContext, isShowImeiSearch, child) {
+              if (Validator.isTrue(isShowImeiSearch)) {
+                return ProductListAccToImei(model.onProductSelected);
+              } else {
+                return NewProductListWidget(model.onProductSelected);
+              }
+            },
+            selector: (_, provider) => provider.isShowImeiSearch),
       );
     });
   }

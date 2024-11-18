@@ -2,6 +2,7 @@ import 'package:calculator_ui/calculator_ui.dart';
 import 'package:components/auth/widget/pin_code_text_field/csh_pin_code_text_field.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/src/common/mpin/dialogs/show_fingerprint_not_enabled_dialog.dart';
@@ -139,7 +140,8 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
                         padding: const EdgeInsets.all(Dimens.space_8),
                         child: Text(
                           l10n.loginUsingFingerprint,
-                          style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
+                          style: theme.primaryTextTheme.headlineMedium
+                              ?.copyWith(color: _isDeviceSupportFingerprint ? theme.primaryColor : theme.disabledColor),
                         ),
                       ),
                     ),
@@ -194,7 +196,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
 
   _authentication() async {
     bool isSupported = await FingerPrintAuthentication().canAuthenticate();
-    if (!isSupported) {
+    if (!isSupported || kDebugMode) {
       setState(() {
         _isDeviceSupportFingerprint = false;
       });

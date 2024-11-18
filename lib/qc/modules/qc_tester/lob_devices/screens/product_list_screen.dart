@@ -14,6 +14,7 @@ class ProductListScreenArg extends BaseArguments {
   final int categoryId;
   final int brandId;
   final List<CategoryData> categoryList;
+  final String? imei;
   final Function(LobProductListData productItem, VariantListData? variantItem) onProductSelected;
 
   ProductListScreenArg({
@@ -22,6 +23,7 @@ class ProductListScreenArg extends BaseArguments {
     required this.brandId,
     required this.onProductSelected,
     required this.categoryList,
+    this.imei,
   }) : super(ProductListScreen.pageKey);
 
   Map<String, dynamic> toJson() => {
@@ -30,6 +32,7 @@ class ProductListScreenArg extends BaseArguments {
         ProductListScreenArgModelKeys.brandId.value: brandId,
         ProductListScreenArgModelKeys.categoryList.value: categoryList,
         ProductListScreenArgModelKeys.onProductSelected.value: onProductSelected,
+        ProductListScreenArgModelKeys.imei.value: imei,
       };
 }
 
@@ -56,17 +59,20 @@ class ProductListScreen extends BaseScreen<ProductListScreenArg> {
     int selectedCategoryId,
     int brandId,
     List<CategoryData> categoryList,
+    String? imei,
     Function(LobProductListData productItem, VariantListData? variantItem) onProductSelected,
   ) {
     Navigator.pushNamed(context, ProductListScreen.route,
         arguments: ProductListScreenArg(
-            deviceBarcode: deviceBarcode,
-            categoryId: selectedCategoryId,
-            brandId: brandId,
-            onProductSelected: (productItem, variantItem) {
-              Navigator.pop(context); // pop this screen
-              onProductSelected(productItem, variantItem);
-            },
-            categoryList: categoryList));
+          deviceBarcode: deviceBarcode,
+          categoryId: selectedCategoryId,
+          brandId: brandId,
+          imei: imei,
+          categoryList: categoryList,
+          onProductSelected: (productItem, variantItem) {
+            Navigator.pop(context); // pop this screen
+            onProductSelected(productItem, variantItem);
+          },
+        ));
   }
 }
