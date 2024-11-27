@@ -51,7 +51,7 @@ Map<String, dynamic> _$DeviceReceiveDataToJson(DeviceReceiveData instance) =>
       'dbr': instance.deviceBarcode,
       'st': instance.status,
       'rt': instance.repairType,
+      'ro': instance.repairOrder,
       'isUrgent': instance.isUrgent,
       'ele': instance.elssEngineerName,
-      'ro': instance.repairOrder,
     };

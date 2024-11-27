@@ -64,7 +64,10 @@ class CategoryData {
   @JsonKey(name: "allowVariant")
   bool? allowVariant;
 
-  CategoryData(this.id, this.name, this.allowVariant);
+  @JsonKey(name: "allowImei")
+  bool? allowImeiSearch;
+
+  CategoryData(this.id, this.name, this.allowVariant, this.allowImeiSearch);
 
   static CategoryData fromJson(Map<String, dynamic> json) => _$CategoryDataFromJson(json);
 

@@ -22,6 +22,7 @@ class LobDeviceScannerWidget extends StatelessWidget {
       selectedCategoryId,
       selectedBrandId,
       provider.getCategoryList() ?? [],
+      provider.deviceDetails?.imei1 ?? provider.deviceDetails?.imei2,
       (productItem, variantItem) {
         _getCalculator(context, productItem, selectedCategoryId, variantItem: variantItem);
       },

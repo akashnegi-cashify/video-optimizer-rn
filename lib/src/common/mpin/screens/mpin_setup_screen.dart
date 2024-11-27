@@ -1,5 +1,6 @@
 import 'package:components/auth/widget/pin_code_text_field/csh_pin_code_text_field.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
@@ -145,7 +146,7 @@ class _MPinSetupScreenState extends State<MPinSetupScreen> with WidgetsBindingOb
 
   _askBiometricAuthentication(BuildContext context) async {
     bool isSupported = await FingerPrintAuthentication().canAuthenticate();
-    if (!isSupported) {
+    if (!isSupported || kDebugMode) {
       Navigator.pushNamed(context, MPinRegistrationSuccessfulScreen.route);
       return;
     }

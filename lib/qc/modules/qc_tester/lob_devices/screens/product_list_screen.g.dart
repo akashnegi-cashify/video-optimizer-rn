@@ -18,6 +18,7 @@ dynamic schema() => {
         {"key": "bid", "value": null},
         {"key": "cid", "value": null},
         {"key": "cat", "value": null},
+        {"key": "imei", "value": null},
         {"key": "ops", "value": null}
       ]
 

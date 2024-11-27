@@ -1,6 +1,13 @@
 # TRC Releases
 
-# v3.5.0+59 (XX-10-2024)
+# v3.5.1+60 (27-11-2024)
+
+### Feature and Improvements:
+
+* `QC - Manual Testing - provision to search with IMEI`[(SCM-8022)](https://reglobe.atlassian.net/browse/SCM-8022)
+
+
+# v3.5.0+59 (13-11-2024)
 
 ### Feature and Improvements:
 

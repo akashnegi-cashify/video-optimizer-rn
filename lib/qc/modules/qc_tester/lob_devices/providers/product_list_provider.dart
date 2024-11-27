@@ -15,12 +15,44 @@ class ProductListProvider extends CalculatorServiceInitProvider with Searchable 
   late final int? brandId;
   late final int? categoryId;
   late final List<CategoryData>? categoryList;
+  String? imei;
+  bool isShowImeiSearch = false;
+  bool isShowLoading = true;
+  List<LobProductListData>? _productListAccToImei;
 
   ProductListProvider(ProductListScreenArgModel model) {
     deviceBarcode = model.deviceBarcode;
     brandId = model.brandId;
     categoryId = model.categoryId;
     categoryList = model.categoryList;
+    imei = model.imei;
+    isShowImeiSearch = _isShowImeiSearch(categoryList, categoryId);
+  }
+
+  void setSearchQuery(String? value) {
+    searchQuery = value;
+    notifyListeners();
+  }
+
+  List<LobProductListData>? get productListAccToImei => Validator.isNullOrEmpty(searchQuery)
+      ? _productListAccToImei
+      : _productListAccToImei
+          ?.where((element) => element.name?.toLowerCase().contains(searchQuery!.toLowerCase()) ?? false)
+          .toList();
+
+  bool _isShowImeiSearch(List<CategoryData>? categoryList, int? categoryId) {
+    var category = categoryList?.firstWhere((element) => element.id == categoryId);
+    if (category != null) {
+      return category.allowImeiSearch ?? false;
+    }
+    return false;
+  }
+
+  void changeListType({bool isNotify = false}) {
+    isShowImeiSearch = false;
+    _productListAccToImei = null;
+    searchQuery = null;
+    if (isNotify) notifyListeners();
   }
 
   static ProductListProvider of(BuildContext context, {bool listen = true}) {
@@ -51,5 +83,20 @@ class ProductListProvider extends CalculatorServiceInitProvider with Searchable 
       }
     }
     return false;
+  }
+
+  void getProductsListWithImei() {
+    service.getProductListAccToImei(imei).listen((event) {
+      if (!Validator.isListNullOrEmpty(event?.productList)) {
+        _productListAccToImei = event?.productList;
+      } else {
+        changeListType();
+      }
+    }, onError: (error) {
+      changeListType();
+    }, onDone: () {
+      isShowLoading = false;
+      notifyListeners();
+    });
   }
 }

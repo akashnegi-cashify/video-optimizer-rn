@@ -28,7 +28,7 @@ class AppRemoteConfig {
         '{"videoCodec":"libx264","videoPreset":"superfast","crf":30,"fontSize":24,"fontColor":"white","borderColor":"black","addTimeStamp":true}',
     KEY_VIDEO_OPTIMIZER_CONFIG_D2C: '{"videoCodec":"libx264","videoPreset":"medium","crf":30,"isRemoveAudio":true}',
     KEY_APP_SUPPORTED_VERSIONS:
-        '{"dt":[{"version":"3.3.0","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/106/Release/app-prod-release.apk"},{"version":"3.3.1","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/107/Release/app-prod-release.apk"},{"version":"3.3.2","isMajor":true,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/110/Release/app-prod-release.apk"}]}',
+        '{"dt":[{"version":"3.4.3","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/125/Release/app-prod-release.apk"},{"version":"3.4.4","isMajor":false,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/126/Release/app-prod-release.apk"},{"version":"3.5.0","isMajor":true,"apkUrl":"https://s3.ap-south-1.amazonaws.com/app.cashify.in/flutter-builds/flutter_trc/prod/prod/prod/129/Release/app-prod-release.apk"}]}',
   };
 }
 
