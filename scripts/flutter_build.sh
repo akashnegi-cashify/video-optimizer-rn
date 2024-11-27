@@ -37,7 +37,7 @@ else
   fKey=$fProdKey
 fi
 
-flutter clean
+rm ./pubspec.lock
 
 rm ./.crashlytics/dump_syms.bin
 
