@@ -28,7 +28,7 @@ class FacilityListWidget extends StatelessWidget {
             filterGroup: FilterGroupType.multipleTypeSearch,
           ),
         ]),
-        getRowWidget: (data) {
+        getRowWidget: (data, index) {
           return GestureDetector(
             onTap: () {
               onFacilitySelected?.call(data!);
