@@ -5,6 +5,7 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
 import '../../../app_builder/app_builder_groups/groups.dart';
@@ -44,43 +45,17 @@ class RubbingHomeComponent extends StatelessComponent<NoneConfigModel> {
                 CshMlScannerUtil().openScanner(
                   context,
                   onScanned: (barcode, controller) {
-                    Provider.of<ReceivedDevicesProvider>(insideContext, listen: false)
-                        .receiveDeviceViaScanning(barcode)
-                        .listen((event) {
-                      if (controller != null) {
-                        controller.stop();
-                      }
-
-                      CshSnackBar.success(context: context, message: l10n.deviceReceivedSuccessfully);
-                      ReceivedRubbingDevicesScreenArguments args =
-                          ReceivedRubbingDevicesScreenArguments(searchQuery: barcode);
-                      Navigator.pushReplacementNamed(context, ReceivedRubbingDevicesScreen.route, arguments: args);
-                    })
-                      ..onError(
-                        (e) {
-                          if (controller != null) {
-                            controller.stop();
-                          }
-                          CshSnackBar.error(
-                              context: context, message: ApiErrorHelper.getErrorMessage(e) ?? l10n.somethingWentWrong);
-                        },
-                      )
-                      ..onDone(
-                        () {
-                          if (controller != null) {
-                            Future.delayed(const Duration(milliseconds: 300), () {
-                              controller.start();
-                            });
-                          }
-                        },
-                      );
+                    _onScanned(
+                      context,
+                      provider: Provider.of<ReceivedDevicesProvider>(insideContext, listen: false),
+                      barcode: barcode,
+                      controller: controller,
+                    );
                   },
                 );
               },
             ),
-            const SizedBox(
-              height: Dimens.space_24,
-            ),
+            const SizedBox(height: Dimens.space_24),
             CshBigButton(
               text: l10n.receivedDevice,
               onPressed: () {
@@ -98,6 +73,24 @@ class RubbingHomeComponent extends StatelessComponent<NoneConfigModel> {
         );
       },
     );
+  }
+
+  _onScanned(BuildContext context,
+      {required ReceivedDevicesProvider provider, required String barcode, MobileScannerController? controller}) {
+    var l10n = L10n(context);
+    controller?.stop();
+    provider.receiveDeviceViaScanning(barcode).listen((event) {
+      CshSnackBar.success(context: context, message: l10n.deviceReceivedSuccessfully);
+    }, onError: (error) {
+      String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong;
+      CshSnackBar.error(context: context, message: errorMessage);
+    }, onDone: () {
+      if (controller != null) {
+        Future.delayed(const Duration(milliseconds: 300), () {
+          controller.start();
+        });
+      }
+    });
   }
 
   @override

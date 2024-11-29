@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/paginated_listview.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_data.dart';
 import 'package:flutter_trc/src/modules/rubbing/providers/received_devices_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:core/core.dart';
 
 class ReceivedDevicesListWidget extends StatefulWidget {
   const ReceivedDevicesListWidget({Key? key}) : super(key: key);
@@ -17,16 +17,6 @@ class ReceivedDevicesListWidget extends StatefulWidget {
 }
 
 class _ReceivedDevicesListWidgetState extends PaginatedListState<RubbingDeviceData, ReceivedDevicesListWidget> {
-  late ReceivedDevicesProvider provider;
-  late L10n l10;
-
-  @override
-  void didChangeDependencies() {
-    provider = Provider.of<ReceivedDevicesProvider>(context, listen: false);
-    l10 = L10n(context);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return (isLoading && items.isEmpty)
@@ -42,6 +32,8 @@ class _ReceivedDevicesListWidgetState extends PaginatedListState<RubbingDeviceDa
   @override
   void requestApi(int pageNo, int pageSize,
       {Function(List<RubbingDeviceData>? list)? onSuccess, Function(String? errorMessage)? onError}) {
+    var provider = Provider.of<ReceivedDevicesProvider>(context, listen: false);
+    var l10 = L10n(context, listen: false);
     provider.getDataStream(pageNo, pageSize, provider.searchQuery).listen((event) {
       if (onSuccess != null) onSuccess(event?.dt?.deviceList);
     }).onError((e) {
@@ -64,40 +56,40 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_16),
       child: CshCard(
-          child: Column(
-        children: [
-          TitleValueRowWidget(title: l10n.deviceBarcode, value: rubbingDeviceData.deviceBarcode ?? ""),
-          TitleValueRowWidget(title: l10n.deviceName, value: rubbingDeviceData.productTitle ?? ""),
-          TitleValueRowWidget(title: l10n.deviceId, value: rubbingDeviceData.deviceId.toString()),
-          const SizedBox(
-            height: Dimens.space_16,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: CshMediumButton(
-                  text: l10n.rubbingNotDone,
-                  onPressed: rubbingDeviceData.deviceBarcode != null
-                      ? () {
-                          markRubbing(provider, l10n, context, false);
-                        }
-                      : null,
-                ),
-              ),
-              Flexible(
+        child: Column(
+          children: [
+            TitleValueRowWidget(title: l10n.deviceBarcode, value: rubbingDeviceData.deviceBarcode ?? ""),
+            TitleValueRowWidget(title: l10n.deviceName, value: rubbingDeviceData.productTitle ?? ""),
+            TitleValueRowWidget(title: l10n.deviceId, value: rubbingDeviceData.deviceId.toString()),
+            const SizedBox(height: Dimens.space_16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
                   child: CshMediumButton(
-                text: l10n.rubbingDone,
-                onPressed: rubbingDeviceData.deviceBarcode != null
-                    ? () {
-                        markRubbing(provider, l10n, context, true);
-                      }
-                    : null,
-              ))
-            ],
-          )
-        ],
-      )),
+                    text: l10n.rubbingNotDone,
+                    onPressed: rubbingDeviceData.deviceBarcode != null
+                        ? () {
+                            markRubbing(provider, l10n, context, false);
+                          }
+                        : null,
+                  ),
+                ),
+                Flexible(
+                  child: CshMediumButton(
+                    text: l10n.rubbingDone,
+                    onPressed: rubbingDeviceData.deviceBarcode != null
+                        ? () {
+                            markRubbing(provider, l10n, context, true);
+                          }
+                        : null,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 

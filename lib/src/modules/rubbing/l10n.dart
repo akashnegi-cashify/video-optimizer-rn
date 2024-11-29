@@ -2,7 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:intl/intl.dart';
 
 class L10n extends BaseL10n {
-  L10n(super.context);
+  L10n(super.context, {super.listen});
 
   String get scanBarcode => Intl.message("Scan Barcode", locale: localName, name: "scanBarcode");
 

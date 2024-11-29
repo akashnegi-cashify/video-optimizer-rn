@@ -1,12 +1,13 @@
 import 'package:builder_component/builder_component.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/common/widgets/search_with_scanner_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/widgets/searchbar_widget.dart';
 import '../l10n.dart';
 import '../model/received_rubbing_device_comp_param.dart';
 import '../providers/received_devices_provider.dart';
@@ -32,29 +33,28 @@ class ReceiveRubbingDeviceComp extends StatelessComponent<NoneConfigModel> {
       (param) {
         return ChangeNotifierProvider<ReceivedDevicesProvider>(
           create: (context) => ReceivedDevicesProvider(query: param.searchQuery),
-          builder: (context, widget) {
-            ReceivedDevicesProvider provider = Provider.of<ReceivedDevicesProvider>(context);
-
+          builder: (innerContext, widget) {
+            ReceivedDevicesProvider provider = Provider.of<ReceivedDevicesProvider>(innerContext);
             return Column(
               children: [
                 Container(
                   margin: const EdgeInsets.all(Dimens.space_16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimens.space_4),
-                      border: Border.all(color: Theme.of(context).secondaryHeaderColor)),
-                  child: SearchbarWidget(
-                    initialText: param.searchQuery,
-                    hint: l10n.searchBarCode,
-                    onQuery: (query) {
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimens.space_4)),
+                  child: SearchWithScannerWidget(
+                    l10n.searchBarCode,
+                    onQuery: (query, isManualSearch) {
                       provider.searchQuery = query;
                     },
                   ),
                 ),
-                Selector<ReceivedDevicesProvider, String?>(builder: (context, query, widget) {
-                  return Expanded(child: ReceivedDevicesListWidget(key: UniqueKey()));
-                }, selector: (context, provider) {
-                  return provider.searchQuery;
-                })
+                Selector<ReceivedDevicesProvider, String?>(
+                  builder: (context, query, widget) {
+                    return Expanded(child: ReceivedDevicesListWidget(key: ValueKey(query.toString())));
+                  },
+                  selector: (context, provider) {
+                    return provider.searchQuery;
+                  },
+                )
               ],
             );
           },

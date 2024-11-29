@@ -34,4 +34,12 @@ class UserDetails {
 
     return userDetailsData!.listOfRoles!.contains(UserRoles.ROLE_ENGINEER);
   }
+
+  bool isGlassChangeRole() {
+    if (Validator.isListNullOrEmpty(userDetailsData?.listOfRoles)) {
+      return false;
+    }
+
+    return userDetailsData!.listOfRoles!.contains(UserRoles.ROLE_GLASS_CHANGE);
+  }
 }

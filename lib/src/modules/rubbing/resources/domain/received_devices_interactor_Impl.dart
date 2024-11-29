@@ -7,25 +7,26 @@ import 'package:flutter_trc/src/modules/rubbing/resources/rubbing_api_service.da
 
 import '../../model/search_query.dart';
 
+// TODO: need to implement isGlassChangeRole in all three apis
 class ReceivedDevicesInteractorImpl implements ReceivedDevicesInteractor {
   @override
-  Stream<RubbingDevicesResponse?> getData(int pageIndex, int pageSize, String? searchQuery) {
+  Stream<RubbingDevicesResponse?> getData(int pageIndex, int pageSize, String? query, {bool isGlassChange = false}) {
     RubbingDeviceListRequest request = RubbingDeviceListRequest();
-    if (searchQuery != null) {
-      request.searchQuery = SearchQuery()..br = searchQuery;
+    if (query != null) {
+      request.searchQuery = SearchQuery()..br = query;
     }
     request.pageNo = pageIndex;
     request.pageSize = pageSize;
-    return RubbingAPIService.getData(request);
+    return RubbingAPIService.getReceivedDeviceList(request);
   }
 
   @override
-  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing) {
+  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing, {bool isGlassChangeRole = false}) {
     return RubbingAPIService.markRubbing(barcode, rubbing);
   }
 
   @override
-  Stream<RubbingDeviceReceiveResponse?> receiveDeviceForRubbing(String barcode) {
+  Stream<RubbingDeviceReceiveResponse?> receiveDeviceForRubbing(String barcode, {bool isGlassChange = false}) {
     return RubbingAPIService.scanDevice(barcode);
   }
 }

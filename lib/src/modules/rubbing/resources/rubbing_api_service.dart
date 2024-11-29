@@ -8,7 +8,7 @@ import '../model/rubbing_device_receive_response.dart';
 import '../model/rubbing_devices_request.dart';
 
 class RubbingAPIService {
-  static Stream<RubbingDevicesResponse?> getData(RubbingDeviceListRequest request) {
+  static Stream<RubbingDevicesResponse?> getReceivedDeviceList(RubbingDeviceListRequest request) {
     return TrcService()
         .post("/rubbing/device/list", RubbingDevicesResponse.fromJson, body: jsonEncode(request.toJson()));
   }

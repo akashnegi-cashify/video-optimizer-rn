@@ -27,6 +27,10 @@ class UserSessionProvider extends CshChangeNotifier {
   }
 
   Future<bool> logoutUserAndClearSession(LoginTypes loginTypeEnum) {
+    if (loginTypeEnum == LoginTypes.qcLogin) {
+      return Future.value(true);
+    }
+
     var completer = Completer<bool>();
     try {
       _getLogoutStream(loginTypeEnum)?.listen((event) {

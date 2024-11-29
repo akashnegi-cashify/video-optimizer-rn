@@ -29,6 +29,7 @@ class UserRoles {
   static const String ROLE_L4 = "L4_ENGINEER";
   static const String ROLE_ELSS = "ELSS";
   static const String ROLE_RUBBING = "RUBBING_ENGINEER";
+  static const String ROLE_GLASS_CHANGE = "GLASS_CHANGE_ENGINEER"; // TODO: need to verify role key
   static const String TRC_EXECUTIVE = "TRC_EXECUTIVE";
   static const String QC_ROLE = "QC_ROLE";
 
@@ -47,7 +48,7 @@ class UserRoles {
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
         ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);
         Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: args);
-      } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING)) {
+      } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING) || listOfRoles.contains(UserRoles.ROLE_GLASS_CHANGE)) {
         Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeScreen.route, (route) => false);
       } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {
         Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
