@@ -65,7 +65,9 @@ class ElssService {
   }
 
   static Stream<LogoutResponse?> qcLogout() {
-    return QcService().post("/user/destroy", LogoutResponse.fromJson);
+    // TODO: need to integrate logout api of CAS
+    // return CasService().post("/user/destroy", LogoutResponse.fromJson);
+    return CasService().post("/v1/logout", LogoutResponse.fromJson);
   }
 
   static Stream<LogoutResponse?> consoleLogout() {

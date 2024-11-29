@@ -9,6 +9,7 @@ import 'package:flutter_trc/src/common/mpin/dialogs/show_fingerprint_not_enabled
 import 'package:flutter_trc/src/common/mpin/resources/mpin_service.dart';
 import 'package:flutter_trc/src/libraries/fingerprint_auth/finger_print_authentication.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:flutter_trc/src/modules/elss/common_resources/elss_service.dart';
 import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -61,93 +62,110 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
         elevation: 0,
         leading: const SizedBox.shrink(),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          Container(
-            alignment: Alignment.topCenter,
-            color: theme.primaryColor,
-            height: 150,
-            width: double.infinity,
-            child: Image.asset("assets/images/ic_qc_logo.png"),
-          ),
-          CshCard(
-            margin: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_100, Dimens.space_16, 0),
-            padding: const EdgeInsets.all(Dimens.space_24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CshTextNew.h4("Welcome ${userDetailsData?.userName}"),
-                const SizedBox(height: Dimens.space_8),
-                CshTextNew.h5(l10n.enterSixDigitPin),
-                const SizedBox(height: Dimens.space_8),
-                CshPinCodeTextField(
-                  isUiLibraryUse: true,
-                  length: 6,
-                  autoDismissKeyboard: true,
-                  textInputType: TextInputType.number,
-                  isEnablePinFillColor: true,
-                  textStyle: theme.textTheme.headlineSmall!.copyWith(color: theme.primaryColor),
-                  shape: PinCodeFieldShape.circle,
-                  obscureText: true,
-                  enableAutoFill: false,
-                  onCompleted: (value) {
-                    _onMPinSubmit();
-                  },
-                  onChanged: (value) {
-                    _mPin = value;
-                  },
-                ),
-                const SizedBox(height: Dimens.space_12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Stack(
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                color: theme.primaryColor,
+                height: 150,
+                width: double.infinity,
+                child: Image.asset("assets/images/ic_qc_logo.png"),
+              ),
+              CshCard(
+                margin: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_100, Dimens.space_16, 0),
+                padding: const EdgeInsets.all(Dimens.space_24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    GestureDetector(
-                      onTap: () => _showForgetMPinConfirmationDialog(),
-                      child: Text(
-                        l10n.changeUser,
-                        style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
-                      ),
+                    CshTextNew.h4("Welcome ${userDetailsData?.userName}"),
+                    const SizedBox(height: Dimens.space_8),
+                    CshTextNew.h5(l10n.enterSixDigitPin),
+                    const SizedBox(height: Dimens.space_8),
+                    CshPinCodeTextField(
+                      isUiLibraryUse: true,
+                      length: 6,
+                      autoDismissKeyboard: true,
+                      textInputType: TextInputType.number,
+                      isEnablePinFillColor: true,
+                      textStyle: theme.textTheme.headlineSmall!.copyWith(color: theme.primaryColor),
+                      shape: PinCodeFieldShape.circle,
+                      obscureText: true,
+                      enableAutoFill: false,
+                      onCompleted: (value) {
+                        _onMPinSubmit();
+                      },
+                      onChanged: (value) {
+                        _mPin = value;
+                      },
                     ),
-                    GestureDetector(
-                      onTap: () => _showForgetMPinConfirmationDialog(),
-                      child: Text(
-                        l10n.forgetMPin,
-                        style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: Dimens.space_24),
-                SizedBox(width: double.infinity, child: CshBigButton(text: l10n.submit, onPressed: _onMPinSubmit)),
-                const SizedBox(height: Dimens.space_40),
-                Row(
-                  children: [
-                    Expanded(child: Container(height: 1, color: theme.dividerColor)),
-                    const SizedBox(width: Dimens.space_8),
-                    Text("OR", style: theme.primaryTextTheme.labelSmall),
-                    const SizedBox(width: Dimens.space_8),
-                    Expanded(child: Container(height: 1, color: theme.dividerColor)),
-                  ],
-                ),
-                const SizedBox(height: Dimens.space_16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: _isDeviceSupportFingerprint ? _authentication : null,
-                      child: Padding(
-                        padding: const EdgeInsets.all(Dimens.space_8),
-                        child: Text(
-                          l10n.loginUsingFingerprint,
-                          style: theme.primaryTextTheme.headlineMedium
-                              ?.copyWith(color: _isDeviceSupportFingerprint ? theme.primaryColor : theme.disabledColor),
+                    const SizedBox(height: Dimens.space_12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () => _showForgetMPinConfirmationDialog(),
+                          child: Text(
+                            l10n.changeUser,
+                            style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
+                          ),
                         ),
-                      ),
+                        GestureDetector(
+                          onTap: () => _showForgetMPinConfirmationDialog(),
+                          child: Text(
+                            l10n.forgetMPin,
+                            style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: Dimens.space_24),
+                    SizedBox(width: double.infinity, child: CshBigButton(text: l10n.submit, onPressed: _onMPinSubmit)),
+                    const SizedBox(height: Dimens.space_40),
+                    Row(
+                      children: [
+                        Expanded(child: Container(height: 1, color: theme.dividerColor)),
+                        const SizedBox(width: Dimens.space_8),
+                        Text("OR", style: theme.primaryTextTheme.labelSmall),
+                        const SizedBox(width: Dimens.space_8),
+                        Expanded(child: Container(height: 1, color: theme.dividerColor)),
+                      ],
+                    ),
+                    const SizedBox(height: Dimens.space_16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: _isDeviceSupportFingerprint ? _authentication : null,
+                          child: Padding(
+                            padding: const EdgeInsets.all(Dimens.space_8),
+                            child: Text(
+                              l10n.loginUsingFingerprint,
+                              style: theme.primaryTextTheme.headlineMedium?.copyWith(
+                                  color: _isDeviceSupportFingerprint ? theme.primaryColor : theme.disabledColor),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
+            ],
+          ),
+          const SizedBox(height: Dimens.space_58),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(Dimens.space_8),
+              child: Text(
+                l10n.switchModule,
+                style: theme.primaryTextTheme.titleSmall?.copyWith(color: theme.primaryColor),
+              ),
             ),
           )
         ],
@@ -186,9 +204,11 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
           CshMediumButton(
             text: 'Proceed',
             onPressed: () {
-              AppPreferences.qc.clear();
-              AppPreferences.instance.resetAndClearAll();
-              Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
+              ElssService.qcLogout().listen((event) {
+                AppPreferences.qc.clear();
+                AppPreferences.instance.resetAndClearAll();
+                Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
+              });
             },
           ),
         ]);

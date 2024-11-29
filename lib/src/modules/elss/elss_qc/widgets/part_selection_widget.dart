@@ -39,7 +39,24 @@ class PartSelectionWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(Dimens.space_8),
                   child: ElssDeviceDetailsWidget(dataModel: provider.elssDeviceDetails?.deviceDetailsData),
                 ),
-                const SizedBox(height: Dimens.space_20),
+                CshCard(
+                  margin: const EdgeInsets.all(Dimens.space_8),
+                  padding: const EdgeInsets.all(Dimens.space_16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const CshTextNew.subTitle1("Rubbing/Glass Change"),
+                      const SizedBox(height: Dimens.space_8),
+                      CshDropDown(
+                        items: provider.rubbingOrGlassChangeDropdown,
+                        selectedItem: provider.selectedRubbingOrGlassChangeValue,
+                        onChanged: (DropDownItem? value) {
+                          provider.onRubbingOrGlassChangeValueChanged(value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 if (provider.elssDeviceDetails?.deviceDetailsData?.partAdditionAllowed ?? false)
                   Align(
                     alignment: Alignment.centerRight,

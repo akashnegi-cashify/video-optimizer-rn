@@ -52,4 +52,6 @@ class L10n extends BaseL10n {
       Intl.message('Registration successful', locale: localName, name: 'registrationSuccessful');
 
   String get login => Intl.message('Login', locale: localName, name: 'login');
+
+  String get switchModule => Intl.message('Switch Module', locale: localName, name: 'switchModule');
 }

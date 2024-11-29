@@ -75,6 +75,10 @@ class DeviceDetailsData {
   @JsonKey(name: "st")
   List<String>? stockTags;
 
+  // TODO: need to verify key from backend
+  @JsonKey(name: "rgc")
+  int? rubbingOrGlassChange;
+
   DeviceDetailsData(
     this.deviceBarcode,
     this.requestReason,
@@ -95,6 +99,7 @@ class DeviceDetailsData {
     this.isMarkRepairedDevice,
     this.serialNumber,
     this.stockTags,
+    this.rubbingOrGlassChange,
   );
 
   static DeviceDetailsData fromJson(Map<String, dynamic> data) => _$DeviceDetailsDataFromJson(data);
