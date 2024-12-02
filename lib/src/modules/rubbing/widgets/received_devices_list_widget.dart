@@ -67,7 +67,7 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: CshMediumButton(
-                    text: l10n.rubbingNotDone,
+                    text: l10n.fail,
                     onPressed: rubbingDeviceData.deviceBarcode != null
                         ? () {
                             markRubbing(provider, l10n, context, false);
@@ -77,7 +77,7 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
                 ),
                 Flexible(
                   child: CshMediumButton(
-                    text: l10n.rubbingDone,
+                    text: l10n.done,
                     onPressed: rubbingDeviceData.deviceBarcode != null
                         ? () {
                             markRubbing(provider, l10n, context, true);
@@ -95,9 +95,7 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
 
   void markRubbing(ReceivedDevicesProvider provider, L10n l10n, BuildContext context, bool rubbing) {
     provider.markRubbing(rubbingDeviceData.deviceBarcode!, rubbing).listen((event) {
-      rubbing
-          ? showSuccessMessage("${l10n.rubbingDone} successfully!", context)
-          : showSuccessMessage(l10n.deviceRemovedFromRubbing, context);
+      showSuccessMessage(event?.successMsg ?? "", context);
       onRubbingAction();
     }).onError((e) {
       String errorMessage = ApiErrorHelper.getErrorMessage(e) ?? l10n.somethingWentWrong;

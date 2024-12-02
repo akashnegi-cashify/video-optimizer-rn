@@ -29,7 +29,7 @@ class UserRoles {
   static const String ROLE_L4 = "L4_ENGINEER";
   static const String ROLE_ELSS = "ELSS";
   static const String ROLE_RUBBING = "RUBBING_ENGINEER";
-  static const String ROLE_GLASS_CHANGE = "GLASS_CHANGE_ENGINEER"; // TODO: need to verify role key
+  static const String ROLE_GLASS_CHANGE = "GLASS_CHANGE_ENGINEER";
   static const String TRC_EXECUTIVE = "TRC_EXECUTIVE";
   static const String QC_ROLE = "QC_ROLE";
 

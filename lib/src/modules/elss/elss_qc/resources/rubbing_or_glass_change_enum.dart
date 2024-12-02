@@ -1,7 +1,7 @@
 enum RubbingOrGlassChangeEnum {
-  rubbing(0, "Rubbing Required"),
+  rubbing(2, "Rubbing Required"),
   glassChange(1, "Glass Change Required"),
-  notRequired(2, "Not Required");
+  notRequired(0, "Not Required");
 
   final int id;
   final String label;

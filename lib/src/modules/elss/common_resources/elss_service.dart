@@ -221,11 +221,7 @@ class ElssService {
         .post("/v1/auth/otp/authenticate", AuthenticateOTPResponse.fromJson, params: data, headers: headers);
   }
 
-  // TODO: need to verify this API
   static Stream<BaseActionResponse?> resetElssTransaction(String? barcode) {
-    Map<String, dynamic> dataMap = {
-      "dbr": barcode
-    };
-    return QcService().post("/reset/transaction", BaseActionResponse.fromJson, body: jsonEncode(dataMap));
+    return QcService().get("/reset-transaction?qr=$barcode", BaseActionResponse.fromJson);
   }
 }

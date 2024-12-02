@@ -113,8 +113,7 @@ class ELssProviderQc extends CshChangeNotifier {
 
     dataMap["rprl"] = rprlList;
     dataMap["dbr"] = scannedBarcode;
-    // TODO: need to verify this key from backend
-    dataMap["rgc"] = _selectedRubbingOrGlassChangeValue?.id;
+    dataMap["rs"] = _selectedRubbingOrGlassChangeValue?.id;
     return dataMap;
   }
 

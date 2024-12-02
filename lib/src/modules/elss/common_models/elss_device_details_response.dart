@@ -75,8 +75,7 @@ class DeviceDetailsData {
   @JsonKey(name: "st")
   List<String>? stockTags;
 
-  // TODO: need to verify key from backend
-  @JsonKey(name: "rgc")
+  @JsonKey(name: "rs")
   int? rubbingOrGlassChange;
 
   DeviceDetailsData(
