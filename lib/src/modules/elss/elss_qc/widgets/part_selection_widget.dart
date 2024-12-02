@@ -166,7 +166,7 @@ class PartSelectionWidget extends StatelessWidget {
         AllowedOptionCompScreenArguments args = AllowedOptionCompScreenArguments(
             arguments: AllowedOptionScreeArguments(barcode, detailsDataModel: provider.elssDeviceDetails));
 
-        Navigator.of(context).pushReplacementNamed(AllowedOptionScreen.route, arguments: args);
+        Navigator.pushNamed(context, AllowedOptionScreen.route, arguments: args);
       } else {
         ElssStatusCompArguments args =
             ElssStatusCompArguments(arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: barcode));

@@ -27,30 +27,36 @@ class AllowedOptionsComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, configModel) {
     var theme = Theme.of(context);
     return paramBuilder((param) {
+      String? scannedBarcode = param.arguments?.scannedBarcode;
       return ChangeNotifierProvider<ChannelOptionProvider>(
-        create: (_) => ChannelOptionProvider(param.arguments?.scannedBarcode ?? ""),
+        create: (_) => ChannelOptionProvider(scannedBarcode ?? ""),
         lazy: false,
         builder: (BuildContext innerContext, __) {
           var provider = ChannelOptionProvider.of(innerContext);
-          return (provider.isOptionDataLoading)
-              ? const Center(
-                  child: SizedBox(
-                    height: Dimens.space_30,
-                    width: Dimens.space_30,
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : (provider.isOptionDataLoading == false && provider.channelOptionResponse == null)
-                  ? Center(
-                      child: Text(
-                        (provider.errorOfChannel.isNotEmpty) ? provider.errorOfChannel : "No Data Found",
-                        style: theme.primaryTextTheme.displaySmall,
+          return PopScope(
+              canPop: true,
+              onPopInvokedWithResult: (didPop, result) {
+                provider.resetTransaction(scannedBarcode);
+              },
+              child: (provider.isOptionDataLoading)
+                  ? const Center(
+                      child: SizedBox(
+                        height: Dimens.space_30,
+                        width: Dimens.space_30,
+                        child: CircularProgressIndicator(),
                       ),
                     )
-                  : ChannelOptionWidget(
-                      param.arguments?.scannedBarcode ?? "",
-                      detailsDataModel: param.arguments?.detailsDataModel,
-                    );
+                  : (provider.isOptionDataLoading == false && provider.channelOptionResponse == null)
+                      ? Center(
+                          child: Text(
+                            (provider.errorOfChannel.isNotEmpty) ? provider.errorOfChannel : "No Data Found",
+                            style: theme.primaryTextTheme.displaySmall,
+                          ),
+                        )
+                      : ChannelOptionWidget(
+                          param.arguments?.scannedBarcode ?? "",
+                          detailsDataModel: param.arguments?.detailsDataModel,
+                        ));
           // return Scaffold(
           //   appBar: TrcHeader(
           //     l10n.channelOptions,
