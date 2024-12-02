@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/rubbing_or_glass_change_enum.dart';
 import 'package:flutter_trc/src/modules/trc_executive/models/tl_list_response.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +69,7 @@ class DeviceScannerWidget extends StatelessWidget {
 
   Future _showDeviceDetails(DeviceReceiveData value, BuildContext context) {
     var theme = Theme.of(context);
-    var l10n = L10n(context, listen:false);
+    var l10n = L10n(context, listen: false);
     return showCshBottomSheet(
       context: context,
       child: Padding(
@@ -78,6 +79,9 @@ class DeviceScannerWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildTitleValue(l10n.deviceBarcode, value.deviceBarcode.toString(), theme),
+            const SizedBox(height: Dimens.space_16),
+            _buildTitleValue(l10n.rubbingOrGlassChange,
+                RubbingOrGlassChangeEnum.findById(value.rubbingOrGlassChangeStatus).label, theme),
             const SizedBox(height: Dimens.space_16),
             _buildTitleValue(l10n.productTitle, value.productTitle.toString(), theme),
             const SizedBox(height: Dimens.space_16),

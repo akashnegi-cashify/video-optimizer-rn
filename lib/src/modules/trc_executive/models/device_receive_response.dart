@@ -41,6 +41,9 @@ class DeviceReceiveData {
   @JsonKey(name: "ele")
   String? elssEngineerName;
 
+  @JsonKey(name: "rs")
+  int? rubbingOrGlassChangeStatus;
+
   DeviceReceiveData(
     this.productTitle,
     this.deviceBarcode,
@@ -49,6 +52,7 @@ class DeviceReceiveData {
     this.isUrgent,
     this.elssEngineerName,
     this.repairOrder,
+    this.rubbingOrGlassChangeStatus,
   );
 
   static DeviceReceiveData fromJson(Map<String, dynamic> json) => _$DeviceReceiveDataFromJson(json);
