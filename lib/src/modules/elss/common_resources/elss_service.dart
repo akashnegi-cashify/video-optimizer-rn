@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart' hide ConsoleService;
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/reject_retest_reason_list_response.dart';
@@ -65,10 +66,9 @@ class ElssService {
     return TrcService().post("/logout", LogoutResponse.fromJson);
   }
 
-  static Stream<LogoutResponse?> qcLogout() {
-    // TODO: need to integrate logout api of CAS
-    // return CasService().post("/user/destroy", LogoutResponse.fromJson);
-    return CasService().post("/v1/logout", LogoutResponse.fromJson);
+  static Stream<BaseActionResponse?> qcLogout() {
+    Map<String, String> req = {"token": AuthHandler().userAuth.toString()};
+    return CasService().post("/v1/logout", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<LogoutResponse?> consoleLogout() {

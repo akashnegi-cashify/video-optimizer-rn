@@ -204,10 +204,20 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
           CshMediumButton(
             text: 'Proceed',
             onPressed: () {
+              CshLoading().showLoading(context);
               ElssService.qcLogout().listen((event) {
+                CshLoading().hideLoading(context);
+                Navigator.pop(context); // pop dialog
                 AppPreferences.qc.clear();
                 AppPreferences.instance.resetAndClearAll();
                 Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
+              }, onError: (error) {
+                CshLoading().hideLoading(context);
+                CshSnackBar.error(
+                  context: context,
+                  message: ApiErrorHelper.getErrorMessage(error).toString(),
+                  snackBarPosition: SnackBarPosition.TOP,
+                );
               });
             },
           ),
