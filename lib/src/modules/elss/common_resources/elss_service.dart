@@ -222,6 +222,6 @@ class ElssService {
   }
 
   static Stream<BaseActionResponse?> resetElssTransaction(String? barcode) {
-    return QcService().get("/reset-transaction?qr=$barcode", BaseActionResponse.fromJson);
+    return QcService().get("/device/elss/reset-transaction/?qr=$barcode", BaseActionResponse.fromJson);
   }
 }

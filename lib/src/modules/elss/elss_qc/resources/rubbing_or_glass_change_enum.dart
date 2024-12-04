@@ -1,6 +1,6 @@
 enum RubbingOrGlassChangeEnum {
-  rubbing(2, "Rubbing Required"),
-  glassChange(1, "Glass Change Required"),
+  rubbing(1, "Rubbing Required"),
+  glassChange(2, "Glass Change Required"),
   notRequired(0, "Not Required");
 
   final int id;
@@ -16,6 +16,6 @@ enum RubbingOrGlassChangeEnum {
   }
 
   static RubbingOrGlassChangeEnum findByLabel(String label) {
-    return RubbingOrGlassChangeEnum.values.firstWhere((element) => element.label == label);
+    return RubbingOrGlassChangeEnum.values.firstWhere((element) => element.label.toLowerCase() == label.toLowerCase());
   }
 }
