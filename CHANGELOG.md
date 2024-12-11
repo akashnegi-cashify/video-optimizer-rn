@@ -9,7 +9,8 @@
 * `Logout api integration`[(SCM-8276)](https://reglobe.atlassian.net/browse/SCM-8276)
 
 
-# v3.5.1+60 (27-11-2024)
+# v3.5.1+60 (28-11-2024)
+
 
 ### Feature and Improvements:
 
