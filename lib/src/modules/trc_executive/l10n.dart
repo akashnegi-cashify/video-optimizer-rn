@@ -12,6 +12,8 @@ class L10n extends BaseL10n {
 
   String get deviceBarcode => Intl.message("Device Barcode", locale: localName, name: "deviceBarcode");
 
+  String get rubbingOrGlassChange => Intl.message("Rubbing/Glass Change", locale: localName, name: "rubbingOrGlassChange");
+
   String get productTitle => Intl.message("Product Title", locale: localName, name: "productTitle");
 
   String get elssEngineerName => Intl.message("Elss Engineer Name", locale: localName, name: "elssEngineerName");

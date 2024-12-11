@@ -15,34 +15,37 @@ class MPinRegistrationSuccessfulScreen extends StatelessWidget {
     var theme = Theme.of(context);
     var customColor = theme.extension<CustomColors>() as CustomColors;
     var l10n = L10n(context);
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(Dimens.space_16),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: customColor.successColor.withAlpha(50)),
-              child: CshIcon(
-                FeatherIcons.check,
-                iconColor: customColor.successColor,
-                iconSize: MobileIconSize.xxLarge,
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(Dimens.space_16),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: customColor.successColor.withAlpha(50)),
+                child: CshIcon(
+                  FeatherIcons.check,
+                  iconColor: customColor.successColor,
+                  iconSize: MobileIconSize.xxLarge,
+                ),
               ),
-            ),
-            const SizedBox(height: Dimens.space_16),
-            Text(
-              "${l10n.registrationSuccessful}!",
-              style: theme.primaryTextTheme.displayLarge,
-            ),
-            const SizedBox(height: Dimens.space_32),
-            CshBigButton(
-              text: l10n.login,
-              width: const ButtonWidth(minWidth: 250, maxWidth: 300),
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(context, MPinLoginScreen.route, (route) => false);
-              },
-            ),
-          ],
+              const SizedBox(height: Dimens.space_16),
+              Text(
+                "${l10n.registrationSuccessful}!",
+                style: theme.primaryTextTheme.displayLarge,
+              ),
+              const SizedBox(height: Dimens.space_32),
+              CshBigButton(
+                text: l10n.login,
+                width: const ButtonWidth(minWidth: 250, maxWidth: 300),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(context, MPinLoginScreen.route, (route) => false);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

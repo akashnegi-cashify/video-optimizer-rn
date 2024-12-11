@@ -4,6 +4,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/rubbing_or_glass_change_enum.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_models/elss_device_details_response.dart';
@@ -12,12 +13,20 @@ import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_service.dart';
 
 class ELssProviderQc extends CshChangeNotifier {
+  List<DropDownItem> _rubbingOrGlassChangeDropdown = [];
+  DropDownItem? _selectedRubbingOrGlassChangeValue;
+
   static ELssProviderQc of(BuildContext context, {bool listen = true}) {
     return Provider.of<ELssProviderQc>(context, listen: listen);
   }
 
+  List<DropDownItem> get rubbingOrGlassChangeDropdown => _rubbingOrGlassChangeDropdown;
+
+  DropDownItem? get selectedRubbingOrGlassChangeValue => _selectedRubbingOrGlassChangeValue;
+
   ELssProviderQc(String barcode) {
     _getDeviceDetailsAndParts(barcode);
+    _generateRubbingOrGlassChangeDropdown();
   }
 
   bool isDetailsDataLoading = true;
@@ -30,6 +39,10 @@ class ELssProviderQc extends CshChangeNotifier {
     ElssService.getDeviceDetailsWithParts(scannedBarcode).listen((event) {
       if (event != null) {
         elssDeviceDetails = event;
+        if (event.deviceDetailsData?.rubbingOrGlassChange != null) {
+          _selectedRubbingOrGlassChangeValue = _rubbingOrGlassChangeDropdown
+              .firstWhere((element) => element.id == event.deviceDetailsData!.rubbingOrGlassChange!.toString());
+        }
         if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
           int k = 0;
           for (var element in event.deviceDetailsData!.repairPartList!) {
@@ -100,6 +113,7 @@ class ELssProviderQc extends CshChangeNotifier {
 
     dataMap["rprl"] = rprlList;
     dataMap["dbr"] = scannedBarcode;
+    dataMap["rs"] = _selectedRubbingOrGlassChangeValue?.id;
     return dataMap;
   }
 
@@ -145,5 +159,17 @@ class ELssProviderQc extends CshChangeNotifier {
       }
     }
     return false;
+  }
+
+  void onRubbingOrGlassChangeValueChanged(DropDownItem? value) {
+    _selectedRubbingOrGlassChangeValue = value;
+    notifyListeners();
+  }
+
+  _generateRubbingOrGlassChangeDropdown() {
+    _rubbingOrGlassChangeDropdown = RubbingOrGlassChangeEnum.values.map((e) {
+      return DropDownItem(e.id.toString(), e.label);
+    }).toList();
+    _selectedRubbingOrGlassChangeValue = _rubbingOrGlassChangeDropdown.last;
   }
 }

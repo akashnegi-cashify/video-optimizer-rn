@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart' hide ConsoleService;
+import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/reject_retest_reason_list_response.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
+import 'package:flutter_trc/src/services/console_service.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
-import 'package:flutter_trc/src/services/console_service.dart';
 
 import '../../home/models/logout_response.dart';
 import '../../login/models/authenticate_otp_response.dart';
@@ -64,8 +66,9 @@ class ElssService {
     return TrcService().post("/logout", LogoutResponse.fromJson);
   }
 
-  static Stream<LogoutResponse?> qcLogout() {
-    return QcService().post("/user/destroy", LogoutResponse.fromJson);
+  static Stream<BaseActionResponse?> qcLogout() {
+    Map<String, String> req = {"token": AuthHandler().userAuth.toString()};
+    return CasService().post("/v1/logout", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<LogoutResponse?> consoleLogout() {
@@ -216,5 +219,9 @@ class ElssService {
 
     return CasService()
         .post("/v1/auth/otp/authenticate", AuthenticateOTPResponse.fromJson, params: data, headers: headers);
+  }
+
+  static Stream<BaseActionResponse?> resetElssTransaction(String? barcode) {
+    return QcService().get("/device/elss/reset-transaction/?qr=$barcode", BaseActionResponse.fromJson);
   }
 }

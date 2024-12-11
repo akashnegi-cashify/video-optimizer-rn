@@ -18,15 +18,19 @@ class UserSessionProvider extends CshChangeNotifier {
     switch (loginTypeEnum) {
       case LoginTypes.trcLogin:
         return ElssService.trcLogout();
-      case LoginTypes.qcLogin:
-        return ElssService.qcLogout();
       case LoginTypes.rmsLogin:
       case LoginTypes.shipexLogin:
         return ElssService.consoleLogout();
+      case LoginTypes.qcLogin:
+        return Stream.value(LogoutResponse(1, "", ""));
     }
   }
 
   Future<bool> logoutUserAndClearSession(LoginTypes loginTypeEnum) {
+    if (loginTypeEnum == LoginTypes.qcLogin) {
+      return Future.value(true);
+    }
+
     var completer = Completer<bool>();
     try {
       _getLogoutStream(loginTypeEnum)?.listen((event) {

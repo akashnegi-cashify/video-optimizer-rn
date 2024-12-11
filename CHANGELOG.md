@@ -1,6 +1,16 @@
 # TRC Releases
 
+# v3.5.2+61 (11-12-2024)
+
+### Feature and Improvements:
+
+* `QC - ELSS - ELSS Navigation from Second Page to First Page`[(SCM-8277)](https://reglobe.atlassian.net/browse/SCM-8277)
+* `QC - ELSS - Rubbing and Glass change`[(SCM-8086)](https://reglobe.atlassian.net/browse/SCM-8086)
+* `Logout api integration`[(SCM-8276)](https://reglobe.atlassian.net/browse/SCM-8276)
+
+
 # v3.5.1+60 (28-11-2024)
+
 
 ### Feature and Improvements:
 

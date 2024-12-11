@@ -8,23 +8,26 @@ import '../model/rubbing_device_receive_response.dart';
 import '../model/rubbing_devices_request.dart';
 
 class RubbingAPIService {
-  static Stream<RubbingDevicesResponse?> getData(RubbingDeviceListRequest request) {
+  static Stream<RubbingDevicesResponse?> getReceivedDeviceList(RubbingDeviceListRequest request, bool isGlassChange) {
+    String startPoint = isGlassChange ? "/glass-change" : "/rubbing";
     return TrcService()
-        .post("/rubbing/device/list", RubbingDevicesResponse.fromJson, body: jsonEncode(request.toJson()));
+        .post("$startPoint/device/list", RubbingDevicesResponse.fromJson, body: jsonEncode(request.toJson()));
   }
 
-  static Stream<RubbingDoneResponse?> markRubbing(String scannedBarcode, bool rubbingDone) {
+  static Stream<RubbingDoneResponse?> markRubbing(String scannedBarcode, bool rubbingDone, bool isGlassChange) {
     Map<String, List<String>> paramData = {
       "dbr": [scannedBarcode],
       "isrd": [rubbingDone.toString()]
     };
-    return TrcService().post("/rubbing/device/done", RubbingDoneResponse.fromJson, params: paramData);
+    String startPoint = isGlassChange ? "/glass-change" : "/rubbing";
+    return TrcService().post("$startPoint/device/done", RubbingDoneResponse.fromJson, params: paramData);
   }
 
-  static Stream<RubbingDeviceReceiveResponse?> scanDevice(String scannedBarcode) {
+  static Stream<RubbingDeviceReceiveResponse?> scanDevice(String scannedBarcode, bool isGlassChange) {
+    String startPoint = isGlassChange ? "/glass-change" : "/rubbing";
     Map<String, List<String>> paramData = {
       "dbr": [scannedBarcode],
     };
-    return TrcService().post("/rubbing/device/scan", RubbingDeviceReceiveResponse.fromJson, params: paramData);
+    return TrcService().post("$startPoint/device/scan", RubbingDeviceReceiveResponse.fromJson, params: paramData);
   }
 }

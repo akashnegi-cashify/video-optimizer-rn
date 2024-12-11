@@ -9,23 +9,23 @@ import '../../model/search_query.dart';
 
 class ReceivedDevicesInteractorImpl implements ReceivedDevicesInteractor {
   @override
-  Stream<RubbingDevicesResponse?> getData(int pageIndex, int pageSize, String? searchQuery) {
+  Stream<RubbingDevicesResponse?> getData(int pageIndex, int pageSize, String? query, {bool isGlassChange = false}) {
     RubbingDeviceListRequest request = RubbingDeviceListRequest();
-    if (searchQuery != null) {
-      request.searchQuery = SearchQuery()..br = searchQuery;
+    if (query != null) {
+      request.searchQuery = SearchQuery()..br = query;
     }
     request.pageNo = pageIndex;
     request.pageSize = pageSize;
-    return RubbingAPIService.getData(request);
+    return RubbingAPIService.getReceivedDeviceList(request, isGlassChange);
   }
 
   @override
-  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing) {
-    return RubbingAPIService.markRubbing(barcode, rubbing);
+  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing, {bool isGlassChangeRole = false}) {
+    return RubbingAPIService.markRubbing(barcode, rubbing, isGlassChangeRole);
   }
 
   @override
-  Stream<RubbingDeviceReceiveResponse?> receiveDeviceForRubbing(String barcode) {
-    return RubbingAPIService.scanDevice(barcode);
+  Stream<RubbingDeviceReceiveResponse?> receiveDeviceForRubbing(String barcode, {bool isGlassChange = false}) {
+    return RubbingAPIService.scanDevice(barcode, isGlassChange);
   }
 }

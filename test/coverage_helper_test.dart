@@ -263,7 +263,6 @@ import 'package:flutter_trc/src/modules/login/providers/login_provider.dart';
 import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_service.dart';
 import 'package:flutter_trc/src/modules/login/resources/notification_type.dart';
-import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 import 'package:flutter_trc/src/modules/login/widgets/trc_login_widget.dart';
 import 'package:flutter_trc/src/modules/login/widgets/qc_login_widget.dart';

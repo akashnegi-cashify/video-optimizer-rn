@@ -162,4 +162,8 @@ class ChannelOptionProvider extends CshChangeNotifier {
       notifyListeners();
     }
   }
+
+  void resetTransaction(String? barcode) {
+    ElssService.resetElssTransaction(barcode).listen((event) {}, onError: (error) {});
+  }
 }

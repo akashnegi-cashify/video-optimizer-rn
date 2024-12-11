@@ -58,7 +58,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
   }
 
   VideoRecordingListener? _listener;
-  final FocusNode _stopVideoFocusNode = FocusNode(); // used for physical scanner button
 
   @override
   void initState() {
@@ -78,12 +77,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
           });
         }
       });
-    });
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        _logs("Setting focus on stop video button", LogType.info);
-        FocusScope.of(context).requestFocus(_stopVideoFocusNode);
-      }
     });
     super.initState();
   }
@@ -312,7 +305,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
         bool isRecording = snapshot.data ?? false;
         return FloatingActionButton(
           backgroundColor: theme.colorScheme.error,
-          focusNode: _stopVideoFocusNode,
           onPressed: _isCompressionStarted ? null : () => isRecording ? _stopVideoRecording() : _startVideoRecording(),
           child: Icon((isRecording || _isCompressionStarted) ? Icons.stop : Icons.play_arrow),
         );
@@ -324,7 +316,6 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget>
   void dispose() {
     try {
       _cameraController.dispose();
-      _stopVideoFocusNode.dispose();
     } catch (e) {
       Logger.error('mydebug-----_VideoRecorderWidgetState.dispose', ['error: $e']);
     }

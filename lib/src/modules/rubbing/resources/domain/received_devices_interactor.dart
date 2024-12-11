@@ -4,9 +4,9 @@ import '../../model/rubbing_devices_response.dart';
 import '../../model/rubbing_done_response.dart';
 
 mixin ReceivedDevicesInteractor {
-  Stream<RubbingDevicesResponse?> getData(int pageIndex, int pageSize, String? searchQuery);
+  Stream<RubbingDevicesResponse?> getData(int pageIndex, int pageSize, String? query, {bool isGlassChange = false});
 
-  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing);
+  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing,  {bool isGlassChangeRole = false});
 
-  Stream<RubbingDeviceReceiveResponse?> receiveDeviceForRubbing(String barcode);
+  Stream<RubbingDeviceReceiveResponse?> receiveDeviceForRubbing(String barcode, {bool isGlassChange = false});
 }

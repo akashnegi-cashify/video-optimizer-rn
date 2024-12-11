@@ -165,10 +165,12 @@ class _MPinSetupScreenState extends State<MPinSetupScreen> with WidgetsBindingOb
         context,
         onEnable: () {
           Navigator.pop(context); // pop dialog
+          isListenAppLifeCycle = true;
           FingerPrintAuthentication().checkForAuthenticate().then((value) {
             if (Validator.isTrue(value)) {
+              isListenAppLifeCycle = false;
               AppPreferences.qc.setIsBioMetricEnabled(true);
-              Navigator.pushNamed(context, MPinRegistrationSuccessfulScreen.route);
+              Navigator.pushReplacementNamed(context, MPinRegistrationSuccessfulScreen.route);
             }
           });
         },

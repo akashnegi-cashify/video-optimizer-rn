@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.5.0+59
+version: 3.5.2+61
 
 web_version: 1.0.0
 
@@ -193,6 +193,7 @@ dependency_overrides:
   camera_android_camerax: ^0.6.10
   flutter_image_compress: ^2.0.4
   package_info_plus: ^8.1.1
+  shared_preferences_android: 2.3.3
   #  csh_annotation:
   #    path: ../flutter_packages/csh_annotation
   #  builder_component:

@@ -33,7 +33,6 @@ import 'package:flutter_trc/src/modules/inventory_manager/screens/return_item_st
 import 'package:flutter_trc/src/modules/inventory_manager/screens/return_page.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/summary_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
-import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
 import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
@@ -59,7 +58,6 @@ class TrcRoutes {
     return {
       SplashScreen.route: (_) => const SplashScreen(),
       HomeScreen.route: (_) => const HomeScreen(),
-      ChangePasswordScreen.route: (_) => const ChangePasswordScreen(),
       RubbingHomeScreen.route: (_) => const RubbingHomeScreen(),
       ReceivedRubbingDevicesScreen.route: (_) => const ReceivedRubbingDevicesScreen(),
       ElssHomeScreen.route: (_) => const ElssHomeScreen(),
