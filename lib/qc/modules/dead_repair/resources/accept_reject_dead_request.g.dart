@@ -17,19 +17,11 @@ AcceptRejectDeadRequest _$AcceptRejectDeadRequestFromJson(
     );
 
 Map<String, dynamic> _$AcceptRejectDeadRequestToJson(
-    AcceptRejectDeadRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.markId);
-  writeNotNull('remark', instance.remark);
-  writeNotNull('actionRemark', instance.actionRemark);
-  writeNotNull('skus', instance.skus);
-  writeNotNull('repairLevel', instance.repairLevel);
-  return val;
-}
+        AcceptRejectDeadRequest instance) =>
+    <String, dynamic>{
+      if (instance.markId case final value?) 'id': value,
+      if (instance.remark case final value?) 'remark': value,
+      if (instance.actionRemark case final value?) 'actionRemark': value,
+      if (instance.skus case final value?) 'skus': value,
+      if (instance.repairLevel case final value?) 'repairLevel': value,
+    };

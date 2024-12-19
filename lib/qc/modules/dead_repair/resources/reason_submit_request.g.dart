@@ -15,19 +15,12 @@ ReasonSubmitRequest _$ReasonSubmitRequestFromJson(Map<String, dynamic> json) =>
       actionRemark: json['actionRemark'] as String?,
     );
 
-Map<String, dynamic> _$ReasonSubmitRequestToJson(ReasonSubmitRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('qrCode', instance.code);
-  writeNotNull('remark', instance.remark);
-  writeNotNull('qr', instance.qr);
-  writeNotNull('id', instance.id);
-  writeNotNull('actionRemark', instance.actionRemark);
-  return val;
-}
+Map<String, dynamic> _$ReasonSubmitRequestToJson(
+        ReasonSubmitRequest instance) =>
+    <String, dynamic>{
+      if (instance.code case final value?) 'qrCode': value,
+      if (instance.remark case final value?) 'remark': value,
+      if (instance.qr case final value?) 'qr': value,
+      if (instance.id case final value?) 'id': value,
+      if (instance.actionRemark case final value?) 'actionRemark': value,
+    };

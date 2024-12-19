@@ -1385,6 +1385,36 @@
       ]
     },
     {
+      "pageId": 10053,
+      "pageKey": "QC_data_wipe_detail_screen",
+      "dt": [
+        {
+          "id": 10137,
+          "key": "QC_data_wipe_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10138,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10054,
+      "pageKey": "QC_data_wipe_list_screen",
+      "dt": [
+        {
+          "id": 10139,
+          "key": "QC_data_wipe_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10138,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -3382,6 +3412,40 @@
           "ht": "Select Color",
           "sbb": true,
           "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10137,
+      "locale": "en",
+      "key": "QC_data_wipe_detail_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10138,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Data Wipe",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10139,
+      "locale": "en",
+      "key": "QC_data_wipe_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
         }
       }
     },

@@ -15,18 +15,10 @@ DispatchLotRequest _$DispatchLotRequestFromJson(Map<String, dynamic> json) =>
           ?.map((e) => (e as num).toInt())
           .toList();
 
-Map<String, dynamic> _$DispatchLotRequestToJson(DispatchLotRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('os', instance.pageNo);
-  writeNotNull('ps', instance.pageSize);
-  writeNotNull('q', instance.searchQuery);
-  writeNotNull('chq', instance.lotType);
-  return val;
-}
+Map<String, dynamic> _$DispatchLotRequestToJson(DispatchLotRequest instance) =>
+    <String, dynamic>{
+      if (instance.pageNo case final value?) 'os': value,
+      if (instance.pageSize case final value?) 'ps': value,
+      if (instance.searchQuery case final value?) 'q': value,
+      if (instance.lotType case final value?) 'chq': value,
+    };

@@ -30,18 +30,10 @@ ScanBinLotItem _$ScanBinLotItemFromJson(Map<String, dynamic> json) =>
       productTitle: json['pt'] as String?,
     );
 
-Map<String, dynamic> _$ScanBinLotItemToJson(ScanBinLotItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('bc', instance.barcode);
-  writeNotNull('il', instance.itemLocBarCode);
-  writeNotNull('sp', instance.storagePosition);
-  writeNotNull('pt', instance.productTitle);
-  return val;
-}
+Map<String, dynamic> _$ScanBinLotItemToJson(ScanBinLotItem instance) =>
+    <String, dynamic>{
+      if (instance.barcode case final value?) 'bc': value,
+      if (instance.itemLocBarCode case final value?) 'il': value,
+      if (instance.storagePosition case final value?) 'sp': value,
+      if (instance.productTitle case final value?) 'pt': value,
+    };

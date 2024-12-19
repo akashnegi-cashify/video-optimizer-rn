@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_video_screen.dart';
+import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_list_screen.dart';
 import 'package:flutter_trc/qc/modules/device_details/screens/device_details_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_perform_screen.dart';
@@ -37,6 +38,7 @@ import 'package:flutter_trc/src/common/mpin/screens/mpin_setup_screen.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_screen.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
+import 'modules/data_wipe/screens/data_wipe_detail_screen.dart';
 import 'modules/dead_repair/screens/index.dart';
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
 import 'modules/dispatch_lot/screens/index.dart';
@@ -110,6 +112,8 @@ class QcRoutes {
       MPinSetupScreen.route: (_) => const MPinSetupScreen(),
       MPinRegistrationSuccessfulScreen.route: (_) => const MPinRegistrationSuccessfulScreen(),
       MPinLoginScreen.route: (_) => const MPinLoginScreen(),
+      DataWipeDetailScreen.route: (_) => const DataWipeDetailScreen(),
+      DataWipeListScreen.route: (_) => const DataWipeListScreen(),
     };
   }
 }

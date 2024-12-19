@@ -32,6 +32,8 @@ import 'package:flutter_trc/qc/modules/warehouse_audit/components/on_going_audit
 import 'package:flutter_trc/qc/modules/warehouse_audit/components/warehouse_audit_perform_component.dart';
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/components/store_out_lots_filter_component.dart';
 
+import 'modules/data_wipe/components/data_wipe_detail_component.dart';
+import 'modules/data_wipe/components/data_wipe_list_component.dart';
 import 'modules/dead_repair/components/index.dart';
 import 'modules/device_receive_module/components/device_receive_component.dart';
 import 'modules/dispatch_lot/components/dispatch_lots_component.dart';
@@ -169,6 +171,12 @@ class QcComponentRegistry {
 
       case ColorSelectionComponent.COMP_KEY:
         return ColorSelectionComponent(jsonConfig);
+
+      case DataWipeDetailComponent.COMP_KEY:
+        return DataWipeDetailComponent(jsonConfig);
+
+      case DataWipeListComponent.COMP_KEY:
+        return DataWipeListComponent(jsonConfig);
 
       default:
         return null;

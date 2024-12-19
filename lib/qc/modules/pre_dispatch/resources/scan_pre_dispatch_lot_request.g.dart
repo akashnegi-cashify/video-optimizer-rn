@@ -14,16 +14,8 @@ ScanPreDispatchRequest _$ScanPreDispatchRequestFromJson(
     );
 
 Map<String, dynamic> _$ScanPreDispatchRequestToJson(
-    ScanPreDispatchRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('lgn', instance.lotGroupName);
-  writeNotNull('qr_code', instance.qrCode);
-  return val;
-}
+        ScanPreDispatchRequest instance) =>
+    <String, dynamic>{
+      if (instance.lotGroupName case final value?) 'lgn': value,
+      if (instance.qrCode case final value?) 'qr_code': value,
+    };

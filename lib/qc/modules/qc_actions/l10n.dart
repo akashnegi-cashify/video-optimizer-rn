@@ -47,4 +47,8 @@ class L10n extends BaseL10n {
 
   String get genericDeviceMedia => Intl.message('Generic Device Media', locale: localName, name: 'genericDeviceMedia');
 
+  String get dataWipe => Intl.message('Data Wipe', locale: localName, name: 'dataWipe');
+
+  String get dataWipeList => Intl.message('Data Wipe List', locale: localName, name: 'dataWipeList');
+
 }
