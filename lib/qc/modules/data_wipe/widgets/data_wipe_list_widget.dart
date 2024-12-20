@@ -8,6 +8,8 @@ import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_list_respon
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_card_widget.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
+import '../l10n.dart';
+
 class DataWipeListWidget extends StatefulWidget {
   const DataWipeListWidget({super.key});
 
@@ -19,6 +21,7 @@ class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, Data
   @override
   Widget build(BuildContext context) {
     var provider = DataWipeListProvider.of(context, listen: false);
+    var l10n = L10n(context);
     return Column(
       children: [
         Expanded(
@@ -37,11 +40,13 @@ class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, Data
           ),
         ),
         ComboButton(
-          firstBtnText: "Filters",
-          secondBtnText: "Initiate Bulk",
-          secondBtnClick: () {
-            _onBulkEraseClicked(provider);
-          },
+          firstBtnText: l10n.filters,
+          secondBtnText: l10n.initiateBulk,
+          secondBtnClick: provider.forceHideBulkErase
+              ? null
+              : () {
+                  _onBulkEraseClicked(provider);
+                },
           firstBtnClick: () {
             _onFilterClicked(provider);
           },
@@ -81,10 +86,19 @@ class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, Data
   }
 
   _showConfirmationDialog(DataWipFilterListItem status) {
-    showErrorDialog(context, "Initiate Bulk Erase on ${status.label} status", "Are you sure?", "Proceed", (_) {
+    var l10n = L10n(context, listen: false);
+    showErrorDialog(context, l10n.erasedDesc(status.label!), l10n.sreYouSure, l10n.proceed, (_) {
       Navigator.pop(context);
       var provider = DataWipeListProvider.of(context, listen: false);
-      provider.initiateBulkErase(status.id);
+      CshLoading().showLoading(context);
+      provider.initiateBulkErase(status.id!).then((value) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.success(context: context, message: value);
+        resetAndRefreshScreen();
+      }, onError: (error) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: error.toString());
+      });
     });
   }
 }

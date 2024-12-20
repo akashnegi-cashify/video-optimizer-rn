@@ -10,6 +10,8 @@ import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_status_card.d
 import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
+import '../l10n.dart';
+
 class DataWipeDetailWidget extends StatefulWidget {
   const DataWipeDetailWidget({super.key});
 
@@ -26,30 +28,78 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
 
   _getData() {
     var provider = DataWipeDetailProvider.of(context, listen: false);
-    provider.getDeviceWipeStatus().then((value) {}, onError: (error) {
-      _showErrorDialog(error);
+    provider.getDeviceWipeStatus(onError: (errorMessage) {
+      _showErrorDialog(errorMessage);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var provider = DataWipeDetailProvider.of(context);
+    var l10n = L10n(context);
     if (provider.isLoading || provider.data == null) {
       return const CshShimmer();
     }
 
     var data = provider.data;
-    return Column(
-      children: [
-        DataWipeStatusCard(data?.statusCode, data?.status),
-        const SizedBox(height: Dimens.space_16),
-        DataWipeCardWidget(data?.qrCode, data?.erasureProvider, data?.productName, data?.status, data?.statusCode)
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.space_16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          DataWipeStatusCard(data?.statusCode, data?.status),
+          const SizedBox(height: Dimens.space_16),
+          DataWipeCardWidget(data?.qrCode, data?.erasureProvider, data?.productName, data?.status, data?.statusCode),
+          const Expanded(child: SizedBox.shrink()),
+          ((data?.statusCode ?? 0) < 1 && !provider.forceHideInitiateButton)
+              ? Padding(
+                  padding: const EdgeInsets.all(Dimens.space_16),
+                  child: CshBigButton(
+                    text: l10n.initiateDataWipe,
+                    onPressed: () {
+                      _initiateDataWipe();
+                    },
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(Dimens.space_16),
+                  child: CshBigButton(
+                    text: l10n.scanAnother,
+                    onPressed: () {
+                      _onScannedAnotherClicked();
+                    },
+                  ),
+                )
+        ],
+      ),
     );
+  }
+
+  _onScannedAnotherClicked() {
+    CshMlScannerUtil().openScanner(
+      context,
+      onScanned: (scannedData, controller) {
+        Navigator.pop(context); // Close the scanner
+        DataWipeDetailScreen.navigateTo(context, scannedData, isReplacement: true);
+      },
+    );
+  }
+
+  _initiateDataWipe() {
+    var provider = DataWipeDetailProvider.of(context, listen: false);
+    CshLoading().showLoading(context);
+    provider.initiateDataWipe().then((_) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.success(context: context, message: "Data Eraser Initiated");
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error.toString());
+    });
   }
 
   _showErrorDialog(String errorMessage) {
     var theme = Theme.of(context);
+    var l10n = L10n(context, listen: false);
     showCshBottomSheet(
         context: context,
         child: Padding(
@@ -62,8 +112,8 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
               Text(errorMessage, style: theme.primaryTextTheme.labelSmall),
               const SizedBox(height: Dimens.space_26),
               ComboButton(
-                firstBtnText: "Go Back",
-                secondBtnText: "Scan Another",
+                firstBtnText: l10n.goBack,
+                secondBtnText: l10n.scanAnother,
                 isFirstPrimary: false,
                 firstBtnClick: () {
                   Navigator.pop(context); // Close this dialog

@@ -59,7 +59,14 @@ class DataWipeListProvider extends CshChangeNotifier {
     });
   }
 
-  void initiateBulkErase(int? id) {
-    // Implement the logic to initiate bulk erase
+  Future<String> initiateBulkErase(int id) {
+    var completer = Completer<String>();
+    DataWipeService.bulkInitiate(id).listen((event) {
+      forceHideBulkErase = true;
+      completer.complete(event.successMessage);
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
   }
 }

@@ -11,6 +11,7 @@ class DataWipeDetailProvider extends CshChangeNotifier {
   final String _deviceBarcode;
   DataWipeListItem? data;
   bool isLoading = true;
+  bool forceHideInitiateButton = false;
 
   DataWipeDetailProvider(this._deviceBarcode);
 
@@ -18,15 +19,25 @@ class DataWipeDetailProvider extends CshChangeNotifier {
     return Provider.of<DataWipeDetailProvider>(context, listen: listen);
   }
 
-  Future<void> getDeviceWipeStatus() {
-    var completer = Completer<void>();
+  void getDeviceWipeStatus({Function(String errorMessage)? onError}) {
     DataWipeService.getDataWipeDetails(_deviceBarcode).listen((event) {
-      isLoading = false;
-      data = event.dataWipeDetail;
-      notifyListeners();
-      completer.complete();
+      data = event;
     }, onError: (error) {
+      String? errorMessage = ApiErrorHelper.getErrorMessage(error);
+      onError?.call(errorMessage.toString());
+    }, onDone: () {
       isLoading = false;
+      notifyListeners();
+    });
+  }
+
+  Future<bool> initiateDataWipe() {
+    var completer = Completer<bool>();
+    DataWipeService.initiateDataWipe(data!.id!).listen((_) {
+      getDeviceWipeStatus();
+      forceHideInitiateButton = true;
+      completer.complete(true);
+    }, onError: (error) {
       String? errorMessage = ApiErrorHelper.getErrorMessage(error);
       completer.completeError(errorMessage.toString());
     });
