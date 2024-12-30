@@ -34,6 +34,7 @@ DataWipeListItem _$DataWipeListItemFromJson(Map<String, dynamic> json) =>
       json['sd'] as String?,
       (json['sc'] as num?)?.toInt(),
       json['pn'] as String?,
+      json['em'] as String?,
     );
 
 Map<String, dynamic> _$DataWipeListItemToJson(DataWipeListItem instance) =>
@@ -44,4 +45,5 @@ Map<String, dynamic> _$DataWipeListItemToJson(DataWipeListItem instance) =>
       'sd': instance.status,
       'sc': instance.statusCode,
       'pn': instance.productName,
+      'em': instance.errorMessage,
     };

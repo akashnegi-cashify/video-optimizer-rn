@@ -5,6 +5,7 @@ import 'package:flutter_trc/qc/modules/data_wipe/dialog/show_filter_dialog.dart'
 import 'package:flutter_trc/qc/modules/data_wipe/providers/data_wipe_list_provider.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_filter_list_response.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_list_response.dart';
+import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_card_widget.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
@@ -27,12 +28,18 @@ class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, Data
         Expanded(
           child: iterate(
             (item, index) {
-              return DataWipeCardWidget(
-                item.qrCode,
-                item.erasureProvider.toString(),
-                item.productName,
-                item.status,
-                item.statusCode,
+              return InkWell(
+                onTap: () {
+                  DataWipeDetailScreen.navigateTo(context, item.qrCode!);
+                },
+                child: DataWipeCardWidget(
+                  item.qrCode,
+                  item.erasureProvider.toString(),
+                  item.productName,
+                  item.status,
+                  item.statusCode,
+                  item.errorMessage,
+                ),
               );
             },
             separator: const SizedBox(height: Dimens.space_16),

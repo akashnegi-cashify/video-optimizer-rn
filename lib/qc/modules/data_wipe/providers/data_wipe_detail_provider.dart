@@ -19,7 +19,7 @@ class DataWipeDetailProvider extends CshChangeNotifier {
     return Provider.of<DataWipeDetailProvider>(context, listen: listen);
   }
 
-  void getDeviceWipeStatus({Function(String errorMessage)? onError}) {
+  getDeviceWipeStatus({Function(String errorMessage)? onError}) {
     DataWipeService.getDataWipeDetails(_deviceBarcode).listen((event) {
       data = event;
     }, onError: (error) {

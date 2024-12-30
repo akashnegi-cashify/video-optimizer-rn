@@ -7,7 +7,6 @@ import 'package:flutter_trc/qc/modules/data_wipe/providers/data_wipe_detail_prov
 import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_card_widget.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_status_card.dart';
-import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 
 import '../l10n.dart';
@@ -42,15 +41,30 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
     }
 
     var data = provider.data;
-    return Padding(
-      padding: const EdgeInsets.all(Dimens.space_16),
+    return RefreshIndicator(
+      onRefresh: () {
+        return Future.value(provider.getDeviceWipeStatus());
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DataWipeStatusCard(data?.statusCode, data?.status),
-          const SizedBox(height: Dimens.space_16),
-          DataWipeCardWidget(data?.qrCode, data?.erasureProvider, data?.productName, data?.status, data?.statusCode),
-          const Expanded(child: SizedBox.shrink()),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(Dimens.space_16),
+              children: [
+                DataWipeStatusCard(data?.statusCode, data?.status),
+                const SizedBox(height: Dimens.space_16),
+                DataWipeCardWidget(
+                  data?.qrCode,
+                  data?.erasureProvider,
+                  data?.productName,
+                  data?.status,
+                  data?.statusCode,
+                  data?.errorMessage,
+                ),
+              ],
+            ),
+          ),
           ((data?.statusCode ?? 0) < 1 && !provider.forceHideInitiateButton)
               ? Padding(
                   padding: const EdgeInsets.all(Dimens.space_16),
@@ -102,34 +116,38 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
     var l10n = L10n(context, listen: false);
     showCshBottomSheet(
         context: context,
-        child: Padding(
-          padding: const EdgeInsets.all(Dimens.space_16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CshIcon(FeatherIcons.alertTriangle, iconColor: theme.colorScheme.error),
-              const SizedBox(height: Dimens.space_16),
-              Text(errorMessage, style: theme.primaryTextTheme.labelSmall),
-              const SizedBox(height: Dimens.space_26),
-              ComboButton(
-                firstBtnText: l10n.goBack,
-                secondBtnText: l10n.scanAnother,
-                isFirstPrimary: false,
-                firstBtnClick: () {
-                  Navigator.pop(context); // Close this dialog
-                  Navigator.pushNamedAndRemoveUntil(context, QcActionScreen.route, (route) => false);
-                },
-                secondBtnClick: () {
-                  CshMlScannerUtil().openScanner(
-                    context,
-                    onScanned: (scannedData, controller) {
-                      Navigator.pop(context); // Close the scanner
-                      DataWipeDetailScreen.navigateTo(context, scannedData, isReplacement: true);
-                    },
-                  );
-                },
-              )
-            ],
+        isDismissible: false,
+        child: PopScope(
+          canPop: false,
+          child: Padding(
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CshIcon(FeatherIcons.alertTriangle, iconColor: theme.colorScheme.error),
+                const SizedBox(height: Dimens.space_16),
+                Text(errorMessage, style: theme.primaryTextTheme.labelSmall),
+                const SizedBox(height: Dimens.space_26),
+                ComboButton(
+                  firstBtnText: l10n.goBack,
+                  secondBtnText: l10n.scanAnother,
+                  isFirstPrimary: false,
+                  firstBtnClick: () {
+                    Navigator.pop(context); // Close this dialog
+                    Navigator.pop(context); // close this screen
+                  },
+                  secondBtnClick: () {
+                    CshMlScannerUtil().openScanner(
+                      context,
+                      onScanned: (scannedData, controller) {
+                        Navigator.pop(context); // Close the scanner
+                        DataWipeDetailScreen.navigateTo(context, scannedData, isReplacement: true);
+                      },
+                    );
+                  },
+                )
+              ],
+            ),
           ),
         ));
   }

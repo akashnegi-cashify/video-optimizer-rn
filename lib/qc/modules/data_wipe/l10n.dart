@@ -6,6 +6,10 @@ class L10n extends BaseL10n {
 
   String get barcode => Intl.message('Barcode', name: 'barcode');
 
+  String get dataWipe => Intl.message('Data Wipe', name: 'dataWipe');
+
+  String get dataWipeList => Intl.message('Data Wipe List', name: 'dataWipeList');
+
   String get erasureProvider => Intl.message('Erasure Provider', name: 'erasureProvider');
 
   String get initiateDataWipe => Intl.message('Initiate Data Wipe', name: 'initiateDataWipe');

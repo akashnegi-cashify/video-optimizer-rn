@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_video_screen.dart';
+import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_home_screen.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_list_screen.dart';
 import 'package:flutter_trc/qc/modules/device_details/screens/device_details_screen.dart';
 import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen.dart';
@@ -114,6 +115,7 @@ class QcRoutes {
       MPinLoginScreen.route: (_) => const MPinLoginScreen(),
       DataWipeDetailScreen.route: (_) => const DataWipeDetailScreen(),
       DataWipeListScreen.route: (_) => const DataWipeListScreen(),
+      DataWipeHomeScreen.route: (_) => const DataWipeHomeScreen(),
     };
   }
 }

@@ -10,8 +10,10 @@ class DataWipeCardWidget extends StatelessWidget {
   final String? productName;
   final String? status;
   final int? statusCode;
+  final String? errorMessage;
 
-  const DataWipeCardWidget(this.barcode, this.erasureProvider, this.productName, this.status, this.statusCode,
+  const DataWipeCardWidget(
+      this.barcode, this.erasureProvider, this.productName, this.status, this.statusCode, this.errorMessage,
       {super.key});
 
   @override
@@ -51,7 +53,11 @@ class DataWipeCardWidget extends StatelessWidget {
               Expanded(child: Text(productName ?? "", style: theme.primaryTextTheme.labelLarge, maxLines: 2)),
               getStatusText(theme),
             ],
-          )
+          ),
+          if (errorMessage != null) ...[
+            const SizedBox(height: Dimens.space_8),
+            Text(errorMessage!, style: theme.primaryTextTheme.labelSmall?.copyWith(color: theme.colorScheme.error)),
+          ]
         ],
       ),
     );
