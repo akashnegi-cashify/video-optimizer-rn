@@ -17,20 +17,12 @@ PreDispatchLotRequest _$PreDispatchLotRequestFromJson(
     );
 
 Map<String, dynamic> _$PreDispatchLotRequestToJson(
-    PreDispatchLotRequest instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('offset', instance.pageNo);
-  writeNotNull('pageSize', instance.pageSize);
-  writeNotNull('filterObjectMap', instance.filterMap);
-  return val;
-}
+        PreDispatchLotRequest instance) =>
+    <String, dynamic>{
+      if (instance.pageNo case final value?) 'offset': value,
+      if (instance.pageSize case final value?) 'pageSize': value,
+      if (instance.filterMap case final value?) 'filterObjectMap': value,
+    };
 
 FilterMap _$FilterMapFromJson(Map<String, dynamic> json) => FilterMap(
       searchQuery: json['q'] as String?,
@@ -40,17 +32,8 @@ FilterMap _$FilterMapFromJson(Map<String, dynamic> json) => FilterMap(
       barcode: json['br'] as String?,
     );
 
-Map<String, dynamic> _$FilterMapToJson(FilterMap instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('q', instance.searchQuery);
-  writeNotNull('lt', instance.lotType);
-  writeNotNull('br', instance.barcode);
-  return val;
-}
+Map<String, dynamic> _$FilterMapToJson(FilterMap instance) => <String, dynamic>{
+      if (instance.searchQuery case final value?) 'q': value,
+      if (instance.lotType case final value?) 'lt': value,
+      if (instance.barcode case final value?) 'br': value,
+    };

@@ -44,13 +44,14 @@ class _ProductListAccToImeiState extends State<ProductListAccToImei> with Produc
             onQuery: (query) => provider.setSearchQuery(query),
           ),
           const SizedBox(height: Dimens.space_8),
-          ListView.builder(
+          ListView.separated(
             itemCount: provider.productListAccToImei?.length ?? 0,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               var item = provider.productListAccToImei![index];
               return buildItemWidget(context, item, widget.onProductSelected);
             },
+            separatorBuilder: (_, __) => const SizedBox(height: Dimens.space_12),
           ),
           const SizedBox(height: Dimens.space_24),
           CshBigButton(

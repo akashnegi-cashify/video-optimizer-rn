@@ -39,22 +39,14 @@ SelectionData _$SelectionDataFromJson(Map<String, dynamic> json) =>
           (json['vids'] as List<dynamic>?)?.map((e) => e as String?).toList(),
     );
 
-Map<String, dynamic> _$SelectionDataToJson(SelectionData instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('gl', instance.groupLabel);
-  writeNotNull('k', instance.key);
-  writeNotNull('v', instance.value);
-  writeNotNull('imgs', instance.imgList);
-  writeNotNull('vids', instance.videoList);
-  return val;
-}
+Map<String, dynamic> _$SelectionDataToJson(SelectionData instance) =>
+    <String, dynamic>{
+      if (instance.groupLabel case final value?) 'gl': value,
+      if (instance.key case final value?) 'k': value,
+      if (instance.value case final value?) 'v': value,
+      if (instance.imgList case final value?) 'imgs': value,
+      if (instance.videoList case final value?) 'vids': value,
+    };
 
 AccessoriesData _$AccessoriesDataFromJson(Map<String, dynamic> json) =>
     AccessoriesData(
@@ -66,20 +58,12 @@ AccessoriesData _$AccessoriesDataFromJson(Map<String, dynamic> json) =>
       action: json['a'] as String?,
     );
 
-Map<String, dynamic> _$AccessoriesDataToJson(AccessoriesData instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('s', instance.source);
-  writeNotNull('qr', instance.qrCode);
-  writeNotNull('hb', instance.hasBox);
-  writeNotNull('hc', instance.hasCharger);
-  writeNotNull('hbc', instance.hasBoxCharger);
-  writeNotNull('a', instance.action);
-  return val;
-}
+Map<String, dynamic> _$AccessoriesDataToJson(AccessoriesData instance) =>
+    <String, dynamic>{
+      if (instance.source case final value?) 's': value,
+      if (instance.qrCode case final value?) 'qr': value,
+      if (instance.hasBox case final value?) 'hb': value,
+      if (instance.hasCharger case final value?) 'hc': value,
+      if (instance.hasBoxCharger case final value?) 'hbc': value,
+      if (instance.action case final value?) 'a': value,
+    };

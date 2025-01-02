@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.5.3+62 (02-01-2025)
+
+### Feature:
+
+* `QC - Data Wipe feature`[(SCM-8377)](https://reglobe.atlassian.net/browse/SCM-8377)
+
+
 # v3.5.2+61 (11-12-2024)
 
 ### Feature and Improvements:

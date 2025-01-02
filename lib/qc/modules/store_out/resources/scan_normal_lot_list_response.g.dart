@@ -39,21 +39,13 @@ ScanNormalLotItem _$ScanNormalLotItemFromJson(Map<String, dynamic> json) =>
       storagePosition: (json['p'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$ScanNormalLotItemToJson(ScanNormalLotItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  writeNotNull('qr_code', instance.qrCode);
-  writeNotNull('m', instance.model);
-  writeNotNull('b', instance.brand);
-  writeNotNull('im', instance.imei);
-  writeNotNull('stbr', instance.stockBarcode);
-  writeNotNull('p', instance.storagePosition);
-  return val;
-}
+Map<String, dynamic> _$ScanNormalLotItemToJson(ScanNormalLotItem instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.qrCode case final value?) 'qr_code': value,
+      if (instance.model case final value?) 'm': value,
+      if (instance.brand case final value?) 'b': value,
+      if (instance.imei case final value?) 'im': value,
+      if (instance.stockBarcode case final value?) 'stbr': value,
+      if (instance.storagePosition case final value?) 'p': value,
+    };
