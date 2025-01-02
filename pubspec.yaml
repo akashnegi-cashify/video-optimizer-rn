@@ -139,7 +139,7 @@ dependencies:
   firebase_remote_config: ^5.1.4
   image: ^4.2.0
   url_launcher: ^6.3.1
-  flutter_tts: ^4.0.2
+  flutter_tts: 4.2.0
   #  ffmpeg_kit_flutter_video: 5.1.0
   video_player: ^2.7.0
   flutter_image_compress: ^2.0.4
