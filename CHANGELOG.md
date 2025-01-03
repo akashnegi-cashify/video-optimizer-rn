@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.5.4+63 (06-01-2025)
+
+### Feature:
+
+* `RMS - Select accessories while receiving device`[(SCM-8372)](https://reglobe.atlassian.net/browse/SCM-8372)
+
+
 # v3.5.3+62 (02-01-2025)
 
 ### Feature:

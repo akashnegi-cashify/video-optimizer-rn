@@ -1,13 +1,16 @@
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/rms/modules/facility_list/resources/facility_list_response.dart';
 import 'package:flutter_trc/rms/modules/facility_list/screens/facility_list_screen.dart';
-import 'package:flutter_trc/rms/modules/receive_device/resources/receive_device_service.dart';
+import 'package:flutter_trc/rms/modules/receive_device/dialog/show_accessories_dialog.dart';
+import 'package:flutter_trc/rms/modules/receive_device/providers/receive_device_module_provider.dart';
+import 'package:flutter_trc/rms/modules/receive_device/resources/accessories_data.dart';
 import 'package:flutter_trc/rms/modules/receive_device/widgets/barcode_type_selection_dialog.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:provider/provider.dart';
 
+import '../barcode_types.dart';
 import '../l10n.dart';
 
 class ReceiveDeviceModule extends StatelessWidget {
@@ -18,25 +21,37 @@ class ReceiveDeviceModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
-    return CshBigButton(text: l10n.receiveDevice, onPressed: () => _onReceiveDeviceButtonClicked(context));
+    return ChangeNotifierProvider(
+        create: (_) => ReceiveDeviceModuleProvider(),
+        builder: (innerContext, child) {
+          var provider = ReceiveDeviceModuleProvider.of(innerContext, listen: false);
+          return CshBigButton(
+              text: l10n.receiveDevice, onPressed: () => _onReceiveDeviceButtonClicked(context, provider));
+        });
   }
 
-  _onReceiveDeviceButtonClicked(BuildContext context) {
+  _onReceiveDeviceButtonClicked(BuildContext context, ReceiveDeviceModuleProvider provider) {
     FacilityListData? facility = AppPreferences.app.getFacility();
     if (facility == null) {
-      FacilityListScreen.openFacilityScreen(context, onFacilitySelected: (facility) {
-        Navigator.pop(context); // Close the facility list screen
-        AppPreferences.app.setFacility(facility).then((_) {
-          onFacilityChanged?.call();
-          _onProceed(context);
-        });
+      _getFacility(context, onSelected: () {
+        onFacilityChanged?.call();
+        _onProceed(context, provider);
       });
     } else {
-      _onProceed(context);
+      _onProceed(context, provider);
     }
   }
 
-  _onProceed(BuildContext context) {
+  _getFacility(BuildContext context, {required VoidCallback onSelected}) {
+    FacilityListScreen.openFacilityScreen(context, onFacilitySelected: (facility) {
+      Navigator.pop(context); // Close the facility list screen
+      AppPreferences.app.setFacility(facility).then((_) {
+        onSelected();
+      });
+    });
+  }
+
+  _onProceed(BuildContext context, ReceiveDeviceModuleProvider provider) {
     showBarcodeTypeSelectionDialog(
       context,
       onSelected: (barcodeType) {
@@ -44,20 +59,39 @@ class ReceiveDeviceModule extends StatelessWidget {
         CshMlScannerUtil().openScanner(
           context,
           onScanned: (scannedData, controller) {
-            CshLoading().showLoading(context);
             int facilityId = AppPreferences.app.getFacility()?.id ?? 0;
-            ReceiveDeviceService.receiveDevice(scannedData, facilityId, barcodeType).listen((event) {
+            CshLoading().showLoading(context);
+            provider.getDeviceDetails(scannedData, barcodeType).then((value) {
               CshLoading().hideLoading(context);
-              Navigator.pop(context); // Close the scanner
-              CshSnackBar.success(context: context, message: event?.successMessage ?? "Device received successfully");
+              if (value.isNotEmpty) {
+                showAccessoriesDialog(context, value, onAccessoriesSelected: (accessoriesList) {
+                  Navigator.pop(context); // Close the dialog
+                  _receiveDevice(
+                      context, scannedData, barcodeType, facilityId, accessoriesList: accessoriesList, provider);
+                });
+              } else {
+                _receiveDevice(context, scannedData, barcodeType, facilityId, provider);
+              }
             }, onError: (error) {
               CshLoading().hideLoading(context);
-              String? errorMessage = ApiErrorHelper.getErrorMessage(error);
-              CshSnackBar.error(context: context, message: errorMessage.toString());
+              CshSnackBar.error(context: context, message: error.toString());
             });
           },
         );
       },
     );
+  }
+
+  _receiveDevice(BuildContext context, String barcode, BarcodeTypes barcodeType, int facilityId,
+      ReceiveDeviceModuleProvider provider,
+      {List<AccessoriesData>? accessoriesList}) {
+    CshLoading().showLoading(context);
+    provider.receiveDevice(barcode, barcodeType, facilityId, accessoriesList).then((value) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.success(context: context, message: value);
+    }, onError: (error) {
+      CshLoading().hideLoading(context);
+      CshSnackBar.error(context: context, message: error.toString());
+    });
   }
 }

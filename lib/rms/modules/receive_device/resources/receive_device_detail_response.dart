@@ -8,7 +8,10 @@ class ReceiveDeviceDetailResponse extends BaseResponse {
   @JsonKey(name: 'rt')
   int? receiveType;
 
-  ReceiveDeviceDetailResponse(this.receiveType, super.cashifyAlert, super.trackUrl);
+  @JsonKey(name: 'acc')
+  Map<String, String>? accessoriesMap;
+
+  ReceiveDeviceDetailResponse(this.receiveType, this.accessoriesMap, super.cashifyAlert, super.trackUrl);
 
   static ReceiveDeviceDetailResponse fromJson(Map<String, dynamic> json) => _$ReceiveDeviceDetailResponseFromJson(json);
 

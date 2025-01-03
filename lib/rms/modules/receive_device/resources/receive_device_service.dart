@@ -6,16 +6,19 @@ import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/rms_service.dart';
 
 class ReceiveDeviceService {
-  static Stream<BaseActionResponse?> receiveDevice(String barcode, int facilityId, BarcodeTypes barcodeType) {
-    Map<String, dynamic> req = {"v": barcode, "fid": facilityId, "vt": barcodeType.value};
+  static Stream<BaseActionResponse?> receiveDevice(
+      String barcode, int facilityId, BarcodeTypes barcodeType, Map<String, String>? accessoriesMap) {
+    Map<String, dynamic> req = {"v": barcode, "fid": facilityId, "vt": barcodeType.value, "acc": accessoriesMap};
 
     return RmsService().post("/app/receive/device", BaseActionResponse.fromJsonWithInt, body: jsonEncode(req));
   }
 
-  static Stream<ReceiveDeviceDetailResponse?> getDeviceDetails(String barcode, BarcodeTypes barcodeType) {
+  static Stream<ReceiveDeviceDetailResponse?> getDeviceDetails(String barcode, BarcodeTypes barcodeType,
+      {bool isForce = false}) {
     Map<String, dynamic> req = {"v": barcode, "vt": barcodeType.value};
 
-    return RmsService().post("/app/receive/device/detail", ReceiveDeviceDetailResponse.fromJson, body: jsonEncode(req));
+    return RmsService().post("/app/receive/device/detail?is_force=$isForce", ReceiveDeviceDetailResponse.fromJson,
+        body: jsonEncode(req));
   }
 
   static Stream<BaseActionResponse?> saveVideo(
