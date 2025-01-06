@@ -13,8 +13,7 @@ DataWipeFilterListResponse _$DataWipeFilterListResponseFromJson(
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
-    )..dataWipeFilterMap =
-          (json['dt'] as Map<String, dynamic>?)?.map(
+    )..dataWipeFilterMap = (json['dt'] as Map<String, dynamic>?)?.map(
         (k, e) =>
             MapEntry(k, DataWipeFilterData.fromJson(e as Map<String, dynamic>)),
       );
@@ -24,7 +23,7 @@ Map<String, dynamic> _$DataWipeFilterListResponseToJson(
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'dataWipeFilterMap': instance.dataWipeFilterMap,
+      'dt': instance.dataWipeFilterMap,
     };
 
 DataWipeFilterData _$DataWipeFilterDataFromJson(Map<String, dynamic> json) =>
@@ -39,6 +38,7 @@ DataWipeFilterData _$DataWipeFilterDataFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$DataWipeFilterDataToJson(DataWipeFilterData instance) =>
     <String, dynamic>{
       'fname': instance.filterName,
+      'ftype': instance.filterType,
       'fval': instance.filterList,
     };
 
