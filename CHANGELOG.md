@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.5.5+64 (XX-01-2025)
+
+### Feature:
+
+* `QC - Productivity Dashboard in COPs`[(SCM-8555)](https://reglobe.atlassian.net/browse/SCM-8555)
+
+
 # v3.5.4+63 (06-01-2025)
 
 ### Feature:
