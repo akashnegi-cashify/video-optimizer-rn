@@ -24,7 +24,7 @@ class ReceiveDeviceModuleProvider extends CshChangeNotifier {
 
   Future<List<AccessoriesData>> getDeviceDetails(String barcode, BarcodeTypes barcodeType) {
     var completer = Completer<List<AccessoriesData>>();
-    try{
+    try {
       ReceiveDeviceService.getDeviceDetails(barcode, barcodeType, isForce: true).listen((event) {
         if (event?.accessoriesMap == null) {
           completer.complete([]);
@@ -51,7 +51,7 @@ class ReceiveDeviceModuleProvider extends CshChangeNotifier {
       accessoriesMap = {};
       accessoriesList?.forEach((element) {
         accessoriesMap![element.name] = element.value;
-      },);
+      });
     }
 
     ReceiveDeviceService.receiveDevice(barcode, facilityId, barcodeType, accessoriesMap).listen((event) {

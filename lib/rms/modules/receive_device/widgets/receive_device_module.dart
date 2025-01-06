@@ -61,19 +61,25 @@ class ReceiveDeviceModule extends StatelessWidget {
           onScanned: (scannedData, controller) {
             int facilityId = AppPreferences.app.getFacility()?.id ?? 0;
             CshLoading().showLoading(context);
+            controller?.stop();
             provider.getDeviceDetails(scannedData, barcodeType).then((value) {
               CshLoading().hideLoading(context);
               if (value.isNotEmpty) {
                 showAccessoriesDialog(context, value, onAccessoriesSelected: (accessoriesList) {
                   Navigator.pop(context); // Close the dialog
-                  _receiveDevice(
-                      context, scannedData, barcodeType, facilityId, accessoriesList: accessoriesList, provider);
+                  _receiveDevice(context, scannedData, barcodeType, facilityId, provider,
+                      accessoriesList: accessoriesList);
+                }).whenComplete(() {
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    controller?.start();
+                  });
                 });
               } else {
                 _receiveDevice(context, scannedData, barcodeType, facilityId, provider);
               }
             }, onError: (error) {
               CshLoading().hideLoading(context);
+              controller?.start();
               CshSnackBar.error(context: context, message: error.toString());
             });
           },
