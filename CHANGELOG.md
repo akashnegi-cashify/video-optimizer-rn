@@ -5,6 +5,7 @@
 ### Feature:
 
 * `QC - Productivity Dashboard in COPs`[(SCM-8555)](https://reglobe.atlassian.net/browse/SCM-8555)
+* `QC/TRC - Search in brand list`[(SCM-8594)](https://reglobe.atlassian.net/browse/SCM-8594)
 
 
 # v3.5.4+63 (06-01-2025)

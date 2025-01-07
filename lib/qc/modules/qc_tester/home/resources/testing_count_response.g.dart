@@ -9,8 +9,9 @@ part of 'testing_count_response.dart';
 TestingCountResponse _$TestingCountResponseFromJson(
         Map<String, dynamic> json) =>
     TestingCountResponse(
-      (json['c'] as num?)?.toInt(),
-      (json['ud'] as num?)?.toInt(),
+      json['dt'] == null
+          ? null
+          : TestingCountData.fromJson(json['dt'] as Map<String, dynamic>),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -22,6 +23,16 @@ Map<String, dynamic> _$TestingCountResponseToJson(
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'c': instance.testingDeviceCount,
-      'ud': instance.lastUpdatedDate,
+      'dt': instance.testingDeviceData,
+    };
+
+TestingCountData _$TestingCountDataFromJson(Map<String, dynamic> json) =>
+    TestingCountData()
+      ..testingDeviceCount = (json['count'] as num?)?.toInt()
+      ..lastUpdatedDate = (json['lastUpdate'] as num?)?.toInt();
+
+Map<String, dynamic> _$TestingCountDataToJson(TestingCountData instance) =>
+    <String, dynamic>{
+      'count': instance.testingDeviceCount,
+      'lastUpdate': instance.lastUpdatedDate,
     };

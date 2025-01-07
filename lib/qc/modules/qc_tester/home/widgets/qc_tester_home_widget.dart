@@ -116,7 +116,7 @@ class QcTesterHomeWidget extends StatelessWidget {
               stream: TesterHomeService.getTestingCount(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                  var data = snapshot.data;
+                  var data = snapshot.data?.testingDeviceData;
                   return RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
