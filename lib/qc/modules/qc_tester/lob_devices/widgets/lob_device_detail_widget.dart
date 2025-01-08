@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/select_category_bottom_sheet.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/show_mismatch_imei_dialog.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/show_update_imei_dialog.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
@@ -35,8 +36,7 @@ class LobDeviceDetailWidget extends StatefulWidget {
 }
 
 class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
-  final List<DropDownItem> _categoryList = [];
-  DropDownItem? _selectedCategory;
+  CategoryData? _selectedCategory;
   BrandListData? _selectedBrand;
   bool _isImeiVerified = false;
   late bool _isRunImeiValidatorFlow = false;
@@ -55,15 +55,15 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
       });
     }
 
-    widget.deviceDetails?.categoryList?.forEach((value) {
-      var dropDownItem = DropDownItem(value.id.toString(), value.name);
-      _categoryList.add(dropDownItem);
-
-      /// check if selectedCategoryId exist in category list or not
-      if (widget.deviceDetails?.selectedCategoryId == value.id && _selectedCategory == null) {
-        _selectedCategory = dropDownItem;
+    /// check if selectedCategoryId exist in category list or not
+    if (widget.deviceDetails?.selectedCategoryId != null) {
+      var index = widget.deviceDetails?.categoryList
+          ?.indexWhere((element) => element.id == widget.deviceDetails?.selectedCategoryId);
+      if (index != null && index > -1) {
+        _selectedCategory = widget.deviceDetails?.categoryList?[index];
       }
-    });
+    }
+
     if (_selectedCategory?.id != DeviceCategoryIdType.mobile.value) {
       _isImeiVerified = true;
     }
@@ -95,20 +95,26 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
               Flexible(
                 flex: 4,
                 fit: FlexFit.tight,
-                child: CshDropDown(
-                  items: _categoryList,
-                  hintText: l10n.selectCategory,
-                  selectedItem: _selectedCategory,
-                  onChanged: (DropDownItem? value) {
-                    AnalyticsController.logEvent(
-                        UpdateDeviceCategoryEvent(widget.scannedData, _selectedCategory?.id, value?.id));
-                    _selectedBrand = null;
-                    provider.getBrandList(value!.id!).whenComplete(
-                      () {
-                        setState(() {
-                          _selectedCategory = value;
-                          _selectedBrand = provider.selectedBrand;
-                        });
+                child: DropdownViewWidget(
+                  value: _selectedCategory?.name ?? l10n.selectCategory,
+                  isDataSelected: _selectedCategory != null,
+                  onPressed: () {
+                    selectCategoryBottomSheet(
+                      context,
+                      widget.deviceDetails?.categoryList,
+                      onCategorySelected: (category) {
+                        Navigator.pop(context); // close bottom sheet
+                        AnalyticsController.logEvent(
+                            UpdateDeviceCategoryEvent(widget.scannedData, _selectedCategory?.id, category.id));
+                        _selectedBrand = null;
+                        provider.getBrandList(category.id!).whenComplete(
+                          () {
+                            setState(() {
+                              _selectedCategory = category;
+                              _selectedBrand = provider.selectedBrand;
+                            });
+                          },
+                        );
                       },
                     );
                   },
@@ -192,7 +198,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                     //     AutoSearchButtonClickedEvent(widget.scannedData, _selectedCategory?.id));
                     AnalyticsController.logEvent(
                         ManualSearchButtonClickedEvent(widget.scannedData, _selectedCategory?.id));
-                    widget.onSearchClicked(_selectedBrand!.brandId!, int.parse(_selectedCategory!.id!));
+                    widget.onSearchClicked(_selectedBrand!.brandId!, _selectedCategory!.id!);
                   }
                 : null,
           ),

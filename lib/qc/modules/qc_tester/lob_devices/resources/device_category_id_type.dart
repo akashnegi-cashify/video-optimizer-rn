@@ -1,7 +1,7 @@
 enum DeviceCategoryIdType {
-  mobile("1");
+  mobile(1);
 
-  final String value;
+  final int value;
 
   const DeviceCategoryIdType(this.value);
 }

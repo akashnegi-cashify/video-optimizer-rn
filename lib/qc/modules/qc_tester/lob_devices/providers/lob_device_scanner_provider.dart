@@ -180,7 +180,7 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     return null;
   }
 
-  Future<void> getBrandList(String categoryId) {
+  Future<void> getBrandList(int categoryId) {
     var completer = Completer<void>();
     service.getBrandList(categoryId).listen((event) {
       _brandList = event?.brandList;

@@ -129,7 +129,8 @@ class QcTesterHomeWidget extends StatelessWidget {
                         ),
                         const TextSpan(text: " Devices tested today till"),
                         TextSpan(
-                          text: " ${formatDate(timeStamp: data?.lastUpdatedDate, pattern: DateFormats.h_MM_a.value)}",
+                          text:
+                              " ${formatDate(timeStamp: data?.lastUpdatedDate ?? DateTime.now().millisecondsSinceEpoch, pattern: DateFormats.h_MM_a.value)}",
                           style: theme.textTheme.titleMedium!.copyWith(color: theme.colorScheme.primary),
                         ),
                       ],

@@ -4,7 +4,7 @@ import 'package:flutter_trc/src/libraries/analytics/events/common_events.dart';
 
 class ManualSearchButtonClickedEvent extends CommonEvents {
   final String barcode;
-  final String? deviceCategory;
+  final int? deviceCategory;
 
   ManualSearchButtonClickedEvent(this.barcode, this.deviceCategory);
 
