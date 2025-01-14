@@ -13,7 +13,7 @@
 		1823071A2C074C29001B357C /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 182307172C074249001B357C /* GoogleService-Info.plist */; };
 		1823071B2C074C35001B357C /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 182307172C074249001B357C /* GoogleService-Info.plist */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		3B5106B3B2D12B10A151D3FC /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		3B5106B3B2D12B10A151D3FC /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		447B6F83631E75DD313037E2 /* Pods_Runner_Prod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85676050101122B073630BA1 /* Pods_Runner_Prod.framework */; };
 		46C532B727B2699600753D5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		46C532B827B2699600753D5E /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
@@ -156,7 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B5106B3B2D12B10A151D3FC /* BuildFile in Frameworks */,
+				3B5106B3B2D12B10A151D3FC /* (null) in Frameworks */,
 				447B6F83631E75DD313037E2 /* Pods_Runner_Prod.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -889,7 +889,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
@@ -913,7 +913,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Prod-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -946,7 +946,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Stage-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops Stage";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -983,7 +983,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Stage-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops Stage";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1018,7 +1018,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Stage-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops Stage";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1148,7 +1148,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Prod-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1181,7 +1181,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Prod-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1213,7 +1213,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Prod-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1277,7 +1277,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1326,7 +1326,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;
@@ -1352,7 +1352,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Prod-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1385,7 +1385,7 @@
 				);
 				INFOPLIST_FILE = "Runner/Prod-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Cashify Ops";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
