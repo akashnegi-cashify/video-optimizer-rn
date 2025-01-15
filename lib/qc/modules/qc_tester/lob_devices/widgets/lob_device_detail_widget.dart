@@ -1,11 +1,14 @@
 import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/select_category_bottom_sheet.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/show_mismatch_imei_dialog.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/show_update_imei_dialog.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/lob_device_scanner_provider.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/brand_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_category_id_type.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/reasons.dart';
+import 'package:flutter_trc/src/common/widgets/dropdown_view_widget.dart';
 import 'package:flutter_trc/src/common/widgets/imei_scanner.dart';
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/device_verify_popup_event.dart';
@@ -17,6 +20,7 @@ import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dar
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../dialogs/select_brand_bottom_sheet.dart';
 import '../l10n.dart';
 
 class LobDeviceDetailWidget extends StatefulWidget {
@@ -32,9 +36,8 @@ class LobDeviceDetailWidget extends StatefulWidget {
 }
 
 class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
-  final List<DropDownItem> _categoryList = [];
-  DropDownItem? _selectedCategory;
-  DropDownItem? _selectedBrand;
+  CategoryData? _selectedCategory;
+  BrandListData? _selectedBrand;
   bool _isImeiVerified = false;
   late bool _isRunImeiValidatorFlow = false;
 
@@ -52,15 +55,15 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
       });
     }
 
-    widget.deviceDetails?.categoryList?.forEach((value) {
-      var dropDownItem = DropDownItem(value.id.toString(), value.name);
-      _categoryList.add(dropDownItem);
-
-      /// check if selectedCategoryId exist in category list or not
-      if (widget.deviceDetails?.selectedCategoryId == value.id && _selectedCategory == null) {
-        _selectedCategory = dropDownItem;
+    /// check if selectedCategoryId exist in category list or not
+    if (widget.deviceDetails?.selectedCategoryId != null) {
+      var index = widget.deviceDetails?.categoryList
+          ?.indexWhere((element) => element.id == widget.deviceDetails?.selectedCategoryId);
+      if (index != null && index > -1) {
+        _selectedCategory = widget.deviceDetails?.categoryList?[index];
       }
-    });
+    }
+
     if (_selectedCategory?.id != DeviceCategoryIdType.mobile.value) {
       _isImeiVerified = true;
     }
@@ -92,20 +95,26 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
               Flexible(
                 flex: 4,
                 fit: FlexFit.tight,
-                child: CshDropDown(
-                  items: _categoryList,
-                  hintText: l10n.selectCategory,
-                  selectedItem: _selectedCategory,
-                  onChanged: (DropDownItem? value) {
-                    AnalyticsController.logEvent(
-                        UpdateDeviceCategoryEvent(widget.scannedData, _selectedCategory?.id, value?.id));
-                    _selectedBrand = null;
-                    provider.getBrandList(value!.id!).whenComplete(
-                      () {
-                        setState(() {
-                          _selectedCategory = value;
-                          _selectedBrand = provider.selectedBrand;
-                        });
+                child: DropdownViewWidget(
+                  value: _selectedCategory?.name ?? l10n.selectCategory,
+                  isDataSelected: _selectedCategory != null,
+                  onPressed: () {
+                    selectCategoryBottomSheet(
+                      context,
+                      widget.deviceDetails?.categoryList,
+                      onCategorySelected: (category) {
+                        Navigator.pop(context); // close bottom sheet
+                        AnalyticsController.logEvent(
+                            UpdateDeviceCategoryEvent(widget.scannedData, _selectedCategory?.id, category.id));
+                        _selectedBrand = null;
+                        provider.getBrandList(category.id!).whenComplete(
+                          () {
+                            setState(() {
+                              _selectedCategory = category;
+                              _selectedBrand = provider.selectedBrand;
+                            });
+                          },
+                        );
                       },
                     );
                   },
@@ -121,16 +130,21 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                 Flexible(
                   flex: 4,
                   fit: FlexFit.tight,
-                  child: CshDropDown(
-                    key: ValueKey(_selectedCategory?.id),
-                    items: provider.brandList,
-                    hintText: l10n.selectBrand,
-                    selectedItem: _selectedBrand,
-                    onChanged: (DropDownItem? value) {
-                      AnalyticsController.logEvent(SelectBrandEvent(widget.scannedData, value?.id));
-                      setState(() {
-                        _selectedBrand = value;
-                      });
+                  child: DropdownViewWidget(
+                    value: _selectedBrand?.brandName ?? l10n.selectBrand,
+                    isDataSelected: _selectedBrand != null,
+                    onPressed: () {
+                      selectBrandBottomSheet(
+                        context,
+                        provider.brandList ?? [],
+                        onBrandSelect: (brand) {
+                          Navigator.pop(context);
+                          AnalyticsController.logEvent(SelectBrandEvent(widget.scannedData, brand.brandId.toString()));
+                          setState(() {
+                            _selectedBrand = brand;
+                          });
+                        },
+                      );
                     },
                   ),
                 ),
@@ -184,7 +198,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                     //     AutoSearchButtonClickedEvent(widget.scannedData, _selectedCategory?.id));
                     AnalyticsController.logEvent(
                         ManualSearchButtonClickedEvent(widget.scannedData, _selectedCategory?.id));
-                    widget.onSearchClicked(int.parse(_selectedBrand!.id!), int.parse(_selectedCategory!.id!));
+                    widget.onSearchClicked(_selectedBrand!.brandId!, _selectedCategory!.id!);
                   }
                 : null,
           ),

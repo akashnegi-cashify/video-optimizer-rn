@@ -170,7 +170,7 @@ abstract class CalculatorService {
     return service.post("/manual-test/search/variant", VariantListResponse.fromJson, body: jsonEncode(req));
   }
 
-  Stream<BrandListResponse?> getBrandList(String? categoryId) {
+  Stream<BrandListResponse?> getBrandList(int? categoryId) {
     return service.get("/manual-test/brand/list/$categoryId", BrandListResponse.fromJson);
   }
 }

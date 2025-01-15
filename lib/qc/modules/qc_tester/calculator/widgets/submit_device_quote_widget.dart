@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_actions/qc_action_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/submit_device_quote_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/manual_question_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/widgets/qc_alert_pop_widget.dart';
@@ -144,7 +145,8 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
     var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
 
     if (loginTypeEnum == LoginTypes.qcLogin) {
-      Navigator.popUntil(context, (route) => route.settings.name == QcTesterHomeScreen.route);
+      Navigator.pushNamedAndRemoveUntil(
+          context, QcTesterHomeScreen.route, (route) => route.settings.name == QcActionScreen.route);
     } else {
       Navigator.pushNamedAndRemoveUntil(context, TrcTesterScreen.route, (route) => false);
     }

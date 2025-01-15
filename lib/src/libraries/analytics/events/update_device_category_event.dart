@@ -4,8 +4,8 @@ import 'package:flutter_trc/src/libraries/analytics/events/common_events.dart';
 
 class UpdateDeviceCategoryEvent extends CommonEvents {
   final String barcode;
-  final String? previousDeviceCategory;
-  final String? updatedDeviceCategory;
+  final int? previousDeviceCategory;
+  final int? updatedDeviceCategory;
 
   UpdateDeviceCategoryEvent(this.barcode, this.previousDeviceCategory, this.updatedDeviceCategory);
 

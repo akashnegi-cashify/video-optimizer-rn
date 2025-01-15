@@ -168,19 +168,19 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     return completer.future;
   }
 
-  List<DropDownItem>? get brandList => _brandList?.map((e) => DropDownItem(e.brandId.toString(), e.brandName)).toList();
+  List<BrandListData>? get brandList => _brandList;
 
-  DropDownItem? get selectedBrand {
+  BrandListData? get selectedBrand {
     if (deviceDetails?.brandId != null) {
-      var index = brandList?.indexWhere((element) => element.id == deviceDetails?.brandId.toString());
+      var index = brandList?.indexWhere((element) => element.brandId == deviceDetails?.brandId);
       if (index != null && index > -1) {
         return brandList![index];
       }
-      return null;
     }
+    return null;
   }
 
-  Future<void> getBrandList(String categoryId) {
+  Future<void> getBrandList(int categoryId) {
     var completer = Completer<void>();
     service.getBrandList(categoryId).listen((event) {
       _brandList = event?.brandList;
