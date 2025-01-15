@@ -193,7 +193,7 @@ dependency_overrides:
   rxdart: ^0.28.0
   uuid: ^4.4.0
   camera: ^0.11.0+2
-  camera_android_camerax: ^0.6.10
+  camera_android_camerax: 0.6.10
   flutter_image_compress: ^2.0.4
   package_info_plus: ^8.1.1
   shared_preferences_android: 2.3.3
