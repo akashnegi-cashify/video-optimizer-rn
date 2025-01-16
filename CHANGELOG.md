@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v4.0.0+65 (XX-01-2025)
+
+### Feature:
+
+* `Flutter upgrade to 3.27`[(SCM-8571)](https://reglobe.atlassian.net/browse/SCM-8571)
+
+
 # v3.5.5+64 (15-01-2025)
 
 ### Feature:
