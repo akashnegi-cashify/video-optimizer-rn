@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v3.5.6+65 (16-01-2025)
+
+### Hot fix:
+
+* `QC - False QR code Scan on colour screen`[(SCM-8752)](https://reglobe.atlassian.net/browse/SCM-8752)
+
+
 # v3.5.5+64 (15-01-2025)
 
 ### Feature:
