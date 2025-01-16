@@ -5,6 +5,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/calculator
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/color_selection_screen.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
+import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +59,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
             _onDeviceBarcodeScanned(scannedData);
           } else {
             var provider = CalculatorScannerProvider.of(builderContext, listen: false);
-            _onPQuoteScanned(scannedData, provider);
+            _onPQuoteScanned(scannedData, provider, controller);
           }
         },
       );
@@ -81,8 +82,9 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
     );
   }
 
-  void _onPQuoteScanned(String scannedData, CalculatorScannerProvider provider) {
+  void _onPQuoteScanned(String scannedData, CalculatorScannerProvider provider, MlScannerController? controller) {
     _pQuote = scannedData;
+    controller?.stop();
     CshLoading().showLoading(context);
     provider.getCalculatorRequest(_pQuote, _deviceBarcode).then((value) {
       if (mounted) {
@@ -97,6 +99,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
       }
     }, onError: (error) {
       if (mounted) {
+        controller?.start();
         CshLoading().hideLoading(context);
         CshSnackBar.error(context: context, message: error);
       }
