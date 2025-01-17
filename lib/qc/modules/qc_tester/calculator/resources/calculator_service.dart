@@ -173,4 +173,9 @@ abstract class CalculatorService {
   Stream<BrandListResponse?> getBrandList(int? categoryId) {
     return service.get("/manual-test/brand/list/$categoryId", BrandListResponse.fromJson);
   }
+
+  Stream<BrandListResponse?> getCategory(String? barcode) {
+    // TODO: need to configure this api
+    return service.get("/manual-test/brand/list/$barcode", BrandListResponse.fromJson);
+  }
 }
