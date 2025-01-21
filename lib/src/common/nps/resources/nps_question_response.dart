@@ -22,6 +22,12 @@ class NpsResponseData {
   @JsonKey(name: "questions")
   List<NpsQuestionData>? questionList;
 
+  @JsonKey(name: "txnId")
+  String? transactionId;
+
+  @JsonKey(name: "pageNo")
+  int? pageNo;
+
   static NpsResponseData fromJson(Map<String, dynamic> json) => _$NpsResponseDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$NpsResponseDataToJson(this);

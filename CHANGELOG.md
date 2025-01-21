@@ -6,6 +6,7 @@
 
 * `Flutter upgrade to 3.27`[(SCM-8571)](https://reglobe.atlassian.net/browse/SCM-8571)
 * `CDP testing flow for Laptop`[(SCM-8681)](https://reglobe.atlassian.net/browse/SCM-8681)
+* `NPS - integration in TRC/QC`
 
 
 # v3.5.6+65 (16-01-2025)

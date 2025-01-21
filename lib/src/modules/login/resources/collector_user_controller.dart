@@ -2,8 +2,10 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/rms/modules/home/screens/rms_home_screen.dart';
 import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';
+import 'package:flutter_trc/src/app.dart';
 import 'package:flutter_trc/src/common/mpin/screens/mpin_login_screen.dart';
 import 'package:flutter_trc/src/common/mpin/screens/mpin_setup_screen.dart';
+import 'package:flutter_trc/src/common/nps/dialog/show_nps_dialog.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
@@ -40,11 +42,17 @@ class UserRoles {
     } else if (loginType == LoginTypes.qcLogin) {
       String? savedPin = AppPreferences.qc.getQcMPin();
       if (Validator.isTrue(AppPreferences.qc.getIsBioMetricEnabled()) || !Validator.isNullOrEmpty(savedPin)) {
+        Future.delayed(Duration(seconds: 1), () {
+          if (AppNavKey.navKey.currentState?.context != null) showNpsDialog(AppNavKey.navKey.currentState!.context);
+        });
         Navigator.pushNamedAndRemoveUntil(context, MPinLoginScreen.route, (route) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(context, MPinSetupScreen.route, (route) => false);
       }
     } else if (loginType == LoginTypes.trcLogin) {
+      Future.delayed(Duration(seconds: 1), () {
+        if (AppNavKey.navKey.currentState?.context != null) showNpsDialog(AppNavKey.navKey.currentState!.context);
+      });
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
         ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);
         Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: args);

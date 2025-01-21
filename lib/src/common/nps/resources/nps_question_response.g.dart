@@ -28,11 +28,15 @@ NpsResponseData _$NpsResponseDataFromJson(Map<String, dynamic> json) =>
     NpsResponseData()
       ..questionList = (json['questions'] as List<dynamic>?)
           ?.map((e) => NpsQuestionData.fromJson(e as Map<String, dynamic>))
-          .toList();
+          .toList()
+      ..transactionId = json['txnId'] as String?
+      ..pageNo = (json['pageNo'] as num?)?.toInt();
 
 Map<String, dynamic> _$NpsResponseDataToJson(NpsResponseData instance) =>
     <String, dynamic>{
       'questions': instance.questionList,
+      'txnId': instance.transactionId,
+      'pageNo': instance.pageNo,
     };
 
 NpsQuestionData _$NpsQuestionDataFromJson(Map<String, dynamic> json) =>
