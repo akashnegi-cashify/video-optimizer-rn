@@ -2,6 +2,7 @@ import 'package:builder_component/builder_component.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_lot_listing_screen.dart';
 import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_video_screen.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
@@ -45,7 +46,7 @@ class D2cVideoHomeComponent extends StatelessComponent<NoneConfigModel> {
           CshBigButton(
             text: l10n.pendingVideoLot,
             onPressed: () {
-              // TODO: move to lot listing screen
+              Navigator.pushNamed(context, D2cLotListingScreen.route);
             },
           ),
         ],

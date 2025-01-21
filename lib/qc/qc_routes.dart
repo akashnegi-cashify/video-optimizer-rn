@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_lot_device_listing_screen.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_lot_listing_screen.dart';
 import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_video_screen.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_home_screen.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_list_screen.dart';
@@ -118,6 +120,8 @@ class QcRoutes {
       DataWipeListScreen.route: (_) => const DataWipeListScreen(),
       DataWipeHomeScreen.route: (_) => const DataWipeHomeScreen(),
       D2cVideoHomeScreen.route: (_) => const D2cVideoHomeScreen(),
+      D2cLotListingScreen.route: (_) => const D2cLotListingScreen(),
+      D2cLotDeviceListingScreen.route: (_) => const D2cLotDeviceListingScreen(),
     };
   }
 }

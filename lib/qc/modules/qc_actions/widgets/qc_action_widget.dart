@@ -47,7 +47,7 @@ class QCActionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
 
-    if (!QcRolePermissionHelper.hasPermission(QcRole.qcVideographer)) {
+    if (QcRolePermissionHelper.hasPermission(QcRole.qcVideographer)) {
       return Center(
         child: SizedBox(
           width: double.infinity,
