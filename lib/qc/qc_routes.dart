@@ -39,6 +39,7 @@ import 'package:flutter_trc/src/common/mpin/screens/mpin_setup_screen.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_screen.dart';
 import 'package:flutter_trc/src/common/widgets/dispute_image_editor_screen.dart';
 
+import 'modules/d2c_video/screens/d2c_video_home_screen.dart';
 import 'modules/data_wipe/screens/data_wipe_detail_screen.dart';
 import 'modules/dead_repair/screens/index.dart';
 import 'modules/device_receive_module/screens/device_receive_screen.dart';
@@ -116,6 +117,7 @@ class QcRoutes {
       DataWipeDetailScreen.route: (_) => const DataWipeDetailScreen(),
       DataWipeListScreen.route: (_) => const DataWipeListScreen(),
       DataWipeHomeScreen.route: (_) => const DataWipeHomeScreen(),
+      D2cVideoHomeScreen.route: (_) => const D2cVideoHomeScreen(),
     };
   }
 }

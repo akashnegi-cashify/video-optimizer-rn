@@ -1415,6 +1415,21 @@
       ]
     },
     {
+      "pageId": 10055,
+      "pageKey": "QC_d2c_video_home_screen",
+      "dt": [
+        {
+          "id": 10140,
+          "key": "QC_d2c_video_home_component",
+          "type": "component"
+        },
+        {
+          "id": 10141,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -3446,6 +3461,29 @@
         "colSpan": 12,
         "config": {
           "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10140,
+      "locale": "en",
+      "key": "QC_d2c_video_home_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10141,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pending Video Lot",
+          "sbb": true,
+          "slb": false
         }
       }
     },

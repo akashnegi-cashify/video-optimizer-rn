@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/d2c_video/components/d2c_video_component.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/components/d2c_video_home_component.dart';
 import 'package:flutter_trc/qc/modules/device_details/components/device_details_component.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/components/invoice_scan_component.dart';
 import 'package:flutter_trc/qc/modules/external_audit/components/external_audit_home_component.dart';
@@ -177,6 +178,9 @@ class QcComponentRegistry {
 
       case DataWipeListComponent.COMP_KEY:
         return DataWipeListComponent(jsonConfig);
+
+      case D2cVideoHomeComponent.COMP_KEY:
+        return D2cVideoHomeComponent(jsonConfig);
 
       default:
         return null;
