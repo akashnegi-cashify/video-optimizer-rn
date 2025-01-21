@@ -11,6 +11,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calcula
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/brand_list_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/category_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
@@ -53,11 +54,8 @@ abstract class CalculatorService {
 
   BaseService getService();
 
-  Stream<MyCalculatorResponse?> getCalculator(String? deviceBarcode, String? pQuote) {
-    Map<String, dynamic> req = {
-      "ib": deviceBarcode,
-      "pq_id": pQuote,
-    };
+  Stream<MyCalculatorResponse?> getCalculator(String? deviceBarcode, String? pQuote, int? productId) {
+    Map<String, dynamic> req = {"ib": deviceBarcode, "pq_id": pQuote, "pid": productId};
     return service.post("/v1/cdp/cal", MyCalculatorResponse.fromJson, body: jsonEncode(req));
   }
 
@@ -174,8 +172,7 @@ abstract class CalculatorService {
     return service.get("/manual-test/brand/list/$categoryId", BrandListResponse.fromJson);
   }
 
-  Stream<BrandListResponse?> getCategory(String? barcode) {
-    // TODO: need to configure this api
-    return service.get("/manual-test/brand/list/$barcode", BrandListResponse.fromJson);
+  Stream<CategoryResponse?> getCategory(String? barcode) {
+    return service.get("/v1/cdp/scan-device/$barcode", CategoryResponse.fromJson);
   }
 }

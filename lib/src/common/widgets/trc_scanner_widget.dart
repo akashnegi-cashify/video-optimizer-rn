@@ -83,7 +83,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
                   labelText: widget.hintText ?? l10n.enterBarcode,
                   keyboardType: TextInputType.text,
                   inputFormatters: [
-                    LengthLimitingTextInputFormatter(30),
+                    // LengthLimitingTextInputFormatter(30),
                   ],
                 ),
               ),

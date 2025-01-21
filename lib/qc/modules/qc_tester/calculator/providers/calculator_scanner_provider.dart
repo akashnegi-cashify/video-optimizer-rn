@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calculator_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/brand_list_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
 import 'package:provider/provider.dart';
 
 class CalculatorScannerProvider extends CalculatorServiceInitProvider {
@@ -12,9 +13,9 @@ class CalculatorScannerProvider extends CalculatorServiceInitProvider {
     return Provider.of<CalculatorScannerProvider>(context, listen: listen);
   }
 
-  Future<MyCalculatorResponse> getCalculatorRequest(String? pQuote, String? deviceBarcode) {
+  Future<MyCalculatorResponse> getCalculatorRequest(String? pQuote, String? deviceBarcode, int? productId) {
     var completer = Completer<MyCalculatorResponse>();
-    service.getCalculator(deviceBarcode, pQuote).listen((event) {
+    service.getCalculator(deviceBarcode, pQuote, productId).listen((event) {
       Logger.debug('mydebug-----CalculatorScannerProvider.getCalculatorRequest', [event]);
       if (event != null) {
         completer.complete(event);
@@ -31,19 +32,16 @@ class CalculatorScannerProvider extends CalculatorServiceInitProvider {
     var completer = Completer<List<BrandListData>>();
     service.getBrandList(categoryId).listen((event) {
       completer.complete(event?.brandList);
-      notifyListeners();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
     return completer.future;
   }
 
-  Future<String> getCategory(String deviceBarcode) {
-    // TODO: need to configure this api
-    var completer = Completer<String>();
+  Future<CategoryData> getCategory(String deviceBarcode) {
+    var completer = Completer<CategoryData>();
     service.getCategory(deviceBarcode).listen((event) {
-      completer.complete("Success");
-      notifyListeners();
+      completer.complete(event?.categoryData);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

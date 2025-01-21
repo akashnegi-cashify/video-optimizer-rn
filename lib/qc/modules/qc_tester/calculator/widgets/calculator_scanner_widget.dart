@@ -30,8 +30,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
   bool _isDeviceBarcodeScanned = false;
   bool _isShowScannerTransitionWidget = false;
 
-  // TODO: need to get this category from backend api
-  CategoryData tempCategoryData = CategoryData(2, "Laptop", true, false);
+  CategoryData? _category;
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +63,10 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
         hintText: _isDeviceBarcodeScanned ? l10n.scanCdpQrCode : l10n.scanDeviceBarcode,
         scanFormatList: _isDeviceBarcodeScanned ? [BarcodeFormat.qrCode] : [BarcodeFormat.code128],
         onScanDetected: (scannedData, controller, {isManualEntry}) {
+          var provider = CalculatorScannerProvider.of(builderContext, listen: false);
           if (!_isDeviceBarcodeScanned) {
-            _onDeviceBarcodeScanned(scannedData);
+            _onDeviceBarcodeScanned(scannedData, provider);
           } else {
-            var provider = CalculatorScannerProvider.of(builderContext, listen: false);
             _onPQuoteScanned(scannedData, provider, controller);
           }
         },
@@ -75,41 +74,39 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
     }
   }
 
-  _onDeviceBarcodeScanned(String scannedData) {
+  _onDeviceBarcodeScanned(String scannedData, CalculatorScannerProvider provider) {
     _deviceBarcode = scannedData;
     setState(() {
       _isShowScannerTransitionWidget = true;
     });
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () {
-        setState(() {
-          _isShowScannerTransitionWidget = false;
-          _isDeviceBarcodeScanned = true;
-        });
-      },
-    );
+    provider.getCategory(scannedData).then((value) {
+      setState(() {
+        _category = value;
+        _isShowScannerTransitionWidget = false;
+        _isDeviceBarcodeScanned = true;
+      });
+    });
   }
 
   Future<void> _onPQuoteScanned(
       String scannedData, CalculatorScannerProvider provider, MlScannerController? controller) async {
     _pQuote = scannedData;
-    if (tempCategoryData.id == DeviceCategoryIdType.mobile.value) {
+    if (_category?.id == DeviceCategoryIdType.mobile.value) {
       _getCalculator(provider, controller, DeviceType.mobile_device);
     } else {
       controller?.stop();
       CshLoading().showLoading(context);
       try {
-        var brandList = await provider.getBrandList(tempCategoryData.id!);
+        var brandList = await provider.getBrandList(_category!.id!);
         if (context.mounted) {
           CshLoading().hideLoading(context);
           selectBrandBottomSheet(context, brandList, isDismissible: false, onBrandSelect: (selectedBrand) {
             ProductListScreen.navigateTo(
               context,
               _deviceBarcode!,
-              tempCategoryData.id!,
+              _category!.id!,
               selectedBrand.brandId!,
-              [tempCategoryData],
+              [_category!],
               null,
               (productItem, variantItem) {
                 Navigator.pop(context); // Dismiss brand selection screen
@@ -131,12 +128,11 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
       {LobProductListData? productItem, VariantListData? variantItem}) {
     controller?.stop();
     CshLoading().showLoading(context);
-    // TODO: do we need to send productID, brandId, CategoryId
-    provider.getCalculatorRequest(_pQuote, _deviceBarcode).then((value) {
+    provider.getCalculatorRequest(_pQuote, _deviceBarcode, productItem?.productId).then((value) {
       if (mounted) {
         CshLoading().hideLoading(context);
         CalculatorDataHolderModel().startCalculatorJourney(value, _deviceBarcode,
-            selectedCategoryId: tempCategoryData.id, variantData: variantItem, deviceType: DeviceType.mobile_device);
+            selectedCategoryId: _category?.id, variantData: variantItem, deviceType: DeviceType.mobile_device);
 
         ColorSelectionScreen.navigateTo(context, value.productId, _deviceBarcode, (color) {
           Navigator.pop(context); // Dismiss color selection screen
