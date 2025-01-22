@@ -16,13 +16,21 @@ D2cLotDeviceListResponse _$D2cLotDeviceListResponseFromJson(
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
-    );
+    )
+      ..refId = json['r_id'] as String?
+      ..isSuccess = json['s'] as bool? ?? false
+      ..errorMsg = json['em'] as String?
+      ..successMessage = json['sm'] as String?;
 
 Map<String, dynamic> _$D2cLotDeviceListResponseToJson(
         D2cLotDeviceListResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
+      'r_id': instance.refId,
+      's': instance.isSuccess,
+      'em': instance.errorMsg,
+      'sm': instance.successMessage,
       'dt': instance.d2cLotDeviceList,
     };
 

@@ -1,10 +1,11 @@
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'd2c_lot_device_list_response.g.dart';
 
 @JsonSerializable()
-class D2cLotDeviceListResponse extends BaseResponse {
+class D2cLotDeviceListResponse extends BaseActionResponse {
   @JsonKey(name: "dt")
   List<D2cLotDeviceListData>? d2cLotDeviceList;
 

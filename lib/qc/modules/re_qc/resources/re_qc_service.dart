@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/resources/d2c_lot_device_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/device_accessories_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/device_report_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/lot_device_list_response.dart';
@@ -34,8 +35,8 @@ class ReQcService {
     return QcService().post("/lot-re-qc/v3/skip-re-qc?lgn=$lotName", BaseResponse.fromJson);
   }
 
-  static Stream<BaseActionResponse?> completeReQc(String? lotGroupName) {
-    return QcService().post("/lot-re-qc/v2/complete?gln=$lotGroupName", BaseActionResponse.fromJson);
+  static Stream<D2cLotDeviceListResponse?> completeReQc(String? lotGroupName) {
+    return QcService().post("/lot-re-qc/v2/complete?gln=$lotGroupName", D2cLotDeviceListResponse.fromJson);
   }
 
   static Stream<LotDeviceListResponse?> getLotDeviceList(String? lotGroupName) {

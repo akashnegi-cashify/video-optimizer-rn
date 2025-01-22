@@ -2,6 +2,7 @@ import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/qc/modules/re_qc/dialog/d2c_pending_video_list_dialog.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_list_provider.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
@@ -176,9 +177,22 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
     var provider = ReQcListProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.completeReQc(lotGroupName).then((value) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.success(context: context, message: "Request Completed Successfully");
-      resetAndRefreshScreen();
+      if (!Validator.isListNullOrEmpty(value)) {
+        showD2cPendingVideoListDialog(
+          context,
+          value,
+          onProceed: () {
+            Navigator.pop(context); // dismiss D2cPendingVideoListDialog
+            CshLoading().hideLoading(context);
+            CshSnackBar.success(context: context, message: "Request Completed Successfully");
+            resetAndRefreshScreen();
+          },
+        );
+      } else {
+        CshLoading().hideLoading(context);
+        CshSnackBar.success(context: context, message: "Request Completed Successfully");
+        resetAndRefreshScreen();
+      }
     }, onError: (error) {
       CshLoading().hideLoading(context);
       showPopup(context, title: "Warning", desc: error, actions: [

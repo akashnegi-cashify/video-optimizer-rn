@@ -37,7 +37,7 @@ else
   fKey=$fProdKey
 fi
 
-#rm ./pubspec.lock
+rm ./pubspec.lock
 
 rm ./.crashlytics/dump_syms.bin
 

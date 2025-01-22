@@ -48,7 +48,14 @@ class _NpsQuestionList extends StatelessWidget {
             },
             secondBtnClick: provider.isValueEntered()
                 ? () {
-                    provider.onSubmit();
+                    CshLoading().showLoading(context);
+                    provider.onSubmit().then((value) {
+                      CshLoading().hideLoading(context);
+                      Navigator.of(context).pop();
+                    }, onError: (error) {
+                      CshLoading().hideLoading(context);
+                      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+                    });
                   }
                 : null,
           ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/device_accessories_list_response.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_trc/qc/modules/re_qc/models/lot_device_list_response.dar
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/resources/re_qc_service.dart';
 import 'package:provider/provider.dart';
-import 'package:core/core.dart';
 
 class ReQcDetailProvider extends CshChangeNotifier {
   ReQcListData reQcListData;
@@ -120,11 +120,15 @@ class ReQcDetailProvider extends CshChangeNotifier {
     return true;
   }
 
-  Future<bool> completeReQc() {
-    var completer = Completer<bool>();
+  Future<List<String>> completeReQc() {
+    var completer = Completer<List<String>>();
     ReQcService.completeReQc(reQcListData.lotGroupName).listen((event) {
       if (Validator.isTrue(event?.isSuccess)) {
-        completer.complete(true);
+        List<String> deviceList = [];
+        if (!Validator.isListNullOrEmpty(event?.d2cLotDeviceList)) {
+          deviceList = event!.d2cLotDeviceList!.map((e) => e.deviceBarcode ?? "").toList();
+        }
+        completer.complete(deviceList);
       } else {
         completer.completeError(event?.errorMsg ?? "Something went wrong");
       }
