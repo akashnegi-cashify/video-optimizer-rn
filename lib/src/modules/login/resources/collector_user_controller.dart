@@ -42,16 +42,13 @@ class UserRoles {
     } else if (loginType == LoginTypes.qcLogin) {
       String? savedPin = AppPreferences.qc.getQcMPin();
       if (Validator.isTrue(AppPreferences.qc.getIsBioMetricEnabled()) || !Validator.isNullOrEmpty(savedPin)) {
-        Future.delayed(Duration(seconds: 1), () {
-          if (AppNavKey.navKey.currentState?.context != null) showNpsDialog(AppNavKey.navKey.currentState!.context);
-        });
         Navigator.pushNamedAndRemoveUntil(context, MPinLoginScreen.route, (route) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(context, MPinSetupScreen.route, (route) => false);
       }
     } else if (loginType == LoginTypes.trcLogin) {
       Future.delayed(Duration(seconds: 1), () {
-        if (AppNavKey.navKey.currentState?.context != null) showNpsDialog(AppNavKey.navKey.currentState!.context);
+        if (AppNavKey.navKey.currentState?.context != null) showNpsDialog(AppNavKey.navKey.currentState!.context, loginType);
       });
       if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {
         ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);

@@ -23,7 +23,9 @@ import 'package:flutter_trc/qc/modules/supervisor/resources/supervisor_service.d
 import 'package:flutter_trc/qc/modules/warehouse_audit/screens/on_going_audit_screen.dart';
 import 'package:flutter_trc/qc/qc_role_permission/qc_role_permission_helper.dart';
 import 'package:flutter_trc/qc/qc_role_permission/widget/qc_role_permission_widget.dart';
+import 'package:flutter_trc/src/common/nps/dialog/show_nps_dialog.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../../src/modules/elss/common_screen/elss_home_screen.dart';
@@ -35,13 +37,29 @@ import '../../qc_tester/home/screens/qc_tester_home_screen.dart';
 import '../l10n.dart';
 import '../models/qc_action_comp_config.dart';
 
-class QCActionWidget extends StatelessWidget {
+class QCActionWidget extends StatefulWidget {
   final QcActionConfig? configData;
 
   const QCActionWidget({
     Key? key,
     this.configData,
   }) : super(key: key);
+
+  @override
+  State<QCActionWidget> createState() => _QCActionWidgetState();
+}
+
+class _QCActionWidgetState extends State<QCActionWidget> {
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 1), () {
+      if (context.mounted) {
+        showNpsDialog(context, LoginTypes.qcLogin);
+      }
+      ;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +86,7 @@ class QCActionWidget extends StatelessWidget {
             QcRolePermissionWidget(
               role: QcRole.qcElss,
               child: CshBigButton(
-                text: configData?.button1Text ?? l10n.elss,
+                text: widget.configData?.button1Text ?? l10n.elss,
                 onPressed: () {
                   ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: true);
                   Navigator.of(context).pushNamed(ElssHomeScreen.route, arguments: args);
@@ -77,7 +95,7 @@ class QCActionWidget extends StatelessWidget {
             ),
             const SizedBox(height: Dimens.space_16),
             CshBigButton(
-              text: configData?.button2Text ?? l10n.deviceTesting,
+              text: widget.configData?.button2Text ?? l10n.deviceTesting,
               onPressed: () {
                 Navigator.of(context).pushNamed(QcTesterHomeScreen.route);
               },

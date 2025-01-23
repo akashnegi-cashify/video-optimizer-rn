@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/nps/nps_service.dart';
 import 'package:flutter_trc/src/common/nps/resources/nps_question_response.dart';
 import 'package:flutter_trc/src/common/nps/resources/nps_question_type.dart';
 import 'package:flutter_trc/src/common/nps/resources/nps_selected_value.dart';
+import 'package:flutter_trc/src/common/provider/qc_trc_service_init_provider.dart';
 import 'package:provider/provider.dart';
 
-class NpsProvider extends CshChangeNotifier {
+class NpsProvider extends QcTrcServiceInitProvider {
   final Map<int, NpsSelectedValue> _npsSelectedValueMap = {};
   String? _transactionId;
   int? _pageNo;
@@ -56,7 +56,7 @@ class NpsProvider extends CshChangeNotifier {
       questionListBody.add(questionBody);
     });
     requestBody["questions"] = questionListBody;
-    NpsService.submitNpsQuestions(requestBody).listen((event) {
+    NpsService.submitNpsQuestions(requestBody, service: service).listen((event) {
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

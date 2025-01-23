@@ -7,7 +7,7 @@
 * `Flutter upgrade to 3.27`[(SCM-8571)](https://reglobe.atlassian.net/browse/SCM-8571)
 * `CDP testing flow for Laptop`[(SCM-8681)](https://reglobe.atlassian.net/browse/SCM-8681)
 * `Generic Video creation after Re-qc done`[(SCM-8685)](https://reglobe.atlassian.net/browse/SCM-8685)
-* `NPS - integration in TRC/QC`
+* `NPS - Integration in TRC/QC`[(SCM-8809)](https://reglobe.atlassian.net/browse/SCM-8809)
 
 
 # v3.5.6+65 (16-01-2025)
