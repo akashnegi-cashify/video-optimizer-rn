@@ -66,20 +66,32 @@ class _D2cLotListing extends StatelessWidget {
                     style: theme.primaryTextTheme.titleMedium?.copyWith(color: theme.colorScheme.error),
                   ),
                 )
-              : ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: list?.length ?? 0,
-                  separatorBuilder: (__, _) => SizedBox(height: Dimens.space_16),
-                  itemBuilder: (context, index) {
-                    var item = list?[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, D2cLotDeviceListingScreen.route,
-                            arguments: D2cLotDeviceListingScreenArg(item!.groupLotName!));
-                      },
-                      child: CshCard(child: CshTextNew.subTitle1(item?.groupLotName ?? "")),
-                    );
+              : RefreshIndicator(
+                  onRefresh: () {
+                    return provider.getLotList(isNotify: true);
                   },
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: list?.length ?? 0,
+                    separatorBuilder: (__, _) => SizedBox(height: Dimens.space_16),
+                    itemBuilder: (context, index) {
+                      var item = list?[index];
+                      return GestureDetector(
+                        onTap: () {
+                          D2cLotDeviceListingScreen.navigate(
+                            context,
+                            item!.groupLotName!,
+                            onBack: (isRefreshLot) {
+                              if (isRefreshLot) {
+                                provider.getLotList(isNotify: true);
+                              }
+                            },
+                          );
+                        },
+                        child: CshCard(child: CshTextNew.subTitle1(item?.groupLotName ?? "")),
+                      );
+                    },
+                  ),
                 ),
         )
       ],

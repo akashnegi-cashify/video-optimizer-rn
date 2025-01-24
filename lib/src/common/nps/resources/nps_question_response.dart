@@ -53,11 +53,9 @@ class NpsQuestionData {
   @JsonKey(name: "questionOptions")
   List<NpsQuestionData>? questionOptions;
 
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  bool? isSelected;
+  @JsonKey(name: "isRequired")
+  bool? isRequired;
 
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  String? textValue;
 
   NpsQuestionData(this.questionId, this.statement, this.questionTypeKey, this.questionTypeTitle, this.questionOptions);
 

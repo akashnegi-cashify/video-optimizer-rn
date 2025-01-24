@@ -51,31 +51,31 @@ dependencies:
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.1.2
+      ref: v2.1.3
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.1.2
+      ref: v2.1.3
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.1.2
+      ref: v2.1.3
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.1.2
+      ref: v2.1.3
       path: ml_barcode_scanner
 
   imei_serial_reader:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.1.2
+      ref: v2.1.3
       path: imei_serial_reader
 
   builder_component:
@@ -145,7 +145,6 @@ dependencies:
   flutter_image_compress: ^2.0.4
   firebase_crashlytics: ^4.3.0
   qr_flutter: ^4.1.0
-  mobile_scanner: ^5.1.1
   disk_space: ^0.2.1
   get_storage: ^2.1.1
   local_auth: ^2.3.0
@@ -255,24 +254,6 @@ dependency_overrides:
   #      url: https://github.com/reglobe/flutter_packages.git
   #      ref: v2.0.9
   #      path: calculator
-  components:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
-      path: components
-
-  core_widgets:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
-      path: core_widgets
-
-  calculator_ui:
-    git:
-      url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: main
-      path: calculator_ui
-
 
 
 

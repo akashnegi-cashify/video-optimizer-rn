@@ -7,24 +7,36 @@ import 'package:flutter_trc/src/common/widgets/search_with_scanner_widget.dart';
 import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 import 'package:provider/provider.dart';
 
-class D2cLotDeviceListingScreenArg {
-  final String groupLotName;
-
-  D2cLotDeviceListingScreenArg(this.groupLotName);
-}
-
 class D2cLotDeviceListingScreen extends StatelessWidget {
   static final String route = "/d2c-lot-device-listing";
+  final String? groupLotName;
 
-  const D2cLotDeviceListingScreen({super.key});
+  static navigate(BuildContext context, String groupLotName, {required Function(bool isRefreshLot) onBack}) {
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return D2cLotDeviceListingScreen(
+          groupLotName: groupLotName,
+        );
+      },
+    )).then(
+      (value) {
+        if (value is bool && value) {
+          onBack(true);
+        } else {
+          onBack(false);
+        }
+      },
+    );
+  }
+
+  const D2cLotDeviceListingScreen({this.groupLotName, super.key});
 
   @override
   Widget build(BuildContext context) {
-    var arg = ModalRoute.of(context)?.settings.arguments as D2cLotDeviceListingScreenArg;
     return Scaffold(
       appBar: QcGeneralHeader("D2C Video Pending Lots"),
       body: ChangeNotifierProvider(
-        create: (_) => D2cLotDeviceListingProvider(arg.groupLotName),
+        create: (_) => D2cLotDeviceListingProvider(groupLotName ?? ""),
         builder: (innerContext, _) {
           var provider = D2cLotDeviceListingProvider.of(innerContext, listen: false);
           return FutureBuilder(
@@ -73,28 +85,33 @@ class _D2cLotDeviceListing extends StatelessWidget {
                     style: theme.primaryTextTheme.titleMedium?.copyWith(color: theme.colorScheme.error),
                   ),
                 )
-              : ListView.separated(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(Dimens.space_16),
-                  itemCount: list?.length ?? 0,
-                  separatorBuilder: (__, _) => SizedBox(height: Dimens.space_16),
-                  itemBuilder: (context, index) {
-                    var item = list?[index];
-                    return GestureDetector(
-                      onTap: () {
-                        D2CVideoScreen.navigate(context, item!.deviceBarcode);
-                      },
-                      child: CshCard(
-                        child: Row(
-                          children: [
-                            CshTextNew.subTitle1("Barcode: ", isPrimary: false),
-                            SizedBox(width: Dimens.space_24),
-                            Expanded(child: CshTextNew.subTitle1(item?.deviceBarcode ?? "")),
-                          ],
-                        ),
-                      ),
-                    );
+              : RefreshIndicator(
+                  onRefresh: () {
+                    return provider.getLotDeviceList(isNotify: true);
                   },
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(Dimens.space_16),
+                    itemCount: list?.length ?? 0,
+                    separatorBuilder: (__, _) => SizedBox(height: Dimens.space_16),
+                    itemBuilder: (context, index) {
+                      var item = list?[index];
+                      return GestureDetector(
+                        onTap: () {
+                          D2CVideoScreen.navigate(context, item!.deviceBarcode);
+                        },
+                        child: CshCard(
+                          child: Row(
+                            children: [
+                              CshTextNew.subTitle1("Barcode: ", isPrimary: false),
+                              SizedBox(width: Dimens.space_24),
+                              Expanded(child: CshTextNew.subTitle1(item?.deviceBarcode ?? "")),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
         ),
         Padding(

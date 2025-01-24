@@ -237,19 +237,19 @@ packages:
     dependency: "direct main"
     description:
       path: calculator_ui
-      ref: main
-      resolved-ref: "05e70187d48055f1e1d05918cac1eeb8ab129175"
+      ref: "v2.1.3"
+      resolved-ref: "701b5a379f475ad79b48024d1203d347166015e2"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.1.2"
+    version: "2.1.3"
   camera:
     dependency: "direct overridden"
     description:
       name: camera
-      sha256: "26ff41045772153f222ffffecba711a206f670f5834d40ebf5eed3811692f167"
+      sha256: "413d2b34fe28496c35c69ede5b232fb9dd5ca2c3a4cb606b14efc1c7546cc8cb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.0+2"
+    version: "0.11.1"
   camera_android_camerax:
     dependency: "direct overridden"
     description:
@@ -366,11 +366,11 @@ packages:
     dependency: "direct main"
     description:
       path: components
-      ref: main
-      resolved-ref: "05e70187d48055f1e1d05918cac1eeb8ab129175"
+      ref: "v2.1.3"
+      resolved-ref: "701b5a379f475ad79b48024d1203d347166015e2"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.1.2"
+    version: "2.1.3"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -408,11 +408,11 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: main
-      resolved-ref: "05e70187d48055f1e1d05918cac1eeb8ab129175"
+      ref: "v2.1.3"
+      resolved-ref: "701b5a379f475ad79b48024d1203d347166015e2"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.1.2"
+    version: "2.1.3"
   cross_file:
     dependency: transitive
     description:
@@ -1057,10 +1057,10 @@ packages:
     dependency: transitive
     description:
       name: glob
-      sha256: "0e7014b3b7d4dac1ca4d6114f82bf1782ee86745b9b42a92c9289c23d8a0ab63"
+      sha256: c3f1ee72c96f8f78935e18aa8cecced9ab132419e8625dc187e1c2408efc20de
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   google_mlkit_commons:
     dependency: "direct overridden"
     description:
@@ -1177,10 +1177,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_macos
-      sha256: "3f5ad1e8112a9a6111c46d0b57a7be2286a9a07fc6e1976fdf5be2bd31d4ff62"
+      sha256: "1b90ebbd9dcf98fb6c1d01427e49a55bd96b5d67b8c67cf955d60a5de74207c1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1+1"
+    version: "0.2.1+2"
   image_picker_platform_interface:
     dependency: transitive
     description:
@@ -1201,11 +1201,11 @@ packages:
     dependency: "direct main"
     description:
       path: imei_serial_reader
-      ref: "v2.1.2"
-      resolved-ref: "40e22602e6cb5ab70942825e0b740aa9d72b125e"
+      ref: "v2.1.3"
+      resolved-ref: "701b5a379f475ad79b48024d1203d347166015e2"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.1.2"
+    version: "2.1.3"
   intl:
     dependency: "direct main"
     description:
@@ -1428,11 +1428,11 @@ packages:
     dependency: transitive
     description:
       path: media_widget
-      ref: main
-      resolved-ref: "05e70187d48055f1e1d05918cac1eeb8ab129175"
+      ref: "v2.1.3"
+      resolved-ref: "701b5a379f475ad79b48024d1203d347166015e2"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.1.2"
+    version: "2.1.3"
   meta:
     dependency: transitive
     description:
@@ -1453,19 +1453,19 @@ packages:
     dependency: "direct main"
     description:
       path: ml_barcode_scanner
-      ref: "v2.1.2"
-      resolved-ref: "40e22602e6cb5ab70942825e0b740aa9d72b125e"
+      ref: "v2.1.3"
+      resolved-ref: "701b5a379f475ad79b48024d1203d347166015e2"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.1.2"
+    version: "2.1.3"
   mobile_scanner:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: mobile_scanner
-      sha256: d234581c090526676fd8fab4ada92f35c6746e3fb4f05a399665d75a399fb760
+      sha256: "57d6269d10912d5d583606b46d963d7c5d0299d2c37add8b7192dd769d40a319"
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.3"
+    version: "6.0.3"
   nested:
     dependency: transitive
     description:
@@ -1830,10 +1830,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences
-      sha256: a752ce92ea7540fc35a0d19722816e04d0e72828a4200e83a98cf1a1eb524c9a
+      sha256: c59819dacc6669a1165d54d2735a9543f136f9b3cec94ca65cea6ab8dffc422e
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.5"
+    version: "2.4.0"
   shared_preferences_android:
     dependency: "direct overridden"
     description:
@@ -2349,10 +2349,10 @@ packages:
     dependency: transitive
     description:
       name: web_socket_channel
-      sha256: "9f187088ed104edd8662ca07af4b124465893caf063ba29758f97af57e61da8f"
+      sha256: "0b8e2457400d8a859b7b2030786835a28a8e80836ef64402abef392ff4f1d0e5"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   web_widget:
     dependency: transitive
     description:
