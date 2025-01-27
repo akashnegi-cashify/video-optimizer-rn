@@ -25,6 +25,7 @@ void showNpsDialog(BuildContext context, LoginTypes loginType) async {
           );
         }));
   } catch (e) {
+    /// we are skipping this flow in case of error
     Logger.debug('mydebug-----showNpsDialog', [e]);
   }
 }
