@@ -14,7 +14,11 @@ class NpsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => NpsProvider(_questionResponseData.transactionId, _questionResponseData.pageNo),
+      create: (_) => NpsProvider(
+        _questionResponseData.transactionId,
+        _questionResponseData.pageNo,
+        _questionResponseData.questionList?.length,
+      ),
       child: _NpsQuestionList(_questionResponseData.questionList),
     );
   }

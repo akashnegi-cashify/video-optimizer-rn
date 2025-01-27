@@ -5,7 +5,6 @@ part 'nps_question_response.g.dart';
 
 @JsonSerializable()
 class NpsQuestionResponse extends BaseResponse {
-
   @JsonKey(name: "dt")
   NpsResponseData? npsResponse;
 
@@ -52,10 +51,6 @@ class NpsQuestionData {
 
   @JsonKey(name: "questionOptions")
   List<NpsQuestionData>? questionOptions;
-
-  @JsonKey(name: "isRequired")
-  bool? isRequired;
-
 
   NpsQuestionData(this.questionId, this.statement, this.questionTypeKey, this.questionTypeTitle, this.questionOptions);
 

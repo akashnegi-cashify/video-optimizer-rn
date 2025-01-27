@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/nps/nps_service.dart';
 import 'package:flutter_trc/src/common/nps/resources/nps_question_response.dart';
@@ -13,8 +14,9 @@ class NpsProvider extends QcTrcServiceInitProvider {
   final Map<int, NpsSelectedValue> _npsSelectedValueMap = {};
   String? _transactionId;
   int? _pageNo;
+  int? _totalQuestions;
 
-  NpsProvider(this._transactionId, this._pageNo);
+  NpsProvider(this._transactionId, this._pageNo, this._totalQuestions);
 
   static NpsProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<NpsProvider>(context, listen: listen);
@@ -28,6 +30,11 @@ class NpsProvider extends QcTrcServiceInitProvider {
   }
 
   void setNpsText(int questionId, String remarks) {
+    if (Validator.isNullOrEmpty(remarks)) {
+      _npsSelectedValueMap.remove(questionId);
+      notifyListeners();
+      return;
+    }
     var value = NpsSelectedValue(NpsQuestionType.text.value);
     value.npsValue = remarks;
     _npsSelectedValueMap[questionId] = value;
@@ -35,7 +42,11 @@ class NpsProvider extends QcTrcServiceInitProvider {
   }
 
   bool isValueEntered() {
-    return _npsSelectedValueMap.isNotEmpty;
+    if (_npsSelectedValueMap.isEmpty) {
+      return false;
+    }
+
+    return _npsSelectedValueMap.length == _totalQuestions;
   }
 
   Future<void> onSubmit() {
