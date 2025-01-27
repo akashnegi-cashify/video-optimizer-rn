@@ -142,7 +142,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
                           child: Padding(
                             padding: const EdgeInsets.all(Dimens.space_8),
                             child: Text(
-                              l10n.loginUsingFaceId,
+                              isIOS() ? l10n.loginUsingFaceId : l10n.loginUsingFingerprint,
                               style: theme.primaryTextTheme.headlineMedium?.copyWith(
                                   color: _isDeviceSupportFingerprint ? theme.primaryColor : theme.disabledColor),
                             ),
