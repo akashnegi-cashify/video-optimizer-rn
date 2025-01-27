@@ -39,7 +39,8 @@ enum QcComponentGroup with AbsComponentGroup {
   qcVariantListComponentKey("QC Variant List Component"),
   qcColorSelectionComponentKey("QC Color Selection Component"),
   qcDataWipeDetailComponentKey("QC Data Wipe Detail Component"),
-  qcDataWipeListComponentKey("QC Data Wipe List Component");
+  qcDataWipeListComponentKey("QC Data Wipe List Component"),
+  qcD2cVideoHomeComponentKey("QC D2C Video Home Component");
 
   @override
   final String value;
@@ -87,7 +88,8 @@ enum QcPageGroup with AbsPageGroup {
   qcVariantListPageKey("QC Variant List Page"),
   qcColorSelectionPageKey("QC Color Selection Page"),
   qcDataWipeDetailPageKey("QC Data Wipe Detail Page"),
-  qcDataWipeListPageKey("QC Data Wipe List Page");
+  qcDataWipeListPageKey("QC Data Wipe List Page"),
+  qcD2cVideoHomePageKey("QC D2C Video Home Page");
 
   @override
   final String value;

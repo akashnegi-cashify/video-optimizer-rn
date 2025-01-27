@@ -209,7 +209,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
   void requestApi(int pageNo,
       {Function(List<PendingDeviceDetailData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = PendingDeliveryProvider.of(context, listen: false);
-    provider.getPendingDeviceList(pageNo++).then((value) {
+    provider.getPendingDeviceList(++pageNo).then((value) {
       if (onSuccess != null) {
         onSuccess(value.data?.dataList);
       }

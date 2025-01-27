@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/calculator_scanner_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/select_brand_bottom_sheet.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_category_id_type.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_detail_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/color_selection_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/product_list_screen.dart';
 import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -23,6 +29,8 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
   String? _pQuote;
   bool _isDeviceBarcodeScanned = false;
   bool _isShowScannerTransitionWidget = false;
+
+  CategoryData? _category;
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +63,10 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
         hintText: _isDeviceBarcodeScanned ? l10n.scanCdpQrCode : l10n.scanDeviceBarcode,
         scanFormatList: _isDeviceBarcodeScanned ? [BarcodeFormat.qrCode] : [BarcodeFormat.code128],
         onScanDetected: (scannedData, controller, {isManualEntry}) {
+          var provider = CalculatorScannerProvider.of(builderContext, listen: false);
           if (!_isDeviceBarcodeScanned) {
-            _onDeviceBarcodeScanned(scannedData);
+            _onDeviceBarcodeScanned(scannedData, provider);
           } else {
-            var provider = CalculatorScannerProvider.of(builderContext, listen: false);
             _onPQuoteScanned(scannedData, provider, controller);
           }
         },
@@ -66,30 +74,65 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
     }
   }
 
-  _onDeviceBarcodeScanned(String scannedData) {
+  _onDeviceBarcodeScanned(String scannedData, CalculatorScannerProvider provider) {
     _deviceBarcode = scannedData;
     setState(() {
       _isShowScannerTransitionWidget = true;
     });
-    Future.delayed(
-      const Duration(milliseconds: 1000),
-      () {
-        setState(() {
-          _isShowScannerTransitionWidget = false;
-          _isDeviceBarcodeScanned = true;
-        });
-      },
-    );
+    provider.getCategory(scannedData).then((value) {
+      setState(() {
+        _category = value;
+        _isShowScannerTransitionWidget = false;
+        _isDeviceBarcodeScanned = true;
+      });
+    });
   }
 
-  void _onPQuoteScanned(String scannedData, CalculatorScannerProvider provider, MlScannerController? controller) {
+  Future<void> _onPQuoteScanned(
+      String scannedData, CalculatorScannerProvider provider, MlScannerController? controller) async {
     _pQuote = scannedData;
+    if (_category?.id == DeviceCategoryIdType.mobile.value) {
+      _getCalculator(provider, controller, DeviceType.mobile_device);
+    } else {
+      controller?.stop();
+      CshLoading().showLoading(context);
+      try {
+        var brandList = await provider.getBrandList(_category!.id!);
+        if (context.mounted) {
+          CshLoading().hideLoading(context);
+          selectBrandBottomSheet(context, brandList, isDismissible: false, onBrandSelect: (selectedBrand) {
+            ProductListScreen.navigateTo(
+              context,
+              _deviceBarcode!,
+              _category!.id!,
+              selectedBrand.brandId!,
+              [_category!],
+              null,
+              (productItem, variantItem) {
+                Navigator.pop(context); // Dismiss brand selection screen
+                _getCalculator(provider, controller, DeviceType.lob_device,
+                    productItem: productItem, variantItem: variantItem);
+              },
+            );
+          });
+        }
+      } catch (e) {
+        controller?.start();
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: e.toString());
+      }
+    }
+  }
+
+  _getCalculator(CalculatorScannerProvider provider, MobileScannerController? controller, DeviceType deviceType,
+      {LobProductListData? productItem, VariantListData? variantItem}) {
     controller?.stop();
     CshLoading().showLoading(context);
-    provider.getCalculatorRequest(_pQuote, _deviceBarcode).then((value) {
+    provider.getCalculatorRequest(_pQuote, _deviceBarcode, productItem?.productId).then((value) {
       if (mounted) {
         CshLoading().hideLoading(context);
-        CalculatorDataHolderModel().startCalculatorJourney(value, _deviceBarcode);
+        CalculatorDataHolderModel().startCalculatorJourney(value, _deviceBarcode,
+            selectedCategoryId: _category?.id, variantData: variantItem, deviceType: DeviceType.mobile_device);
 
         ColorSelectionScreen.navigateTo(context, value.productId, _deviceBarcode, (color) {
           Navigator.pop(context); // Dismiss color selection screen

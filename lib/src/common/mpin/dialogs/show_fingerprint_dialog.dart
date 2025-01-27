@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ import '../l10n.dart';
 void showFingerprintDialog(BuildContext context, {required VoidCallback onEnable}) {
   var theme = Theme.of(context);
   var l10n = L10n(context, listen: false);
+  bool isIos = isIOS();
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -22,12 +24,16 @@ void showFingerprintDialog(BuildContext context, {required VoidCallback onEnable
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: Dimens.space_16),
-                Image.asset("assets/images/ic_fingerprint.png", width: 100, height: 100),
+                Image.asset(
+                  isIos ? "assets/images/ic_face_id.png" : "assets/images/ic_fingerprint.png",
+                  width: 100,
+                  height: 100,
+                ),
                 const SizedBox(height: Dimens.space_8),
-                CshTextNew.h4("${l10n.enableFingerprint}?"),
+                CshTextNew.h4("${isIos ? l10n.enableFaceId : l10n.enableFingerprint}?"),
                 const SizedBox(height: Dimens.space_8),
                 Text(
-                  l10n.enableFingerprintDesc,
+                  isIos ? l10n.enableFaceIdDesc : l10n.enableFingerprintDesc,
                   textAlign: TextAlign.center,
                   style: theme.primaryTextTheme.labelSmall,
                 ),

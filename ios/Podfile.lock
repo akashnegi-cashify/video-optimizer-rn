@@ -70,18 +70,18 @@ PODS:
   - Firebase/RemoteConfig (10.28.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.28.0)
-  - firebase_analytics (11.4.0):
+  - firebase_analytics (11.4.1):
     - Firebase/Analytics (= 10.28.0)
     - firebase_core
     - Flutter
   - firebase_core (3.2.0):
     - Firebase/CoreOnly (= 10.28.0)
     - Flutter
-  - firebase_crashlytics (4.3.0):
+  - firebase_crashlytics (4.3.1):
     - Firebase/Crashlytics (= 10.28.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (5.3.0):
+  - firebase_remote_config (5.3.1):
     - Firebase/RemoteConfig (= 10.28.0)
     - firebase_core
     - Flutter
@@ -533,10 +533,10 @@ SPEC CHECKSUMS:
   ffmpeg_kit_flutter_full_gpl: ccf0737159849b8d6d844238b810a5c3680b3e5b
   file_picker: 09aa5ec1ab24135ccd7a1621c46c84134bfd6655
   Firebase: 5121c624121af81cbc81df3bda414b3c28c4f3c3
-  firebase_analytics: 8479dca96464e493fa0c69c6e01b64cc02cf7ad2
+  firebase_analytics: 04e974301a17c4dd0c7ffdb448bfc6520fd35691
   firebase_core: a9d0180d5285527884d07a41eb4a9ec9ed12cdb6
-  firebase_crashlytics: 04f7190cbbf4d91451dee031f26e92dbc2e72cd3
-  firebase_remote_config: 5ad048963d6dd675392ae3b656e2a8f5c5ff49fe
+  firebase_crashlytics: e0d793941ece2bbc3ad54f7ac55c8cfcb3391ce5
+  firebase_remote_config: aca328293c0d85c6d7bc811ad98896c8e8394add
   FirebaseABTesting: d87f56707159bae64e269757a6e963d490f2eebe
   FirebaseAnalytics: 1e06fe7d246af7230b08d1d9cdca54a4624dd461
   FirebaseCore: 857dc1c6dd1255675047404d8466f7dfaac5d779

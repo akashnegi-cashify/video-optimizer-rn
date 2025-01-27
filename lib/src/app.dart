@@ -38,7 +38,7 @@ class CashifyApp extends StatefulWidget {
 
 class _CashifyAppState extends State<CashifyApp> {
   final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: true);
-  GlobalKey<NavigatorState>? _navKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -47,6 +47,7 @@ class _CashifyAppState extends State<CashifyApp> {
     if (_cshAlice.alice != null) {
       _navKey = _cshAlice.alice?.getNavigatorKey();
     }
+    AppNavKey.navKey = _navKey;
 
     SessionExpiredCallback().setCallback(onSessionExpire);
     CashifyAlertHandler().setAlertCallback(registerAlert);
@@ -133,4 +134,8 @@ class _AppRoutes {
     routes.addAll(RmsRoutes.getRoutes());
     return routes;
   }
+}
+
+class AppNavKey {
+  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 }

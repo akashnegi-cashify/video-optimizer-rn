@@ -1,6 +1,7 @@
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/re_qc/dialog/d2c_pending_video_list_dialog.dart';
 import 'package:flutter_trc/qc/modules/re_qc/models/device_accessories_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_detail_provider.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_question_tab_provider.dart';
@@ -205,13 +206,30 @@ class _ReQcDetailWidgetState extends State<ReQcDetailWidget> {
         onPressed: () {
           CshLoading().showLoading(context);
           provider.completeReQc().then((value) {
-            Navigator.pop(context); // dismissDialog
-            CshLoading().hideLoading(context);
-            Navigator.pop(context);
+            if (context.mounted) {
+              if (!Validator.isListNullOrEmpty(value)) {
+                showD2cPendingVideoListDialog(
+                  context,
+                  value,
+                  onProceed: () {
+                    Navigator.pop(context); // dismiss D2cPendingVideoListDialog
+                    Navigator.pop(context); // dismissDialog
+                    CshLoading().hideLoading(context);
+                    Navigator.pop(context);
+                  },
+                );
+              } else {
+                Navigator.pop(context); // dismissDialog
+                CshLoading().hideLoading(context);
+                Navigator.pop(context);
+              }
+            }
           }, onError: (error) {
-            Navigator.pop(context); // dismissDialog
-            CshLoading().hideLoading(context);
-            _showExitPopup(error);
+            if (context.mounted) {
+              Navigator.pop(context); // dismissDialog
+              CshLoading().hideLoading(context);
+              _showExitPopup(error);
+            }
           });
         },
       ),
