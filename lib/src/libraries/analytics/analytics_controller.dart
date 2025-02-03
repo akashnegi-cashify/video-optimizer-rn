@@ -40,8 +40,8 @@ class AnalyticsController {
           // FirebaseAnalyticsHelper.sendAnalyticsEvent(name: event.getKey(), parameters: arguments);
           break;
         case AnalyticTrackers.CASHIFY:
-          CashifyAnalyticsHelper.sendAnalyticsEvent(
-              subOrdinateKey: event.getSubordinateKey(), eventName: event.getEventKey(), parameters: arguments);
+          // CashifyAnalyticsHelper.sendAnalyticsEvent(
+          //     subOrdinateKey: event.getSubordinateKey(), eventName: event.getEventKey(), parameters: arguments);
           break;
         default:
           Logger.log('Undefined analytics tracker.');
