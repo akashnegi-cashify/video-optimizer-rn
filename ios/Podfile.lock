@@ -520,7 +520,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
-  app_settings: 58017cd26b604ae98c3e65acbdd8ba173703cc82
+  app_settings: 017320c6a680cdc94c799949d95b84cb69389ebc
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
   audio_session: 32a33910dd5bb35d54297e4b50006481071f196b
