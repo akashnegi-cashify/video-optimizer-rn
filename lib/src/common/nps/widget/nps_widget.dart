@@ -50,18 +50,16 @@ class _NpsQuestionList extends StatelessWidget {
             firstBtnClick: () {
               Navigator.of(context).pop();
             },
-            secondBtnClick: provider.isValueEntered()
-                ? () {
-                    CshLoading().showLoading(context);
-                    provider.onSubmit().then((value) {
-                      CshLoading().hideLoading(context);
-                      Navigator.of(context).pop();
-                    }, onError: (error) {
-                      CshLoading().hideLoading(context);
-                      CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
-                    });
-                  }
-                : null,
+            secondBtnClick: () {
+              CshLoading().showLoading(context);
+              provider.onSubmit().then((value) {
+                CshLoading().hideLoading(context);
+                Navigator.of(context).pop();
+              }, onError: (error) {
+                CshLoading().hideLoading(context);
+                CshSnackBar.error(context: context, message: error, snackBarPosition: SnackBarPosition.TOP);
+              });
+            },
           ),
         ),
       ],
