@@ -20,9 +20,9 @@ class ReceivedDevicesInteractorImpl implements ReceivedDevicesInteractor {
   }
 
   @override
-  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing,
+  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool isDone,
       {bool isGlassChangeRole = false, String? partBarcode}) {
-    return RubbingAPIService.markRubbing(barcode, rubbing, isGlassChangeRole);
+    return RubbingAPIService.markRubbing(barcode, isDone, isGlassChangeRole);
   }
 
   @override

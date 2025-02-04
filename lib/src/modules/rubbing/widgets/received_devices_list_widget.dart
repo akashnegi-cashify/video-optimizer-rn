@@ -95,9 +95,9 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
     );
   }
 
-  void markRubbing(ReceivedDevicesProvider provider, L10n l10n, BuildContext context, bool rubbing,
+  void markRubbing(ReceivedDevicesProvider provider, L10n l10n, BuildContext context, bool isDone,
       {String? partBarcode}) {
-    provider.markRubbing(rubbingDeviceData.deviceBarcode!, rubbing, partBarcode).then((res) {
+    provider.markRubbing(rubbingDeviceData.deviceBarcode!, isDone, partBarcode).then((res) {
       showSuccessMessage(res?.successMsg ?? "", context);
       onRubbingAction();
     }).catchError((e) {

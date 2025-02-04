@@ -30,12 +30,12 @@ class ReceivedDevicesProvider extends CshChangeNotifier with Searchable {
   Stream<RubbingDeviceReceiveResponse?> receiveDeviceViaScanning(String barcode) =>
       interactor.receiveDeviceForRubbing(barcode, isGlassChange: isGlassChangeRole);
 
-  Future<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing, String? partBarcode) {
+  Future<RubbingDoneResponse?> markRubbing(String barcode, bool isDone, String? partBarcode) {
     var completer = Completer<RubbingDoneResponse?>();
 
-    if (Validator.isTrue(isGlassChangeRole)) {
+    if (Validator.isTrue(isGlassChangeRole) && Validator.isTrue(isDone)) {
       _attachBarcode(barcode, partBarcode).listen((event) {
-        interactor.markRubbing(barcode, rubbing, isGlassChangeRole: isGlassChangeRole, partBarcode: partBarcode).listen(
+        interactor.markRubbing(barcode, isDone, isGlassChangeRole: isGlassChangeRole, partBarcode: partBarcode).listen(
             (event) {
           completer.complete(event);
         }, onError: (error) {
@@ -45,7 +45,7 @@ class ReceivedDevicesProvider extends CshChangeNotifier with Searchable {
         completer.completeError(error);
       });
     } else {
-      interactor.markRubbing(barcode, rubbing, isGlassChangeRole: isGlassChangeRole, partBarcode: partBarcode).listen(
+      interactor.markRubbing(barcode, isDone, isGlassChangeRole: isGlassChangeRole, partBarcode: partBarcode).listen(
           (event) {
         completer.complete(event);
       }, onError: (error) {
