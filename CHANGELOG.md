@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v4.0.1+67 (XX-02-2025)
+
+### Feature:
+
+* `Glass Change part request`[(SCM-8794)](https://reglobe.atlassian.net/browse/SCM-8794)
+
+
 # v4.0.0+66 (03-02-2025)
 
 ### Feature:

@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/common/widgets/paginated_listview.dart';
 import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
@@ -62,42 +63,44 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
             TitleValueRowWidget(title: l10n.deviceName, value: rubbingDeviceData.productTitle ?? ""),
             TitleValueRowWidget(title: l10n.deviceId, value: rubbingDeviceData.deviceId.toString()),
             const SizedBox(height: Dimens.space_16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: CshMediumButton(
-                    text: l10n.fail,
-                    onPressed: rubbingDeviceData.deviceBarcode != null
-                        ? () {
-                            markRubbing(provider, l10n, context, false);
-                          }
-                        : null,
-                  ),
-                ),
-                Flexible(
-                  child: CshMediumButton(
-                    text: l10n.done,
-                    onPressed: rubbingDeviceData.deviceBarcode != null
-                        ? () {
-                            markRubbing(provider, l10n, context, true);
-                          }
-                        : null,
-                  ),
-                )
-              ],
-            )
+            ComboButton(
+              firstBtnText: l10n.fail,
+              padding: EdgeInsets.zero,
+              secondBtnText: l10n.done,
+              isFirstPrimary: true,
+              firstBtnClick: Validator.isNullOrEmpty(rubbingDeviceData.deviceBarcode)
+                  ? null
+                  : () => markRubbing(provider, l10n, context, false),
+              secondBtnClick: rubbingDeviceData.deviceBarcode != null
+                  ? () {
+                      if (Validator.isTrue(provider.isGlassChangeRole)) {
+                        CshMlScannerUtil().openScanner(
+                          context,
+                          header: "Scan part barcode",
+                          hintText: "Scan part barcode",
+                          onScanned: (scannedData, controller) {
+                            Navigator.pop(context); // close scanner
+                            markRubbing(provider, l10n, context, true, partBarcode: scannedData);
+                          },
+                        );
+                      } else {
+                        markRubbing(provider, l10n, context, true);
+                      }
+                    }
+                  : null,
+            ),
           ],
         ),
       ),
     );
   }
 
-  void markRubbing(ReceivedDevicesProvider provider, L10n l10n, BuildContext context, bool rubbing) {
-    provider.markRubbing(rubbingDeviceData.deviceBarcode!, rubbing).listen((event) {
-      showSuccessMessage(event?.successMsg ?? "", context);
+  void markRubbing(ReceivedDevicesProvider provider, L10n l10n, BuildContext context, bool rubbing,
+      {String? partBarcode}) {
+    provider.markRubbing(rubbingDeviceData.deviceBarcode!, rubbing, partBarcode).then((res) {
+      showSuccessMessage(res?.successMsg ?? "", context);
       onRubbingAction();
-    }).onError((e) {
+    }).catchError((e) {
       String errorMessage = ApiErrorHelper.getErrorMessage(e) ?? l10n.somethingWentWrong;
       showErrorMessage(errorMessage, context);
     });

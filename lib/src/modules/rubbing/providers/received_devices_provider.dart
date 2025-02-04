@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/searchable.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_receive_response.dart';
@@ -28,8 +30,34 @@ class ReceivedDevicesProvider extends CshChangeNotifier with Searchable {
   Stream<RubbingDeviceReceiveResponse?> receiveDeviceViaScanning(String barcode) =>
       interactor.receiveDeviceForRubbing(barcode, isGlassChange: isGlassChangeRole);
 
-  Stream<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing) =>
-      interactor.markRubbing(barcode, rubbing, isGlassChangeRole: isGlassChangeRole);
+  Future<RubbingDoneResponse?> markRubbing(String barcode, bool rubbing, String? partBarcode) {
+    var completer = Completer<RubbingDoneResponse?>();
+
+    if (Validator.isTrue(isGlassChangeRole)) {
+      _attachBarcode(barcode, partBarcode).listen((event) {
+        interactor.markRubbing(barcode, rubbing, isGlassChangeRole: isGlassChangeRole, partBarcode: partBarcode).listen(
+            (event) {
+          completer.complete(event);
+        }, onError: (error) {
+          completer.completeError(error);
+        });
+      }, onError: (error) {
+        completer.completeError(error);
+      });
+    } else {
+      interactor.markRubbing(barcode, rubbing, isGlassChangeRole: isGlassChangeRole, partBarcode: partBarcode).listen(
+          (event) {
+        completer.complete(event);
+      }, onError: (error) {
+        completer.completeError(error);
+      });
+    }
+
+    return completer.future;
+  }
+
+  Stream<RubbingDoneResponse?> _attachBarcode(String barcode, String? partBarcode) =>
+      interactor.attachBarcode(barcode, partBarcode);
 
   @override
   set searchQuery(String? value) {
