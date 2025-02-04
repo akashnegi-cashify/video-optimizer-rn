@@ -38,9 +38,9 @@ class CalculatorScannerProvider extends CalculatorServiceInitProvider {
     return completer.future;
   }
 
-  Future<CategoryData> getCategory(String deviceBarcode) {
+  Future<CategoryData> getCategory(String deviceBarcode, String sessionId) {
     var completer = Completer<CategoryData>();
-    service.getCategory(deviceBarcode).listen((event) {
+    service.getCategory(deviceBarcode, sessionId).listen((event) {
       completer.complete(event?.categoryData);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

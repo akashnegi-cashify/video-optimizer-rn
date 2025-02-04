@@ -172,7 +172,7 @@ abstract class CalculatorService {
     return service.get("/manual-test/brand/list/$categoryId", BrandListResponse.fromJson);
   }
 
-  Stream<CategoryResponse?> getCategory(String? barcode) {
-    return service.get("/v1/cdp/scan-device/$barcode", CategoryResponse.fromJson);
+  Stream<CategoryResponse?> getCategory(String? barcode, String? sessionId) {
+    return service.get("/v1/cdp/scan-device/$barcode/$sessionId", CategoryResponse.fromJson);
   }
 }

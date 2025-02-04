@@ -79,9 +79,8 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
     setState(() {
       _isShowScannerTransitionWidget = true;
     });
-    provider.getCategory(scannedData).then((value) {
+    Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
-        _category = value;
         _isShowScannerTransitionWidget = false;
         _isDeviceBarcodeScanned = true;
       });
@@ -91,33 +90,44 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
   Future<void> _onPQuoteScanned(
       String scannedData, CalculatorScannerProvider provider, MlScannerController? controller) async {
     _pQuote = scannedData;
-    if (_category?.id == DeviceCategoryIdType.mobile.value) {
-      _getCalculator(provider, controller, DeviceType.mobile_device);
-    } else {
-      controller?.stop();
-      CshLoading().showLoading(context);
-      try {
-        var brandList = await provider.getBrandList(_category!.id!);
-        if (context.mounted) {
+    CshLoading().showLoading(context);
+    try {
+      _category = await provider.getCategory(_deviceBarcode!, scannedData);
+      if (context.mounted) {
+        if (_category?.id == DeviceCategoryIdType.mobile.value) {
           CshLoading().hideLoading(context);
-          selectBrandBottomSheet(context, brandList, isDismissible: false, onBrandSelect: (selectedBrand) {
-            ProductListScreen.navigateTo(
-              context,
-              _deviceBarcode!,
-              _category!.id!,
-              selectedBrand.brandId!,
-              [_category!],
-              null,
-              (productItem, variantItem) {
-                Navigator.pop(context); // Dismiss brand selection screen
-                _getCalculator(provider, controller, DeviceType.lob_device,
-                    productItem: productItem, variantItem: variantItem);
-              },
-            );
-          });
+          _getCalculator(provider, controller, DeviceType.mobile_device);
+        } else {
+          controller?.stop();
+          try {
+            var brandList = await provider.getBrandList(_category!.id!);
+            if (context.mounted) {
+              CshLoading().hideLoading(context);
+              selectBrandBottomSheet(context, brandList, isDismissible: false, onBrandSelect: (selectedBrand) {
+                ProductListScreen.navigateTo(
+                  context,
+                  _deviceBarcode!,
+                  _category!.id!,
+                  selectedBrand.brandId!,
+                  [_category!],
+                  null,
+                  (productItem, variantItem) {
+                    Navigator.pop(context); // Dismiss brand selection screen
+                    _getCalculator(provider, controller, DeviceType.lob_device,
+                        productItem: productItem, variantItem: variantItem);
+                  },
+                );
+              });
+            }
+          } catch (e) {
+            controller?.start();
+            CshLoading().hideLoading(context);
+            CshSnackBar.error(context: context, message: e.toString());
+          }
         }
-      } catch (e) {
-        controller?.start();
+      }
+    } catch (e) {
+      if (context.mounted) {
         CshLoading().hideLoading(context);
         CshSnackBar.error(context: context, message: e.toString());
       }
