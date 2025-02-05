@@ -1,10 +1,17 @@
 # TRC Releases
 
+# v4.0.1+67 (05-02-2025)
+
+### Feature:
+
+* `CDP testing flow for Laptop`[(SCM-8681)](https://reglobe.atlassian.net/browse/SCM-8681)
+
+
 # v4.0.0+66 (03-02-2025)
 
 ### Feature:
 
-* `Flutter upgrade to 3.27`[(SCM-8571)](https://reglobe.atlassian.net/browse/SCM-8571)
+* `Flutter upgrade to 3.27`[(SCM-8751)](https://reglobe.atlassian.net/browse/SCM-8751)
 * `CDP testing flow for Laptop`[(SCM-8681)](https://reglobe.atlassian.net/browse/SCM-8681)
 * `Generic Video creation after Re-qc done`[(SCM-8685)](https://reglobe.atlassian.net/browse/SCM-8685)
 * `NPS - Integration in TRC/QC`[(SCM-8809)](https://reglobe.atlassian.net/browse/SCM-8809)
