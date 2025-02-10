@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/nps/provider/nps_provider.dart';
 import 'package:flutter_trc/src/common/nps/resources/nps_question_response.dart';
 import 'package:flutter_trc/src/common/nps/widget/nps_rating_question.dart';
@@ -27,6 +28,8 @@ class NpsWidget extends StatelessWidget {
 class _NpsQuestionList extends StatelessWidget {
   final List<NpsQuestionData>? npsQuestionList;
 
+  final String _defaultTextQuestionValue = "NA";
+
   const _NpsQuestionList(this.npsQuestionList, {super.key});
 
   @override
@@ -35,6 +38,23 @@ class _NpsQuestionList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_8, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CshTextNew.h3("Share Your Feedback"),
+              CshIcon(
+                FeatherIcons.x,
+                iconSize: MobileIconSize.large,
+                padding: EdgeInsets.all(Dimens.space_8),
+                onClick: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        ),
         ...List.generate(
           npsQuestionList?.length ?? 0,
           (index) {
@@ -81,6 +101,9 @@ class _NpsQuestionList extends StatelessWidget {
         return NpsTestQuestion(
           npsQuestionData,
           contentPadding: EdgeInsets.all(Dimens.space_16),
+          onInitialize: () {
+            provider.setNpsText(npsQuestionData.questionId!, _defaultTextQuestionValue);
+          },
           onValueChanged: (String value) {
             provider.setNpsText(npsQuestionData.questionId!, value);
           },

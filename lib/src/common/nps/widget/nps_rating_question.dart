@@ -35,14 +35,14 @@ class _NpsRatingQuestionState extends State<NpsRatingQuestion> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
-              5,
+              6,
               (index) {
                 var item = widget.npsQuestionData.questionOptions![index];
                 bool isSelected = _selectedRating?.id == item.id;
                 return Flexible(
                   flex: 1,
                   fit: FlexFit.tight,
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: () {
                       setState(() {
                         _selectedRating = item;
@@ -50,12 +50,14 @@ class _NpsRatingQuestionState extends State<NpsRatingQuestion> {
                       widget.onValueSelected(item);
                     },
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(Dimens.space_20, Dimens.space_8, Dimens.space_24, Dimens.space_8),
+                      padding: EdgeInsets.all(Dimens.space_12),
+                      width: Dimens.space_50,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: isSelected ? theme.primaryColor : null,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(Dimens.space_16)),
+                        color: isSelected ? theme.primaryColor : theme.dividerColor,
+                        border: Border.all(color: isSelected ? theme.primaryColor : Colors.grey.shade300),
+                        shape: BoxShape.circle,
+                      ),
                       child: Text("${index + 1}",
                           style: theme.primaryTextTheme.titleSmall?.copyWith(color: isSelected ? Colors.white : null)),
                     ),
@@ -66,34 +68,33 @@ class _NpsRatingQuestionState extends State<NpsRatingQuestion> {
           ),
           SizedBox(height: Dimens.space_12),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
-              5,
+              4,
               (index) {
-                index = index + 5;
+                index = index + 6;
                 var item = widget.npsQuestionData.questionOptions![index];
                 bool isSelected = _selectedRating?.id == item.id;
-                return Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        _selectedRating = item;
-                      });
-                      widget.onValueSelected(item);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(Dimens.space_20, Dimens.space_8, Dimens.space_24, Dimens.space_8),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: isSelected ? theme.primaryColor : null,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(Dimens.space_16)),
-                      child: Text("${index + 1}",
-                          style: theme.primaryTextTheme.titleSmall?.copyWith(color: isSelected ? Colors.white : null)),
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedRating = item;
+                    });
+                    widget.onValueSelected(item);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(Dimens.space_12),
+                    margin: EdgeInsets.symmetric(horizontal: Dimens.space_4),
+                    width: Dimens.space_54,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: isSelected ? theme.primaryColor : theme.dividerColor,
+                      border: Border.all(color: isSelected ? theme.primaryColor : Colors.grey.shade300),
+                      shape: BoxShape.circle,
                     ),
+                    child: Text("${index + 1}",
+                        style: theme.primaryTextTheme.titleSmall?.copyWith(color: isSelected ? Colors.white : null)),
                   ),
                 );
               },
