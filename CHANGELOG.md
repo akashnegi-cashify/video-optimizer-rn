@@ -5,6 +5,7 @@
 ### Feature:
 
 * `Glass Change part request`[(SCM-8794)](https://reglobe.atlassian.net/browse/SCM-8794)
+* `NPS UI Enhancements`[(SCM-8951)](https://reglobe.atlassian.net/browse/SCM-8951)
 
 
 # v4.0.1+67 (05-02-2025)

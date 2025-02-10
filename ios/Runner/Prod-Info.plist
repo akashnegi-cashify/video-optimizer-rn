@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Please allow camera to scan the barcode and create video.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Authenticating using face id for seamless login.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Allow flutter tools to connect and debug your application</string>
 	<key>NSMicrophoneUsageDescription</key>
