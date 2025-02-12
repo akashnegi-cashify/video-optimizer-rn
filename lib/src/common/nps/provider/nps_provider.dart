@@ -26,19 +26,16 @@ class NpsProvider extends QcTrcServiceInitProvider {
     var value = NpsSelectedValue(NpsQuestionType.rating.value);
     value.npsValue = selectedRating;
     _npsSelectedValueMap[selectedRating.questionId!] = value;
-    notifyListeners();
   }
 
   void setNpsText(int questionId, String remarks) {
     if (Validator.isNullOrEmpty(remarks)) {
       _npsSelectedValueMap.remove(questionId);
-      notifyListeners();
       return;
     }
     var value = NpsSelectedValue(NpsQuestionType.text.value);
     value.npsValue = remarks;
     _npsSelectedValueMap[questionId] = value;
-    notifyListeners();
   }
 
   bool isValueEntered() {

@@ -30,4 +30,10 @@ class RubbingAPIService {
     };
     return TrcService().post("$startPoint/device/scan", RubbingDeviceReceiveResponse.fromJson, params: paramData);
   }
+
+  static Stream<RubbingDoneResponse?> attachPartBarcode(String deviceBarcode, String? partBarcode) {
+    Map<String, String?> req = {"dbr": deviceBarcode, "pbr": partBarcode};
+    return TrcService()
+        .post("/glass-change/device/attach/barcode", RubbingDoneResponse.fromJson, body: jsonEncode(req));
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/nps/resources/nps_question_response.dart';
@@ -6,15 +7,27 @@ class NpsTestQuestion extends StatefulWidget {
   final NpsQuestionData? questionData;
   final EdgeInsets contentPadding;
   final Function(String value) onValueChanged;
+  final VoidCallback? onInitialize;
 
-  const NpsTestQuestion(this.questionData,
-      {super.key, this.contentPadding = EdgeInsets.zero, required this.onValueChanged});
+  const NpsTestQuestion(
+    this.questionData, {
+    super.key,
+    this.contentPadding = EdgeInsets.zero,
+    required this.onValueChanged,
+    this.onInitialize,
+  });
 
   @override
   State<NpsTestQuestion> createState() => _NpsTestQuestionState();
 }
 
 class _NpsTestQuestionState extends State<NpsTestQuestion> {
+  @override
+  void initState() {
+    widget.onInitialize?.call();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
