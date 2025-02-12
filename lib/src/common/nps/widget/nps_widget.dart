@@ -28,8 +28,6 @@ class NpsWidget extends StatelessWidget {
 class _NpsQuestionList extends StatelessWidget {
   final List<NpsQuestionData>? npsQuestionList;
 
-  final String _defaultTextQuestionValue = "NA";
-
   const _NpsQuestionList(this.npsQuestionList, {super.key});
 
   @override
@@ -102,10 +100,10 @@ class _NpsQuestionList extends StatelessWidget {
           npsQuestionData,
           contentPadding: EdgeInsets.all(Dimens.space_16),
           onInitialize: () {
-            provider.setNpsText(npsQuestionData.questionId!, _defaultTextQuestionValue);
+            provider.setNpsText(npsQuestionData.questionId!);
           },
           onValueChanged: (String value) {
-            provider.setNpsText(npsQuestionData.questionId!, value);
+            provider.setNpsText(npsQuestionData.questionId!, remarks: value);
           },
         );
 

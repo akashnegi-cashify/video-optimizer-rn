@@ -15,6 +15,7 @@ class NpsProvider extends QcTrcServiceInitProvider {
   String? _transactionId;
   int? _pageNo;
   int? _totalQuestions;
+  String _defaultNpsTextValue = "NA";
 
   NpsProvider(this._transactionId, this._pageNo, this._totalQuestions);
 
@@ -28,13 +29,9 @@ class NpsProvider extends QcTrcServiceInitProvider {
     _npsSelectedValueMap[selectedRating.questionId!] = value;
   }
 
-  void setNpsText(int questionId, String remarks) {
-    if (Validator.isNullOrEmpty(remarks)) {
-      _npsSelectedValueMap.remove(questionId);
-      return;
-    }
+  void setNpsText(int questionId, {String? remarks}) {
     var value = NpsSelectedValue(NpsQuestionType.text.value);
-    value.npsValue = remarks;
+    value.npsValue = Validator.isNullOrEmpty(remarks) ? _defaultNpsTextValue : remarks;
     _npsSelectedValueMap[questionId] = value;
   }
 
