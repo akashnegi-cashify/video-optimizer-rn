@@ -29,11 +29,6 @@ class CalculatorDataHolderModel {
 
   List<MediaSubmitRequest>? get mediaList => _mediaList;
 
-  /// This variable is used for capture QC images after calculator journey completes
-  bool _isCaptureDeviceMediaJourney = false;
-
-  bool get isCaptureDeviceMediaJourney => _isCaptureDeviceMediaJourney;
-
   void startCalculatorJourney(MyCalculatorResponse? calculatorResponse, String? deviceBarcode,
       {DeviceType deviceType = DeviceType.mobile_device, int? selectedCategoryId, VariantListData? variantData}) {
     resetAllData();
@@ -54,12 +49,6 @@ class CalculatorDataHolderModel {
     _deviceBarcode = deviceBarcode;
     _deviceType = deviceType;
     _variantData = variantData;
-  }
-
-  void startImageCaptureJourney(String? deviceBarcode) {
-    resetAllData();
-    _deviceBarcode = deviceBarcode;
-    _isCaptureDeviceMediaJourney = true;
   }
 
   set mediaList(List<MediaSubmitRequest>? value) {
@@ -94,17 +83,10 @@ class CalculatorDataHolderModel {
     _calculatorResponse = null;
     _mediaList = null;
     _selectedCategoryId = null;
-    _isCaptureDeviceMediaJourney = false;
     _deviceType = DeviceType.mobile_device;
     _variantData = null;
     _selectedColor = null;
   }
-
-  bool get isCaptureMediaMandatoryInQC =>
-      RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_QC);
-
-  bool get isCaptureMediaMandatoryInTRC =>
-      RemoteConfigHelper().getBoolean(AppRemoteConfig.KEY_IS_CAPTURE_MEDIA_MANDATORY_IN_TRC);
 
   factory CalculatorDataHolderModel() {
     return _instance;

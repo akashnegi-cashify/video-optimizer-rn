@@ -14,6 +14,10 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
   DeviceMediaResponse? deviceMediaResponse;
   bool isDataLoading = true;
   String? errorMessage;
+  final bool? isComingFromCalJourney;
+  final String deviceBarcode;
+
+  CalculatorMediaCaptureProvider(this.deviceBarcode, this.isComingFromCalJourney) : super();
 
   bool isAllMediaUpLoaded() {
     if (Validator.isListNullOrEmpty(deviceMediaResponse?.imageList)) {
@@ -32,11 +36,6 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
     return Provider.of<CalculatorMediaCaptureProvider>(context, listen: listen);
   }
 
-  @override
-  void onServiceInitialized() {
-    _getDeviceMedia();
-  }
-
   void saveMediaList() {
     CalculatorDataHolderModel().mediaList = deviceMediaResponse?.imageList
         ?.map((e) => MediaSubmitRequest(
@@ -44,29 +43,26 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
         .toList();
   }
 
-  _getDeviceMedia() {
-    service.getDeviceMedia(CalculatorDataHolderModel().deviceBarcode ?? "").listen((event) {
-      if (event != null) {
+  void getDeviceMedia({VoidCallback? onMoveToNextScreen}) {
+    service.getDeviceMedia(deviceBarcode).listen((event) {
+      isDataLoading = false;
+      if (Validator.isListNullOrEmpty(event?.imageList) && Validator.isTrue(isComingFromCalJourney)) {
+        onMoveToNextScreen?.call();
+      } else {
         deviceMediaResponse = event;
+        notifyListeners();
       }
     }, onError: (error) {
       String msg = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-      Logger.debug('mydebug------CalculatorMediaCaptureProvider._getDeviceMedia', [msg]);
       errorMessage = msg;
-    }, onDone: () {
       isDataLoading = false;
       notifyListeners();
     });
   }
 
-  bool isCaptureMediaJourney() {
-    return CalculatorDataHolderModel().isCaptureDeviceMediaJourney;
-  }
-
   Future<bool> submitDeviceMedia() {
     var completer = Completer<bool>();
-    service.submitDeviceMedia(CalculatorDataHolderModel().mediaList, CalculatorDataHolderModel().deviceBarcode).listen(
-        (event) {
+    service.submitDeviceMedia(CalculatorDataHolderModel().mediaList, deviceBarcode).listen((event) {
       if (event != null) {
         completer.complete(true);
       } else {

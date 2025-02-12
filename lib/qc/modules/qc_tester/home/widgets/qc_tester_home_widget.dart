@@ -1,7 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculator_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/resources/tester_home_service.dart';
@@ -77,8 +76,7 @@ class QcTesterHomeWidget extends StatelessWidget {
                     hintText: "Scan Device Barcode",
                     onScanned: (scannedData, controller) {
                       if (scannedData.isNotEmpty) {
-                        CalculatorDataHolderModel().startImageCaptureJourney(scannedData);
-                        Navigator.of(context).pushReplacementNamed(CalculatorMediaCaptureScreen.route);
+                        CalculatorMediaCaptureScreen.navigateTo(context, scannedData);
                       }
                     },
                   );

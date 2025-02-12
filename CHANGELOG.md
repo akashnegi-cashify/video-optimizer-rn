@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v4.0.3+69 (XX-02-2025)
+
+### Feature:
+
+* `Move Image Capture under Manual Testing`[(SCM-8886)](https://reglobe.atlassian.net/browse/SCM-8886)
+
+
 # v4.0.2+68 (XX-02-2025)
 
 ### Feature:
