@@ -7,7 +7,7 @@
 * `Move Image Capture under Manual Testing`[(SCM-8886)](https://reglobe.atlassian.net/browse/SCM-8886)
 
 
-# v4.0.2+68 (XX-02-2025)
+# v4.0.2+68 (12-02-2025)
 
 ### Feature:
 
