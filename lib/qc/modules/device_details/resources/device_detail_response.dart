@@ -29,6 +29,12 @@ class DeviceDetailResponse extends BaseResponse {
   @JsonKey(name: "imei")
   String? imei;
 
+  @JsonKey(name: "imei2")
+  String? imei2;
+
+  @JsonKey(name: "otexSource")
+  String? otexSource;
+
   @JsonKey(name: "serialNo")
   String? serialNo;
 
@@ -54,6 +60,8 @@ class DeviceDetailResponse extends BaseResponse {
       this.location,
       this.lotName,
       this.storageType,
+      this.imei2,
+      this.otexSource,
       super.cashifyAlert,
       super.trackUrl);
 

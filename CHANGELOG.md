@@ -4,7 +4,8 @@
 
 ### Feature:
 
-* `Move Image Capture under Manual Testing`[(SCM-8886)](https://reglobe.atlassian.net/browse/SCM-8886)
+* `QC/TRC - Move Image Capture under Manual Testing`[(SCM-8886)](https://reglobe.atlassian.net/browse/SCM-8886)
+* `QC - Device Details - changes in design and add stock movement`[(SCM-8882)](https://reglobe.atlassian.net/browse/SCM-8882)
 
 
 # v4.0.2+68 (12-02-2025)
