@@ -107,7 +107,7 @@ class QcTesterHomeWidget extends StatelessWidget {
             ],
           ),
           Positioned(
-            bottom: Dimens.space_16,
+            top: Dimens.space_4,
             left: 0,
             right: 0,
             child: StreamBuilder(
