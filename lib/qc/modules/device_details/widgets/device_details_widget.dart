@@ -9,6 +9,7 @@ import 'package:flutter_trc/src/utils/dotted_divider_line.dart';
 
 import '../l10n.dart';
 import '../resources/device_detail_response.dart';
+import '../resources/stock_movement_response.dart';
 
 class DeviceDetailsWidget extends StatefulWidget {
   final String deviceBarcode;
@@ -82,19 +83,33 @@ class _DeviceDetailsWidgetState extends State<DeviceDetailsWidget> {
                       DottedLineDivider(dashWidth: Dimens.space_4),
                       SizedBox(height: Dimens.space_8),
                       ...list,
-                      FutureBuilder(
-                        future: _getStockMovement(_deviceBarcode),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
-                            if (snapshot.hasData) {
-                              return Stepper(steps: snapshot.data!);
-                            }
-                          }
-                          return SizedBox.shrink();
-                        },
-                      ),
                     ],
                   ),
+                ),
+                FutureBuilder(
+                  future: _getStockMovement(_deviceBarcode),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: Dimens.space_16),
+                          Text(l10n.stockMovement, style: theme.textTheme.titleMedium),
+                          SizedBox(height: Dimens.space_16),
+                          CshCard(
+                            padding: EdgeInsets.symmetric(vertical: Dimens.space_12),
+                            child: Stepper(
+                              steps: snapshot.data!,
+                              currentStep: snapshot.data!.length - 1,
+                              controlsBuilder: (__, _) => SizedBox.shrink(),
+                              physics: NeverScrollableScrollPhysics(),
+                            ),
+                          )
+                        ],
+                      );
+                    }
+                    return SizedBox.shrink();
+                  },
                 ),
                 const SizedBox(height: Dimens.space_16),
                 CshMediumButton(
@@ -153,6 +168,7 @@ class _DeviceDetailsWidgetState extends State<DeviceDetailsWidget> {
         formatedList.add(Padding(
           padding: const EdgeInsets.symmetric(vertical: Dimens.space_4),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Flexible(flex: 3, fit: FlexFit.tight, child: widgetList[i]),
               Flexible(flex: 1, fit: FlexFit.tight, child: widgetList[i + 1]),
@@ -196,18 +212,40 @@ class _DeviceDetailsWidgetState extends State<DeviceDetailsWidget> {
     DeviceDetailService.getDeviceStockMovement(deviceBarcode).listen((event) {
       if (!Validator.isListNullOrEmpty(event?.stockMovementList)) {
         List<Step> stepperList = event!.stockMovementList!.map((e) {
-          return Step(
-            title: CshTextNew.subTitle1(e.status ?? ""),
-            subtitle: CshTextNew.bodyText2(e.createdBy ?? ""),
-            content: CshTextNew.bodyText2(e.createdBy ?? ""),
-            isActive: e.isCurrentStatus ?? false,
-          );
+          return _buildStep(e);
         }).toList();
         completer.complete(stepperList);
+      } else {
+        completer.completeError("No stock movement found");
       }
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
     return completer.future;
+  }
+
+  Step _buildStep(StockMovementListData stockData) {
+    return Step(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CshTextNew.h4(stockData.status ?? ""),
+          CshTextNew.overLine(
+            formatDate(timeStamp: stockData.createdAt, pattern: DateFormats.dd_MMM_yyyy_HH_mm.value),
+            isPrimary: false,
+          ),
+        ],
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CshTextNew.subTitle2(stockData.createdBy ?? "", isPrimary: false),
+          CshTextNew.overLine(stockData.remark ?? "", isPrimary: false),
+        ],
+      ),
+      content: Text(""),
+      state: StepState.complete,
+      isActive: stockData.isCurrentStatus ?? false,
+    );
   }
 }

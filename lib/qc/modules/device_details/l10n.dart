@@ -33,4 +33,6 @@ class L10n extends BaseL10n {
   String get channelName => Intl.message("Channel Name", locale: localName, name: "channelName");
 
   String get scanOtherDevice => Intl.message("Scan Other Device", locale: localName, name: "scanOtherDevice");
+
+  String get stockMovement => Intl.message("Stock Movement", locale: localName, name: "stockMovement");
 }

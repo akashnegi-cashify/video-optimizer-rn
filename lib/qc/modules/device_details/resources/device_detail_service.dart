@@ -8,6 +8,6 @@ class DeviceDetailService {
   }
 
   static Stream<StockMovementResponse?> getDeviceStockMovement(String deviceBarcode) {
-    return QcService().get("/device/stock-movement?qrcode=$deviceBarcode", StockMovementResponse.fromJson);
+    return QcService().get("/device/stock-movement/$deviceBarcode", StockMovementResponse.fromJson);
   }
 }
