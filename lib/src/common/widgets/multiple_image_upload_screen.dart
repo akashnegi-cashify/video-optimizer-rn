@@ -48,7 +48,7 @@ class _MultipleImageUploadScreenState extends State<MultipleImageUploadScreen> {
                   itemBuilder: (context, index) {
                     var item = _imageList[index];
                     return ChangeNotifierProvider(
-                      create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc, s3Url: item),
+                      create: (_) => ImageUploadProvider(s3Url: item),
                       child: GeneralImageUploadCard(
                         cardHeight: cardSize,
                         cardWidth: cardSize,

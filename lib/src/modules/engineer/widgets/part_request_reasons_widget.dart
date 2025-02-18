@@ -8,8 +8,6 @@ import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provid
 import 'package:flutter_trc/src/utils/media_upload/widgets/general_image_upload_card.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utils/media_upload/models/image_upload_service_type_enum.dart';
-
 class PartRequestReasonsWidget extends StatelessWidget implements PartRequestReasonInterface {
   final Function(List<OrderEngineerPart> partList)? onReasonsSubmitted;
 
@@ -126,7 +124,7 @@ class _PartRequestReasonItemState extends State<_PartRequestReasonItem> {
                   itemBuilder: (context, index) {
                     var imageUrl = _imageList[index];
                     return ChangeNotifierProvider(
-                      create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc),
+                      create: (_) => ImageUploadProvider(),
                       child: GeneralImageUploadCard(
                         cardHeight: 100,
                         cardWidth: 100,

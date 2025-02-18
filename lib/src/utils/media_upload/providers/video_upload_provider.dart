@@ -6,6 +6,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/channel/native_communication.dart';
 import 'package:flutter_trc/src/utils/connectivity_util.dart';
+import 'package:flutter_trc/src/utils/media_upload/providers/media_upload_service_init_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -14,7 +15,7 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../media_optimiser_utils.dart';
 
-class VideoUploadProvider extends CshChangeNotifier {
+class VideoUploadProvider extends MediaUploadServiceInitProvider {
   bool isDataLoading = false;
   String? videoS3Url;
   String? _videoThumbnailImagePath;
@@ -43,7 +44,7 @@ class VideoUploadProvider extends CshChangeNotifier {
     }
 
     String fileName = path.basename(file.path);
-    MediaUploadUtil().uploadMediaWithType(mediaFile: file, fileName: fileName, contentType: MediaContentType.mp4).then(
+    MediaUploadUtil(service: mediaUploadService).uploadMediaWithType(mediaFile: file, fileName: fileName, contentType: MediaContentType.mp4).then(
         (value) async {
       if (value.isNotEmpty) {
         videoS3Url = value;

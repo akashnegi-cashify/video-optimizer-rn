@@ -238,7 +238,7 @@ class _CaptureMediaModuleState extends State<_CaptureMediaModule> {
               itemBuilder: (context, index) {
                 var item = _imageList[index];
                 return ChangeNotifierProvider(
-                  create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc),
+                  create: (_) => ImageUploadProvider(),
                   child: GeneralImageUploadCard(
                     cardHeight: 100,
                     cardWidth: 100,
