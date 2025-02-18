@@ -2,7 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_action_widget.dart';
-import 'package:flutter_trc/src/libraries/alice/csh_alice.dart';
+import 'package:flutter_trc/src/serial_number_reader/serial_number_reader_screen.dart';
 
 import '../../../../common/user/widget/logout_action_widget.dart';
 import '../../../../environments/environment_config.dart';
@@ -37,7 +37,12 @@ class QcGeneralHeader extends StatelessWidget implements PreferredSizeWidget {
           iconSize: MobileIconSize.medium,
           padding: EdgeInsets.zero,
           onClick: () {
-            CshAlice().alice?.showInspector();
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return SerialNumberReaderScreen();
+              },
+            ));
+            // CshAlice().alice?.showInspector();
           },
         ),
       // CshIcon(
