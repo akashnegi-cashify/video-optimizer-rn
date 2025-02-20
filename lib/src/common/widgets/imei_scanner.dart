@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:builder_component/builder_component.dart';
 import 'package:camera/camera.dart';
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
@@ -13,8 +12,9 @@ import 'package:provider/provider.dart';
 class ImeiScanner extends StatefulWidget {
   final Function(List<String>? scannedList)? onProceed;
   final VoidCallback? onTimeOut;
+  final ReaderType readerType;
 
-  const ImeiScanner({super.key, this.onProceed, this.onTimeOut});
+  const ImeiScanner({super.key, this.onProceed, this.onTimeOut, this.readerType = ReaderType.imeiReader});
 
   @override
   State<ImeiScanner> createState() => _ImeiScannerState();
@@ -43,7 +43,7 @@ class _ImeiScannerState extends State<ImeiScanner> {
           create: (_) => PageParamProvider(),
           child: ImeiSerialReader(
             configurationModel: ImeiSerialReaderConfig(
-              readerType: ReaderType.imeiReader.value,
+              readerType: widget.readerType.value,
               retryButtonText: 'Retry',
               doneButtonText: 'Done',
             ),
