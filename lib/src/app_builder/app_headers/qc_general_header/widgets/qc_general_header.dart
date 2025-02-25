@@ -44,7 +44,7 @@ class QcGeneralHeader extends StatelessWidget implements PreferredSizeWidget {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return ImeiScanner(
-                  readerType: ReaderType.serialNumberReader,
+                  readerType: ReaderType.imeiReader,
                   onProceed: (scannedList) {
                     // Navigator.pop(context);
                     scannedList?.forEach(

@@ -246,18 +246,26 @@ packages:
     dependency: "direct overridden"
     description:
       name: camera
-      sha256: "413d2b34fe28496c35c69ede5b232fb9dd5ca2c3a4cb606b14efc1c7546cc8cb"
+      sha256: "26ff41045772153f222ffffecba711a206f670f5834d40ebf5eed3811692f167"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.1"
+    version: "0.11.0+2"
+  camera_android:
+    dependency: transitive
+    description:
+      name: camera_android
+      sha256: "19b7226387218864cb2388e1ad5db7db50d065222f5511254b03fc397dd21a5e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.9+17"
   camera_android_camerax:
     dependency: "direct overridden"
     description:
       name: camera_android_camerax
-      sha256: e3627fdc2132d89212b8a8676679f5b07008c7e3d8ae00cea775c3397f9e742b
+      sha256: "2bb0724371bae3c0889d7e0b1665357e4aa6ba6c8d32ffa3e178098ba81ed3df"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.10"
+    version: "0.6.11"
   camera_avfoundation:
     dependency: transitive
     description:
@@ -527,14 +535,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  disk_space:
+  disk_space_2:
     dependency: "direct main"
     description:
-      name: disk_space
-      sha256: fb27eb2d09ac04784f45b95b1355538b2355c76a081eeaa8439d1a5cfa263888
+      name: disk_space_2
+      sha256: b075866a268950aef41aa82ffcffdd1b5ddaa2833cd39e13b467f61f3c068957
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "1.0.8"
   dotted_border:
     dependency: transitive
     description:
@@ -821,13 +829,13 @@ packages:
     source: hosted
     version: "0.1.5"
   flutter_keyboard_visibility:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: flutter_keyboard_visibility
-      sha256: "4983655c26ab5b959252ee204c2fffa4afeb4413cd030455194ec0caa3b8e7cb"
+      sha256: "98664be7be0e3ffca00de50f7f6a287ab62c763fc8c762e0a21584584a3ff4f8"
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.1"
+    version: "6.0.0"
   flutter_keyboard_visibility_linux:
     dependency: transitive
     description:
@@ -1067,6 +1075,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.0"
+  google_mlkit_image_labeling:
+    dependency: transitive
+    description:
+      name: google_mlkit_image_labeling
+      sha256: "9251c91c9281378a4716bb96dc0d3c9f54c0f809577aaba47ef24c52941dc859"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.0"
   graphs:
     dependency: transitive
     description:
@@ -1742,14 +1758,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  qr_code_scanner:
+  qr_code_scanner_plus:
     dependency: transitive
     description:
-      name: qr_code_scanner
-      sha256: f23b68d893505a424f0bd2e324ebea71ed88465d572d26bb8d2e78a4749591fd
+      name: qr_code_scanner_plus
+      sha256: "39696b50d277097ee4d90d4292de36f38c66213a4f5216a06b2bdd2b63117859"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "2.0.10+1"
   qr_flutter:
     dependency: "direct main"
     description:
@@ -2044,13 +2060,11 @@ packages:
     source: hosted
     version: "0.7.3"
   text_recognizer:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: text_recognizer
-      ref: main
-      resolved-ref: dd501fc161e3ef26a0d242db65c9fde23b4fd2e8
-      url: "https://github.com/reglobe/flutter_plugins.git"
-    source: git
+      path: "../flutter_plugins/text_recognizer"
+      relative: true
+    source: path
     version: "1.0.1"
   timezone:
     dependency: transitive

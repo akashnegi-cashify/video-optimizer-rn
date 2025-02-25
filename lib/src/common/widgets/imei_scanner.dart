@@ -47,6 +47,7 @@ class _ImeiScannerState extends State<ImeiScanner> {
               retryButtonText: 'Retry',
               doneButtonText: 'Done',
             ),
+            imageLabelingModelPath: 'assets/ml/object_labeler.tflite',
             onDoneCallback: (List<String>? scannedList, {CameraImage? imageRawData}) {
               widget.onProceed?.call(scannedList);
             },

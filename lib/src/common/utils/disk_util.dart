@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:disk_space/disk_space.dart';
+
+import 'package:disk_space_2/disk_space_2.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DiskUtil {
