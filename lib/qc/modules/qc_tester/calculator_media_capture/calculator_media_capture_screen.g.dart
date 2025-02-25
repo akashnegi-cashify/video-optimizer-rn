@@ -15,7 +15,8 @@ dynamic schema() => {
       "isActive": true,
       "params": [
         {"key": "icfcj", "value": null},
-        {"key": "dbr", "value": null}
+        {"key": "dbr", "value": null},
+        {"key": "cid", "value": null}
       ]
 
       //#adminscreen

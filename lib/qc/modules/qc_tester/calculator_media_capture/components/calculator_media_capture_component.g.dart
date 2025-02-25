@@ -10,6 +10,7 @@ CalculatorMediaCaptureParam fromMap(Map<String, dynamic> map) {
   CalculatorMediaCaptureParam model = CalculatorMediaCaptureParam(
     isComingFromCalJourney: map["icfcj"],
     deviceBarcode: map["dbr"],
+    categoryId: map["cid"],
   );
   return model;
 }
@@ -20,6 +21,7 @@ Widget paramBuilder(
     selector: (_, provider) => {
       "icfcj": provider.data["icfcj"],
       "dbr": provider.data["dbr"],
+      "cid": provider.data["cid"],
     },
     builder: (context, data, child) {
       CalculatorMediaCaptureParam model = fromMap(data);
@@ -31,8 +33,11 @@ Widget paramBuilder(
 bool isValid(CalculatorMediaCaptureParam model) {
   var isComingFromCalJourney = model.isComingFromCalJourney;
   var deviceBarcode = model.deviceBarcode;
+  var categoryId = model.categoryId;
 
-  return isComingFromCalJourney != null && deviceBarcode != null;
+  return isComingFromCalJourney != null &&
+      deviceBarcode != null &&
+      categoryId != null;
 }
 
 dynamic schema() => {
@@ -44,7 +49,8 @@ dynamic schema() => {
       "title": "Calculator Media Capture Component",
       "cpm": [
         {"key": "icfcj", "value": null},
-        {"key": "dbr", "value": null}
+        {"key": "dbr", "value": null},
+        {"key": "cid", "value": null}
       ],
       "configJson": {
         "type": "list",

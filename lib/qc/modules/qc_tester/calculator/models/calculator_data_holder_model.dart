@@ -25,6 +25,8 @@ class CalculatorDataHolderModel {
 
   VariantListData? get variantData => _variantData;
 
+  int? get selectedCategoryId => _selectedCategoryId;
+
   DeviceType _deviceType = DeviceType.mobile_device;
 
   List<MediaSubmitRequest>? get mediaList => _mediaList;

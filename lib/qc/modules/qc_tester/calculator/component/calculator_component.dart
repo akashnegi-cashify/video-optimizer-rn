@@ -64,7 +64,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
   void _moveToNextScreen(BuildContext context, {required MyQuoteRequestData requestData}) {
     CalculatorDataHolderModel().quoteRequestData = requestData;
     CalculatorMediaCaptureScreen.navigateTo(context, CalculatorDataHolderModel().deviceBarcode!,
-        isComingFromCalculatorJourney: true);
+        isComingFromCalculatorJourney: true, categoryId: CalculatorDataHolderModel().selectedCategoryId);
   }
 
   void _showDisputedQuestions(BuildContext context, List<ManualAuditQuestionItem>? manualAuditQuestions,
