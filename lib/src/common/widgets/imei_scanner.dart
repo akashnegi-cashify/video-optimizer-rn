@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:imei_serial_reader/imei_serial_reader.dart';
-import 'package:imei_serial_reader/reader_type.dart';
+import 'package:imei_serial_reader/parser/parser_config.dart';
 import 'package:provider/provider.dart';
 
 class ImeiScanner extends StatefulWidget {
   final Function(List<String>? scannedList)? onProceed;
   final VoidCallback? onTimeOut;
-  final ReaderType readerType;
+  final ParserConfig config;
 
-  const ImeiScanner({super.key, this.onProceed, this.onTimeOut, this.readerType = ReaderType.imeiReader});
+  const ImeiScanner({super.key, this.onProceed, this.onTimeOut, required this.config});
 
   @override
   State<ImeiScanner> createState() => _ImeiScannerState();
@@ -43,14 +43,14 @@ class _ImeiScannerState extends State<ImeiScanner> {
           create: (_) => PageParamProvider(),
           child: ImeiSerialReader(
             configurationModel: ImeiSerialReaderConfig(
-              readerType: widget.readerType.value,
+              readerType: widget.config.readerType.value,
               retryButtonText: 'Retry',
               doneButtonText: 'Done',
             ),
-            imageLabelingModelPath: 'assets/ml/object_labeler.tflite',
             onDoneCallback: (List<String>? scannedList, {CameraImage? imageRawData}) {
               widget.onProceed?.call(scannedList);
             },
+            parserConfig: widget.config,
           ),
         ),
       ),

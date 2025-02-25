@@ -19,6 +19,7 @@ import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:imei_serial_reader/imei_serial_reader.dart';
 
 import '../dialogs/select_brand_bottom_sheet.dart';
 import '../l10n.dart';
@@ -283,6 +284,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     Navigator.push(context, MaterialPageRoute(
       builder: (_) {
         return ImeiScanner(
+          config: ParserConfig(readerType: ReaderType.imeiReader),
           onProceed: (List<String>? scannedList) {
             /// When only 1 IMEI is available and scanned IMEI List is also 1 and IMEI is already approved
             if (!_isScannedSuccessfully && _is1ImeiAvailable() && scannedList?.length == 1) {
