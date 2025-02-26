@@ -48,7 +48,7 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
           Text("${l10n.attachPartImage}*", style: theme.primaryTextTheme.headlineSmall),
           const SizedBox(height: Dimens.space_4),
           ChangeNotifierProvider(
-            create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc),
+            create: (_) => ImageUploadProvider(),
             child: GeneralImageUploadCard(
               cardHeight: 70.0,
               cardWidth: 70.0,

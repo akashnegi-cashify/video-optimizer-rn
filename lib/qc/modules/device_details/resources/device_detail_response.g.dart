@@ -23,6 +23,8 @@ DeviceDetailResponse _$DeviceDetailResponseFromJson(
       json['location'] as String?,
       json['lotName'] as String?,
       json['storageType'] as String?,
+      json['imei2'] as String?,
+      json['otexSource'] as String?,
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -42,6 +44,8 @@ Map<String, dynamic> _$DeviceDetailResponseToJson(
       'barCode': instance.barcode,
       'model': instance.modelName,
       'imei': instance.imei,
+      'imei2': instance.imei2,
+      'otexSource': instance.otexSource,
       'serialNo': instance.serialNo,
       'location': instance.location,
       'lotName': instance.lotName,

@@ -13,6 +13,11 @@ dynamic schema() => {
       "pageGroup": "Calculator Media Capture",
       "title": "Calculator Media Capture Screen",
       "isActive": true,
-      "params": null
+      "params": [
+        {"key": "icfcj", "value": null},
+        {"key": "dbr", "value": null},
+        {"key": "cid", "value": null}
+      ]
+
       //#adminscreen
     };

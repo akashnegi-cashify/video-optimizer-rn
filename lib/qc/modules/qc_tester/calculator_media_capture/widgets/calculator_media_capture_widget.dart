@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,21 @@ class CalculatorMediaCaptureWidget extends StatefulWidget {
 }
 
 class _CalculatorMediaCaptureWidgetState extends State<CalculatorMediaCaptureWidget> {
+  @override
+  void initState() {
+    scheduleMicrotask(
+      () {
+        var provider = CalculatorMediaCaptureProvider.of(context, listen: false);
+        provider.getDeviceMedia(onMoveToNextScreen: () => _navigateToDeviceQuoteScreen());
+      },
+    );
+    super.initState();
+  }
+
+  _navigateToDeviceQuoteScreen() {
+    Navigator.pushReplacementNamed(context, SubmitDeviceQuoteScreen.route);
+  }
+
   @override
   Widget build(BuildContext context) {
     var provider = CalculatorMediaCaptureProvider.of(context);
@@ -94,7 +111,9 @@ class _CalculatorMediaCaptureWidgetState extends State<CalculatorMediaCaptureWid
                   text: "Done",
                   onPressed: () {
                     provider.saveMediaList();
-                    if (provider.isCaptureMediaJourney()) {
+                    if (Validator.isTrue(provider.isComingFromCalJourney)) {
+                      _navigateToDeviceQuoteScreen();
+                    } else {
                       CshLoading().showLoading(context);
                       provider.submitDeviceMedia().then((value) {
                         CshLoading().hideLoading(context);
@@ -104,8 +123,6 @@ class _CalculatorMediaCaptureWidgetState extends State<CalculatorMediaCaptureWid
                         CshLoading().hideLoading(context);
                         CshSnackBar.error(context: context, message: error);
                       });
-                    } else {
-                      Navigator.pushReplacementNamed(context, SubmitDeviceQuoteScreen.route);
                     }
                   },
                 ),
