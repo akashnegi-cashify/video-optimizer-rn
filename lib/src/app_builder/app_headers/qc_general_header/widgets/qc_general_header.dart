@@ -1,10 +1,8 @@
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_action_widget.dart';
-import 'package:flutter_trc/src/common/widgets/imei_scanner.dart';
-import 'package:imei_serial_reader/imei_serial_reader.dart';
+import 'package:flutter_trc/src/libraries/alice/csh_alice.dart';
 
 import '../../../../common/user/widget/logout_action_widget.dart';
 import '../../../../environments/environment_config.dart';
@@ -31,8 +29,6 @@ class QcGeneralHeader extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: need to fix it when start integration
-    bool isAlreadyScanned = false;
     List<Widget> actionsList = [
       if (Validator.isTrue(environment?.enableAlice))
         CshIcon(
@@ -41,35 +37,7 @@ class QcGeneralHeader extends StatelessWidget implements PreferredSizeWidget {
           iconSize: MobileIconSize.medium,
           padding: EdgeInsets.zero,
           onClick: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return ImeiScanner(
-                  config: ParserConfig(readerType: ReaderType.serialNumberReader),
-                  onProceed: (scannedList) {
-                    // Navigator.pop(context);
-                    if (isAlreadyScanned) {
-                      return;
-                    }
-                    isAlreadyScanned = true;
-                    Future.delayed(Duration(seconds: 1), () {
-                      isAlreadyScanned = false;
-                    });
-
-                    scannedList?.forEach(
-                      (element) {
-                        Logger.debug('mydebug-----QcGeneralHeader.build', [element]);
-                        Future.delayed(Duration(seconds: 1), () {
-                          Logger.debug('mydebug-----QcGeneralHeader.build delay executed', [element]);
-                          isAlreadyScanned = false;
-                        });
-                      },
-                    );
-                    Navigator.pop(context);
-                  },
-                );
-              },
-            ));
-            // CshAlice().alice?.showInspector();
+            CshAlice().alice?.showInspector();
           },
         ),
       // CshIcon(

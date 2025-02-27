@@ -1,5 +1,6 @@
 enum DeviceCategoryIdType {
-  mobile(1);
+  mobile(1),
+  laptop(2);
 
   final int value;
 

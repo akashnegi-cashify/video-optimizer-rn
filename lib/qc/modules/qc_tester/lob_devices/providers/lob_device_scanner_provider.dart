@@ -191,4 +191,30 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     });
     return completer.future;
   }
+
+  // TODO: need to implement api
+  Future<String> reportSerialNoMismatched(String filePath, String? scannedSerialNo) async {
+    var completer = Completer<String>();
+    try {
+      // String imageUrl = await _getCompressedImageUrl(filePath);
+      // service
+      //     .reportMismatch(
+      //   !Validator.isNullOrEmpty(updatedImei) ? [updatedImei] : null,
+      //   deviceBarcode!,
+      //   imageUrl,
+      //   timeoutReason: timeoutSelectedReason?.name,
+      //   isImei2Available: isImeiAvailable,
+      //   isAutoApproved: isAutoApproved,
+      // )
+      //     .listen((event) {
+      //   timeoutSelectedReason = null;
+      //   completer.complete("Imei Updated Successfully");
+      // }, onError: (error) {
+      //   completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+      // });
+    } catch (e) {
+      completer.completeError(e);
+    }
+    return completer.future;
+  }
 }
