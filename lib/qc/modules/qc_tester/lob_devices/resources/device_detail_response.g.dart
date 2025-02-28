@@ -64,6 +64,7 @@ CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) => CategoryData(
       json['name'] as String?,
       json['allowVariant'] as bool?,
       json['allowImei'] as bool?,
+      json['apiName'] as String?,
     );
 
 Map<String, dynamic> _$CategoryDataToJson(CategoryData instance) =>
@@ -72,4 +73,5 @@ Map<String, dynamic> _$CategoryDataToJson(CategoryData instance) =>
       'name': instance.name,
       'allowVariant': instance.allowVariant,
       'allowImei': instance.allowImeiSearch,
+      'apiName': instance.categoryKey,
     };

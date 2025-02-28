@@ -71,11 +71,11 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
       }
     }
 
-    if (_selectedCategory?.id != DeviceCategoryIdType.mobile.value) {
+    if (_selectedCategory?.categoryKey != DeviceCategoryIdType.mobile.value) {
       _isImeiVerified = true;
     }
 
-    if (_selectedCategory?.id != DeviceCategoryIdType.laptop.value) {
+    if (_selectedCategory?.categoryKey != DeviceCategoryIdType.laptop.value) {
       _isSerialVerified = true;
     }
 
@@ -183,14 +183,14 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
               Flexible(flex: 4, fit: FlexFit.tight, child: CshTextNew.h3(widget.deviceDetails?.serialNo ?? "NA")),
             ],
           ),
-          if (_isRunImeiValidatorFlow && _selectedCategory?.id == DeviceCategoryIdType.mobile.value) ...[
+          if (_isRunImeiValidatorFlow && _selectedCategory?.categoryKey == DeviceCategoryIdType.mobile.value) ...[
             const SizedBox(height: Dimens.space_24),
             CshMediumButton(
               text: l10n.validateImei,
               onPressed: !_isImeiVerified ? () => _openSerialImeiScanner() : null,
             ),
           ],
-          if (_isRunSerialValidatorFlow && _selectedCategory?.id == DeviceCategoryIdType.laptop.value) ...[
+          if (_isRunSerialValidatorFlow && _selectedCategory?.categoryKey == DeviceCategoryIdType.laptop.value) ...[
             const SizedBox(height: Dimens.space_24),
             CshMediumButton(
               text: l10n.validateSerial,
@@ -198,7 +198,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                   !_isSerialVerified ? () => _openSerialImeiScanner(readerType: ReaderType.serialNumberReader) : null,
             ),
           ],
-          if (_isShowManualEnterSerialButton && _selectedCategory?.id == DeviceCategoryIdType.laptop.value) ...[
+          if (_isShowManualEnterSerialButton && _selectedCategory?.categoryKey == DeviceCategoryIdType.laptop.value) ...[
             const SizedBox(height: Dimens.space_24),
             CshMediumButton(
                 text: l10n.enterSerialManually,
@@ -242,9 +242,9 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
       return false;
     }
 
-    if (_selectedCategory!.id == DeviceCategoryIdType.mobile.value) {
+    if (_selectedCategory!.categoryKey == DeviceCategoryIdType.mobile.value) {
       return _isImeiVerificationCompleted();
-    } else if (_selectedCategory!.id == DeviceCategoryIdType.laptop.value) {
+    } else if (_selectedCategory!.categoryKey == DeviceCategoryIdType.laptop.value) {
       return _isSerialNoVerificationCompleted();
     } else {
       return true;

@@ -1,0 +1,4 @@
+enum VerificationStatusEnum {
+  matched,
+  misMatched,
+}
