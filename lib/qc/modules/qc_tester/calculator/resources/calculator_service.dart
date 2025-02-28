@@ -66,8 +66,13 @@ abstract class CalculatorService {
     return service.get("/device/color", DeviceColorResponse.fromJson, params: params);
   }
 
-  Stream<DeviceMediaResponse?> getDeviceMedia(String? deviceBarcode) {
-    return service.get("/v2/device/media/$deviceBarcode", DeviceMediaResponse.fromJson);
+  Stream<DeviceMediaResponse?> getDeviceMedia(String? deviceBarcode, {int? categoryId}) {
+    Map<String, List<String>> params = {
+      "qrCode": [deviceBarcode.toString()],
+      "cid": [categoryId.toString()]
+    };
+
+    return service.get("/v2/device/media", DeviceMediaResponse.fromJson, params: params);
   }
 
   Stream<DeviceMediaResponse?> submitDeviceMedia(List<MediaSubmitRequest>? mediaList, String? deviceBarcode) {

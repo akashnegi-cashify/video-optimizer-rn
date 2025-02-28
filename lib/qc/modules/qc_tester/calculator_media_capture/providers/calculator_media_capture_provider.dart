@@ -16,8 +16,9 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
   String? errorMessage;
   final bool? isComingFromCalJourney;
   final String deviceBarcode;
+  final int? categoryId;
 
-  CalculatorMediaCaptureProvider(this.deviceBarcode, this.isComingFromCalJourney) : super();
+  CalculatorMediaCaptureProvider(this.deviceBarcode, this.isComingFromCalJourney, {this.categoryId}) : super();
 
   bool isAllMediaUpLoaded() {
     if (Validator.isListNullOrEmpty(deviceMediaResponse?.imageList)) {
@@ -44,7 +45,7 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
   }
 
   void getDeviceMedia({VoidCallback? onMoveToNextScreen}) {
-    service.getDeviceMedia(deviceBarcode).listen((event) {
+    service.getDeviceMedia(deviceBarcode, categoryId: categoryId).listen((event) {
       isDataLoading = false;
       if (Validator.isListNullOrEmpty(event?.imageList) && Validator.isTrue(isComingFromCalJourney)) {
         onMoveToNextScreen?.call();

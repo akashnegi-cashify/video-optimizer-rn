@@ -4,7 +4,6 @@ import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/engineer_part_info.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../utils/media_upload/models/image_upload_service_type_enum.dart';
 import '../../../../utils/media_upload/providers/image_upload_provider.dart';
 import '../../../../utils/media_upload/widgets/general_image_upload_card.dart';
 import '../l10n.dart';
@@ -48,7 +47,7 @@ class _RetrievedPartDetailsItemWidgetState extends State<RetrievedPartDetailsIte
           Text("${l10n.attachPartImage}*", style: theme.primaryTextTheme.headlineSmall),
           const SizedBox(height: Dimens.space_4),
           ChangeNotifierProvider(
-            create: (_) => ImageUploadProvider(serviceType: ImageUploadServiceType.trc),
+            create: (_) => ImageUploadProvider(),
             child: GeneralImageUploadCard(
               cardHeight: 70.0,
               cardWidth: 70.0,

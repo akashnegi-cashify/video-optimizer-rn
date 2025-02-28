@@ -24,14 +24,19 @@ class CalculatorMediaCaptureComponent extends StatelessComponent<NoneConfigModel
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    return paramBuilder((model) {
-      return ChangeNotifierProvider<CalculatorMediaCaptureProvider>(
-        create: (_) => CalculatorMediaCaptureProvider(model.deviceBarcode ?? "", model.isComingFromCalJourney),
-        lazy: false,
-        child: const CalculatorMediaCaptureWidget(),
-      );
-    },);
-
+    return paramBuilder(
+      (model) {
+        return ChangeNotifierProvider<CalculatorMediaCaptureProvider>(
+          create: (_) => CalculatorMediaCaptureProvider(
+            model.deviceBarcode ?? "",
+            model.isComingFromCalJourney,
+            categoryId: model.categoryId,
+          ),
+          lazy: false,
+          child: const CalculatorMediaCaptureWidget(),
+        );
+      },
+    );
   }
 
   @override

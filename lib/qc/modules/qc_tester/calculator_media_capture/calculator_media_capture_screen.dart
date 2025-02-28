@@ -9,14 +9,16 @@ part 'calculator_media_capture_screen.g.dart';
 class CalculatorMediaCaptureScreenArg extends BaseArguments {
   final bool isComingFromCalculatorJourney;
   final String deviceBarcode;
+  final int? categoryId;
 
-  CalculatorMediaCaptureScreenArg(this.deviceBarcode, this.isComingFromCalculatorJourney)
+  CalculatorMediaCaptureScreenArg(this.deviceBarcode, this.isComingFromCalculatorJourney, {this.categoryId})
       : super(CalculatorMediaCaptureScreen.pageKey);
 
   Map<String, dynamic> toJson() {
     return {
       CalculatorMediaCaptureParamKeys.isComingFromCalJourney.value: isComingFromCalculatorJourney,
       CalculatorMediaCaptureParamKeys.deviceBarcode.value: deviceBarcode,
+      CalculatorMediaCaptureParamKeys.categoryId.value: categoryId,
     };
   }
 }
@@ -38,10 +40,11 @@ class CalculatorMediaCaptureScreen extends BaseScreen<CalculatorMediaCaptureScre
     return PageWidget(pageKey: pageKey, initialValue: arg?.toJson());
   }
 
-  static navigateTo(BuildContext context, String deviceBarcode, {bool isComingFromCalculatorJourney = false}) {
+  static navigateTo(BuildContext context, String deviceBarcode,
+      {bool isComingFromCalculatorJourney = false, int? categoryId}) {
     Navigator.of(context).pushNamed(
       route,
-      arguments: CalculatorMediaCaptureScreenArg(deviceBarcode, isComingFromCalculatorJourney),
+      arguments: CalculatorMediaCaptureScreenArg(deviceBarcode, isComingFromCalculatorJourney, categoryId: categoryId),
     );
   }
 }

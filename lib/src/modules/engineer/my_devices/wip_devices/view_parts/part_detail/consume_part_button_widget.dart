@@ -8,7 +8,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/e
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/capture_consume_parts_media_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
-import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
+import 'package:flutter_trc/src/utils/media_upload/models/media_upload_service_type_enum.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -41,7 +41,7 @@ class ConsumePartButtonWidget extends StatelessWidget {
             CshLoading().showLoading(context);
             imageFile = await ImageUtil.compressImage(imageFile);
             String fileName = path.basename(imageFile.path);
-            MediaUploadUtil(service: ImageUploadServiceType.trc.service)
+            MediaUploadUtil(service: MediaUploadServiceType.trc.service)
                 .uploadMediaWithType(mediaFile: imageFile, fileName: fileName)
                 .then((value) {
                   CshLoading().hideLoading(context);

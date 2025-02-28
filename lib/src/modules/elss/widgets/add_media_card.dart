@@ -7,7 +7,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/no_usage.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
-import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
+import 'package:flutter_trc/src/utils/media_upload/models/media_upload_service_type_enum.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -72,7 +72,7 @@ class _AddMediaCardsState extends State<AddMediaCards> {
                       CshLoading().showLoading(context);
                       var compressedFile = await ImageUtil.compressImage(File(imageFilex.path));
                       String fileName = path.basename(compressedFile.path);
-                      MediaUploadUtil(service: ImageUploadServiceType.trc.service)
+                      MediaUploadUtil(service: MediaUploadServiceType.trc.service)
                           .uploadMediaWithType(mediaFile: compressedFile, fileName: fileName)
                           .then((value) {
                         CshLoading().hideLoading(context);
