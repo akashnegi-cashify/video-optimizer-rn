@@ -39,6 +39,18 @@ class DataWipeListItem {
   @JsonKey(name: "em")
   String? errorMessage;
 
+  @JsonKey(name: "apiname")
+  String? categoryKey;
+
+  @JsonKey(name: "imei")
+  String? imei1;
+
+  @JsonKey(name: "imei2")
+  String? imei2;
+
+  @JsonKey(name: "sno")
+  String? serialNo;
+
   DataWipeListItem(
     this.id,
     this.qrCode,
@@ -47,6 +59,10 @@ class DataWipeListItem {
     this.statusCode,
     this.productName,
     this.errorMessage,
+    this.categoryKey,
+    this.imei1,
+    this.imei2,
+    this.serialNo,
   );
 
   static DataWipeListItem fromJson(Map<String, dynamic> json) => _$DataWipeListItemFromJson(json);

@@ -4,7 +4,8 @@
 
 ### Feature:
 
-* `QC/TRC - Serial Number Validation for laptops`[(SCM-8584)](https://reglobe.atlassian.net/browse/SCM-8584)
+* `QC/TRC - Manaul Testing - Serial Number Validation for laptops`[(SCM-8584)](https://reglobe.atlassian.net/browse/SCM-8584)
+* `QC - Data Wipe - Serial Number/Imei Validation flow`[(SCM-9042)](https://reglobe.atlassian.net/browse/SCM-9042)
 
 
 # v4.0.3+69 (27-02-2025)

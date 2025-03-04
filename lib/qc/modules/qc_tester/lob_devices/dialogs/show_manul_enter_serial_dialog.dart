@@ -1,7 +1,13 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 
-void showManualEnterSerialNo(BuildContext context, {required Function(String serialNo) onSerialNoEntered}) {
+void showManualEnterSerialNo(
+  BuildContext context, {
+  required Function(String serialNo) onSerialNoEntered,
+  String? title,
+  String? subTitle,
+  String? hintText,
+}) {
   String serialNo = '';
 
   showDialog(
@@ -9,19 +15,20 @@ void showManualEnterSerialNo(BuildContext context, {required Function(String ser
     builder: (_) {
       var theme = Theme.of(context);
       return AlertDialog(
-        title: CshTextNew.h3("Enter Serial No"),
+        title: CshTextNew.h3(title ?? "Enter Serial No"),
         contentPadding: EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, Dimens.space_8),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Need an Image for approval",
-              style: theme.primaryTextTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
-            ),
+            if (!Validator.isNullOrEmpty(subTitle))
+              Text(
+                subTitle!,
+                style: theme.primaryTextTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
+              ),
             const SizedBox(height: Dimens.space_8),
             CshTextFormField(
-              hintText: 'Enter Serial No',
+              hintText: hintText ?? 'Enter Serial No',
               keyboardType: TextInputType.text,
               onChanged: (value) {
                 serialNo = value;
@@ -40,7 +47,7 @@ void showManualEnterSerialNo(BuildContext context, {required Function(String ser
             },
             secondBtnClick: () {
               if (serialNo.isEmpty) {
-                CshSnackBar.error(context: context, message: "Please enter serial no");
+                CshSnackBar.error(context: context, message: "Please ${title ?? "Enter Serial No"}");
                 return;
               }
               onSerialNoEntered(serialNo);

@@ -16,6 +16,10 @@ class L10n extends BaseL10n {
 
   String get scanAnother => Intl.message('Scan Another', name: 'scanAnother');
 
+  String get updateImei => Intl.message('Update IMEI', name: 'updateImei');
+
+  String get updateSerial => Intl.message('Update Serial No', name: 'updateSerial');
+
   String get scanned => Intl.message('Scanned', name: 'scanned');
 
   String get goBack => Intl.message('Go Back', name: 'goBack');

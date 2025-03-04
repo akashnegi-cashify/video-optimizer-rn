@@ -207,6 +207,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                 onPressed: () {
                   showManualEnterSerialNo(
                     context,
+                    subTitle: "Need an Image for approval",
                     onSerialNoEntered: (serialNo) {
                       Navigator.pop(context); // close dialog
                       if (widget.deviceDetails?.isDeviceImeiApproved == true &&
@@ -217,6 +218,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                       } else {
                         _onReportMismatch([serialNo],
                             isImei2Available: false,
+                            isSerialNo: true,
                             onComplete: () => Navigator.pop(context)); // move to previous screen,
                       }
                     },
@@ -456,13 +458,16 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     return false;
   }
 
-  _onReportMismatch(List<String> scannedList, {bool? isImei2Available, VoidCallback? onComplete}) {
+  _onReportMismatch(List<String> scannedList,
+      {bool? isImei2Available, VoidCallback? onComplete, bool isSerialNo = false}) {
     var provider = LobDeviceScannerProvider.of(context, listen: false);
     ImagePicker platform = ImagePicker();
     platform.pickImage(source: ImageSource.camera, requestFullMetadata: false).then((value) async {
       if (value != null) {
         CshLoading().showLoading(context);
-        provider.reportMismatch(value.path, scannedList, isImei2Available: isImei2Available).then((value) {
+        provider
+            .reportMismatch(value.path, scannedList, isImei2Available: isImei2Available, isSerialNo: isSerialNo)
+            .then((value) {
           CshLoading().hideLoading(context);
           CshSnackBar.success(context: context, message: "Mismatch reported successfully");
           if (onComplete != null) {
@@ -516,7 +521,9 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
         onReportMismatch: (scannedSerialNo, systemSerialNo) {
           Navigator.pop(context); // close dialog
           _onReportMismatch([scannedSerialNo],
-              isImei2Available: false, onComplete: () => Navigator.pop(context)); // move to previous screen,
+              isSerialNo: true,
+              isImei2Available: false,
+              onComplete: () => Navigator.pop(context)); // move to previous screen,
         },
       );
     }
