@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v4.0.4+70 (XX-03-2025)
+
+### Feature:
+
+* `QC/TRC - Serial Number Validation for laptops`[(SCM-8584)](https://reglobe.atlassian.net/browse/SCM-8584)
+
+
 # v4.0.3+69 (27-02-2025)
 
 ### Feature:

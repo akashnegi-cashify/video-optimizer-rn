@@ -1,6 +1,5 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import '../l10n.dart';
 
 void showManualEnterSerialNo(BuildContext context, {required Function(String serialNo) onSerialNoEntered}) {
   String serialNo = '';
@@ -13,6 +12,8 @@ void showManualEnterSerialNo(BuildContext context, {required Function(String ser
         title: CshTextNew.h3("Enter Serial No"),
         contentPadding: EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, Dimens.space_8),
         content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Need an Image for approval",

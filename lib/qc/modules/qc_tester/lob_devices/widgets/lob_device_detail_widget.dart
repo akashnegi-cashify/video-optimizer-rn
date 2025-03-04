@@ -198,7 +198,8 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                   !_isSerialVerified ? () => _openSerialImeiScanner(readerType: ReaderType.serialNumberReader) : null,
             ),
           ],
-          if (_isShowManualEnterSerialButton && _selectedCategory?.categoryKey == DeviceCategoryIdType.laptop.value) ...[
+          if (_isShowManualEnterSerialButton &&
+              _selectedCategory?.categoryKey == DeviceCategoryIdType.laptop.value) ...[
             const SizedBox(height: Dimens.space_24),
             CshMediumButton(
                 text: l10n.enterSerialManually,
@@ -208,7 +209,16 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
                     context,
                     onSerialNoEntered: (serialNo) {
                       Navigator.pop(context); // close dialog
-                      _reportSerialNoMisMatched(serialNo);
+                      if (widget.deviceDetails?.isDeviceImeiApproved == true &&
+                          widget.deviceDetails?.serialNo == serialNo) {
+                        setState(() {
+                          _isSerialVerified = true;
+                        });
+                      } else {
+                        _onReportMismatch([serialNo],
+                            isImei2Available: false,
+                            onComplete: () => Navigator.pop(context)); // move to previous screen,
+                      }
                     },
                   );
                 }),
@@ -505,21 +515,10 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
         },
         onReportMismatch: (scannedSerialNo, systemSerialNo) {
           Navigator.pop(context); // close dialog
-          _reportSerialNoMisMatched(scannedSerialNo);
+          _onReportMismatch([scannedSerialNo],
+              isImei2Available: false, onComplete: () => Navigator.pop(context)); // move to previous screen,
         },
       );
     }
-  }
-
-  _reportSerialNoMisMatched(String serialNo) {
-    var provider = LobDeviceScannerProvider.of(context, listen: false);
-    ImagePicker platform = ImagePicker();
-    platform.pickImage(source: ImageSource.camera, requestFullMetadata: false).then(
-      (value) {
-        if (value != null) {
-          provider.reportSerialNoMismatched(value.path, serialNo);
-        }
-      },
-    );
   }
 }
