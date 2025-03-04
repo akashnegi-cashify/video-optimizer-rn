@@ -224,7 +224,10 @@ dependency_overrides:
   #    path: ../flutter_admin_ui/components
   #
   core_widgets:
-    path: ../flutter_admin_ui/core_widgets
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: main
+      path: core_widgets
   #
   #  calculator_ui:
   #    path: ../flutter_admin_ui/calculator_ui
