@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v4.0.4+70 (07-03-2025)
+
+### Hot fix:
+
+* `QC - Image capturing module`[(SCM-9167)](https://reglobe.atlassian.net/browse/SCM-9167)
+
+
 # v4.0.3+69 (27-02-2025)
 
 ### Feature:

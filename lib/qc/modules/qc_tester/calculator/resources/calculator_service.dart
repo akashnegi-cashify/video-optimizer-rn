@@ -69,7 +69,7 @@ abstract class CalculatorService {
   Stream<DeviceMediaResponse?> getDeviceMedia(String? deviceBarcode, {int? categoryId}) {
     Map<String, List<String>> params = {
       "qrCode": [deviceBarcode.toString()],
-      "cid": [categoryId.toString()]
+      if (categoryId != null) "cid": [categoryId.toString()]
     };
 
     return service.get("/v2/device/media", DeviceMediaResponse.fromJson, params: params);
