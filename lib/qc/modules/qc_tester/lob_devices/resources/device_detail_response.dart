@@ -58,6 +58,9 @@ class CategoryData {
   @JsonKey(name: "id")
   int? id;
 
+  @JsonKey(name: "apiName")
+  String? categoryKey;
+
   @JsonKey(name: "name")
   String? name;
 
@@ -67,7 +70,7 @@ class CategoryData {
   @JsonKey(name: "allowImei")
   bool? allowImeiSearch;
 
-  CategoryData(this.id, this.name, this.allowVariant, this.allowImeiSearch);
+  CategoryData(this.id, this.name, this.allowVariant, this.allowImeiSearch, this.categoryKey);
 
   static CategoryData fromJson(Map<String, dynamic> json) => _$CategoryDataFromJson(json);
 

@@ -8,9 +8,9 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/channel/native_communication.dart';
 import 'package:flutter_trc/src/common/utils/file_util.dart';
-import 'package:video_compress/video_compress.dart';
+import 'package:flutter_trc/src/common/video_compression_mixin.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoRecorderWidget extends StatefulWidget {
   final bool isCompressionEnabled;
@@ -21,7 +21,7 @@ class VideoRecorderWidget extends StatefulWidget {
   VideoRecorderWidgetState createState() => VideoRecorderWidgetState();
 }
 
-class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
+class VideoRecorderWidgetState extends State<VideoRecorderWidget> with VideoCompressionMixin {
   bool _isLoading = true;
   late CameraController _cameraController;
 
@@ -94,11 +94,11 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
       var completer = Completer<File>();
 
       CshLoading().showLoading(context);
-      _getCompressedFile(file.path).then((value) {
+      _getCompressedFile(file.path).then((compressedFile) {
         CshLoading().hideLoading(context);
-        if (value?.file != null) {
-          value!.file!.logFileSize();
-          completer.complete(value.file);
+        if (compressedFile != null) {
+          compressedFile.logFileSize();
+          completer.complete(compressedFile);
         }
       });
 
@@ -108,8 +108,22 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
     }
   }
 
-  Future<MediaInfo?> _getCompressedFile(String filePath) async {
-    return await NativeCommunication.compressVideo(filePath, includeAudio: false);
+  Future<File?> _getCompressedFile(String filePath) async {
+    var completer = Completer<File?>();
+    VideoPlayerController controller = VideoPlayerController.file(File(filePath));
+    await controller.initialize();
+    String videoConfig =
+        '{"videoCodec":"libx264","videoPreset":"superfast","crf":30,"fontSize":24,"fontColor":"white","borderColor":"black","addTimeStamp":true,"isRemoveAudio":true}';
+    compressVideo(filePath, controller.value.duration.inSeconds, config: videoConfig).then((compressedVideoPath) {
+      completer.complete(File(compressedVideoPath));
+    }, onError: (error) async {
+      var file = File(filePath);
+      if (file.path.contains(".temp")) {
+        file = await _getRenamedFile(filePath);
+      }
+      completer.complete(file);
+    });
+    return completer.future;
   }
 
   _startVideoRecording() async {
@@ -164,6 +178,14 @@ class VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         ),
       );
     }
+  }
+
+  Future<File> _getRenamedFile(String path) async {
+    var file = File(path);
+    String oldExtension = path.split('.').last;
+    String newPath = path.replaceAll(oldExtension, "mp4");
+    file = await file.rename(newPath);
+    return file;
   }
 
   Future<void> disposeCamera() async {

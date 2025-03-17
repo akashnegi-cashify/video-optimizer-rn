@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
 import 'package:flutter_trc/src/common/widgets/loading_dialog_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
-import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
 import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/widgets/general_image_upload_card.dart';
 import 'package:image_picker/image_picker.dart';

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/rms/modules/receive_device/barcode_types.dart';
 import 'package:flutter_trc/rms/modules/receive_device/resources/receive_device_service.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
-import 'package:flutter_trc/src/utils/media_upload/providers/media_upload_service_init_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/sso_image_optimiser_service.dart';
 import 'package:provider/provider.dart';

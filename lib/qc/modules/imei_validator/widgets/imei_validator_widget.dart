@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/imei_validator/resources/imei_qrcode_response.dart';
 import 'package:flutter_trc/qc/modules/imei_validator/resources/imei_validator_service.dart';
 import 'package:flutter_trc/src/common/widgets/imei_scanner.dart';
+import 'package:imei_serial_reader/imei_serial_reader.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../l10n.dart';
@@ -66,7 +67,8 @@ class _ImeiValidatorWidgetState extends State<ImeiValidatorWidget> {
     Navigator.push(context, MaterialPageRoute(
       builder: (_) {
         return ImeiScanner(
-          onProceed: (List<String>? scannedList) {
+          config: ParserConfig(readerType: ReaderType.imeiReader),
+          onProceed: (List<String>? scannedList, {CameraDataModel? imageRawData}) {
             throttleController.add(scannedList);
           },
         );

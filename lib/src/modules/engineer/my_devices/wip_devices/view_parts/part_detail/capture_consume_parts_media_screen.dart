@@ -4,7 +4,6 @@ import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/retrieved_part_reason_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/providers/capture_consume_parts_media_provider.dart';
-import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
 import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/widgets/general_image_upload_card.dart';
 import 'package:provider/provider.dart';
@@ -243,7 +242,6 @@ class _CaptureMediaModuleState extends State<_CaptureMediaModule> {
                     cardHeight: 100,
                     cardWidth: 100,
                     imageUrl: item,
-
                     onMediaUploaded: (url) {
                       setState(() {
                         _imageList[index] = url!;

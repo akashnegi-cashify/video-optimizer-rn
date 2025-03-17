@@ -149,16 +149,21 @@ abstract class CalculatorService {
     return service.get("/manual-test/scan-device/$deviceBarcode", DeviceDetailResponse.fromJson);
   }
 
-  Stream<BaseActionResponse?> reportMismatch(List<String?>? scannedImeiList, String deviceBarcode, String imeiImageUrl,
-      {String? timeoutReason, bool? isImei2Available, bool isAutoApproved = false}) {
+  Stream<BaseActionResponse?> reportMismatch(List<String?>? scannedList, String deviceBarcode, String imeiImageUrl,
+      {String? timeoutReason, bool? isImei2Available, bool isAutoApproved = false, bool isSerialNo = false}) {
     var req = {
-      "imei": scannedImeiList,
       "qr": deviceBarcode,
       "image_url": imeiImageUrl,
       "rm": timeoutReason,
       "iaa": isAutoApproved,
       if (isImei2Available != null) "imna": isImei2Available,
     };
+
+    if (isSerialNo) {
+      req["sno"] = scannedList?.first;
+    } else {
+      req["imei"] = scannedList;
+    }
 
     return service.post("/device/mismatch/report/save", BaseActionResponse.fromJson, body: jsonEncode(req));
   }

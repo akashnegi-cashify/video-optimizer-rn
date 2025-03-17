@@ -74,13 +74,14 @@ class LobDeviceScannerProvider extends CalculatorServiceInitProvider {
     return deviceDetails?.categoryList;
   }
 
-  Future<void> reportMismatch(String imagePath, List<String> scannedImeiList, {bool? isImei2Available}) async {
+  Future<void> reportMismatch(String imagePath, List<String> scannedImeiList,
+      {bool? isImei2Available, bool isSerialNo = false}) async {
     var completer = Completer<void>();
     try {
       String imageUrl = await _getCompressedImageUrl(imagePath);
       service
           .reportMismatch(scannedImeiList, deviceBarcode!, imageUrl,
-              timeoutReason: timeoutSelectedReason?.name, isImei2Available: isImei2Available)
+              timeoutReason: timeoutSelectedReason?.name, isImei2Available: isImei2Available, isSerialNo: isSerialNo)
           .listen((event) {
         timeoutSelectedReason = null;
         completer.complete();

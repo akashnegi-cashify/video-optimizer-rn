@@ -12,11 +12,15 @@ class L10n extends BaseL10n {
 
   String get imeiMismatched => Intl.message("Imei Mismatched", locale: localName, name: "imeiMismatched");
 
+  String get serialNoMismatched => Intl.message("Serial No Mismatched", locale: localName, name: "serialNoMismatched");
+
   String get manualSearch => Intl.message("Manual Search", locale: localName, name: "manualSearch");
 
   String get search => Intl.message("Search", locale: localName, name: "search");
 
   String get validateImei => Intl.message("Validate Imei", locale: localName, name: "validateImei");
+
+  String get validateSerial => Intl.message("Validate Serial No", locale: localName, name: "validateSerial");
 
   String get serialNo => Intl.message("Serial No", locale: localName, name: "serialNo");
 
@@ -32,7 +36,11 @@ class L10n extends BaseL10n {
 
   String get deviceImei => Intl.message("Device Imei", locale: localName, name: "deviceImei");
 
+  String get deviceSerialNo => Intl.message("Device Serial No", locale: localName, name: "deviceSerialNo");
+
   String get scannedImei => Intl.message("Scanned Imei", locale: localName, name: "scannedImei");
+
+  String get scannedSerialNo => Intl.message("Scanned Serial No", locale: localName, name: "scannedSerialNo");
 
   String get reScan => Intl.message("Re Scan", locale: localName, name: "reScan");
 
@@ -44,6 +52,8 @@ class L10n extends BaseL10n {
 
   String get imeiMismatchDescription => Intl.message("Please capture Image of IMEI to report mismatch", locale: localName, name: "imeiMismatchDescription");
 
+  String get serialMismatchDescription => Intl.message("Please capture Image of Serial No to report mismatch", locale: localName, name: "serialMismatchDescription");
+
   String get imeiUpdateDescription => Intl.message("Please update the missing IMEI carefully and capture image.", locale: localName, name: "imeiUpdateDescription");
 
   String get matchedImei => Intl.message("Matched Imei", locale: localName, name: "matchedImei");
@@ -53,6 +63,8 @@ class L10n extends BaseL10n {
   String get update => Intl.message("Update", locale: localName, name: "update");
 
   String get brand => Intl.message("Brand", locale: localName, name: "brand");
+
+  String get enterSerialManually => Intl.message("Enter Serial No Manually", locale: localName, name: "enterSerialManually");
 
   String get updateCategoryIfNeeded =>
       Intl.message("Update Category If needed", locale: localName, name: "updateCategoryIfNeeded");

@@ -13,7 +13,7 @@ import 'package:flutter_trc/src/modules/engineer/providers/retrieved_part_list_p
 import 'package:flutter_trc/src/utils/image_assest_helper.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
-import 'package:flutter_trc/src/utils/media_upload/models/image_upload_service_type_enum.dart';
+import 'package:flutter_trc/src/utils/media_upload/models/media_upload_service_type_enum.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
@@ -196,7 +196,7 @@ class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartList
       CshLoading().showLoading(context);
       ImageUtil.compressImage(File(xFile.path)).then((compressedFile) {
         String fileName = path.basename(compressedFile.path);
-        MediaUploadUtil(service: ImageUploadServiceType.trc.service)
+        MediaUploadUtil(service: MediaUploadServiceType.trc.service)
             .uploadMediaWithType(mediaFile: compressedFile, fileName: fileName)
             .then((value) {
           CshLoading().hideLoading(context);

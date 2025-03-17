@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:localization/commands/printer.dart';
-
 void main(List<String> arg) {
   if (arg.isEmpty) {
     print("Pass arguments to read git version, example - flutter_admin_ui or flutter_packages");
@@ -10,10 +8,9 @@ void main(List<String> arg) {
 
   final expression = arg[0];
 
-
   // Read the file line by line and print the previous two lines, the matching line, and the next two lines
   var lines = File('./pubspec.yaml').readAsLinesSync();
-  println("Current version available are :-");
+  print("Current version available are :-");
   for (var i = 0; i < lines.length; i++) {
     if (lines[i].contains(expression)) {
       var previousLine2 = i >= 2 ? lines[i - 2] : null;
@@ -26,12 +23,11 @@ void main(List<String> arg) {
       print(previousLine1?.trim());
       print(matchingLine.trim());
       print(nextLine1?.trim());
-      println(nextLine2?.trim());
-      println("");
+      print(nextLine2?.trim());
+      print("");
       // print("\n");
     }
   }
-
 
   // /url: https:\/\/github.com\/reglobe\/flutter_admin_ui.git\n\s*ref:\sv[0-9]*\.[0-9]*\.[0-9]*\n\s*path:\s.*/gm
   // RegExp exp = RegExp(

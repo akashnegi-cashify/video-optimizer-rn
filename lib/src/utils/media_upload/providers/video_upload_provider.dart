@@ -4,18 +4,20 @@ import 'dart:io';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/channel/native_communication.dart';
+import 'package:flutter_trc/src/common/video_compression_mixin.dart';
 import 'package:flutter_trc/src/utils/connectivity_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/providers/media_upload_service_init_provider.dart';
 import 'package:flutter_trc/src/utils/media_upload/resource/media_content_type.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../media_optimiser_utils.dart';
 
-class VideoUploadProvider extends MediaUploadServiceInitProvider {
+class VideoUploadProvider extends MediaUploadServiceInitProvider with VideoCompressionMixin {
+
   bool isDataLoading = false;
   String? videoS3Url;
   String? _videoThumbnailImagePath;
@@ -37,9 +39,9 @@ class VideoUploadProvider extends MediaUploadServiceInitProvider {
     var completer = Completer<(String, String?)>();
 
     if (isCompressed) {
-      var mediaInfo = await NativeCommunication.compressVideo(file.path, includeAudio: false);
-      if (mediaInfo?.file != null) {
-        file = mediaInfo!.file!;
+      var compressedFile = await _getCompressedFile(file.path);
+      if (compressedFile != null) {
+        file = compressedFile;
       }
     }
 
@@ -63,6 +65,24 @@ class VideoUploadProvider extends MediaUploadServiceInitProvider {
     return completer.future;
   }
 
+  Future<File?> _getCompressedFile(String filePath) async {
+    var completer = Completer<File?>();
+    VideoPlayerController controller = VideoPlayerController.file(File(filePath));
+    await controller.initialize();
+    String videoConfig =
+        '{"videoCodec":"libx264","videoPreset":"superfast","crf":30,"fontSize":24,"fontColor":"white","borderColor":"black","addTimeStamp":true,"isRemoveAudio":true}';
+    compressVideo(filePath, controller.value.duration.inSeconds, config: videoConfig).then((compressedVideoPath) {
+      completer.complete(File(compressedVideoPath));
+    }, onError: (error) async {
+      var file = File(filePath);
+      if (file.path.contains(".temp")) {
+        file = await _getRenamedFile(filePath);
+      }
+      completer.complete(file);
+    });
+    return completer.future;
+  }
+
   Future<String?> _getVideoThumbnail(String filePath) async {
     return await VideoThumbnail.thumbnailFile(
       video: filePath,
@@ -72,5 +92,13 @@ class VideoUploadProvider extends MediaUploadServiceInitProvider {
       // specify the height of the thumbnail, let the width auto-scaled to keep the source aspect ratio
       quality: 100,
     );
+  }
+
+  Future<File> _getRenamedFile(String path) async {
+    var file = File(path);
+    String oldExtension = path.split('.').last;
+    String newPath = path.replaceAll(oldExtension, "mp4");
+    file = await file.rename(newPath);
+    return file;
   }
 }

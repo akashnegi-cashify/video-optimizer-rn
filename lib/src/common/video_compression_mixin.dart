@@ -29,13 +29,13 @@ extension RetryFuture<T> on Future<T> {
 mixin VideoCompressionMixin {
   final StreamController<int> _fileCompressProgressStream = StreamController.broadcast();
 
-  Future<String> compressVideo(String filePath, int videoTimeInSec) {
+  Future<String> compressVideo(String filePath, int videoTimeInSec, {String? config}) {
     var completer = Completer<String>();
     void progress(int value) {
       _fileCompressProgressStream.add(value);
     }
 
-    _withRetry(() => _compressVideo(filePath, videoTimeInSec, progress), 3).then((outputPath) {
+    _withRetry(() => _compressVideo(filePath, videoTimeInSec, progress, config), 3).then((outputPath) {
       if (outputPath != null) {
         completer.complete(outputPath);
       } else {
@@ -90,7 +90,7 @@ mixin VideoCompressionMixin {
         String? outputPath = await callableFunction();
         return Future.value(outputPath);
       } catch (error) {
-        if (attempt >= (maxRetry -1)) {
+        if (attempt >= (maxRetry - 1)) {
           return Future.error(error.toString());
         }
         await Future.delayed(duration);
@@ -100,7 +100,8 @@ mixin VideoCompressionMixin {
     return Future.error("error");
   }
 
-  Future<String?> _compressVideo(String filePath, int videoTimeInSec, ValueChanged<int> progress) {
-    return VideoUtil.compressVideo(filePath, videoTimeInSec, onProgress: progress);
+  Future<String?> _compressVideo(
+      String filePath, int videoTimeInSec, ValueChanged<int> progress, String? compressConfig) {
+    return VideoUtil.compressVideo(filePath, videoTimeInSec, onProgress: progress, configString: compressConfig);
   }
 }

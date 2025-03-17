@@ -12,6 +12,7 @@ class AppRemoteConfig {
   static const KEY_VIDEO_OPTIMIZER_CONFIG = "key_video_optimizer_config";
   static const KEY_VIDEO_OPTIMIZER_CONFIG_D2C = "key_video_optimizer_config_d2c";
   static const KEY_IS_RUN_IMEI_VALIDATOR_FLOW = "key_is_run_imei_validator_flow";
+  static const KEY_IS_RUN_SERIAL_VALIDATOR_FLOW = "key_is_run_serial_validator_flow";
   static const KEY_IMEI_READER_TIMEOUT_SEC = "key_imei_reader_timeout_sec";
 
   static const Map<String, dynamic> DEFAULT_CONFIG = {
@@ -19,6 +20,7 @@ class AppRemoteConfig {
     KEY_IS_ENABLE_RULE_EXE_TEST_MODE: true,
     KEY_VIDEO_RECORD_DURATION_IN_SEC: 1200,
     KEY_IS_RUN_IMEI_VALIDATOR_FLOW: true,
+    KEY_IS_RUN_SERIAL_VALIDATOR_FLOW: true,
     KEY_IMEI_READER_TIMEOUT_SEC: 5,
     KEY_VIDEO_OPTIMIZER_CONFIG:
         '{"videoCodec":"libx264","videoPreset":"superfast","crf":30,"fontSize":24,"fontColor":"white","borderColor":"black","addTimeStamp":true}',
