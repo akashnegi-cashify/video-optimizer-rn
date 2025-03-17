@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:core_widgets/core_widgets.dart' hide ImageUtil;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/select_category_bottom_sheet.dart';
@@ -329,7 +328,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
       builder: (_) {
         return ImeiScanner(
           config: ParserConfig(readerType: readerType),
-          onProceed: (List<String>? scannedList, {CameraImage? imageRawData}) {
+          onProceed: (List<String>? scannedList, {CameraDataModel? imageRawData}) {
             if (!isBusy) {
               isBusy = true;
               if (readerType == ReaderType.imeiReader) {

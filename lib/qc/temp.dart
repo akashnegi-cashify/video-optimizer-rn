@@ -42,7 +42,7 @@ class _TempState extends State<Temp> {
                           // imageDetector: ImageLabelingDetector(),
                           isExecuteImageDetector: true,
                           objectsToDetect: ["mobile", "telephone"]),
-                      onProceed: (List<String>? scannedList, {CameraImage? imageRawData}) {
+                      onProceed: (List<String>? scannedList, {CameraDataModel? imageRawData}) {
                         if (!isBusy) {
                           isBusy = true;
                           Navigator.pop(context);
@@ -52,7 +52,7 @@ class _TempState extends State<Temp> {
                               Logger.debug('mydebug-----_TempState.build', [scannedList, imageRawData]);
                               setState(() {
                                 isBusy = false;
-                                cameraImage = imageRawData;
+                                cameraImage = imageRawData?.imageRawData;
                               });
                             },
                           );

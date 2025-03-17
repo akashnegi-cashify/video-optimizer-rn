@@ -1077,14 +1077,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.0"
-  google_mlkit_image_labeling:
-    dependency: transitive
-    description:
-      name: google_mlkit_image_labeling
-      sha256: "9251c91c9281378a4716bb96dc0d3c9f54c0f809577aaba47ef24c52941dc859"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.13.0"
   graphs:
     dependency: transitive
     description:
@@ -1218,7 +1210,7 @@ packages:
     description:
       path: imei_serial_reader
       ref: main
-      resolved-ref: f7658d0e94dc92e902f06dc893f7e005066e9840
+      resolved-ref: f14db198cc19adda3baa3888de591bdc0129afb5
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "2.1.4"

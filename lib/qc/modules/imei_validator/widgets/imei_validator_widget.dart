@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:camera/camera.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +68,7 @@ class _ImeiValidatorWidgetState extends State<ImeiValidatorWidget> {
       builder: (_) {
         return ImeiScanner(
           config: ParserConfig(readerType: ReaderType.imeiReader),
-          onProceed: (List<String>? scannedList, {CameraImage? imageRawData}) {
+          onProceed: (List<String>? scannedList, {CameraDataModel? imageRawData}) {
             throttleController.add(scannedList);
           },
         );
