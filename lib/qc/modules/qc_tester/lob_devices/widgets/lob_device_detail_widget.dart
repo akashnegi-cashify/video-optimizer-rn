@@ -510,7 +510,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     } else {
       showMismatchSerialDialog(
         context,
-        scannedList!.first,
+        scannedList!.first.toUpperCase(),
         systemSerialNo: widget.deviceDetails!.serialNo!,
         onReScan: () {
           Navigator.pop(context); // close dialog
