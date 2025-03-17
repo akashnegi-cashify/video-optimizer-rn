@@ -295,7 +295,6 @@ flutter:
     - assets/stage/
     - assets/beta/
     - assets/prodTest/
-    - assets/ml/
     - assets/
 
   fonts:
