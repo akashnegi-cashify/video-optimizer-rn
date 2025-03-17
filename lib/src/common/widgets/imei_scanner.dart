@@ -10,7 +10,7 @@ import 'package:imei_serial_reader/parser/parser_config.dart';
 import 'package:provider/provider.dart';
 
 class ImeiScanner extends StatefulWidget {
-  final Function(List<String>? scannedList)? onProceed;
+  final Function(List<String>? scannedList, {CameraImage? imageRawData})? onProceed;
   final VoidCallback? onTimeOut;
   final ParserConfig config;
 
@@ -48,7 +48,7 @@ class _ImeiScannerState extends State<ImeiScanner> {
               doneButtonText: 'Done',
             ),
             onDoneCallback: (List<String>? scannedList, {CameraImage? imageRawData}) {
-              widget.onProceed?.call(scannedList);
+              widget.onProceed?.call(scannedList, imageRawData: imageRawData);
             },
             parserConfig: widget.config,
           ),

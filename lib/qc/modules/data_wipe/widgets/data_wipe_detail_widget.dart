@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/dialog/show_imei_status_dialog.dart';
@@ -121,7 +122,7 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
       builder: (_) {
         return ImeiScanner(
           config: ParserConfig(readerType: readerType),
-          onProceed: (List<String>? scannedList) {
+          onProceed: (List<String>? scannedList, {CameraImage? imageRawData}) {
             if (!isBusy) {
               isBusy = true;
               Navigator.pop(context); // close Imei Scanner
@@ -160,7 +161,11 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
         },
         onReport: () {
           Navigator.pop(context); // close Imei Status Dialog
-          _reportMisMatched(imei1: scannedList?.first, imei2: scannedList?.last);
+          if ((scannedList?.length ?? 0) > 1) {
+            _reportMisMatched(imei1: scannedList?.first, imei2: scannedList?.last);
+          } else {
+            _reportMisMatched(imei1: scannedList?.first);
+          }
         },
       );
     } else {

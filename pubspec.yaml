@@ -149,6 +149,8 @@ dependencies:
   get_storage: ^2.1.1
   local_auth: ^2.3.0
   app_settings: 5.1.1
+#  image_labeling_detector:
+#    path: ../flutter_admin_ui/image_labeling_detector
 
 flutter_launcher_icons:
   android: false
