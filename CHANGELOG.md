@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v4.1.1+72 (XX-04-2025)
+
+### Improvements:
+
+* `QC/TRC - Testing - Configure Image Capturing process with backend`
+
+
 # v4.1.0+71 (17-03-2025)
 
 ### Feature:

@@ -66,7 +66,8 @@ abstract class CalculatorService {
     return service.get("/device/color", DeviceColorResponse.fromJson, params: params);
   }
 
-  Stream<DeviceMediaResponse?> getDeviceMedia(String? deviceBarcode, {int? categoryId}) {
+  Stream<DeviceMediaResponse?> getDeviceMedia(String? deviceBarcode, {int? categoryId, MyQuoteRequestData? quoteRequest}) {
+    // TODO: need to verify api from backend
     Map<String, List<String>> params = {
       "qrCode": [deviceBarcode.toString()],
       if (categoryId != null) "cid": [categoryId.toString()]
