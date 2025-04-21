@@ -9,6 +9,8 @@ part of 'part_selection_qc_component.dart';
 PartSelectionQCCompParam fromMap(Map<String, dynamic> map) {
   PartSelectionQCCompParam model = PartSelectionQCCompParam(
     scannedBarcode: map["sb"],
+    remarks: map["r"],
+    pQuoteId: map["pqId"],
   );
   return model;
 }
@@ -18,6 +20,8 @@ Widget paramBuilder(
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "sb": provider.data["sb"],
+      "r": provider.data["r"],
+      "pqId": provider.data["pqId"],
     },
     builder: (context, data, child) {
       PartSelectionQCCompParam model = fromMap(data);
@@ -28,8 +32,10 @@ Widget paramBuilder(
 
 bool isValid(PartSelectionQCCompParam model) {
   var scannedBarcode = model.scannedBarcode;
+  var remarks = model.remarks;
+  var pQuoteId = model.pQuoteId;
 
-  return scannedBarcode != null;
+  return scannedBarcode != null && remarks != null && pQuoteId != null;
 }
 
 dynamic schema() => {
@@ -40,7 +46,9 @@ dynamic schema() => {
       "isActive": true,
       "title": "Part Selection Q C Component",
       "cpm": [
-        {"key": "sb", "value": null}
+        {"key": "sb", "value": null},
+        {"key": "r", "value": null},
+        {"key": "pqId", "value": null}
       ],
       "configJson": {
         "type": "list",

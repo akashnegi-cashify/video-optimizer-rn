@@ -18,12 +18,14 @@ class DisputedImageCaptureBarcodeScannerArguments extends BaseArguments {
   final String? header;
   final String? hintText;
   List<BarcodeFormat>? scanFormatList;
+  final Widget? bottomView;
 
   DisputedImageCaptureBarcodeScannerArguments({
     this.onScanDetected,
     this.header,
     this.hintText,
     this.scanFormatList,
+    this.bottomView,
   }) : super(DisputedImageCaptureBarcodeScanner.pageKey);
 
   Map<String, dynamic> toJson() {
@@ -32,6 +34,7 @@ class DisputedImageCaptureBarcodeScannerArguments extends BaseArguments {
     data[DisputedImageCaptureScannerParamKeys.hintText.value] = hintText;
     data[DisputedImageCaptureScannerParamKeys.header.value] = header;
     data[DisputedImageCaptureScannerParamKeys.scanFormats.value] = scanFormatList;
+    data[DisputedImageCaptureScannerParamKeys.bottomView.value] = bottomView;
     return data;
   }
 }

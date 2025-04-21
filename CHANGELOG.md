@@ -4,7 +4,8 @@
 
 ### Improvements:
 
-* `QC/TRC - Testing - Configure Image Capturing process with backend`
+* `QC/TRC - Testing - Configure Image Capturing process with backend` [(SCM-9418)](https://reglobe.atlassian.net/browse/SCM-9418)
+* `QC - ELSS - CDP stress test in ELSS` [(SCM-9423)](https://reglobe.atlassian.net/browse/SCM-9423)
 
 
 # v4.1.0+71 (17-03-2025)

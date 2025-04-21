@@ -123,8 +123,15 @@ class ElssService {
     return QcService().get("/device/elss/product/part-list", PartDeviceListResponse.fromJson, params: paramData);
   }
 
-  static Stream<ElssDeviceDetailsResponse?> getDeviceDetailsWithParts(String scannedBarcode) {
-    return QcService().get("/device/elss/$scannedBarcode", ElssDeviceDetailsResponse.fromJson);
+  static Stream<ElssDeviceDetailsResponse?> getDeviceDetailsWithParts(String scannedBarcode,
+      {String? pQuoteId, String? remarks}) {
+    Map<String, String?> req = {
+      "br": scannedBarcode,
+      if (!Validator.isNullOrEmpty(pQuoteId)) "pqId": pQuoteId!,
+      if (!Validator.isNullOrEmpty(remarks)) "r": remarks!,
+    };
+    // TODO: need to check with backend team for the params
+    return QcService().post("/device/elss", ElssDeviceDetailsResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<PartsElssActionResponse?> getElssActionForParts() {
