@@ -126,12 +126,11 @@ class ElssService {
   static Stream<ElssDeviceDetailsResponse?> getDeviceDetailsWithParts(String scannedBarcode,
       {String? pQuoteId, String? remarks}) {
     Map<String, String?> req = {
-      "br": scannedBarcode,
-      if (!Validator.isNullOrEmpty(pQuoteId)) "pqId": pQuoteId!,
+      "qr": scannedBarcode,
+      if (!Validator.isNullOrEmpty(pQuoteId)) "sid": pQuoteId!,
       if (!Validator.isNullOrEmpty(remarks)) "r": remarks!,
     };
-    // TODO: need to check with backend team for the params
-    return QcService().post("/device/elss", ElssDeviceDetailsResponse.fromJson, body: jsonEncode(req));
+    return QcService().post("/device/elss/scan", ElssDeviceDetailsResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<PartsElssActionResponse?> getElssActionForParts() {

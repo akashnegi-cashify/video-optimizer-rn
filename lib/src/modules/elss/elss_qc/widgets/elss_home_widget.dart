@@ -154,10 +154,10 @@ class ElssHomeWidget extends StatelessWidget {
     showCshBottomSheet(
       context: context,
       child: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+        padding: EdgeInsets.all(Dimens.space_16),
         child: StatefulBuilder(builder: (innerContext, setState) {
           return Padding(
-            padding: const EdgeInsets.all(Dimens.space_16),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
