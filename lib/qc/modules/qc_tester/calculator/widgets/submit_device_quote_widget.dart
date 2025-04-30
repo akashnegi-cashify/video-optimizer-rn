@@ -77,7 +77,7 @@ class _SubmitDeviceQuoteWidgetState extends State<SubmitDeviceQuoteWidgetBody> i
     /// This condition should be the first one to check
     if (Validator.isTrue(provider.isCaptureQcImages)) {
       actionButtons = CshBigButton(
-        text: "Capture QC Images",
+        text: "Capture Failed Images",
         onPressed: () {
           Navigator.push(
             context,
