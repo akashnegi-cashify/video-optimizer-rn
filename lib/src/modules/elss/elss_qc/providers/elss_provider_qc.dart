@@ -24,8 +24,8 @@ class ELssProviderQc extends CshChangeNotifier {
 
   DropDownItem? get selectedRubbingOrGlassChangeValue => _selectedRubbingOrGlassChangeValue;
 
-  ELssProviderQc(String barcode) {
-    _getDeviceDetailsAndParts(barcode);
+  ELssProviderQc(String barcode, {String? pQuoteId, String? remarks}) {
+    _getDeviceDetailsAndParts(barcode, pQuoteId, remarks);
     _generateRubbingOrGlassChangeDropdown();
   }
 
@@ -34,9 +34,9 @@ class ELssProviderQc extends CshChangeNotifier {
   List<ElssPart> elssPartList = [];
   String detailsApiErrorMessage = "";
 
-  _getDeviceDetailsAndParts(String scannedBarcode) {
+  _getDeviceDetailsAndParts(String scannedBarcode, String? pQuoteId, String? remarks) {
     elssPartList.clear();
-    ElssService.getDeviceDetailsWithParts(scannedBarcode).listen((event) {
+    ElssService.getDeviceDetailsWithParts(scannedBarcode, pQuoteId: pQuoteId, remarks: remarks).listen((event) {
       if (event != null) {
         elssDeviceDetails = event;
         if (event.deviceDetailsData?.rubbingOrGlassChange != null) {

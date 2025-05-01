@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../elss_trc/screens/part_selection_screen_trc.dart';
 import '../l10n.dart';
@@ -11,10 +12,7 @@ import 'functionality_card.dart';
 class ElssHomeWidget extends StatelessWidget {
   final bool isLoginFromQC;
 
-  const ElssHomeWidget({
-    Key? key,
-    required this.isLoginFromQC,
-  }) : super(key: key);
+  const ElssHomeWidget({super.key, required this.isLoginFromQC});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +28,7 @@ class ElssHomeWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_28),
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             _userDetailsCard(context, theme, l10n),
-            const SizedBox(
-              height: Dimens.space_20,
-            ),
+            const SizedBox(height: Dimens.space_20),
             if (!isLoginFromQC)
               FunctionalityCard(
                 cardLabel: l10n.techRefurbishmentCenter,
@@ -55,14 +51,7 @@ class ElssHomeWidget extends StatelessWidget {
                   CshMlScannerUtil().openScanner(
                     context,
                     onScanned: (scannedData, controller) {
-                      if (!Validator.isNullOrEmpty(scannedData)) {
-                        PartSelectionScreenArguments args =
-                            PartSelectionScreenArguments(scannedBarcode: scannedData.trim());
-                        Navigator.of(context).pushReplacementNamed(
-                          PartSelectionScreenQc.route,
-                          arguments: args,
-                        );
-                      }
+                      _onBarcodeScanned(context, scannedData);
                     },
                   );
                 },
@@ -71,6 +60,39 @@ class ElssHomeWidget extends StatelessWidget {
         )
       ],
     );
+  }
+
+  _onBarcodeScanned(BuildContext context, String scannedBarcode) {
+    if (!Validator.isNullOrEmpty(scannedBarcode)) {
+      Navigator.pop(context); // Close the scanner screen
+      CshLoading().showLoading(context);
+      Future.delayed(Duration(seconds: 1), () {
+        if (context.mounted) {
+          CshLoading().hideLoading(context);
+          CshMlScannerUtil().openScanner(
+            context,
+            header: "Scan PQuote Id",
+            scanFormatList: [BarcodeFormat.qrCode],
+            bottomView: Padding(
+              padding: const EdgeInsets.only(top: Dimens.space_16),
+              child: CshMediumOutlineButton(
+                text: "Skip",
+                onPressed: () {
+                  _onSkipPQuoteId(context, scannedBarcode);
+                },
+              ),
+            ),
+            onScanned: (pQuoteId, controller) {
+              PartSelectionScreenArguments args = PartSelectionScreenArguments(
+                scannedBarcode: scannedBarcode.trim(),
+                pQuoteId: pQuoteId.trim(),
+              );
+              Navigator.of(context).pushReplacementNamed(PartSelectionScreenQc.route, arguments: args);
+            },
+          );
+        }
+      });
+    }
   }
 
   _stackColourSheet(BuildContext context, ThemeData theme) {
@@ -93,9 +115,7 @@ class ElssHomeWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_20),
       decoration: BoxDecoration(
         color: theme.cardColor,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(Dimens.space_8),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(Dimens.space_8)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,6 +145,57 @@ class ElssHomeWidget extends StatelessWidget {
         const SizedBox(height: Dimens.space_2),
         Text(value, style: theme.primaryTextTheme.titleSmall),
       ],
+    );
+  }
+
+  void _onSkipPQuoteId(BuildContext context, String scannedBarcode) {
+    var theme = Theme.of(context);
+    String? remarks;
+    showCshBottomSheet(
+      context: context,
+      child: Padding(
+        padding: EdgeInsets.all(Dimens.space_16),
+        child: StatefulBuilder(builder: (innerContext, setState) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: Dimens.space_16),
+                Text(
+                  "Why skipping battery stress testing?",
+                  style: theme.primaryTextTheme.titleMedium?.copyWith(color: theme.colorScheme.error),
+                ),
+                Divider(color: theme.dividerColor),
+                const SizedBox(height: Dimens.space_16),
+                CshTextFormField(
+                  hintText: "Enter skip remarks",
+                  onChanged: (value) {
+                    setState(() {
+                      remarks = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: Dimens.space_16),
+                Center(
+                  child: CshMediumButton(
+                    text: "Submit",
+                    onPressed: Validator.isNullOrEmpty(remarks)
+                        ? null
+                        : () {
+                            Navigator.pop(context); // Close the bottom sheet
+                            PartSelectionScreenArguments args =
+                                PartSelectionScreenArguments(scannedBarcode: scannedBarcode.trim(), remarks: remarks);
+                            Navigator.of(context).pushReplacementNamed(PartSelectionScreenQc.route, arguments: args);
+                          },
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }

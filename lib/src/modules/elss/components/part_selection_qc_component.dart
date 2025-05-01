@@ -32,7 +32,7 @@ class PartSelectionQCComponent extends StatelessComponent<NoneConfigModel> {
     return paramBuilder(
       (param) {
         return ChangeNotifierProvider<ELssProviderQc>(
-          create: (_) => ELssProviderQc(param.scannedBarcode ?? ""),
+          create: (_) => ELssProviderQc(param.scannedBarcode ?? "", pQuoteId: param.pQuoteId, remarks: param.remarks),
           lazy: false,
           builder: (BuildContext innerContext, __) {
             var provider = ELssProviderQc.of(innerContext);

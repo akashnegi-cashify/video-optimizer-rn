@@ -103,6 +103,8 @@ class L10n extends BaseL10n {
 
   String get serialNumber => Intl.message("Serial No.", locale: localName, name: "serialNumber");
 
+  String get stressTesting => Intl.message("Stress Testing", locale: localName, name: "stressTesting");
+
   String get tags => Intl.message("Tags", locale: localName, name: "tags");
 
   String get suggestedChannel => Intl.message("Suggested channel", locale: localName, name: "suggestedChannel");

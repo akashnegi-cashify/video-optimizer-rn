@@ -1,6 +1,5 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ml_barcode_scanner/ml_barcode_scanner.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -11,14 +10,16 @@ class TRCScannerWidget extends StatefulWidget {
   final List<BarcodeFormat> scanFormatList;
   final bool isEditTextSubmitButtonDirectionHorizontal;
   final String? hintText;
+  final Widget? bottomView;
 
   const TRCScannerWidget({
-    Key? key,
+    super.key,
     required this.onScanDetected,
     this.scanFormatList = const [BarcodeFormat.code128],
     this.isEditTextSubmitButtonDirectionHorizontal = false,
     this.hintText,
-  }) : super(key: key);
+    this.bottomView,
+  });
 
   @override
   State<TRCScannerWidget> createState() => _TRCScannerWidgetState();
@@ -69,36 +70,30 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
               ),
             ),
           ),
-          const SizedBox(height: Dimens.space_50),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Expanded(
-                child: CshTextFormField(
-                  controller: _textEditController,
-                  counterText: "",
-                  autofocus: false,
-                  hintText: widget.hintText ?? l10n.enterBarcode,
-                  labelText: widget.hintText ?? l10n.enterBarcode,
-                  keyboardType: TextInputType.text,
-                  inputFormatters: [
-                    // LengthLimitingTextInputFormatter(30),
-                  ],
+          if (widget.bottomView != null) widget.bottomView!,
+          if (widget.bottomView == null) ...[
+            const SizedBox(height: Dimens.space_50),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Expanded(
+                  child: CshTextFormField(
+                    controller: _textEditController,
+                    counterText: "",
+                    autofocus: false,
+                    hintText: widget.hintText ?? l10n.enterBarcode,
+                    labelText: widget.hintText ?? l10n.enterBarcode,
+                    keyboardType: TextInputType.text,
+                  ),
                 ),
-              ),
-              if (widget.isEditTextSubmitButtonDirectionHorizontal)
-                Padding(
-                  padding: const EdgeInsets.only(left: Dimens.space_4),
-                  child: _buildSubmitWidget(l10n),
-                ),
-            ],
-          ),
-          if (!widget.isEditTextSubmitButtonDirectionHorizontal)
-            SizedBox(
-              width: Dimens.space_120,
-              child: _buildSubmitWidget(l10n),
+                if (Validator.isTrue(widget.isEditTextSubmitButtonDirectionHorizontal))
+                  Padding(padding: const EdgeInsets.only(left: Dimens.space_4), child: _buildSubmitWidget(l10n)),
+              ],
             ),
+            if (!Validator.isTrue(widget.isEditTextSubmitButtonDirectionHorizontal))
+              SizedBox(width: Dimens.space_120, child: _buildSubmitWidget(l10n)),
+          ],
         ],
       ),
     );

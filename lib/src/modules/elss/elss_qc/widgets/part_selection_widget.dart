@@ -16,10 +16,7 @@ import 'elss_part_widget.dart';
 class PartSelectionWidget extends StatelessWidget {
   final String barcode;
 
-  const PartSelectionWidget({
-    Key? key,
-    required this.barcode,
-  }) : super(key: key);
+  const PartSelectionWidget({super.key, required this.barcode});
 
   @override
   Widget build(BuildContext context) {
@@ -190,12 +187,11 @@ class _BottomButtons extends StatelessWidget {
   final bool isHideRejectButton;
 
   const _BottomButtons({
-    Key? key,
     required this.onRejectClicked,
     required this.onRetestClicked,
     required this.onAcceptClicked,
     required this.isHideRejectButton,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

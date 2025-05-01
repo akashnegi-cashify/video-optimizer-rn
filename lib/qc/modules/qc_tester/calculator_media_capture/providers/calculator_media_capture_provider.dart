@@ -5,6 +5,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:provider/provider.dart';
 
 import '../../calculator/resources/calculator_service.dart';
@@ -45,7 +46,12 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
   }
 
   void getDeviceMedia({VoidCallback? onMoveToNextScreen}) {
-    service.getDeviceMedia(deviceBarcode, categoryId: categoryId).listen((event) {
+    MyQuoteRequestData? quoteRequestData;
+    if (Validator.isTrue(isComingFromCalJourney)) {
+      quoteRequestData = CalculatorDataHolderModel().quoteRequestData;
+    }
+
+    service.getDeviceMedia(deviceBarcode, categoryId: categoryId, quoteRequest: quoteRequestData).listen((event) {
       isDataLoading = false;
       if (Validator.isListNullOrEmpty(event?.imageList) && Validator.isTrue(isComingFromCalJourney)) {
         onMoveToNextScreen?.call();
