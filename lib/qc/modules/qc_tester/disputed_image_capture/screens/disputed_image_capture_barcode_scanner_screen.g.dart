@@ -17,7 +17,8 @@ dynamic schema() => {
         {"key": "sc", "value": null},
         {"key": "h", "value": null},
         {"key": "sf", "value": null},
-        {"key": "ht", "value": null}
+        {"key": "ht", "value": null},
+        {"key": "bv", "value": null}
       ]
 
       //#adminscreen

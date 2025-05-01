@@ -70,8 +70,8 @@ CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) => CategoryData(
 Map<String, dynamic> _$CategoryDataToJson(CategoryData instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'apiName': instance.categoryKey,
       'name': instance.name,
       'allowVariant': instance.allowVariant,
       'allowImei': instance.allowImeiSearch,
-      'apiName': instance.categoryKey,
     };

@@ -51,6 +51,7 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
       json['sno'] as String?,
       (json['st'] as List<dynamic>?)?.map((e) => e as String).toList(),
       (json['rs'] as num?)?.toInt(),
+      (json['str'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
@@ -75,4 +76,5 @@ Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
       'sno': instance.serialNumber,
       'st': instance.stockTags,
       'rs': instance.rubbingOrGlassChange,
+      'str': instance.stressTestingResult,
     };

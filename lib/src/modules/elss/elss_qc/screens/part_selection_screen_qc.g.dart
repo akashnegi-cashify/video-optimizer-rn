@@ -14,7 +14,9 @@ dynamic schema() => {
       "title": "Part Selection Screen Arguments",
       "isActive": true,
       "params": [
-        {"key": "sb", "value": null}
+        {"key": "sb", "value": null},
+        {"key": "r", "value": null},
+        {"key": "pqId", "value": null}
       ]
 
       //#adminscreen

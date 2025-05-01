@@ -29,6 +29,7 @@ class DisputedImageBarcodeScannerComponent extends StatelessComponent<NoneConfig
         onScanDetected: param.onScanDetected!,
         scanFormatList: param.scanFormatList ?? [BarcodeFormat.code128],
         hintText: param.hintText,
+        bottomView: param.bottomView,
       );
     });
   }

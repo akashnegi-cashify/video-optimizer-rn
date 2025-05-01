@@ -19,17 +19,20 @@ class CshMlScannerUtil {
     String header = "Scan Barcode",
     String hintText = "Scan Barcode",
     List<BarcodeFormat>? scanFormatList,
+    Widget? bottomView,
     VoidCallback? onDidPop,
   }) {
     DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
-        onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
-          if (scannedData.isNotEmpty) {
-            onScanned(scannedData, controller);
-          }
-        },
-        header: header,
-        hintText: hintText,
-        scanFormatList: scanFormatList);
+      header: header,
+      hintText: hintText,
+      scanFormatList: scanFormatList,
+      bottomView: bottomView,
+      onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
+        if (scannedData.isNotEmpty) {
+          onScanned(scannedData, controller);
+        }
+      },
+    );
     Navigator.of(context)
         .pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args)
         .whenComplete(() => onDidPop?.call());

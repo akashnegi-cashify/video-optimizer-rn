@@ -12,6 +12,7 @@ DisputedImageCaptureScannerParam fromMap(Map<String, dynamic> map) {
     header: map["h"],
     hintText: map["ht"],
     scanFormatList: map["sf"],
+    bottomView: map["bv"],
   );
   return model;
 }
@@ -24,6 +25,7 @@ Widget paramBuilder(
       "h": provider.data["h"],
       "ht": provider.data["ht"],
       "sf": provider.data["sf"],
+      "bv": provider.data["bv"],
     },
     builder: (context, data, child) {
       DisputedImageCaptureScannerParam model = fromMap(data);
@@ -37,11 +39,13 @@ bool isValid(DisputedImageCaptureScannerParam model) {
   var header = model.header;
   var hintText = model.hintText;
   var scanFormatList = model.scanFormatList;
+  var bottomView = model.bottomView;
 
   return onScanDetected != null &&
       header != null &&
       hintText != null &&
-      scanFormatList != null;
+      scanFormatList != null &&
+      bottomView != null;
 }
 
 dynamic schema() => {
@@ -55,7 +59,8 @@ dynamic schema() => {
         {"key": "sc", "value": null},
         {"key": "h", "value": null},
         {"key": "sf", "value": null},
-        {"key": "ht", "value": null}
+        {"key": "ht", "value": null},
+        {"key": "bv", "value": null}
       ],
       "configJson": {
         "type": "list",

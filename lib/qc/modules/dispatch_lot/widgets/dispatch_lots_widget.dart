@@ -62,7 +62,7 @@ class _DispatchLotsWidgetState extends PaginatedListState<Lot, DispatchLotsWidge
             provider.initiateDispatchCompletion(scannedData).then((value) {
               core.CshLoading().hideLoading(context);
               Navigator.pop(context); // dismiss scanner screen
-              _showAlert(context, value?.errorMsg, l10n); // TODO: need to check this success message
+              _showAlert(context, value?.errorMsg, l10n);
             }, onError: (error) {
               core.CshLoading().hideLoading(context);
               core.CshSnackBar.error(context: context, message: error);

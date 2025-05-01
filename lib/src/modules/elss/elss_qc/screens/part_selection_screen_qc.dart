@@ -13,12 +13,17 @@ part 'part_selection_screen_qc.g.dart';
     pageGroup: PageGroup.partSelectionQCPageKey)
 class PartSelectionScreenArguments extends BaseArguments {
   final String? scannedBarcode;
+  final String? pQuoteId;
+  final String? remarks;
 
-  PartSelectionScreenArguments({this.scannedBarcode}) : super(PartSelectionScreenQc.pageKey);
+  PartSelectionScreenArguments({this.scannedBarcode, this.pQuoteId, this.remarks})
+      : super(PartSelectionScreenQc.pageKey);
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
     data[PartSelectionQCCompParamKeys.scannedBarcode.value] = scannedBarcode;
+    data[PartSelectionQCCompParamKeys.pQuoteId.value] = pQuoteId;
+    data[PartSelectionQCCompParamKeys.remarks.value] = remarks;
     return data;
   }
 }
