@@ -195,6 +195,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
   }
 
   _onReset() {
+    var provider = ChannelOptionProvider.of(context, listen: false);
     showPopup(context,
         title: "Warning!!",
         desc: "All Progress will be lost. Are you sure you want to reset?",
@@ -207,7 +208,11 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               secondBtnClick: () {
                 Navigator.pop(context); // Dismiss the dialog
                 String? deviceBarcode = widget.detailsDataModel?.deviceDetailsData?.deviceBarcode;
-                PartSelectionScreenArguments args = PartSelectionScreenArguments(scannedBarcode: deviceBarcode ?? "");
+                PartSelectionScreenArguments args = PartSelectionScreenArguments(
+                  scannedBarcode: deviceBarcode ?? "",
+                  pQuoteId: provider.pQuoteId,
+                  remarks: provider.remarks,
+                );
                 Navigator.of(context).pushReplacementNamed(
                   PartSelectionScreenQc.route,
                   arguments: args,
