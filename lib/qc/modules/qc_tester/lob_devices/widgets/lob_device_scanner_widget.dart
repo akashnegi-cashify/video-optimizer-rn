@@ -45,9 +45,9 @@ class LobDeviceScannerWidget extends StatelessWidget {
           selectedCategoryId: selectedCategoryId,
           variantData: variantItem,
         );
-        ColorSelectionScreen.navigateTo(context, item.productId, provider.deviceBarcode, (color) {
+        ColorSelectionScreen.navigateTo(context, item.productId, provider.deviceBarcode, (deviceColor, strapColor) {
           Navigator.pop(context); // Dismiss color selection screen
-          CalculatorDataHolderModel().setSelectedColor(color);
+          CalculatorDataHolderModel().setSelectedColor(deviceColor, strapColor: strapColor);
           Navigator.pushReplacementNamed(context, CalculationScreen.route);
         });
       }

@@ -7,7 +7,10 @@ class MyQuoteRequestData extends QuoteRequestData {
   List<int>? manualAuditQuestion;
 
   @JsonKey(name: "color")
-  String? selectedColor;
+  String? selectedDeviceColor;
+
+  @JsonKey(name: "sc")
+  String? selectedStrapColor;
 
   @JsonKey(name: "cat_id")
   int? categoryId;
@@ -51,7 +54,8 @@ class MyQuoteRequestData extends QuoteRequestData {
     if (manualAuditQuestion != null) {
       parentJson["mmaids"] = manualAuditQuestion;
     }
-    parentJson["color"] = selectedColor;
+    parentJson["color"] = selectedDeviceColor;
+    parentJson["sc"] = selectedStrapColor;
     parentJson["rm"] = testingRemarks;
     parentJson["vid"] = variantId;
     parentJson["vn"] = variantName;
