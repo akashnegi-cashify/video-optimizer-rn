@@ -7,6 +7,14 @@ import 'package:provider/provider.dart';
 class ColorSelectionProvider extends CalculatorServiceInitProvider {
   final int? _productId;
   List<String>? deviceColors;
+
+  /*
+  Strap color has 3 conditions, null, empty and not empty-
+  null means - Category is not smart watch, so we can proceed
+  empty means - Category is smart watch but strap color not available, need to block user to proceed
+  not empty means - Category is smart watch and strap color available
+   */
+  List<String>? strapColors;
   String? screenError;
   bool isLoading = true;
 
@@ -22,6 +30,7 @@ class ColorSelectionProvider extends CalculatorServiceInitProvider {
     service.getDeviceColors(_productId).listen((event) {
       if (!Validator.isListNullOrEmpty(event?.deviceColorList)) {
         deviceColors = event!.deviceColorList;
+        strapColors = event.strapColorList;
         screenError = null;
       } else {
         screenError = "Colour not found, please contact service desk";

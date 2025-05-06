@@ -29,6 +29,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
   String? _mPin;
   bool _isDeviceSupportFingerprint = true;
   bool _isListenAppLifeCycle = false;
+  int _resetValueCounter = 0;
 
   @override
   void initState() {
@@ -85,6 +86,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
                     CshTextNew.h5(l10n.enterSixDigitPin),
                     const SizedBox(height: Dimens.space_8),
                     CshPinCodeTextField(
+                      key: ValueKey(_resetValueCounter),
                       isUiLibraryUse: true,
                       length: 6,
                       autoDismissKeyboard: true,
@@ -180,10 +182,16 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
       if (Validator.isTrue(event.isSuccess)) {
         _moveToHomeScreen();
       } else {
+        setState(() {
+          _resetValueCounter++;
+        });
         CshSnackBar.error(context: context, message: "MPin doesn't match", snackBarPosition: SnackBarPosition.TOP);
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
+      setState(() {
+        _resetValueCounter++;
+      });
       CshSnackBar.error(
           context: context,
           message: ApiErrorHelper.getErrorMessage(error).toString(),

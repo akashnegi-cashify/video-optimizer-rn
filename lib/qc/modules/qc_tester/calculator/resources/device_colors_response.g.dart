@@ -9,6 +9,7 @@ part of 'device_colors_response.dart';
 DeviceColorResponse _$DeviceColorResponseFromJson(Map<String, dynamic> json) =>
     DeviceColorResponse(
       (json['dt'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      (json['scl'] as List<dynamic>?)?.map((e) => e as String).toList(),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -21,4 +22,5 @@ Map<String, dynamic> _$DeviceColorResponseToJson(
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'dt': instance.deviceColorList,
+      'scl': instance.strapColorList,
     };
