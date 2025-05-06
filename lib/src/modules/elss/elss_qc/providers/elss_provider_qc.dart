@@ -15,6 +15,8 @@ import '../../common_resources/elss_service.dart';
 class ELssProviderQc extends CshChangeNotifier {
   List<DropDownItem> _rubbingOrGlassChangeDropdown = [];
   DropDownItem? _selectedRubbingOrGlassChangeValue;
+  final String? pQuoteId;
+  final String? remarks;
 
   static ELssProviderQc of(BuildContext context, {bool listen = true}) {
     return Provider.of<ELssProviderQc>(context, listen: listen);
@@ -24,7 +26,7 @@ class ELssProviderQc extends CshChangeNotifier {
 
   DropDownItem? get selectedRubbingOrGlassChangeValue => _selectedRubbingOrGlassChangeValue;
 
-  ELssProviderQc(String barcode, {String? pQuoteId, String? remarks}) {
+  ELssProviderQc(String barcode, {this.pQuoteId, this.remarks}) {
     _getDeviceDetailsAndParts(barcode, pQuoteId, remarks);
     _generateRubbingOrGlassChangeDropdown();
   }

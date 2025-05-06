@@ -29,7 +29,11 @@ class AllowedOptionsComponent extends StatelessComponent<NoneConfigModel> {
     return paramBuilder((param) {
       String? scannedBarcode = param.arguments?.scannedBarcode;
       return ChangeNotifierProvider<ChannelOptionProvider>(
-        create: (_) => ChannelOptionProvider(scannedBarcode ?? ""),
+        create: (_) => ChannelOptionProvider(
+          scannedBarcode ?? "",
+          remarks: param.arguments?.remarks,
+          pQuoteId: param.arguments?.pQuoteId,
+        ),
         lazy: false,
         builder: (BuildContext innerContext, __) {
           var provider = ChannelOptionProvider.of(innerContext);
