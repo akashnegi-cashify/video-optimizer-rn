@@ -109,7 +109,7 @@ class DataWipeDetailProvider extends CshChangeNotifier {
 
   Future<void> submitSmartWatchAction({String? action}) {
     var completer = Completer<void>();
-    DataWipeService.submitSmartWatchAction(_deviceBarcode, action: action).listen((_) {
+    DataWipeService.submitSmartWatchAction(data?.id, action: action).listen((_) {
       completer.complete();
     }, onError: (error) {
       String? errorMessage = ApiErrorHelper.getErrorMessage(error);
