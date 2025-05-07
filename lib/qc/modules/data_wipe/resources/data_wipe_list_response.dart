@@ -51,6 +51,9 @@ class DataWipeListItem {
   @JsonKey(name: "sno")
   String? serialNo;
 
+  @JsonKey(name: "epc")
+  int? erasureProviderKey;
+
   DataWipeListItem(
     this.id,
     this.qrCode,
@@ -63,6 +66,7 @@ class DataWipeListItem {
     this.imei1,
     this.imei2,
     this.serialNo,
+    this.erasureProviderKey,
   );
 
   static DataWipeListItem fromJson(Map<String, dynamic> json) => _$DataWipeListItemFromJson(json);
