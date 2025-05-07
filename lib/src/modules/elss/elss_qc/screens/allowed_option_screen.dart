@@ -11,8 +11,10 @@ part 'allowed_option_screen.g.dart';
 class AllowedOptionScreeArguments {
   final String scannedBarcode;
   final ElssDeviceDetailsResponse? detailsDataModel;
+  final String? pQuoteId;
+  final String? remarks;
 
-  AllowedOptionScreeArguments(this.scannedBarcode, {this.detailsDataModel});
+  AllowedOptionScreeArguments(this.scannedBarcode, {this.detailsDataModel, this.pQuoteId, this.remarks});
 }
 
 @CshPage(

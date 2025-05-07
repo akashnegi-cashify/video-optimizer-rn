@@ -161,7 +161,12 @@ class PartSelectionWidget extends StatelessWidget {
             duration: SnackBarDuration.SHORT,
             snackBarPosition: SnackBarPosition.TOP);
         AllowedOptionCompScreenArguments args = AllowedOptionCompScreenArguments(
-            arguments: AllowedOptionScreeArguments(barcode, detailsDataModel: provider.elssDeviceDetails));
+            arguments: AllowedOptionScreeArguments(
+          barcode,
+          detailsDataModel: provider.elssDeviceDetails,
+          pQuoteId: provider.pQuoteId,
+          remarks: provider.remarks,
+        ));
 
         Navigator.pushNamed(context, AllowedOptionScreen.route, arguments: args);
       } else {
