@@ -231,6 +231,11 @@ dependency_overrides:
       ref: v2.0.11
       path: calculator
 
+  video_optimizer:
+    git:
+      url: https://github.com/reglobe/flutter_packages.git
+      ref: main
+      path: video_optimizer
 #  text_recognizer:
 #    path: ../flutter_plugins/text_recognizer
   #  csh_annotation:

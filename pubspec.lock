@@ -2236,8 +2236,8 @@ packages:
     dependency: "direct main"
     description:
       path: video_optimizer
-      ref: "v2.0.11"
-      resolved-ref: a9c7600417ce50517cce42ebb252cacede8ad8de
+      ref: main
+      resolved-ref: "1c58aab63deb72563972b70b201e7b164384c9d0"
       url: "https://github.com/reglobe/flutter_packages.git"
     source: git
     version: "2.0.11"
