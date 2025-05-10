@@ -11,10 +11,9 @@ PODS:
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
-    - FlutterMacOS
   - device_info_plus (0.0.1):
     - Flutter
-  - disk_space (0.0.1):
+  - disk_space_2 (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
@@ -47,12 +46,10 @@ PODS:
   - DKPhotoGallery/Resource (0.0.19):
     - SDWebImage
     - SwiftyGif
-  - ffmpeg-kit-ios-full-gpl (6.0.LTS)
-  - ffmpeg_kit_flutter_full_gpl (6.0.2.LTS):
-    - ffmpeg_kit_flutter_full_gpl/full-gpl-lts (= 6.0.2.LTS)
+  - ffmpeg_kit_flutter_new (1.0.0):
+    - ffmpeg_kit_flutter_new/full-gpl-lts (= 1.0.0)
     - Flutter
-  - ffmpeg_kit_flutter_full_gpl/full-gpl-lts (6.0.2.LTS):
-    - ffmpeg-kit-ios-full-gpl (= 6.0.LTS)
+  - ffmpeg_kit_flutter_new/full-gpl-lts (1.0.0):
     - Flutter
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
@@ -70,14 +67,14 @@ PODS:
   - Firebase/RemoteConfig (10.28.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.28.0)
-  - firebase_analytics (11.4.1):
+  - firebase_analytics (11.4.5):
     - Firebase/Analytics (= 10.28.0)
     - firebase_core
     - Flutter
   - firebase_core (3.2.0):
     - Firebase/CoreOnly (= 10.28.0)
     - Flutter
-  - firebase_crashlytics (4.3.1):
+  - firebase_crashlytics (4.3.5):
     - Firebase/Crashlytics (= 10.28.0)
     - firebase_core
     - Flutter
@@ -300,7 +297,7 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - qr_code_scanner (0.2.0):
+  - qr_code_scanner_plus (0.2.6):
     - Flutter
     - MTBBarcodeScanner
   - SDWebImage (5.20.0):
@@ -351,10 +348,10 @@ DEPENDENCIES:
   - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
-  - disk_space (from `.symlinks/plugins/disk_space/ios`)
-  - ffmpeg_kit_flutter_full_gpl (from `.symlinks/plugins/ffmpeg_kit_flutter_full_gpl/ios`)
+  - disk_space_2 (from `.symlinks/plugins/disk_space_2/ios`)
+  - ffmpeg_kit_flutter_new (from `.symlinks/plugins/ffmpeg_kit_flutter_new/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -375,7 +372,7 @@ DEPENDENCIES:
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
-  - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
+  - qr_code_scanner_plus (from `.symlinks/plugins/qr_code_scanner_plus/ios`)
   - sensors_plus (from `.symlinks/plugins/sensors_plus/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -394,7 +391,6 @@ SPEC REPOS:
   trunk:
     - DKImagePickerController
     - DKPhotoGallery
-    - ffmpeg-kit-ios-full-gpl
     - Firebase
     - FirebaseABTesting
     - FirebaseAnalytics
@@ -443,13 +439,13 @@ EXTERNAL SOURCES:
   camera_avfoundation:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
   connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/darwin"
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
-  disk_space:
-    :path: ".symlinks/plugins/disk_space/ios"
-  ffmpeg_kit_flutter_full_gpl:
-    :path: ".symlinks/plugins/ffmpeg_kit_flutter_full_gpl/ios"
+  disk_space_2:
+    :path: ".symlinks/plugins/disk_space_2/ios"
+  ffmpeg_kit_flutter_new:
+    :path: ".symlinks/plugins/ffmpeg_kit_flutter_new/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   firebase_analytics:
@@ -490,8 +486,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
-  qr_code_scanner:
-    :path: ".symlinks/plugins/qr_code_scanner/ios"
+  qr_code_scanner_plus:
+    :path: ".symlinks/plugins/qr_code_scanner_plus/ios"
   sensors_plus:
     :path: ".symlinks/plugins/sensors_plus/ios"
   share_plus:
@@ -524,19 +520,18 @@ SPEC CHECKSUMS:
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
   audio_session: 19e9480dbdd4e5f6c4543826b2e8b0e4ab6145fe
-  camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
-  connectivity_plus: 18382e7311ba19efcaee94442b23b32507b20695
+  camera_avfoundation: adb0207d868b2d873e895371d88448399ab78d87
+  connectivity_plus: 2a701ffec2c0ae28a48cf7540e279787e77c447d
   device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
-  disk_space: e94d34bbdf77954adfb39e60bde9cc5c7233eda6
+  disk_space_2: b0e3be3c29b471cee9134efa91f08c8b4c7c8e54
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
-  ffmpeg-kit-ios-full-gpl: d8fd8d021e82787cf8fb502bcba6e258d8a35abb
-  ffmpeg_kit_flutter_full_gpl: ccf0737159849b8d6d844238b810a5c3680b3e5b
+  ffmpeg_kit_flutter_new: 5dc6b1aa0a6f6a97c878783cd4b70fc4e4d77dfe
   file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Firebase: 5121c624121af81cbc81df3bda414b3c28c4f3c3
-  firebase_analytics: 04e974301a17c4dd0c7ffdb448bfc6520fd35691
+  firebase_analytics: 03ec278c1ceea1fe758bf71bf2f1965fdfc34324
   firebase_core: a9d0180d5285527884d07a41eb4a9ec9ed12cdb6
-  firebase_crashlytics: e0d793941ece2bbc3ad54f7ac55c8cfcb3391ce5
+  firebase_crashlytics: db0b40d52c41a75df63f0541ae4504ccae9a896f
   firebase_remote_config: aca328293c0d85c6d7bc811ad98896c8e8394add
   FirebaseABTesting: d87f56707159bae64e269757a6e963d490f2eebe
   FirebaseAnalytics: 1e06fe7d246af7230b08d1d9cdca54a4624dd461
@@ -583,7 +578,7 @@ SPEC CHECKSUMS:
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
+  qr_code_scanner_plus: 3bfe4deb7f28996a63a2a580819d49dae80d5ed3
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   sensors_plus: 18a9b346c43e157da17d2c8e99def703f9efb9d8
