@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v4.1.2+73 (XX-05-2025)
+
+### IOS Build - FFMPEG:
+
+* `Change FFMPEG package to new`
+
+
 # v4.1.1+72 (01-05-2025)
 
 ### Improvements:
