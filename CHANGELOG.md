@@ -1,11 +1,18 @@
 # TRC Releases
 
-# v4.1.2+73 (XX-05-2025)
+# v4.1.3+74 (14-05-2025)
 
 ### Features:
 
 * `QC/TRC - Testing - Watch Strap color addition in Testing flow` [(SCM-9445)](https://reglobe.atlassian.net/browse/SCM-9445)
 * `QC - Data Wipe - Data wipe for smartwatch` [(SCM-9477)](https://reglobe.atlassian.net/browse/SCM-9477)
+
+
+# v4.1.2+73 (12-05-2025)
+
+### IOS Build - FFMPEG:
+
+* `Change FFMPEG package to new`
 
 
 # v4.1.1+72 (01-05-2025)
