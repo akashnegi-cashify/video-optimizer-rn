@@ -9,7 +9,7 @@ part 'color_selection_screen.g.dart';
 class ColorSelectionScreenArguments extends BaseArguments {
   int? productId;
   String? deviceBarcode;
-  Function(String color)? onColorSelected;
+  Function(String color, String? strapColor)? onColorSelected;
 
   ColorSelectionScreenArguments(
     this.productId,
@@ -43,7 +43,8 @@ class ColorSelectionScreen extends BaseScreen<ColorSelectionScreenArguments> {
     return PageWidget(pageKey: pageKey, initialValue: args?.toMap());
   }
 
-  static navigateTo(BuildContext context, int? productId, String? barcode, Function(String color) onColorSelected) {
+  static navigateTo(BuildContext context, int? productId, String? barcode,
+      Function(String color, String? strapColor) onColorSelected) {
     Navigator.of(context)
         .pushNamed(route, arguments: ColorSelectionScreenArguments(productId, barcode, onColorSelected));
   }

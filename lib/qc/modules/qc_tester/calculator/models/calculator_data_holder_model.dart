@@ -16,7 +16,8 @@ class CalculatorDataHolderModel {
 
   MyQuoteRequestData? _quoteRequestData;
   String? _deviceBarcode;
-  String? _selectedColor;
+  String? _selectedDeviceColor;
+  String? _selectedStrapColor;
 
   MyCalculatorResponse? _calculatorResponse;
   List<MediaSubmitRequest>? _mediaList;
@@ -69,14 +70,16 @@ class CalculatorDataHolderModel {
 
   set quoteRequestData(MyQuoteRequestData? value) {
     _quoteRequestData = value;
-    _quoteRequestData?.selectedColor = _selectedColor;
+    _quoteRequestData?.selectedDeviceColor = _selectedDeviceColor;
+    _quoteRequestData?.selectedStrapColor = _selectedStrapColor;
     if (_selectedCategoryId != null) {
       _quoteRequestData?.categoryId = _selectedCategoryId;
     }
   }
 
-  setSelectedColor(String color) {
-    _selectedColor = color;
+  setSelectedColor(String deviceColor, {String? strapColor}) {
+    _selectedDeviceColor = deviceColor;
+    _selectedStrapColor = strapColor;
   }
 
   resetAllData() {
@@ -87,7 +90,8 @@ class CalculatorDataHolderModel {
     _selectedCategoryId = null;
     _deviceType = DeviceType.mobile_device;
     _variantData = null;
-    _selectedColor = null;
+    _selectedDeviceColor = null;
+    _selectedStrapColor = null;
   }
 
   factory CalculatorDataHolderModel() {

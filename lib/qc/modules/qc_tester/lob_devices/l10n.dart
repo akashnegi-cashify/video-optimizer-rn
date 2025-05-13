@@ -64,8 +64,15 @@ class L10n extends BaseL10n {
 
   String get brand => Intl.message("Brand", locale: localName, name: "brand");
 
+  String get deviceDialColor => Intl.message("Device/Dial Color", locale: localName, name: "deviceDialColor");
+
+  String get strapColor => Intl.message("Strap Color", locale: localName, name: "strapColor");
+
   String get enterSerialManually => Intl.message("Enter Serial No Manually", locale: localName, name: "enterSerialManually");
+
+  String get proceed => Intl.message("Proceed", locale: localName, name: "proceed");
 
   String get updateCategoryIfNeeded =>
       Intl.message("Update Category If needed", locale: localName, name: "updateCategoryIfNeeded");
+
 }

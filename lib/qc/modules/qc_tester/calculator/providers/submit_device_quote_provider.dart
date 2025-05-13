@@ -93,7 +93,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
   updateSelectedColor() {
     var stepperItem = stepperDetails.last;
     stepperItem.title = "Selected Color";
-    stepperItem.subTitle = quoteRequest?.selectedColor ?? "";
+    stepperItem.subTitle = quoteRequest?.selectedDeviceColor ?? "";
     notifyListeners();
     if (isLoginFromQC()) {
       _submitCalculatorRequest();

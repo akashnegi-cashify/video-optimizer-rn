@@ -11,7 +11,6 @@ import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_detail_screen
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_card_widget.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_status_card.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/dialogs/show_manul_enter_serial_dialog.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/device_category_id_type.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/common/widgets/imei_scanner.dart';
 import 'package:imei_serial_reader/imei_serial_reader.dart';
@@ -28,6 +27,7 @@ class DataWipeDetailWidget extends StatefulWidget {
 class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
   int _retryCount = 0;
   bool _isShowManualEnter = false;
+  DropDownItem? _selectedAction;
 
   @override
   void initState() {
@@ -54,8 +54,6 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
 
     var data = provider.data;
 
-    var readerType =
-        data?.categoryKey == DeviceCategoryIdType.laptop.value ? ReaderType.serialNumberReader : ReaderType.imeiReader;
     return RefreshIndicator(
       onRefresh: () {
         return Future.value(provider.getDeviceWipeStatus());
@@ -77,6 +75,29 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
                   data?.statusCode,
                   data?.errorMessage,
                 ),
+                if (provider.isProviderCashify())
+                  CshCard(
+                    margin: const EdgeInsets.only(top: Dimens.space_16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CshTextNew.subTitle1(l10n.selectAction),
+                        SizedBox(width: Dimens.space_32),
+                        Expanded(
+                          child: CshDropDown(
+                            items: provider.actionList,
+                            hintText: l10n.selectAction,
+                            selectedItem: _selectedAction,
+                            onChanged: (DropDownItem? value) {
+                              setState(() {
+                                _selectedAction = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
           ),
@@ -84,9 +105,9 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
             Padding(
               padding: const EdgeInsets.all(Dimens.space_16),
               child: CshBigButton(
-                text: readerType == ReaderType.serialNumberReader ? l10n.updateSerial : l10n.updateImei,
+                text: provider.readerType == ReaderType.serialNumberReader ? l10n.updateSerial : l10n.updateImei,
                 onPressed: () {
-                  _onValidateImeiClicked(readerType);
+                  _onValidateImeiClicked(provider.readerType);
                 },
               ),
             ),
@@ -103,16 +124,41 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
                   )
                 : Padding(
                     padding: const EdgeInsets.all(Dimens.space_16),
-                    child: CshBigButton(
+                    child: CshBigOutlineButton(
                       text: l10n.scanAnother,
+                      isPrimary: false,
                       onPressed: () {
                         _onScannedAnotherClicked();
                       },
                     ),
-                  )
+                  ),
+          if (provider.bottomButtonState == BottomButtonState.cashifyProvider)
+            Padding(
+              padding: const EdgeInsets.only(left: Dimens.space_16, right: Dimens.space_16, bottom: Dimens.space_16),
+              child: CshBigButton(
+                text: l10n.submit,
+                onPressed: _selectedAction != null ? () => _onActionSubmit(provider) : null,
+              ),
+            ),
         ],
       ),
     );
+  }
+
+  _onActionSubmit(DataWipeDetailProvider provider) {
+    CshLoading().showLoading(context);
+    provider.submitSmartWatchAction(action: _selectedAction?.id).then((value) {
+      if (mounted) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.success(context: context, message: "Action Submitted");
+        Navigator.pop(context);
+      }
+    }, onError: (error) {
+      if (mounted) {
+        CshLoading().hideLoading(context);
+        CshSnackBar.error(context: context, message: error.toString());
+      }
+    });
   }
 
   _onValidateImeiClicked(ReaderType readerType) {
@@ -273,6 +319,7 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
       _isShowManualEnter = false;
     }
     var theme = Theme.of(context);
+    var l10n = L10n(context, listen: false);
     showCshBottomSheet(
       context: context,
       child: Padding(
@@ -288,13 +335,13 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
             ),
             const SizedBox(height: Dimens.space_16),
             Text(
-              "Unable to scan",
+              l10n.unableToScan,
               textAlign: TextAlign.center,
               style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.colorScheme.error),
             ),
             const SizedBox(height: Dimens.space_26),
             CshBigButton(
-              text: "Retry",
+              text: l10n.retry,
               onPressed: () {
                 Navigator.pop(context); // Close this dialog
                 _onValidateImeiClicked(readerType);
@@ -303,13 +350,13 @@ class _DataWipeDetailWidgetState extends State<DataWipeDetailWidget> {
             const SizedBox(height: Dimens.space_16),
             if (_isShowManualEnter)
               CshBigButton(
-                text: "Enter Manually",
+                text: l10n.enterManually,
                 onPressed: () {
                   Navigator.pop(context); // Close this dialog
                   showManualEnterSerialNo(
                     context,
-                    title: readerType == ReaderType.imeiReader ? "Enter Imei" : "Enter Serial no",
-                    hintText: readerType == ReaderType.imeiReader ? "Enter Imei" : "Enter Serial no",
+                    title: readerType == ReaderType.imeiReader ? l10n.enterImei : l10n.enterSerialNo,
+                    hintText: readerType == ReaderType.imeiReader ? l10n.enterImei : l10n.enterSerialNo,
                     onSerialNoEntered: (serialNo) {
                       Navigator.pop(context); // Close this dialog
                       _onValuesScanned(readerType, [serialNo]);

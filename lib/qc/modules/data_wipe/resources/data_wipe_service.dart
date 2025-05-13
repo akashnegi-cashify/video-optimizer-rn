@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_filter_list_response.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_list_response.dart';
+import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_smart_watch_action_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 
@@ -28,6 +29,10 @@ class DataWipeService {
     return QcService().get("/erasure-request/filter/list", DataWipeFilterListResponse.fromJson);
   }
 
+  static Stream<DataWipeSmartWatchActionResponse?> getSmartWatchActionList() {
+    return QcService().get("/erasure-request/cashify/provider/status", DataWipeSmartWatchActionResponse.fromJson);
+  }
+
   static Stream<BaseActionResponse> bulkInitiate(int statusCode) {
     Map<String, dynamic> req = {"sc": statusCode};
     return QcService().post("/erasure-request/bulk-process", BaseActionResponse.fromJson, body: jsonEncode(req));
@@ -46,5 +51,11 @@ class DataWipeService {
     };
     return QcService()
         .post("/erasure-request/update/$deviceBarcode", BaseActionResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<BaseActionResponse> submitSmartWatchAction(int? id, {required String? action}) {
+    Map<String, dynamic> req = {"status": action, "id": id};
+    return QcService()
+        .post("/erasure-request/start-process/cashify", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 }

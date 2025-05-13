@@ -52,10 +52,19 @@ class L10n extends BaseL10n {
 
   String get imei2 => Intl.message('Imei 2', name: 'imei2');
 
+  String get submit => Intl.message('Submit', name: 'submit');
+
+  String get selectAction => Intl.message('Select Action', name: 'selectAction');
+
+  String get unableToScan => Intl.message('Unable to scan', name: 'unableToScan');
+
+  String get enterManually => Intl.message('Enter Manually', name: 'enterManually');
+
+  String get enterImei => Intl.message('Enter Imei', name: 'enterImei');
+
+  String get enterSerialNo => Intl.message('Enter Serial no', name: 'enterSerialNo');
+
   String erasedDesc(String status) {
     return Intl.message("Initiate Bulk Erase on $status status", name: 'erasedDesc', args: [status]);
   }
-
-
-
 }

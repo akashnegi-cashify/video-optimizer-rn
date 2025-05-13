@@ -9,7 +9,10 @@ class DeviceColorResponse extends BaseResponse {
   @JsonKey(name: "dt")
   List<String>? deviceColorList;
 
-  DeviceColorResponse(this.deviceColorList, super.cashifyAlert, super.trackUrl);
+  @JsonKey(name: "sc")
+  List<String>? strapColorList;
+
+  DeviceColorResponse(this.deviceColorList, this.strapColorList, super.cashifyAlert, super.trackUrl);
 
   static DeviceColorResponse fromJson(Map<String, dynamic> json) => _$DeviceColorResponseFromJson(json);
 

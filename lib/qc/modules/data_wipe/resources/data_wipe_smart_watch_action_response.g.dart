@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'device_colors_response.dart';
+part of 'data_wipe_smart_watch_action_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-DeviceColorResponse _$DeviceColorResponseFromJson(Map<String, dynamic> json) =>
-    DeviceColorResponse(
-      (json['dt'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      (json['sc'] as List<dynamic>?)?.map((e) => e as String).toList(),
+DataWipeSmartWatchActionResponse _$DataWipeSmartWatchActionResponseFromJson(
+        Map<String, dynamic> json) =>
+    DataWipeSmartWatchActionResponse(
+      (json['dt'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
     );
 
-Map<String, dynamic> _$DeviceColorResponseToJson(
-        DeviceColorResponse instance) =>
+Map<String, dynamic> _$DataWipeSmartWatchActionResponseToJson(
+        DataWipeSmartWatchActionResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'dt': instance.deviceColorList,
-      'sc': instance.strapColorList,
+      'dt': instance.dataWipeSmartWatchActionMap,
     };

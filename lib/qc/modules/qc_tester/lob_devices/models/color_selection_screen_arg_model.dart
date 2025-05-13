@@ -9,7 +9,7 @@ class ColorSelectionScreenArgModel {
   int? productId;
 
   @ParamKey(key: ColorSelectionScreenArgModelKeys.onColorSelected)
-  Function(String color)? onColorSelected;
+  Function(String color, String? strapColor)? onColorSelected;
 
   ColorSelectionScreenArgModel({this.deviceBarcode, this.productId, this.onColorSelected});
 }

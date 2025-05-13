@@ -144,9 +144,9 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
         CalculatorDataHolderModel().startCalculatorJourney(value, _deviceBarcode,
             selectedCategoryId: _category?.id, variantData: variantItem, deviceType: DeviceType.mobile_device);
 
-        ColorSelectionScreen.navigateTo(context, value.productId, _deviceBarcode, (color) {
+        ColorSelectionScreen.navigateTo(context, value.productId, _deviceBarcode, (deviceColor, strapColor) {
           Navigator.pop(context); // Dismiss color selection screen
-          CalculatorDataHolderModel().setSelectedColor(color);
+          CalculatorDataHolderModel().setSelectedColor(deviceColor, strapColor: strapColor);
           Navigator.pushReplacementNamed(context, CalculationScreen.route);
         });
       }
