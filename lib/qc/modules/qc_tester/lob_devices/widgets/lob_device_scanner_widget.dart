@@ -1,4 +1,3 @@
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
@@ -54,7 +53,7 @@ class LobDeviceScannerWidget extends StatelessWidget {
     }, onError: (error) {
       if (context.mounted) {
         CshLoading().hideLoading(context);
-        CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error).toString());
+        CshSnackBar.error(context: context, message: error.toString());
       }
     });
   }
