@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v4.1.4+75 (XX-06-2025)
+
+### Features:
+
+* `TRC - Glass Change - Image Capturing and Reason while glass change` [(SCM-9565)](https://reglobe.atlassian.net/browse/SCM-9565)
+
+
 # v4.1.3+74 (14-05-2025)
 
 ### Features:
