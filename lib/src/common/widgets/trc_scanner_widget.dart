@@ -5,12 +5,17 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../l10n.dart';
 
+abstract interface class ResetLastScannedBarcode {
+  void resetLastScannedBarcode();
+}
+
 class TRCScannerWidget extends StatefulWidget {
   final Function(String scannedData, MlScannerController? controller, {bool? isManualEntry}) onScanDetected;
   final List<BarcodeFormat> scanFormatList;
   final bool isEditTextSubmitButtonDirectionHorizontal;
   final String? hintText;
   final Widget? bottomView;
+  final Function(ResetLastScannedBarcode resetController)? onResetController;
 
   const TRCScannerWidget({
     super.key,
@@ -19,13 +24,14 @@ class TRCScannerWidget extends StatefulWidget {
     this.isEditTextSubmitButtonDirectionHorizontal = false,
     this.hintText,
     this.bottomView,
+    this.onResetController,
   });
 
   @override
   State<TRCScannerWidget> createState() => _TRCScannerWidgetState();
 }
 
-class _TRCScannerWidgetState extends State<TRCScannerWidget> {
+class _TRCScannerWidgetState extends State<TRCScannerWidget> implements ResetLastScannedBarcode {
   final TextEditingController _textEditController = TextEditingController();
   bool _enableButton = false;
   String? _lastScannedBarcode;
@@ -41,6 +47,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
       }
       setState(() {});
     });
+    widget.onResetController?.call(this);
     super.initState();
   }
 
@@ -113,5 +120,10 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> {
             }
           : null,
     );
+  }
+
+  @override
+  void resetLastScannedBarcode() {
+    _lastScannedBarcode = null;
   }
 }

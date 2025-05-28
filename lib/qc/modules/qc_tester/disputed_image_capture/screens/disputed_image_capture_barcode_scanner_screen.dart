@@ -2,6 +2,7 @@ import 'package:builder_project/builder_project.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
+import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -19,6 +20,7 @@ class DisputedImageCaptureBarcodeScannerArguments extends BaseArguments {
   final String? hintText;
   List<BarcodeFormat>? scanFormatList;
   final Widget? bottomView;
+  final Function(ResetLastScannedBarcode resetController)? resetController;
 
   DisputedImageCaptureBarcodeScannerArguments({
     this.onScanDetected,
@@ -26,6 +28,7 @@ class DisputedImageCaptureBarcodeScannerArguments extends BaseArguments {
     this.hintText,
     this.scanFormatList,
     this.bottomView,
+    this.resetController,
   }) : super(DisputedImageCaptureBarcodeScanner.pageKey);
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class DisputedImageCaptureBarcodeScannerArguments extends BaseArguments {
     data[DisputedImageCaptureScannerParamKeys.header.value] = header;
     data[DisputedImageCaptureScannerParamKeys.scanFormats.value] = scanFormatList;
     data[DisputedImageCaptureScannerParamKeys.bottomView.value] = bottomView;
+    data[DisputedImageCaptureScannerParamKeys.resetController.value] = resetController;
     return data;
   }
 }

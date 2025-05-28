@@ -8,6 +8,7 @@ import 'package:flutter_trc/rms/modules/receive_device/providers/receive_device_
 import 'package:flutter_trc/rms/modules/receive_device/resources/accessories_data.dart';
 import 'package:flutter_trc/rms/modules/receive_device/widgets/barcode_type_selection_dialog.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +55,7 @@ class ReceiveDeviceModule extends StatelessWidget {
   }
 
   _onProceed(BuildContext context, ReceiveDeviceModuleProvider provider) {
+    ResetLastScannedBarcode? _resetController;
     showBarcodeTypeSelectionDialog(
       context,
       onSelected: (barcodeType) {
@@ -61,6 +63,9 @@ class ReceiveDeviceModule extends StatelessWidget {
         CshMlScannerUtil().openScanner(
           context,
           scanFormatList: [BarcodeFormat.all],
+          resetController: (resetController) {
+            _resetController = resetController;
+          },
           onScanned: (scannedData, controller) {
             int facilityId = AppPreferences.app.getFacility()?.id ?? 0;
             CshLoading().showLoading(context);
@@ -82,6 +87,7 @@ class ReceiveDeviceModule extends StatelessWidget {
               }
             }, onError: (error) {
               CshLoading().hideLoading(context);
+              _resetController?.resetLastScannedBarcode();
               showAlertDialog(
                 context,
                 title: "Scanned Value - $scannedData",
