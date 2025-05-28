@@ -1,3 +1,4 @@
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/rms/modules/facility_list/resources/facility_list_response.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_trc/rms/modules/receive_device/resources/accessories_dat
 import 'package:flutter_trc/rms/modules/receive_device/widgets/barcode_type_selection_dialog.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
 import '../barcode_types.dart';
@@ -58,6 +60,7 @@ class ReceiveDeviceModule extends StatelessWidget {
         Navigator.pop(context); // Close the dialog
         CshMlScannerUtil().openScanner(
           context,
+          scanFormatList: [BarcodeFormat.all],
           onScanned: (scannedData, controller) {
             int facilityId = AppPreferences.app.getFacility()?.id ?? 0;
             CshLoading().showLoading(context);
@@ -79,8 +82,16 @@ class ReceiveDeviceModule extends StatelessWidget {
               }
             }, onError: (error) {
               CshLoading().hideLoading(context);
-              controller?.start();
-              CshSnackBar.error(context: context, message: error.toString());
+              showAlertDialog(
+                context,
+                title: "Scanned Value - $scannedData",
+                desc: error.toString(),
+                posBtnText: "Scan Again",
+                onPosBtnPressed: (_) {
+                  controller?.start();
+                  Navigator.pop(context); // Close the alert dialog
+                },
+              );
             });
           },
         );
