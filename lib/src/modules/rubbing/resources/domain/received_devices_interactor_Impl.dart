@@ -1,3 +1,4 @@
+import 'package:flutter_trc/src/modules/rubbing/model/glass_change_fail_reason_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_receive_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_devices_request.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_devices_response.dart';
@@ -21,8 +22,8 @@ class ReceivedDevicesInteractorImpl implements ReceivedDevicesInteractor {
 
   @override
   Stream<RubbingDoneResponse?> markRubbing(String barcode, bool isDone,
-      {bool isGlassChangeRole = false, String? partBarcode}) {
-    return RubbingAPIService.markRubbing(barcode, isDone, isGlassChangeRole);
+      {bool isGlassChangeRole = false, String? partBarcode, String? selectedReason}) {
+    return RubbingAPIService.markRubbing(barcode, isDone, isGlassChangeRole, selectedReason);
   }
 
   @override
@@ -33,5 +34,10 @@ class ReceivedDevicesInteractorImpl implements ReceivedDevicesInteractor {
   @override
   Stream<RubbingDoneResponse?> attachBarcode(String barcode, String? partBarcode) {
     return RubbingAPIService.attachPartBarcode(barcode, partBarcode);
+  }
+
+  @override
+  Stream<GlassChangeFailReasonResponse?> getGlassChangeFailReasonList() {
+    return RubbingAPIService.getGlassFailReasonList();
   }
 }

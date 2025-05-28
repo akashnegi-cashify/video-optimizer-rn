@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/modules/rubbing/model/glass_change_fail_reason_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_devices_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_done_response.dart';
 
@@ -14,10 +16,12 @@ class RubbingAPIService {
         .post("$startPoint/device/list", RubbingDevicesResponse.fromJson, body: jsonEncode(request.toJson()));
   }
 
-  static Stream<RubbingDoneResponse?> markRubbing(String scannedBarcode, bool rubbingDone, bool isGlassChange) {
+  static Stream<RubbingDoneResponse?> markRubbing(
+      String scannedBarcode, bool rubbingDone, bool isGlassChange, String? selectedReason) {
     Map<String, List<String>> paramData = {
       "dbr": [scannedBarcode],
-      "isrd": [rubbingDone.toString()]
+      "isrd": [rubbingDone.toString()],
+      if (!Validator.isNullOrEmpty(selectedReason)) "rsnid": [selectedReason.toString()]
     };
     String startPoint = isGlassChange ? "/glass-change" : "/rubbing";
     return TrcService().post("$startPoint/device/done", RubbingDoneResponse.fromJson, params: paramData);
@@ -35,5 +39,9 @@ class RubbingAPIService {
     Map<String, String?> req = {"dbr": deviceBarcode, "pbr": partBarcode};
     return TrcService()
         .post("/glass-change/device/attach/barcode", RubbingDoneResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<GlassChangeFailReasonResponse?> getGlassFailReasonList() {
+    return TrcService().get("/glass-change/fail/reason/list", GlassChangeFailReasonResponse.fromJson);
   }
 }

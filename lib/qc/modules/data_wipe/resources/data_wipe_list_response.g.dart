@@ -39,7 +39,7 @@ DataWipeListItem _$DataWipeListItemFromJson(Map<String, dynamic> json) =>
       json['imei'] as String?,
       json['imei2'] as String?,
       json['sno'] as String?,
-          (json['epc'] as num?)?.toInt(),
+      (json['epc'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DataWipeListItemToJson(DataWipeListItem instance) =>
