@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/rms/modules/receive_device/barcode_types.dart';
 import 'package:flutter_trc/rms/modules/receive_device/providers/create_video_module_provider.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/common/utils/csh_video_picker.dart';
+import 'package:flutter_trc/src/common/widgets/trc_scanner_widget.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
@@ -32,14 +35,20 @@ class _CreateVideoButton extends StatelessWidget {
   }
 
   _onCreateVideoButtonClicked(BuildContext context, CreateVideoModuleProvider provider) {
+    ResetLastScannedBarcode? _resetController;
     showBarcodeTypeSelectionDialog(
       context,
       onSelected: (barcodeType) {
         Navigator.pop(context); // Close the dialog
         CshMlScannerUtil().openScanner(
           context,
+          scanFormatList: [BarcodeFormat.all],
+          resetController: (resetController) {
+            _resetController = resetController;
+          },
           onScanned: (scannedData, controller) {
             CshLoading().showLoading(context);
+            controller?.stop();
             provider.getDeviceDetails(scannedData, barcodeType).then((value) {
               Navigator.pop(context); // Close the scanner
               CshLoading().hideLoading(context);
@@ -48,7 +57,17 @@ class _CreateVideoButton extends StatelessWidget {
               });
             }, onError: (error) {
               CshLoading().hideLoading(context);
-              CshSnackBar.error(context: context, message: error.toString(), snackBarPosition: SnackBarPosition.TOP);
+              _resetController?.resetLastScannedBarcode();
+              showAlertDialog(
+                context,
+                title: "Scanned Value - $scannedData",
+                desc: error.toString(),
+                posBtnText: "Scan Again",
+                onPosBtnPressed: (_) {
+                  controller?.start();
+                  Navigator.pop(context); // Close the alert dialog
+                },
+              );
             });
           },
         );
