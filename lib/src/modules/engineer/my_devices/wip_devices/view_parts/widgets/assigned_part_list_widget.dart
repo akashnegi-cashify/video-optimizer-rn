@@ -72,8 +72,7 @@ class ItemPartWidget extends StatelessWidget {
   final EngineerDeviceInfo deviceInfo;
   final VoidCallback? onBottomSheetClosed;
 
-  const ItemPartWidget({Key? key, required this.part, required this.deviceInfo, this.onBottomSheetClosed})
-      : super(key: key);
+  const ItemPartWidget({super.key, required this.part, required this.deviceInfo, this.onBottomSheetClosed});
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/cancel_part_button_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/replace_with_retrieved_part_button_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/receive_part_button_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/return_part_button_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_part_list_widget.dart';
@@ -11,14 +12,12 @@ import '../../../../models/engineer_device_info.dart';
 import '../../models/engineer_part_info.dart';
 import 'consume_part_button_widget.dart';
 
-Future<dynamic> viewPartDetailBottomSheet(BuildContext context, ViewPartDetailData data) => showCshBottomSheet(
-    context: context,
-    child: _ViewPartDetailWidget(
-      data: data,
-    ));
+Future<dynamic> viewPartDetailBottomSheet(BuildContext context, ViewPartDetailData data) =>
+    showCshBottomSheet(context: context, child: _ViewPartDetailWidget(data: data));
 
 class _ViewPartDetailWidget extends StatelessWidget {
-  const _ViewPartDetailWidget({Key? key, required this.data}) : super(key: key);
+  const _ViewPartDetailWidget({required this.data});
+
   final ViewPartDetailData data;
 
   @override
@@ -41,6 +40,10 @@ class _ViewPartDetailWidget extends StatelessWidget {
 
     isReturnAvailable() {
       return data.partInfo.statusCode == StatusCode.receiveStatusCode.value;
+    }
+
+    bool isReplaceWithRetrievedPartAvailable() {
+      return data.partInfo.isRetrievedPartAssign ?? false;
     }
 
     L10n l10n = L10n(context);
@@ -96,12 +99,24 @@ class _ViewPartDetailWidget extends StatelessWidget {
                 )),
           if (isReturnAvailable())
             Padding(
-                padding: const EdgeInsets.all(Dimens.space_8),
-                child: ReturnPartButtonWidget(
-                    partInfo: data.partInfo,
-                    onRequestCompletion: () {
-                      Navigator.pop(context);
-                    }))
+              padding: const EdgeInsets.all(Dimens.space_8),
+              child: ReturnPartButtonWidget(
+                  partInfo: data.partInfo,
+                  onRequestCompletion: () {
+                    Navigator.pop(context);
+                  }),
+            ),
+          if (isReplaceWithRetrievedPartAvailable())
+            Padding(
+              padding: const EdgeInsets.all(Dimens.space_8),
+              child: ReplaceWithRetrievedPartButtonWidget(
+                deviceId: data.deviceInfo.deviceId,
+                partInfo: data.partInfo,
+                onRequestCompletion: () {
+                  Navigator.popUntil(context, (route) => route is PageRoute);
+                },
+              ),
+            ),
         ],
       ),
     );
