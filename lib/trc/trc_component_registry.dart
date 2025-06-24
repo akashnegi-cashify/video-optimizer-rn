@@ -1,5 +1,6 @@
 import 'package:components/no_internet/no_internet_component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/audit/component/trc_audit_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_device_media_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_part_component.dart';
 import 'package:flutter_trc/src/modules/elss/components/add_part_qc_component.dart';
@@ -191,6 +192,9 @@ class TrcComponentRegistry {
 
       case TlListComponent.COMP_KEY:
         return TlListComponent(jsonConfig);
+
+      case TrcAuditComponent.COMP_KEY:
+        return TrcAuditComponent(jsonConfig);
       default:
         return null;
     }

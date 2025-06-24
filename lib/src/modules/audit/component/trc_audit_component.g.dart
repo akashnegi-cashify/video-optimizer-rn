@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'audit_barcode_scanner_component.dart';
+part of 'trc_audit_component.dart';
 
 // **************************************************************************
 // ComponentGenerator
@@ -9,10 +9,10 @@ part of 'audit_barcode_scanner_component.dart';
 dynamic schema() => {
       //#admincomponent
       "type": "@@component",
-      "key": "audit_barcode_scanner_comp",
-      "componentType": "Audit Barcode Scanner",
+      "key": "TRC_audit_home_component",
+      "componentType": "Trc Audit Component",
       "isActive": true,
-      "title": "Audit Barcode Scanned Component",
+      "title": "Trc Audit Component",
       "configJson": {
         "type": "list",
         "config": [

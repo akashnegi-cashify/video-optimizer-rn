@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/audit/screens/trc_audit_screen.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/add_part_screen_qc.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/allowed_option_screen.dart';
@@ -114,6 +115,7 @@ class TrcRoutes {
       DeviceReportScreen.route: (_) => const DeviceReportScreen(),
       PartRequestReasonsScreen.route: (_) => const PartRequestReasonsScreen(),
       TlListScreen.route: (_) => const TlListScreen(),
+      TrcAuditScreen.route: (_) => const TrcAuditScreen(),
     };
   }
 }

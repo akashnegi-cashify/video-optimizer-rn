@@ -5,7 +5,6 @@ import 'package:flutter_trc/qc/modules/qc_tester/audit/widgets/question_widget.d
 
 import '../l10n.dart';
 import '../providers/audit_questions_provider.dart';
-import '../screens/audit_barcode_scanner_screen.dart';
 
 class AuditQuestionBuilder extends StatefulWidget {
   final String barcode;
@@ -34,7 +33,6 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
           pagerController.previousPage(duration: const Duration(milliseconds: 200), curve: Curves.easeOut);
           return Future.value(false);
         } else {
-          Navigator.of(context).pushReplacementNamed(AuditBarcodeScannerScreen.route);
           return Future.value(true);
         }
       },

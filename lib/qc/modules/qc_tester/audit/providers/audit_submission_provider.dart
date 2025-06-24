@@ -4,37 +4,40 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/resources/new_audit_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_service.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_status_response.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/qc_calculator_service.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/audit_service.dart';
 
-class AuditQuestionSubmitProvider extends CshChangeNotifier {
+class AuditQuestionSubmitProvider extends CalculatorServiceInitProvider {
   List<int>? manualQuestionListIds;
 
   static AuditQuestionSubmitProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<AuditQuestionSubmitProvider>(context, listen: listen);
   }
 
-  AuditQuestionSubmitProvider();
-
   //Submit Audit question responses
-  Future<bool> submitAuditQuestion(String scannedBarcode, Map<String, dynamic> postData) {
+  Future<bool> submitAuditQuestion(
+    String scannedBarcode,
+    Map<String, dynamic> postData,
+    List<MediaSubmitRequest>? mediaList,
+  ) {
     var completer = Completer<bool>();
     try {
       AuditDataServices.submitAutQuestionResponses(
         scannedBarcode,
         postData,
         manualAuditQuestionIds: manualQuestionListIds,
+        mediaList: mediaList,
+        service: service.getService(),
       ).listen((event) {
         if (event != null) {
           completer.complete(true);
         }
       }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Some error occurred";
-
-        completer.completeError(errorMessage);
+        completer.completeError(error);
       }, onDone: () {
         notifyListeners();
       });
@@ -80,7 +83,7 @@ class AuditQuestionSubmitProvider extends CshChangeNotifier {
 
   Future<DeviceStatusResponse?> _callingDeviceStatusApi(String deviceBarcode) {
     var completer = Completer<DeviceStatusResponse?>();
-    QcCalculatorService().getDeviceStatus(deviceBarcode).listen((event) {
+    service.getDeviceStatus(deviceBarcode).listen((event) {
       completer.complete(event);
     }, onError: (error) {
       completer.completeError(error);

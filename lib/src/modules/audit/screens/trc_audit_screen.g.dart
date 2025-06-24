@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'audit_barcode_scanner_screen.dart';
+part of 'trc_audit_screen.dart';
 
 // **************************************************************************
 // Generator: PageSchemaGen
@@ -9,9 +9,9 @@ part of 'audit_barcode_scanner_screen.dart';
 dynamic schema() => {
       //#adminscreen
       "type": "@@page",
-      "key": "audit_barcode_scanner",
-      "pageGroup": "Audit Barcode Scanner",
-      "title": "Audit Barcode Scanner Screen",
+      "key": "TRC_audit_home_screen",
+      "pageGroup": "Trc Audit",
+      "title": "Trc Audit Screen",
       "isActive": true,
       "params": null
       //#adminscreen

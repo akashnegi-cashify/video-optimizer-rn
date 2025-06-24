@@ -11,7 +11,6 @@ import 'package:flutter_trc/qc/modules/gaurd/screens/guard_device_counting_list_
 import 'package:flutter_trc/qc/modules/gaurd/screens/guard_upload_invoice_screen.dart';
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/imei_validator/screens/imei_validator_screen.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_summary_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculation_screen.dart';
@@ -67,7 +66,6 @@ class QcRoutes {
       DisputedQuestionScreen.route: (_) => const DisputedQuestionScreen(),
       AuditQuestionSummaryScreen.route: (_) => const AuditQuestionSummaryScreen(),
       AuditQuestionsScreen.route: (_) => const AuditQuestionsScreen(),
-      AuditBarcodeScannerScreen.route: (_) => const AuditBarcodeScannerScreen(),
       CalculatorScannerScreen.route: (_) => const CalculatorScannerScreen(),
       SubmitDeviceQuoteScreen.route: (_) => const SubmitDeviceQuoteScreen(),
       CalculatorMediaCaptureScreen.route: (_) => const CalculatorMediaCaptureScreen(),

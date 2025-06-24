@@ -9,7 +9,6 @@ import 'package:flutter_trc/qc/modules/gaurd/components/guard_device_counting_li
 import 'package:flutter_trc/qc/modules/gaurd/components/guard_upload_invoice_component.dart';
 import 'package:flutter_trc/qc/modules/gaurd/components/qc_guard_home_component.dart';
 import 'package:flutter_trc/qc/modules/imei_validator/components/imei_validator_component.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_barcode_scanner_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/components/audit_question_summary_component.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/component/calculator_component.dart';
@@ -72,8 +71,6 @@ class QcComponentRegistry {
         return AuditQuestionSummaryComponent(jsonConfig);
       case AuditQuestionComponent.COMP_KEY:
         return AuditQuestionComponent(jsonConfig);
-      case AuditBarcodeScannedComponent.COMP_KEY:
-        return AuditBarcodeScannedComponent(jsonConfig);
       case CalculatorScannerComponent.COMP_KEY:
         return CalculatorScannerComponent(jsonConfig);
       case SubmitDeviceQuoteComponent.COMP_KEY:

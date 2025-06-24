@@ -8,6 +8,7 @@ import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_calcula
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/disputed_questions_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/resources/journey_type.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/common/calculator_analytics/calculator_analytics_helper.dart';
@@ -64,7 +65,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
   void _moveToNextScreen(BuildContext context, {required MyQuoteRequestData requestData}) {
     CalculatorDataHolderModel().quoteRequestData = requestData;
     CalculatorMediaCaptureScreen.navigateTo(context, CalculatorDataHolderModel().deviceBarcode!,
-        isComingFromCalculatorJourney: true, categoryId: CalculatorDataHolderModel().selectedCategoryId);
+        journeyType: JourneyType.testing, categoryId: CalculatorDataHolderModel().selectedCategoryId);
   }
 
   void _showDisputedQuestions(BuildContext context, List<ManualAuditQuestionItem>? manualAuditQuestions,
