@@ -13,8 +13,10 @@ class ReturnPartData {
   String? remark;
   @JsonKey(name: "prid")
   int? prid;
+  @JsonKey(name: "rpbr")
+  String? retrievedPartBarcode;
 
-  ReturnPartData(this.partBarcode, this.partId, this.returnReason, this.remark, this.prid);
+  ReturnPartData(this.partBarcode, this.partId, this.returnReason, this.remark, this.prid, this.retrievedPartBarcode);
 
   static ReturnPartData fromJson(Map<String, dynamic> json) => _$ReturnPartDataFromJson(json);
   Map<String, dynamic> toJson() => _$ReturnPartDataToJson(this);
