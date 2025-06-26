@@ -59,12 +59,12 @@ class ReturnPartButtonWidget extends StatelessWidget {
                 );
                 EngineerAPIService.returnPart(data).listen((event) {
                   if (event == null) {
-                    showSnackBar(context, l10n.somethingWentWrong, isError: true);
+                    _showSnackBar(context, l10n.somethingWentWrong, isError: true);
                     return;
                   }
 
                   if (event.errorMsg != null) {
-                    showSnackBar(context, event.errorMsg!, isError: true);
+                    _showSnackBar(context, event.errorMsg!, isError: true);
                     return;
                   }
 
@@ -72,29 +72,28 @@ class ReturnPartButtonWidget extends StatelessWidget {
                     if (onRequestCompletion != null) {
                       onRequestCompletion!();
                     }
-                    showSnackBar(context, l10n.partSentToReturn);
+                    _showSnackBar(context, l10n.partSentToReturn);
                     return;
                   }
 
-                  showSnackBar(context, l10n.somethingWentWrong, isError: true);
+                  _showSnackBar(context, l10n.somethingWentWrong, isError: true);
                 }, onError: (error, stacktrace) {
-                  showSnackBar(context, ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong,
+                  _showSnackBar(context, ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong,
                       isError: true);
                 });
               }
             },
           );
         } else {
-          showSnackBar(context, l10n.somethingWentWrong, isError: true);
+          _showSnackBar(context, l10n.somethingWentWrong, isError: true);
         }
       }).onError((error, stacktrace) {
         String? errorMessage = ApiErrorHelper.getErrorMessage(error);
-        showSnackBar(context, errorMessage ?? l10n.somethingWentWrong, isError: true);
+        _showSnackBar(context, errorMessage ?? l10n.somethingWentWrong, isError: true);
       });
 
   void askForTheReasonOfReturn(BuildContext context, List<String> returnReasons,
       {required Function(ReasonDialogData data) onSubmit}) async {
-    final TextEditingController controller = TextEditingController();
     final TextEditingController retrievedPartController = TextEditingController();
     showDialog(
       context: context,
@@ -105,7 +104,7 @@ class ReturnPartButtonWidget extends StatelessWidget {
           create: (_) => ReturnPartProvider(),
           builder: (context, widget) {
             var theme = Theme.of(context);
-            var provider = Provider.of<ReturnPartProvider>(context, listen: false);
+            var provider = Provider.of<ReturnPartProvider>(context);
             return Dialog(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_16),
@@ -125,13 +124,18 @@ class ReturnPartButtonWidget extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: Dimens.space_16),
-                    CshTextFormField(controller: controller, hintText: l10n.remarks),
+                    CshTextFormField(
+                      hintText: l10n.remarks,
+                      onChanged: (remarks) {
+                        provider.remarks = remarks;
+                      },
+                    ),
                     if (isRetrievedPartAssign)
                       Padding(
                         padding: const EdgeInsets.only(top: Dimens.space_16),
                         child: CshTextFormField(
-                          controller: retrievedPartController,
                           readOnly: true,
+                          controller: retrievedPartController,
                           hintText: l10n.retrievedPartBarcode,
                           onTap: () {
                             CshMlScannerUtil().openScanner(
@@ -139,6 +143,7 @@ class ReturnPartButtonWidget extends StatelessWidget {
                               onScanned: (scannedData, _) {
                                 Navigator.pop(context); // Dismiss scanner screen
                                 retrievedPartController.text = scannedData;
+                                provider.retrievedPartBarcode = scannedData;
                               },
                             );
                           },
@@ -156,16 +161,16 @@ class ReturnPartButtonWidget extends StatelessWidget {
                         const SizedBox(width: Dimens.space_30),
                         CshMediumButton(
                           text: l10n.confirm,
-                          onPressed: Provider.of<ReturnPartProvider>(context, listen: true).selectedReason == null
-                              ? null
-                              : () {
+                          onPressed: provider.isEnabled(isRetrievedPartAssign)
+                              ? () {
                                   var data = ReasonDialogData(
                                     provider.selectedReason!,
-                                    controller.text,
-                                    isRetrievedPartAssign ? retrievedPartController.text : null,
+                                    provider.remarks,
+                                    isRetrievedPartAssign ? provider.retrievedPartBarcode : null,
                                   );
                                   onSubmit(data);
-                                },
+                                }
+                              : null,
                         ),
                       ],
                     )
@@ -177,14 +182,11 @@ class ReturnPartButtonWidget extends StatelessWidget {
         );
       },
     ).whenComplete(() {
-      controller.dispose();
-      // if (isRetrievedPartAssign) {
       retrievedPartController.dispose();
-      // }
     });
   }
 
-  showSnackBar(BuildContext context, String message, {bool isError = false}) {
+  _showSnackBar(BuildContext context, String message, {bool isError = false}) {
     ThemeData theme = Theme.of(context);
     CustomColors customTheme = theme.extension<CustomColors>() as CustomColors;
     var backgroundColor = customTheme.successColor;
@@ -213,7 +215,7 @@ class ReturnPartButtonWidget extends StatelessWidget {
 
 class ReasonDialogData {
   final DropDownItem<String> dropDownItem;
-  final String remarks;
+  final String? remarks;
   final String? retrievedPartBarcode;
 
   ReasonDialogData(this.dropDownItem, this.remarks, this.retrievedPartBarcode);
