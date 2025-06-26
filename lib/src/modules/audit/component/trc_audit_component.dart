@@ -18,23 +18,27 @@ class TrcAuditComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        CshBigButton(
-          text: "Audit",
-          onPressed: () {
-            CshMlScannerUtil().openScanner(
-              context,
-              onScanned: (scannedData, controller) {
-                AuditQuestionsScreenArguments args = AuditQuestionsScreenArguments(scannedBarcode: scannedData.trim());
-                Navigator.of(context).pushReplacementNamed(AuditQuestionsScreen.route, arguments: args);
-              },
-            );
-          },
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CshBigButton(
+            text: "Audit",
+            onPressed: () {
+              CshMlScannerUtil().openScanner(
+                context,
+                onScanned: (scannedData, controller) {
+                  AuditQuestionsScreenArguments args =
+                      AuditQuestionsScreenArguments(scannedBarcode: scannedData.trim());
+                  Navigator.of(context).pushReplacementNamed(AuditQuestionsScreen.route, arguments: args);
+                },
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 
