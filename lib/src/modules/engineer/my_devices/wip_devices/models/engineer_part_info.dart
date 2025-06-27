@@ -16,6 +16,9 @@ class EngineerPartInfo extends DevicePart {
   @JsonKey(name: "rvc")
   int? retrievedImageCount;
 
+  @JsonKey(name: "isrpa")
+  bool? isRetrievedPartAssign;
+
   static EngineerPartInfo fromJson(Map<String, dynamic> data) => _$EngineerPartInfoFromJson(data);
 
   @override
@@ -38,6 +41,7 @@ enum StatusCode {
   allottedStatusCode(22),
   riderDeliveryPickedStatusCode(25),
   receiveStatusCode(33),
+  consumedStatusCode(99),
   initiated(0);
 
   final int value;

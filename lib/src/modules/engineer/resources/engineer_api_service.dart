@@ -288,4 +288,15 @@ class EngineerAPIService {
     };
     return TrcService().get("/device/v2/media", GenericDeviceMediaResponse.fromJson, params: params);
   }
+
+  static Stream<BaseActionResponse?> replacePartBarcode(
+      String? replacedPartBarcode, int? partRequestId, int? deviceId) {
+    Map<String, dynamic> req = {
+      "did": deviceId,
+      "br": replacedPartBarcode,
+      "prid": partRequestId,
+    };
+
+    return TrcService().post("/engineer/assign-retrieved-part", BaseActionResponse.fromJson, body: jsonEncode(req));
+  }
 }

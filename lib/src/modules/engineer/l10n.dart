@@ -113,13 +113,21 @@ class L10n extends l10n_common.L10n {
 
   String get receive => Intl.message("Receive", locale: localName, name: "receive");
 
+  String get replaceThisPart => Intl.message("Replace this part", locale: localName, name: "replaceThisPart");
+
   String get return_ => Intl.message("Return", locale: localName, name: "return_");
 
   String get areYouSureYouWantToReceive =>
       Intl.message("Are you sure you want to receive", locale: localName, name: "areYouSureYouWantToReceive");
 
+  String get areYouSureYouWantToReplace =>
+      Intl.message("Are you sure you want to replace this part", locale: localName, name: "areYouSureYouWantToReplace");
+
   String get deviceReceivedSuccessfully =>
       Intl.message("Device Received successfully!", locale: localName, name: "deviceReceivedSuccessfully");
+
+  String get partReplacedSuccessfully =>
+      Intl.message("Part Replaced successfully!", locale: localName, name: "partReplacedSuccessfully");
 
   String get clickOnConfirmToCancel =>
       Intl.message("Click on Confirm to Cancel", locale: localName, name: "clickOnConfirmToCancel");
