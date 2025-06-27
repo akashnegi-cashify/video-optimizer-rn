@@ -45,9 +45,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: Dimens.space_8),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: Dimens.space_8),
             child: _DeviceCardWidget(deviceInfo: deviceInfo),
