@@ -14,8 +14,14 @@ import '../../../../../../common/widgets/title_value_row_widget.dart';
 class ReturnPartButtonWidget extends StatelessWidget {
   final EngineerPartInfo partInfo;
   final VoidCallback? onRequestCompletion;
+  final bool isRetrievedPartAssign;
 
-  const ReturnPartButtonWidget({Key? key, required this.partInfo, this.onRequestCompletion}) : super(key: key);
+  const ReturnPartButtonWidget({
+    super.key,
+    required this.partInfo,
+    this.onRequestCompletion,
+    this.isRetrievedPartAssign = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,115 +43,180 @@ class ReturnPartButtonWidget extends StatelessWidget {
   returnPart(BuildContext context, L10n l10n, String? partBarcode) =>
       EngineerAPIService.getReturnReasonList().listen((event) async {
         if (event != null && event.isSuccess == true && event.reasons != null && event.reasons!.isNotEmpty) {
-          var reasonDialogData = await askForTheReasonOfReturn(context, event.reasons!) as ReasonDialogData?;
+          askForTheReasonOfReturn(
+            context,
+            event.reasons!,
+            onSubmit: (reasonDialogData) {
+              Navigator.pop(context); // Dismiss reason dialog
+              if (partInfo.deviceBarcode != null) {
+                ReturnPartData data = ReturnPartData(
+                  partBarcode,
+                  partInfo.partId.toString(),
+                  reasonDialogData.dropDownItem.id,
+                  reasonDialogData.remarks,
+                  partInfo.prId,
+                  reasonDialogData.retrievedPartBarcode,
+                );
+                EngineerAPIService.returnPart(data).listen((event) {
+                  if (event == null) {
+                    _showSnackBar(context, l10n.somethingWentWrong, isError: true);
+                    return;
+                  }
 
-          if (partInfo.deviceBarcode != null && reasonDialogData != null) {
-            ReturnPartData data = ReturnPartData(partBarcode, partInfo.partId.toString(),
-                reasonDialogData.dropDownItem.id, reasonDialogData.remarks, partInfo.prId);
-            EngineerAPIService.returnPart(data).listen((event) {
-              if (event == null) {
-                CshSnackBar.error(
-                    context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
-                return;
+                  if (event.errorMsg != null) {
+                    _showSnackBar(context, event.errorMsg!, isError: true);
+                    return;
+                  }
+
+                  if (event.isSuccess) {
+                    if (onRequestCompletion != null) {
+                      onRequestCompletion!();
+                    }
+                    _showSnackBar(context, l10n.partSentToReturn);
+                    return;
+                  }
+
+                  _showSnackBar(context, l10n.somethingWentWrong, isError: true);
+                }, onError: (error, stacktrace) {
+                  _showSnackBar(context, ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong,
+                      isError: true);
+                });
               }
-
-              if (event.errorMsg != null) {
-                CshSnackBar.error(context: context, message: event.errorMsg!, snackBarPosition: SnackBarPosition.TOP);
-                return;
-              }
-
-              if (event.isSuccess) {
-                if (onRequestCompletion != null) {
-                  onRequestCompletion!();
-                }
-                CshSnackBar.success(
-                    context: context, message: l10n.partSentToReturn, snackBarPosition: SnackBarPosition.TOP);
-                return;
-              }
-
-              CshSnackBar.error(
-                  context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
-            }, onError: (error, stacktrace) {
-              CshSnackBar.error(
-                  context: context,
-                  message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong,
-                  snackBarPosition: SnackBarPosition.TOP);
-            });
-          }
+            },
+          );
         } else {
-          CshSnackBar.error(context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
+          _showSnackBar(context, l10n.somethingWentWrong, isError: true);
         }
       }).onError((error, stacktrace) {
-        CshSnackBar.error(context: context, message: l10n.somethingWentWrong, snackBarPosition: SnackBarPosition.TOP);
+        String? errorMessage = ApiErrorHelper.getErrorMessage(error);
+        _showSnackBar(context, errorMessage ?? l10n.somethingWentWrong, isError: true);
       });
 
-  Future<dynamic> askForTheReasonOfReturn(BuildContext context, List<String> returnReasons) async {
-    final TextEditingController controller = TextEditingController();
-    return await showDialog(
-            useRootNavigator: false,
-            builder: (context) {
-              L10n l10n = L10n(context);
+  void askForTheReasonOfReturn(BuildContext context, List<String> returnReasons,
+      {required Function(ReasonDialogData data) onSubmit}) async {
+    final TextEditingController retrievedPartController = TextEditingController();
+    showDialog(
+      context: context,
+      useRootNavigator: false,
+      builder: (context) {
+        L10n l10n = L10n(context);
+        return ChangeNotifierProvider(
+          create: (_) => ReturnPartProvider(),
+          builder: (context, widget) {
+            var theme = Theme.of(context);
+            var provider = Provider.of<ReturnPartProvider>(context);
+            return Dialog(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TitleValueRowWidget(title: l10n.deviceName, value: partInfo.deviceName ?? ""),
+                    TitleValueRowWidget(title: l10n.deviceBarcode, value: partInfo.deviceBarcode ?? ""),
+                    TitleValueRowWidget(title: l10n.partName, value: partInfo.partName ?? ""),
+                    const SizedBox(height: Dimens.space_8),
+                    CshDropDown(
+                      hintText: l10n.chooseYourResponse,
+                      selectedItem: provider.selectedReason,
+                      items: returnReasons.map((e) => DropDownItem<String>(e, e)).toList(),
+                      onChanged: (DropDownItem<String> item) {
+                        provider.selectedReason = item;
+                      },
+                    ),
+                    const SizedBox(height: Dimens.space_16),
+                    CshTextFormField(
+                      hintText: l10n.remarks,
+                      onChanged: (remarks) {
+                        provider.remarks = remarks;
+                      },
+                    ),
+                    if (isRetrievedPartAssign)
+                      Padding(
+                        padding: const EdgeInsets.only(top: Dimens.space_16),
+                        child: CshTextFormField(
+                          readOnly: true,
+                          controller: retrievedPartController,
+                          hintText: l10n.retrievedPartBarcode,
+                          onTap: () {
+                            CshMlScannerUtil().openScanner(
+                              context,
+                              onScanned: (scannedData, _) {
+                                Navigator.pop(context); // Dismiss scanner screen
+                                retrievedPartController.text = scannedData;
+                                provider.retrievedPartBarcode = scannedData;
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CshMediumOutlineButton(
+                          textColor: theme.colorScheme.error,
+                          bgColor: theme.colorScheme.error,
+                          text: l10n.cancel,
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        const SizedBox(width: Dimens.space_30),
+                        CshMediumButton(
+                          text: l10n.confirm,
+                          onPressed: provider.isEnabled(isRetrievedPartAssign)
+                              ? () {
+                                  var data = ReasonDialogData(
+                                    provider.selectedReason!,
+                                    provider.remarks,
+                                    isRetrievedPartAssign ? provider.retrievedPartBarcode : null,
+                                  );
+                                  onSubmit(data);
+                                }
+                              : null,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    ).whenComplete(() {
+      retrievedPartController.dispose();
+    });
+  }
 
-              return ChangeNotifierProvider(create: (context) {
-                return ReturnPartProvider();
-              }, builder: (context, widget) {
-                var theme = Theme.of(context);
-                return Dialog(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TitleValueRowWidget(title: l10n.deviceName, value: partInfo.deviceName ?? ""),
-                      TitleValueRowWidget(title: l10n.deviceBarcode, value: partInfo.deviceBarcode ?? ""),
-                      TitleValueRowWidget(title: l10n.partName, value: partInfo.partName ?? ""),
-                      const SizedBox(height: Dimens.space_8),
-                      CshDropDown(
-                          hintText: l10n.chooseYourResponse,
-                          selectedItem: Provider.of<ReturnPartProvider>(context, listen: false).selectedReason,
-                          items: returnReasons.map((e) => DropDownItem<String>(e, e)).toList(),
-                          onChanged: (DropDownItem<String> item) {
-                            Provider.of<ReturnPartProvider>(context, listen: false).selectedReason = item;
-                          }),
-                      const SizedBox(height: Dimens.space_16),
-                      CshTextFormField(controller: controller, hintText: l10n.remarks),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CshMediumOutlineButton(
-                            textColor: theme.colorScheme.error,
-                            bgColor: theme.colorScheme.error,
-                            text: l10n.cancel,
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                          const SizedBox(width: Dimens.space_30),
-                          Row(
-                            children: [
-                              CshMediumButton(
-                                text: l10n.confirm,
-                                onPressed: Provider.of<ReturnPartProvider>(context, listen: true).selectedReason == null
-                                    ? null
-                                    : () => Navigator.of(context).pop(ReasonDialogData(
-                                        Provider.of<ReturnPartProvider>(context, listen: false).selectedReason!,
-                                        controller.text)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ));
-              });
-            },
-            context: context)
-        .whenComplete(() => controller.dispose());
+  _showSnackBar(BuildContext context, String message, {bool isError = false}) {
+    ThemeData theme = Theme.of(context);
+    CustomColors customTheme = theme.extension<CustomColors>() as CustomColors;
+    var backgroundColor = customTheme.successColor;
+    if (isError) {
+      backgroundColor = theme.colorScheme.error;
+    }
+    SnackBar snackBar = SnackBar(
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 3),
+      padding: const EdgeInsets.all(Dimens.space_16),
+      backgroundColor: backgroundColor,
+      margin: EdgeInsets.only(
+        bottom: MediaQuery.of(context).size.height - 200,
+        left: Dimens.space_8,
+        right: Dimens.space_8,
+      ),
+      dismissDirection: DismissDirection.endToStart,
+      content: Text(
+        message,
+        style: theme.textTheme.titleSmall!.copyWith(color: theme.colorScheme.onSecondary),
+      ),
+    );
+    return ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
 
 class ReasonDialogData {
   final DropDownItem<String> dropDownItem;
-  final String remarks;
+  final String? remarks;
+  final String? retrievedPartBarcode;
 
-  ReasonDialogData(this.dropDownItem, this.remarks);
+  ReasonDialogData(this.dropDownItem, this.remarks, this.retrievedPartBarcode);
 }

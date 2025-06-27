@@ -13,7 +13,7 @@ import '../../models/parts_list_response.dart';
 class AssignedPartListWidget extends StatefulWidget {
   final EngineerDeviceInfo deviceInfo;
 
-  const AssignedPartListWidget({Key? key, required this.deviceInfo}) : super(key: key);
+  const AssignedPartListWidget({super.key, required this.deviceInfo});
 
   @override
   State<AssignedPartListWidget> createState() => AssignedPartListWidgetState();

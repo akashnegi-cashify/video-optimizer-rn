@@ -2,8 +2,8 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/cancel_part_button_widget.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/replace_with_retrieved_part_button_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/receive_part_button_widget.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/replace_with_retrieved_part_button_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/return_part_button_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_part_list_widget.dart';
 
@@ -43,7 +43,8 @@ class _ViewPartDetailWidget extends StatelessWidget {
     }
 
     bool isReplaceWithRetrievedPartAvailable() {
-      return data.partInfo.isRetrievedPartAssign ?? false;
+      return (data.partInfo.isRetrievedPartAssign ?? false) &&
+          data.partInfo.statusCode == StatusCode.consumedStatusCode.value;
     }
 
     L10n l10n = L10n(context);
@@ -102,6 +103,7 @@ class _ViewPartDetailWidget extends StatelessWidget {
               padding: const EdgeInsets.all(Dimens.space_8),
               child: ReturnPartButtonWidget(
                   partInfo: data.partInfo,
+                  isRetrievedPartAssign: data.partInfo.isRetrievedPartAssign ?? false,
                   onRequestCompletion: () {
                     Navigator.pop(context);
                   }),
