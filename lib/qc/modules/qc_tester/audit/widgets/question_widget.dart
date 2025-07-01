@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/audit/widgets/upload_image_cards.dart';
+import 'package:flutter_trc/src/utils/media_upload/widgets/image_upload_widget.dart';
 
 import '../l10n.dart';
 import '../providers/audit_questions_provider.dart';
@@ -12,10 +10,10 @@ class AuditQuestionWidget extends StatefulWidget {
   final Function(int, String) onOptionSelected;
 
   const AuditQuestionWidget({
-    Key? key,
+    super.key,
     required this.onOptionSelected,
     required this.questionNumber,
-  }) : super(key: key);
+  });
 
   @override
   State<AuditQuestionWidget> createState() => _AuditQuestionWidgetState();
@@ -68,21 +66,12 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
             if (auditQuestionData.imageCount != null && auditQuestionData.imageCount! == 1)
               Align(
                 alignment: Alignment.center,
-                child: UploadMediaCards(
-                  key: Key(auditQuestionData.question ?? ""),
-                  selectedFile: auditQuestionData.selectedImageFile,
-                  onCrossedButtonTapped: () {
-                    auditQuestionData.s3url = null;
-                    auditQuestionData.selectedImageFile = null;
-                  },
-                  setFileForPersistence: (File imageFile) {
-                    auditQuestionData.selectedImageFile = imageFile;
-                  },
-                  s3UploadedImageUrlCallback: (String url) {
+                child: ImageUploadOptimizerCard(
+                  onMediaUploaded: (String? url) {
                     auditQuestionData.s3url = url;
                   },
                 ),
-              )
+              ),
           ]
         ],
       ),

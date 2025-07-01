@@ -54,15 +54,12 @@ class AuditQuestionData {
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? s3url;
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  File? selectedImageFile;
 
   AuditQuestionData(
     this.questionId,
     this.question,
     this.options, {
     this.selectedOption,
-    this.selectedImageFile,
     this.s3url,
   });
 

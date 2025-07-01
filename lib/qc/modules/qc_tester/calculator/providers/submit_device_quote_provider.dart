@@ -104,7 +104,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
 
   void _submitDeviceImages() {
     iDeviceQuote?.showLoading(true);
-    service.submitDeviceMedia(mediaList, deviceBarcode).listen((event) {}, onDone: () {
+    service.submitDeviceMedia(mediaList, deviceBarcode).listen((event) {}, onError: (error) {}, onDone: () {
       iDeviceQuote?.showLoading(false);
       _proceedAfterImageSubmission();
     });

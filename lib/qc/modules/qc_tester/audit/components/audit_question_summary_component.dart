@@ -6,7 +6,6 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/audit/resources/device_testing_status.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/resources/new_audit_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
@@ -16,7 +15,6 @@ import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_scr
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
-import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
@@ -62,7 +60,7 @@ class _AuditSummary extends StatefulWidget {
 
   final String scannedBarcode;
 
-  const _AuditSummary({super.key, required this.scannedBarcode, this.dataModel});
+  const _AuditSummary({required this.scannedBarcode, this.dataModel});
 
   @override
   State<_AuditSummary> createState() => _AuditSummaryState();
@@ -106,7 +104,7 @@ class _AuditSummaryState extends State<_AuditSummary> {
                     text: l10n.done,
                     onPressed: () {
                       Map<String, dynamic> data = _createPostDataMap();
-                      _submitQuestionsResults(l10n, context, data);
+                      _onSubmitted(l10n, context, data);
                     },
                   ),
                 ),
@@ -136,6 +134,37 @@ class _AuditSummaryState extends State<_AuditSummary> {
     return postDataMap;
   }
 
+  _onSubmitted(L10n l10n, BuildContext context, Map<String, dynamic> data) async {
+    var provider = AuditQuestionSubmitProvider.of(context, listen: false);
+
+    if (provider.isLoginFromQC()) {
+      _submitQuestionsResults(l10n, context, data);
+    } else {
+      bool isTestingPass = false;
+      try {
+        CshLoading().showLoading(context);
+        isTestingPass = await provider.checkDeviceAuditResult(widget.scannedBarcode, data);
+        CshLoading().hideLoading(context);
+      } catch (e) {
+        CshLoading().hideLoading(context);
+      }
+
+      if (isTestingPass) {
+        CalculatorMediaCaptureScreen.navigateTo(
+          context,
+          widget.scannedBarcode,
+          journeyType: JourneyType.audit,
+          onMediaListUpdated: (uploadedMediaList) {
+            Navigator.pop(context); // Dismiss the current screen
+            _submitQuestionsResults(l10n, context, data, mediaList: uploadedMediaList);
+          },
+        );
+      } else {
+        _submitQuestionsResults(l10n, context, data);
+      }
+    }
+  }
+
   _submitQuestionsResults(L10n l10n, BuildContext context, Map<String, dynamic> dataMap,
       {List<MediaSubmitRequest>? mediaList}) {
     var provider = AuditQuestionSubmitProvider.of(context, listen: false);
@@ -150,66 +179,9 @@ class _AuditSummaryState extends State<_AuditSummary> {
       _getDeviceStatus(provider, context);
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      var err = ApiErrorHelper.getError(error);
-      DeviceTestingErrorStatus? errorStatus = DeviceTestingErrorStatus.fromCode(err.code);
-      switch (errorStatus) {
-        case DeviceTestingErrorStatus.markOkPass:
-          CalculatorMediaCaptureScreen.navigateTo(
-            context,
-            widget.scannedBarcode,
-            journeyType: JourneyType.audit,
-            onMediaListUpdated: (uploadedMediaList) {
-              Navigator.pop(context); // Dismiss the current screen
-              _submitQuestionsResults(l10n, context, dataMap, mediaList: uploadedMediaList);
-            },
-          );
-          break;
-        case DeviceTestingErrorStatus.markOkFail:
-          _showMarkOkFailDialog();
-          break;
-        case DeviceTestingErrorStatus.none:
-        default:
-          CshSnackBar.error(context: context, message: err.message.toString());
-          break;
-      }
+      var err = ApiErrorHelper.getErrorMessage(error);
+      CshSnackBar.error(context: context, message: err.toString());
     });
-  }
-
-  _showMarkOkFailDialog() {
-    showCshBottomSheet(
-      context: context,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          CshTextNew.h4("Mark as OK Fail"),
-          const SizedBox(height: Dimens.space_16),
-          CshTextNew.subTitle2("Please capture the error image and submit."),
-          const SizedBox(height: Dimens.space_16),
-          CshBigButton(
-            text: "Capture Failed Images",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => MultipleImageUploadScreen(
-                    DeviceMediaType.markFail,
-                    widget.scannedBarcode,
-                    isImageMarkingRequired: true,
-                    callStatusUpdateApi: () {
-                      return Future.value();
-                    },
-                    onMediaUploaded: () {
-                      Navigator.pop(context); // dismiss MultipleImageUploadScreen screen
-                      CshSnackBar.success(context: context, message: "Qc Images captured successfully");
-                    },
-                  ),
-                ),
-              );
-            },
-          )
-        ],
-      ),
-    );
   }
 
   _getDeviceStatus(AuditQuestionSubmitProvider provider, BuildContext context) {

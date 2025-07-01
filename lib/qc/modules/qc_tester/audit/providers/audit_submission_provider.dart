@@ -30,16 +30,34 @@ class AuditQuestionSubmitProvider extends CalculatorServiceInitProvider {
         scannedBarcode,
         postData,
         manualAuditQuestionIds: manualQuestionListIds,
-        mediaList: mediaList,
         service: service.getService(),
       ).listen((event) {
         if (event != null) {
           completer.complete(true);
+          _submitDeviceImages(mediaList, scannedBarcode);
         }
       }, onError: (error) {
         completer.completeError(error);
       }, onDone: () {
         notifyListeners();
+      });
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  void _submitDeviceImages(List<MediaSubmitRequest>? mediaList, String? deviceBarcode) {
+    service.submitDeviceMedia(mediaList, deviceBarcode).listen((event) {}, onError: (error) {});
+  }
+
+  Future<bool> checkDeviceAuditResult(String scannedBarcode, Map<String, dynamic> postData) {
+    var completer = Completer<bool>();
+    try {
+      AuditDataServices.checkIsTestingPass(scannedBarcode, postData, service: service.getService()).listen((event) {
+        completer.complete(event?.isTestingPass);
+      }, onError: (error) {
+        completer.completeError(error);
       });
     } catch (e) {
       completer.completeError(e.toString());
