@@ -75,7 +75,7 @@ class AuditQuestionSubmitProvider extends CalculatorServiceInitProvider {
           continue;
         }
 
-        if (Validator.isNullOrEmpty(deviceStatusResponse.trcStatus) &&
+        if (Validator.isNullOrEmpty(deviceStatusResponse.status) &&
             Validator.isListNullOrEmpty(deviceStatusResponse.salesChannels)) {
           await Future.delayed(const Duration(seconds: 4));
           continue;
@@ -84,8 +84,8 @@ class AuditQuestionSubmitProvider extends CalculatorServiceInitProvider {
         String deviceStatus;
         String subTitle = deviceStatusResponse.stockAge != null ? "Stock Age - ${deviceStatusResponse.stockAge}, " : "";
 
-        if (!Validator.isNullOrEmpty(deviceStatusResponse.trcStatus)) {
-          deviceStatus = subTitle + deviceStatusResponse.trcStatus!;
+        if (!Validator.isNullOrEmpty(deviceStatusResponse.status)) {
+          deviceStatus = subTitle + deviceStatusResponse.status!;
         } else {
           deviceStatus = subTitle + deviceStatusResponse.salesChannels!.join(",");
         }

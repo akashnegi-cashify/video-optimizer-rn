@@ -133,7 +133,7 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
           continue;
         }
 
-        if (Validator.isNullOrEmpty(deviceStatusResponse.trcStatus) &&
+        if (Validator.isNullOrEmpty(deviceStatusResponse.status) &&
             Validator.isListNullOrEmpty(deviceStatusResponse.salesChannels)) {
           await Future.delayed(const Duration(seconds: 4));
           continue;
@@ -144,8 +144,8 @@ class SubmitDeviceQuoteProvider extends CalculatorServiceInitProvider {
 
         String subTitle = deviceStatusResponse.stockAge != null ? "Stock Age - ${deviceStatusResponse.stockAge}, " : "";
 
-        if (!Validator.isNullOrEmpty(deviceStatusResponse.trcStatus)) {
-          stepperItem.subTitle = subTitle + deviceStatusResponse.trcStatus!;
+        if (!Validator.isNullOrEmpty(deviceStatusResponse.status)) {
+          stepperItem.subTitle = subTitle + deviceStatusResponse.status!;
         } else {
           stepperItem.subTitle = subTitle + deviceStatusResponse.salesChannels!.join(",");
         }

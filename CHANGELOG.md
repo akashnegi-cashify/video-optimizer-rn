@@ -5,6 +5,7 @@
 ### Features:   
 
 * `TRC - Audit Role introduced` [(SCM-9588)](https://reglobe.atlassian.net/browse/SCM-9588)
+* `TRC/QC - Device status visibility after testing and audit ` [(SCM-9916)](https://reglobe.atlassian.net/browse/SCM-9916)
 
 
 # v4.1.5+76 (27-06-2025)
