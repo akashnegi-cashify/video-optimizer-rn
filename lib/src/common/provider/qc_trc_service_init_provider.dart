@@ -11,7 +11,7 @@ class QcTrcServiceInitProvider extends CshChangeNotifier {
     initService();
   }
 
-  Future<void> initService() async {
+  void initService() {
     var isLoginFromQc = isLoginFromQC();
     if (Validator.isTrue(isLoginFromQc)) {
       service = QcService();

@@ -3,14 +3,18 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/submit_device_quote_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/providers/calculator_media_capture_provider.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/resources/journey_type.dart';
 
 import '../../../../../src/utils/media_upload/widgets/image_upload_widget.dart';
 import '../../../../../src/utils/media_upload/widgets/video_upload_card.dart';
 
 class CalculatorMediaCaptureWidget extends StatefulWidget {
-  const CalculatorMediaCaptureWidget({super.key});
+  final Function(List<MediaSubmitRequest> mediaList)? onMediaListUpdated;
+
+  const CalculatorMediaCaptureWidget({super.key, this.onMediaListUpdated});
 
   @override
   State<CalculatorMediaCaptureWidget> createState() => _CalculatorMediaCaptureWidgetState();
@@ -111,18 +115,25 @@ class _CalculatorMediaCaptureWidgetState extends State<CalculatorMediaCaptureWid
                   text: "Done",
                   onPressed: () {
                     provider.saveMediaList();
-                    if (Validator.isTrue(provider.isComingFromCalJourney)) {
-                      _navigateToDeviceQuoteScreen();
-                    } else {
-                      CshLoading().showLoading(context);
-                      provider.submitDeviceMedia().then((value) {
-                        CshLoading().hideLoading(context);
-                        CshSnackBar.success(context: context, message: "Media Updloaded Successfully");
-                        Navigator.pop(context);
-                      }, onError: (error) {
-                        CshLoading().hideLoading(context);
-                        CshSnackBar.error(context: context, message: error);
-                      });
+                    switch (provider.journeyType) {
+                      case JourneyType.testing:
+                        _navigateToDeviceQuoteScreen();
+                        break;
+                      case JourneyType.audit:
+                        widget.onMediaListUpdated?.call(provider.uploadedMediaList!);
+                        break;
+                      case JourneyType.generic:
+                      default:
+                        CshLoading().showLoading(context);
+                        provider.submitDeviceMedia().then((value) {
+                          CshLoading().hideLoading(context);
+                          CshSnackBar.success(context: context, message: "Media Updloaded Successfully");
+                          Navigator.pop(context);
+                        }, onError: (error) {
+                          CshLoading().hideLoading(context);
+                          CshSnackBar.error(context: context, message: error);
+                        });
+                        break;
                     }
                   },
                 ),

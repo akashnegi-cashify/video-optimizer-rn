@@ -1,9 +1,11 @@
 import 'package:csh_annotation/annotation.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/resources/journey_type.dart';
 
 @CshPageParam()
 class CalculatorMediaCaptureParam {
-  @ParamKey(key: CalculatorMediaCaptureParamKeys.isComingFromCalJourney)
-  bool? isComingFromCalJourney;
+  @ParamKey(key: CalculatorMediaCaptureParamKeys.journeyType)
+  JourneyType? journeyType;
 
   @ParamKey(key: CalculatorMediaCaptureParamKeys.deviceBarcode)
   String? deviceBarcode;
@@ -11,16 +13,21 @@ class CalculatorMediaCaptureParam {
   @ParamKey(key: CalculatorMediaCaptureParamKeys.categoryId)
   int? categoryId;
 
+  @ParamKey(key: CalculatorMediaCaptureParamKeys.onMediaListUpdated)
+  Function(List<MediaSubmitRequest> mediaList)? onMediaListUpdated;
+
   CalculatorMediaCaptureParam({
-    this.isComingFromCalJourney,
+    this.journeyType,
     this.deviceBarcode,
     this.categoryId,
+    this.onMediaListUpdated,
   });
 }
 
 enum CalculatorMediaCaptureParamKeys with AbsParamKey {
-  isComingFromCalJourney("icfcj"),
+  journeyType("icfcj"),
   deviceBarcode("dbr"),
+  onMediaListUpdated("omlu"),
   categoryId("cid");
 
   @override

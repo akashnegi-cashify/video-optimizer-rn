@@ -29,11 +29,11 @@ class CalculatorMediaCaptureComponent extends StatelessComponent<NoneConfigModel
         return ChangeNotifierProvider<CalculatorMediaCaptureProvider>(
           create: (_) => CalculatorMediaCaptureProvider(
             model.deviceBarcode ?? "",
-            model.isComingFromCalJourney,
+            model.journeyType,
             categoryId: model.categoryId,
           ),
           lazy: false,
-          child: const CalculatorMediaCaptureWidget(),
+          child: CalculatorMediaCaptureWidget(onMediaListUpdated: model.onMediaListUpdated),
         );
       },
     );

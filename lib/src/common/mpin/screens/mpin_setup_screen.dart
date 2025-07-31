@@ -28,6 +28,7 @@ class MPinSetupScreen extends StatefulWidget {
 
 class _MPinSetupScreenState extends State<MPinSetupScreen> with WidgetsBindingObserver {
   late bool isListenAppLifeCycle = false;
+  int _resetValueCounter = 0;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -74,6 +75,7 @@ class _MPinSetupScreenState extends State<MPinSetupScreen> with WidgetsBindingOb
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: CshPinCodeTextField(
+                      key: ValueKey(_resetValueCounter),
                       isUiLibraryUse: true,
                       length: 6,
                       autoDismissKeyboard: true,
@@ -99,6 +101,7 @@ class _MPinSetupScreenState extends State<MPinSetupScreen> with WidgetsBindingOb
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: CshPinCodeTextField(
+                      key: ValueKey(_resetValueCounter),
                       isUiLibraryUse: true,
                       length: 6,
                       autoDismissKeyboard: true,
@@ -138,6 +141,9 @@ class _MPinSetupScreenState extends State<MPinSetupScreen> with WidgetsBindingOb
       });
     }, onError: (error) {
       CshLoading().hideLoading(context);
+      setState(() {
+        _resetValueCounter++;
+      });
       showStatusDialog(context, false, errorMessage: error.toString(), onProceed: () {
         Navigator.of(context).pop();
       });

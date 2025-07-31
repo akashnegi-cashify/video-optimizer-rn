@@ -1,12 +1,13 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/resources/new_audit_response.dart';
+import 'package:flutter_trc/src/common/provider/qc_trc_service_init_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/audit_service.dart';
 import 'package:core/core.dart';
 
-class AuditQuestionsProvider extends CshChangeNotifier {
+class AuditQuestionsProvider extends QcTrcServiceInitProvider {
   static AuditQuestionsProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<AuditQuestionsProvider>(context, listen: listen);
   }
@@ -20,7 +21,7 @@ class AuditQuestionsProvider extends CshChangeNotifier {
   }
 
   getAuditQuestionsData(String scannedBarcode) {
-    AuditDataServices.getAuditQuestionnaire(scannedBarcode).listen((event) {
+    AuditDataServices.getAuditQuestionnaire(scannedBarcode, service: service).listen((event) {
       if (event != null) {
         auditData = event.auditQuestionResponse;
       }

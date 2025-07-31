@@ -1,13 +1,21 @@
 # TRC Releases
 
-# v4.1.5+76 (XX-06-2025)
+# v4.1.6+77 (XX-07-2025)
+
+### Features:   
+
+* `TRC - Audit Role introduced` [(SCM-9588)](https://reglobe.atlassian.net/browse/SCM-9588)
+* `TRC/QC - Device status visibility after testing and audit ` [(SCM-9916)](https://reglobe.atlassian.net/browse/SCM-9916)
+
+
+# v4.1.5+76 (27-06-2025)
 
 ### Features:
 
 * `TRC - Engineer - Add replace with retrieved part flow` [(SCM-9752)](https://reglobe.atlassian.net/browse/SCM-9752)
 
 
-# v4.1.4+75 (XX-06-2025)
+# v4.1.4+75 (28-05-2025)
 
 ### Features:
 

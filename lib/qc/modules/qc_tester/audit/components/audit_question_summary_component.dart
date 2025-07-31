@@ -2,19 +2,24 @@ import 'dart:async';
 
 import 'package:builder_component/builder_component.dart';
 import 'package:calculator_ui/calculator_ui.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/resources/new_audit_response.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/resources/journey_type.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/screens/qc_tester_home_screen.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 import '../models/audit_question_summary_comp_param.dart';
 import '../providers/audit_submission_provider.dart';
-import '../screens/audit_barcode_scanner_screen.dart';
 import '../widgets/submitted_question_widget.dart';
 
 part 'audit_question_summary_component.g.dart';
@@ -36,21 +41,13 @@ class AuditQuestionSummaryComponent extends StatelessComponent<NoneConfigModel> 
       return ChangeNotifierProvider<AuditQuestionSubmitProvider>(
         create: (_) => AuditQuestionSubmitProvider(),
         lazy: false,
-        builder: (BuildContext innerContext, __) {
-          var provider = AuditQuestionSubmitProvider.of(innerContext);
-          return _AuditSummary(
-            scannedBarcode: param.scannedBarcode ?? "",
-            dataModel: param.questionDataModel,
-          );
-        },
+        child: _AuditSummary(
+          scannedBarcode: param.scannedBarcode ?? "",
+          dataModel: param.questionDataModel,
+        ),
       );
     });
   }
-
-  // appBar: CshHeader(
-  // l10n.auditSummary,
-  // showBackBtn: true,
-  // )
 
   @override
   Function(Map<String, dynamic> data)? fromConfig() {
@@ -63,11 +60,7 @@ class _AuditSummary extends StatefulWidget {
 
   final String scannedBarcode;
 
-  const _AuditSummary({
-    Key? key,
-    required this.scannedBarcode,
-    this.dataModel,
-  }) : super(key: key);
+  const _AuditSummary({required this.scannedBarcode, this.dataModel});
 
   @override
   State<_AuditSummary> createState() => _AuditSummaryState();
@@ -111,19 +104,14 @@ class _AuditSummaryState extends State<_AuditSummary> {
                     text: l10n.done,
                     onPressed: () {
                       Map<String, dynamic> data = _createPostDataMap();
-                      _submitQuestionsResults(l10n, context, data);
+                      _onSubmitted(l10n, context, data);
                     },
                   ),
                 ),
               )
             ],
           )
-        : Center(
-            child: Text(
-              l10n.noSummaryFound,
-              style: theme.primaryTextTheme.displaySmall,
-            ),
-          );
+        : Center(child: Text(l10n.noSummaryFound, style: theme.primaryTextTheme.displaySmall));
   }
 
   _createPostDataMap() {
@@ -143,14 +131,45 @@ class _AuditSummaryState extends State<_AuditSummary> {
         }
       }
     }
-    print("post data map response $postDataMap");
     return postDataMap;
   }
 
-  _submitQuestionsResults(L10n l10n, BuildContext context, Map<String, dynamic> dataMap) {
+  _onSubmitted(L10n l10n, BuildContext context, Map<String, dynamic> data) async {
+    var provider = AuditQuestionSubmitProvider.of(context, listen: false);
+
+    if (provider.isLoginFromQC()) {
+      _submitQuestionsResults(l10n, context, data);
+    } else {
+      bool isTestingPass = false;
+      try {
+        CshLoading().showLoading(context);
+        isTestingPass = await provider.checkDeviceAuditResult(widget.scannedBarcode, data);
+        CshLoading().hideLoading(context);
+      } catch (e) {
+        CshLoading().hideLoading(context);
+      }
+
+      if (isTestingPass) {
+        CalculatorMediaCaptureScreen.navigateTo(
+          context,
+          widget.scannedBarcode,
+          journeyType: JourneyType.audit,
+          onMediaListUpdated: (uploadedMediaList) {
+            Navigator.pop(context); // Dismiss the current screen
+            _submitQuestionsResults(l10n, context, data, mediaList: uploadedMediaList);
+          },
+        );
+      } else {
+        _submitQuestionsResults(l10n, context, data);
+      }
+    }
+  }
+
+  _submitQuestionsResults(L10n l10n, BuildContext context, Map<String, dynamic> dataMap,
+      {List<MediaSubmitRequest>? mediaList}) {
     var provider = AuditQuestionSubmitProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.submitAuditQuestion(widget.scannedBarcode, dataMap).then((value) {
+    provider.submitAuditQuestion(widget.scannedBarcode, dataMap, mediaList).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(
         context: context,
@@ -160,7 +179,8 @@ class _AuditSummaryState extends State<_AuditSummary> {
       _getDeviceStatus(provider, context);
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+      var err = ApiErrorHelper.getErrorMessage(error);
+      CshSnackBar.error(context: context, message: err.toString());
     });
   }
 
@@ -178,9 +198,23 @@ class _AuditSummaryState extends State<_AuditSummary> {
   _showDeviceStatusDialog(BuildContext context, String deviceStatus) {
     showAlertDialog(context, title: "Channel", desc: deviceStatus, onPosBtnPressed: (_) {
       Navigator.pop(context); // dismiss dialog
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          AuditBarcodeScannerScreen.route, (route) => route.settings.name == QcTesterHomeScreen.route);
+      _scanAgain(context);
     });
+  }
+
+  _scanAgain(BuildContext context) {
+    CshMlScannerUtil().openScanner(
+      context,
+      onScanned: (scannedData, controller) {
+        Navigator.pop(context); // dismiss scanner screen
+        AuditQuestionsScreenArguments args = AuditQuestionsScreenArguments(scannedBarcode: scannedData.trim());
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          AuditQuestionsScreen.route,
+          (route) => route.settings.name == QcTesterHomeScreen.route,
+          arguments: args,
+        );
+      },
+    );
   }
 
   _showRetryDialog(BuildContext context, AuditQuestionSubmitProvider provider, String errorMessage) {
@@ -202,7 +236,7 @@ class _AuditSummaryState extends State<_AuditSummary> {
                 isFirstPrimary: true,
                 firstBtnClick: () {
                   Navigator.pop(context); // dismiss dialog
-                  Navigator.of(context).pushNamedAndRemoveUntil(AuditBarcodeScannerScreen.route, (route) => false);
+                  _scanAgain(context);
                 },
                 secondBtnClick: () {
                   Navigator.pop(context); // dismiss dialog

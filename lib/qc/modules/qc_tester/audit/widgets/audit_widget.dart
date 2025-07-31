@@ -1,17 +1,16 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+
 import '../l10n.dart';
 import '../providers/audit_questions_provider.dart';
-import '../screens/audit_barcode_scanner_screen.dart';
 import 'audit_pager_widget.dart';
 
 class AuditWidget extends StatelessWidget {
   final String scanData;
 
-  const AuditWidget({
-    Key? key,
-    required this.scanData,
-  }) : super(key: key);
+  const AuditWidget({super.key, required this.scanData});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,15 @@ class AuditWidget extends StatelessWidget {
                     child: CshMediumButton(
                       text: l10n.scanAnotherBarcode,
                       onPressed: () {
-                        Navigator.of(context).pushReplacementNamed(AuditBarcodeScannerScreen.route);
+                        CshMlScannerUtil().openScanner(
+                          context,
+                          onScanned: (scannedData, controller) {
+                            Navigator.pop(context); // Close the scanner screen
+                            AuditQuestionsScreenArguments args =
+                                AuditQuestionsScreenArguments(scannedBarcode: scannedData.trim());
+                            Navigator.of(context).pushReplacementNamed(AuditQuestionsScreen.route, arguments: args);
+                          },
+                        );
                       },
                     ),
                   ),
