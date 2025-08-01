@@ -130,3 +130,5 @@
 
 -keep class com.amazonaws.** { *; }
 -keepnames class com.amazonaws.** { *; }
+-keepattributes InnerClasses,EnclosingMethod
+
