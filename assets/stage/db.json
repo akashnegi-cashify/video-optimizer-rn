@@ -653,6 +653,22 @@
       ]
     },
     {
+      "pageId": 49,
+      "pageKey": "TRC_audit_home_screen",
+      "dt": [
+        {
+          "id": 84,
+          "key": "TRC_audit_home_component",
+          "type": "component"
+        },
+        {
+          "id": 85,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -764,21 +780,6 @@
         },
         {
           "id": 10015,
-          "key": "header_QC_qc_general"
-        }
-      ]
-    },
-    {
-      "pageId": 10010,
-      "pageKey": "audit_barcode_scanner",
-      "dt": [
-        {
-          "id": 10016,
-          "key": "audit_barcode_scanner_comp",
-          "type": "component"
-        },
-        {
-          "id": 10017,
           "key": "header_QC_qc_general"
         }
       ]
@@ -2482,6 +2483,28 @@
       }
     },
     {
+      "componentId": 84,
+      "locale": "en",
+      "key": "TRC_audit_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 85,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Trc Audit",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
       "componentId": 10001,
       "locale": "en",
       "key": "QC_qc_tester_home",
@@ -2644,28 +2667,6 @@
       "configJson": {
         "config": {
           "ht": "Audit Questions",
-          "sbb": true,
-          "slb": false
-        }
-      }
-    },
-    {
-      "componentId": 10016,
-      "locale": "en",
-      "key": "audit_barcode_scanner_comp",
-      "configJson": {
-        "config": {
-          "none": "None"
-        }
-      }
-    },
-    {
-      "componentId": 10017,
-      "locale": "en",
-      "key": "header_QC_qc_general",
-      "configJson": {
-        "config": {
-          "ht": "Audit Barcode Scanner",
           "sbb": true,
           "slb": false
         }

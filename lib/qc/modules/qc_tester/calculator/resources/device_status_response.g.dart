@@ -9,7 +9,7 @@ part of 'device_status_response.dart';
 DeviceStatusResponse _$DeviceStatusResponseFromJson(
         Map<String, dynamic> json) =>
     DeviceStatusResponse(
-      json['trcStatus'] as String?,
+      json['status'] as String?,
       (json['salesChannels'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -26,7 +26,7 @@ Map<String, dynamic> _$DeviceStatusResponseToJson(
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'trcStatus': instance.trcStatus,
+      'status': instance.status,
       'salesChannels': instance.salesChannels,
       'stockAge': instance.stockAge,
       'isCaptureQcImages': instance.isCaptureQcImages,

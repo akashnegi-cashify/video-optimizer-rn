@@ -29,6 +29,7 @@ OrderEngineerPart _$OrderEngineerPartFromJson(Map<String, dynamic> json) =>
       ..status = json['st'] as String?
       ..statusCode = (json['stc'] as num?)?.toInt()
       ..retrievedImageCount = (json['rvc'] as num?)?.toInt()
+      ..isRetrievedPartAssign = json['isrpa'] as bool?
       ..partType = (json['action'] as num?)?.toInt()
       ..reasonId = (json['rrid'] as num?)?.toInt()
       ..imageList =
@@ -54,6 +55,7 @@ Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) =>
       'st': instance.status,
       'stc': instance.statusCode,
       'rvc': instance.retrievedImageCount,
+      'isrpa': instance.isRetrievedPartAssign,
       'qty': instance.orderQuantity,
       '_v': instance.version,
       'action': instance.partType,

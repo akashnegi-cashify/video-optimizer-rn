@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/models/calculator_data_holder_model.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/media_submit_request.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/my_quote_request_data.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/resources/journey_type.dart';
 import 'package:provider/provider.dart';
 
 import '../../calculator/resources/calculator_service.dart';
@@ -15,11 +16,11 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
   DeviceMediaResponse? deviceMediaResponse;
   bool isDataLoading = true;
   String? errorMessage;
-  final bool? isComingFromCalJourney;
+  final JourneyType? journeyType;
   final String deviceBarcode;
   final int? categoryId;
 
-  CalculatorMediaCaptureProvider(this.deviceBarcode, this.isComingFromCalJourney, {this.categoryId}) : super();
+  CalculatorMediaCaptureProvider(this.deviceBarcode, this.journeyType, {this.categoryId}) : super();
 
   bool isAllMediaUpLoaded() {
     if (Validator.isListNullOrEmpty(deviceMediaResponse?.imageList)) {
@@ -38,6 +39,8 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
     return Provider.of<CalculatorMediaCaptureProvider>(context, listen: listen);
   }
 
+  List<MediaSubmitRequest>? get uploadedMediaList => CalculatorDataHolderModel().mediaList;
+
   void saveMediaList() {
     CalculatorDataHolderModel().mediaList = deviceMediaResponse?.imageList
         ?.map((e) => MediaSubmitRequest(
@@ -47,13 +50,13 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
 
   void getDeviceMedia({VoidCallback? onMoveToNextScreen}) {
     MyQuoteRequestData? quoteRequestData;
-    if (Validator.isTrue(isComingFromCalJourney)) {
+    if (journeyType == JourneyType.testing) {
       quoteRequestData = CalculatorDataHolderModel().quoteRequestData;
     }
 
     service.getDeviceMedia(deviceBarcode, categoryId: categoryId, quoteRequest: quoteRequestData).listen((event) {
       isDataLoading = false;
-      if (Validator.isListNullOrEmpty(event?.imageList) && Validator.isTrue(isComingFromCalJourney)) {
+      if (Validator.isListNullOrEmpty(event?.imageList) && journeyType == JourneyType.testing) {
         onMoveToNextScreen?.call();
       } else {
         deviceMediaResponse = event;
@@ -69,7 +72,7 @@ class CalculatorMediaCaptureProvider extends CalculatorServiceInitProvider {
 
   Future<bool> submitDeviceMedia() {
     var completer = Completer<bool>();
-    service.submitDeviceMedia(CalculatorDataHolderModel().mediaList, deviceBarcode).listen((event) {
+    service.submitDeviceMedia(uploadedMediaList, deviceBarcode).listen((event) {
       if (event != null) {
         completer.complete(true);
       } else {

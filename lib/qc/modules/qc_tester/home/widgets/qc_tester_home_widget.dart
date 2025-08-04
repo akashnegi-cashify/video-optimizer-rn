@@ -1,6 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_barcode_scanner_screen.dart';
+import 'package:flutter_trc/qc/modules/qc_tester/audit/screens/audit_question_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/screens/calculator_scanner_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator_media_capture/calculator_media_capture_screen.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/home/resources/tester_home_service.dart';
@@ -44,7 +44,14 @@ class QcTesterHomeWidget extends StatelessWidget {
                 child: CshBigButton(
                   text: "Start Audit",
                   onPressed: () {
-                    Navigator.of(context).pushNamed(AuditBarcodeScannerScreen.route);
+                    CshMlScannerUtil().openScanner(
+                      context,
+                      onScanned: (scannedData, controller) {
+                        AuditQuestionsScreenArguments args =
+                            AuditQuestionsScreenArguments(scannedBarcode: scannedData.trim());
+                        Navigator.of(context).pushReplacementNamed(AuditQuestionsScreen.route, arguments: args);
+                      },
+                    );
                   },
                 ),
               ),

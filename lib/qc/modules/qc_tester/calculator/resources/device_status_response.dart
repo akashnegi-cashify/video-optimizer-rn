@@ -6,8 +6,8 @@ part 'device_status_response.g.dart';
 @JsonSerializable()
 class DeviceStatusResponse extends BaseResponse {
 
-  @JsonKey(name: "trcStatus")
-  String? trcStatus;
+  @JsonKey(name: "status")
+  String? status;
 
   @JsonKey(name: "salesChannels")
   List<String>? salesChannels;
@@ -18,7 +18,7 @@ class DeviceStatusResponse extends BaseResponse {
   @JsonKey(name: "isCaptureQcImages")
   bool? isCaptureQcImages;
 
-  DeviceStatusResponse(this.trcStatus, this.salesChannels, this.stockAge, this.isCaptureQcImages, super.cashifyAlert, super.trackUrl);
+  DeviceStatusResponse(this.status, this.salesChannels, this.stockAge, this.isCaptureQcImages, super.cashifyAlert, super.trackUrl);
 
   static DeviceStatusResponse fromJson(Map<String, dynamic> json) => _$DeviceStatusResponseFromJson(json);
 
