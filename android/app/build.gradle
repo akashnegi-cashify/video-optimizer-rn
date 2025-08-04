@@ -1,3 +1,14 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "org.jetbrains.kotlin.android"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+    id "kotlin-parcelize"
+}
+
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -21,20 +32,9 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-//apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
-//apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.google.gms.google-services'
-
-
 android {
-    compileSdk 34
-    ndkVersion "23.1.7779620"
+    compileSdk 35
+    ndkVersion "29.0.13599879"
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -53,6 +53,10 @@ android {
 
     buildFeatures {
         dataBinding = true
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
     }
 
 //    androidExtensions {
@@ -151,14 +155,15 @@ android {
     }
     rootProject.ext.ffmpegKitPackage = "video"
 
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
-////
-//    kotlinOptions {
-//        jvmTarget = JavaVersion.VERSION_1_8
-//    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
 
 }
 
@@ -191,6 +196,7 @@ dependencies {
 
     // Declare the dependencies for the Crashlytics and Analytics libraries
     // When using the BoM, you don't specify versions in Firebase library dependencies
-
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 
 }
+
