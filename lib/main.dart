@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:core/core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ void main() async {
 
     return runApp(CashifyApp(appName));
   }, (error, stack) {
+    Logger.debug('mydebug-----main', [error, stack]);
+
     if (kReleaseMode) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     }

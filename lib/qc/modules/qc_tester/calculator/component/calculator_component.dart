@@ -42,7 +42,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
           serviceId: '',
           sourceId: '',
           calculatorResponse: calculatorResponse,
-          preSelection: null,
+          preSelection: calculatorResponse?.userSelection,
           deviceBarcode: deviceBarcode,
           showHint: false),
       showSummary: true,
