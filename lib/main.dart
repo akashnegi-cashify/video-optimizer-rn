@@ -28,8 +28,17 @@ void main() async {
   }, (error, stack) {
     Logger.debug('mydebug-----main', [error, stack]);
 
-    if (kReleaseMode) {
+    if (error is HttpErrorResponse || !kReleaseMode) {
+      return;
+    }
+
+    try {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    } catch (e) {
+      FirebaseCrashlytics.instance.log("FirebaseCrashlytics catch error: $e");
+      FirebaseCrashlytics.instance.recordFlutterError(
+        FlutterErrorDetails(exception: e, stack: StackTrace.current),
+      );
     }
     // FlutterError.onError = (errorDetails) {
     //   FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
