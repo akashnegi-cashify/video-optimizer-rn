@@ -1,5 +1,13 @@
 # TRC Releases
 
+# v4.1.7+78 (XX-07-2025)
+
+### Features:
+
+* `Gradle version update`
+* `Calculator Testing - Add users selection`
+
+
 # v4.1.6+77 (XX-07-2025)
 
 ### Features:   
