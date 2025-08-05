@@ -1,6 +1,6 @@
 # TRC Releases
 
-# v4.1.7+78 (XX-07-2025)
+# v5.0.0+78 (XX-07-2025)
 
 ### Features:
 

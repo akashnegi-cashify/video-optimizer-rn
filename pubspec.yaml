@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 4.1.7+78
+version: 5.0.0+78
 
 web_version: 1.0.0
 
@@ -150,7 +150,6 @@ dependencies:
   local_auth: ^2.3.0
 #  app_settings: 5.1.1
   app_settings: ^6.1.1
-  ffmpeg_kit_flutter_new: ^3.1.0
 #  image_labeling_detector:
 #    path: ../flutter_admin_ui/image_labeling_detector
 
@@ -183,7 +182,7 @@ dev_dependencies:
 
 
 dependency_overrides:
-  ffmpeg_kit_flutter_new: ^3.1.0
+  ffmpeg_kit_flutter_android: 1.2.0
   device_info_plus: 11.2.2
   firebase_remote_config: 5.3.1
 
@@ -245,11 +244,11 @@ dependency_overrides:
       ref: main
       path: web_widget
 
-  video_optimizer:
-    git:
-      url: https://github.com/reglobe/flutter_packages.git
-      ref: main
-      path: video_optimizer
+#  video_optimizer:
+#    git:
+#      url: https://github.com/reglobe/flutter_packages.git
+#      ref: main
+#      path: video_optimizer
 #  text_recognizer:
 #    path: ../flutter_plugins/text_recognizer
   #  csh_annotation:
