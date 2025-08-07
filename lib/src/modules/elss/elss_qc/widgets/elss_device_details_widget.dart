@@ -62,6 +62,10 @@ class ElssDeviceDetailsWidget extends StatelessWidget {
           isValueNegative: stressTestingResult == StressTestingValueType.failed,
         ));
       }
+
+      if (!Validator.isNullOrEmpty(dataModel?.repairPriority)) {
+        list.add(_labelAndValueWidget(theme, l10n.repairPriority, dataModel!.repairPriority!));
+      }
     }
 
     return list;

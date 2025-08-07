@@ -52,6 +52,7 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
       (json['st'] as List<dynamic>?)?.map((e) => e as String).toList(),
       (json['rs'] as num?)?.toInt(),
       (json['str'] as num?)?.toInt(),
+      json['rpri'] as String?,
     );
 
 Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
@@ -77,4 +78,5 @@ Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
       'st': instance.stockTags,
       'rs': instance.rubbingOrGlassChange,
       'str': instance.stressTestingResult,
+      'rpri': instance.repairPriority,
     };
