@@ -81,6 +81,9 @@ class DeviceDetailsData {
   @JsonKey(name: "str")
   int? stressTestingResult;
 
+  @JsonKey(name: "rpri")
+  String? repairPriority;
+
   DeviceDetailsData(
     this.deviceBarcode,
     this.requestReason,
@@ -103,6 +106,7 @@ class DeviceDetailsData {
     this.stockTags,
     this.rubbingOrGlassChange,
     this.stressTestingResult,
+    this.repairPriority,
   );
 
   static DeviceDetailsData fromJson(Map<String, dynamic> data) => _$DeviceDetailsDataFromJson(data);

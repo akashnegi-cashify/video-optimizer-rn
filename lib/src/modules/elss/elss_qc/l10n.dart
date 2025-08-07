@@ -107,6 +107,8 @@ class L10n extends BaseL10n {
 
   String get tags => Intl.message("Tags", locale: localName, name: "tags");
 
+  String get repairPriority => Intl.message("Repair Priority", locale: localName, name: "repairPriority");
+
   String get suggestedChannel => Intl.message("Suggested channel", locale: localName, name: "suggestedChannel");
 
   String get profit => Intl.message("Profit", locale: localName, name: "profit");

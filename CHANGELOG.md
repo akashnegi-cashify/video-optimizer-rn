@@ -5,7 +5,8 @@
 ### Features:
 
 * `Gradle version update`
-* `Calculator Testing - Add users selection`
+* `Calculator Testing - Add users selection` [(SCM-10066)](https://reglobe.atlassian.net/browse/SCM-10066)
+* `QC - ELSS - Start showing repair priority` [(SCM-10167)](https://reglobe.atlassian.net/browse/SCM-10167)
 
 
 # v4.1.6+77 (XX-07-2025)

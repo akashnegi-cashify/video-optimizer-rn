@@ -24,9 +24,9 @@ class ChannelOptionWidget extends StatefulWidget {
 
   const ChannelOptionWidget(
     this.scannedBarcode, {
-    Key? key,
+    super.key,
     this.detailsDataModel,
-  }) : super(key: key);
+  });
 
   @override
   State<ChannelOptionWidget> createState() => _ChannelOptionWidgetState();
