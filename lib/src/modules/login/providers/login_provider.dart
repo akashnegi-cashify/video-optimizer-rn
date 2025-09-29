@@ -1,16 +1,20 @@
 import 'dart:async';
 
 import 'package:components/auth/handler/auth_handler.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
+import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
+import 'package:flutter_trc/src/libraries/analytics/events/qc_login_event.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/trc_method_channels.dart';
+
+import '../../elss/common_resources/elss_service.dart';
 import '../models/send_otp_response.dart';
 import '../resources/collector_user_controller.dart';
 import '../resources/login_service.dart';
-import '../resources/qc_service.dart';
 
 class TRCLoginProvider extends CshChangeNotifier {
   Timer? timer;
@@ -23,8 +27,8 @@ class TRCLoginProvider extends CshChangeNotifier {
     return Provider.of<TRCLoginProvider>(context, listen: listen);
   }
 
-  Future<String> userLogin(String employeeId, String password, String location) async {
-    var completer = Completer<String>();
+  Future<void> userLogin(String employeeId, String password, String location) async {
+    var completer = Completer<void>();
     try {
       String? deviceId = await DeviceUtil.getDeviceId();
       TRCLoginService.userLogin(employeeId, password, location, deviceId).listen((event) async {
@@ -32,7 +36,8 @@ class TRCLoginProvider extends CshChangeNotifier {
         if (!Validator.isNullOrEmpty(token)) {
           AuthHandler().setUserAuth(token!);
           UserDetails().setUserDetailsData(token);
-          completer.complete(token);
+          AppPreferences.app.setLoginType(LoginTypes.trcLogin.value);
+          completer.complete();
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
@@ -49,7 +54,7 @@ class TRCLoginProvider extends CshChangeNotifier {
   Future<String> qcSendOTP(String mobileNumber, String notificationType) {
     var completer = Completer<String>();
     try {
-      QcService.sendOtp(mobileNumber, "qc", "v1", notificationType, "on_site").listen((event) {
+      ElssService.sendOtp(mobileNumber, "qc", "v1", notificationType, "on_site").listen((event) {
         if (event != null) {
           otpResponse = event;
           startTimer();
@@ -69,23 +74,22 @@ class TRCLoginProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<bool> authenticateSentOTP(BuildContext context, String mobileNumber, String notificationType, String otp,
-      String referenceId, bool loginFromQc) {
+  Future<bool> authenticateSentOTP(
+      BuildContext context, String mobileNumber, String notificationType, String otp, String referenceId) {
     var completer = Completer<bool>();
     try {
-      QcService.authenticateOTP(mobileNumber, "qc", "v1", notificationType, "on_site", otp, referenceId).listen(
-          (event) async {
+      ElssService.authenticateOTP(mobileNumber, "qc", "v1", notificationType, "on_site", otp, referenceId).listen(
+          (event) {
         if (event != null) {
-          if (!Validator.isNullOrEmpty(event.accessToken)) {
-            AuthHandler().setUserAuth(event.accessToken!);
-            UserDetails().setUserDetailsData(event.accessToken!);
-            AppPreferences().setIsLoginFromQC(true);
-
-            await UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                loginToken: event.accessToken!, loginFromQC: true);
-            if (mounted) {
-              await NativeCall.registerLogout(context);
-            }
+          String? accessToken = event.accessToken;
+          if (!Validator.isNullOrEmpty(accessToken)) {
+            AuthHandler().setUserAuth(accessToken!);
+            UserDetails().setUserDetailsData(accessToken);
+            AppPreferences.qc.saveUserAuthToken(accessToken);
+            AppPreferences.app.setLoginType(LoginTypes.qcLogin.value);
+            _fireLoginAnalytics();
+            UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
+                loginType: LoginTypes.qcLogin);
           }
           completer.complete(true);
         } else {
@@ -142,5 +146,9 @@ class TRCLoginProvider extends CshChangeNotifier {
 
     otpResponse = null;
     notifyListeners();
+  }
+
+  void _fireLoginAnalytics() {
+    AnalyticsController.logEvent(QcLoginEvent());
   }
 }

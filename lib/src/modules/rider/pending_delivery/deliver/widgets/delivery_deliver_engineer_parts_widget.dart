@@ -1,48 +1,38 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/delivery_response.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/engineer_parts_response.dart';
+
 import '../../../../../common/widgets/key_value_row_widget.dart';
 import '../../receive/models/receive_response_model.dart';
 import '../resources/delivery_deliver_api_service.dart';
 import 'item_delivery_deliver_widget.dart';
 
-class DeliveryDeliverEngineerPartsScreen extends StatelessWidget {
-  const DeliveryDeliverEngineerPartsScreen({Key? key}) : super(key: key);
-  static const route = "/rider/delivery/pending/received/parts";
+class DeliveryDeliverEngineerPartsWidget extends StatelessWidget {
+  final EngineerDetail? engineerDetail;
+
+  const DeliveryDeliverEngineerPartsWidget({
+    Key? key,
+    this.engineerDetail,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const _DeliveryDeliverEngineerPartsWidget();
-  }
-}
-
-class _DeliveryDeliverEngineerPartsWidget extends StatelessWidget {
-  const _DeliveryDeliverEngineerPartsWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    EngineerDetail? detail = ModalRoute.of(context)?.settings.arguments as EngineerDetail?;
-
     L10n l10n = L10n(context);
 
-    assert(detail != null, "Engineer detail couldn't be retrieved");
+    assert(engineerDetail != null, "Engineer detail couldn't be retrieved");
 
-    return Scaffold(
-      appBar: TrcHeader(l10n.engineerParts),
-      body: SafeArea(
-        child: Column(
-          children: [
-            ItemDeliveryDeliverWidget(item: detail!),
-            Expanded(
-                child: _PartListWidget(
-              engineerId: detail.id,
-            ))
-          ],
-        ),
-      ),
+    return Column(
+      children: [
+        ItemDeliveryDeliverWidget(item: engineerDetail!),
+        Expanded(
+          child: _PartListWidget(
+            engineerId: engineerDetail!.id,
+          ),
+        )
+      ],
     );
   }
 }
@@ -93,6 +83,8 @@ class _ItemDeliveryDeliverEngineerPart extends StatelessWidget {
           KeyValueRowWidget(title: l10n.partName, value: part.partName),
           KeyValueRowWidget(title: l10n.partBarcode, value: part.partBarcode),
           KeyValueRowWidget(title: l10n.partSku, value: part.partSku),
+          if (!Validator.isNullOrEmpty(part.partVariantName))
+            KeyValueRowWidget(title: l10n.skuName, value: part.partVariantName!),
           KeyValueRowWidget(title: l10n.deviceBarcode, value: part.deviceBarcode),
           KeyValueRowWidget(title: l10n.deviceName, value: part.deviceName),
         ],

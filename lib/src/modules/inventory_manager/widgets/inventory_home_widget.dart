@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/header/trc_header.dart';
 
-import '../../../common/user/widget/logout_action_widget.dart';
+import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
 import '../providers/inventory_home_provider.dart';
 import 'inventory_assigned_widget.dart';
@@ -17,11 +19,14 @@ class InventoryHomeWidget extends StatefulWidget {
   State<InventoryHomeWidget> createState() => _InventoryHomeWidgetState();
 }
 
-class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
+class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTickerProviderStateMixin {
   final GlobalKey<InventoryPendingDeliveryWidgetState> _inventoryPendingWidgetKey = GlobalKey();
+  final GlobalKey<InventoryAssignedWidgetState> _inventoryAssignedWidgetKey = GlobalKey();
+  late final TabController _tabBarController;
 
   @override
   void initState() {
+    _tabBarController = TabController(length: 2, vsync: this);
     scheduleMicrotask(() {
       _selectLocationModal(false);
     });
@@ -39,45 +44,54 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
       length: 2,
       child: Scaffold(
         drawer: const InventoryDrawerWidget(),
-        appBar: CshHeader(
-          l10n.delivery,
-          showBackBtn: false,
-          bottom: TabBar(
-            indicatorColor: theme.primaryColor,
-            indicatorWeight: Dimens.space_4,
-            unselectedLabelStyle: theme.primaryTextTheme.bodyText2,
-            labelStyle: theme.primaryTextTheme.headline4,
-            tabs: [
-              Text(l10n.requestedParts.toUpperCase()),
-              Text(l10n.assigned.toUpperCase()),
-            ],
-          ),
-          actions: [LogoutActionWidget()],
-        ),
+        appBar: TrcHeader(l10n.delivery, showBackBtn: false, showLogoutButton: true, showProfileButton: true),
         body: Column(
           children: [
+            CshTabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
+              tabs: [
+                CshTab(label: l10n.requestedParts.toUpperCase(), width: double.infinity),
+                CshTab(label: l10n.assigned.toUpperCase(), width: double.infinity),
+              ],
+              controller: _tabBarController,
+              labelPadding: EdgeInsets.zero,
+              height: const TabBarHeights(mobile: 56, tablet: 38, desktop: 38),
+            ),
             Expanded(
               child: TabBarView(
+                controller: _tabBarController,
                 children: [
                   (provider.allowPendingWidget)
-                      ? InventoryPendingDeliveryWidget(
-                          key: _inventoryPendingWidgetKey,
-                          onLocationChange: () {
-                            _selectLocationModal(true);
-                          },
-                        )
+                      ? InventoryPendingDeliveryWidget(key: _inventoryPendingWidgetKey)
                       : const SizedBox(),
-                  const InventoryAssignedWidget(),
+                  InventoryAssignedWidget(key: _inventoryAssignedWidgetKey),
                 ],
               ),
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              GlobalKey<PaginatedListState> key;
+              if (_tabBarController.index == 0) {
+                key = _inventoryPendingWidgetKey;
+              } else {
+                key = _inventoryAssignedWidgetKey;
+              }
+              _selectLocationModal(true, paginatedKey: key);
+            },
+            backgroundColor: theme.primaryColor,
+            child: CshIcon(
+              FeatherIcons.edit,
+              iconSize: MobileIconSize.medium,
+              iconColor: Colors.white,
+              padding: const EdgeInsets.only(right: Dimens.space_8),
+            )),
       ),
     );
   }
 
-  _selectLocationModal(bool fromListSection) {
+  _selectLocationModal(bool fromListSection, {GlobalKey<PaginatedListState>? paginatedKey}) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
     var provider = InventoryHomeProvider.of(context, listen: false);
@@ -99,7 +113,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
                 children: [
                   Text(
                     l10n.selectGroupNameS,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
                   Expanded(
@@ -123,7 +137,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
                                 Expanded(
                                   child: Text(
                                     provider.listOfGroupLocation[index].locationName ?? "",
-                                    style: theme.primaryTextTheme.headline3,
+                                    style: theme.primaryTextTheme.displaySmall,
                                   ),
                                 )
                               ],
@@ -145,8 +159,8 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> {
                         if (provider.checkForLocationSelected()) {
                           Navigator.of(context).pop();
                           provider.allowPendingListToShow(true);
-                          if (fromListSection) {
-                            _inventoryPendingWidgetKey.currentState?.resetAndRefreshScreen();
+                          if (fromListSection && paginatedKey != null) {
+                            paginatedKey.currentState?.resetAndRefreshScreen();
                           }
                         } else {
                           CshSnackBar.error(

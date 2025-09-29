@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_trc/src/common/l10n.dart' as l10n_common;
 import 'package:intl/intl.dart';
 
 class L10n extends l10n_common.L10n {
-  L10n(super.context);
+  L10n(BuildContext context, {bool listen = true}) : super(context, listen: listen);
 
   String get home => Intl.message("Home", locale: localName, name: "home");
 
@@ -63,6 +64,8 @@ class L10n extends l10n_common.L10n {
 
   String get deviceIMEI => Intl.message("Device IMEI", locale: localName, name: "deviceIMEI");
 
+  String get serialNumber => Intl.message("Serial No", locale: localName, name: "serialNumber");
+
   String get selfAssignPart => Intl.message("Self assign part", locale: localName, name: "selfAssignPart");
 
   String get orderPart => Intl.message("Order part", locale: localName, name: "orderPart");
@@ -110,18 +113,28 @@ class L10n extends l10n_common.L10n {
 
   String get receive => Intl.message("Receive", locale: localName, name: "receive");
 
+  String get replaceThisPart => Intl.message("Replace this part", locale: localName, name: "replaceThisPart");
+
   String get return_ => Intl.message("Return", locale: localName, name: "return_");
 
   String get areYouSureYouWantToReceive =>
       Intl.message("Are you sure you want to receive", locale: localName, name: "areYouSureYouWantToReceive");
 
+  String get areYouSureYouWantToReplace =>
+      Intl.message("Are you sure you want to replace this part", locale: localName, name: "areYouSureYouWantToReplace");
+
   String get deviceReceivedSuccessfully =>
       Intl.message("Device Received successfully!", locale: localName, name: "deviceReceivedSuccessfully");
+
+  String get partReplacedSuccessfully =>
+      Intl.message("Part Replaced successfully!", locale: localName, name: "partReplacedSuccessfully");
 
   String get clickOnConfirmToCancel =>
       Intl.message("Click on Confirm to Cancel", locale: localName, name: "clickOnConfirmToCancel");
 
   String get chooseYourResponse => Intl.message("Choose your response", locale: localName, name: "chooseYourResponse");
+
+  String get deviceDetails => Intl.message("Device Details", locale: localName, name: "deviceDetails");
 
   String cancelPartRequestSuccess(String? partName) =>
       Intl.message("Part request for part name $partName is successfully cancelled!",
@@ -197,4 +210,69 @@ class L10n extends l10n_common.L10n {
   String get partsReturned => Intl.message("Parts Returned", locale: localName, name: "partsReturned");
 
   String get partsRequested => Intl.message("Parts Requested", locale: localName, name: "partsRequested");
+
+  String get partAction => Intl.message("Part Action", locale: localName, name: "partAction");
+
+  String get deadRemark => Intl.message("Dead Remark", locale: localName, name: "deadRemark");
+
+  String get alternatePart => Intl.message("Alternate Part", locale: localName, name: "alternatePart");
+
+  String get updatedBy => Intl.message("Updated By", locale: localName, name: "updatedBy");
+
+  String get updatedAt => Intl.message("Updated At", locale: localName, name: "updatedAt");
+
+  String get searchByPartName => Intl.message("Search by part name", locale: localName, name: "searchByPartName");
+
+  String get viewHistory => Intl.message("View History", locale: localName, name: "viewHistory");
+
+  String get uploadScrewImages =>
+      Intl.message("Upload Screw Seal Images", locale: localName, name: "uploadScrewImages");
+
+  String get screwImagesUploadedSuccessfully =>
+      Intl.message("Screw Images Uploaded Successfully", locale: localName, name: "screwImagesUploadedSuccessfully");
+
+  String get captureConsumedPartsMedia =>
+      Intl.message("Capture Consumed Parts Media", locale: localName, name: "captureConsumedPartsMedia");
+
+  String get consumedPartsMedia => Intl.message("Consumed Parts Media", locale: localName, name: "consumedPartsMedia");
+
+  String get retrievedPartsMedia =>
+      Intl.message("Retrieved Parts Media", locale: localName, name: "retrievedPartsMedia");
+
+  String get retrievedPartsBarcode =>
+      Intl.message("Retrieved Parts Barcode", locale: localName, name: "retrievedPartsBarcode");
+
+  String get proceed => Intl.message("Proceed", locale: localName, name: "proceed");
+
+  String get retrievedPartList => Intl.message("Retrieved Part List", locale: localName, name: "retrievedPartList");
+
+  String get sku => Intl.message("Sku", locale: localName, name: "sku");
+
+  String get skuName => Intl.message("Sku name", locale: localName, name: "skuName");
+
+  String get noPridFound => Intl.message("No prid found", locale: localName, name: "noPridFound");
+
+  String get yes => Intl.message("Yes", locale: localName, name: "yes");
+
+  String get no => Intl.message("No", locale: localName, name: "no");
+
+  String areYouSureYouWantToMarkPartAsFaulty(String partBarcode) =>
+      Intl.message("Are you sure you want to mark $partBarcode as faulty?",
+          locale: localName, name: "areYouSureYouWantToMarkPartAsFaulty", args: [partBarcode]);
+
+  String areYouSureYouWantToMarkPartAsOk(String partBarcode) =>
+      Intl.message("Are you sure you want to mark $partBarcode as ok?",
+          locale: localName, name: "areYouSureYouWantToMarkPartAsOk", args: [partBarcode]);
+
+  String get statusUpdatedSuccessfully =>
+      Intl.message("Status Updated Successfully", locale: localName, name: "statusUpdatedSuccessfully");
+
+  String get addRemarksOptional =>
+      Intl.message("Add remarks (optional)", locale: localName, name: "addRemarksOptional");
+
+  String get additionalInfo => Intl.message("Additional Info", locale: localName, name: "additionalInfo");
+
+  String get deviceReport => Intl.message("Device Report", locale: localName, name: "deviceReport");
+
+  String get qcFailedReasons => Intl.message("Qc Fail Reasons", locale: localName, name: "qcFailedReasons");
 }

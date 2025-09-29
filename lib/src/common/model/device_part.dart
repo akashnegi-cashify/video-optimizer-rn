@@ -27,6 +27,13 @@ class DevicePart {
   bool? isService;
   @JsonKey(name: "ac")
   String? action;
+  @JsonKey(name:"cc")
+  String? categoryCode;
+  @JsonKey(name:"pvn")
+  String? partVariantName;
+  @JsonKey(name:"rpd")
+  Map<String, dynamic>? retrievedPartData;
+
 
   static DevicePart fromJson(Map<String, dynamic> data) => _$DevicePartFromJson(data);
 

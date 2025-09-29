@@ -19,8 +19,8 @@ class TitleValueRowWidget extends StatelessWidget {
         Expanded(
           child: Text(
             value,
-            style: theme.primaryTextTheme.headline4,
-            maxLines: 2,
+            style: theme.primaryTextTheme.headlineMedium,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
         )

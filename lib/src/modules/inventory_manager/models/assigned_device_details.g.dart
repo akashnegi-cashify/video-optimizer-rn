@@ -28,7 +28,7 @@ Map<String, dynamic> _$AssignedDeviceDetailsToJson(
 AssignDeviceDetailsData _$AssignDeviceDetailsDataFromJson(
         Map<String, dynamic> json) =>
     AssignDeviceDetailsData(
-      did: json['did'] as int?,
+      did: (json['did'] as num?)?.toInt(),
       lc: json['lc'] as String?,
       engineerName: json['en'] as String?,
       deviceBarcode: json['dbr'] as String?,
@@ -36,6 +36,15 @@ AssignDeviceDetailsData _$AssignDeviceDetailsDataFromJson(
       grade: json['gr'] as String?,
       repairType: json['rt'] as String?,
       productName: json['pt'] as String?,
+      deadRemark: json['dr'] as String?,
+      returnCount: (json['rc'] as num?)?.toInt(),
+      isScrewMediaUploaded: json['ismu'] as bool?,
+      imei: json['dimei'] as String?,
+      repairReasonList:
+          (json['rrs'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      returnReason: json['rr'] as String?,
+      color: json['dc'] as String?,
+      serialNumber: json['sno'] as String?,
     );
 
 Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
@@ -49,4 +58,12 @@ Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
       'rt': instance.repairType,
       'gr': instance.grade,
       'lc': instance.lc,
+      'dr': instance.deadRemark,
+      'rc': instance.returnCount,
+      'ismu': instance.isScrewMediaUploaded,
+      'rr': instance.returnReason,
+      'rrs': instance.repairReasonList,
+      'dimei': instance.imei,
+      'sno': instance.serialNumber,
+      'dc': instance.color,
     };

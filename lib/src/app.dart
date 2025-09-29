@@ -1,66 +1,31 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:builder_project/builder_project.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_trc/src/libraries/shared_prefrences/app_prefrences.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_screen.dart';
-import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
-import 'package:flutter_trc/src/modules/home/home_screen.dart';
-import 'package:flutter_trc/src/modules/inventory_manager/screens/return_page.dart';
-import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
-import 'package:flutter_trc/src/modules/login/screens/change_password_screen.dart';
-import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
-import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
-import 'package:flutter_trc/src/screens/barcode_scanner_screen.dart';
-import 'package:flutter_trc/src/screens/barcode_scanner_with_controller.dart';
+import 'package:flutter_trc/qc/qc_routes.dart';
+import 'package:flutter_trc/rms/rms_routes.dart';
+import 'package:flutter_trc/shipex/shipex_routes.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/theme/project_theme.dart';
 import 'package:flutter_trc/src/utils/csh_route_observer.dart';
+import 'package:flutter_trc/trc/trc_routes.dart';
 import 'package:localization/localization/csh_localization.dart';
 import 'package:localization/localization/language_util.dart';
 import 'package:localization/localization/locale_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
-import 'amplify/amplify_provider.dart';
+import './l10n.dart';
+import 'app_initializer.dart';
 import 'common/cashify_alert/cashify_alert_handler.dart';
 import 'common/session/session_expired_callback.dart';
 import 'libraries/alice/csh_alice.dart';
 import 'modules/elss/common_providers/user_session_provider.dart';
-import 'modules/elss/common_screen/elss_home_screen.dart';
-import 'modules/elss/elss_qc/screens/add_part_screen_qc.dart';
-import 'modules/elss/elss_qc/screens/allowed_option_screen.dart';
-import 'modules/elss/elss_qc/screens/elss_status_screen.dart';
-import 'modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
-import 'modules/elss/elss_trc/screens/add_device_media_screen_trc.dart';
-import 'modules/elss/elss_trc/screens/add_part_screen_trc.dart';
-import 'modules/elss/elss_trc/screens/brand_details_listing_screen.dart';
-import 'modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
-import 'modules/engineer/manage_parts/manage_parts_widget.dart';
-import 'modules/engineer/my_devices/widgets/my_devices_widget.dart';
-import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
-import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/order_part_widget.dart';
-import 'modules/engineer/my_devices/wip_devices/view_parts/widgets/self_assign_part_widget.dart';
-import 'modules/engineer/view_reports/view_report_widget.dart';
-import 'modules/inventory_manager/screens/alternate_part_screen.dart';
-import 'modules/inventory_manager/screens/assign_part_barcode_scanner.dart';
-import 'modules/inventory_manager/screens/assigned_device_details_screen.dart';
-import 'modules/inventory_manager/screens/assigned_part_details_screen.dart';
-import 'modules/inventory_manager/screens/inventory_home_screen.dart';
-import 'modules/inventory_manager/screens/pending_part_list_screen.dart';
-import 'modules/inventory_manager/screens/pending_delivery_screen.dart';
-import 'modules/inventory_manager/screens/pending_part_details_screen.dart';
-import 'modules/inventory_manager/screens/return_item_status_screeen.dart';
-import 'modules/inventory_manager/screens/summary_screen.dart';
-import 'modules/part_qc/screens/pq_status_change_screen.dart';
-import 'modules/rider/pending_delivery/deliver/widgets/delivery_deliver_engineer_parts_widget.dart';
-import 'modules/rider/pending_pickup/receive/widgets/pickup_receive_engineer_parts_widget.dart';
-import 'modules/rider/rider_home_widget.dart';
-import 'modules/rubbing/widgets/received_rubbing_devices_widget.dart';
-import 'modules/rubbing/widgets/rubbing_home_widget.dart';
+import 'modules/login/screens/trc_and_qc_login_screen.dart';
 import 'modules/splash/splash_screen.dart';
-import './l10n.dart';
 
 class CashifyApp extends StatefulWidget {
   final String appName;
@@ -72,9 +37,8 @@ class CashifyApp extends StatefulWidget {
 }
 
 class _CashifyAppState extends State<CashifyApp> {
-  final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: false);
-  GlobalKey<NavigatorState>? _navKey = GlobalKey<NavigatorState>();
-  StreamSubscription<ConnectivityResult>? _connectionSubscription;
+  final CshAlice _cshAlice = CshAlice(showNotification: true, showInspectorOnShake: true);
+  GlobalKey<NavigatorState> _navKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -83,42 +47,18 @@ class _CashifyAppState extends State<CashifyApp> {
     if (_cshAlice.alice != null) {
       _navKey = _cshAlice.alice?.getNavigatorKey();
     }
+    AppNavKey.navKey = _navKey;
 
     SessionExpiredCallback().setCallback(onSessionExpire);
     CashifyAlertHandler().setAlertCallback(registerAlert);
-
-    _connectionSubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
-      switch (result) {
-        case ConnectivityResult.none:
-          // TODO: Dev Action Required -> show no internet ui
-          // Navigator.pushReplacementNamed(_navKey.currentState.context, NoInternetScreen.routeName);
-          break;
-
-        case ConnectivityResult.wifi:
-        case ConnectivityResult.mobile:
-          // TODO: Dev Action Required -> Pass the NoInternetScreen route name
-          if (_navKey != null && _navKey!.currentContext != null) {
-            CshRouteObserver().openScreenBeforeInternetError(_navKey!.currentContext!, '' /* Route name */);
-          }
-          break;
-        case ConnectivityResult.bluetooth:
-          // TODO: Handle this case.
-          break;
-        case ConnectivityResult.ethernet:
-          // TODO: Handle this case.
-          break;
-        case ConnectivityResult.vpn:
-          break;
-        case ConnectivityResult.other:
-          // TODO: Handle this case.
-          break;
-      }
-    });
   }
 
   Future<String> onSessionExpire() async {
-    await AppPreferences().resetAndClearAll();
-    Navigator.of(_navKey!.currentState!.context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
+    if (AppPreferences.app.getLoginType() == LoginTypes.qcLogin.value) {
+      await AppPreferences.qc.clear();
+    }
+    await AppPreferences.instance.resetAndClearAll();
+    Navigator.of(_navKey!.currentState!.context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
     return Future.error("Session Expire");
   }
 
@@ -128,9 +68,9 @@ class _CashifyAppState extends State<CashifyApp> {
 
   @override
   void dispose() {
-    if (_connectionSubscription != null) {
-      _connectionSubscription!.cancel();
-    }
+    // if (_connectionSubscription != null) {
+    //   _connectionSubscription!.cancel();
+    // }
     super.dispose();
   }
 
@@ -141,86 +81,40 @@ class _CashifyAppState extends State<CashifyApp> {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
-          ChangeNotifierProvider(
-            create: (_) => UserSessionProvider(),
-            lazy: false,
-          ),
-          ChangeNotifierProvider<AmplifyProvider>(
-            lazy: false,
-            create: (_) => AmplifyProvider(),
-          ),
+          ChangeNotifierProvider(create: (_) => UserSessionProvider(), lazy: false),
         ],
         builder: (BuildContext context, _) {
           LocaleProvider localProvider = Provider.of<LocaleProvider>(context);
           return CshThemeWidget(
             getProjectTheme: (bool isDarkTheme) => ProjectTheme.getTheme(isDarkTheme),
             builder: (ThemeData theme) {
-              return MaterialApp(
-                navigatorKey: _navKey,
-                locale: localProvider.locale,
-                theme: theme,
-                navigatorObservers: [
-                  CshRouteObserver().instance,
-                  SentryNavigatorObserver(),
-                ],
-                title: L10n(context).appName,
-                localizationsDelegates: const [
-                  CshLocalizationsDelegate(),
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                ],
-                supportedLocales: LanguageUtil.getSupportedLanguageListLocale(),
-                routes: {
-                  SplashScreen.route: (_) => const SplashScreen(),
-                  LoginScreen.route: (_) => const LoginScreen(),
-                  HomeScreen.route: (_) => const HomeScreen(),
-                  ChangePasswordScreen.route: (_) => const ChangePasswordScreen(),
-                  BarcodeScanWidget.route: (_) => const BarcodeScanWidget(),
-                  RubbingHomeWidget.route: (_) => const RubbingHomeWidget(),
-                  ReceivedRubbingDevicesWidget.route: (_) => const ReceivedRubbingDevicesWidget(),
-                  BarcodeScannerControllerWidget.route: (_) => const BarcodeScannerControllerWidget(),
-                  ElssHomeScreen.route: (_) => const ElssHomeScreen(),
-                  //ELSS_TRC_ROUTES
-                  AddDeviceMediaScreenTrc.route: (_) => const AddDeviceMediaScreenTrc(),
-                  AddPartScreenTrc.route: (_) => const AddPartScreenTrc(),
-                  PartSelectionScreenTrc.route: (_) => const PartSelectionScreenTrc(),
-                  BrandsDetailsListingScreen.route: (_) => const BrandsDetailsListingScreen(),
-                  ElssStatusScreen.routeName: (_) => const ElssStatusScreen(),
-                  //ELSS_QC_ROUTES
-                  AddPartScreenQc.route: (_) => const AddPartScreenQc(),
-                  PartSelectionScreenQc.route: (_) => const PartSelectionScreenQc(),
-                  AllowedOptionScreen.route: (_) => const AllowedOptionScreen(),
-                  // engineer routes
-                  EngineerHomeScreen.route: (_) => const EngineerHomeScreen(),
-                  MyDevicesScreen.route: (_) => const MyDevicesScreen(),
-                  AssignedPartsScreen.route: (_) => const AssignedPartsScreen(),
-                  WIPDetailScreen.route: (_) => const WIPDetailScreen(),
-                  SelfAssignPartScreen.route: (_) => const SelfAssignPartScreen(),
-                  OrderPartScreen.route: (_) => const OrderPartScreen(),
-                  ManagePartsScreen.route: (_) => const ManagePartsScreen(),
-                  ViewReportScreen.route: (_) => const ViewReportScreen(),
-                  RiderHomeScreen.route: (_) => const RiderHomeScreen(),
-                  DeliveryDeliverEngineerPartsScreen.route: (_) => const DeliveryDeliverEngineerPartsScreen(),
-                  PickupReceiveEngineerPartsScreen.route: (_) => const PickupReceiveEngineerPartsScreen(),
-                  L4HomeScreen.route: (_) => const L4HomeScreen(),
-
-                  //Inventory routes
-                  InventoryHomeScreen.route: (_) => const InventoryHomeScreen(),
-                  PendingDeliveryScreen.route: (_) => const PendingDeliveryScreen(),
-                  PendingPartListScreen.route: (_) => const PendingPartListScreen(),
-                  PendingPartDetailsScreen.route: (_) => const PendingPartDetailsScreen(),
-                  AssignBarcodeScannerScreen.route: (_) => const AssignBarcodeScannerScreen(),
-                  AssignedDeviceDetailsScreen.route: (_) => const AssignedDeviceDetailsScreen(),
-                  AssignedPartDetailsScreen.route: (_) => const AssignedPartDetailsScreen(),
-                  ReturnScreen.route: (_) => const ReturnScreen(),
-                  ReturnStatusScreen.route: (_) => const ReturnStatusScreen(),
-                  SummaryScreen.route: (_) => const SummaryScreen(),
-                  AlternatePartScreen.route: (_) => const AlternatePartScreen(),
-                  //Part qc routes
-                  PartQCHomeScreen.route: (_) => const PartQCHomeScreen(),
-                  PartQcPartStatusScreen.route: (_) => const PartQcPartStatusScreen(),
-                },
-                initialRoute: SplashScreen.route,
+              return BuilderApp(
+                truncate: true,
+                showDraft: false,
+                skipVersionCheck: true,
+                syncWidget: Container(
+                  color: theme.primaryColor,
+                ),
+                env: RUNNING_SYSTEM_ENV,
+                lang: localProvider.locale.languageCode,
+                child: MaterialApp(
+                  navigatorKey: _navKey,
+                  locale: localProvider.locale,
+                  theme: theme.copyWith(useMaterial3: false),
+                  navigatorObservers: [
+                    CshRouteObserver().instance,
+                    FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+                  ],
+                  title: L10n(context).appName,
+                  localizationsDelegates: const [
+                    CshLocalizationsDelegate(),
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+                  supportedLocales: LanguageUtil.getSupportedLanguageListLocale(),
+                  routes: _AppRoutes.getRoutes(),
+                  initialRoute: SplashScreen.route,
+                ),
               );
               // rider role screens
             },
@@ -229,4 +123,19 @@ class _CashifyAppState extends State<CashifyApp> {
       ),
     );
   }
+}
+
+class _AppRoutes {
+  static Map<String, WidgetBuilder> getRoutes() {
+    Map<String, WidgetBuilder> routes = {};
+    routes.addAll(TrcRoutes.getRoutes());
+    routes.addAll(QcRoutes.getQcRoutes());
+    routes.addAll(ShipexRoutes.getRoutes());
+    routes.addAll(RmsRoutes.getRoutes());
+    return routes;
+  }
+}
+
+class AppNavKey {
+  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 }

@@ -27,15 +27,17 @@ Map<String, dynamic> _$PartsDetailsResponseToJson(
 PartDetailsData _$PartDetailsDataFromJson(Map<String, dynamic> json) =>
     PartDetailsData(
       barcode: json['pbr'] as String?,
-      prid: json['prid'] as int?,
+      prid: (json['prid'] as num?)?.toInt(),
       sku: json['sku'] as String?,
       partStatus: json['st'] as String?,
       partName: json['pn'] as String?,
       partColor: json['pc'] as String?,
-      requestQuantity: json['rqty'] as int?,
+      requestQuantity: (json['rqty'] as num?)?.toInt(),
       alternatePartName: json['apn'] as String?,
       alternatePartSku: json['asku'] as String?,
       alternatePartStatus: json['ast'] as String?,
+      partVariantName: json['pvn'] as String?,
+      alternatePartVariantName: json['apvn'] as String?,
     );
 
 Map<String, dynamic> _$PartDetailsDataToJson(PartDetailsData instance) =>
@@ -50,4 +52,6 @@ Map<String, dynamic> _$PartDetailsDataToJson(PartDetailsData instance) =>
       'apn': instance.alternatePartName,
       'asku': instance.alternatePartSku,
       'ast': instance.alternatePartStatus,
+      'pvn': instance.partVariantName,
+      'apvn': instance.alternatePartVariantName,
     };

@@ -124,14 +124,17 @@ class _RejectRetestReasonSelectionListState extends State<_RejectRetestReasonSel
     provider.submitElssRejectRetest(widget.barcode).then((value) {
       CshLoading().hideLoading(context);
       if (provider.isReasonTypeReject) {
+        ElssStatusCompArguments args = ElssStatusCompArguments(
+            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject, barcode: widget.barcode));
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.reject, barcode: widget.barcode),
+          arguments: args,
         );
       } else {
         CshSnackBar.success(context: context, message: "Moved to Retesting successfully!!");
-        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: true);
+        ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: true);
+        Navigator.pushNamedAndRemoveUntil(context, ElssHomeScreen.route, (route) => false, arguments: args);
       }
     }, onError: (errorMessage) {
       CshLoading().hideLoading(context);

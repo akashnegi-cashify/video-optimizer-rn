@@ -10,7 +10,7 @@ UserDetailsResponse _$UserDetailsResponseFromJson(Map<String, dynamic> json) =>
     UserDetailsResponse(
       clid: json['clid'] as String?,
       clv: json['clv'] as String?,
-      exp: json['exp'] as int?,
+      exp: (json['exp'] as num?)?.toInt(),
       firstName: json['fname'] as String?,
       gt: json['gt'] as String?,
       kid: json['kid'] as String?,
@@ -20,7 +20,7 @@ UserDetailsResponse _$UserDetailsResponseFromJson(Map<String, dynamic> json) =>
       role: json['role'] as String?,
       uid: json['uid'] as String?,
       userName: json['uname'] as String?,
-      vt: json['vt'] as int?,
+      vt: (json['vt'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$UserDetailsResponseToJson(

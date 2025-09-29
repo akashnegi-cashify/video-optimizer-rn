@@ -30,7 +30,7 @@ Map<String, dynamic> _$RejectRetestReasonListResponseToJson(
 RejectRetestReasonListItem _$RejectRetestReasonListItemFromJson(
         Map<String, dynamic> json) =>
     RejectRetestReasonListItem(
-      json['k'] as int?,
+      (json['k'] as num?)?.toInt(),
       json['v'] as String?,
     );
 

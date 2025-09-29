@@ -1,11 +1,11 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/view_part_detail_widget.dart';
 
-import '../../../../../../common/widgets/shimmer_list_widget.dart';
 import '../../../../resources/engineer_api_service.dart';
 import '../../models/engineer_part_info.dart';
 import '../../models/parts_list_response.dart';
@@ -13,13 +13,13 @@ import '../../models/parts_list_response.dart';
 class AssignedPartListWidget extends StatefulWidget {
   final EngineerDeviceInfo deviceInfo;
 
-  const AssignedPartListWidget({Key? key, required this.deviceInfo}) : super(key: key);
+  const AssignedPartListWidget({super.key, required this.deviceInfo});
 
   @override
-  State<AssignedPartListWidget> createState() => _AssignedPartListWidgetState();
+  State<AssignedPartListWidget> createState() => AssignedPartListWidgetState();
 }
 
-class _AssignedPartListWidgetState extends State<AssignedPartListWidget> {
+class AssignedPartListWidgetState extends State<AssignedPartListWidget> {
   late Stream<PartsListResponse?> stream;
 
   @override
@@ -33,23 +33,23 @@ class _AssignedPartListWidgetState extends State<AssignedPartListWidget> {
     return StreamBuilder<PartsListResponse?>(
       builder: (context, asyncSnapshot) {
         if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-          return const ShimmerListWidget();
+          return const ShimmerListWidget(height: 400);
         }
         if (asyncSnapshot.hasData && asyncSnapshot.data != null) {
           var list = asyncSnapshot.data!.partDataList;
           if (list != null) {
-            return CshList(
-              listPadding: EdgeInsets.zero,
-              rowCount: list.length,
-              onRefresh: refreshData,
-              getRowWidget: (index) {
-                return ItemPartWidget(
-                  part: list[index],
-                  deviceInfo: widget.deviceInfo,
-                  onBottomSheetClosed: refreshData,
-                );
-              },
-            );
+            return ListView.separated(
+                primary: false,
+                shrinkWrap: true,
+                itemBuilder: (_, index) {
+                  return ItemPartWidget(
+                    part: list[index],
+                    deviceInfo: widget.deviceInfo,
+                    onBottomSheetClosed: refreshData,
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(height: Dimens.space_16),
+                itemCount: list.length);
           }
         }
         return const SizedBox.shrink();
@@ -59,9 +59,11 @@ class _AssignedPartListWidgetState extends State<AssignedPartListWidget> {
   }
 
   void refreshData() {
-    setState(() {
-      stream = EngineerAPIService.getAssignedParts(widget.deviceInfo.deviceId);
-    });
+    if (mounted) {
+      setState(() {
+        stream = EngineerAPIService.getAssignedParts(widget.deviceInfo.deviceId);
+      });
+    }
   }
 }
 
@@ -70,8 +72,7 @@ class ItemPartWidget extends StatelessWidget {
   final EngineerDeviceInfo deviceInfo;
   final VoidCallback? onBottomSheetClosed;
 
-  const ItemPartWidget({Key? key, required this.part, required this.deviceInfo, this.onBottomSheetClosed})
-      : super(key: key);
+  const ItemPartWidget({super.key, required this.part, required this.deviceInfo, this.onBottomSheetClosed});
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +89,8 @@ class ItemPartWidget extends StatelessWidget {
             TitleValueRowWidget(title: l10n.partName, value: part.partName ?? ""),
             TitleValueRowWidget(title: l10n.partBarcode, value: part.partBarcode ?? ""),
             TitleValueRowWidget(title: l10n.partSku, value: part.sku ?? ""),
+            if (!Validator.isNullOrEmpty(part.partVariantName))
+              TitleValueRowWidget(title: l10n.skuName, value: part.partVariantName ?? ""),
             if (!Validator.isNullOrEmpty(part.action))
               TitleValueRowWidget(title: l10n.action, value: part.action ?? ""),
             Row(

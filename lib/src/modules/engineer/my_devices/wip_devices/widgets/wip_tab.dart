@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
-import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/widgets/wip_detail_screen.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../../common/widgets/shimmer_list_widget.dart';
 import '../../../resources/engineer_api_service.dart';
+import '../wip_devices_screen.dart';
 
 class WIPTab extends StatefulWidget {
   const WIPTab({Key? key}) : super(key: key);
@@ -70,7 +70,8 @@ class _ItemWIP extends StatelessWidget {
     L10n l10n = L10n(context);
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, WIPDetailScreen.route, arguments: deviceData);
+        WipDevicesScreenArguments args = WipDevicesScreenArguments(deviceBarcode: deviceData.deviceBarcode!);
+        Navigator.pushNamed(context, WipDevicesScreen.route, arguments: args);
       },
       child: CshCard(
         child: Column(
@@ -82,11 +83,10 @@ class _ItemWIP extends StatelessWidget {
               width: Dimens.space_28,
               color: Theme.of(context).colorScheme.onBackground,
             ),
-            const SizedBox(
-              height: Dimens.space_8,
-            ),
+            const SizedBox(height: Dimens.space_8),
             CshTextNew.h5("${l10n.productTitle} - ${deviceData.productTitle}"),
-            CshTextNew.h5("${l10n.status} - ${deviceData.status}")
+            CshTextNew.h5("${l10n.status} - ${deviceData.status}"),
+            CshTextNew.h5("${l10n.repairType} - ${deviceData.repairType}")
           ],
         ),
       ),

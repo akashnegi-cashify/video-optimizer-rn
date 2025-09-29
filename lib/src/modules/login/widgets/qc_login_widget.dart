@@ -2,6 +2,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../l10n.dart';
 import '../providers/login_provider.dart';
 import '../resources/notification_type.dart';
@@ -69,7 +70,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                     !Validator.isNullOrEmpty(provider.otpResponse?.requestId)) {
                   String otp = _otpController.text.trim();
                   _verifyEnteredOTP(_mobileNumberController.text.trim(), NotificationType.notificationTypeSMS.value,
-                      otp, provider.otpResponse!.requestId!, true);
+                      otp, provider.otpResponse!.requestId!);
                 } else {
                   CshSnackBar.error(context: context, message: l10n.pleaseEnterOtpSentToNumber);
                 }
@@ -87,7 +88,7 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         l10n.resendOtp,
-                        style: theme.primaryTextTheme.bodyText1?.copyWith(color: theme.primaryColor),
+                        style: theme.primaryTextTheme.bodyLarge?.copyWith(color: theme.primaryColor),
                       ),
                     ),
                   )
@@ -96,11 +97,11 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
                     children: [
                       Text(
                         '${l10n.resendOtp} | ',
-                        style: theme.primaryTextTheme.bodyText1,
+                        style: theme.primaryTextTheme.bodyLarge,
                       ),
                       Text(
                         '${provider.start}',
-                        style: theme.primaryTextTheme.bodyText1,
+                        style: theme.primaryTextTheme.bodyLarge,
                       ),
                     ],
                   ),
@@ -148,10 +149,10 @@ class _QcLoginWidgetState extends State<QcLoginWidget> {
     });
   }
 
-  _verifyEnteredOTP(String mobileNumber, String notificationType, String otp, String referenceId, bool loginFromQC) {
+  _verifyEnteredOTP(String mobileNumber, String notificationType, String otp, String referenceId) {
     var provider = TRCLoginProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.authenticateSentOTP(context, mobileNumber, notificationType, otp, referenceId, loginFromQC).then((value) {
+    provider.authenticateSentOTP(context, mobileNumber, notificationType, otp, referenceId).then((value) {
       if (!value) {
         CshSnackBar.error(context: context, message: "Unable to authenticate!!");
       }

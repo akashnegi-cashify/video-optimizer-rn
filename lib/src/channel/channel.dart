@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import '../types/platforms.dart';
 
-// TODO add channel name below
 const MethodChannel _channel = MethodChannel('in.cashify.flutter_boilerplate/plugin');
 
 Future<Platform> getPlatform() async {

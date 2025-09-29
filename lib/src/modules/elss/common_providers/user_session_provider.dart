@@ -1,8 +1,12 @@
 import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/modules/home/models/logout_response.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:provider/provider.dart';
+
 import '../common_resources/elss_service.dart';
 
 class UserSessionProvider extends CshChangeNotifier {
@@ -10,10 +14,26 @@ class UserSessionProvider extends CshChangeNotifier {
     return Provider.of<UserSessionProvider>(context, listen: listen);
   }
 
-  Future<bool> logoutUserAndClearSession(bool isLoginFromQC) {
+  Stream<LogoutResponse?>? _getLogoutStream(LoginTypes loginTypeEnum) {
+    switch (loginTypeEnum) {
+      case LoginTypes.trcLogin:
+        return ElssService.trcLogout();
+      case LoginTypes.rmsLogin:
+      case LoginTypes.shipexLogin:
+        return ElssService.consoleLogout();
+      case LoginTypes.qcLogin:
+        return Stream.value(LogoutResponse(1, "", ""));
+    }
+  }
+
+  Future<bool> logoutUserAndClearSession(LoginTypes loginTypeEnum) {
+    if (loginTypeEnum == LoginTypes.qcLogin) {
+      return Future.value(true);
+    }
+
     var completer = Completer<bool>();
     try {
-      ElssService.logoutAndClearSession(isLoginFromQC).listen((event) {
+      _getLogoutStream(loginTypeEnum)?.listen((event) {
         if (event != null) {
           completer.complete(true);
         } else {

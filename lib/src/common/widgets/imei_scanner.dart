@@ -1,0 +1,63 @@
+import 'dart:async';
+
+import 'package:builder_component/builder_component.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
+import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
+import 'package:imei_serial_reader/imei_serial_reader.dart';
+import 'package:provider/provider.dart';
+
+class ImeiScanner extends StatefulWidget {
+  final Function(List<String>? scannedList, {CameraDataModel? imageRawData})? onProceed;
+  final VoidCallback? onTimeOut;
+  final ParserConfig config;
+
+  const ImeiScanner({super.key, this.onProceed, this.onTimeOut, required this.config});
+
+  @override
+  State<ImeiScanner> createState() => _ImeiScannerState();
+}
+
+class _ImeiScannerState extends State<ImeiScanner> {
+  Timer? _timer;
+
+  @override
+  void initState() {
+    scheduleMicrotask(() {
+      var timeOutInSec = RemoteConfigHelper().getInt(AppRemoteConfig.KEY_IMEI_READER_TIMEOUT_SEC);
+      _timer = Timer(Duration(seconds: timeOutInSec), () {
+        widget.onTimeOut?.call();
+      });
+      super.initState();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const QcGeneralHeader('Imei Reader'),
+      body: Center(
+        child: ChangeNotifierProvider(
+          create: (_) => PageParamProvider(),
+          child: ImeiSerialReader(
+            configurationModel: ImeiSerialReaderConfig(
+              readerType: widget.config.readerType.value,
+              retryButtonText: 'Retry',
+              doneButtonText: 'Done',
+            ),
+            onDoneCallback: (scannedList, {cameraDataModel}) {
+              widget.onProceed?.call(scannedList, imageRawData: cameraDataModel);
+            },
+            parserConfig: widget.config,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+}

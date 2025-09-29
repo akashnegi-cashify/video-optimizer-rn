@@ -16,10 +16,7 @@ import 'elss_part_widget.dart';
 class PartSelectionWidget extends StatelessWidget {
   final String barcode;
 
-  const PartSelectionWidget({
-    Key? key,
-    required this.barcode,
-  }) : super(key: key);
+  const PartSelectionWidget({super.key, required this.barcode});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +36,24 @@ class PartSelectionWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(Dimens.space_8),
                   child: ElssDeviceDetailsWidget(dataModel: provider.elssDeviceDetails?.deviceDetailsData),
                 ),
-                const SizedBox(height: Dimens.space_20),
+                CshCard(
+                  margin: const EdgeInsets.all(Dimens.space_8),
+                  padding: const EdgeInsets.all(Dimens.space_16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const CshTextNew.subTitle1("Rubbing/Glass Change"),
+                      const SizedBox(height: Dimens.space_8),
+                      CshDropDown(
+                        items: provider.rubbingOrGlassChangeDropdown,
+                        selectedItem: provider.selectedRubbingOrGlassChangeValue,
+                        onChanged: (DropDownItem? value) {
+                          provider.onRubbingOrGlassChangeValueChanged(value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 if (provider.elssDeviceDetails?.deviceDetailsData?.partAdditionAllowed ?? false)
                   Align(
                     alignment: Alignment.centerRight,
@@ -48,7 +62,9 @@ class PartSelectionWidget extends StatelessWidget {
                       child: CshIconButton(
                         text: l10n.addParts,
                         onPressed: () async {
-                          var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: barcode);
+                          AddPartScreenQcArguments args =
+                              AddPartScreenQcArguments(scannedBarcode: barcode, elssPartList: provider.elssPartList);
+                          var data = await Navigator.of(context).pushNamed(AddPartScreenQc.route, arguments: args);
                           if ((data is List<PartItemDataResponse>?) && !Validator.isListNullOrEmpty(data)) {
                             provider.addNewPartsFromAddParts(data!);
                           }
@@ -63,7 +79,7 @@ class PartSelectionWidget extends StatelessWidget {
                 if (!Validator.isListNullOrEmpty(provider.elssPartList)) ...[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-                    child: Text(l10n.deviceParts, style: theme.primaryTextTheme.headline4),
+                    child: Text(l10n.deviceParts, style: theme.primaryTextTheme.headlineMedium),
                   ),
                   const SizedBox(height: Dimens.space_4),
                   ListView.separated(
@@ -105,6 +121,7 @@ class PartSelectionWidget extends StatelessWidget {
               onAcceptClicked: _isEnableAcceptButton(provider) ? () => _submitDataForPartsLogic(l10n, context) : null,
               onRejectClicked: () => _onRejectElss(context),
               onRetestClicked: () => _onRetestingElss(context),
+              isHideRejectButton: true,
             ),
           ),
         ),
@@ -143,15 +160,22 @@ class PartSelectionWidget extends StatelessWidget {
             message: l10n.partsSubmittedSuccessfully,
             duration: SnackBarDuration.SHORT,
             snackBarPosition: SnackBarPosition.TOP);
-        AllowedOptionScreeArguments args =
-            AllowedOptionScreeArguments(barcode, detailsDataModel: provider.elssDeviceDetails);
+        AllowedOptionCompScreenArguments args = AllowedOptionCompScreenArguments(
+            arguments: AllowedOptionScreeArguments(
+          barcode,
+          detailsDataModel: provider.elssDeviceDetails,
+          pQuoteId: provider.pQuoteId,
+          remarks: provider.remarks,
+        ));
 
-        Navigator.of(context).pushReplacementNamed(AllowedOptionScreen.route, arguments: args);
+        Navigator.pushNamed(context, AllowedOptionScreen.route, arguments: args);
       } else {
+        ElssStatusCompArguments args =
+            ElssStatusCompArguments(arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: barcode));
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: barcode),
+          arguments: args,
         );
       }
     }, onError: (error) {
@@ -165,13 +189,14 @@ class _BottomButtons extends StatelessWidget {
   final VoidCallback onRejectClicked;
   final VoidCallback onRetestClicked;
   final VoidCallback? onAcceptClicked;
+  final bool isHideRejectButton;
 
   const _BottomButtons({
-    Key? key,
     required this.onRejectClicked,
     required this.onRetestClicked,
     required this.onAcceptClicked,
-  }) : super(key: key);
+    required this.isHideRejectButton,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -181,15 +206,17 @@ class _BottomButtons extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(
-              child: CshMediumOutlineButton(
-                text: l10n.reject,
-                borderColor: theme.errorColor,
-                onPressed: onRejectClicked,
-                textColor: theme.errorColor,
+            if (!Validator.isTrue(isHideRejectButton)) ...[
+              Expanded(
+                child: CshMediumOutlineButton(
+                  text: l10n.reject,
+                  borderColor: theme.colorScheme.error,
+                  onPressed: onRejectClicked,
+                  textColor: theme.colorScheme.error,
+                ),
               ),
-            ),
-            const SizedBox(width: Dimens.space_20),
+              const SizedBox(width: Dimens.space_20),
+            ],
             Expanded(
               child: CshMediumOutlineButton(
                 text: l10n.retest,
@@ -202,7 +229,7 @@ class _BottomButtons extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: CshMediumButton(
-            text: l10n.accept,
+            text: l10n.submit,
             onPressed: onAcceptClicked,
           ),
         )

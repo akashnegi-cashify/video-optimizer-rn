@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_trc/src/modules/elss/common_models/elss_part.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
 
 import '../../../../utils/dotted_divider_line.dart';
@@ -57,18 +58,18 @@ class ChannelSuggestionWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(title, style: theme.primaryTextTheme.headline5),
+                  Text(title, style: theme.primaryTextTheme.headlineSmall),
                   Row(
                     children: [
                       if (dataModel?.channelOptionPrice != null)
                         RichText(
                           text: TextSpan(
                             text: "${l10n.profit}: ",
-                            style: theme.primaryTextTheme.overline,
+                            style: theme.primaryTextTheme.labelLarge,
                             children: <TextSpan>[
                               TextSpan(
                                 text: l10n.formatPrice(dataModel!.channelOptionPrice, defaultValue: 0),
-                                style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+                                style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
                               )
                             ],
                           ),
@@ -103,8 +104,17 @@ class ChannelSuggestionWidget extends StatelessWidget {
                         dense: true,
                         contentPadding: const EdgeInsets.symmetric(horizontal: Dimens.space_6),
                         child: ExpansionTile(
-                          tilePadding: EdgeInsets.zero,
-                          title: Text(l10n.listOfSkUs, style: theme.primaryTextTheme.headline5),
+                          tilePadding: const EdgeInsets.only(bottom: Dimens.space_4, top: Dimens.space_4),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(l10n.listOfSkUs, style: theme.primaryTextTheme.headlineSmall),
+                              Text(
+                                "Total Repair: ${_getTotalRepairAmount(dataModel!.requestedParts, l10n)}",
+                                style: theme.primaryTextTheme.labelSmall,
+                              ),
+                            ],
+                          ),
                           children: [
                             ListView.separated(
                               shrinkWrap: true,
@@ -124,17 +134,17 @@ class ChannelSuggestionWidget extends StatelessWidget {
                                             "${index + 1}. ${elssPart.sku}",
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: theme.textTheme.subtitle2,
+                                            style: theme.textTheme.titleSmall,
                                           ),
                                           const SizedBox(height: Dimens.space_2),
                                           RichText(
                                             text: TextSpan(
                                                 text: "Service Type:  ",
-                                                style: theme.primaryTextTheme.overline?.copyWith(
+                                                style: theme.primaryTextTheme.labelLarge?.copyWith(
                                                   color: theme.shadowColor,
                                                 ),
                                                 children: [
-                                                  TextSpan(text: serviceType, style: theme.textTheme.subtitle2)
+                                                  TextSpan(text: serviceType, style: theme.textTheme.titleSmall)
                                                 ]),
                                           ),
                                         ],
@@ -142,18 +152,36 @@ class ChannelSuggestionWidget extends StatelessWidget {
                                     ),
                                     if (elssPart.quantity != null) ...[
                                       const SizedBox(width: Dimens.space_12),
-                                      RichText(
-                                        text: TextSpan(
-                                            text: "Qty:  ",
-                                            style: theme.primaryTextTheme.overline?.copyWith(
-                                              color: theme.shadowColor,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text: "${elssPart.quantity ?? 0}",
-                                                style: theme.textTheme.subtitle2,
-                                              )
-                                            ]),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          RichText(
+                                            text: TextSpan(
+                                                text: "Price:  ",
+                                                style: theme.primaryTextTheme.labelLarge?.copyWith(
+                                                  color: theme.shadowColor,
+                                                ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: l10n.formatPrice(elssPart.price, defaultValue: 0),
+                                                    style: theme.textTheme.titleSmall,
+                                                  )
+                                                ]),
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                                text: "Qty:  ",
+                                                style: theme.primaryTextTheme.labelLarge?.copyWith(
+                                                  color: theme.shadowColor,
+                                                ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: "${elssPart.quantity ?? 0}",
+                                                    style: theme.textTheme.titleSmall,
+                                                  )
+                                                ]),
+                                          ),
+                                        ],
                                       ),
                                     ]
                                   ],
@@ -178,6 +206,7 @@ class ChannelSuggestionWidget extends StatelessWidget {
                             ? _labelValueWidget(theme, l10n.channel, dataModel!.channelName!)
                             : const SizedBox.shrink(),
                       ),
+                      const SizedBox(width: Dimens.space_4),
                       Expanded(
                         child: (dataModel?.grade != null)
                             ? _labelValueWidget(theme, l10n.suggestedGrade, dataModel!.grade!)
@@ -198,21 +227,33 @@ class ChannelSuggestionWidget extends StatelessWidget {
     );
   }
 
+  String _getTotalRepairAmount(List<ElssPart>? requestedParts, L10n l10n) {
+    if (Validator.isListNullOrEmpty(requestedParts)) {
+      return l10n.formatPrice(0);
+    }
+
+    double totalAmount = 0;
+    for (var element in requestedParts!) {
+      totalAmount += element.price ?? 0;
+    }
+    return l10n.formatPrice(totalAmount);
+  }
+
   _labelValueWidget(ThemeData theme, String label, String value, {Color? textColor}) {
     return Row(
       children: [
         Text(
           "$label: ",
-          style: theme.primaryTextTheme.overline,
+          style: theme.primaryTextTheme.labelLarge,
         ),
         Expanded(
           child: Text(
             value,
-            maxLines: 1,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: (textColor != null)
-                ? theme.primaryTextTheme.headline5?.copyWith(color: textColor)
-                : theme.primaryTextTheme.headline5,
+                ? theme.primaryTextTheme.headlineSmall?.copyWith(color: textColor)
+                : theme.primaryTextTheme.headlineSmall,
           ),
         )
       ],

@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/environments/environment_config.dart';
 import '../l10n.dart';
 import '../../../resources/user_details.dart';
 import '../screens/inventory_home_screen.dart';
@@ -31,7 +32,7 @@ class InventoryDrawerWidget extends StatelessWidget {
                     width: Dimens.space_40,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: theme.backgroundColor),
+                      border: Border.all(color: theme.colorScheme.surface),
                     ),
                   ),
                   const SizedBox(width: Dimens.space_16),
@@ -39,7 +40,7 @@ class InventoryDrawerWidget extends StatelessWidget {
                     Expanded(
                       child: Text(
                         "Hi ${UserDetails().userDetailsData!.userName!}",
-                        style: theme.primaryTextTheme.headline3?.copyWith(color: theme.backgroundColor),
+                        style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.colorScheme.surface),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -52,14 +53,14 @@ class InventoryDrawerWidget extends StatelessWidget {
               child: ListView(
                 children: [
                   ListTile(
-                    title: Text(l10n.delivery, style: theme.primaryTextTheme.headline4),
+                    title: Text(l10n.delivery, style: theme.primaryTextTheme.headlineMedium),
                     onTap: () {
                       Navigator.of(context).pushReplacementNamed(InventoryHomeScreen.route);
                     },
                   ),
                   Divider(color: theme.shadowColor),
                   ListTile(
-                    title: Text(l10n.returns, style: theme.primaryTextTheme.headline4),
+                    title: Text(l10n.returns, style: theme.primaryTextTheme.headlineMedium),
                     onTap: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pushNamed(ReturnScreen.route);
@@ -67,7 +68,7 @@ class InventoryDrawerWidget extends StatelessWidget {
                   ),
                   Divider(color: theme.shadowColor),
                   ListTile(
-                    title: Text(l10n.summary, style: theme.primaryTextTheme.headline4),
+                    title: Text(l10n.summary, style: theme.primaryTextTheme.headlineMedium),
                     onTap: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pushNamed(SummaryScreen.route);
@@ -82,8 +83,8 @@ class InventoryDrawerWidget extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  l10n.appVersion,
-                  style: theme.primaryTextTheme.headline5,
+                  "${l10n.appVersion} -  ${environment?.appVersion}",
+                  style: theme.primaryTextTheme.headlineSmall,
                 ),
               ),
             ),

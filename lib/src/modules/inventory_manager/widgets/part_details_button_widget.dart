@@ -16,6 +16,7 @@ class _DisableAndVisible {
   });
 }
 
+
 class PartDetailsButtonWidget extends StatefulWidget {
   final int statusCode;
   final Function()? cancelBtnOnPressed,
@@ -41,7 +42,6 @@ class PartDetailsButtonWidget extends StatefulWidget {
 class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
   _DisableAndVisible? _cancelButtonState;
   _DisableAndVisible? _assignButtonState;
-  _DisableAndVisible? _deadButtonState;
   _DisableAndVisible? _alternativeButtonState;
   _DisableAndVisible? _goBackButtonState;
 
@@ -81,17 +81,6 @@ class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
           ),
           const SizedBox(width: Dimens.space_6),
         ],
-        if (_deadButtonState?.isVisible ?? false) ...[
-          Flexible(
-            child: _buttonWidget(
-              theme,
-              label: l10n.deadPart,
-              isEnable: _deadButtonState!.isEnable,
-              onPressed: widget.deadPartOnPressed ?? () {},
-            ),
-          ),
-          const SizedBox(width: Dimens.space_6),
-        ],
         if (_alternativeButtonState?.isVisible ?? false) ...[
           Flexible(
             child: _buttonWidget(
@@ -124,19 +113,16 @@ class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
     if (PartStatus.getEnumByValue(statusCode) == PartStatus.OTHER) {
       _cancelButtonState = _DisableAndVisible(isEnable: false, isVisible: true);
       _assignButtonState = _DisableAndVisible(isEnable: false, isVisible: true);
-      _deadButtonState = _DisableAndVisible(isEnable: false, isVisible: true);
       _alternativeButtonState = _DisableAndVisible(isEnable: false, isVisible: true);
       _goBackButtonState = _DisableAndVisible(isEnable: false, isVisible: false);
     } else if (PartStatus.getEnumByValue(statusCode) == PartStatus.AVAILABLE) {
       _cancelButtonState = _DisableAndVisible(isEnable: true, isVisible: true);
       _assignButtonState = _DisableAndVisible(isEnable: true, isVisible: true);
-      _deadButtonState = _DisableAndVisible(isEnable: false, isVisible: false);
       _alternativeButtonState = _DisableAndVisible(isEnable: false, isVisible: false);
       _goBackButtonState = _DisableAndVisible(isEnable: false, isVisible: false);
     } else if (PartStatus.getEnumByValue(statusCode) == PartStatus.NOT_AVAILABLE) {
       _cancelButtonState = _DisableAndVisible(isEnable: true, isVisible: true);
       _assignButtonState = _DisableAndVisible(isEnable: false, isVisible: false);
-      _deadButtonState = _DisableAndVisible(isEnable: true, isVisible: true);
       _alternativeButtonState = _DisableAndVisible(isEnable: true, isVisible: true);
       _goBackButtonState = _DisableAndVisible(isEnable: false, isVisible: false);
     }
@@ -157,7 +143,7 @@ class _PartDetailsButtonWidgetState extends State<PartDetailsButtonWidget> {
         child: Text(
           label,
           textAlign: TextAlign.center,
-          style: theme.primaryTextTheme.headline6?.copyWith(color: theme.backgroundColor),
+          style: theme.primaryTextTheme.titleLarge?.copyWith(color: theme.colorScheme.surface),
         ),
       ),
     );

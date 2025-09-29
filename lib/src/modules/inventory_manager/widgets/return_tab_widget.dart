@@ -6,7 +6,7 @@ import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
 import '../models/return_part_response.dart';
 import '../providers/return_page_provider.dart';
-import '../screens/return_item_status_screeen.dart';
+import '../screens/return_item_status_screen.dart';
 
 class ReturnTabWidget extends StatefulWidget {
   const ReturnTabWidget({Key? key}) : super(key: key);
@@ -80,7 +80,7 @@ class _ReturnTabWidgetState extends PaginatedListState<ReturnItemData, ReturnTab
               return Center(
                 child: Text(
                   l10n.noDataFound,
-                  style: theme.primaryTextTheme.subtitle1,
+                  style: theme.primaryTextTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
               );
@@ -93,7 +93,7 @@ class _ReturnTabWidgetState extends PaginatedListState<ReturnItemData, ReturnTab
                     Expanded(
                       child: Text(
                         error,
-                        style: theme.primaryTextTheme.headline3,
+                        style: theme.primaryTextTheme.displaySmall,
                         textAlign: TextAlign.center,
                       ),
                     )

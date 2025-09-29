@@ -10,7 +10,7 @@ SubmitPartsLogicResponse _$SubmitPartsLogicResponseFromJson(
         Map<String, dynamic> json) =>
     SubmitPartsLogicResponse(
       success: json['success'] as bool?,
-      pm: json['pm'] as int?,
+      pm: (json['pm'] as num?)?.toInt(),
       isSuccess: json['s'] as bool?,
       data: json['dt'] == null
           ? null

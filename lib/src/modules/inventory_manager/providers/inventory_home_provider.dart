@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../models/engineer_list_response.dart';
 import '../models/inventory_location_response.dart';
 import '../models/pending_device_list_response.dart';
@@ -21,8 +23,8 @@ class InventoryHomeProvider extends CshChangeNotifier {
   bool isDataLoading = true, allowPendingWidget = false;
   List<GroupLocationModel> listOfGroupLocation = [];
   InventoryLocationResponse? inventoryLocationResponse;
-  int offsetLength = 10;
-  String barcode = "";
+  String? barcode;
+  String? engineerName;
   bool isUrgent = false;
   List<PendingDeviceDetailData> assignedTabListData = [];
   String? errorMessage;
@@ -48,12 +50,12 @@ class InventoryHomeProvider extends CshChangeNotifier {
     });
   }
 
-  Future<EngineerListResponse?> getAssignmentPendingEngineerList(int pageNumber) {
+  Future<EngineerListResponse?> getAssignmentPendingEngineerList(int pageNumber, int pageSize) {
     var completer = Completer<EngineerListResponse?>();
     try {
-      InventoryService.getAssignmentPendingEngineerList(getLocationsString() ?? "", pageNumber, offsetLength).listen(
+      InventoryService.getAssignmentPendingEngineerList(getLocationsString() ?? "", ++pageNumber, pageSize).listen(
           (event) {
-        if (event != null && event.isSuccess == true) {
+        if (Validator.isTrue(event?.isSuccess)) {
           completer.complete(event);
         } else {
           completer.completeError("Something went wrong!!");
@@ -71,10 +73,11 @@ class InventoryHomeProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<PendingDeviceListResponse> getListOfAssignmentPendingDevices(int pageNo) {
+  Future<PendingDeviceListResponse> getListOfAssignmentPendingDevices(int pageNo, int pageSize) {
     var completer = Completer<PendingDeviceListResponse>();
     try {
-      InventoryService.getListOfAssignmentPendingDevices(pageNo, offsetLength, isUrgent: isUrgent, barcode: barcode)
+      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize,
+              isUrgent: isUrgent, barcode: barcode, locations: getLocationsString(), engineerName: engineerName)
           .listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(event);

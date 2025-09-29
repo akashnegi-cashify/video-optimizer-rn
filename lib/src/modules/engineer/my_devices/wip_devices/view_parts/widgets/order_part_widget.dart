@@ -2,12 +2,18 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
-import 'package:flutter_trc/src/modules/engineer/models/engineer_device_info.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_engineer_part.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/order_part_provider.dart';
+import 'package:flutter_trc/src/modules/engineer/screens/part_request_reasons_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../common/widgets/searchbar_widget.dart';
+
+class OrderPartScreenArg {
+  final String? deviceBarcode;
+
+  OrderPartScreenArg(this.deviceBarcode);
+}
 
 class OrderPartScreen extends StatelessWidget {
   const OrderPartScreen({Key? key}) : super(key: key);
@@ -24,7 +30,7 @@ class _OrderPartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EngineerDeviceInfo deviceInfo = ModalRoute.of(context)?.settings.arguments as EngineerDeviceInfo;
+    OrderPartScreenArg deviceInfo = ModalRoute.of(context)?.settings.arguments as OrderPartScreenArg;
 
     L10n l10n = L10n(context);
 
@@ -46,64 +52,90 @@ class _OrderPartWidget extends StatelessWidget {
                   context.read<OrderPartProvider>().query = query;
                 },
               ),
-              Expanded(child: Consumer<OrderPartProvider>(builder: (context, provider, widget) {
-                return CshList(
-                  onRefresh: () {
-                    provider.getListParts((String errorMsg) {
-                      CshSnackBar.error(context: context, message: errorMsg);
-                    }, l10n);
-                  },
-                  rowCount: provider.displayList.length,
-                  getRowWidget: (index) {
-                    OrderEngineerPart part = provider.displayList[index];
+              Expanded(
+                child: Consumer<OrderPartProvider>(
+                  builder: (context, provider, widget) {
+                    return CshList(
+                      onRefresh: () {
+                        provider.getListParts((String errorMsg) {
+                          CshSnackBar.error(context: context, message: errorMsg);
+                        }, l10n);
+                      },
+                      rowCount: provider.displayList.length,
+                      getRowWidget: (index) {
+                        OrderEngineerPart part = provider.displayList[index];
 
-                    return CshCard(
-                        child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        return CshCard(
+                          child: Row(
                             children: [
-                              CshTextNew.h3("${l10n.partName} - ${part.partName}"),
-                              CshTextNew.h6("${l10n.partSku} - ${part.sku}"),
-                              CshTextNew.h6("${l10n.color} - ${part.partColor}"),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CshTextNew.h3("${l10n.partName} - ${part.partName}"),
+                                    CshTextNew.h6("${l10n.partSku} - ${part.sku}"),
+                                    if (!Validator.isNullOrEmpty(part.partVariantName))
+                                      CshTextNew.h6("${l10n.skuName} - ${part.partVariantName}"),
+                                    CshTextNew.h6("${l10n.color} - ${part.partColor}"),
+                                    const SizedBox(height: Dimens.space_6),
+                                    CshDropDown(
+                                        items: provider.partTypeList,
+                                        key: ValueKey("${part.sku}-${part.partColor}-${part.selectedPartType?.id}"),
+                                        selectedItem: part.selectedPartType,
+                                        hintText: "Select",
+                                        onChanged: (DropDownItem? value) {
+                                          provider.updatePartTypeSelection(part, value);
+                                        }),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                        CounterButton(
-                          onIncrementClick: () {
-                            provider.updateDataForNIndex(part, 1);
-                          },
-                          onDecrementClick: () {
-                            provider.updateDataForNIndex(part, -1);
-                          },
-                          key: ValueKey(part.orderQuantity),
-                          counter: part.orderQuantity ?? 0,
-                        )
-                      ],
-                    ));
+                        );
+                      },
+                    );
                   },
-                );
-              }))
+                ),
+              )
             ],
           ),
           bottomNavigationBar: CshBigButton(
             text: l10n.request,
-            onPressed: context
-                    .watch<OrderPartProvider>()
-                    .displayList
-                    .where((element) => (element.orderQuantity ?? 0) > 0)
-                    .isEmpty
+            onPressed: context.watch<OrderPartProvider>().getSelectedPartList().isEmpty
                 ? null
                 : () {
-                    context.read<OrderPartProvider>().orderParts(
-                        (errorMessage) => CshSnackBar.error(context: context, message: errorMessage), l10n, () {
-                      CshSnackBar.success(context: context, message: l10n.partsOrderedSuccessfully);
-                    });
+                    _submitParts(context, l10n);
                   },
           ),
         );
       },
+    );
+  }
+
+  _submitParts(BuildContext context, L10n l10n) {
+    Navigator.pushNamed(
+      context,
+      PartRequestReasonsScreen.route,
+      arguments: PartRequestReasonsScreenArg(
+        context.read<OrderPartProvider>().getSelectedPartList(),
+        onReasonsSubmitted: (partList) {
+          CshLoading().showLoading(context);
+          context.read<OrderPartProvider>().orderParts(
+            l10n,
+            partList: partList,
+            handleError: (errorMessage) {
+              CshLoading().hideLoading(context);
+              CshSnackBar.error(context: context, message: errorMessage);
+            },
+            callback: () {
+              CshLoading().hideLoading(context);
+              Navigator.pop(context); // dismiss the part request reason screen
+              Navigator.pop(context, true);
+              CshSnackBar.success(context: context, message: l10n.partsOrderedSuccessfully);
+            },
+          );
+        },
+      ),
     );
   }
 }

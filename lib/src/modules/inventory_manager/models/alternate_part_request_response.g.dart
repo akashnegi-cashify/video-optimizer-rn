@@ -23,7 +23,7 @@ Map<String, dynamic> _$AlternatePartRequestResponseToJson(
 AlternatePartRequestData _$AlternatePartRequestDataFromJson(
         Map<String, dynamic> json) =>
     AlternatePartRequestData(
-      prid: json['prid'] as int?,
+      prid: (json['prid'] as num?)?.toInt(),
       isUrgent: json['isUrgent'] as bool?,
     );
 

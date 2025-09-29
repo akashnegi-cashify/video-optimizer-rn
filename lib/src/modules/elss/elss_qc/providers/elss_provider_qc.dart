@@ -4,6 +4,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/rubbing_or_glass_change_enum.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_models/elss_device_details_response.dart';
@@ -12,12 +13,22 @@ import '../../common_models/part_device_list.dart';
 import '../../common_resources/elss_service.dart';
 
 class ELssProviderQc extends CshChangeNotifier {
+  List<DropDownItem> _rubbingOrGlassChangeDropdown = [];
+  DropDownItem? _selectedRubbingOrGlassChangeValue;
+  final String? pQuoteId;
+  final String? remarks;
+
   static ELssProviderQc of(BuildContext context, {bool listen = true}) {
     return Provider.of<ELssProviderQc>(context, listen: listen);
   }
 
-  ELssProviderQc(String barcode) {
-    _getDeviceDetailsAndParts(barcode);
+  List<DropDownItem> get rubbingOrGlassChangeDropdown => _rubbingOrGlassChangeDropdown;
+
+  DropDownItem? get selectedRubbingOrGlassChangeValue => _selectedRubbingOrGlassChangeValue;
+
+  ELssProviderQc(String barcode, {this.pQuoteId, this.remarks}) {
+    _getDeviceDetailsAndParts(barcode, pQuoteId, remarks);
+    _generateRubbingOrGlassChangeDropdown();
   }
 
   bool isDetailsDataLoading = true;
@@ -25,11 +36,15 @@ class ELssProviderQc extends CshChangeNotifier {
   List<ElssPart> elssPartList = [];
   String detailsApiErrorMessage = "";
 
-  _getDeviceDetailsAndParts(String scannedBarcode) {
+  _getDeviceDetailsAndParts(String scannedBarcode, String? pQuoteId, String? remarks) {
     elssPartList.clear();
-    ElssService.getDeviceDetailsWithParts(scannedBarcode).listen((event) {
+    ElssService.getDeviceDetailsWithParts(scannedBarcode, pQuoteId: pQuoteId, remarks: remarks).listen((event) {
       if (event != null) {
         elssDeviceDetails = event;
+        if (event.deviceDetailsData?.rubbingOrGlassChange != null) {
+          _selectedRubbingOrGlassChangeValue = _rubbingOrGlassChangeDropdown
+              .firstWhere((element) => element.id == event.deviceDetailsData!.rubbingOrGlassChange!.toString());
+        }
         if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
           int k = 0;
           for (var element in event.deviceDetailsData!.repairPartList!) {
@@ -71,8 +86,9 @@ class ELssProviderQc extends CshChangeNotifier {
         isManualAdded: true,
         partColour: element.productColour,
         quantity: element.partQuantity,
+        categoryCode: element.categoryCode,
         // mark default value is required for manually added parts
-        actionConstant: ElssPartsSelectionOptions.repairRequired.id,
+        actionConstant: ElssPartsSelectionOptions.optimizationRequired.id,
       );
       data.elssPartId = elssPartList.length;
 
@@ -91,13 +107,15 @@ class ELssProviderQc extends CshChangeNotifier {
           "sku": elssPartList[index].sku,
           "pn": elssPartList[index].partName,
           "pcl": elssPartList[index].partColour,
-          "acc": elssPartList[index].actionConstant
+          "acc": elssPartList[index].actionConstant,
+          "cc": elssPartList[index].categoryCode,
         };
       });
     }
 
     dataMap["rprl"] = rprlList;
     dataMap["dbr"] = scannedBarcode;
+    dataMap["rs"] = _selectedRubbingOrGlassChangeValue?.id;
     return dataMap;
   }
 
@@ -143,5 +161,17 @@ class ELssProviderQc extends CshChangeNotifier {
       }
     }
     return false;
+  }
+
+  void onRubbingOrGlassChangeValueChanged(DropDownItem? value) {
+    _selectedRubbingOrGlassChangeValue = value;
+    notifyListeners();
+  }
+
+  _generateRubbingOrGlassChangeDropdown() {
+    _rubbingOrGlassChangeDropdown = RubbingOrGlassChangeEnum.values.map((e) {
+      return DropDownItem(e.id.toString(), e.label);
+    }).toList();
+    _selectedRubbingOrGlassChangeValue = _rubbingOrGlassChangeDropdown.last;
   }
 }

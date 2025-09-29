@@ -1,17 +1,19 @@
+import 'dart:async';
+
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/providers/send_to_tl_provider.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/engineer_device_info.dart';
-
 class SendToTLWidget extends StatelessWidget {
-  final EngineerDeviceInfo deviceInfo;
+  final String? deviceBarcode, color, productTitle;
 
-  const SendToTLWidget({Key? key, required this.deviceInfo}) : super(key: key);
+  const SendToTLWidget({Key? key, this.deviceBarcode, this.color, this.productTitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,28 +26,33 @@ class SendToTLWidget extends StatelessWidget {
           CshLoading().hideLoading(context);
 
           if (event != null && event.isSuccess == true && event.reasons != null && event.reasons!.isNotEmpty) {
-            var dropDownItem = await _askForTheReasonOfReturn(deviceInfo, context, event.reasons!) as DropDownItem?;
+            var dropDownItem = await _askForTheReasonOfReturn(
+              context,
+              returnReasons: event.reasons!,
+              deviceBarcode: deviceBarcode,
+              color: color,
+              productTitle: productTitle,
+            ) as DropDownItem?;
 
-            if (deviceInfo.deviceBarcode != null && dropDownItem?.id != null) {
-              EngineerAPIService.sendToTL(deviceInfo.deviceBarcode!, dropDownItem!.id!).listen((event) {
-                if (event == null) {
-                  CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
-                  return;
-                }
-
-                if (event.errorMsg != null) {
-                  CshSnackBar.error(context: context, message: event.errorMsg!);
-                  return;
-                }
-
-                if (event.isSuccess) {
-                  CshSnackBar.success(context: context, message: l10n.deviceSentToTLSuccessfully);
-                  Navigator.pop(context);
-                  return;
-                }
-
-                CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
-              }, onError: (error, stacktrace) {}, onDone: () {});
+            if (deviceBarcode != null && dropDownItem?.id != null) {
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MultipleImageUploadScreen(
+                    DeviceMediaType.markToTl,
+                    deviceBarcode!,
+                    callStatusUpdateApi: () {
+                      return _updateStatus(dropDownItem!.id!, l10n, context);
+                    },
+                    onMediaUploaded: () {
+                      Navigator.pop(context); // dismiss MultipleImageUploadScreen screen
+                      CshSnackBar.success(context: context, message: l10n.deviceSentToTLSuccessfully);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              );
             }
           } else {
             CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
@@ -58,8 +65,36 @@ class SendToTLWidget extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _askForTheReasonOfReturn(
-      EngineerDeviceInfo deviceInfo, BuildContext context, Map<String, String> returnReasons) async {
+  Future<void> _updateStatus(String id, L10n l10n, BuildContext context) {
+    var completer = Completer();
+    EngineerAPIService.sendToTL(deviceBarcode!, id).listen((event) {
+      if (event == null) {
+        completer.completeError(l10n.somethingWentWrong);
+        return;
+      }
+
+      if (event.errorMsg != null) {
+        completer.completeError(event.errorMsg!);
+        return;
+      }
+
+      if (event.isSuccess) {
+        completer.complete();
+        return;
+      }
+
+      completer.completeError(l10n.somethingWentWrong);
+    }, onError: (error, stacktrace) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
+  }
+
+  Future<dynamic> _askForTheReasonOfReturn(BuildContext context,
+      {required String? deviceBarcode,
+      required String? color,
+      required String? productTitle,
+      required Map<String, String> returnReasons}) async {
     return await showDialog(
         useRootNavigator: false,
         builder: (context) {
@@ -78,9 +113,9 @@ class SendToTLWidget extends StatelessWidget {
                   const SizedBox(
                     height: Dimens.space_16,
                   ),
-                  TitleValueRowWidget(title: l10n.deviceName, value: deviceInfo.productTitle ?? ""),
-                  TitleValueRowWidget(title: l10n.deviceBarcode, value: deviceInfo.deviceBarcode ?? ""),
-                  TitleValueRowWidget(title: l10n.color, value: deviceInfo.color ?? ""),
+                  TitleValueRowWidget(title: l10n.deviceName, value: productTitle ?? ""),
+                  TitleValueRowWidget(title: l10n.deviceBarcode, value: deviceBarcode ?? ""),
+                  TitleValueRowWidget(title: l10n.color, value: color ?? ""),
                   const SizedBox(
                     height: Dimens.space_8,
                   ),
@@ -98,8 +133,8 @@ class SendToTLWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CshMediumOutlineButton(
-                        textColor: Theme.of(context).errorColor,
-                        bgColor: Theme.of(context).errorColor,
+                        textColor: Theme.of(context).colorScheme.error,
+                        bgColor: Theme.of(context).colorScheme.error,
                         text: l10n.cancel,
                         onPressed: () => Navigator.of(context).pop(),
                       ),

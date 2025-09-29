@@ -28,7 +28,7 @@ class DiscardModalWidget extends StatelessWidget {
             children: [
               Text(
                 l10n.discardParts,
-                style: theme.primaryTextTheme.headline3,
+                style: theme.primaryTextTheme.displaySmall,
               ),
               GestureDetector(
                 onTap: () {
@@ -48,7 +48,7 @@ class DiscardModalWidget extends StatelessWidget {
               Expanded(
                 child: Text(
                   l10n.areYouSureYouWantToRemoveTheseSelectedParts,
-                  style: theme.primaryTextTheme.bodyText2,
+                  style: theme.primaryTextTheme.bodyMedium,
                 ),
               ),
               const SizedBox.shrink()

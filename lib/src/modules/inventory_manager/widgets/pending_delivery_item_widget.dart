@@ -32,7 +32,7 @@ class PendingDeliveryListItemWidget extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: (Validator.isTrue(dataModel?.isUrgent)) ? theme.errorColor : theme.cardColor,
+                color: (Validator.isTrue(dataModel?.isUrgent)) ? theme.colorScheme.error : theme.cardColor,
                 width: Dimens.space_5,
               ),
             ),
@@ -44,7 +44,7 @@ class PendingDeliveryListItemWidget extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(Dimens.space_8, Dimens.space_8, 0, 0),
                     child: Text(
                       index.toString(),
-                      style: theme.primaryTextTheme.headline4?.copyWith(color: theme.primaryColor),
+                      style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
                     ),
                   ),
                 Padding(
@@ -102,14 +102,14 @@ class PendingDeliveryListItemWidget extends StatelessWidget {
         Expanded(
           child: Text(
             "$label:",
-            style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(width: Dimens.space_8),
         Expanded(
           child: Text(
             value,
-            style: theme.primaryTextTheme.headline5,
+            style: theme.primaryTextTheme.headlineSmall,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

@@ -35,7 +35,7 @@ class ElssPnaModalWidgetQC extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
             child: Text(
               isPartListEmpty ? l10n.noPartsForPna : l10n.selectPartsForPna,
-              style: theme.primaryTextTheme.headline3,
+              style: theme.primaryTextTheme.displaySmall,
             ),
           ),
           const SizedBox(height: Dimens.space_8),

@@ -1,3 +1,4 @@
+
 buildscript {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -43,21 +44,7 @@ buildscript {
     ]
 
 
-    ext.kotlin_version = '1.8.0'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-//        classpath 'com.android.tools.build:gradle:7.1.0'
-//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        classpath 'com.android.tools.build:gradle:7.2.2'
-        classpath 'com.google.gms:google-services:4.3.10'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+    ext.kotlin_version = '2.0.0'
 }
 
 allprojects {
@@ -80,7 +67,7 @@ allprojects {
 }
 
 ext {
-    cshCompileSdkVersion = 33
+    cshCompileSdkVersion = 35
     cshMinSdkVersion = 21
     cshTargetSdkVersion = 32
     cd_core_ktx = '1.9.0'
@@ -90,10 +77,41 @@ rootProject.buildDir = '../build'
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.name == "face_detector") {
+            project.android.namespace = "in.cashify.face_detector"
+        } else if (project.name == "firebase_crashlytics") {
+            project.android.namespace = "io.flutter.plugins.firebase.crashlytics"
+        } else if (project.name == "flutter_image_compress") {
+            project.android.namespace = "com.google.firebase.crashlytics"
+        } else if (project.name == "flutter_jailbreak_detection") {
+            project.android.namespace = "appmire.be.flutterjailbreakdetection"
+        } else if (project.name == "text_recognizer") {
+            project.android.namespace = "in.cashify.text_recognizer"
+        } else if (project.name == "udid") {
+            project.android.namespace = "in.reglobe.udid"
+        } else if (project.name == "video_thumbnail") {
+            project.android.namespace = "xyz.justsoft.video_thumbnail"
+        } else if (project.name == "webview_cookie_manager") {
+            project.android.namespace = "io.flutter.plugins.webview_cookie_manager"
+        } else if (project.name == "device_info_plus") {
+            project.android.namespace = "dev.fluttercommunity.plus.device_info"
+        } else if (project.name == "flutter_tesseract_ocr") {
+            project.android.namespace = "io.paratoner.flutter_tesseract_ocr"
+        } else if (project.name == "assets_audio_playe") {
+            project.android.namespace = "com.github.florent37.assets_audio_player"
+        } else if (project.name == "android_id") {
+            project.android.namespace = "dev.fluttercommunity.android_id"
+        }
+
+    }
+}
 subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

@@ -24,15 +24,16 @@ Map<String, dynamic> _$ReturnPartResponseToJson(ReturnPartResponse instance) =>
 
 ReturnItemData _$ReturnItemDataFromJson(Map<String, dynamic> json) =>
     ReturnItemData(
-      statusCode: json['stc'] as int?,
-      prid: json['prid'] as int?,
+      statusCode: (json['stc'] as num?)?.toInt(),
+      prid: (json['prid'] as num?)?.toInt(),
       status: json['st'] as String?,
       productBarcode: json['pbr'] as String?,
       sku: json['sku'] as String?,
       productName: json['pn'] as String?,
       isBulk: json['isBulk'] as bool?,
       isDamaged: json['isDamaged'] as bool?,
-      requestedQuantity: json['rqty'] as int?,
+      requestedQuantity: (json['rqty'] as num?)?.toInt(),
+      partVariantName: json['pvn'] as String?,
     );
 
 Map<String, dynamic> _$ReturnItemDataToJson(ReturnItemData instance) =>
@@ -46,15 +47,16 @@ Map<String, dynamic> _$ReturnItemDataToJson(ReturnItemData instance) =>
       'pbr': instance.productBarcode,
       'isDamaged': instance.isDamaged,
       'isBulk': instance.isBulk,
+      'pvn': instance.partVariantName,
     };
 
 ReturnItemPageData _$ReturnItemPageDataFromJson(Map<String, dynamic> json) =>
     ReturnItemPageData(
-      totalPage: json['tp'] as int?,
+      totalPage: (json['tp'] as num?)?.toInt(),
       listOfData: (json['pl'] as List<dynamic>?)
           ?.map((e) => ReturnItemData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalRecord: json['tr'] as int?,
+      totalRecord: (json['tr'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ReturnItemPageDataToJson(ReturnItemPageData instance) =>

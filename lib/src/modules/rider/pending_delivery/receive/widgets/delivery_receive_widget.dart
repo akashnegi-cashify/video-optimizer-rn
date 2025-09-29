@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:provider/provider.dart';
 
@@ -15,44 +18,67 @@ class DeliveryReceiveWidget extends StatefulWidget {
 
 class _DeliveryReceiveWidgetState extends State<DeliveryReceiveWidget> with AutomaticKeepAliveClientMixin {
   bool isUrgentRequest = false;
+  Timer? _timer;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    L10n l10 = L10n(context);
     super.build(context);
-    return ChangeNotifierProvider(create: (context) {
-      return DeliveryReceiveProvider();
-    }, builder: (context, child) {
-      var provider = Provider.of<DeliveryReceiveProvider>(context, listen: false);
+    return ChangeNotifierProvider(
+      create: (_) => DeliveryReceiveProvider(),
+      lazy: false,
+      builder: (BuildContext insideContext, child) {
+        var provider = Provider.of<DeliveryReceiveProvider>(insideContext, listen: false);
 
-      L10n l10 = L10n(context);
-      return Column(
-        children: [
-          SearchBarWidget(
-            hintText: l10.search,
-            onQuery: (query) {
-              provider.searchQuery = query;
-            },
-          ),
-          Row(
-            children: [
-              CshCheckbox(
-                onChanged: (check) {
-                  setState(() {
-                    isUrgentRequest = check ?? false;
-                    provider.isUrgent = check ?? false;
+        return Column(
+          children: [
+            CshCard(
+              padding: EdgeInsets.zero,
+              child: CshTextFormField(
+                hintText: l10.searchBarcode,
+                controller: _searchController,
+                suffixIcon: InkWell(
+                  child: const Icon(Icons.qr_code_2),
+                  onTap: () {
+                    CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
+                      Navigator.pop(context); // close scanner
+                      _searchController.text = scannedData;
+                      provider.searchQuery = scannedData;
+                    });
+                  },
+                ),
+                onChanged: (value) {
+                  if (Validator.isTrue(_timer?.isActive)) {
+                    _timer?.cancel();
+                  }
+                  _timer = Timer(const Duration(milliseconds: 500), () {
+                    provider.searchQuery = value;
                   });
                 },
-                isSelected: isUrgentRequest,
               ),
-              CshTextNew.h4(l10.showUrgentRequestsOnly)
-            ],
-          ),
-          const Expanded(
-            child: DeliveryReceiveListWidget(),
-          )
-        ],
-      );
-    });
+            ),
+            Row(
+              children: [
+                CshCheckbox(
+                  onChanged: (check) {
+                    setState(() {
+                      isUrgentRequest = check ?? false;
+                      provider.isUrgent = check ?? false;
+                    });
+                  },
+                  isSelected: isUrgentRequest,
+                ),
+                CshTextNew.h4(l10.showUrgentRequestsOnly)
+              ],
+            ),
+            const Expanded(
+              child: DeliveryReceiveListWidget(),
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override

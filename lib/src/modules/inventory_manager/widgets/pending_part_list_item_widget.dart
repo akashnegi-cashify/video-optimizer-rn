@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../l10n.dart';
 import '../models/pending_device_list_response.dart';
 import '../models/pending_part_list_response.dart';
@@ -26,12 +27,14 @@ class PendingPartListItemWidget extends StatelessWidget {
       return GestureDetector(
         onTap: () async {
           if (dataModel?.prid != null && dataModel?.statusCode != null) {
-            PendingPartDetailsScreenArguments args = PendingPartDetailsScreenArguments(
+            PendingPartDetailsCompScreenArguments arguments = PendingPartDetailsCompScreenArguments(
+                arguments: PendingPartDetailsScreenArguments(
               prid: dataModel!.prid!,
               statusCode: dataModel!.statusCode!,
               detailsModelData: detailsModelData,
-            );
-            await Navigator.of(context).pushNamed(PendingPartDetailsScreen.route, arguments: args);
+            ));
+
+            await Navigator.of(context).pushNamed(PendingPartDetailsScreen.route, arguments: arguments);
             provider.refreshList();
           } else {
             CshSnackBar.error(context: context, message: l10n.pridIsNotPresent);
@@ -55,13 +58,25 @@ class PendingPartListItemWidget extends StatelessWidget {
                   textColor: dataModel!.statusCode == 12
                       ? theme.primaryColor
                       : (dataModel!.statusCode == 13)
-                          ? theme.errorColor
+                          ? theme.colorScheme.error
                           : null,
                 ),
                 const SizedBox(height: Dimens.space_8),
               ],
               if (!Validator.isNullOrEmpty(dataModel!.sku)) ...[
                 _labelValueWidget(theme, l10n.sku, dataModel!.sku!),
+                const SizedBox(height: Dimens.space_8),
+              ],
+              if (!Validator.isNullOrEmpty(dataModel!.partVariantName)) ...[
+                _labelValueWidget(theme, l10n.skuName, dataModel!.partVariantName!),
+                const SizedBox(height: Dimens.space_8),
+              ],
+              if (!Validator.isNullOrEmpty(dataModel!.requestedType)) ...[
+                _labelValueWidget(theme, l10n.requestedType, dataModel!.requestedType!),
+                const SizedBox(height: Dimens.space_8),
+              ],
+              if (!Validator.isNullOrEmpty(dataModel!.engineerName)) ...[
+                _labelValueWidget(theme, l10n.engineerSName, dataModel!.engineerName!),
                 const SizedBox(height: Dimens.space_8),
               ],
               if (dataModel?.requestedTime != null) ...[
@@ -81,7 +96,7 @@ class PendingPartListItemWidget extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: theme.primaryTextTheme.headline5?.copyWith(color: theme.primaryColor),
+            style: theme.primaryTextTheme.headlineSmall?.copyWith(color: theme.primaryColor),
           ),
         ),
         const SizedBox(width: Dimens.space_8),
@@ -89,8 +104,8 @@ class PendingPartListItemWidget extends StatelessWidget {
           child: Text(
             value,
             style: textColor != null
-                ? theme.primaryTextTheme.headline5?.copyWith(color: textColor)
-                : theme.primaryTextTheme.headline5,
+                ? theme.primaryTextTheme.headlineSmall?.copyWith(color: textColor)
+                : theme.primaryTextTheme.headlineSmall,
           ),
         ),
       ],

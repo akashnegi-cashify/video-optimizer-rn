@@ -49,6 +49,9 @@ class L10n extends BaseL10n {
   String get pleaseEnterMobileNumber =>
       Intl.message("Please Enter Mobile Number!!", locale: localName, name: "pleaseEnterMobileNumber");
 
+  String get pleaseEnterCredentials =>
+      Intl.message("Please enter company name and mobile number!!", locale: localName, name: "pleaseEnterCredentials");
+
   String get pleaseEnterOtpSentToNumber =>
       Intl.message("Please Enter OTP Sent To Number!!", locale: localName, name: "pleaseEnterOtpSentToNumber");
 
@@ -57,4 +60,8 @@ class L10n extends BaseL10n {
   String get resendOtp => Intl.message("Resend OTP", locale: localName, name: "resendOtp");
 
   String get changePassword => Intl.message("Change Password", locale: localName, name: "changePassword");
+
+  String get shipexLogin => Intl.message("Shipex Login", locale: localName, name: "shipexLogin");
+
+  String get rmsLogin => Intl.message("RMS Login", locale: localName, name: "rmsLogin");
 }

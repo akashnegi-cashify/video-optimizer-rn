@@ -1,14 +1,29 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
+import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
+import 'package:flutter_trc/src/modules/engineer/models/category_code_list_response.dart';
+import 'package:flutter_trc/src/modules/engineer/models/device_report_response.dart';
 import 'package:flutter_trc/src/modules/engineer/models/engineer_device_list_response.dart';
+import 'package:flutter_trc/src/modules/engineer/models/generic_device_media_response.dart';
+import 'package:flutter_trc/src/modules/engineer/models/reason_list_response.dart';
+import 'package:flutter_trc/src/modules/engineer/models/retreived_part_required_list_reponse.dart';
+import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/models/send_to_tl_response.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/job_card_summary_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/order_part_response.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/part_list_history_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/models/replace_part_request.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/capture_consume_parts_media_screen.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/retrieved_part_reason_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/part_detail/models/return_part_data.dart';
 import 'package:flutter_trc/src/modules/engineer/receive_devices/models/receive_devices_response.dart';
+import 'package:flutter_trc/src/modules/engineer/retreived_parts/providers/retrieved_part_data_provider.dart';
+import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
 
 import '../../../services/trc_service.dart';
+import '../models/engineer_action_response.dart';
 import '../my_devices/all_devices/models/mark_in_progress_response.dart';
 import '../my_devices/wip_devices/models/change_device_status_response.dart';
 import '../my_devices/wip_devices/models/device_return_reasons_response.dart';
@@ -69,14 +84,34 @@ class EngineerAPIService {
     return TrcService().get("/engineer/device/mark-tl", SendToTlResponse.fromJson, params: paramData);
   }
 
-  static Stream<SendToTlResponse?> consumePart(String? partBarcode, int? partId, int? productId, String imageUrl) {
-    Map<String, List<String>> paramData = {
-      if (partBarcode != null) "pbr": [partBarcode],
-      if (partId != null) "pid": [partId.toString()],
-      if (productId != null) "prid": [productId.toString()],
-      "imgUrl": [imageUrl],
+  static Stream<SendToTlResponse?> consumePart(
+      String? partBarcode, int? partId, int? productId, Map<CapturePartMediaType, List<String>>? imageUrlsMap,
+      {String? retrievedPartBarcode, int? reasonId, String? remarks, String? consumedImageUrl}) {
+    Map<String, dynamic> req = {
+      "pbr": partBarcode,
+      "pid": partId,
+      "prid": productId,
+      if (retrievedPartBarcode != null) "rp": retrievedPartBarcode,
+      if (!Validator.isNullOrEmpty(remarks)) "rprm": remarks,
+      if (reasonId != null) "rprid": reasonId,
     };
-    return TrcService().get("/engineer/consume-part", SendToTlResponse.fromJson, params: paramData);
+
+    if (!Validator.isNullOrEmpty(consumedImageUrl)) {
+      req["imgUrl"] = consumedImageUrl;
+    }
+
+    // if (imageUrlsMap != null) {
+    //   List<String>? retrievedImages = imageUrlsMap[CapturePartMediaType.retrieved];
+    //   if (!Validator.isListNullOrEmpty(retrievedImages)) {
+    //     req["rpimg"] = retrievedImages;
+    //   }
+    //   List<String>? consumedImages = imageUrlsMap[CapturePartMediaType.consumed];
+    //   if (!Validator.isListNullOrEmpty(consumedImages)) {
+    //     req["imgUrl"] = consumedImages?.first;
+    //   }
+    // }
+
+    return TrcService().post("/part/consume-part", SendToTlResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<BaseActionResponse?> cancelPart(int productId) {
@@ -95,13 +130,29 @@ class EngineerAPIService {
         .post("/engineer/return-part", BaseActionResponse.fromJson, body: jsonEncode(returnPartData.toJson()));
   }
 
-  static Stream<BaseActionResponse?> getReceivePartByEngineer(String? partBarcode, int? partId, int? productId) {
-    Map<String, List<String>> paramData = {
-      if (partBarcode != null) "pbr": [partBarcode],
-      if (partId != null) "pid": [partId.toString()],
-      if (productId != null) "prid": [productId.toString()],
+  static Stream<BaseActionResponse?> getReceivePartByEngineer(
+    String? partBarcode,
+    int? partId,
+    int? productId, {
+    RetrievedPartRequest? retrievedPartRequest,
+  }) {
+    Map<String, dynamic> req = {
+      if (partBarcode != null) "pbr": partBarcode,
+      if (partId != null) "pid": partId,
+      if (productId != null) "prid": productId,
     };
-    return TrcService().get("/engineer/receive-part", BaseActionResponse.fromJson, params: paramData);
+
+    if (retrievedPartRequest != null) {
+      Map<String, dynamic> retrievedPartReq = {};
+      retrievedPartReq["prid"] = retrievedPartRequest.partRequestId;
+      retrievedPartReq["rp"] = retrievedPartRequest.partBarcode;
+      retrievedPartReq["rprid"] = retrievedPartRequest.reasonId;
+      retrievedPartReq["rm"] = retrievedPartRequest.remarks;
+      retrievedPartReq["rpimg"] = [retrievedPartRequest.imageUrl];
+      req["rpd"] = retrievedPartReq;
+    }
+
+    return TrcService().post("/engineer/receive-part", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<BaseActionResponse?> replacePart(ReplacePartRequest replacePartRequest) {
@@ -162,5 +213,90 @@ class EngineerAPIService {
 
   static Stream<LeadEngineerPartReportResponse?> leadEngineerPartReport() {
     return TrcService().get("/report/lead/engineer/part", LeadEngineerPartReportResponse.fromJson);
+  }
+
+  static Stream<JobCardSummaryResponse?> getJobCardDetails(String? deviceBarcode) {
+    return TrcService().get("/job/card/summary?dbr=$deviceBarcode", JobCardSummaryResponse.fromJson);
+  }
+
+  static Stream<AssignedDeviceDetails?> getDeviceDetails(String? deviceBarcode) {
+    Map<String, List<String>> paramData = {
+      "dbr": [deviceBarcode.toString()]
+    };
+    return TrcService().get("/device/detail", AssignedDeviceDetails.fromJson, params: paramData);
+  }
+
+  static Stream<PartListHistoryResponse?> getPartListHistory(int? deviceId) {
+    return TrcService().get("/device/part/list?did=$deviceId", PartListHistoryResponse.fromJson);
+  }
+
+  static Stream<BaseActionResponse?> updateMedia(int mediaType, List<String> mediaUrls, String deviceBarcode) {
+    Map<String, dynamic> req = {
+      "murl": mediaUrls,
+      "mtid": mediaType,
+    };
+    return TrcService().post("/device/media/$deviceBarcode", BaseActionResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<RetrievedPartListResponse?> getRetrievedPartList(int pageNo, int pageSize,
+      {String? query, required RoleType roleType}) {
+    Map<String, dynamic> req = {
+      "pno": pageNo,
+      "ln": pageSize,
+    };
+
+    if (!Validator.isNullOrEmpty(query)) {
+      Map<String, String> filter = {"br": query.toString()};
+      req["fp"] = filter;
+    }
+
+    String engPoint = roleType == RoleType.engineer ? "/engineer/list/retrieved-part" : "/qc/parts/list/retrieved-part";
+
+    return TrcService().post(engPoint, RetrievedPartListResponse.fromJson, body: jsonEncode(req));
+  }
+
+  static Stream<RetrievedPartReasonListResponse?> getRetrievedPartReasonList(int? partRequestId) {
+    return TrcService().get("/retrieved-part/list-reason?pid=$partRequestId", RetrievedPartReasonListResponse.fromJson);
+  }
+
+  static Stream<RetrievedPartRequiredResponse?> fetchRequiredPartsListingByDID(Map<String, dynamic> bodyData) {
+    return TrcService().post("/retrieved-part/retrieved-part-required-list", RetrievedPartRequiredResponse.fromJson,
+        body: jsonEncode(bodyData));
+  }
+
+  static Stream<EngineerActionResponse?> updateRetrievedParts(Map<String, dynamic> data) {
+    return TrcService()
+        .post("/retrieved-part/update-extracted-part", EngineerActionResponse.fromJson, body: jsonEncode(data));
+  }
+
+  static Stream<DeviceReportResponse?> getDeviceReport(String? deviceId) {
+    return TrcService().get("/device/report-v2?did=$deviceId&isFault=true", DeviceReportResponse.fromJson);
+  }
+
+  static Stream<ReasonListResponse?> getPartRequestReasonList() {
+    return TrcService().get("/part/approval-reasons", ReasonListResponse.fromJson);
+  }
+
+  static Stream<CategoryCodeListResponse?> getCategoryCodeList() {
+    return TrcService().get("/part/approval-categories", CategoryCodeListResponse.fromJson);
+  }
+
+  static Stream<GenericDeviceMediaResponse?> getDeviceMedia(int mediaType, String deviceId) {
+    Map<String, List<String>> params = {
+      "imid": [mediaType.toString()],
+      "did": [deviceId.toString()],
+    };
+    return TrcService().get("/device/v2/media", GenericDeviceMediaResponse.fromJson, params: params);
+  }
+
+  static Stream<BaseActionResponse?> replacePartBarcode(
+      String? replacedPartBarcode, int? partRequestId, int? deviceId) {
+    Map<String, dynamic> req = {
+      "did": deviceId,
+      "br": replacedPartBarcode,
+      "prid": partRequestId,
+    };
+
+    return TrcService().post("/engineer/assign-retrieved-part", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 }

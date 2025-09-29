@@ -1,12 +1,19 @@
 import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/libraries/firebase/firebase_helper.dart';
+import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
+import 'package:flutter_trc/src/libraries/logging/logging_service.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:flutter_trc/src/utils/device_info_util.dart';
 import 'package:localization/localization.dart';
 
 import 'actions/project_actions.dart';
+import 'app_builder/app_builder.dart';
 import 'environments/environment_config.dart';
 import 'environments/environments.dart';
 import 'environments/types.dart';
+import 'interceptors/auth/auth_header_interceptor.dart';
 import 'interceptors/header/header_interceptor.dart';
 import 'interceptors/log_interceptor.dart';
 import 'l10n/messages_all.dart';
@@ -15,9 +22,14 @@ import 'libraries/analytics/analytics_controller.dart';
 const RUNNING_SYSTEM_ENV = String.fromEnvironment('env', defaultValue: 'prod');
 
 class AppInitializer {
-  static init({required List<AnalyticTrackers> trackers, Map<String, HttpInterceptorFactory>? interceptors}) async {
+  static init({Map<String, HttpInterceptorFactory>? interceptors}) async {
+    await AppPreferences.instance.init();
     await AuthHandler().syncAuth();
-    await AnalyticsController.init(trackers);
+    await FirebaseHelper().initFirebase();
+    await RemoteConfigHelper().initialize();
+    await LoggingService.initialize();
+    await DeviceInfoUtil.init();
+    await AnalyticsController.init();
     await _initApp(interceptors: interceptors);
   }
 
@@ -29,11 +41,13 @@ class AppInitializer {
 
     _setLogLevel(environment);
     _registerProjectActions();
+    AppComponentBuilder();
 
     interceptors ??= <String, HttpInterceptorFactory>{};
     if (!isWeb() && environment?.enableAlice == true) {
       interceptors[LogInterceptor.LOG_INTERCEPTOR] = () => LogInterceptor();
     }
+    interceptors[AuthHeaderInterceptor.AUTH_HEADER_INTERCEPTOR] = () => AuthHeaderInterceptor();
     String xAppOS = await DeviceUtil.getXOSAPPHeader();
     interceptors[HeaderInterceptor.HEADER_INTERCEPTOR] = () => HeaderInterceptor(xAppOS);
 

@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter_trc/src/common/model/device_part.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,6 +12,12 @@ class EngineerPartInfo extends DevicePart {
 
   @JsonKey(name: "stc")
   int? statusCode;
+
+  @JsonKey(name: "rvc")
+  int? retrievedImageCount;
+
+  @JsonKey(name: "isrpa")
+  bool? isRetrievedPartAssign;
 
   static EngineerPartInfo fromJson(Map<String, dynamic> data) => _$EngineerPartInfoFromJson(data);
 
@@ -32,7 +40,9 @@ enum StatusCode {
   requestedStatusCode(11),
   allottedStatusCode(22),
   riderDeliveryPickedStatusCode(25),
-  receiveStatusCode(33);
+  receiveStatusCode(33),
+  consumedStatusCode(99),
+  initiated(0);
 
   final int value;
 

@@ -1,0 +1,113 @@
+import 'package:core/core.dart';
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:ml_barcode_scanner/widgets/index.dart';
+import 'package:provider/provider.dart';
+import '../../qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
+import '../l10n.dart';
+import '../models/validate_awb_response.dart';
+import '../providers/search_item_provider.dart';
+import '../resources/stock_in_service.dart';
+import '../screens/index.dart';
+import 'index.dart';
+
+class SearchItemWidget extends StatelessWidget {
+  const SearchItemWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var l10n = L10n(context);
+
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => SearchItemProvider(),
+      child: Builder(builder: (builderContext) {
+        var provider = SearchItemProvider.of(builderContext);
+        return Padding(
+          padding: const EdgeInsets.all(Dimens.space_16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  LabeledTextField(
+                    controller: provider.awdNumberTextEditingController,
+                    hintText: l10n.enterAwbNumber,
+                    label: l10n.awbNo,
+                    suffixIcon: CshIcon(
+                      FeatherIcons.camera,
+                      onClick: () => _launchScanner(builderContext, provider.awdNumberTextEditingController),
+                    ),
+                  ),
+                  const SizedBox(height: Dimens.space_8),
+                  LabeledTextField(
+                    controller: provider.barCodeTextEditingController,
+                    hintText: l10n.enterInternalBarcode,
+                    label: l10n.internalBarcode,
+                    suffixIcon: CshIcon(
+                      FeatherIcons.camera,
+                      onClick: () => _launchScanner(builderContext, provider.barCodeTextEditingController),
+                    ),
+                  ),
+                ],
+              ),
+              CshBigButton(
+                text: l10n.submit,
+                onPressed: () => _onSubmit(builderContext,l10n),
+              )
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  void _onSubmit(BuildContext context,L10n l10n) {
+    var provider = SearchItemProvider.of(context, listen: false);
+    var awdNumber = provider.awdNumberTextEditingController.text;
+    var barCode = provider.barCodeTextEditingController.text;
+
+    if (isEmpty(awdNumber)) {
+      CshSnackBar.error(context: context, message: l10n.pleaseEnterAwbNumber);
+    } else if (isEmpty(barCode)) {
+      CshSnackBar.error(context: context, message: l10n.pleaseEnterInternalBarcode);
+    } else {
+      CshLoading().showLoading(context);
+
+      StockInService.validateAwb(awdNumber, barCode).listen((event) {
+        CshLoading().hideLoading(context);
+        _navigateToProductDetail(context, event, awdNumber, barCode);
+        provider.resetControllerValue();
+      }, onError: (error) => _onError(context, error));
+    }
+  }
+
+  void _launchScanner(BuildContext context, TextEditingController textController) {
+    DisputedImageCaptureBarcodeScannerArguments args = DisputedImageCaptureBarcodeScannerArguments(
+        onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
+      if (scannedData.isNotEmpty) {
+        Navigator.pop(context); // pop scanner screen
+        textController.text = scannedData.trim();
+      }
+    });
+    Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
+  }
+
+  void _onError(BuildContext context, dynamic error) {
+    CshLoading().hideLoading(context);
+    var errorMsg = ApiErrorHelper.getErrorMessage(error);
+    Logger.debug('ValidateAwdWidget._onSubmit', [error]);
+    if (isNotEmpty(errorMsg)) {
+      CshSnackBar.error(context: context, message: errorMsg!);
+    }
+  }
+
+  void _navigateToProductDetail(
+      BuildContext context, ValidateAwbResponse? awbResponse, String? awbNumber, String? barcode) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    StockInProductDetailScreen.navigate(context, arguments: awbResponse, awbNumber: awbNumber, barcode: barcode);
+  }
+}

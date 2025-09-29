@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:core/core.dart';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+
 import '../../common_models/elss_part.dart';
 import '../l10n.dart';
-import '../../common_resources/elss_action.dart';
 import '../screens/add_device_media_screen_trc.dart';
 
 class ElssPartWidgetTrc extends StatefulWidget {
@@ -74,7 +74,7 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                         },
                         child: CshIcon(
                           FeatherIcons.xCircle,
-                          iconColor: theme.errorColor,
+                          iconColor: theme.colorScheme.error,
                           iconSize: MobileIconSize.medium,
                           padding: EdgeInsets.zero,
                         ),
@@ -83,7 +83,7 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                     ],
                     Text(
                       widget.indexData.toString(),
-                      style: theme.primaryTextTheme.headline4,
+                      style: theme.primaryTextTheme.headlineMedium,
                     ),
                   ],
                 ),
@@ -95,7 +95,7 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                       if (!Validator.isNullOrEmpty(widget.dataModel?.partName)) ...[
                         Text(
                           widget.dataModel!.partName!,
-                          style: theme.primaryTextTheme.subtitle2,
+                          style: theme.primaryTextTheme.titleSmall,
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: Dimens.space_4)
@@ -103,12 +103,12 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                       if (!Validator.isNullOrEmpty(widget.dataModel?.sku)) ...[
                         Row(
                           children: [
-                            Text("${l10n.sku}: ", style: theme.primaryTextTheme.headline4),
+                            Text("${l10n.sku}: ", style: theme.primaryTextTheme.headlineMedium),
                             Expanded(
                               child: Text(
                                 widget.dataModel!.sku!,
                                 maxLines: 1,
-                                style: theme.primaryTextTheme.bodyText2,
+                                style: theme.primaryTextTheme.bodyMedium,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -116,15 +116,16 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                         ),
                         const SizedBox(height: Dimens.space_4)
                       ],
-                      if (!Validator.isNullOrEmpty(widget.dataModel?.partColour)) ...[
+                      if (!Validator.isNullOrEmpty(widget.dataModel?.partVariantName)) ...[
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("${l10n.colour}: ", style: theme.primaryTextTheme.headline4),
+                            Text("${l10n.skuName}: ", style: theme.primaryTextTheme.headlineMedium),
                             Expanded(
                               child: Text(
-                                widget.dataModel!.partColour!,
-                                style: theme.primaryTextTheme.bodyText2,
-                                maxLines: 1,
+                                widget.dataModel!.partVariantName!,
+                                maxLines: 3,
+                                style: theme.primaryTextTheme.bodyMedium,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -159,7 +160,7 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                         value: items,
                         child: Text(
                           items,
-                          style: theme.primaryTextTheme.headline5,
+                          style: theme.primaryTextTheme.headlineSmall,
                         ),
                       );
                     }).toList(),
@@ -173,21 +174,6 @@ class _ElssPartWidgetTrcState extends State<ElssPartWidgetTrc> {
                     icon: const Icon(FeatherIcons.chevronDown),
                   ),
                 ),
-              const SizedBox(width: Dimens.space_8),
-              GestureDetector(
-                onTap: () {
-                  AddDeviceMediaArgumentsTrc args = AddDeviceMediaArgumentsTrc(
-                    partsImage: widget.dataModel?.partsImageList,
-                    onImageUploadCallback: widget.onImageUploadCallback,
-                  );
-                  Navigator.of(context).pushNamed(AddDeviceMediaScreenTrc.route, arguments: args);
-                },
-                child: CshIcon(
-                  FeatherIcons.camera,
-                  iconSize: MobileIconSize.large,
-                  iconColor: theme.primaryColor,
-                ),
-              )
             ],
           )
         ],

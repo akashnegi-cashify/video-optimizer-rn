@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 
 import '../models/alternate_part_request_response.dart';
@@ -29,14 +30,9 @@ class InventoryService {
   static Stream<EngineerListResponse?> getAssignmentPendingEngineerList(
       String locations, int pageNumber, int offsetLength) {
     Map<String, dynamic> mapData = {
-      "fp": {
-        "is_urgent": false,
-        "location_group": locations,
-        "version": 0,
-      },
+      "fp": {"is_urgent": false, "location_group": locations},
       "ln": offsetLength,
-      "pno": pageNumber,
-      "version": 0
+      "pno": pageNumber
     };
     return TrcService()
         .post("/inventory/assignment-pending/engineer/list", EngineerListResponse.fromJson, body: jsonEncode(mapData));
@@ -46,14 +42,9 @@ class InventoryService {
       {bool? isUrgent = false, String? enteredOrScannedBr}) {
     Map<String, dynamic> mapData = {
       "br": enteredOrScannedBr ?? "",
-      "fp": {
-        "eid": eid,
-        "is_urgent": isUrgent,
-        "version": 0,
-      },
+      "fp": {"eid": eid, "is_urgent": isUrgent},
       "ln": offsetLength,
-      "pno": pageNumber,
-      "version": 0
+      "pno": pageNumber
     };
     return TrcService().post("/inventory/list-pending-delivery-device-parts", PendingDeviceListResponse.fromJson,
         body: jsonEncode(mapData));
@@ -67,16 +58,12 @@ class InventoryService {
   }
 
   static Stream<PendingDeviceListResponse?> getListOfAssignmentPendingDevices(int pageNo, int offsetLength,
-      {String? barcode, bool? isUrgent = false}) {
+      {String? barcode, bool? isUrgent = false, String? locations, String? engineerName}) {
     Map<String, dynamic> dataMap = {
       "br": barcode ?? "",
-      "fp": {
-        "is_urgent": isUrgent,
-        "version": 0,
-      },
+      "fp": {"is_urgent": isUrgent, "location_group": locations, if (engineerName != null) "engName": engineerName},
       "ln": offsetLength,
       "pno": pageNo,
-      "version": 0
     };
     return TrcService().post("/inventory/list-assignment-pending-devices", PendingDeviceListResponse.fromJson,
         body: jsonEncode(dataMap));
@@ -233,10 +220,11 @@ class InventoryService {
   }
 
   static Stream<AlternatePartRequestResponse?> alternatePartRequest(
-      int partId, String productName, String sku, int did) {
+      int partId, String productName, String sku, int did, String partVariantName) {
     Map<String, dynamic> mapData = {
       "partId": partId,
       "pn": productName,
+      "pvn": partVariantName,
       "sku": sku,
       "version": 0,
     };
@@ -249,5 +237,12 @@ class InventoryService {
       body: jsonEncode(mapData),
       params: paramData,
     );
+  }
+
+  static Stream<SuccessResponse?> syncPartRequest(int? prid) {
+    Map<String, List<String>> paramData = {
+      "prid": [prid.toString()],
+    };
+    return TrcService().get('/part/sync-part-request', SuccessResponse.fromJson, params: paramData);
   }
 }

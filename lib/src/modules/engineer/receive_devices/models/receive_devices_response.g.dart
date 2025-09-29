@@ -17,6 +17,7 @@ ReceiveDevicesResponse _$ReceiveDevicesResponseFromJson(
       ..refId = json['r_id'] as String?
       ..isSuccess = json['s'] as bool? ?? false
       ..errorMsg = json['em'] as String?
+      ..successMessage = json['sm'] as String?
       ..deviceInfo = json['dt'] == null
           ? null
           : DeviceInfo.fromJson(json['dt'] as Map<String, dynamic>);
@@ -29,5 +30,6 @@ Map<String, dynamic> _$ReceiveDevicesResponseToJson(
       'r_id': instance.refId,
       's': instance.isSuccess,
       'em': instance.errorMsg,
+      'sm': instance.successMessage,
       'dt': instance.deviceInfo,
     };

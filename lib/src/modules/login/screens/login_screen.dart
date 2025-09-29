@@ -1,77 +1,40 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/header/trc_header.dart';
-import 'package:flutter_trc/src/modules/login/providers/login_provider.dart';
-import 'package:flutter_trc/src/modules/login/widgets/login_widget.dart';
-import 'package:provider/provider.dart';
-import '../l10n.dart';
-import '../widgets/qc_login_widget.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const route = '/login';
+import '../models/login_comp_param.dart';
+import '../resources/login_types.dart';
 
-  const LoginScreen({
-    Key? key,
-  }) : super(key: key);
+part 'login_screen.g.dart';
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
+@CshPage(key: LoginScreen.pageKey, pageGroup: PageGroup.loginPageKey, params: LoginCompParamKeys.values)
+class LoginScreenArguments extends BaseArguments {
+  final LoginTypes? loginType;
+
+  LoginScreenArguments({
+    this.loginType,
+  }) : super(LoginScreen.pageKey);
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[LoginCompParamKeys.loginTypes.value] = loginType;
+    return data;
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  bool _isQCLoginMode = false;
+class LoginScreen extends BaseScreen<LoginScreenArguments> {
+  static const String pageKey = "TRC_Login_screen";
+  static const String route = "/login_screen";
+
+  const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var l10n = L10n(context);
-    var theme = Theme.of(context);
-    return ChangeNotifierProvider<TRCLoginProvider>(
-      create: (_) => TRCLoginProvider(),
-      lazy: false,
-      builder: (BuildContext innerContext, __) {
-        return Scaffold(
-          appBar: TrcHeader(l10n.login, showBackBtn: false),
-          resizeToAvoidBottomInset: false,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: Dimens.space_20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(_isQCLoginMode ? l10n.qcLogin : l10n.trcLogin, style: theme.primaryTextTheme.headline1),
-                        const SizedBox(height: Dimens.space_2),
-                        Text(_isQCLoginMode ? l10n.pleaseEnterYourMobileNumber : l10n.pleaseEnterYourEmployeeId,
-                            style: theme.primaryTextTheme.bodyText2),
-                        const SizedBox(height: Dimens.space_16),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(l10n.qcLogin, style: theme.primaryTextTheme.headline4),
-                        CshSwitch(
-                          isSelected: _isQCLoginMode,
-                          onChanged: (data) {
-                            _isQCLoginMode = Validator.isTrue(data);
-                            setState(() {});
-                          },
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              _isQCLoginMode ? const QcLoginWidget() : const LoginWidget(),
-            ],
-          ),
-        );
-      },
+  Widget buildView(BuildContext context) {
+    var args = getArguments(context);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: args?.toJson(),
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'dart:async';
+
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/resources/inventory_manager_service.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/resources/part_status_enum.dart';
 import 'package:provider/provider.dart';
+
 import '../models/part_available_quantity_response.dart';
 import '../models/parts_details_response.dart';
 import '../models/recommended_part_response.dart';
@@ -19,12 +21,14 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
   bool isDataLoading = true;
   PartAvailableQuantityResponse? availableQuantityResponse;
   String errorMessage = "";
-  RecommendedPartResponse? recommendedPartResponse;
+  List<RecommendedPartData>? recommendedPartList;
+  bool showBottomButtons = true;
 
   PendingPartDetailsProvider(this.prid, this.statusCode) {
     _fetchPartsDetailsData();
     if (PartStatus.getEnumByValue(statusCode!) == PartStatus.AVAILABLE) {
-      _getDoRecommendedPartApi();
+      showBottomButtons = false;
+      _getRecommendedPartList();
     }
   }
 
@@ -50,6 +54,17 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
     _fetchPartsDetailsData();
   }
 
+  syncPartRequest() {
+    InventoryService.syncPartRequest(prid).listen((event) {
+      Logger.debug('mydebug-----PendingPartDetailsProvider._syncPartRequest', [event]);
+    }, onError: (error) {
+      Logger.debug(
+          'mydebug---error--PendingPartDetailsProvider._syncPartRequest', [ApiErrorHelper.getErrorMessage(error)]);
+    }, onDone: () {
+      syncData();
+    });
+  }
+
   Future<bool> fetchAvailableQuantity(int prid) {
     var completer = Completer<bool>();
     try {
@@ -73,11 +88,11 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  _getDoRecommendedPartApi() {
+  _getRecommendedPartList() {
     InventoryService.doRecommendedApiCall(prid!).listen(
       (event) {
-        if (event != null) {
-          recommendedPartResponse = event;
+        if (!Validator.isListNullOrEmpty(event?.dataList)) {
+          recommendedPartList = event?.dataList;
         }
       },
       onError: (error) {
@@ -85,6 +100,7 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
         Logger.debug('mydebug------PendingPartDetailsProvider._getDoRecommendedPartApi', [errMessage]);
       },
       onDone: () {
+        showBottomButtons = true;
         notifyListeners();
       },
     );

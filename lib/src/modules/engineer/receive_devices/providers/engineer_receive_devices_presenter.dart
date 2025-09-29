@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
@@ -8,11 +9,6 @@ class EngineerReceiveDevicePresenter {
   final ViewActions view;
 
   EngineerReceiveDevicePresenter(this.view);
-
-  void Function(String barcode, {MlScannerController? controller}) barcodeResult() =>
-      (String barcode, {MlScannerController? controller}) {
-        receiveDevice(barcode, controller);
-      };
 
   void receiveDevice(String barcode, MlScannerController? controller) {
     view.handleLoading(true);

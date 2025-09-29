@@ -1,0 +1,3758 @@
+{
+  "appConfig": {
+    "ak": "flutter_trc",
+    "cv": "1.0.0"
+  },
+  "pageData": [
+    {
+      "pageId": 1,
+      "pageKey": "TRC_splash_screen",
+      "dt": [
+        {
+          "id": 1,
+          "key": "splash",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 2,
+      "pageKey": "TRC_trc_executive",
+      "dt": [
+        {
+          "id": 2,
+          "key": "trc_executive",
+          "type": "component"
+        },
+        {
+          "id": 3,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 3,
+      "pageKey": "TRC_device_scanner_screen",
+      "dt": [
+        {
+          "id": 4,
+          "key": "TRC_device_scanner_widget",
+          "type": "component"
+        },
+        {
+          "id": 5,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 4,
+      "pageKey": "TRC_rubbing_home_screen",
+      "dt": [
+        {
+          "id": 6,
+          "key": "TRC_rubbing_home_component",
+          "type": "component"
+        },
+        {
+          "id": 7,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 5,
+      "pageKey": "TRC_receive_rubbing_device_screen",
+      "dt": [
+        {
+          "id": 8,
+          "key": "TRC_receive_rubbing_device_comp",
+          "type": "component"
+        },
+        {
+          "id": 9,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 6,
+      "pageKey": "TRC_rider_home",
+      "dt": [
+        {
+          "id": 10,
+          "key": "TRC_rider_home_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 7,
+      "pageKey": "TRC_pickup_receive_engineer_parts_screen",
+      "dt": [
+        {
+          "id": 11,
+          "key": "TRC_pickup_receive_engineer_parts_comp",
+          "type": "component"
+        },
+        {
+          "id": 12,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 8,
+      "pageKey": "TRC_delivery_deliver_engineer_parts_screen",
+      "dt": [
+        {
+          "id": 13,
+          "key": "TRC_delivery_deliver_engineer_parts",
+          "type": "component"
+        },
+        {
+          "id": 12,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 9,
+      "pageKey": "TRC_part_qc_home",
+      "dt": [
+        {
+          "id": 14,
+          "key": "TRC_part_qc_home_component",
+          "type": "component"
+        },
+        {
+          "id": 66,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 11,
+      "pageKey": "TRC_l4_home_screen",
+      "dt": [
+        {
+          "id": 17,
+          "key": "TRC_l4_comp",
+          "type": "component"
+        },
+        {
+          "id": 18,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 12,
+      "pageKey": "TRC_home_screen",
+      "dt": [
+        {
+          "id": 19,
+          "key": "TRC_home_component",
+          "type": "component"
+        },
+        {
+          "id": 30,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 13,
+      "pageKey": "TRC_engineer_home_screen",
+      "dt": [
+        {
+          "id": 21,
+          "key": "TRC_engineer_home",
+          "type": "component"
+        },
+        {
+          "id": 22,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 14,
+      "pageKey": "TRC_view_report_screen",
+      "dt": [
+        {
+          "id": 23,
+          "key": "TRC_view_report_comp",
+          "type": "component"
+        },
+        {
+          "id": 24,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 15,
+      "pageKey": "TRC_wip_devices",
+      "dt": [
+        {
+          "id": 25,
+          "key": "TRC_wip_devices_details_comp",
+          "type": "component"
+        },
+        {
+          "id": 26,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 16,
+      "pageKey": "TRC_my_devices",
+      "dt": [
+        {
+          "id": 27,
+          "key": "TRC_my_devices_comp",
+          "type": "component"
+        },
+        {
+          "id": 28,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 17,
+      "pageKey": "TRC_manage_parts_screen",
+      "dt": [
+        {
+          "id": 29,
+          "key": "TRC_manage_parts_comp",
+          "type": "component"
+        },
+        {
+          "id": 30,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 18,
+      "pageKey": "TRC_elss_home_screen",
+      "dt": [
+        {
+          "id": 31,
+          "key": "TRC_elss_home_comp",
+          "type": "component"
+        },
+        {
+          "id": 32,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 19,
+      "pageKey": "TRC_add_media_screen_trc",
+      "dt": [
+        {
+          "id": 33,
+          "key": "TRC_add_device_media",
+          "type": "component"
+        },
+        {
+          "id": 34,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 20,
+      "pageKey": "TRC_add_part_screen_trc",
+      "dt": [
+        {
+          "id": 35,
+          "key": "TRC_add_part_comp",
+          "type": "component"
+        },
+        {
+          "id": 36,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 21,
+      "pageKey": "TRC_part_selection_trc",
+      "dt": [
+        {
+          "id": 37,
+          "key": "TRC_part_selection_comp",
+          "type": "component"
+        },
+        {
+          "id": 38,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 22,
+      "pageKey": "TRC_add_part_screen_qc",
+      "dt": [
+        {
+          "id": 39,
+          "key": "TRC_add_part_QC_comp",
+          "type": "component"
+        },
+        {
+          "id": 40,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 23,
+      "pageKey": "TRC_allowed_option_screen",
+      "dt": [
+        {
+          "id": 41,
+          "key": "TRC_allowed_option_comp",
+          "type": "component"
+        },
+        {
+          "id": 42,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 24,
+      "pageKey": "TRC_elss_status_screen",
+      "dt": [
+        {
+          "id": 43,
+          "key": "TRC_elss_status_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 25,
+      "pageKey": "TRC_part_selection_qc",
+      "dt": [
+        {
+          "id": 44,
+          "key": "TRC_part_selection_QC",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 26,
+      "pageKey": "TRC_summary_screen",
+      "dt": [
+        {
+          "id": 45,
+          "key": "TRC_summary",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 27,
+      "pageKey": "TRC_return_status_screen",
+      "dt": [
+        {
+          "id": 46,
+          "key": "TRC_return_item_status_comp",
+          "type": "component"
+        },
+        {
+          "id": 47,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 28,
+      "pageKey": "TRC_pending_part_list_screen",
+      "dt": [
+        {
+          "id": 48,
+          "key": "TRC_pending_part_list",
+          "type": "component"
+        },
+        {
+          "id": 49,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 29,
+      "pageKey": "TRC_inventory_home_screen",
+      "dt": [
+        {
+          "id": 50,
+          "key": "TRC_inventory_home",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 30,
+      "pageKey": "TRC_assigned_device_details",
+      "dt": [
+        {
+          "id": 51,
+          "key": "TRC_assigned_device_details",
+          "type": "component"
+        },
+        {
+          "id": 52,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 31,
+      "pageKey": "TRC_assign_part_barcode_screen",
+      "dt": [
+        {
+          "id": 53,
+          "key": "TRC_assign_part_barcode_scanner",
+          "type": "component"
+        },
+        {
+          "id": 54,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 32,
+      "pageKey": "TRC_assigned_part_details_screen",
+      "dt": [
+        {
+          "id": 55,
+          "key": "TRC_assign_part_details_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 33,
+      "pageKey": "TRC_alternate_part_screen",
+      "dt": [
+        {
+          "id": 56,
+          "key": "TRC_alternate_part_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 34,
+      "pageKey": "TRC_pending_part_details_screen",
+      "dt": [
+        {
+          "id": 57,
+          "key": "TRC_pending_part_details_comp",
+          "type": "component"
+        },
+        {
+          "id": 79,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 35,
+      "pageKey": "TRC_trc_and_qc_login_screen",
+      "dt": [
+        {
+          "id": 58,
+          "key": "TRC_trc_and_qc_login",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 36,
+      "pageKey": "TRC_Login_screen",
+      "dt": [
+        {
+          "id": 59,
+          "key": "TRC_login_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 37,
+      "pageKey": "TRC_return_screen",
+      "dt": [
+        {
+          "id": 60,
+          "key": "TRC_return_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 38,
+      "pageKey": "TRC_pending_delivery_screen",
+      "dt": [
+        {
+          "id": 61,
+          "key": "TRC_pending_delivery_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 39,
+      "pageKey": "TRC_trc_tester",
+      "dt": [
+        {
+          "id": 62,
+          "key": "TRC_trc_tester_component",
+          "type": "component"
+        },
+        {
+          "id": 63,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 40,
+      "pageKey": "TRC_store_manager_home",
+      "dt": [
+        {
+          "id": 64,
+          "key": "TRC_store_manager_home_component",
+          "type": "component"
+        },
+        {
+          "id": 65,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 41,
+      "pageKey": "TRC_retrieved_part_list_screen",
+      "dt": [
+        {
+          "id": 67,
+          "key": "TRC_retrieved_part_list_component",
+          "type": "component"
+        },
+        {
+          "id": 68,
+          "key": "header_TRC_general_component"
+        }
+      ]
+    },
+    {
+      "pageId": 42,
+      "pageKey": "TRC_retrieved_parts_details",
+      "dt": [
+        {
+          "id": 69,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        },
+        {
+          "id": 70,
+          "key": "TRC_retrieved_parts_data_details",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 44,
+      "pageKey": "TRC_view_report_qc_screen",
+      "dt": [
+        {
+          "id": 73,
+          "key": "TRC_view_report_qc",
+          "type": "component"
+        },
+        {
+          "id": 74,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 45,
+      "pageKey": "TRC_action_screen",
+      "dt": [
+        {
+          "id": 75,
+          "key": "TRC_action_component",
+          "type": "component"
+        },
+        {
+          "id": 76,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 46,
+      "pageKey": "TRC_device_report_screen",
+      "dt": [
+        {
+          "id": 77,
+          "key": "TRC_device_report_component",
+          "type": "component"
+        },
+        {
+          "id": 78,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 47,
+      "pageKey": "TRC_part_request_reasons_screen",
+      "dt": [
+        {
+          "id": 80,
+          "key": "TRC_part_request_reasons_component",
+          "type": "component"
+        },
+        {
+          "id": 81,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 48,
+      "pageKey": "TRC_tl_list_screen",
+      "dt": [
+        {
+          "id": 82,
+          "key": "TRC_tl_list_component",
+          "type": "component"
+        },
+        {
+          "id": 83,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 49,
+      "pageKey": "TRC_audit_home_screen",
+      "dt": [
+        {
+          "id": 84,
+          "key": "TRC_audit_home_component",
+          "type": "component"
+        },
+        {
+          "id": 85,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10001,
+      "pageKey": "QC_qc_tester_home_screen",
+      "dt": [
+        {
+          "id": 10001,
+          "key": "QC_qc_tester_home",
+          "type": "component"
+        },
+        {
+          "id": 10004,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10002,
+      "pageKey": "QC_qc_action_screen",
+      "dt": [
+        {
+          "id": 10002,
+          "key": "QC_qc_action_component",
+          "type": "component"
+        },
+        {
+          "id": 10003,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10003,
+      "pageKey": "device_receive",
+      "dt": [
+        {
+          "id": 10005,
+          "key": "device_receive_component",
+          "type": "component"
+        },
+        {
+          "id": 10006,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10004,
+      "pageKey": "calculation_screen",
+      "dt": [
+        {
+          "id": 10007,
+          "key": "calculator_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10005,
+      "pageKey": "disputed_questions",
+      "dt": [
+        {
+          "id": 10008,
+          "key": "disputed_questions",
+          "type": "component"
+        },
+        {
+          "id": 10009,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10006,
+      "pageKey": "barcode_scanner",
+      "dt": [
+        {
+          "id": 10010,
+          "key": "barcode_scanner_component",
+          "type": "component"
+        },
+        {
+          "id": 10011,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10008,
+      "pageKey": "audit_question_summary",
+      "dt": [
+        {
+          "id": 10012,
+          "key": "audit_question_summary",
+          "type": "component"
+        },
+        {
+          "id": 10013,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10009,
+      "pageKey": "audit_questions",
+      "dt": [
+        {
+          "id": 10014,
+          "key": "audit_question",
+          "type": "component"
+        },
+        {
+          "id": 10015,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10011,
+      "pageKey": "QC_calculator_scanner_screen",
+      "dt": [
+        {
+          "id": 10018,
+          "key": "QC_calculator_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10012,
+      "pageKey": "QC_submit_device_quote_screen",
+      "dt": [
+        {
+          "id": 10019,
+          "key": "QC_submit_device_quote_component",
+          "type": "component"
+        },
+        {
+          "id": 10028,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10013,
+      "pageKey": "calculator_media_capture",
+      "dt": [
+        {
+          "id": 10020,
+          "key": "calculator_media_capture",
+          "type": "component"
+        },
+        {
+          "id": 10021,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10014,
+      "pageKey": "disputed_image_capture_barcode_screen",
+      "dt": [
+        {
+          "id": 10022,
+          "key": "disputed_image_barcode_scanner",
+          "type": "component"
+        },
+        {
+          "id": 10023,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10015,
+      "pageKey": "disputed_image_capture_screen",
+      "dt": [
+        {
+          "id": 10024,
+          "key": "disputed_image_capture",
+          "type": "component"
+        },
+        {
+          "id": 10025,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10016,
+      "pageKey": "QC_lob_device_scanner_screen",
+      "dt": [
+        {
+          "id": 10026,
+          "key": "QC_lob_device_scanner",
+          "type": "component"
+        },
+        {
+          "id": 10027,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10017,
+      "pageKey": "QC_qc_external_audit_home_screen",
+      "dt": [
+        {
+          "id": 10030,
+          "key": "QC_qc_external_audit_home_component",
+          "type": "component"
+        },
+        {
+          "id": 10029,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10018,
+      "pageKey": "QC_qc_external_audit_perform_screen",
+      "dt": [
+        {
+          "id": 10031,
+          "key": "QC_qc_external_audit_perform_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10019,
+      "pageKey": "QC_qc_search_item",
+      "dt": [
+        {
+          "id": 10033,
+          "key": "QC_qc_search_item_component",
+          "type": "component"
+        },
+        {
+          "id": 10032,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10020,
+      "pageKey": "QC_qc_stock_in_product_detail",
+      "dt": [
+        {
+          "id": 10035,
+          "key": "QC_qc_stock_in_product_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10032,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10021,
+      "pageKey": "QC_qc_media_file_upload",
+      "dt": [
+        {
+          "id": 10037,
+          "key": "QC_qc_media_file_upload_component",
+          "type": "component"
+        },
+        {
+          "id": 10032,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10022,
+      "pageKey": "QC_qc_dispatch_lot",
+      "dt": [
+        {
+          "id": 10039,
+          "key": "QC_qc_dispatch_lots_component",
+          "type": "component"
+        },
+        {
+          "id": 10038,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10023,
+      "pageKey": "QC_qc_invoice_scan",
+      "dt": [
+        {
+          "id": 10041,
+          "key": "QC_qc_dispatch_lots_component",
+          "type": "component"
+        },
+        {
+          "id": 10040,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10100,
+      "pageKey": "QC_re_qc_list_screen",
+      "dt": [
+        {
+          "id": 10102,
+          "key": "QC_re_qc_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10101,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10101,
+      "pageKey": "QC_re_qc_detail_screen",
+      "dt": [
+        {
+          "id": 10103,
+          "key": "QC_re_qc_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10104,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10025,
+      "pageKey": "QC_qc_pre_dispatch_lot",
+      "dt": [
+        {
+          "id": 10044,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10045,
+          "key": "QC_qc_pre_dispatch_lots_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10027,
+      "pageKey": "QC_qc_pre_dispatch",
+      "dt": [
+        {
+          "id": 10044,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10048,
+          "key": "QC_qc_pre_dispatch_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 10029,
+      "pageKey": "QC_qc_store_in_location_scan",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10050,
+          "key": "QC_qc_store_in_location_scan_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10030,
+      "pageKey": "QC_qc_store_out",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10051,
+          "key": "QC_qc_store_out_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10031,
+      "pageKey": "QC_qc_store_out_lot_filter",
+      "dt": [
+        {
+          "id": 10052,
+          "key": "QC_qc_store_out_lots_filter_component",
+          "type": "component"
+        },
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10032,
+      "pageKey": "QC_qc_lot_items_scan",
+      "dt": [
+        {
+          "id": 10053,
+          "key": "QC_qc_lot_items_scan_component",
+          "type": "component"
+        },
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10033,
+      "pageKey": "QC_qc_device_dead_repair",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10055,
+          "key": "QC_qc_device_dead_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10034,
+      "pageKey": "QC_qc_reason_selection",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10054,
+          "key": "QC_qc_reason_selection_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10035,
+      "pageKey": "QC_qc_device_dead_accept_reject",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10056,
+          "key": "QC_qc_device_dead_accept_reject_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10036,
+      "pageKey": "QC_guard_add_agent_screen",
+      "dt": [
+        {
+          "id": 10049,
+          "key": "header_QC_qc_general"
+        },
+        {
+          "id": 10057,
+          "key": "QC_guard_add_agent_component"
+        }
+      ]
+    },
+    {
+      "pageId": 10037,
+      "pageKey": "QC_stock_transfer_list_screen",
+      "dt": [
+        {
+          "id": 10105,
+          "key": "QC_stock_transfer_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10106,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10038,
+      "pageKey": "QC_stock_transfer_store_out_screen",
+      "dt": [
+        {
+          "id": 10107,
+          "key": "QC_stock_transfer_store_out_component",
+          "type": "component"
+        },
+        {
+          "id": 10108,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10039,
+      "pageKey": "QC_st_pending_lot_detail_screen",
+      "dt": [
+        {
+          "id": 10109,
+          "key": "QC_st_pending_lot_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10110,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10040,
+      "pageKey": "QC_st_pending_dispatch_detail_screen",
+      "dt": [
+        {
+          "id": 10111,
+          "key": "QC_pending_dispatch_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10112,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10041,
+      "pageKey": "QC_guard_home_screen",
+      "dt": [
+        {
+          "id": 10113,
+          "key": "QC_guard_home_component",
+          "type": "component"
+        },
+        {
+          "id": 10114,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10042,
+      "pageKey": "QC_guard_device_counting_list_screen",
+      "dt": [
+        {
+          "id": 10116,
+          "key": "QC_guard_device_counting_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10114,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10043,
+      "pageKey": "QC_guard_upload_invoice_screen",
+      "dt": [
+        {
+          "id": 10117,
+          "key": "QC_guard_upload_invoice_component",
+          "type": "component"
+        },
+        {
+          "id": 10118,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10044,
+      "pageKey": "QC_supervisor_screen",
+      "dt": [
+        {
+          "id": 10119,
+          "key": "QC_supervisor_component",
+          "type": "component"
+        },
+        {
+          "id": 10120,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10045,
+      "pageKey": "QC_on_going_audit_screen",
+      "dt": [
+        {
+          "id": 10121,
+          "key": "QC_on_going_audit_component",
+          "type": "component"
+        },
+        {
+          "id": 10122,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10046,
+      "pageKey": "QC_warehouse_audit_perform_screen",
+      "dt": [
+        {
+          "id": 10123,
+          "key": "QC_warehouse_audit_perform_component",
+          "type": "component"
+        },
+        {
+          "id": 10124,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10047,
+      "pageKey": "QC_device_details_screen",
+      "dt": [
+        {
+          "id": 10125,
+          "key": "QC_device_details_component",
+          "type": "component"
+        },
+        {
+          "id": 10126,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10048,
+      "pageKey": "QC_storage_device_list_screen",
+      "dt": [
+        {
+          "id": 10127,
+          "key": "QC_storage_device_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10128,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10049,
+      "pageKey": "QC_IMEI_Validator_page_key",
+      "dt": [
+        {
+          "id": 10129,
+          "key": "QC_imei_validator_component",
+          "type": "component"
+        },
+        {
+          "id": 10130,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10050,
+      "pageKey": "QC_d2c_video_page_key",
+      "dt": [
+        {
+          "id": 10131,
+          "key": "QC_d2c_video_component_key",
+          "type": "component"
+        },
+        {
+          "id": 10132,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10051,
+      "pageKey": "QC_product_list_screen",
+      "dt": [
+        {
+          "id": 10133,
+          "key": "QC_product_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10134,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10052,
+      "pageKey": "QC_color_selection_screen",
+      "dt": [
+        {
+          "id": 10135,
+          "key": "QC_color_selection_component",
+          "type": "component"
+        },
+        {
+          "id": 10136,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10053,
+      "pageKey": "QC_data_wipe_detail_screen",
+      "dt": [
+        {
+          "id": 10137,
+          "key": "QC_data_wipe_detail_component",
+          "type": "component"
+        },
+        {
+          "id": 10138,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10054,
+      "pageKey": "QC_data_wipe_list_screen",
+      "dt": [
+        {
+          "id": 10139,
+          "key": "QC_data_wipe_list_component",
+          "type": "component"
+        },
+        {
+          "id": 10138,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 10055,
+      "pageKey": "QC_d2c_video_home_screen",
+      "dt": [
+        {
+          "id": 10140,
+          "key": "QC_d2c_video_home_component",
+          "type": "component"
+        },
+        {
+          "id": 10141,
+          "key": "header_QC_qc_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20001,
+      "pageKey": "shipex_home_screen",
+      "dt": [
+        {
+          "id": 20001,
+          "key": "shipex_home_component",
+          "type": "component"
+        },
+        {
+          "id": 20002,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20002,
+      "pageKey": "dispatch_screen",
+      "dt": [
+        {
+          "id": 20003,
+          "key": "dispatch_component",
+          "type": "component"
+        },
+        {
+          "id": 20004,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20003,
+      "pageKey": "shipex_packing_screen",
+      "dt": [
+        {
+          "id": 20005,
+          "key": "packing_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20004,
+      "pageKey": "packaging_process_screen",
+      "dt": [
+        {
+          "id": 20006,
+          "key": "packaging_process_component",
+          "type": "component"
+        },
+        {
+          "id": 20007,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20005,
+      "pageKey": "sub_order_group_listing",
+      "dt": [
+        {
+          "id": 20008,
+          "key": "sub_order_group_comp",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 20006,
+      "pageKey": "sub_order_group_details_screen",
+      "dt": [
+        {
+          "id": 20009,
+          "key": "order_group_details_comp",
+          "type": "component"
+        },
+        {
+          "id": 20010,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20007,
+      "pageKey": "upload_eway_bill_screen",
+      "dt": [
+        {
+          "id": 20011,
+          "key": "upload_eway_bill_comp",
+          "type": "component"
+        },
+        {
+          "id": 20012,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20008,
+      "pageKey": "create_shipment_screen",
+      "dt": [
+        {
+          "id": 20013,
+          "key": "create_shipment",
+          "type": "component"
+        },
+        {
+          "id": 20014,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20009,
+      "pageKey": "create_manual_shipment_screen",
+      "dt": [
+        {
+          "id": 20015,
+          "key": "create_manual_shipment_comp",
+          "type": "component"
+        },
+        {
+          "id": 20016,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20010,
+      "pageKey": "OMS_pending_dispatch_provider_list_key",
+      "dt": [
+        {
+          "id": 20017,
+          "key": "OMS_pending_dispatch_provider_list_component",
+          "type": "component"
+        },
+        {
+          "id": 20018,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 20011,
+      "pageKey": "OMS_complete_dispatch_screen",
+      "dt": [
+        {
+          "id": 20019,
+          "key": "OMS_complete_dispatch_component",
+          "type": "component"
+        },
+        {
+          "id": 20020,
+          "key": "header_shipex_general"
+        }
+      ]
+    },
+    {
+      "pageId": 30001,
+      "pageKey": "RMS_home_screen",
+      "dt": [
+        {
+          "id": 30001,
+          "key": "RMS_home_component",
+          "type": "component"
+        },
+        {
+          "id": 30002,
+          "key": "header_rms_general"
+        }
+      ]
+    },
+    {
+      "pageId": 30002,
+      "pageKey": "RMS_facility_list_screen",
+      "dt": [
+        {
+          "id": 30003,
+          "key": "RMS_facility_list_component",
+          "type": "component"
+        },
+        {
+          "id": 30004,
+          "key": "header_rms_general"
+        }
+      ]
+    }
+  ],
+  "componentData": [
+    {
+      "componentId": -9999,
+      "locale": "en",
+      "key": "no_internet"
+    },
+    {
+      "componentId": 1,
+      "locale": "en",
+      "key": "TRC_splash_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 2,
+      "locale": "en",
+      "key": "TRC_trc_executive",
+      "configJson": {
+        "config": {
+          "bt": "Receive Device"
+        }
+      }
+    },
+    {
+      "componentId": 3,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Field Executive",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 4,
+      "locale": "en",
+      "key": "TRC_device_scanner_widget",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 5,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Barcode Scanner",
+          "sbb": true
+        }
+      }
+    },
+    {
+      "componentId": 6,
+      "locale": "en",
+      "key": "TRC_rubbing_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 7,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 8,
+      "locale": "en",
+      "key": "TRC_receive_rubbing_device_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 9,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Received Device",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10,
+      "locale": "en",
+      "key": "TRC_rider_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 11,
+      "locale": "en",
+      "key": "TRC_pickup_receive_engineer_parts_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 12,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Engineer Parts",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 13,
+      "locale": "en",
+      "key": "TRC_delivery_deliver_engineer_parts",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 14,
+      "locale": "en",
+      "key": "TRC_part_qc_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 17,
+      "locale": "en",
+      "key": "TRC_l4_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 18,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 19,
+      "locale": "en",
+      "key": "TRC_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 20,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Home",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 21,
+      "locale": "en",
+      "key": "TRC_engineer_home",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 22,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 23,
+      "locale": "en",
+      "key": "TRC_view_report_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 24,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "View Report",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 25,
+      "locale": "en",
+      "key": "TRC_wip_devices_details_comp",
+      "configJson": {
+        "pad": [
+          16
+        ],
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 26,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "WIP Option",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 27,
+      "locale": "en",
+      "key": "TRC_my_devices_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 28,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "My devices",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 29,
+      "locale": "en",
+      "key": "TRC_manage_parts_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 30,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Manage Parts",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 31,
+      "locale": "en",
+      "key": "TRC_elss_home_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 32,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "ELSS Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 33,
+      "locale": "en",
+      "key": "TRC_add_device_media",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 34,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Capture Images",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 35,
+      "locale": "en",
+      "key": "TRC_add_part_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 36,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Add Parts",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 37,
+      "locale": "en",
+      "key": "TRC_part_selection_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 38,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part Selection",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 39,
+      "locale": "en",
+      "key": "TRC_add_part_QC_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 40,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Add Parts",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 41,
+      "locale": "en",
+      "key": "TRC_allowed_option_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 42,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Channel Options",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 43,
+      "locale": "en",
+      "key": "TRC_elss_status_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 44,
+      "locale": "en",
+      "key": "TRC_part_selection_QC",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 45,
+      "locale": "en",
+      "key": "TRC_summary",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 46,
+      "locale": "en",
+      "key": "TRC_return_item_status_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 47,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Item Status",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 48,
+      "locale": "en",
+      "key": "TRC_pending_part_list",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 49,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Pending Part List Screen",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 50,
+      "locale": "en",
+      "key": "TRC_inventory_home",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 51,
+      "locale": "en",
+      "key": "TRC_assigned_device_details",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 52,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Assigned Device Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 53,
+      "locale": "en",
+      "key": "TRC_assign_part_barcode_scanner",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 54,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Assign Barcode Screen",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 55,
+      "locale": "en",
+      "key": "TRC_assign_part_details_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 56,
+      "locale": "en",
+      "key": "TRC_alternate_part_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 57,
+      "locale": "en",
+      "key": "TRC_pending_part_details_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 58,
+      "locale": "en",
+      "key": "TRC_trc_and_qc_login",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 59,
+      "locale": "en",
+      "key": "TRC_login_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 60,
+      "locale": "en",
+      "key": "TRC_return_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 61,
+      "locale": "en",
+      "key": "TRC_pending_delivery_comp",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 62,
+      "locale": "en",
+      "key": "TRC_trc_tester_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 63,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "TRC-QC Role",
+          "sbb": true,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 64,
+      "locale": "en",
+      "key": "TRC_store_manager_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 65,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "TRC Store Manager Role",
+          "sbb": true,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 66,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part QC",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 67,
+      "locale": "en",
+      "key": "TRC_retrieved_part_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 68,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Retrieved Part List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 69,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Retrieved Parts Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 70,
+      "locale": "en",
+      "key": "TRC_retrieved_parts_data_details",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 73,
+      "locale": "en",
+      "key": "TRC_view_report_qc",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 74,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Activity Report",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 75,
+      "locale": "en",
+      "key": "TRC_action_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 76,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part QC",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 77,
+      "locale": "en",
+      "key": "TRC_device_report_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 78,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Reasons and Remarks",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 79,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Pending Part Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 80,
+      "locale": "en",
+      "key": "TRC_part_request_reasons_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 81,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Part Request Reasons",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 82,
+      "locale": "en",
+      "key": "TRC_tl_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 83,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Select TL",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 84,
+      "locale": "en",
+      "key": "TRC_audit_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 85,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Trc Audit",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 10001,
+      "locale": "en",
+      "key": "QC_qc_tester_home",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10002,
+      "locale": "en",
+      "key": "QC_qc_action_component",
+      "configJson": {
+        "pad": [
+          16
+        ],
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10003,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "QC Home",
+          "sbb": false,
+          "slb": true,
+          "spb": true
+        }
+      }
+    },
+    {
+      "componentId": 10004,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "QC Tester",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10005,
+      "locale": "en",
+      "key": "device_receive_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10006,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Receive Device",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10007,
+      "locale": "en",
+      "key": "calculator_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10008,
+      "locale": "en",
+      "key": "disputed_questions",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10009,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Questions",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10010,
+      "locale": "en",
+      "key": "barcode_scanner_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10011,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Assign Barcode",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10012,
+      "locale": "en",
+      "key": "audit_question_summary",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10013,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Audit Summary",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10014,
+      "locale": "en",
+      "key": "audit_question",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10015,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Audit Questions",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10018,
+      "locale": "en",
+      "key": "QC_calculator_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10019,
+      "locale": "en",
+      "key": "QC_submit_device_quote_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10020,
+      "locale": "en",
+      "key": "calculator_media_capture",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10021,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Media Capture",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10022,
+      "locale": "en",
+      "key": "disputed_image_barcode_scanner",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10023,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Disputed Image Capture Scanner",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10024,
+      "locale": "en",
+      "key": "disputed_image_capture",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10025,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Disputed Image",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10026,
+      "locale": "en",
+      "key": "QC_lob_device_scanner",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10027,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Manual Testing",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10028,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Quote Request",
+          "sbb": false,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10029,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "External Audit",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10030,
+      "locale": "en",
+      "key": "QC_qc_external_audit_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10031,
+      "locale": "en",
+      "key": "QC_qc_external_audit_perform_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10032,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Stock In",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10033,
+      "locale": "en",
+      "key": "QC_qc_search_item_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10035,
+      "locale": "en",
+      "key": "QC_qc_stock_in_product_detail_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10037,
+      "locale": "en",
+      "key": "QC_qc_media_file_upload_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10038,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10039,
+      "locale": "en",
+      "key": "QC_qc_dispatch_lots_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10040,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Scan Invoice",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10041,
+      "locale": "en",
+      "key": "QC_qc_invoice_scan_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10101,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Re Qc List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10102,
+      "locale": "en",
+      "key": "QC_re_qc_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10103,
+      "locale": "en",
+      "key": "QC_re_qc_detail_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10104,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Re Qc",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10044,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pre Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10045,
+      "locale": "en",
+      "key": "QC_qc_pre_dispatch_lots_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10048,
+      "locale": "en",
+      "key": "QC_qc_pre_dispatch_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10049,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Store In",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10050,
+      "locale": "en",
+      "key": "QC_qc_store_in_location_scan_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10051,
+      "locale": "en",
+      "key": "QC_qc_store_out_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10052,
+      "locale": "en",
+      "key": "QC_qc_store_out_lots_filter_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10053,
+      "locale": "en",
+      "key": "QC_qc_lot_items_scan_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10054,
+      "locale": "en",
+      "key": "QC_qc_reason_selection_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10055,
+      "locale": "en",
+      "key": "QC_qc_device_dead_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10056,
+      "locale": "en",
+      "key": "QC_qc_device_dead_accept_reject_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10057,
+      "locale": "en",
+      "key": "QC_guard_add_agent_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10105,
+      "locale": "en",
+      "key": "QC_stock_transfer_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10106,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Stock Transfer Role",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10107,
+      "locale": "en",
+      "key": "QC_stock_transfer_store_out_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10108,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Store Out",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10109,
+      "locale": "en",
+      "key": "QC_st_pending_lot_detail_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10110,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pending",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10111,
+      "locale": "en",
+      "key": "QC_pending_dispatch_detail_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10112,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Finish Dispatch for Lot",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10113,
+      "locale": "en",
+      "key": "QC_guard_home_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10114,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Guard Role",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10116,
+      "locale": "en",
+      "key": "QC_guard_device_counting_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10117,
+      "locale": "en",
+      "key": "QC_guard_upload_invoice_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10118,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Upload Invoice",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10119,
+      "locale": "en",
+      "key": "QC_supervisor_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10120,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Supervisor",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10121,
+      "locale": "en",
+      "key": "QC_on_going_audit_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10122,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "On Going Audit List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10123,
+      "locale": "en",
+      "key": "QC_warehouse_audit_perform_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10124,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Scan Device",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10125,
+      "locale": "en",
+      "key": "QC_device_details_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10126,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Device Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10127,
+      "locale": "en",
+      "key": "QC_storage_device_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10128,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Storage Device List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10129,
+      "locale": "en",
+      "key": "QC_imei_validator_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10130,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Imei Validator",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10131,
+      "locale": "en",
+      "key": "QC_d2c_video_component_key",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10132,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Generic Device Media",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10133,
+      "locale": "en",
+      "key": "QC_product_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10134,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Product List",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10135,
+      "locale": "en",
+      "key": "QC_color_selection_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10136,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Select Color",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10137,
+      "locale": "en",
+      "key": "QC_data_wipe_detail_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10138,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Data Wipe",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10139,
+      "locale": "en",
+      "key": "QC_data_wipe_list_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10140,
+      "locale": "en",
+      "key": "QC_d2c_video_home_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 10141,
+      "locale": "en",
+      "key": "header_QC_qc_general",
+      "configJson": {
+        "config": {
+          "ht": "Pending Video Lot",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20001,
+      "locale": "en",
+      "key": "shipex_home_component",
+      "configJson": {
+        "pad": [
+          16
+        ],
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20002,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Shipex Home",
+          "sbb": false,
+          "slb": true,
+          "spb": true
+        }
+      }
+    },
+    {
+      "componentId": 20003,
+      "locale": "en",
+      "key": "dispatch_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20004,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Shipex Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20005,
+      "locale": "en",
+      "key": "packing_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20006,
+      "locale": "en",
+      "key": "packaging_process_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20007,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Packaging",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20008,
+      "locale": "en",
+      "key": "sub_order_group_comp",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20009,
+      "locale": "en",
+      "key": "order_group_details_comp",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20010,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Order Details",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20011,
+      "locale": "en",
+      "key": "upload_eway_bill_comp",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20012,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Upload E-Way Bill",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20013,
+      "locale": "en",
+      "key": "create_shipment",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20014,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Create Shipment",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20015,
+      "locale": "en",
+      "key": "create_manual_shipment_comp",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20016,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Create Manual Shipment",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20017,
+      "locale": "en",
+      "key": "OMS_pending_dispatch_provider_list_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20018,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Pending Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 20019,
+      "locale": "en",
+      "key": "OMS_complete_dispatch_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 20020,
+      "locale": "en",
+      "key": "header_shipex_general",
+      "configJson": {
+        "config": {
+          "ht": "Complete Dispatch",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 30001,
+      "locale": "en",
+      "key": "RMS_home_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 30002,
+      "locale": "en",
+      "key": "header_rms_general",
+      "configJson": {
+        "config": {
+          "ht": "RMS Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 30003,
+      "locale": "en",
+      "key": "RMS_facility_list_component",
+      "configJson": {
+        "config": {
+          "none": "none"
+        }
+      }
+    },
+    {
+      "componentId": 30004,
+      "locale": "en",
+      "key": "header_rms_general",
+      "configJson": {
+        "config": {
+          "ht": "Select Facility",
+          "sbb": true,
+          "slb": true
+        }
+      }
+    }
+  ]
+}

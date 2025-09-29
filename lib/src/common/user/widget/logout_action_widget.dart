@@ -10,7 +10,7 @@ class LogoutActionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         UserUtil.applicationLogout(context);
       },
       child: CshIcon(

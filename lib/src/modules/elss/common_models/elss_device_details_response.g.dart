@@ -33,7 +33,7 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
       json['rr'] as String?,
       json['dna'] as String?,
       (json['rrs'] as List<dynamic>?)?.map((e) => e as String?).toList(),
-      json['pid'] as int?,
+      (json['pid'] as num?)?.toInt(),
       json['dst'] as String?,
       json['dcl'] as String?,
       json['imei'] as String?,
@@ -48,6 +48,11 @@ DeviceDetailsData _$DeviceDetailsDataFromJson(Map<String, dynamic> json) =>
       json['sgr'] as String?,
       json['sgc'] as String?,
       json['imrd'] as bool?,
+      json['sno'] as String?,
+      (json['st'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      (json['rs'] as num?)?.toInt(),
+      (json['str'] as num?)?.toInt(),
+      json['rpri'] as String?,
     );
 
 Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
@@ -69,4 +74,9 @@ Map<String, dynamic> _$DeviceDetailsDataToJson(DeviceDetailsData instance) =>
       'sgr': instance.suggestedGrade,
       'sgc': instance.suggestedChannel,
       'imrd': instance.isMarkRepairedDevice,
+      'sno': instance.serialNumber,
+      'st': instance.stockTags,
+      'rs': instance.rubbingOrGlassChange,
+      'str': instance.stressTestingResult,
+      'rpri': instance.repairPriority,
     };

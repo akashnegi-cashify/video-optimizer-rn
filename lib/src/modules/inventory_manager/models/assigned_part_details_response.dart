@@ -38,6 +38,8 @@ class AssignedPartData {
   int? requiredQuantity;
   @JsonKey(name: "pbr")
   String? productBarcode;
+  @JsonKey(name: "pvn")
+  String? partVariantName;
 
   AssignedPartData({
     this.status,
@@ -47,6 +49,7 @@ class AssignedPartData {
     this.productColour,
     this.productBarcode,
     this.requiredQuantity,
+    this.partVariantName,
   });
 
   static AssignedPartData fromJson(Map<String, dynamic> data) => _$AssignedPartDataFromJson(data);

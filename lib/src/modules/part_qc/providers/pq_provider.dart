@@ -15,15 +15,22 @@ class PartQcProvider extends CshChangeNotifier {
 
   bool isDataLoading = true;
   String errorMessage = "";
-  QcPartsListResponse? qcPartsListResponse;
+  QcPartsListResponse? _qcPartsListResponse;
 
-  Future<QcPartsListResponse?> fetchQcPartList({String? pbr}) {
+  List<QcPartListData>? get partList => _qcPartsListResponse?.dataList;
+
+  Future<QcPartsListResponse?> fetchQcPartList({String? pbr, bool isForceRefreshScreen = false}) {
+    if (isForceRefreshScreen) {
+      isDataLoading = true;
+      notifyListeners();
+    }
+
     var completer = Completer<QcPartsListResponse?>();
     try {
-      PartQCService.getQcPartList(pbr: pbr).listen(
+      PartQcServiceElss.getQcPartList(pbr: pbr).listen(
         (event) {
           if (event != null && event.isSuccess == true) {
-            qcPartsListResponse = event;
+            _qcPartsListResponse = event;
             completer.complete(event);
           } else {
             completer.completeError("Something went wrong");
@@ -40,6 +47,28 @@ class PartQcProvider extends CshChangeNotifier {
           notifyListeners();
         },
       );
+    } catch (e) {
+      completer.completeError(e.toString());
+    }
+    return completer.future;
+  }
+
+  Future<bool> updatePartStatus(bool isFaulty, int prid) {
+    var completer = Completer<bool>();
+    try {
+      PartQcServiceElss.submitPartStatus(isFaulty, prid).listen((event) {
+        if (event != null && event.isSuccess == true) {
+          completer.complete(true);
+        } else {
+          completer.completeError("Something went wrong");
+        }
+      }, onError: (error) {
+        String err = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
+        Logger.debug('mydebug------PartStatusProvider.updatePartStatus', [err]);
+        completer.completeError(err);
+      }, onDone: () {
+        notifyListeners();
+      });
     } catch (e) {
       completer.completeError(e.toString());
     }

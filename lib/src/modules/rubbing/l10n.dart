@@ -2,7 +2,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:intl/intl.dart';
 
 class L10n extends BaseL10n {
-  L10n(super.context);
+  L10n(super.context, {super.listen});
 
   String get scanBarcode => Intl.message("Scan Barcode", locale: localName, name: "scanBarcode");
 
@@ -22,9 +22,9 @@ class L10n extends BaseL10n {
 
   String get deviceId => Intl.message("Device Id", locale: localName, name: "deviceId");
 
-  String get rubbingNotDone => Intl.message("Rubbing Not Done", locale: localName, name: "rubbingNotDone");
+  String get fail => Intl.message("Fail", locale: localName, name: "fail");
 
-  String get rubbingDone => Intl.message("Rubbing Done", locale: localName, name: "rubbingDone");
+  String get done => Intl.message("Done", locale: localName, name: "done");
 
   String get deviceRemovedFromRubbing =>
       Intl.message("Device Removed From Rubbing!", locale: localName, name: "deviceRemovedFromRubbing");

@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/utils/string_utils.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_parts_selection_options.dart';
 import 'package:flutter_trc/src/modules/engineer/l10n.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 
@@ -11,6 +13,8 @@ class OrderPartProvider extends CshChangeNotifier {
   final String? deviceBarcode;
 
   String? _query;
+
+  final List<DropDownItem> partTypeList = [];
 
   String? get query => _query;
 
@@ -25,7 +29,13 @@ class OrderPartProvider extends CshChangeNotifier {
 
   List<OrderEngineerPart> _originalDataList = [];
 
-  OrderPartProvider(this.deviceBarcode);
+  OrderPartProvider(this.deviceBarcode) {
+    for (var element in ElssPartsSelectionOptions.values) {
+      if (element != ElssPartsSelectionOptions.notRequired) {
+        partTypeList.add(DropDownItem(element.id.toString(), element.value));
+      }
+    }
+  }
 
   getListParts(Function(String errorMessage) handleError, L10n l10n) {
     _originalDataList = [];
@@ -37,6 +47,7 @@ class OrderPartProvider extends CshChangeNotifier {
         handleError(event!.errorMsg!);
       }
     }, onError: (e, s) {
+      Logger.debug('mydebug-----OrderPartProvider.getListParts', [s]);
       handleError(ApiErrorHelper.getErrorMessage(e) ?? l10n.somethingWentWrong);
     }, onDone: () {
       notifyListeners();
@@ -44,18 +55,23 @@ class OrderPartProvider extends CshChangeNotifier {
   }
 
   updateDataForNIndex(OrderEngineerPart item, int update) {
-    int searchedIndex = _originalDataList.indexWhere(
-        (element) => element.sku.containsIgnoreCase(item.sku) && element.partColor.containsIgnoreCase(item.partColor));
+    int searchedIndex =
+        _originalDataList.indexWhere((element) => element.sku == item.sku && element.partColor == item.partColor);
     if (searchedIndex > -1) {
-      _originalDataList[searchedIndex].orderQuantity = (_originalDataList[searchedIndex].orderQuantity ?? 0) + update;
+      var item = _originalDataList[searchedIndex];
+      item.orderQuantity = (item.orderQuantity ?? 0) + update;
+      if (item.orderQuantity == 0) {
+        item.selectedPartType = null;
+      }
       notifyListeners();
     }
   }
 
-  orderParts(Function(String errorMessage) handleError, L10n l10n, VoidCallback callback) {
-    EngineerAPIService.orderDeviceParts(
-            deviceBarcode, displayList.where((element) => (element.orderQuantity ?? 0) > 0).toList())
-        .listen((event) {
+  void orderParts(L10n l10n,
+      {required Function(String errorMessage) handleError,
+      required VoidCallback callback,
+      required List<OrderEngineerPart> partList}) {
+    EngineerAPIService.orderDeviceParts(deviceBarcode, partList).listen((event) {
       if (event?.isSuccess == true) {
         callback();
       } else {
@@ -63,8 +79,43 @@ class OrderPartProvider extends CshChangeNotifier {
       }
     }, onError: (error, stacktrace) {
       handleError(ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
-    }, onDone: () {
-      getListParts((errorMessage) => handleError, l10n);
     });
+  }
+
+  bool isDismissed(DropDownItem? selectedPartType) {
+    if (selectedPartType == null) {
+      return true;
+    }
+
+    if (selectedPartType.id == ElssPartsSelectionOptions.repairRequired.id.toString()) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  int? getMaxQuantity(DropDownItem? selectedPartType) {
+    if (selectedPartType == null) {
+      return null;
+    }
+
+    if (selectedPartType.id == ElssPartsSelectionOptions.repairRequired.id.toString()) {
+      return null;
+    } else {
+      return 1;
+    }
+  }
+
+  void updatePartTypeSelection(OrderEngineerPart part, DropDownItem? value) {
+    int searchedIndex =
+        _originalDataList.indexWhere((element) => element.sku == part.sku && element.partColor == part.partColor);
+    if (searchedIndex > -1) {
+      _originalDataList[searchedIndex].selectedPartType = value;
+      notifyListeners();
+    }
+  }
+
+  List<OrderEngineerPart> getSelectedPartList() {
+    return _originalDataList.where((element) => (element.orderQuantity ?? 0) > 0).toList();
   }
 }

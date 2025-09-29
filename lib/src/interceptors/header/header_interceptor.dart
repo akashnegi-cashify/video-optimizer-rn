@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:core/core.dart';
+import 'package:flutter_trc/src/environments/environment_config.dart';
 import 'package:localization/localization/locale_provider.dart';
 import '../auth/request_headers.dart';
 
@@ -28,6 +29,7 @@ class HeaderInterceptor extends HttpInterceptor {
     };
 
     headers[AppHeaders.X_APP_LANGUAGE_KEY] = LocaleProvider.languageCode;
+    headers[AppHeaders.X_APP_VERSION_KEY] = environment?.appVersion ?? "";
 
     return req.clone(setHeaders: headers);
   }

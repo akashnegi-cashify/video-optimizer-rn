@@ -7,8 +7,8 @@ part of 'receive_request_model.dart';
 // **************************************************************************
 
 Request _$RequestFromJson(Map<String, dynamic> json) => Request()
-  ..pageNo = json['pno'] as int?
-  ..listNo = json['ln'] as int?
+  ..pageNo = (json['pno'] as num?)?.toInt()
+  ..listNo = (json['ln'] as num?)?.toInt()
   ..barcode = json['br'] as String?
   ..fp = json['fp'] == null
       ? null

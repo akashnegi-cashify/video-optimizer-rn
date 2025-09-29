@@ -8,7 +8,7 @@ part of 'logout_response.dart';
 
 LogoutResponse _$LogoutResponseFromJson(Map<String, dynamic> json) =>
     LogoutResponse(
-      json['s'] as int?,
+      (json['s'] as num?)?.toInt(),
       json['r_id'] as String?,
       json['msg'] as String?,
     );

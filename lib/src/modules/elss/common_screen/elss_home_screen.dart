@@ -1,35 +1,37 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/common/user/widget/logout_action_widget.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-import '../../../header/trc_header.dart';
-import '../elss_qc/l10n.dart';
-import '../elss_qc/widgets/elss_home_widget.dart';
+import '../common_models/elss_home_comp_param.dart';
 
-class ElssHomeScreen extends StatefulWidget {
-  static const route = "/elss-home-screen";
+part 'elss_home_screen.g.dart';
 
-  const ElssHomeScreen({Key? key}) : super(key: key);
+@CshPage(key: ElssHomeScreen.pageKey, params: ElssHomeCompParamKeys.values, pageGroup: PageGroup.elssHomePageKey)
+class ElssHomeScreenArguments extends BaseArguments {
+  final bool? isLogicFromQC;
 
-  @override
-  State<ElssHomeScreen> createState() => _ElssHomeScreenState();
+  ElssHomeScreenArguments({this.isLogicFromQC}) : super(ElssHomeScreen.pageKey);
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[ElssHomeCompParamKeys.isLogicFromQC.value] = isLogicFromQC;
+    return data;
+  }
 }
 
-class _ElssHomeScreenState extends State<ElssHomeScreen> {
-  @override
-  Widget build(BuildContext context) {
-    var l10n = L10n(context);
-    bool? arg = ModalRoute.of(context)?.settings.arguments as bool?;
+class ElssHomeScreen extends BaseScreen<ElssHomeScreenArguments> {
+  static const String pageKey = "TRC_elss_home_screen";
+  static const route = "/elss-home-screen";
 
-    return Scaffold(
-      appBar: TrcHeader(
-        l10n.elssHome,
-        showBackBtn: false,
-        showLogoutButton: true,
-      ),
-      body: ElssHomeWidget(
-        isLoginFromQC: arg ?? false,
-      ),
+  const ElssHomeScreen({super.key});
+
+  @override
+  Widget buildView(BuildContext context) {
+    var args = getArguments(context);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: args?.toJson(),
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+
 import '../../common_models/elss_option_response.dart';
 import '../l10n.dart';
+
+enum SelectionType { rubbingApplicable, pnaApplicable, glassChangeApplicable }
 
 class PartSelectionOptionWidget extends StatefulWidget {
   final OptionResponse dataModel;
@@ -9,7 +12,7 @@ class PartSelectionOptionWidget extends StatefulWidget {
   final int groupValueKey;
   final Function(int) onGroupValueChanged;
 
-  final Function(int, bool, bool, bool)? onApplicableReasonCallback;
+  final Function(int, bool, bool, bool) onApplicableReasonCallback;
 
   const PartSelectionOptionWidget({
     Key? key,
@@ -17,7 +20,7 @@ class PartSelectionOptionWidget extends StatefulWidget {
     required this.keyValue,
     required this.groupValueKey,
     required this.dataModel,
-    this.onApplicableReasonCallback,
+    required this.onApplicableReasonCallback,
   }) : super(key: key);
 
   @override
@@ -25,7 +28,7 @@ class PartSelectionOptionWidget extends StatefulWidget {
 }
 
 class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
-  bool _isPna = false, _isGca = false, _isRub = false;
+  SelectionType? _selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -48,59 +51,42 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                   }
                 },
               ),
-              Text(widget.dataModel.optionName ?? "", style: theme.primaryTextTheme.headline4)
+              Text(widget.dataModel.optionName ?? "", style: theme.primaryTextTheme.headlineMedium)
             ],
           ),
           if (widget.keyValue == widget.groupValueKey && (widget.dataModel.isApplicableReasonRequired ?? false))
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeIn,
+              margin: const EdgeInsets.only(left: Dimens.space_16),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      CshCheckbox(
-                        isSelected: _isRub,
-                        onChanged: (data) {
-                          _isRub = !_isRub;
-                          if (widget.onApplicableReasonCallback != null) {
-                            widget.onApplicableReasonCallback!(widget.keyValue, _isGca, _isPna, _isRub);
-                          }
-                        },
-                      ),
-                      const SizedBox(width: Dimens.space_8),
-                      Text(l10n.rubbingApplicable, style: theme.primaryTextTheme.headline5)
-                    ],
+                  CshRadio(
+                    groupValue: _selectedValue,
+                    value: SelectionType.rubbingApplicable,
+                    title: Text(l10n.rubbingApplicable, style: theme.primaryTextTheme.headlineSmall),
+                    onChanged: (data) {
+                      setValue(data);
+                      widget.onApplicableReasonCallback(widget.keyValue, false, false, true);
+                    },
                   ),
-                  Row(
-                    children: [
-                      CshCheckbox(
-                        isSelected: _isPna,
-                        onChanged: (data) {
-                          _isPna = !_isPna;
-                          if (widget.onApplicableReasonCallback != null) {
-                            widget.onApplicableReasonCallback!(widget.keyValue, _isGca, _isPna, _isRub);
-                          }
-                        },
-                      ),
-                      const SizedBox(width: Dimens.space_8),
-                      Text(l10n.pnaApplicable, style: theme.primaryTextTheme.headline5)
-                    ],
+                  CshRadio(
+                    groupValue: _selectedValue,
+                    title: Text(l10n.pnaApplicable, style: theme.primaryTextTheme.headlineSmall),
+                    value: SelectionType.pnaApplicable,
+                    onChanged: (data) {
+                      setValue(data);
+                      widget.onApplicableReasonCallback(widget.keyValue, false, true, false);
+                    },
                   ),
-                  Row(
-                    children: [
-                      CshCheckbox(
-                        isSelected: _isGca,
-                        onChanged: (data) {
-                          _isGca = !_isGca;
-                          if (widget.onApplicableReasonCallback != null) {
-                            widget.onApplicableReasonCallback!(widget.keyValue, _isGca, _isPna, _isRub);
-                          }
-                        },
-                      ),
-                      const SizedBox(width: Dimens.space_8),
-                      Text(l10n.glassChangeApplicable, style: theme.primaryTextTheme.headline5)
-                    ],
+                  CshRadio(
+                    groupValue: _selectedValue,
+                    value: SelectionType.glassChangeApplicable,
+                    title: Text(l10n.glassChangeApplicable, style: theme.primaryTextTheme.headlineSmall),
+                    onChanged: (data) {
+                      setValue(data);
+                      widget.onApplicableReasonCallback(widget.keyValue, true, false, false);
+                    },
                   ),
                 ],
               ),
@@ -108,5 +94,11 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
         ],
       ),
     );
+  }
+
+  setValue(SelectionType? type) {
+    setState(() {
+      _selectedValue = type;
+    });
   }
 }

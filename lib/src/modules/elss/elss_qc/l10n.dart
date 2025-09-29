@@ -101,6 +101,14 @@ class L10n extends BaseL10n {
 
   String get suggestedGrade => Intl.message("Suggested grade", locale: localName, name: "suggestedGrade");
 
+  String get serialNumber => Intl.message("Serial No.", locale: localName, name: "serialNumber");
+
+  String get stressTesting => Intl.message("Stress Testing", locale: localName, name: "stressTesting");
+
+  String get tags => Intl.message("Tags", locale: localName, name: "tags");
+
+  String get repairPriority => Intl.message("Repair Priority", locale: localName, name: "repairPriority");
+
   String get suggestedChannel => Intl.message("Suggested channel", locale: localName, name: "suggestedChannel");
 
   String get profit => Intl.message("Profit", locale: localName, name: "profit");
@@ -110,8 +118,6 @@ class L10n extends BaseL10n {
   String get required => Intl.message("Required", locale: localName, name: "required");
 
   String get notRequired => Intl.message("Not Required", locale: localName, name: "notRequired");
-
-  String get accept => Intl.message("Accept", locale: localName, name: "accept");
 
   String get discard => Intl.message("Discard", locale: localName, name: "discard");
 

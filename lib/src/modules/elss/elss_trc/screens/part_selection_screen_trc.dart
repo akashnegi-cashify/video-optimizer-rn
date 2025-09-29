@@ -1,102 +1,40 @@
-import 'package:core_widgets/core_widgets.dart';
+import 'package:builder_project/builder_project.dart';
+import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/header/trc_header.dart';
-import 'package:provider/provider.dart';
-import '../../common_models/elss_device_details_response.dart';
-import '../l10n.dart';
-import '../providers/elss_provider_trc.dart';
-import '../widgets/part_selection_widget_trc.dart';
-import 'brand_details_listing_screen.dart';
+import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 
-class PartSelectionScreenTrc extends StatefulWidget {
+import '../../common_models/part_selection_comp_param.dart';
+
+part 'part_selection_screen_trc.g.dart';
+
+@CshPage(
+    key: PartSelectionScreenTrc.pageKey,
+    pageGroup: PageGroup.partSelectionPageKey,
+    params: PartSelectionCompParamKeys.values)
+class PartSelectionScreenTrcArguments extends BaseArguments {
+  final String? barcode;
+
+  PartSelectionScreenTrcArguments({this.barcode}) : super(PartSelectionScreenTrc.pageKey);
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[PartSelectionCompParamKeys.scannedBarcode.value] = barcode;
+    return data;
+  }
+}
+
+class PartSelectionScreenTrc extends BaseScreen<PartSelectionScreenTrcArguments> {
+  static const String pageKey = "TRC_part_selection_trc";
   static const route = '/part_selection_screen_trc';
 
-  const PartSelectionScreenTrc({Key? key}) : super(key: key);
+  const PartSelectionScreenTrc({super.key});
 
   @override
-  State<PartSelectionScreenTrc> createState() => _PartSelectionScreenTrcState();
-}
-
-class _PartSelectionScreenTrcState extends State<PartSelectionScreenTrc> {
-  @override
-  Widget build(BuildContext context) {
-    var l10n = L10n(context);
-    var theme = Theme.of(context);
-    String scannedBarcode = ModalRoute.of(context)?.settings.arguments as String;
-    return ChangeNotifierProvider<ELssProviderTrc>(
-      create: (_) => ELssProviderTrc(scannedBarcode, onProductIdMissingCallback: _productIdNullHandlingCallback),
-      lazy: false,
-      builder: (BuildContext innerContext, __) {
-        var provider = ELssProviderTrc.of(innerContext);
-
-        return Scaffold(
-          appBar: TrcHeader(l10n.partSelection),
-          resizeToAvoidBottomInset: false,
-          body: (provider.isDetailsDataLoading)
-              ? const Center(
-                  child: SizedBox(
-                    height: Dimens.space_30,
-                    width: Dimens.space_30,
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : (provider.isDetailsDataLoading == false && provider.elssDeviceDetails == null)
-                  ? Center(
-                      child: Text(
-                        (provider.apiErrorMessage.isNotEmpty) ? provider.apiErrorMessage : l10n.noDataFound,
-                        textAlign: TextAlign.center,
-                        style: theme.primaryTextTheme.headline3,
-                      ),
-                    )
-                  : _PartSelection(scannedBarCode: scannedBarcode),
-        );
-      },
-    );
-  }
-
-  _productIdNullHandlingCallback(String barcode, {ElssDeviceDetailsResponse? detailsData}) {
-    BrandDetailsListingArguments args = BrandDetailsListingArguments(
-      barcode: barcode,
-      deviceDetailsResponse: detailsData,
-    );
-    Navigator.of(context).pushReplacementNamed(BrandsDetailsListingScreen.route, arguments: args);
-  }
-}
-
-class _PartSelection extends StatelessWidget {
-  final String scannedBarCode;
-
-  const _PartSelection({
-    Key? key,
-    required this.scannedBarCode,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var provider = ELssProviderTrc.of(context);
-    var theme = Theme.of(context);
-    if (!Validator.isNullOrEmpty(provider.elssDeviceDetails?.errorMessage)) {
-      return Padding(
-        padding: const EdgeInsets.all(Dimens.space_16),
-        child: Center(
-          child: Row(
-            children: [
-              const SizedBox(),
-              Expanded(
-                child: Text(
-                  provider.elssDeviceDetails!.errorMessage!,
-                  style: theme.primaryTextTheme.headline3,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return PartSelectionWidgetTrc(
-      barcode: scannedBarCode,
+  Widget buildView(BuildContext context) {
+    var args = getArguments(context);
+    return PageWidget(
+      pageKey: pageKey,
+      initialValue: args?.toJson(),
     );
   }
 }

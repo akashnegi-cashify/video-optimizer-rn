@@ -58,7 +58,7 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
               children: [
                 Text(
                   widget.dataModel?.partName ?? "",
-                  style: theme.primaryTextTheme.overline,
+                  style: theme.primaryTextTheme.labelLarge,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -66,15 +66,15 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    !Validator.isNullOrEmpty(widget.dataModel?.partColour)
+                    !Validator.isNullOrEmpty(widget.dataModel?.sku)
                         ? RichText(
                             text: TextSpan(
-                                text: l10n.colour,
-                                style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
+                                text: l10n.sku,
+                                style: theme.primaryTextTheme.labelLarge?.copyWith(color: theme.shadowColor),
                                 children: [
                                   TextSpan(
-                                    text: " ${widget.dataModel?.partColour}",
-                                    style: theme.primaryTextTheme.overline,
+                                    text: ": ${widget.dataModel?.sku}",
+                                    style: theme.primaryTextTheme.labelLarge,
                                   )
                                 ]),
                           )
@@ -82,11 +82,11 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
                     RichText(
                       text: TextSpan(
                           text: l10n.qty,
-                          style: theme.primaryTextTheme.overline?.copyWith(color: theme.shadowColor),
+                          style: theme.primaryTextTheme.labelLarge?.copyWith(color: theme.shadowColor),
                           children: [
                             TextSpan(
                               text: " ${widget.dataModel?.quantity}",
-                              style: theme.primaryTextTheme.overline,
+                              style: theme.primaryTextTheme.labelLarge,
                             )
                           ]),
                     ),

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 
 import '../models/general_response.dart';
 import '../models/qc_parts_list_response.dart';
 
-class PartQCService {
+class PartQcServiceElss {
   static Stream<QcPartsListResponse?> getQcPartList({String? pbr = ""}) {
     Map<String, List<String>> paramData = {
       "pbr": [pbr ?? ""]
@@ -20,5 +22,19 @@ class PartQCService {
       "version": 0,
     };
     return TrcService().post("/qc/parts/submit-qc", GeneralResponse.fromJson, body: jsonEncode(bodyData));
+  }
+
+  static Stream<BaseActionResponse?> receiveRetrievedParts(String partBarcode) {
+    return TrcService().post("/qc/parts/receive-retrieved-part?pbr=$partBarcode", BaseActionResponse.fromJson);
+  }
+
+  static Stream<BaseActionResponse?> updateRetrievedPartStatus(bool isFaulty, int partId, {String? remarks}) {
+    Map<String, dynamic> bodyData = {
+      "isFault": isFaulty,
+      "prid": partId,
+      if (!Validator.isNullOrEmpty(remarks)) "rm": remarks,
+    };
+    return TrcService()
+        .post("/qc/parts/submit-retrieved-part-qc", BaseActionResponse.fromJson, body: jsonEncode(bodyData));
   }
 }

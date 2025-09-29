@@ -1,7 +1,9 @@
+import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/elss_status.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/elss_status_screen.dart';
+import 'package:flutter_trc/src/modules/elss/elss_qc/screens/part_selection_screen_qc.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/channel_suggestion_widget.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/widgets/reject_retest_reason_selection_modal.dart';
 
@@ -22,9 +24,9 @@ class ChannelOptionWidget extends StatefulWidget {
 
   const ChannelOptionWidget(
     this.scannedBarcode, {
-    Key? key,
+    super.key,
     this.detailsDataModel,
-  }) : super(key: key);
+  });
 
   @override
   State<ChannelOptionWidget> createState() => _ChannelOptionWidgetState();
@@ -130,15 +132,15 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
                   child: CshMediumOutlineButton(
                     text: l10n.reject,
                     onPressed: () => _onRejectElss(),
-                    borderColor: theme.errorColor,
-                    textColor: theme.errorColor,
+                    borderColor: theme.colorScheme.error,
+                    textColor: theme.colorScheme.error,
                   ),
                 ),
                 const SizedBox(width: Dimens.space_20),
                 Expanded(
                   child: CshMediumButton(
-                    text: l10n.retest,
-                    onPressed: () => _onRetestElss(),
+                    text: l10n.reset,
+                    onPressed: () => _onReset(),
                   ),
                 )
               ],
@@ -192,6 +194,34 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     showRejectRetestBottomSheetModal(context, ReasonType.reject, widget.scannedBarcode);
   }
 
+  _onReset() {
+    var provider = ChannelOptionProvider.of(context, listen: false);
+    showPopup(context,
+        title: "Warning!!",
+        desc: "All Progress will be lost. Are you sure you want to reset?",
+        actions: [
+          ComboButton(
+              firstBtnText: "No",
+              secondBtnText: "Yes",
+              isFirstPrimary: false,
+              firstBtnClick: () => Navigator.pop(context),
+              secondBtnClick: () {
+                Navigator.pop(context); // Dismiss the dialog
+                String? deviceBarcode = widget.detailsDataModel?.deviceDetailsData?.deviceBarcode;
+                PartSelectionScreenArguments args = PartSelectionScreenArguments(
+                  scannedBarcode: deviceBarcode ?? "",
+                  pQuoteId: provider.pQuoteId,
+                  remarks: provider.remarks,
+                );
+                Navigator.of(context).pushReplacementNamed(
+                  PartSelectionScreenQc.route,
+                  arguments: args,
+                );
+              })
+        ]);
+  }
+
+  // For now Retest Button is replaced with Reset
   _onRetestElss() {
     showRejectRetestBottomSheetModal(context, ReasonType.retest, widget.scannedBarcode);
   }
@@ -214,7 +244,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
               child: Text(
                 l10n.selectPartsForPna,
-                style: theme.primaryTextTheme.headline3,
+                style: theme.primaryTextTheme.displaySmall,
               ),
             ),
             const SizedBox(height: Dimens.space_8),
@@ -290,7 +320,7 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
               padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
               child: Text(
                 l10n.selectPartsForPna,
-                style: theme.primaryTextTheme.headline3,
+                style: theme.primaryTextTheme.displaySmall,
               ),
             ),
             const SizedBox(height: Dimens.space_8),
@@ -358,10 +388,12 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     provider.markPNAStatus(widget.scannedBarcode, dataList, optionId).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
+        ElssStatusCompArguments args = ElssStatusCompArguments(
+            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna, barcode: widget.scannedBarcode));
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.pna, barcode: widget.scannedBarcode),
+          arguments: args,
         );
       }
     }, onError: (error) {
@@ -377,10 +409,12 @@ class _ChannelOptionWidgetState extends State<ChannelOptionWidget> {
     provider.submitElssAcceptData(dataList, widget.scannedBarcode, optionId: optionId).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
+        ElssStatusCompArguments args = ElssStatusCompArguments(
+            arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: widget.scannedBarcode));
         Navigator.pushReplacementNamed(
           context,
           ElssStatusScreen.routeName,
-          arguments: ElssStatusScreenArg(elssStatus: ElssStatus.submit, barcode: widget.scannedBarcode),
+          arguments: args,
         );
       }
     }, onError: (error) {

@@ -11,11 +11,15 @@ import '../../common_models/channel_option_response.dart';
 import '../../common_models/elss_part.dart';
 
 class ChannelOptionProvider extends CshChangeNotifier {
+
+  final String? pQuoteId;
+  final String? remarks;
+
   static ChannelOptionProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<ChannelOptionProvider>(context, listen: listen);
   }
 
-  ChannelOptionProvider(String barcode) {
+  ChannelOptionProvider(String barcode, {this.pQuoteId, this.remarks}) {
     _fetchChannelOptions(barcode);
   }
 
@@ -161,5 +165,9 @@ class ChannelOptionProvider extends CshChangeNotifier {
       channelOption?.requestedParts?[selectedIndex].isPnaSelected = data;
       notifyListeners();
     }
+  }
+
+  void resetTransaction(String? barcode) {
+    ElssService.resetElssTransaction(barcode).listen((event) {}, onError: (error) {});
   }
 }

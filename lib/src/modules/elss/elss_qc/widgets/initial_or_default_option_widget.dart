@@ -35,7 +35,7 @@ class _InitialOrDefaultWidgetState extends State<InitialOrDefaultWidget> {
         children: [
           Text(
             widget.channelTitle,
-            style: theme.primaryTextTheme.headline5,
+            style: theme.primaryTextTheme.headlineSmall,
           ),
           const SizedBox(height: Dimens.space_8),
           DottedLineDivider(
@@ -52,7 +52,7 @@ class _InitialOrDefaultWidgetState extends State<InitialOrDefaultWidget> {
                   tilePadding: EdgeInsets.zero,
                   title: Text(
                     l10n.listOfSkUs,
-                    style: theme.primaryTextTheme.headline5,
+                    style: theme.primaryTextTheme.headlineSmall,
                   ),
                   children: [
                     ListView.separated(
@@ -108,11 +108,11 @@ class _InitialOrDefaultWidgetState extends State<InitialOrDefaultWidget> {
       children: [
         Text(
           "$label: ",
-          style: theme.primaryTextTheme.overline,
+          style: theme.primaryTextTheme.labelLarge,
         ),
         Text(
           value,
-          style: theme.primaryTextTheme.headline5,
+          style: theme.primaryTextTheme.headlineSmall,
         )
       ],
     );

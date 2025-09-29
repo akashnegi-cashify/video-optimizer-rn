@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
@@ -60,13 +61,16 @@ class _Item extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_8),
       child: CshCard(
-          child: Column(
-        children: [
-          KeyValueRowWidget(title: l10n.partName, value: part.partName),
-          KeyValueRowWidget(title: l10n.partBarcode, value: part.partBarcode),
-          KeyValueRowWidget(title: l10n.partSku, value: part.partSku),
-        ],
-      )),
+        child: Column(
+          children: [
+            KeyValueRowWidget(title: l10n.partName, value: part.partName),
+            KeyValueRowWidget(title: l10n.partBarcode, value: part.partBarcode),
+            KeyValueRowWidget(title: l10n.partSku, value: part.partSku),
+            if (!Validator.isNullOrEmpty(part.partVariantName))
+              KeyValueRowWidget(title: l10n.skuName, value: part.partVariantName!),
+          ],
+        ),
+      ),
     );
   }
 }

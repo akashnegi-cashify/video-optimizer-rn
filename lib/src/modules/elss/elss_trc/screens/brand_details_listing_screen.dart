@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'package:provider/provider.dart';
+
 import '../../common_models/elss_device_details_response.dart';
-import '../providers/brands_listing_provider.dart';
 import '../l10n.dart';
+import '../providers/brands_listing_provider.dart';
 
 class BrandDetailsListingArguments {
   final String barcode;
@@ -56,7 +57,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                 if (!Validator.isListNullOrEmpty(provider.brandDetailsData?.brandDataList)) ...[
                   Text(
                     l10n.selectBrand,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
                   CshDropDown(
@@ -84,7 +85,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                   const SizedBox(height: Dimens.space_20),
                   Text(
                     l10n.selectProduct,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
                   CshDropDown(
@@ -108,7 +109,7 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                   const SizedBox(height: Dimens.space_20),
                   Text(
                     l10n.selectColor,
-                    style: theme.primaryTextTheme.headline4,
+                    style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
                   CshDropDown(
@@ -186,8 +187,8 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
   _labelValueWidget(ThemeData theme, String label, String value) {
     return Row(
       children: [
-        Expanded(child: Text("$label:", style: theme.primaryTextTheme.headline4)),
-        Expanded(child: Text(value, style: theme.primaryTextTheme.headline4))
+        Expanded(child: Text("$label:", style: theme.primaryTextTheme.headlineMedium)),
+        Expanded(child: Text(value, style: theme.primaryTextTheme.headlineMedium))
       ],
     );
   }
@@ -229,7 +230,8 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: "Details Submitted Successfully!!");
-        Navigator.of(context).pushReplacementNamed(PartSelectionScreenTrc.route, arguments: barcode);
+        PartSelectionScreenTrcArguments args = PartSelectionScreenTrcArguments(barcode: barcode);
+        Navigator.of(context).pushReplacementNamed(PartSelectionScreenTrc.route, arguments: args);
       }
     }, onError: (error) {
       CshSnackBar.error(context: context, message: error);

@@ -15,7 +15,8 @@ BaseActionResponse _$BaseActionResponseFromJson(Map<String, dynamic> json) =>
     )
       ..refId = json['r_id'] as String?
       ..isSuccess = json['s'] as bool? ?? false
-      ..errorMsg = json['em'] as String?;
+      ..errorMsg = json['em'] as String?
+      ..successMessage = json['sm'] as String?;
 
 Map<String, dynamic> _$BaseActionResponseToJson(BaseActionResponse instance) =>
     <String, dynamic>{
@@ -24,4 +25,5 @@ Map<String, dynamic> _$BaseActionResponseToJson(BaseActionResponse instance) =>
       'r_id': instance.refId,
       's': instance.isSuccess,
       'em': instance.errorMsg,
+      'sm': instance.successMessage,
     };
