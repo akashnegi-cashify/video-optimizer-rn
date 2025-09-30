@@ -21,12 +21,15 @@ class AuditQuestionBuilder extends StatefulWidget {
 class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
   int _currentPage = 0;
   final PageController pagerController = PageController(initialPage: 0);
+  final Map<int, List<String>> _pageSelectedSubVariations = {};
+  final Map<int, Map<String, String?>> _pageSubVariationImages = {};
 
   @override
   Widget build(BuildContext context) {
     var provider = AuditQuestionsProvider.of(context);
     var l10n = L10n(context);
     var auditQuestionList = provider.auditData!.auditQuestionList;
+
     return WillPopScope(
       onWillPop: () {
         if (_currentPage > 0) {
@@ -48,6 +51,17 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                   key: ValueKey(_currentPage.toString()),
                   onOptionSelected: (int qId, String selectedOption) {
                     provider.onQuestionOptionSelected(qId, selectedOption);
+                  },
+                  onSubVariationsChanged: (selected) {
+                    setState(() {
+                      _pageSelectedSubVariations[index] = selected;
+                    });
+                  },
+                  onSubVariationStateChanged: (selected, images) {
+                    setState(() {
+                      _pageSelectedSubVariations[index] = selected;
+                      _pageSubVariationImages[index] = images;
+                    });
                   },
                   questionNumber: index,
                 );
@@ -76,7 +90,9 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                 ),
                 CshMediumButton(
                   text: _currentPage == (auditQuestionList.length - 1) ? l10n.submit : l10n.next,
-                  onPressed: (!Validator.isNullOrEmpty(auditQuestionList[_currentPage].selectedOption))
+                  onPressed: (!Validator.isNullOrEmpty(auditQuestionList[_currentPage].selectedOption) &&
+                          (!_requiresSubVariation(auditQuestionList[_currentPage]) ||
+                              _isSubVariationImageSatisfied(_currentPage)))
                       ? () {
                           if (auditQuestionList[_currentPage].imageCount != null &&
                               auditQuestionList[_currentPage].imageCount == 1 &&
@@ -86,6 +102,7 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
                           }
 
                           if (_currentPage == (auditQuestionList.length - 1)) {
+                            // print("Submit button pressed for barcode: ${widget.barcode}");
                             AuditQuestionSummaryArguments args = AuditQuestionSummaryArguments(
                                 questionDataModel: provider.auditData, scannedBarcode: widget.barcode);
                             Navigator.of(context).pushNamed(AuditQuestionSummaryScreen.route, arguments: args);
@@ -101,5 +118,25 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
         ],
       ),
     );
+  }
+
+  bool _requiresSubVariation(auditQuestionListItem) {
+    try {
+      final has = !(auditQuestionListItem?.subVariations?[auditQuestionListItem?.selectedOption] ?? const <String>[]).isEmpty;
+      return has;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  bool _isSubVariationImageSatisfied(int pageIndex) {
+    final selected = _pageSelectedSubVariations[pageIndex] ?? const <String>[];
+    if (selected.isEmpty) return false;
+    final images = _pageSubVariationImages[pageIndex] ?? const <String, String?>{};
+    for (final label in selected) {
+      final url = images[label];
+      if (url == null || url.isEmpty) return false;
+    }
+    return true;
   }
 }

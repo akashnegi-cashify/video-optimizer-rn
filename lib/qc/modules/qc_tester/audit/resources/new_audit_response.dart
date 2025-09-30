@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:core_widgets/core_widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -48,8 +46,17 @@ class AuditQuestionData {
   @JsonKey(name: "v")
   Map<String, String>? options;
 
+    @JsonKey(name: "subVariations")
+  Map<String, List<String>>? subVariations;
+
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? selectedOption;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  List<String>? selectedSubVariations;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Map<String, String?>? selectedSubVariationImageUrls;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   String? s3url;
@@ -61,11 +68,57 @@ class AuditQuestionData {
     this.options, {
     this.selectedOption,
     this.s3url,
+    this.subVariations,
+    this.selectedSubVariations,
+    this.selectedSubVariationImageUrls,
   });
 
-  static AuditQuestionData fromJson(Map<String, dynamic> json) => _$AuditQuestionDataFromJson(json);
+  static AuditQuestionData fromJson(Map<String, dynamic> json) {
+    Map<String, String>? parsedOptions;
+    final rawOptions = json['v'];
+    if (rawOptions is Map) {
+      parsedOptions = rawOptions.map((key, value) =>
+          MapEntry(key.toString(), value?.toString() ?? ''));
+    }
 
-  Map<String, dynamic> toJson() => _$AuditQuestionDataToJson(this);
+    Map<String, List<String>>? parsedSubVariations;
+    final rawSubVariations = json['subVariations'];
+    if (rawSubVariations is Map) {
+      parsedSubVariations = rawSubVariations.map((key, value) {
+        final list = value is List
+            ? value.map((e) => e.toString()).toList()
+            : <String>[];
+        return MapEntry(key.toString(), list);
+      });
+    }
+
+    final data = AuditQuestionData(
+      json['pi'] as int?,
+      json['pn'] as String?,
+      parsedOptions,
+      subVariations: parsedSubVariations,
+    );
+
+    final ic = json['ic'];
+    if (ic is num) {
+      data.imageCount = ic.toInt();
+    } else if (ic != null) {
+      final parsed = int.tryParse(ic.toString());
+      if (parsed != null) data.imageCount = parsed;
+    }
+
+    return data;
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'pi': questionId,
+      'pn': question,
+      'ic': imageCount,
+      'v': options,
+      'subVariations': subVariations,
+    };
+  }
 }
 
 @JsonSerializable()
