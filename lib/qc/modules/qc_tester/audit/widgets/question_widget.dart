@@ -112,7 +112,7 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                     children: [
                       const SizedBox(height: Dimens.space_12),
                       Text(
-                        "Please select parts that need attention",
+                        "Select Sub Variation",
                         style: theme.primaryTextTheme.titleSmall,
                       ),
                       const SizedBox(height: Dimens.space_8),
