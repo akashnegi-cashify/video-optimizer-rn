@@ -87,10 +87,13 @@ class _AuditSummaryState extends State<_AuditSummary> {
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
+                    final item = widget.dataModel!.auditQuestionList![index];
+                    final selectedId = item.selectedOption;
+                    final selectedLabel = selectedId != null ? (item.options?[selectedId] ?? selectedId) : "";
                     return SubmittedQuestionWidget(
                       questionNumber: index,
-                      question: widget.dataModel!.auditQuestionList![index].question ?? "",
-                      answeredQuestion: widget.dataModel!.auditQuestionList![index].selectedOption ?? "",
+                      question: item.question ?? "",
+                      answeredQuestion: selectedLabel,
                     );
                   },
                   itemCount: widget.dataModel!.auditQuestionList!.length,
@@ -118,14 +121,15 @@ class _AuditSummaryState extends State<_AuditSummary> {
     Map<String, dynamic> postDataMap = {};
     if (!Validator.isListNullOrEmpty(widget.dataModel?.auditQuestionList)) {
       for (var element in widget.dataModel!.auditQuestionList!) {
-        if (element.selectedOption != null && !Validator.isListNullOrEmpty(element.options!.values.toList())) {
-          String key = element.options!.keys
-              .firstWhere((item) => element.options![item] == element.selectedOption, orElse: () => "");
-
-          if (!Validator.isNullOrEmpty(key)) {
+        final selectedId = element.selectedOption;
+        if (!Validator.isNullOrEmpty(selectedId)) {
+          final vi = int.tryParse(selectedId!);
+          if (vi != null) {
+            final Map<String, String?> svImages = element.selectedSubVariationImageUrls ?? const {};
             postDataMap[element.questionId?.toString() ?? ""] = {
-              "vi": int.parse(key),
+              "vi": vi,
               "iurl": element.s3url,
+              "sv": svImages,
             };
           }
         }
@@ -167,6 +171,18 @@ class _AuditSummaryState extends State<_AuditSummary> {
 
   _submitQuestionsResults(L10n l10n, BuildContext context, Map<String, dynamic> dataMap,
       {List<MediaSubmitRequest>? mediaList}) {
+    // Print selected sub-variation image map before API call
+    try {
+      final debugSv = <String, dynamic>{};
+      dataMap.forEach((k, v) {
+        if (v is Map && v.containsKey("sv")) {
+          debugSv[k] = v["sv"];
+        }
+      });
+      if (debugSv.isNotEmpty) {
+        print("Selected sub-variation images: $debugSv");
+      }
+    } catch (_) {}
     var provider = AuditQuestionSubmitProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.submitAuditQuestion(widget.scannedBarcode, dataMap, mediaList).then((value) {
