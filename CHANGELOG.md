@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v5.1.0+79 (XX-07-2025)
+
+### Features:
+
+* `Audit Changes: Add SubVariations` [(SCM-10506)](https://reglobe.atlassian.net/browse/SCM-10506)
+
+
 # v5.0.0+78 (XX-07-2025)
 
 ### Features:

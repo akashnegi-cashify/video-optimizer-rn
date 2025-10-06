@@ -15,11 +15,13 @@ import '../../../../qc/modules/qc_tester/calculator/resources/device_media_respo
 class ImageUploadOptimizerCard extends StatefulWidget {
   final ImageListData? dataModel;
   final Function(String?)? onMediaUploaded;
+  final String? initialUrl;
 
   const ImageUploadOptimizerCard({
     super.key,
     this.dataModel,
     this.onMediaUploaded,
+    this.initialUrl,
   });
 
   @override
@@ -33,7 +35,7 @@ class _ImageUploadOptimizerCardState extends State<ImageUploadOptimizerCard> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return ChangeNotifierProvider(
-      create: (_) => ImageUploadProvider(),
+      create: (_) => ImageUploadProvider(s3Url: widget.initialUrl),
       lazy: false,
       builder: (BuildContext insideContext, __) {
         var provider = ImageUploadProvider.of(insideContext);
