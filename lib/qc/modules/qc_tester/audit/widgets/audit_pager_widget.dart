@@ -48,7 +48,7 @@ class _AuditQuestionBuilderState extends State<AuditQuestionBuilder> {
               pageSnapping: true,
               itemBuilder: (context, index) {
                 return AuditQuestionWidget(
-                  key: ValueKey(_currentPage.toString()),
+                  key: ValueKey('audit-question-$index'),
                   onOptionSelected: (int qId, String selectedOption) {
                     provider.onQuestionOptionSelected(qId, selectedOption);
                   },
