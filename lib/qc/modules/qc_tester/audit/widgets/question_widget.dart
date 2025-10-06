@@ -37,9 +37,6 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
     var auditQuestionList = provider.auditData!.auditQuestionList;
     var auditQuestionData = auditQuestionList![widget.questionNumber];
 
-    print("auditQuestionData>>>>>>> test:");
-    print(jsonEncode(auditQuestionData.selectedOption));
-
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: Dimens.space_20, horizontal: Dimens.space_16),
       child: Column(
