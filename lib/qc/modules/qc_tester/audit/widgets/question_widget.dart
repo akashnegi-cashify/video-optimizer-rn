@@ -1,4 +1,4 @@
-import 'dart:convert';
+ 
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -148,6 +148,7 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                       const SizedBox(height: Dimens.space_8),
                       // 1) Render all checkboxes first
                       ...svList.map((label) => CheckboxListTile(
+                            key: ValueKey('sv_cb_$label'),
                             contentPadding: EdgeInsets.zero,
                             dense: true,
                             controlAffinity: ListTileControlAffinity.leading,
@@ -162,7 +163,9 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                                 } else {
                                   _selectedSubVariations.remove(label);
                                   _subVariationRemarks.remove(label);
+                                  // Clear image for this sub-variation when unchecked
                                   _subVariationImageUrls.remove(label);
+                                  auditQuestionData.selectedSubVariationImageUrls?.remove(label);
                                 }
                                 auditQuestionData.selectedSubVariations = _selectedSubVariations.toList();
                                 auditQuestionData.selectedSubVariationImageUrls = Map<String, String?>.from(_subVariationImageUrls);
@@ -179,6 +182,7 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                       ...svList
                           .where((label) => _selectedSubVariations.contains(label))
                           .map((label) => Container(
+                                key: ValueKey('sv_container_$label'),
                                 width: double.infinity,
                                 padding: const EdgeInsets.all(Dimens.space_12),
                                 margin: const EdgeInsets.only(bottom: Dimens.space_12),
@@ -204,6 +208,7 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                                     Align(
                                       alignment: Alignment.center,
                                       child: ImageUploadOptimizerCard(
+                                        key: ValueKey('sv_image_$label'),
                                         initialUrl: auditQuestionData.selectedSubVariationImageUrls?[label],
                                         onMediaUploaded: (String? url) {
                                           setState(() {
