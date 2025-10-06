@@ -1,4 +1,4 @@
-import 'dart:convert';
+ 
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +29,38 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
   final Set<String> _selectedSubVariations = {};
   final Map<String, String> _subVariationRemarks = {};
   final Map<String, String?> _subVariationImageUrls = {};
+  bool _hydrated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = AuditQuestionsProvider.of(context, listen: false);
+      final auditQuestionList = provider.auditData?.auditQuestionList;
+      if (auditQuestionList != null && widget.questionNumber < auditQuestionList.length) {
+        final auditQuestionData = auditQuestionList[widget.questionNumber];
+        _hydrateFromModel(auditQuestionData);
+      }
+    });
+  }
+
+  void _hydrateFromModel(auditQuestionData) {
+    if (_hydrated) return;
+    final savedSelected = auditQuestionData.selectedSubVariations ?? const <String>[];
+    final savedImages = auditQuestionData.selectedSubVariationImageUrls ?? const <String, String?>{};
+    if (savedSelected.isNotEmpty || savedImages.isNotEmpty) {
+      _selectedSubVariations
+        ..clear()
+        ..addAll(savedSelected);
+      _subVariationImageUrls
+        ..clear()
+        ..addAll(savedImages);
+      widget.onSubVariationsChanged?.call(savedSelected);
+      widget.onSubVariationStateChanged?.call(savedSelected, Map<String, String?>.from(savedImages));
+      setState(() {});
+    }
+    _hydrated = true;
+  }
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -89,6 +121,7 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
               Align(
                 alignment: Alignment.center,
                 child: ImageUploadOptimizerCard(
+                  initialUrl: auditQuestionData.s3url,
                   onMediaUploaded: (String? url) {
                     auditQuestionData.s3url = url;
                   },
@@ -115,6 +148,7 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                       const SizedBox(height: Dimens.space_8),
                       // 1) Render all checkboxes first
                       ...svList.map((label) => CheckboxListTile(
+                            key: ValueKey('sv_cb_$label'),
                             contentPadding: EdgeInsets.zero,
                             dense: true,
                             controlAffinity: ListTileControlAffinity.leading,
@@ -129,7 +163,9 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                                 } else {
                                   _selectedSubVariations.remove(label);
                                   _subVariationRemarks.remove(label);
+                                  // Clear image for this sub-variation when unchecked
                                   _subVariationImageUrls.remove(label);
+                                  auditQuestionData.selectedSubVariationImageUrls?.remove(label);
                                 }
                                 auditQuestionData.selectedSubVariations = _selectedSubVariations.toList();
                                 auditQuestionData.selectedSubVariationImageUrls = Map<String, String?>.from(_subVariationImageUrls);
@@ -146,6 +182,7 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                       ...svList
                           .where((label) => _selectedSubVariations.contains(label))
                           .map((label) => Container(
+                                key: ValueKey('sv_container_$label'),
                                 width: double.infinity,
                                 padding: const EdgeInsets.all(Dimens.space_12),
                                 margin: const EdgeInsets.only(bottom: Dimens.space_12),
@@ -171,6 +208,8 @@ class _AuditQuestionWidgetState extends State<AuditQuestionWidget> {
                                     Align(
                                       alignment: Alignment.center,
                                       child: ImageUploadOptimizerCard(
+                                        key: ValueKey('sv_image_$label'),
+                                        initialUrl: auditQuestionData.selectedSubVariationImageUrls?[label],
                                         onMediaUploaded: (String? url) {
                                           setState(() {
                                             _subVariationImageUrls[label] = url;
