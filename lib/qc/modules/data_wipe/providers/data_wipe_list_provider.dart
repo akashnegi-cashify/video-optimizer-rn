@@ -27,8 +27,8 @@ class DataWipeListProvider extends CshChangeNotifier {
 
   Future<List<DataWipeListItem>> getDataList(int pageNo, int pageSize) {
     var completer = Completer<List<DataWipeListItem>>();
-    DataWipeService.getDataWipeList(pageNo, pageSize, filters: _getFormatedFilter()).listen((event) {
-      completer.complete(event.dataWipeList);
+    DataWipeService.getDataWipeConsoleList().listen((event) {
+      completer.complete(event.dataWipeList ?? []);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

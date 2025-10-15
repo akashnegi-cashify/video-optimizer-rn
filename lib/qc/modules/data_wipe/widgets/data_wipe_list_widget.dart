@@ -1,3 +1,4 @@
+import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/dialog/show_bulk_erase_initiate_dialog.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_filter_list
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_list_response.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_card_widget.dart';
-import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 
 import '../l10n.dart';
 
@@ -18,7 +19,8 @@ class DataWipeListWidget extends StatefulWidget {
   State<DataWipeListWidget> createState() => _DataWipeListWidgetState();
 }
 
-class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, DataWipeListWidget> {
+class _DataWipeListWidgetState extends State<DataWipeListWidget> {
+  final CshListController _listController = CshListController();
   @override
   Widget build(BuildContext context) {
     var provider = DataWipeListProvider.of(context, listen: false);
@@ -26,24 +28,51 @@ class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, Data
     return Column(
       children: [
         Expanded(
-          child: iterate(
-            (item, index) {
+          child: CshApiList<DataWipeListItem>(
+            apiConfig: ListApiConfig(
+              apiUrl: "/v1/data-erasure/list",
+              serviceGroup: TRCServiceGroups.qcErazer,
+              headers: {
+                "X-User-Auth": "${AuthHandler().userAuth}" ,
+                'X-SSO-TOKEN' : 'false'           
+              }
+            ),
+          filterConfig: FilterConfig(filterData: [
+          CshFilterData(
+            label: "Search QR Code",
+            field: 'qrCode',
+            crudFilter: 'stock.qrCode',
+            filterType: CshFilterType.input,
+            valueType: CshFilterValueType.contains,
+            position: FilterPosition.top,
+            keyboardType: TextInputType.text,
+            filterGroup: FilterGroupType.multipleTypeSearch,
+          ),
+        ]),
+            controller: _listController,
+            itemFromJson: DataWipeListItem.fromJson,
+            // pageSize: 20,
+            shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+            listPadding: const EdgeInsets.all(Dimens.space_16),
+            verticalRowSpacing: Dimens.space_16,
+            getRowWidget: (item, index) {
+              final data = item;
               return InkWell(
                 onTap: () {
-                  DataWipeDetailScreen.navigateTo(context, item.qrCode!);
+                  if (data?.qrCode != null) {
+                    DataWipeDetailScreen.navigateTo(context, data!.qrCode!);
+                  }
                 },
                 child: DataWipeCardWidget(
-                  item.qrCode,
-                  item.erasureProvider.toString(),
-                  item.productName,
-                  item.status,
-                  item.statusCode,
-                  item.errorMessage,
+                  data?.qrCode,
+                  data?.erasureProvider.toString(),
+                  data?.productName,
+                  data?.status,
+                  data?.statusCode,
+                  data?.errorMessage,
                 ),
               );
             },
-            separator: const SizedBox(height: Dimens.space_16),
-            padding: const EdgeInsets.all(Dimens.space_16),
           ),
         ),
         ComboButton(
@@ -62,17 +91,6 @@ class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, Data
     );
   }
 
-  @override
-  void requestApi(int pageNo,
-      {Function(List<DataWipeListItem>? list)? onSuccess, Function(String errorMessage)? onError}) {
-    var provider = DataWipeListProvider.of(context, listen: false);
-    provider.getDataList(pageNo * pageSize, pageSize).then((value) {
-      onSuccess?.call(value);
-    }, onError: (error) {
-      onError?.call(error);
-    });
-  }
-
   void _onFilterClicked(DataWipeListProvider provider) {
     showFilterDialog(
       context,
@@ -80,7 +98,7 @@ class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, Data
       onFilterApplied: (selectedFilter) {
         Navigator.pop(context); // Close the dialog
         provider.saveSelectedFilters(selectedFilter);
-        resetAndRefreshScreen();
+        _listController.refresh();
       },
     );
   }
@@ -101,7 +119,7 @@ class _DataWipeListWidgetState extends PaginatedListState<DataWipeListItem, Data
       provider.initiateBulkErase(status.id!).then((value) {
         CshLoading().hideLoading(context);
         CshSnackBar.success(context: context, message: value);
-        resetAndRefreshScreen();
+        _listController.refresh();
       }, onError: (error) {
         CshLoading().hideLoading(context);
         CshSnackBar.error(context: context, message: error.toString());

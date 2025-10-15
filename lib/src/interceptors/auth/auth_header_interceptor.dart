@@ -21,10 +21,12 @@ class AuthHeaderInterceptor extends HttpRetryWhenInterceptor {
     String userAuth = AuthHandler().userAuth!;
     HttpHeaders headers = req.httpHeaders;
 
-    if (headers.has(CoreHeaders.xSSOTokenKey)) {
-      return req.clone(setHeaders: {CoreHeaders.xSSOTokenKey: userAuth});
-    } else if (headers.has(AppHeaders.X_USER_AUTH_KEY)) {
+    if (headers.has(AppHeaders.X_USER_AUTH_KEY)) {
+      headers.remove(CoreHeaders.xSSOTokenKey); //todo pass custom header as flag to delete or not xSSOTokenKey
       return req.clone(setHeaders: {AppHeaders.X_USER_AUTH_KEY: userAuth});
+
+    }else if (headers.has(CoreHeaders.xSSOTokenKey)) {
+      return req.clone(setHeaders: {CoreHeaders.xSSOTokenKey: userAuth});
     }
     return req;
   }
