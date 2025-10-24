@@ -6,6 +6,7 @@ import 'package:flutter_trc/qc/modules/data_wipe/dialog/show_filter_dialog.dart'
 import 'package:flutter_trc/qc/modules/data_wipe/providers/data_wipe_list_provider.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_filter_list_response.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_list_response.dart';
+import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_service.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_card_widget.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
@@ -48,6 +49,44 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
             keyboardType: TextInputType.text,
             filterGroup: FilterGroupType.multipleTypeSearch,
           ),
+          CshFilterData(
+            label: "Status Code",
+            field: 'sc',
+            crudFilter: 'status',
+            filterType: CshFilterType.select,
+            valueType: CshFilterValueType.equality,
+            position: FilterPosition.bottom,
+            filterGroup: FilterGroupType.multipleTypeSearch,
+            lookUpsObs: (paginationInfo) {
+              return DataWipeService.getDataWipeListFilters().map((event) {
+                final list = event.dataWipeFilterMap?["status"]?.filterList ?? [];
+                return list
+                    .where((e) => e.id != null && e.label != null)
+                    .map((e) => CshLooksUpData(label: e.label!, value: e.id!.toString()))
+                    .toList();
+              });
+            },
+            enableFilterPagination: false,
+          ),
+          CshFilterData(
+            label: "Erasure Provider",
+            field: 'ep',
+            crudFilter: 'provider',
+            filterType: CshFilterType.select,
+            valueType: CshFilterValueType.equality,
+            position: FilterPosition.bottom,
+            filterGroup: FilterGroupType.multipleTypeSearch,
+            lookUpsObs: (paginationInfo) {
+              return DataWipeService.getDataWipeListFilters().map((event) {
+                final list = event.dataWipeFilterMap?["erasureProviderCode"]?.filterList ?? [];
+                return list
+                    .where((e) => e.id != null && e.label != null)
+                    .map((e) => CshLooksUpData(label: e.label!, value: e.id!.toString()))
+                    .toList();
+              });
+            },
+            enableFilterPagination: false,
+          ),
         ]),
             controller: _listController,
             itemFromJson: DataWipeListItem.fromJson,
@@ -75,17 +114,13 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
             },
           ),
         ),
-        ComboButton(
-          firstBtnText: l10n.filters,
-          secondBtnText: l10n.initiateBulk,
-          secondBtnClick: provider.forceHideBulkErase
+        CshBigButton(
+          text: l10n.initiateBulk,
+          onPressed: provider.forceHideBulkErase
               ? null
               : () {
                   _onBulkEraseClicked(provider);
                 },
-          firstBtnClick: () {
-            _onFilterClicked(provider);
-          },
         )
       ],
     );
