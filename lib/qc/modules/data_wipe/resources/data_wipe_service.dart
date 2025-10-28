@@ -5,7 +5,6 @@ import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_filter_list
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_list_response.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_smart_watch_action_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
-import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/qc_erazer_service.dart';
 
 

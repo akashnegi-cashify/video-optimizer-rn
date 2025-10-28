@@ -22,6 +22,18 @@ class DataWipeListWidget extends StatefulWidget {
 
 class _DataWipeListWidgetState extends State<DataWipeListWidget> {
   final CshListController _listController = CshListController();
+  Future<DataWipeFilterListResponse>? _filtersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _filtersFuture = DataWipeService.getDataWipeListFilters().first.then((resp) {
+      // populate provider's bulk erase allowed list once per landing
+      final provider = DataWipeListProvider.of(context, listen: false);
+      provider.setBulkEraseStatusAllowedFromFilters(resp);
+      return resp;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var provider = DataWipeListProvider.of(context, listen: false);
@@ -58,7 +70,7 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
             position: FilterPosition.bottom,
             filterGroup: FilterGroupType.multipleTypeSearch,
             lookUpsObs: (paginationInfo) {
-              return DataWipeService.getDataWipeListFilters().map((event) {
+              return _filtersFuture!.asStream().map((event) {
                 final list = event.dataWipeFilterMap?["status"]?.filterList ?? [];
                 return list
                     .where((e) => e.id != null && e.label != null)
@@ -77,7 +89,7 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
             position: FilterPosition.bottom,
             filterGroup: FilterGroupType.multipleTypeSearch,
             lookUpsObs: (paginationInfo) {
-              return DataWipeService.getDataWipeListFilters().map((event) {
+              return _filtersFuture!.asStream().map((event) {
                 final list = event.dataWipeFilterMap?["erasureProviderCode"]?.filterList ?? [];
                 return list
                     .where((e) => e.id != null && e.label != null)
