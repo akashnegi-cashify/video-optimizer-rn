@@ -18,7 +18,7 @@ class DataWipeListProvider extends CshChangeNotifier {
   }
 
   DataWipeListProvider() {
-    _getBulkEraseStatus();
+    // Bulk erase status will be populated by the listing widget after fetching filters once per page load
   }
 
   List<DataWipFilterListItem>? get bulkEraseStatusAllowed => _bulkEraseStatusAllowed;
@@ -27,8 +27,8 @@ class DataWipeListProvider extends CshChangeNotifier {
 
   Future<List<DataWipeListItem>> getDataList(int pageNo, int pageSize) {
     var completer = Completer<List<DataWipeListItem>>();
-    DataWipeService.getDataWipeList(pageNo, pageSize, filters: _getFormatedFilter()).listen((event) {
-      completer.complete(event.dataWipeList);
+    DataWipeService.getDataWipeConsoleList().listen((event) {
+      completer.complete(event.dataWipeList ?? []);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
@@ -51,12 +51,10 @@ class DataWipeListProvider extends CshChangeNotifier {
     _selectedFilter = selectedFilter;
   }
 
-  _getBulkEraseStatus() {
-    DataWipeService.getDataWipeListFilters().listen((event) {
-      if (event.dataWipeFilterMap != null && event.dataWipeFilterMap!.containsKey("qf")) {
-        _bulkEraseStatusAllowed = event.dataWipeFilterMap!["qf"]!.filterList;
-      }
-    });
+  void setBulkEraseStatusAllowedFromFilters(DataWipeFilterListResponse response) {
+    if (response.dataWipeFilterMap != null && response.dataWipeFilterMap!.containsKey("qf")) {
+      _bulkEraseStatusAllowed = response.dataWipeFilterMap!["qf"]!.filterList;
+    }
   }
 
   Future<String> initiateBulkErase(int id) {
