@@ -139,7 +139,7 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
   }
 
   void _onBulkEraseClicked(DataWipeListProvider provider) {
-    showBulkEraseInitiateDialog(context, provider.bulkEraseStatusAllowed!, onProceed: (status) {
+    showBulkEraseInitiateDialog(context, provider.bulkEraseStatusAllowed ?? [], onProceed: (status) {
       Navigator.pop(context); // Close the dialog
       _showConfirmationDialog(status);
     });
