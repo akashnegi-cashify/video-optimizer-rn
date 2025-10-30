@@ -65,6 +65,6 @@ class DataWipeService {
   static Stream<BaseActionResponse> submitSmartWatchAction(int? id, {required String? action}) {
     Map<String, dynamic> req = {"status": action, "id": id};
     return QcErazerService()
-        .post("/v1/data-erasure/start-process/cashify", BaseActionResponse.fromJson, body: jsonEncode(req));
+        .post("/v1/data-erasure/start-process", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 }
