@@ -39,7 +39,7 @@ class DataWipeListItem {
   @JsonKey(name: "em")
   String? errorMessage;
 
-  @JsonKey(name: "apiname")
+  @JsonKey(name: "apiName")
   String? categoryKey;
 
   @JsonKey(name: "imei")
