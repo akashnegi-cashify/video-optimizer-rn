@@ -57,14 +57,13 @@ class DataWipeListProvider extends CshChangeNotifier {
     }
   }
 
-  Future<String> initiateBulkErase(int id) {
-    var completer = Completer<String>();
-    DataWipeService.bulkInitiate(id).listen((event) {
+  Future<String> initiateBulkErase(int id) async {
+    try {
+      final resp = await DataWipeService.bulkInitiate(id).first;
       forceHideBulkErase = true;
-      completer.complete(event.successMessage);
-    }, onError: (error) {
-      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-    });
-    return completer.future;
+      return resp.successMessage ?? "Bulk process initiated";
+    } catch (error) {
+      throw ApiErrorHelper.getErrorMessage(error).toString();
+    }
   }
 }
