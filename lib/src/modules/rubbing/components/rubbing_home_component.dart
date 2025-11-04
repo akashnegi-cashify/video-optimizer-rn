@@ -85,11 +85,11 @@ class RubbingHomeComponent extends StatelessComponent<NoneConfigModel> {
       String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong;
       CshSnackBar.error(context: context, message: errorMessage);
     }, onDone: () {
-      if (controller != null) {
-        Future.delayed(const Duration(milliseconds: 300), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (controller != null) {
           controller.start();
-        });
-      }
+        }
+      });
     });
   }
 

@@ -72,7 +72,7 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> implements ResetLas
                 onScannerDetected: (String value, MlScannerController controller) {
                   _lastScannedBarcode = value;
                   _mlScannerController = controller;
-                  widget.onScanDetected(value, controller);
+                  widget.onScanDetected(value, _mlScannerController);
                 },
               ),
             ),
@@ -120,6 +120,12 @@ class _TRCScannerWidgetState extends State<TRCScannerWidget> implements ResetLas
             }
           : null,
     );
+  }
+
+  @override
+  void dispose() {
+    _mlScannerController = null;
+    super.dispose();
   }
 
   @override

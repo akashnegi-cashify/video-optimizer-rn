@@ -70,8 +70,12 @@ class _ItemWIP extends StatelessWidget {
     L10n l10n = L10n(context);
     return GestureDetector(
       onTap: () {
-        WipDevicesScreenArguments args = WipDevicesScreenArguments(deviceBarcode: deviceData.deviceBarcode!);
-        Navigator.pushNamed(context, WipDevicesScreen.route, arguments: args);
+        if (deviceData.deviceBarcode != null) {
+          WipDevicesScreenArguments args = WipDevicesScreenArguments(deviceBarcode: deviceData.deviceBarcode!);
+          Navigator.pushNamed(context, WipDevicesScreen.route, arguments: args);
+        } else {
+          CshSnackBar.error(context: context, message: "Barcode is empty");
+        }
       },
       child: CshCard(
         child: Column(
