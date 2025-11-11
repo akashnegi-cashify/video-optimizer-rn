@@ -1,8 +1,6 @@
 import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/data_wipe/dialog/show_bulk_erase_initiate_dialog.dart';
-import 'package:flutter_trc/qc/modules/data_wipe/dialog/show_filter_dialog.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/providers/data_wipe_list_provider.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_filter_list_response.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_list_response.dart';
@@ -11,6 +9,7 @@ import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_detail_screen
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_card_widget.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
+import '../dialog/show_bulk_erase_initiate_dialog.dart';
 import '../l10n.dart';
 
 class DataWipeListWidget extends StatefulWidget {
@@ -34,6 +33,60 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
       return resp;
     });
   }
+
+  FilterConfig _getFilterConfig() {
+    return FilterConfig(filterData: [
+      CshFilterData(
+        label: "Search QR Code",
+        field: 'qrCode',
+        crudFilter: 'stock.qrCode',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "Status Code",
+        field: 'sc',
+        crudFilter: 'status',
+        filterType: CshFilterType.select,
+        valueType: CshFilterValueType.equality,
+        position: FilterPosition.bottom,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+        lookUpsObs: (paginationInfo) {
+          return _filtersFuture!.asStream().map((event) {
+            final list = event.dataWipeFilterMap?["status"]?.filterList ?? [];
+            return list
+                .where((e) => e.id != null && e.label != null)
+                .map((e) => CshLooksUpData(label: e.label!, value: e.id!.toString()))
+                .toList();
+          });
+        },
+        enableFilterPagination: false,
+      ),
+      CshFilterData(
+        label: "Erasure Provider",
+        field: 'ep',
+        crudFilter: 'provider',
+        filterType: CshFilterType.select,
+        valueType: CshFilterValueType.equality,
+        position: FilterPosition.bottom,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+        lookUpsObs: (paginationInfo) {
+          return _filtersFuture!.asStream().map((event) {
+            final list = event.dataWipeFilterMap?["erasureProviderCode"]?.filterList ?? [];
+            return list
+                .where((e) => e.id != null && e.label != null)
+                .map((e) => CshLooksUpData(label: e.label!, value: e.id!.toString()))
+                .toList();
+          });
+        },
+        enableFilterPagination: false,
+      ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     var provider = DataWipeListProvider.of(context, listen: false);
@@ -43,69 +96,17 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
         Expanded(
           child: CshApiList<DataWipeListItem>(
             apiConfig: ListApiConfig(
-              apiUrl: "/v1/data-erasure/list",
-              serviceGroup: TRCServiceGroups.qcErazer,
-              headers: {
-                "X-User-Auth": "${AuthHandler().userAuth}" ,
-                'X-SSO-TOKEN' : 'false'           
-              }
-            ),
-          filterConfig: FilterConfig(filterData: [
-          CshFilterData(
-            label: "Search QR Code",
-            field: 'qrCode',
-            crudFilter: 'stock.qrCode',
-            filterType: CshFilterType.input,
-            valueType: CshFilterValueType.contains,
-            position: FilterPosition.top,
-            keyboardType: TextInputType.text,
-            filterGroup: FilterGroupType.multipleTypeSearch,
-          ),
-          CshFilterData(
-            label: "Status Code",
-            field: 'sc',
-            crudFilter: 'status',
-            filterType: CshFilterType.select,
-            valueType: CshFilterValueType.equality,
-            position: FilterPosition.bottom,
-            filterGroup: FilterGroupType.multipleTypeSearch,
-            lookUpsObs: (paginationInfo) {
-              return _filtersFuture!.asStream().map((event) {
-                final list = event.dataWipeFilterMap?["status"]?.filterList ?? [];
-                return list
-                    .where((e) => e.id != null && e.label != null)
-                    .map((e) => CshLooksUpData(label: e.label!, value: e.id!.toString()))
-                    .toList();
-              });
-            },
-            enableFilterPagination: false,
-          ),
-          CshFilterData(
-            label: "Erasure Provider",
-            field: 'ep',
-            crudFilter: 'provider',
-            filterType: CshFilterType.select,
-            valueType: CshFilterValueType.equality,
-            position: FilterPosition.bottom,
-            filterGroup: FilterGroupType.multipleTypeSearch,
-            lookUpsObs: (paginationInfo) {
-              return _filtersFuture!.asStream().map((event) {
-                final list = event.dataWipeFilterMap?["erasureProviderCode"]?.filterList ?? [];
-                return list
-                    .where((e) => e.id != null && e.label != null)
-                    .map((e) => CshLooksUpData(label: e.label!, value: e.id!.toString()))
-                    .toList();
-              });
-            },
-            enableFilterPagination: false,
-          ),
-        ]),
+                apiUrl: "/v1/data-erasure/list",
+                serviceGroup: TRCServiceGroups.qcErazer,
+                headers: {"X-User-Auth": "${AuthHandler().userAuth}", 'X-SSO-TOKEN': 'false'}),
+            filterConfig: _getFilterConfig(),
             controller: _listController,
             itemFromJson: DataWipeListItem.fromJson,
             // pageSize: 20,
             shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
             listPadding: const EdgeInsets.all(Dimens.space_16),
             verticalRowSpacing: Dimens.space_16,
+            isHideCoreFilterButton: true,
             getRowWidget: (item, index) {
               final data = item;
               return InkWell(
@@ -126,28 +127,24 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
             },
           ),
         ),
-        CshBigButton(
-          text: l10n.initiateBulk,
-          onPressed: provider.forceHideBulkErase
+        ComboButton(
+          firstBtnText: l10n.filters,
+          secondBtnText: l10n.initiateBulk,
+          secondBtnClick: provider.forceHideBulkErase
               ? null
               : () {
                   _onBulkEraseClicked(provider);
                 },
-        )
+          firstBtnClick: () {
+            _onFilterClicked(provider);
+          },
+        ),
       ],
     );
   }
 
   void _onFilterClicked(DataWipeListProvider provider) {
-    showFilterDialog(
-      context,
-      selectedFilter: provider.selectedFilter,
-      onFilterApplied: (selectedFilter) {
-        Navigator.pop(context); // Close the dialog
-        provider.saveSelectedFilters(selectedFilter);
-        _listController.refresh();
-      },
-    );
+    _listController.openFilter();
   }
 
   void _onBulkEraseClicked(DataWipeListProvider provider) {

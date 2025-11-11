@@ -26,7 +26,7 @@ class WipDeviceDetailsComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, NoneConfigModel? configModel) {
     return paramBuilder((param) {
       return ChangeNotifierProvider(
-        create: (_) => WIPDeviceDetailProvider(param.deviceBarcode!),
+        create: (_) => WIPDeviceDetailProvider(param.deviceBarcode ?? ""),
         lazy: false,
         child: const WIPDetailWidget(),
       );

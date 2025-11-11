@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
+  disk_space_2
   file_selector_windows
   firebase_core
   flutter_tts

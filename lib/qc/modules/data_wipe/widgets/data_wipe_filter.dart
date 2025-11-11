@@ -7,6 +7,7 @@ import 'package:flutter_trc/qc/modules/data_wipe/widgets/filter_value_multi_type
 import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 import 'package:provider/provider.dart';
 
+@Deprecated("No longer use now as moved to console filters")
 class DataWipeFilter extends StatelessWidget {
   final Function(Map<String, List<DataWipFilterListItem>> selectedFilter) onFilterApplied;
   final Map<String, List<DataWipFilterListItem>>? selectedFilter;

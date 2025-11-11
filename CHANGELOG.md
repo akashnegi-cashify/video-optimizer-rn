@@ -5,6 +5,7 @@
 ### Migration:
 
 * `Data Wipe: migrate datawipe into console` [(SCM-10711)](https://reglobe.atlassian.net/browse/SCM-10711)
+* `Update core dependencies` 
 
 
 # v5.1.0+79 (06-10-2025)

@@ -4,6 +4,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/data_wipe_filter_list_response.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/widgets/data_wipe_filter.dart';
 
+@Deprecated("No longer use now as moved to console filters")
 void showFilterDialog(
   BuildContext context, {
   required Function(Map<String, List<DataWipFilterListItem>> selectedFilter) onFilterApplied,
