@@ -162,12 +162,12 @@ class NormalLotScanContainer extends StatelessWidget {
         });
   }
 
-  _onScannerDetected(BuildContext context, String value, MlScannerController controller, L10n l10n) {
+  _onScannerDetected(BuildContext context, String value, MlScannerController? controller, L10n l10n) {
     var provider = LotScanProvider.of(context, listen: false);
     var item = provider.dataState.data?.lotList?[provider.scanPosition];
 
     if (item?.qrCode?.containsIgnoreCase(value) == true) {
-      controller.stop();
+      controller?.stop();
       CshLoading().showLoading(context);
       provider
           .normalLotOutVerifyBarCode(
@@ -180,11 +180,11 @@ class NormalLotScanContainer extends StatelessWidget {
         if (res == false) {
           _showAlert(context, controller: controller);
         } else {
-          controller.start();
+          controller?.start();
         }
       }, onError: (error, stack) {
         CshLoading().hideLoading(context);
-        controller.start();
+        controller?.start();
         CshSnackBar.error(context: context, message: error);
       });
     } else {

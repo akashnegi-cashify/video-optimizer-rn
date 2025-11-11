@@ -1,5 +1,4 @@
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 
@@ -37,11 +36,11 @@ class EngineerReceiveDevicePresenter {
         view.displayErrorBottomSheet(message: ApiErrorHelper.getErrorMessage(e));
       })
       ..onDone(() {
-        if (controller != null) {
-          Future.delayed(const Duration(milliseconds: 300), () {
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (controller != null) {
             controller.start();
-          });
-        }
+          }
+        });
       });
   }
 }

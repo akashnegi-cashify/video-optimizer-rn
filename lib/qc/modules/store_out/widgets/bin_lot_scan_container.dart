@@ -153,13 +153,13 @@ class BinLotScanContainer extends StatelessWidget {
         });
   }
 
-  _onScannerDetected(BuildContext context, String value, MlScannerController controller, L10n l10n) {
+  _onScannerDetected(BuildContext context, String value, MlScannerController? controller, L10n l10n) {
     var provider = LotScanProvider.of(context, listen: false);
 
     var item = provider.binDataState.data?.lotList?[provider.scanPosition];
 
     if (item?.barcode?.containsIgnoreCase(value) == true) {
-      controller.stop();
+      controller?.stop();
       CshLoading().showLoading(context);
       provider.binOutVerifyBarCode(BinOutRequest(locBarcode: item?.itemLocBarCode, stockBarcode: value)).then((_) {
         CshLoading().hideLoading(context);
@@ -168,12 +168,12 @@ class BinLotScanContainer extends StatelessWidget {
         if (res == false) {
           _showAlert(context, controller: controller);
         } else {
-          controller.start();
+          controller?.start();
         }
       }, onError: (error, stack) {
         CshLoading().hideLoading(context);
         CshSnackBar.error(context: context, message: error ?? l10n.somethingWentWrong);
-        controller.start();
+        controller?.start();
       });
     } else {
       CshSnackBar.error(context: context, message: l10n.barcodeMismatchNTryAgain);

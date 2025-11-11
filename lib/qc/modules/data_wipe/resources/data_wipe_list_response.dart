@@ -5,7 +5,7 @@ part 'data_wipe_list_response.g.dart';
 
 @JsonSerializable()
 class DataWipeListResponse extends BaseResponse {
-  @JsonKey(name: "dt")
+  @JsonKey(name: "data")
   List<DataWipeListItem>? dataWipeList;
 
   DataWipeListResponse(this.dataWipeList, super.cashifyAlert, super.trackUrl);
@@ -39,7 +39,7 @@ class DataWipeListItem {
   @JsonKey(name: "em")
   String? errorMessage;
 
-  @JsonKey(name: "apiname")
+  @JsonKey(name: "apiName")
   String? categoryKey;
 
   @JsonKey(name: "imei")

@@ -60,16 +60,14 @@ class DataWipeDetailProvider extends CshChangeNotifier {
   getDeviceWipeStatus({Function(String errorMessage)? onError, bool isFirstTime = false}) {
     DataWipeService.getDataWipeDetails(_deviceBarcode).listen((event) {
       data = event;
-      if (isFirstTime) {
-        if (isProviderCashify()) {
-          _bottomButtonState = BottomButtonState.cashifyProvider;
-        } else if (data?.statusCode == eraserInfoFailedStatus) {
-          _bottomButtonState = BottomButtonState.validation;
-        } else if ((data?.statusCode ?? 0) < 1) {
-          _bottomButtonState = BottomButtonState.initDataWipe;
-        } else {
-          _bottomButtonState = BottomButtonState.scanAnother;
-        }
+      if (isProviderCashify()) {
+        _bottomButtonState = BottomButtonState.cashifyProvider;
+      } else if (data?.statusCode == eraserInfoFailedStatus) {
+        _bottomButtonState = BottomButtonState.validation;
+      } else if ((data?.statusCode ?? 0) < 1) {
+        _bottomButtonState = BottomButtonState.initDataWipe;
+      } else {
+        _bottomButtonState = BottomButtonState.scanAnother;
       }
     }, onError: (error) {
       String? errorMessage = ApiErrorHelper.getErrorMessage(error);
