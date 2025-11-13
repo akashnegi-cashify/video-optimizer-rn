@@ -2,7 +2,7 @@ import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/storage_device_list_provider.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/resources/st_lot_details_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/transfer_lot_device_list_response.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
@@ -15,7 +15,8 @@ class StorageDeviceListWidget extends StatefulWidget {
   State<StorageDeviceListWidget> createState() => _StorageDeviceListWidgetState();
 }
 
-class _StorageDeviceListWidgetState extends PaginatedListState<StLotDetailResponse, StorageDeviceListWidget> {
+class _StorageDeviceListWidgetState
+    extends PaginatedListState<TransferLotDetailListData, StorageDeviceListWidget> {
   final _barcodeController = TextEditingController();
 
   final _debounce = TextInputDebounce();
@@ -74,7 +75,7 @@ class _StorageDeviceListWidgetState extends PaginatedListState<StLotDetailRespon
 
   @override
   void requestApi(int pageNo,
-      {Function(List<StLotDetailResponse>? list)? onSuccess, Function(String errorMessage)? onError}) {
+      {Function(List<TransferLotDetailListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = StorageDeviceListProvider.of(context, listen: false);
     provider.getDeviceList(pageSize, pageNo * pageSize).then((value) {
       onSuccess?.call(value);
@@ -82,19 +83,12 @@ class _StorageDeviceListWidgetState extends PaginatedListState<StLotDetailRespon
       onError?.call(error.toString());
     });
   }
-
-  @override
-  void dispose() {
-    _debounce.stop();
-    _barcodeController.dispose();
-    super.dispose();
-  }
 }
 
 class _Item extends StatelessWidget {
-  final StLotDetailResponse item;
+  final TransferLotDetailListData item;
 
-  const _Item(this.item, {super.key});
+  const _Item(this.item);
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +97,9 @@ class _Item extends StatelessWidget {
     return CshCard(
         child: Column(
       children: [
-        _row(l10n.model, item.modelName ?? "", theme),
-        _row(l10n.barcode, item.barcode ?? "", theme),
-        _row(l10n.location, item.location ?? "", theme, isLast: true),
+        _row(l10n.model, item.model ?? "", theme),
+        _row(l10n.barcode, item.qrCode ?? "", theme),
+        _row("Brand", item.brand ?? "", theme, isLast: true),
       ],
     ));
   }
