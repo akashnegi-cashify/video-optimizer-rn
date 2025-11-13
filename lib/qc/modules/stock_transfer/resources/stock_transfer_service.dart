@@ -10,7 +10,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_l
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_status_filter_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/storage_device_list_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
-import 'package:flutter_trc/src/services/qc_service.dart';
+import 'package:flutter_trc/src/services/qc_transfer_service.dart';
 
 class StockTransferService {
   static Stream<StockTransferListResponse?> getStockTransferList(
@@ -35,7 +35,7 @@ class StockTransferService {
       req["filterObjectMap"] = filterMap;
     }
 
-    return QcService()
+    return QcTransferService()
         .post("/transfer-lot/list-lots?requestTab=$tabType", StockTransferListResponse.fromJson, body: jsonEncode(req));
   }
 
@@ -46,7 +46,7 @@ class StockTransferService {
       if (!Validator.isNullOrEmpty(lastLocationType)) "lt": [lastLocationType.toString()],
       if (!Validator.isNullOrEmpty(lastLocation)) "lb": [lastLocation.toString()],
     };
-    return QcService().get("/transfer-lot/fetch-store-out-device", StLotDetailResponse.fromJson, params: params);
+    return QcTransferService().get("/transfer-lot/fetch-store-out-device", StLotDetailResponse.fromJson, params: params);
   }
 
   static Stream<BaseActionResponse?> removeDeviceFromLot(int? lotId, String? qrCode) {
@@ -54,7 +54,7 @@ class StockTransferService {
       "lotId": [lotId.toString()],
       "qrCode": [qrCode.toString()],
     };
-    return QcService().post("/transfer-lot/remove-device", BaseActionResponse.fromJsonWithInt, params: params);
+    return QcTransferService().post("/transfer-lot/remove-device", BaseActionResponse.fromJsonWithInt, params: params);
   }
 
   static Stream<BaseActionResponse?> skipDeviceFromLot(int? lotId, String? qrCode) {
@@ -62,11 +62,11 @@ class StockTransferService {
       "lotId": [lotId.toString()],
       "qrCode": [qrCode.toString()],
     };
-    return QcService().post("/transfer-lot/skip-device", BaseActionResponse.fromJsonWithInt, params: params);
+    return QcTransferService().post("/transfer-lot/skip-device", BaseActionResponse.fromJsonWithInt, params: params);
   }
 
   static Stream<BoxChargerTrackingResponse?> checkBoxChargerTracking(String? qrCode) {
-    return QcService().get("/box-charger-tracking/getQcTracking/$qrCode", BoxChargerTrackingResponse.fromJson);
+    return QcTransferService().get("/box-charger-tracking/getQcTracking/$qrCode", BoxChargerTrackingResponse.fromJson);
   }
 
   static Stream<AddDeviceResponse?> addDevice(
@@ -85,7 +85,7 @@ class StockTransferService {
       "qrCode": [qrCode.toString()],
       "lotId": [lotId.toString()],
     };
-    return QcService()
+    return QcTransferService()
         .post("/transfer-lot/add-device", AddDeviceResponse.fromJson, params: params, body: jsonEncode(body));
   }
 
@@ -96,12 +96,12 @@ class StockTransferService {
       "pageSize": pageSize,
       if (!Validator.isNullOrEmpty(searchQuery)) "filterObjectMap": {"br": searchQuery}
     };
-    return QcService()
+    return QcTransferService()
         .post("/transfer-lot/list-devices?lotId=$lotId", PendingLotDetailResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<ScannedDeviceDetailResponse?> getScannedDeviceDetails(String? scannedBarcode) {
-    return QcService().get("/transfer-lot/scan-device?qrCode=$scannedBarcode", ScannedDeviceDetailResponse.fromJson);
+    return QcTransferService().get("/transfer-lot/scan-device?qrCode=$scannedBarcode", ScannedDeviceDetailResponse.fromJson);
   }
 
   static Stream<BaseResponse?> completePendingDispatch(String invoiceNo, String awbNo, String invoiceUrl) {
@@ -110,11 +110,11 @@ class StockTransferService {
       "wbn": awbNo,
       "img": invoiceUrl,
     };
-    return QcService().post("/transfer-lot/dispatch-lot-v2", BaseResponse.fromJson, body: jsonEncode(body));
+    return QcTransferService().post("/transfer-lot/dispatch-lot-v2", BaseResponse.fromJson, body: jsonEncode(body));
   }
 
   static Stream<StockTransferStatusFilterResponse?> getStatusFilterList(String tabType) {
-    return QcService()
+    return QcTransferService()
         .get("/transfer-lot/status-options?requestTab=$tabType", StockTransferStatusFilterResponse.fromJson);
   }
 
@@ -125,11 +125,11 @@ class StockTransferService {
       "offset": offset,
       if (!Validator.isNullOrEmpty(deviceBarcode)) "filterObjectMap": {"qc": deviceBarcode}
     };
-    return QcService()
+    return QcTransferService()
         .post("/transfer-lot/list-devices/$lotId", StorageDeviceListResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<BaseActionResponse?> resetStoreOutList(int? lotId) {
-    return QcService().post("/transfer-lot/skip-device/reset?lotId=$lotId", BaseActionResponse.fromJsonWithInt);
+    return QcTransferService().post("/transfer-lot/skip-device/reset?lotId=$lotId", BaseActionResponse.fromJsonWithInt);
   }
 }

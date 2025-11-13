@@ -1,8 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/providers/stock_transfer_list_provider.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/widgets/st_list_tab.dart';
-import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 
@@ -40,18 +38,9 @@ class _StockTransferListWidgetState extends State<StockTransferListWidget> with 
         ),
         Expanded(
           child: TabBarView(controller: _tabBarController, children: [
-            ChangeNotifierProvider(
-              create: (_) => StockTransferListProvider(),
-              child: const StListTab(tabType: StockTransferListTab.pending),
-            ),
-            ChangeNotifierProvider(
-              create: (_) => StockTransferListProvider(),
-              child: const StListTab(tabType: StockTransferListTab.dispatchPending),
-            ),
-            ChangeNotifierProvider(
-              create: (_) => StockTransferListProvider(),
-              child: const StListTab(tabType: StockTransferListTab.storeOut),
-            ),
+            const StListTab(tabType: StockTransferListTab.pending),
+            const StListTab(tabType: StockTransferListTab.dispatchPending),
+            const StListTab(tabType: StockTransferListTab.storeOut),
           ]),
         ),
       ],
