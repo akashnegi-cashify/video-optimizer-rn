@@ -175,7 +175,7 @@ class _DeviceItemWidget extends StatelessWidget {
               const SizedBox(height: Dimens.space_6),
               _buildLabelValueWidget("Brand", item?.brand ?? "", theme),
               const SizedBox(height: Dimens.space_6),
-              // Source not present in new response
+              _buildLabelValueWidget("Source", item?.source ?? "", theme),
               const SizedBox(height: Dimens.space_6),
               _buildLabelValueWidget("Added by", item?.createdBy ?? "", theme),
               const SizedBox(height: Dimens.space_6),

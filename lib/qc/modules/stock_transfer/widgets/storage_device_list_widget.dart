@@ -99,7 +99,7 @@ class _Item extends StatelessWidget {
       children: [
         _row(l10n.model, item.model ?? "", theme),
         _row(l10n.barcode, item.qrCode ?? "", theme),
-        _row("Brand", item.brand ?? "", theme, isLast: true),
+        _row(l10n.location, item.location ?? "", theme, isLast: true),
       ],
     ));
   }
