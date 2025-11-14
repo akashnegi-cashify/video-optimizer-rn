@@ -67,7 +67,6 @@ class StListTabState extends State<StListTab> {
             Navigator.pop(context); // dismiss scanner screen
             var isRefresh = await Navigator.pushNamed(context, PendingDispatchDetailScreen.route,
                 arguments: PendingDispatchDetailScreen.arguments(item.lotName ?? "", scannedData));
-            if (isRefresh == true) {}
           }
         });
         break;
@@ -75,7 +74,6 @@ class StListTabState extends State<StListTab> {
       case StockTransferListTab.storeOut:
         var isRefresh = await Navigator.pushNamed(context, StStoreOutScreen.route,
             arguments: StStoreOutScreen.arguments(item.lotId!));
-        if (isRefresh == true) {}
         break;
     }
   }
