@@ -56,11 +56,17 @@ class TransferLotDetailListData {
   @JsonKey(name: "lotName")
   String? lotName;
 
+  @JsonKey(name: "location")
+  String? location;
+
   @JsonKey(name: "model")
   String? model;
 
   @JsonKey(name: "brand")
   String? brand;
+
+  @JsonKey(name: "source")
+  String? source;
 
   @JsonKey(name: "imei1")
   String? imei1;
@@ -90,8 +96,10 @@ class TransferLotDetailListData {
     this.lotName,
     this.model,
     this.brand,
+    this.source,
     this.imei1,
     this.imei2,
+    this.location,
     this.serialNumber,
     this.createdBy,
     this.createDate,
