@@ -91,7 +91,8 @@ class PendingDeviceListTabState extends PaginatedListState<TransferLotDetailList
             ),
           ],
         ),
-        if (true)
+         if (data?.data?.first.statusCode != TransferLotStatusType.APPROVE.code &&
+            data?.data?.first.statusCode  != TransferLotStatusType.LOCKED.code)
           Positioned(
             right: Dimens.space_32,
             bottom: Dimens.space_32,

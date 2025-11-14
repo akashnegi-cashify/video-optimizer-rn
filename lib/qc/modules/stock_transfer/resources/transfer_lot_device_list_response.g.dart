@@ -31,9 +31,10 @@ TransferLotDetailListData _$TransferLotDetailListDataFromJson(
         Map<String, dynamic> json) =>
     TransferLotDetailListData(
       (json['id'] as num?)?.toInt(),
+      (json['statusCode'] as num?)?.toInt(),
       json['qrCode'] as String?,
       json['model'] as String?,
-      json['brand'] as String?,
+      json['brand'] as String?, 
       json['imei1'] as String?,
       json['imei2'] as String?,
       json['serialNumber'] as String?,
@@ -47,6 +48,7 @@ Map<String, dynamic> _$TransferLotDetailListDataToJson(
         TransferLotDetailListData instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'statusCode': instance.statusCode,
       'qrCode': instance.qrCode,
       'model': instance.model,
       'brand': instance.brand,

@@ -47,6 +47,9 @@ class TransferLotDetailListData {
   @JsonKey(name: "id")
   int? id;
 
+  @JsonKey(name: "statusCode")
+  int? statusCode;
+
   @JsonKey(name: "qrCode")
   String? qrCode;
 
@@ -79,6 +82,7 @@ class TransferLotDetailListData {
 
   TransferLotDetailListData(
     this.id,
+    this.statusCode,
     this.qrCode,
     this.model,
     this.brand,
