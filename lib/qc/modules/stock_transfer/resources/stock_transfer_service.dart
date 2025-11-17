@@ -8,6 +8,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/resources/scanned_device_d
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/st_lot_details_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_list_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_status_filter_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_status_filter_v1_response.dart';
 // import removed: storage_device_list_response.dart not used with v1 device list
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/transfer_lot_device_list_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/transfer_lot_header_response.dart';
@@ -130,6 +131,11 @@ class StockTransferService {
   static Stream<StockTransferStatusFilterResponse?> getStatusFilterList(String tabType) {
     return QcTransferService()
         .get("/v1/transfer-lot/status-options?requestTab=$tabType", StockTransferStatusFilterResponse.fromJson);
+  }
+
+  static Stream<StockTransferStatusFilterV1Response?> getStatusFilterListV1(String tabType) {
+    return QcTransferService()
+        .get("/v1/transfer-lot/status-options?requestTab=$tabType", StockTransferStatusFilterV1Response.fromJson);
   }
 
   static Stream<TransferLotDetailListResponse?> getStorageDeviceList(int? lotId,

@@ -2,14 +2,14 @@ import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_list_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_dispatch_detail%20screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_lot_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/widgets/stock_transfer_list_item_widget.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
-import 'package:flutter_trc/src/interceptors/auth/request_headers.dart';
-
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_status_filter_v1_response.dart';
 enum StockTransferListTab {
   pending("PENDING"),
   dispatchPending("DISPATCH_PENDING"),
@@ -30,6 +30,14 @@ class StListTab extends StatefulWidget {
 }
 
 class StListTabState extends State<StListTab> {
+  final CshListController _listController = CshListController();
+  Future<StockTransferStatusFilterV1Response?>? _statusFiltersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _statusFiltersFuture = StockTransferService.getStatusFilterListV1(widget.tabType.value).first;
+  }
   @override
   Widget build(BuildContext context) {
     return CshApiList<StockTransferListData>(
@@ -41,6 +49,38 @@ class StListTabState extends State<StListTab> {
                 'X-SSO-TOKEN' : 'false'           
               }
       ),
+      controller: _listController,
+      filterConfig: FilterConfig(filterData: [
+        CshFilterData(
+          label: "Search Lot",
+          field: 'name',
+          crudFilter: 'name',
+          filterType: CshFilterType.input,
+          valueType: CshFilterValueType.contains,
+          position: FilterPosition.top,
+          filterGroup: FilterGroupType.multipleTypeSearch,
+          keyboardType: TextInputType.text,
+        ),
+        CshFilterData(
+          label: "Status",
+          field: 'statusDesc',
+          crudFilter: 'status',
+          filterType: CshFilterType.select,
+          valueType: CshFilterValueType.equality,
+          position: FilterPosition.bottom,
+          filterGroup: FilterGroupType.multipleTypeSearch,
+          lookUpsObs: (paginationInfo) {
+            return _statusFiltersFuture!.asStream().map((event) {
+              final list = event?.filterList ?? [];
+              return list
+                  .where((e) => e.id != null && e.name != null)
+                  .map((e) => CshLooksUpData(label: e.name!, value: e.id!.toString()))
+                  .toList();
+            });
+          },
+          enableFilterPagination: false,
+        ),
+      ]),
       shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
       listPadding: const EdgeInsets.all(Dimens.space_16),
       verticalRowSpacing: Dimens.space_16,
@@ -65,15 +105,18 @@ class StListTabState extends State<StListTab> {
             onScanned: (scannedData, controller) async {
           if (scannedData.isNotEmpty) {
             Navigator.pop(context); // dismiss scanner screen
-            var isRefresh = await Navigator.pushNamed(context, PendingDispatchDetailScreen.route,
+            await Navigator.pushNamed(context, PendingDispatchDetailScreen.route,
                 arguments: PendingDispatchDetailScreen.arguments(item.lotName ?? "", scannedData));
+          
           }
+
         });
         break;
 
       case StockTransferListTab.storeOut:
-        var isRefresh = await Navigator.pushNamed(context, StStoreOutScreen.route,
+        await Navigator.pushNamed(context, StStoreOutScreen.route,
             arguments: StStoreOutScreen.arguments(item.lotId!));
+          
         break;
     }
   }
