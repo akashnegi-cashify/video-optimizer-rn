@@ -42,7 +42,9 @@ class PendingDeviceListTabState extends PaginatedListState<TransferLotDetailList
         Column(
           children: [
             const SizedBox(height: Dimens.space_8),
-            // Lot details header removed for v1 response
+            // CshTextNew.h2(data?.lotName ?? ""),
+            // const SizedBox(height: Dimens.space_4),
+            // CshTextNew.subTitle2("No of devices - ${data?.deviceCount}"),
             const SizedBox(height: Dimens.space_12),
             if (!Validator.isListNullOrEmpty(data?.data))
               Padding(

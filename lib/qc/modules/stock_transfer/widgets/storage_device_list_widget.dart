@@ -83,6 +83,13 @@ class _StorageDeviceListWidgetState
       onError?.call(error.toString());
     });
   }
+
+  @override
+  void dispose() {
+    _debounce.stop();
+    _barcodeController.dispose();
+    super.dispose();
+  }
 }
 
 class _Item extends StatelessWidget {
