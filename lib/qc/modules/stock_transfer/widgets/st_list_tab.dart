@@ -105,18 +105,21 @@ class StListTabState extends State<StListTab> {
             onScanned: (scannedData, controller) async {
           if (scannedData.isNotEmpty) {
             Navigator.pop(context); // dismiss scanner screen
-            await Navigator.pushNamed(context, PendingDispatchDetailScreen.route,
+             var isRefresh = await Navigator.pushNamed(context, PendingDispatchDetailScreen.route,
                 arguments: PendingDispatchDetailScreen.arguments(item.lotName ?? "", scannedData));
-          
+            if (isRefresh == true) {
+              _listController.refresh();
+            }
           }
-
         });
         break;
 
       case StockTransferListTab.storeOut:
-        await Navigator.pushNamed(context, StStoreOutScreen.route,
+              var isRefresh = await Navigator.pushNamed(context, StStoreOutScreen.route,
             arguments: StStoreOutScreen.arguments(item.lotId!));
-          
+            if (isRefresh == true) {
+        _listController.refresh();
+        }
         break;
     }
   }
