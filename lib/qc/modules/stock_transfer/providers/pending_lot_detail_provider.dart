@@ -4,6 +4,7 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/transfer_lot_device_list_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/transfer_lot_header_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/scanned_device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ class PendingLotDetailProvider extends CshChangeNotifier {
   ScannedDeviceDetailResponse? scannedDeviceDetailResponse;
 
   TransferLotDetailListResponse? pendingLotDetailResponse;
+  TransferLotHeaderResponse? lotHeaderResponse;
 
   static PendingLotDetailProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<PendingLotDetailProvider>(context, listen: listen);
@@ -32,6 +34,18 @@ class PendingLotDetailProvider extends CshChangeNotifier {
         completer.completeError("No data found");
       }
       notifyListeners();
+    }, onError: (error) {
+      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    });
+    return completer.future;
+  }
+
+  Future<void> fetchLotHeader() {
+    var completer = Completer<void>();
+    StockTransferService.getTransferLotHeader(lotId).listen((event) {
+      lotHeaderResponse = event;
+      notifyListeners();
+      completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

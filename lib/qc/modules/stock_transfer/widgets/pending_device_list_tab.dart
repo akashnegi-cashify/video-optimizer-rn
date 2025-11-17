@@ -28,6 +28,7 @@ class PendingDeviceListTabState extends PaginatedListState<TransferLotDetailList
     scheduleMicrotask(() {
       var provider = PendingLotDetailProvider.of(context, listen: false);
       provider.resetScannedDeviceDetail();
+      provider.fetchLotHeader();
     });
     super.initState();
   }
@@ -37,14 +38,29 @@ class PendingDeviceListTabState extends PaginatedListState<TransferLotDetailList
     var provider = PendingLotDetailProvider.of(context);
     var theme = Theme.of(context);
     var data = provider.pendingLotDetailResponse;
+    var header = provider.lotHeaderResponse;
     return Stack(
       children: [
         Column(
           children: [
             const SizedBox(height: Dimens.space_8),
-            // CshTextNew.h2(data?.lotName ?? ""),
-            // const SizedBox(height: Dimens.space_4),
-            // CshTextNew.subTitle2("No of devices - ${data?.deviceCount}"),
+            if (header != null) ...[
+              CshTextNew.h2(header.lotName ?? ""),
+              const SizedBox(height: Dimens.space_4),
+              CshTextNew.subTitle2("No of devices - ${header.deviceCount ?? "-"}"),
+              if (!Validator.isNullOrEmpty(header.toFacilityName)) ...[
+                const SizedBox(height: Dimens.space_4),
+                CshTextNew.subTitle2("Destination - ${header.toFacilityName}"),
+              ],
+              if (!Validator.isNullOrEmpty(header.statusDesc)) ...[
+                const SizedBox(height: Dimens.space_4),
+                CshTextNew.subTitle2("Status - ${header.statusDesc}"),
+              ],
+              // if (!Validator.isNullOrEmpty(header.serialNumber)) ...[
+              //   const SizedBox(height: Dimens.space_4),
+              //   CshTextNew.subTitle2("Serial - ${header.serialNumber}"),
+              // ],
+            ],
             const SizedBox(height: Dimens.space_12),
             if (!Validator.isListNullOrEmpty(data?.data))
               Padding(
@@ -93,8 +109,8 @@ class PendingDeviceListTabState extends PaginatedListState<TransferLotDetailList
             ),
           ],
         ),
-         if (data?.data?.first.statusCode != TransferLotStatusType.APPROVE.code &&
-            data?.data?.first.statusCode  != TransferLotStatusType.LOCKED.code)
+        if (provider.lotHeaderResponse?.statusCode != TransferLotStatusType.APPROVE.code &&
+            provider.lotHeaderResponse?.statusCode != TransferLotStatusType.LOCKED.code)
           Positioned(
             right: Dimens.space_32,
             bottom: Dimens.space_32,

@@ -10,6 +10,7 @@ import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_l
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_status_filter_response.dart';
 // import removed: storage_device_list_response.dart not used with v1 device list
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/transfer_lot_device_list_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/transfer_lot_header_response.dart';
 import 'package:flutter_trc/src/common/model/base_action_response.dart';
 import 'package:flutter_trc/src/services/qc_transfer_service.dart';
 
@@ -152,6 +153,10 @@ class StockTransferService {
       TransferLotDetailListResponse.fromJson,
       params: params,
     );
+  }
+
+  static Stream<TransferLotHeaderResponse?> getTransferLotHeader(int? lotId) {
+    return QcTransferService().get("/v1/transfer-lot/$lotId", TransferLotHeaderResponse.fromJson);
   }
 
   static Stream<BaseActionResponse?> resetStoreOutList(int? lotId) {

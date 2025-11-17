@@ -20,7 +20,7 @@ class PendingDeviceDetailTab extends StatelessWidget {
         children: [
           CshTextNew.subTitle1("Add barcide of transfer lot:-"),
           const SizedBox(height: Dimens.space_8),
-          CshTextNew.h3(provider.pendingLotDetailResponse?.data?.first.serialNumber ?? ""),
+          CshTextNew.h3(provider.lotHeaderResponse?.serialNumber ?? ""),
           const SizedBox(height: Dimens.space_8),
           CshCard(
             child: Column(
