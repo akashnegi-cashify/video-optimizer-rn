@@ -89,7 +89,7 @@ class PendingDeviceListTabState extends PaginatedListState<TransferLotDetailList
                       width: double.infinity,
                       child: _DeviceItemWidget(
                         item,
-                        null,
+                        provider.lotHeaderResponse?.statusCode,
                         index: index,
                         onDeviceRemove: () {
                           CshLoading().showLoading(context);
