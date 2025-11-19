@@ -18,9 +18,9 @@ class PendingDeviceDetailTab extends StatelessWidget {
       padding: const EdgeInsets.all(Dimens.space_16),
       child: Column(
         children: [
-          CshTextNew.subTitle1("Add barcide of transfer lot:-"),
+          CshTextNew.subTitle1("Add barcode of transfer lot:-"),
           const SizedBox(height: Dimens.space_8),
-          CshTextNew.h3(provider.pendingLotDetailResponse?.lotName ?? ""),
+          CshTextNew.h3(provider.lotHeaderResponse?.lotName ?? ""),
           const SizedBox(height: Dimens.space_8),
           CshCard(
             child: Column(
