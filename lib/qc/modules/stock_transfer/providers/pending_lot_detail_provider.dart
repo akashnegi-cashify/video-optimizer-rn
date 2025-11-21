@@ -79,7 +79,7 @@ class PendingLotDetailProvider extends CshChangeNotifier {
 
   Future<void> addDeviceInLot(String? scannedDevice) {
     var completer = Completer<void>();
-    StockTransferService.addDevice(scannedDevice, lotId, null, null).listen((event) {
+    StockTransferService.addDevice(scannedDevice, lotId).listen((event) {
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
