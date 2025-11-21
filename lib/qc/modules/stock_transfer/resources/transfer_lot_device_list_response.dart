@@ -10,33 +10,8 @@ class TransferLotDetailListResponse extends BaseResponse {
 
   TransferLotDetailListResponse(this.data, super.cashifyAlert, super.trackUrl);
 
-  static TransferLotDetailListResponse fromJson(Map<String, dynamic> json) {
-    // Support multiple list container shapes: data (List), data.data (List), or dt (List)
-    dynamic rawList = json["data"];
-    if (rawList is Map<String, dynamic>) {
-      // Try common nested keys
-      rawList = rawList["data"] ??
-          rawList["rows"] ??
-          rawList["content"] ??
-          rawList["items"] ??
-          rawList["list"];
-    }
-    rawList ??= json["dt"];
-
-    List<TransferLotDetailListData>? parsedList;
-    if (rawList is List) {
-      parsedList = rawList
-          .whereType<Map<String, dynamic>>()
-          .map((e) => TransferLotDetailListData.fromJson(e))
-          .toList();
-    }
-
-    final cashifyAlert =
-        json["__ca"] != null ? CashifyAlert.fromJson(json["__ca"] as Map<String, dynamic>) : null;
-    final trackUrl = json["turl"] as String?;
-
-    return TransferLotDetailListResponse(parsedList, cashifyAlert, trackUrl);
-  }
+  static TransferLotDetailListResponse fromJson(Map<String, dynamic> json) =>
+      _$TransferLotDetailListResponseFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$TransferLotDetailListResponseToJson(this);
@@ -107,11 +82,7 @@ class TransferLotDetailListData {
     this.receivedBy,
   );
 
-  static TransferLotDetailListData fromJson(Map<String, dynamic> json) =>
-      _$TransferLotDetailListDataFromJson(json);
+  static TransferLotDetailListData fromJson(Map<String, dynamic> json) => _$TransferLotDetailListDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$TransferLotDetailListDataToJson(this);
 }
-
-
-

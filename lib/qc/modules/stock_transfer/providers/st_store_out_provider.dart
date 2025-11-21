@@ -12,7 +12,7 @@ class StStoreOutProvider extends CshChangeNotifier {
     return Provider.of<StStoreOutProvider>(context, listen: listen);
   }
 
-  StreamController<StLotDetailResponse?> _lotDetailsStreamController =
+  final StreamController<StLotDetailResponse?> _lotDetailsStreamController =
       StreamController<StLotDetailResponse?>.broadcast();
 
   Stream<StLotDetailResponse?> get lotDetailsStream => _lotDetailsStreamController.stream;
@@ -66,23 +66,9 @@ class StStoreOutProvider extends CshChangeNotifier {
     super.dispose();
   }
 
-  Future<bool> checkBoxChargerTracking() {
-    var completer = Completer<bool>();
-    StockTransferService.checkBoxChargerTracking(lotDetails?.barcode).listen((event) {
-      if ((event?.boxChargerTrackingData?.hasBox ?? 0) > 0 || (event?.boxChargerTrackingData?.hasCharger ?? 0) > 0) {
-        completer.complete(true);
-      } else {
-        completer.complete(false);
-      }
-    }, onError: (error) {
-      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-    });
-    return completer.future;
-  }
-
-  Future<void> addDevice(bool? isBoxAvailable, bool? isChargerAvailable) {
+  Future<void> addDevice() {
     var completer = Completer<void>();
-    StockTransferService.addDevice(lotDetails?.barcode, lotId, isBoxAvailable, isChargerAvailable).listen((event) {
+    StockTransferService.addDevice(lotDetails?.barcode, lotId).listen((event) {
       if (Validator.isTrue(event?.isReset)) {
         _lastLotDetails = null;
       } else {

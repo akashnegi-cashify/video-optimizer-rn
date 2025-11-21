@@ -29,7 +29,7 @@ class PendingLotDetailScreen extends BaseScreen<PendingLotDetailScreenArguments>
     return PageWidget(pageKey: pageKey, initialValue: arg?.toJson());
   }
 
-  static PendingLotDetailScreenArguments arguments(int lotId) {
-    return PendingLotDetailScreenArguments(lotId);
+  static navigate(BuildContext context, int lotId) {
+    Navigator.pushNamed(context, PendingLotDetailScreen.route, arguments: PendingLotDetailScreenArguments(lotId));
   }
 }

@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v5.2.1+81 (XX-11-2025)
+
+### Migration:
+
+* `Stock Transfer: Migrate stock transfer into console apis` [(SCM-10504)](https://reglobe.atlassian.net/browse/SCM-10504)
+
+
 # v5.2.0+80 (XX-11-2025)
 
 ### Migration:

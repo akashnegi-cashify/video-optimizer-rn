@@ -97,8 +97,7 @@ class StListTabState extends State<StListTab> {
   void _onItemClicked(StockTransferListTab tabType, StockTransferListData item) async {
     switch (tabType) {
       case StockTransferListTab.pending:
-        Navigator.pushNamed(context, PendingLotDetailScreen.route,
-            arguments: PendingLotDetailScreen.arguments(item.lotId!));
+        PendingLotDetailScreen.navigate(context, item.lotId!);
         break;
       case StockTransferListTab.dispatchPending:
         CshMlScannerUtil().openScanner(context, hintText: "Scan Invoice", header: "Scan Invoice",
