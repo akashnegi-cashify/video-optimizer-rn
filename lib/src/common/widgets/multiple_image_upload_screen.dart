@@ -66,11 +66,13 @@ class _MultipleImageUploadScreenState extends State<MultipleImageUploadScreen> {
                           });
                         },
                         onMediaUploadingStarted: () {
-                          setState(() {
-                            if (_imageList.length < 8 && index == _imageList.length - 1) {
-                              _imageList.add("");
-                            }
-                          });
+                          if (Validator.isTrue(mounted)) {
+                            setState(() {
+                              if (_imageList.length < 8 && index == _imageList.length - 1) {
+                                _imageList.add("");
+                              }
+                            });
+                          }
                         },
                         onMediaUploaded: (url) {
                           setState(() {
