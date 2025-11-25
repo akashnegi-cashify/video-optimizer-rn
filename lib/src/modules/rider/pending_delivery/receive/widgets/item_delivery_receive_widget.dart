@@ -48,13 +48,20 @@ class ItemDeliveryReceiveWidget extends StatelessWidget {
     );
   }
 
-  void confirmReceiveRequest(int itemId, BuildContext context) {
-    Provider.of<DeliveryReceiveProvider>(context, listen: false).confirmReceive(itemId).listen((event) {
-      Navigator.pop(context);
-      onReceiveConfirm();
-      CshSnackBar.success(context: context, message: "Part Received Successfully");
-    }).onError((e, s) {
-      CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(e) ?? "Something went wrong");
-    });
+  void confirmReceiveRequest(int itemId, BuildContext? context) {
+    if (context != null) {
+      var provider = Provider.of<DeliveryReceiveProvider>(context, listen: false);
+      provider.confirmReceive(itemId).listen((event) {
+        Navigator.pop(context);
+        onReceiveConfirm();
+        if (context?.mounted == true) {
+          CshSnackBar.success(context: context, message: "Part Received Successfully");
+        }
+      }).onError((e, s) {
+        if (context?.mounted == true) {
+          CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(e) ?? "Something went wrong");
+        }
+      });
+    }
   }
 }

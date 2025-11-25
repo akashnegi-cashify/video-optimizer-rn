@@ -1,6 +1,6 @@
 # TRC Releases
 
-# v5.2.1+81 (XX-11-2025)
+# v5.3.0+81 (XX-11-2025)
 
 ### Migration:
 
