@@ -14,6 +14,7 @@ import 'package:flutter_trc/src/modules/login/screens/trc_and_qc_login_screen.da
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../../modules/login/resources/login_types.dart';
 import '../l10n.dart';
 
 class MPinLoginScreen extends StatefulWidget {
@@ -268,6 +269,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
   }
 
   _moveToHomeScreen() {
+    AppPreferences.app.setLoginType(LoginTypes.qcLogin.value);
     Navigator.of(context).pushNamedAndRemoveUntil(QcActionScreen.route, (route) => false);
   }
 }

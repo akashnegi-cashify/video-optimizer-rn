@@ -1,23 +1,23 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'stock_transfer_status_filter_response.g.dart';
+part 'stock_transfer_status_filter_v1_response.g.dart';
 
 @JsonSerializable()
-class StockTransferStatusFilterResponse extends BaseResponse {
+class StockTransferStatusFilterV1Response extends BaseResponse {
   @JsonKey(name: "dt")
   List<StockTransferStatusFilterData>? filterList;
 
   @JsonKey(name: "s")
   bool? success;
 
-  StockTransferStatusFilterResponse(this.filterList, this.success, super.cashifyAlert, super.trackUrl);
+  StockTransferStatusFilterV1Response(this.filterList, this.success, super.cashifyAlert, super.trackUrl);
 
-  static StockTransferStatusFilterResponse fromJson(Map<String, dynamic> json) =>
-      _$StockTransferStatusFilterResponseFromJson(json);
+  static StockTransferStatusFilterV1Response fromJson(Map<String, dynamic> json) =>
+      _$StockTransferStatusFilterV1ResponseFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$StockTransferStatusFilterResponseToJson(this);
+  Map<String, dynamic> toJson() => _$StockTransferStatusFilterV1ResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -26,7 +26,7 @@ class StockTransferStatusFilterData {
   String? name;
 
   @JsonKey(name: "k")
-  int? id;
+  String? id;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isSelected;

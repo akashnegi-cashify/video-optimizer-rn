@@ -6,7 +6,8 @@ enum TRCServiceGroups with ServiceGroupsMixin {
   supersalesOms("supersales-oms"),
   imageOptimiser("image-optimizer"),
   qcErazer("qc-data-erazer"),
-  rms("sales-rms");
+  rms("sales-rms"),
+  qcTransferLot("qc-transfer-lot");
 
   @override
   final String value;

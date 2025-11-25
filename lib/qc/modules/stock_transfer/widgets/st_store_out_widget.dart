@@ -153,7 +153,7 @@ class _StoreOutState extends State<_StoreOut> {
               _bottomButtonState == _BottomButtonState.idle
                   ? Expanded(child: CshBigButton(text: l10n.scan, onPressed: () => _setScanningState()))
                   : _bottomButtonState == _BottomButtonState.scanned
-                      ? Expanded(child: CshBigButton(text: l10n.add, onPressed: () => _checkBoxChargerTracking()))
+                      ? Expanded(child: CshBigButton(text: l10n.add, onPressed: () => _addDevice()))
                       : const SizedBox.shrink()
             ],
           )
@@ -225,41 +225,19 @@ class _StoreOutState extends State<_StoreOut> {
     setState(() {});
   }
 
-  void _checkBoxChargerTracking() {
+  void _addDevice() {
     var provider = StStoreOutProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.checkBoxChargerTracking().then((isAvailable) {
-      CshLoading().hideLoading(context);
-      if (Validator.isTrue(isAvailable)) {
-        _showBoxChargerDialog(
-          onProceed: (isBoxAvailable, isChargerAvailable) {
-            Navigator.pop(context); // dismiss dialog
-            _addDevice(isBoxAvailable: isBoxAvailable, isChargerAvailable: isChargerAvailable);
-          },
-        );
-      } else {
-        _addDevice();
-      }
-    }, onError: (error) {
-      CshLoading().hideLoading(context);
-      _setScanningState();
-      CshSnackBar.error(context: context, message: error.toString());
-    });
-  }
-
-  void _addDevice({bool? isBoxAvailable, bool? isChargerAvailable}) {
-    var provider = StStoreOutProvider.of(context, listen: false);
-    CshLoading().showLoading(context);
-    provider.addDevice(isBoxAvailable, isChargerAvailable).then((_) {
+    provider.addDevice().then((_) {
       CshLoading().hideLoading(context);
       _onProceedNext();
     }, onError: (error) {
       CshLoading().hideLoading(context);
-      _showAddDeviceRetryDialog(error.toString(), isBoxAvailable, isChargerAvailable);
+      _showAddDeviceRetryDialog(error.toString());
     });
   }
 
-  void _showAddDeviceRetryDialog(String errorMessage, bool? isBoxAvailable, bool? isChargerAvailable) {
+  void _showAddDeviceRetryDialog(String errorMessage) {
     showPopup(
       context,
       title: "Warning!",
@@ -269,7 +247,7 @@ class _StoreOutState extends State<_StoreOut> {
           text: "Retry",
           onPressed: () {
             Navigator.pop(context); // dismiss dialog
-            _addDevice(isBoxAvailable: isBoxAvailable, isChargerAvailable: isChargerAvailable);
+            _addDevice();
           },
         ),
         CshMediumButton(
@@ -287,85 +265,6 @@ class _StoreOutState extends State<_StoreOut> {
   void dispose() {
     _scannerController = null;
     super.dispose();
-  }
-
-  void _showBoxChargerDialog({required Function(bool isBoxAvailable, bool isChargerAvailable) onProceed}) {
-    bool? isBoxAvailable;
-    bool? isChargerAvailable;
-
-    showCshBottomSheet(
-      context: context,
-      isDismissible: false,
-      child: StatefulBuilder(builder: (_, setState) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.5,
-          padding: const EdgeInsets.all(Dimens.space_20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(child: CshTextNew.h2("Accessories")),
-              const SizedBox(height: Dimens.space_16),
-              CshTextNew.h3("Box"),
-              const SizedBox(height: Dimens.space_4),
-              CshRadio(
-                title: CshTextNew.bodyText1("Available"),
-                value: true,
-                groupValue: isBoxAvailable,
-                onChanged: (value) {
-                  setState(() {
-                    isBoxAvailable = value;
-                  });
-                },
-              ),
-              const SizedBox(height: Dimens.space_4),
-              CshRadio(
-                title: CshTextNew.bodyText1("Not Available"),
-                value: false,
-                groupValue: isBoxAvailable,
-                onChanged: (value) {
-                  setState(() {
-                    isBoxAvailable = value;
-                  });
-                },
-              ),
-              const SizedBox(height: Dimens.space_16),
-              CshTextNew.h3("Charger"),
-              const SizedBox(height: Dimens.space_8),
-              CshRadio(
-                title: CshTextNew.bodyText1("Available"),
-                value: true,
-                groupValue: isChargerAvailable,
-                onChanged: (value) {
-                  setState(() {
-                    isChargerAvailable = value;
-                  });
-                },
-              ),
-              const SizedBox(height: Dimens.space_4),
-              CshRadio(
-                title: CshTextNew.bodyText1("Not Available"),
-                value: false,
-                groupValue: isChargerAvailable,
-                onChanged: (value) {
-                  setState(() {
-                    isChargerAvailable = value;
-                  });
-                },
-              ),
-              const SizedBox(height: Dimens.space_24),
-              Center(
-                child: CshBigButton(
-                  text: "Proceed",
-                  onPressed: isBoxAvailable != null && isChargerAvailable != null
-                      ? () => onProceed(isBoxAvailable!, isChargerAvailable!)
-                      : null,
-                ),
-              ),
-            ],
-          ),
-        );
-      }),
-    );
   }
 }
 

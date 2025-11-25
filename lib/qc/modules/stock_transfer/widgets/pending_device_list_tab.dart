@@ -4,7 +4,7 @@ import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/providers/pending_lot_detail_provider.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/resources/pending_lot_detail_response.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/transfer_lot_device_list_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/transfer_lot_status_type.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
@@ -18,7 +18,7 @@ class PendingDeviceListTab extends StatefulWidget {
   State<PendingDeviceListTab> createState() => PendingDeviceListTabState();
 }
 
-class PendingDeviceListTabState extends PaginatedListState<PendingLotDeviceListData, PendingDeviceListTab> {
+class PendingDeviceListTabState extends PaginatedListState<TransferLotDetailListData, PendingDeviceListTab> {
   final TextEditingController _editTextController = TextEditingController();
   Timer? _debounce;
 
@@ -28,6 +28,7 @@ class PendingDeviceListTabState extends PaginatedListState<PendingLotDeviceListD
     scheduleMicrotask(() {
       var provider = PendingLotDetailProvider.of(context, listen: false);
       provider.resetScannedDeviceDetail();
+      provider.fetchLotHeader();
     });
     super.initState();
   }
@@ -37,20 +38,31 @@ class PendingDeviceListTabState extends PaginatedListState<PendingLotDeviceListD
     var provider = PendingLotDetailProvider.of(context);
     var theme = Theme.of(context);
     var data = provider.pendingLotDetailResponse;
+    var header = provider.lotHeaderResponse;
     return Stack(
       children: [
         Column(
           children: [
             const SizedBox(height: Dimens.space_8),
-            CshTextNew.h2(data?.lotName ?? ""),
-            const SizedBox(height: Dimens.space_4),
-            CshTextNew.subTitle2("No of devices - ${data?.deviceCount}"),
-            const SizedBox(height: Dimens.space_4),
-            CshTextNew.subTitle2("Destination - ${data?.destinationFacility}"),
-            const SizedBox(height: Dimens.space_4),
-            CshTextNew.subTitle2("Status - ${data?.status}"),
+            if (header != null) ...[
+              CshTextNew.h2(header.lotName ?? ""),
+              const SizedBox(height: Dimens.space_4),
+              CshTextNew.subTitle2("No of devices - ${header.deviceCount ?? "-"}"),
+              if (!Validator.isNullOrEmpty(header.toFacilityName)) ...[
+                const SizedBox(height: Dimens.space_4),
+                CshTextNew.subTitle2("Destination - ${header.toFacilityName}"),
+              ],
+              if (!Validator.isNullOrEmpty(header.statusDesc)) ...[
+                const SizedBox(height: Dimens.space_4),
+                CshTextNew.subTitle2("Status - ${header.statusDesc}"),
+              ],
+              // if (!Validator.isNullOrEmpty(header.serialNumber)) ...[
+              //   const SizedBox(height: Dimens.space_4),
+              //   CshTextNew.subTitle2("Serial - ${header.serialNumber}"),
+              // ],
+            ],
             const SizedBox(height: Dimens.space_12),
-            if (!Validator.isListNullOrEmpty(data?.deviceList))
+            if (!Validator.isListNullOrEmpty(data?.data))
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
                 child: CshTextFormField(
@@ -77,7 +89,7 @@ class PendingDeviceListTabState extends PaginatedListState<PendingLotDeviceListD
                       width: double.infinity,
                       child: _DeviceItemWidget(
                         item,
-                        data?.statusCode,
+                        provider.lotHeaderResponse?.statusCode,
                         index: index,
                         onDeviceRemove: () {
                           CshLoading().showLoading(context);
@@ -97,8 +109,8 @@ class PendingDeviceListTabState extends PaginatedListState<PendingLotDeviceListD
             ),
           ],
         ),
-        if (data?.statusCode != TransferLotStatusType.APPROVE.code &&
-            data?.statusCode != TransferLotStatusType.LOCKED.code)
+        if (provider.lotHeaderResponse?.statusCode != TransferLotStatusType.APPROVE.code &&
+            provider.lotHeaderResponse?.statusCode != TransferLotStatusType.LOCKED.code)
           Positioned(
             right: Dimens.space_32,
             bottom: Dimens.space_32,
@@ -146,7 +158,7 @@ class PendingDeviceListTabState extends PaginatedListState<PendingLotDeviceListD
 
   @override
   void requestApi(int pageNo,
-      {Function(List<PendingLotDeviceListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
+      {Function(List<TransferLotDetailListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
     var provider = PendingLotDetailProvider.of(context, listen: false);
     provider.getDeviceList(offset: pageNo * pageSize, pageSize: pageSize).then((value) {
       onSuccess?.call(value);
@@ -157,13 +169,13 @@ class PendingDeviceListTabState extends PaginatedListState<PendingLotDeviceListD
 }
 
 class _DeviceItemWidget extends StatelessWidget {
-  final PendingLotDeviceListData? item;
+  final TransferLotDetailListData? item;
   final int index;
   final VoidCallback onDeviceRemove;
   final int? transferLotStatus;
 
   const _DeviceItemWidget(this.item, this.transferLotStatus,
-      {super.key, required this.index, required this.onDeviceRemove});
+      {required this.index, required this.onDeviceRemove});
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +198,7 @@ class _DeviceItemWidget extends StatelessWidget {
               _buildLabelValueWidget("Added by", item?.createdBy ?? "", theme),
               const SizedBox(height: Dimens.space_6),
               _buildLabelValueWidget("Added at",
-                  formatDate(timeStamp: item?.createdDate, pattern: DateFormats.dd_MMM_yyyy_HH_mm_ss.value), theme),
+                  formatDate(timeStamp: item?.createDate, pattern: DateFormats.dd_MMM_yyyy_HH_mm_ss.value), theme),
             ],
           ),
           Positioned(
@@ -194,7 +206,7 @@ class _DeviceItemWidget extends StatelessWidget {
             right: 0,
             child: InkWell(
               onTap: () {
-                showErrorDialog(context, "IMEI - ${item?.imeiNo}", "Information", "Ok", (p0) => Navigator.pop(context));
+                showErrorDialog(context, "IMEI - ${item?.imei1}", "Information", "Ok", (p0) => Navigator.pop(context));
               },
               child: const Icon(Icons.info, size: Dimens.space_24),
             ),

@@ -44,7 +44,7 @@ class RemoteConfigHelper {
   Future<FirebaseRemoteConfig?> initialize({bool withFetch = true}) async {
     _remoteConfig = FirebaseRemoteConfig.instance;
     await _remoteConfig!.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(seconds: 1),
+      fetchTimeout: const Duration(seconds: 3),
       minimumFetchInterval: Duration.zero,
     ));
     await _remoteConfig!.setDefaults(AppRemoteConfig.DEFAULT_CONFIG);

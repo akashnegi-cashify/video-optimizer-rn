@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stock_transfer_status_filter_response.dart';
+part of 'stock_transfer_status_filter_v1_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StockTransferStatusFilterResponse _$StockTransferStatusFilterResponseFromJson(
+StockTransferStatusFilterV1Response _$StockTransferStatusFilterV1ResponseFromJson(
         Map<String, dynamic> json) =>
-    StockTransferStatusFilterResponse(
+    StockTransferStatusFilterV1Response(
       (json['dt'] as List<dynamic>?)
           ?.map((e) =>
               StockTransferStatusFilterData.fromJson(e as Map<String, dynamic>))
@@ -20,8 +20,8 @@ StockTransferStatusFilterResponse _$StockTransferStatusFilterResponseFromJson(
       json['turl'] as String?,
     );
 
-Map<String, dynamic> _$StockTransferStatusFilterResponseToJson(
-        StockTransferStatusFilterResponse instance) =>
+Map<String, dynamic> _$StockTransferStatusFilterV1ResponseToJson(
+        StockTransferStatusFilterV1Response instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
@@ -33,7 +33,7 @@ StockTransferStatusFilterData _$StockTransferStatusFilterDataFromJson(
         Map<String, dynamic> json) =>
     StockTransferStatusFilterData(
       name: json['v'] as String?,
-      id: (json['k'] as num?)?.toInt(),
+      id: json['k'] as String?,
     );
 
 Map<String, dynamic> _$StockTransferStatusFilterDataToJson(
@@ -42,3 +42,5 @@ Map<String, dynamic> _$StockTransferStatusFilterDataToJson(
       'v': instance.name,
       'k': instance.id,
     };
+
+
