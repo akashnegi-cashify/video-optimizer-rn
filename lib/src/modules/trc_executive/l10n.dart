@@ -29,4 +29,21 @@ class L10n extends BaseL10n {
   String get searchByName => Intl.message("Search by name", locale: localName, name: "searchByName");
 
   String get tlName => Intl.message("TL Name", locale: localName, name: "tlName");
+
+  String get storage => Intl.message("Storage", locale: localName, name: "storage");
+
+  String get changeStorage => Intl.message("Change Storage", locale: localName, name: "changeStorage");
+
+  String get storeIn => Intl.message("Store In", locale: localName, name: "storeIn");
+
+  String get storeOut => Intl.message("Store Out", locale: localName, name: "storeOut");
+
+  String get totalSpace => Intl.message("Total Space", locale: localName, name: "totalSpace");
+
+  String get availableSpace => Intl.message("Available Space", locale: localName, name: "availableSpace");
+
+  String get scanStorageBarcode => Intl.message("Scan Storage Barcode", locale: localName, name: "scanStorageBarcode");
+
+  String get scanDeviceBarcode => Intl.message("Scan Device Barcode", locale: localName, name: "scanDeviceBarcode");
+
 }

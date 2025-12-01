@@ -1,7 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/resources/rubbing_or_glass_change_enum.dart';
-import 'package:flutter_trc/src/modules/trc_executive/models/tl_list_response.dart';
 import 'package:ml_barcode_scanner/widgets/ml_barcode_scanner_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -11,16 +10,16 @@ import '../models/device_receive_response.dart';
 import '../providers/device_scanner_provider.dart';
 
 class DeviceScannerWidget extends StatelessWidget {
-  final TlListData? tlUserData;
+  final String? storageBarcode;
 
-  const DeviceScannerWidget(this.tlUserData, {Key? key}) : super(key: key);
+  const DeviceScannerWidget(this.storageBarcode, {super.key});
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
     return ChangeNotifierProvider(
-      create: (_) => DeviceScannerProvider(tlData: tlUserData),
+      create: (_) => DeviceScannerProvider(storageBarcode: storageBarcode),
       lazy: false,
       builder: (builderContext, _) {
         var provider = DeviceScannerProvider.of(builderContext);
@@ -31,23 +30,22 @@ class DeviceScannerWidget extends StatelessWidget {
               cardWidth: double.infinity,
               child: Row(
                 children: [
-                  CshTextNew.h4("${l10n.tlName}:-", isPrimary: false),
-                  const SizedBox(width: Dimens.space_16),
-                  Expanded(
-                    child: Text(
-                      tlUserData!.name ?? "",
-                      style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
-                    ),
+                  CshTextNew.h4("${l10n.storage}:-", isPrimary: false),
+                  SizedBox(width: Dimens.space_16),
+                  Text(
+                    provider.storageBarcode ?? "",
+                    style: theme.primaryTextTheme.headlineMedium?.copyWith(color: theme.primaryColor),
                   ),
                 ],
               ),
             ),
             Expanded(
               child: TRCScannerWidget(
+                hintText: l10n.scanDeviceBarcode,
                 onScanDetected: (String scannedData, MlScannerController? controller, {isManualEntry}) {
                   controller?.stop();
                   CshLoading().showLoading(context);
-                  provider.onDeviceScanned(scannedData).then((value) {
+                  provider.storeIn(scannedData).then((value) {
                     CshLoading().hideLoading(context);
                     _showDeviceDetails(value, context).whenComplete(() {
                       FocusScope.of(context).unfocus();
@@ -77,24 +75,18 @@ class DeviceScannerWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: Dimens.space_16,
           children: [
             _buildTitleValue(l10n.deviceBarcode, value.deviceBarcode.toString(), theme),
-            const SizedBox(height: Dimens.space_16),
             _buildTitleValue(l10n.rubbingOrGlassChange,
                 RubbingOrGlassChangeEnum.findById(value.rubbingOrGlassChangeStatus).label, theme),
-            const SizedBox(height: Dimens.space_16),
             _buildTitleValue(l10n.productTitle, value.productTitle.toString(), theme),
-            const SizedBox(height: Dimens.space_16),
             if (!Validator.isNullOrEmpty(value.elssEngineerName)) ...[
               _buildTitleValue(l10n.elssEngineerName, value.elssEngineerName.toString(), theme),
-              const SizedBox(height: Dimens.space_16),
             ],
-            _buildTitleValue(l10n.status, value.status.toString(), theme),
-            const SizedBox(height: Dimens.space_16),
             _buildTitleValue(l10n.repairType, value.repairType.toString(), theme),
-            const SizedBox(height: Dimens.space_16),
             _buildTitleValue(l10n.repairOrder, value.repairOrder ?? "NA", theme),
-            const SizedBox(height: Dimens.space_16),
+            _buildTitleValue(l10n.status, value.status.toString(), theme, isHighlight: true),
             SizedBox(
               width: double.infinity,
               child: CshMediumButton(text: l10n.close, onPressed: () => Navigator.pop(context)),
@@ -105,12 +97,19 @@ class DeviceScannerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleValue(String title, String value, ThemeData theme) {
+  Widget _buildTitleValue(String title, String value, ThemeData theme, {bool isHighlight = false}) {
     return RichText(
       text: TextSpan(
         style: theme.textTheme.bodyLarge,
         text: "$title : ",
-        children: [TextSpan(text: value, style: theme.textTheme.titleMedium)],
+        children: [
+          TextSpan(
+            text: value,
+            style: isHighlight
+                ? theme.textTheme.displayMedium?.copyWith(color: theme.primaryColor)
+                : theme.textTheme.titleMedium,
+          )
+        ],
       ),
     );
   }

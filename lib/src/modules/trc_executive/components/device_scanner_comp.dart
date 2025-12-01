@@ -24,9 +24,8 @@ class DeviceScannerComponent extends StatelessComponent<NoneConfigModel> {
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((model) {
-      return DeviceScannerWidget(model.tlUserData);
-    },);
-
+      return DeviceScannerWidget(model.storageBarcode);
+    });
   }
 
   @override

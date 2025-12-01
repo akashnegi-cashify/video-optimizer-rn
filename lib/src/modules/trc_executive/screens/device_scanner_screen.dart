@@ -3,16 +3,15 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/modules/trc_executive/models/device_scanner_screen_arguments_model.dart';
-import 'package:flutter_trc/src/modules/trc_executive/models/tl_list_response.dart';
 
 part 'device_scanner_screen.g.dart';
 
 class DeviceScannerScreenArguments extends BaseArguments {
-  TlListData? tlData;
+  String? storageBarcode;
 
-  DeviceScannerScreenArguments(this.tlData) : super(DeviceScannerScreen.pageKey);
+  DeviceScannerScreenArguments(this.storageBarcode) : super(DeviceScannerScreen.pageKey);
 
-  toMap() => {DeviceScannerScreenArgumentsModelParams.tlUser.value: tlData};
+  toMap() => {DeviceScannerScreenArgumentsModelParams.storageBarcode.value: storageBarcode};
 }
 
 @CshPage(
@@ -32,8 +31,7 @@ class DeviceScannerScreen extends BaseScreen<DeviceScannerScreenArguments> {
     return PageWidget(pageKey: pageKey, initialValue: arguments?.toMap());
   }
 
-  static navigate(BuildContext context, TlListData tlData) {
-    Navigator.pushNamed(context, route, arguments: DeviceScannerScreenArguments(tlData));
+  static pushNamed(BuildContext context, String storageBarcode) {
+    Navigator.pushNamed(context, route, arguments: DeviceScannerScreenArguments(storageBarcode));
   }
-
 }
