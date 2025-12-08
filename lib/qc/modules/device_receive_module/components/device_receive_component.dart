@@ -36,15 +36,19 @@ class DeviceReceiveComponent extends StatelessComponent<NoneConfigModel> {
             controller?.stop();
             CshLoading().showLoading(context);
             provider.onDeviceScanned(scannedData).then((value) {
-              CshLoading().hideLoading(context);
-              _showDeviceDetails(value, context, l10n).whenComplete(() {
-                FocusScope.of(context).unfocus();
-                controller?.start();
-              });
+              if (context.mounted) {
+                CshLoading().hideLoading(context);
+                _showDeviceDetails(value, context, l10n).whenComplete(() {
+                  FocusScope.of(context).unfocus();
+                  controller?.start();
+                });
+              }
             }, onError: (error) {
               controller?.start();
-              CshLoading().hideLoading(context);
-              CshSnackBar.error(context: context, message: error.toString());
+              if (context.mounted) {
+                CshSnackBar.error(context: context, message: error.toString());
+                CshLoading().hideLoading(context);
+              }
             });
           },
         );

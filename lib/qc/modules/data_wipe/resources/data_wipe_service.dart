@@ -20,21 +20,8 @@ class DataWipeService {
     );
   }
 
-  static Stream<DataWipeListResponse> getDataWipeList(int pageNo, int pageSize, {Map<String, List<int>>? filters}) {
-    Map<String, dynamic> req = {"os": pageNo, "ps": pageSize};
-    if (filters != null) {
-      req["fom"] = filters;
-    }
-
-    return QcErazerService().post("/v1/data-erasure/list", DataWipeListResponse.fromJson, body: jsonEncode(req));
-  }
-
   static Stream<DataWipeFilterListResponse> getDataWipeListFilters() {
     return QcErazerService().get("/v1/data-erasure/filter/list", DataWipeFilterListResponse.fromJson);
-  }
-
-  static Stream<DataWipeListResponse> getDataWipeConsoleList() {
-    return QcErazerService().get("/v1/data-erasure/list", DataWipeListResponse.fromJson);
   }
 
   static Stream<DataWipeSmartWatchActionResponse?> getSmartWatchActionList() {
@@ -44,7 +31,6 @@ class DataWipeService {
   static Stream<BaseActionResponse> bulkInitiate(int statusCode) {
     Map<String, dynamic> req = {"sc": statusCode};
     return QcErazerService().post("/v1/data-erasure/bulk-process", BaseActionResponse.fromJson, body: jsonEncode(req));
-    // return QcService().post("/erasure-request/bulk-process", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<BaseActionResponse> reportMisMatch(

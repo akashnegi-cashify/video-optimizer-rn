@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v6.0.0+83 (XX-11-2025)
+
+### Migration:
+
+* `QC - Migrarte to console apis` [(SCM-11040)](https://reglobe.atlassian.net/browse/SCM-11040)
+
+
 # v5.3.1+82 (XX-11-2025)
 
 ### Migration:

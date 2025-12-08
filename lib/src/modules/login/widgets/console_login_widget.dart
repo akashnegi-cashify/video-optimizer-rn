@@ -29,7 +29,7 @@ class ConsoleLoginWidget extends StatelessWidget {
         child: LoginWidget(
           serviceName: ServiceGroups.console.value,
           serviceVersion: "v1",
-          enterMobileNumberTitle: loginType == LoginTypes.rmsLogin ? "RMS Login" : "Shipex Login",
+          enterMobileNumberTitle: _getTitle(),
           companyName: "cashify",
           otpEventKey: "otp_oms_event_active",
           isCompanyNameEditable: true,
@@ -60,5 +60,18 @@ class ConsoleLoginWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getTitle() {
+    switch (loginType) {
+      case LoginTypes.trcLogin:
+        return "TRC Login";
+      case LoginTypes.qcLogin:
+        return "QC Login";
+      case LoginTypes.shipexLogin:
+        return "Shipex Login";
+      case LoginTypes.rmsLogin:
+        return "RMS Login";
+    }
   }
 }

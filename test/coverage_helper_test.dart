@@ -333,7 +333,6 @@ import 'package:flutter_trc/src/modules/splash/splash_screen.dart';
 import 'package:flutter_trc/src/resources/models/s3_details_response.dart';
 import 'package:flutter_trc/src/resources/models/send_native_data.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
-import 'package:flutter_trc/src/services/qc_login_service.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 import 'package:flutter_trc/src/services/s3_details.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';

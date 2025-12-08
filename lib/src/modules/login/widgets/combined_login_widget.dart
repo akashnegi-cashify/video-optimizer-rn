@@ -4,29 +4,19 @@ import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/login/providers/login_provider.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/login/widgets/console_login_widget.dart';
-import 'package:flutter_trc/src/modules/login/widgets/qc_login_widget.dart';
 import 'package:flutter_trc/src/modules/login/widgets/trc_login_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 
-class CombinedLoginWidget extends StatefulWidget {
+class CombinedLoginWidget extends StatelessWidget {
   final LoginTypes? loginType;
 
-  const CombinedLoginWidget({
-    Key? key,
-    this.loginType,
-  }) : super(key: key);
+  const CombinedLoginWidget({super.key, this.loginType});
 
-  @override
-  State<CombinedLoginWidget> createState() => _CombinedLoginWidgetState();
-}
-
-class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
-    var theme = Theme.of(context);
     return ChangeNotifierProvider<TRCLoginProvider>(
       create: (_) => TRCLoginProvider(),
       lazy: false,
@@ -38,11 +28,8 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: Dimens.space_20),
-              _buildLoginHeading(context, widget.loginType!),
-              if (widget.loginType == LoginTypes.qcLogin) const QcLoginWidget(),
-              if (widget.loginType == LoginTypes.trcLogin) const TrcLoginWidget(),
-              if (widget.loginType == LoginTypes.shipexLogin) const ConsoleLoginWidget(LoginTypes.shipexLogin),
-              if (widget.loginType == LoginTypes.rmsLogin) const ConsoleLoginWidget(LoginTypes.rmsLogin),
+              _buildLoginHeading(context, loginType!),
+              loginType == LoginTypes.trcLogin ? const TrcLoginWidget() : ConsoleLoginWidget(loginType!),
             ],
           ),
         );
@@ -51,7 +38,7 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
   }
 
   Widget _buildLoginHeading(BuildContext context, LoginTypes loginType) {
-    if (loginType == LoginTypes.rmsLogin || loginType == LoginTypes.shipexLogin) {
+    if (loginType == LoginTypes.rmsLogin || loginType == LoginTypes.shipexLogin || loginType == LoginTypes.qcLogin) {
       return const SizedBox.shrink();
     }
 
@@ -59,24 +46,8 @@ class _CombinedLoginWidgetState extends State<CombinedLoginWidget> {
     var theme = Theme.of(context);
     String? heading;
     String description;
-    switch (loginType) {
-      case LoginTypes.trcLogin:
-        heading = l10n.trcLogin;
-        description = l10n.pleaseEnterYourEmployeeId;
-        break;
-      case LoginTypes.qcLogin:
-        heading = l10n.qcLogin;
-        description = l10n.pleaseEnterMobileNumber;
-        break;
-      case LoginTypes.shipexLogin:
-        heading = l10n.shipexLogin;
-        description = l10n.pleaseEnterMobileNumber;
-        break;
-      case LoginTypes.rmsLogin:
-        heading = l10n.rmsLogin;
-        description = l10n.pleaseEnterMobileNumber;
-        break;
-    }
+    heading = l10n.trcLogin;
+    description = l10n.pleaseEnterYourEmployeeId;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),

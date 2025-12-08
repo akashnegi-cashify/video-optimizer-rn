@@ -25,13 +25,15 @@ class UserUtil {
     var provider = UserSessionProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.logoutUserAndClearSession(loginTypeEnum).then((value) {
-      if (value) {
+      if (value && context.mounted) {
         CshLoading().hideLoading(context);
         _onLogoutComplete(context);
       }
     }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+      if (context.mounted) {
+        CshSnackBar.error(context: context, message: error);
+        CshLoading().hideLoading(context);
+      }
     });
   }
 

@@ -188,31 +188,35 @@ class _AssignBarcodeScannerCompWidgetState extends State<AssignBarcodeScannerCom
     var provider = AssignPartBarcodeProvider.of(context, listen: false);
     CshLoading().showLoading(context);
     provider.assignPartBarcode(barcode).then((value) {
-      CshLoading().hideLoading(context);
-      if (value) {
-        CshSnackBar.success(context: context, message: "$barcode assigned successfully");
-        AssignedPartDetailsCompArguments arguments = AssignedPartDetailsCompArguments(
-            args: AssignedPartDetailsArguments(
-          prid: arg?.prid ?? 0,
-          assignDeviceDetailsData: AssignDeviceDetailsData(
-            did: arg?.pendingDeviceDetailData?.did,
-            lc: arg?.pendingDeviceDetailData?.lc,
-            engineerName: arg?.pendingDeviceDetailData?.engineerName,
-            deviceBarcode: arg?.pendingDeviceDetailData?.deviceBarcode,
-            grade: arg?.pendingDeviceDetailData?.grade,
-            repairType: arg?.pendingDeviceDetailData?.repairType,
-            productName: arg?.pendingDeviceDetailData?.pt,
-          ),
-        ));
+      if (context.mounted) {
+        CshLoading().hideLoading(context);
+        if (value) {
+          CshSnackBar.success(context: context, message: "$barcode assigned successfully");
+          AssignedPartDetailsCompArguments arguments = AssignedPartDetailsCompArguments(
+              args: AssignedPartDetailsArguments(
+            prid: arg?.prid ?? 0,
+            assignDeviceDetailsData: AssignDeviceDetailsData(
+              did: arg?.pendingDeviceDetailData?.did,
+              lc: arg?.pendingDeviceDetailData?.lc,
+              engineerName: arg?.pendingDeviceDetailData?.engineerName,
+              deviceBarcode: arg?.pendingDeviceDetailData?.deviceBarcode,
+              grade: arg?.pendingDeviceDetailData?.grade,
+              repairType: arg?.pendingDeviceDetailData?.repairType,
+              productName: arg?.pendingDeviceDetailData?.pt,
+            ),
+          ));
 
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
 
-        Navigator.of(context).pushNamed(AssignedPartDetailsScreen.route, arguments: arguments);
+          Navigator.of(context).pushNamed(AssignedPartDetailsScreen.route, arguments: arguments);
+        }
       }
     }, onError: (error) {
-      CshLoading().hideLoading(context);
-      CshSnackBar.error(context: context, message: error);
+      if (context.mounted) {
+        CshSnackBar.error(context: context, message: error);
+        CshLoading().hideLoading(context);
+      }
     });
   }
 

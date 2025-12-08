@@ -16,7 +16,7 @@ class ItemDeliveryReceiveWidget extends StatelessWidget {
   // returned success confirmation to refresh main list
   final Function onReceiveConfirm;
 
-  const ItemDeliveryReceiveWidget({Key? key, required this.item, required this.onReceiveConfirm}) : super(key: key);
+  const ItemDeliveryReceiveWidget({super.key, required this.item, required this.onReceiveConfirm});
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +53,10 @@ class ItemDeliveryReceiveWidget extends StatelessWidget {
       var provider = Provider.of<DeliveryReceiveProvider>(context, listen: false);
       provider.confirmReceive(itemId).listen((event) {
         Navigator.pop(context);
+        CshSnackBar.success(context: context, message: "Part Received Successfully");
         onReceiveConfirm();
-        if (context?.mounted == true) {
-          CshSnackBar.success(context: context, message: "Part Received Successfully");
-        }
       }).onError((e, s) {
-        if (context?.mounted == true) {
-          CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(e) ?? "Something went wrong");
-        }
+        CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(e) ?? "Something went wrong");
       });
     }
   }

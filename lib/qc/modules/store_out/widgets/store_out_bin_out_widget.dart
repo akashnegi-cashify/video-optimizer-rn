@@ -113,22 +113,24 @@ class _StoreOutBinOutWidgetState extends State<StoreOutBinOutWidget> {
       var provider = StoreOutProvider.of(context, listen: false);
       FocusManager.instance.primaryFocus?.unfocus();
       CshLoading().showLoading(context);
-      provider
-          .binOutVerifyBarCode(
-        BinOutRequest(locBarcode: _locationTextController.text, stockBarcode: _barcodeTextController.text),
-      )
-          .then((value) {
-        CshLoading().hideLoading(context);
-        CshSnackBar.success(context: context, message: l10n.binOutSuccessfully);
-        _locationTextController.clear();
-        _barcodeTextController.clear();
-        instructionText.value = l10n.pleaseScanLocationBarcode;
+      var binOutRequest =
+          BinOutRequest(locBarcode: _locationTextController.text, stockBarcode: _barcodeTextController.text);
+      provider.binOutVerifyBarCode(binOutRequest).then((value) {
+        if (context.mounted) {
+          CshSnackBar.success(context: context, message: l10n.binOutSuccessfully);
+          CshLoading().hideLoading(context);
+          _locationTextController.clear();
+          _barcodeTextController.clear();
+          instructionText.value = l10n.pleaseScanLocationBarcode;
+        }
       }, onError: (error, stack) {
-        CshLoading().hideLoading(context);
-        CshSnackBar.error(context: context, message: error);
-        _locationTextController.clear();
-        _barcodeTextController.clear();
-        instructionText.value = l10n.pleaseScanLocationBarcode;
+        if (context.mounted) {
+          CshSnackBar.error(context: context, message: error);
+          CshLoading().hideLoading(context);
+          _locationTextController.clear();
+          _barcodeTextController.clear();
+          instructionText.value = l10n.pleaseScanLocationBarcode;
+        }
       });
     }
   }
