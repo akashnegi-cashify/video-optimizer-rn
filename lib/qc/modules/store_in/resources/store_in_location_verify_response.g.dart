@@ -10,8 +10,10 @@ StoreInLocationVerifyResponse _$StoreInLocationVerifyResponseFromJson(
         Map<String, dynamic> json) =>
     StoreInLocationVerifyResponse(
       success: (json['s'] as num?)?.toInt(),
-      availableSpace: (json['ac'] as num?)?.toInt(),
-      totalSpace: (json['tc'] as num?)?.toInt(),
+      availableSpace: (json['availableCapacity'] as num?)?.toInt(),
+      totalSpace: (json['totalCapacity'] as num?)?.toInt(),
+      verifyBarcodeStatus: (json['verifyBarcodeStatus'] as num?)?.toInt(),
+      performanceMonitoring: (json['pm'] as num?)?.toDouble(),
       message: json['message'] as String?,
     );
 
@@ -19,7 +21,9 @@ Map<String, dynamic> _$StoreInLocationVerifyResponseToJson(
         StoreInLocationVerifyResponse instance) =>
     <String, dynamic>{
       's': instance.success,
-      'ac': instance.availableSpace,
-      'tc': instance.totalSpace,
+      'availableCapacity': instance.availableSpace,
+      'totalCapacity': instance.totalSpace,
+      'verifyBarcodeStatus': instance.verifyBarcodeStatus,
+      'pm': instance.performanceMonitoring,
       'message': instance.message,
     };

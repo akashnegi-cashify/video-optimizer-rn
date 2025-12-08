@@ -13,7 +13,7 @@ class StoreOutServices {
 
   static Stream<StoreOutLotListResponse?> fetchStoreOutLotList(LotListRequest request, {required BaseService service}) {
     return service.post(
-      '/store-out/v2',
+      '/v1/store-out/list',
       StoreOutLotListResponse.fromJson,
       body: jsonEncode(request),
     );
@@ -37,7 +37,7 @@ class StoreOutServices {
       "gln": [lotName]
     };
     return service.get(
-      "/store-out/v2/devices",
+      "/v1/store-out/devices",
       ScanNormalLotListResponse.fromJson,
       params: param,
     );
@@ -55,17 +55,32 @@ class StoreOutServices {
     );
   }
 
-  static Stream<NormalLotVerifyResponse?> normalLotVerifyBarCodeService(NormalLotOutRequest request,
-      {required BaseService service}) {
+  static Stream<NormalLotVerifyResponse?> normalLotVerifyBarCodeService({
+    required String lotGroupName,
+    required String qrCode,
+    required String displayBarcode,
+    required BaseService service,
+  }) {
     var header = service.getHeaders(null);
-    return service.post("/store-out/v2/device", NormalLotVerifyResponse.fromJson,
-        body: jsonEncode(request), headers: header);
+    final body = jsonEncode({
+      "lotGroupName": lotGroupName,
+      "qrCode": qrCode,
+      "displayBarcode": displayBarcode,
+    });
+    return service.post("/v1/store-out/device", NormalLotVerifyResponse.fromJson,
+        body: body, headers: header);
   }
 
-  static Stream<StoreOutInProcessResponse?> getStoreOutInProcessStatus(int? lotId, {required BaseService service}) {
+  static Stream<StoreOutInProcessResponse?> getStoreOutInProcessStatus(
+      int? lotId, String? groupName, {required BaseService service}) {
+    final params = <String, List<String>>{
+      "lid": [lotId.toString()],
+      if (groupName != null) "gn": [groupName],
+    };
     return service.get(
-      "/store-out/v2/store-out-status?lid=$lotId",
+      "/v1/store-out/store-out-status",
       StoreOutInProcessResponse.fromJson,
+      params: params,
     );
   }
 }

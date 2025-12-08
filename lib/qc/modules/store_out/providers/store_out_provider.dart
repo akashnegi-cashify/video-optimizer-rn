@@ -111,10 +111,10 @@ class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
     setSearchQuery("");
   }
 
-  Future<bool> getStoreOutProcessStatus(int? lotId) {
+  Future<bool> getStoreOutProcessStatus(int? lotId, String? groupName) {
     var completer = Completer<bool>();
-    StoreOutServices.getStoreOutInProcessStatus(lotId, service: service).listen((event) {
-      completer.complete(event?.storeOutInProcessData?.isStoreOutInProcess ?? false);
+    StoreOutServices.getStoreOutInProcessStatus(lotId, groupName, service: service).listen((event) {
+      completer.complete(event?.storeOutStatus ?? false);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

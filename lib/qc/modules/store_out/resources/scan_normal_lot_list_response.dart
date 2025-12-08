@@ -33,34 +33,35 @@ class ScanNormalLotItem {
 
   Map<String, dynamic> toJson() => _$ScanNormalLotItemToJson(this);
 
-  @JsonKey(name: 'id', includeIfNull: false)
-  int? id;
+  // v1/store-out/devices response fields
+  @JsonKey(name: 'deviceId', includeIfNull: false)
+  int? deviceId;
 
-  @JsonKey(name: 'qr_code',includeIfNull: false)
+  @JsonKey(name: 'qrCode', includeIfNull: false)
   String? qrCode;
 
-  @JsonKey(name: 'm', includeIfNull: false)
+  @JsonKey(name: 'model', includeIfNull: false)
   String? model;
 
-  @JsonKey(name: 'b', includeIfNull: false)
+  @JsonKey(name: 'brand', includeIfNull: false)
   String? brand;
 
-  @JsonKey(name: 'im', includeIfNull: false)
+  @JsonKey(name: 'imei', includeIfNull: false)
   String? imei;
 
-  @JsonKey(name: 'stbr', includeIfNull: false)
-  String? stockBarcode;
+  @JsonKey(name: 'storageBarcode', includeIfNull: false)
+  String? storageBarcode;
 
-  @JsonKey(name: 'p', includeIfNull: false)
-  int? storagePosition;
+  @JsonKey(name: 'position', includeIfNull: false)
+  int? position;
 
   ScanNormalLotItem({
-    this.id,
+    this.deviceId,
     this.qrCode,
     this.model,
     this.brand,
     this.imei,
-    this.stockBarcode,
-    this.storagePosition,
+    this.storageBarcode,
+    this.position,
   });
 }

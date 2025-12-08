@@ -11,7 +11,7 @@ class StoreInServices {
       "lbc": [locationBarcode.toString()]
     };
 
-    String endUrl = mIsBinIn ? "/bin/store-in/verify-cell" : "/store-in/verify-cell";
+    String endUrl = mIsBinIn ? "/bin/store-in/verify-cell" : "/store-in/validate-location";
 
     return service.get(
       endUrl,
@@ -22,7 +22,7 @@ class StoreInServices {
 
   static Stream<StoreInLocationVerifyResponse?> storeInDevice(StoreInDeviceRequest request, bool mIsBinIn,
       {required BaseService service}) {
-    String endUrl = mIsBinIn ? "/bin/store-in/verify-cell" : "/store-in/verify-cell-v1";
+    String endUrl = mIsBinIn ? "/bin/store-in/verify-cell" : "/v1/store-in/verify-cell";
 
     var headers = service.getHeaders(null);
     headers["content-type"] = "application/x-www-form-urlencoded";
