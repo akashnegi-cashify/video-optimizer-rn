@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
-import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/store_in/resources/services.dart';
 import 'package:flutter_trc/src/common/provider/qc_trc_service_init_provider.dart';

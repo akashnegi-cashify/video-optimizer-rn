@@ -22,16 +22,19 @@ class D2CVideoService {
     return QcService().get("/device/recording/pending-lot-list", D2cLotListResponse.fromJson);
   }
 
-  static Stream<D2cLotDeviceListResponse> getLotDeviceList(String groupLotName) {
+  static Stream<D2cLotDeviceListResponse> getLotDeviceList(int lotId, String groupLotName) {
     Map<String, List<String>> req = {
+      'lotId': [lotId.toString()],
       'gln': [groupLotName],
     };
-    return QcService().get("/device/recording/pending-lot-device-list", D2cLotDeviceListResponse.fromJson, params: req);
+    return QcService()
+        .get("/device/recording/pending-lot-device-list", D2cLotDeviceListResponse.fromJson, params: req);
   }
 
-  static Stream<BaseResponse> updateLotStatus(String groupLotName) {
+  static Stream<BaseResponse> updateLotStatus(int lotId, String groupLotName) {
     Map<String, dynamic> req = {
-      'gln': groupLotName,
+      'lotId': lotId,
+      'groupLotName': groupLotName,
     };
     return QcService().post("/device/recording/update-group", BaseResponse.fromJson, body: jsonEncode(req));
   }

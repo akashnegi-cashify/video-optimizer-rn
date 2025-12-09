@@ -19,12 +19,17 @@ class ReasonSubmitRequest {
   @JsonKey(name: 'actionRemark',includeIfNull: false)
   String? actionRemark;
 
+  /// For /repair/device/mark-repair: list of SKUs associated with the repair
+  @JsonKey(name: 'skus', includeIfNull: false)
+  List<String>? skus;
+
   ReasonSubmitRequest({
     this.code,
     this.remark,
     this.qr,
     this.id,
     this.actionRemark,
+    this.skus,
   });
 
   static ReasonSubmitRequest fromJson(Map<String, dynamic> data) => _$ReasonSubmitRequestFromJson(data);

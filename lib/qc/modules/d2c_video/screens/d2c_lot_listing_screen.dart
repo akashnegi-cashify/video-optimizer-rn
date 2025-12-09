@@ -42,7 +42,7 @@ class D2cLotListingScreen extends StatelessWidget {
 }
 
 class _D2cLotListing extends StatelessWidget {
-  const _D2cLotListing({super.key});
+  const _D2cLotListing();
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +78,11 @@ class _D2cLotListing extends StatelessWidget {
                       var item = list?[index];
                       return GestureDetector(
                         onTap: () {
+                          if (item == null || item.lotId == null || item.groupLotName == null) return;
                           D2cLotDeviceListingScreen.navigate(
                             context,
-                            item!.groupLotName!,
+                            item.lotId!,
+                            item.groupLotName!,
                             onBack: (isRefreshLot) {
                               if (isRefreshLot) {
                                 provider.getLotList(isNotify: true);

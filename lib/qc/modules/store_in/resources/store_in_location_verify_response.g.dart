@@ -14,6 +14,9 @@ StoreInLocationVerifyResponse _$StoreInLocationVerifyResponseFromJson(
       totalSpace: (json['totalCapacity'] as num?)?.toInt(),
       verifyBarcodeStatus: (json['verifyBarcodeStatus'] as num?)?.toInt(),
       performanceMonitoring: (json['pm'] as num?)?.toDouble(),
+      barCodeList: (json['barCodeList'] as List<dynamic>?)
+          ?.map((e) => VerifyBarcode.fromJson(e as Map<String, dynamic>))
+          .toList(),
       message: json['message'] as String?,
     );
 
@@ -25,5 +28,16 @@ Map<String, dynamic> _$StoreInLocationVerifyResponseToJson(
       'totalCapacity': instance.totalSpace,
       'verifyBarcodeStatus': instance.verifyBarcodeStatus,
       'pm': instance.performanceMonitoring,
+      'barCodeList': instance.barCodeList,
       'message': instance.message,
+    };
+
+VerifyBarcode _$VerifyBarcodeFromJson(Map<String, dynamic> json) =>
+    VerifyBarcode(
+      qrCode: json['qrCode'] as String?,
+    );
+
+Map<String, dynamic> _$VerifyBarcodeToJson(VerifyBarcode instance) =>
+    <String, dynamic>{
+      'qrCode': instance.qrCode,
     };
