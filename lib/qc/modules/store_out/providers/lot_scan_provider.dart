@@ -93,7 +93,7 @@ class LotScanProvider extends QcTrcServiceInitProvider {
   Future<NormalLotVerifyResponse?> normalLotOutVerifyBarCode(NormalLotOutRequest request) {
     var completer = Completer<NormalLotVerifyResponse?>();
 
-    StoreOutServices.normalLotVerifyBarCodeService(request, service: service).listen((event) {
+    StoreOutServices.normalLotVerifyBarCodeService(lotGroupName: request.lotName ?? "", qrCode: request.stockBarcode ?? "", displayBarcode: request.locBarcode ?? "", service: service).listen((event) {
       print('LotScanProvider.normalLotOutVerifyBarCode ::::: ${event?.status}');
 
       if (event?.isValid() == true) {

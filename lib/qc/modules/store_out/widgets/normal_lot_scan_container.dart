@@ -103,7 +103,7 @@ class NormalLotScanContainer extends StatelessWidget {
                   const SizedBox(height: Dimens.space_4),
                   LabeledText(
                     label: l10n.location,
-                    value: itemList?[value]?.stockBarcode,
+                    value: itemList?[value]?.qrCode,
                     valueTextStyle: valueTextStyle,
                     labelTextStyle: labelTextStyle,
                     labelFlex: 1,
@@ -171,7 +171,7 @@ class NormalLotScanContainer extends StatelessWidget {
       CshLoading().showLoading(context);
       provider
           .normalLotOutVerifyBarCode(
-        NormalLotOutRequest(locBarcode: item?.stockBarcode, stockBarcode: value, lotName: lotName),
+        NormalLotOutRequest(locBarcode: item?.qrCode, stockBarcode: value, lotName: lotName),
       )
           .then((value) {
         CshLoading().hideLoading(context);

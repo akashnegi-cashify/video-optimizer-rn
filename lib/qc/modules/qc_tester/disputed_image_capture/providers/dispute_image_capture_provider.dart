@@ -136,18 +136,34 @@ class DisputeImageCaptureProvider extends CshChangeNotifier {
   }
 
   _getSubmitDataMap(String barcode) {
-    List<Map<String, dynamic>> dataMapList = [];
+    // Build per-audit media entries
+    final List<Map<String, dynamic>> dataMapList = [];
+    final List<String> allImages = [];
+    final List<String> allVideos = [];
+
     for (var element in mediaInfoList) {
+      final images = element.imageS3Urls ?? [];
+      final videos = element.videoS3urls ?? [];
+
       dataMapList.add({
         "ak": element.auditKey,
         "at": element.at,
-        "im": element.imageS3Urls,
-        "vi": element.videoS3urls?.map((e) => e.videoUrl).toList(),
+        "im": images,
+        "vi": videos.map((e) => e.videoUrl).toList(),
       });
+
+      allImages.addAll(images.where((e) => e.isNotEmpty));
+      allVideos.addAll(videos.map((e) => e.videoUrl).where((e) => e.isNotEmpty));
     }
-    Map<String, dynamic> bodyDataMap = {
-      "qrCode": barcode,
+
+    final bodyDataMap = <String, dynamic>{
+      // List<SourceAuditAppMediaRequest>
       "data": dataMapList,
+      // Additional top-level fields
+      "apiKey": disputeDataModel?.apiKey,
+      "auditType": disputeDataModel?.auditType,
+      "images": allImages,
+      "videos": allVideos,
     };
     Logger.debug('mydebug------DisputeImageCaptureProvider._getSubmitDataMap', [bodyDataMap]);
     return bodyDataMap;

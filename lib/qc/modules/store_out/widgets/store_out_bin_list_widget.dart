@@ -1,6 +1,8 @@
+import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/store_out/providers/store_out_provider.dart';
+import 'package:flutter_trc/qc/modules/store_out/resources/store_out_bin_list_response.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:flutter_trc/qc/modules/store_out/widgets/index.dart';
 import '../l10n.dart';
 
@@ -14,52 +16,35 @@ class StoreOutBinListWidget extends StatefulWidget {
 }
 
 class _StoreOutBinListWidgetState extends State<StoreOutBinListWidget> with AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    super.initState();
-    var provider = StoreOutProvider.of(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      provider.fetchStoreOutBinList();
-    });
-  }
+  final CshListController _listController = CshListController();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    var provider = StoreOutProvider.of(context);
-    var isLoading = provider.binListDataState.status == RequestStatus.initial;
-    var itemCount = isLoading ? 20 : provider.binListDataState.data?.binList?.length ?? 0;
     var l10n = L10n(context);
 
-    return RefreshIndicator(
-      onRefresh: () {
-        return Future.delayed(const Duration(seconds: 1),(){
-          provider.fetchStoreOutBinList();
-        });
-      },
-      child: ListView.separated(
-        padding: const EdgeInsets.all(Dimens.space_16),
-        itemBuilder: (context, index) {
-          var item = isLoading ? null : provider.binListDataState.data?.binList?[index];
-          return CshShimmer(
-            show: isLoading,
-            child: isLoading
-                ? Container(height: Dimens.space_40)
-                : cshGestureDetector(
-                    child: ListItemWidget(
-                      l10n.lotName,
-                      lotValue: item?.lotName,
-                      noOfDevices: item?.totalCount?.toString(),
-                    ),
-                    onTap: () => isLoading ? null : widget.onItemClick?.call(item?.lotName)),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: Dimens.space_8);
-        },
-        itemCount: itemCount,
+    return CshApiList<StoreOutBinListItem>(
+      apiConfig: ListApiConfig(
+        apiUrl: "/bin/lot/store-out/list?",
+        serviceGroup: TRCServiceGroups.qcTransferLot,
       ),
+      controller: _listController,
+      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+      listPadding: const EdgeInsets.all(Dimens.space_16),
+      verticalRowSpacing: Dimens.space_8,
+      itemFromJson: StoreOutBinListItem.fromJson,
+      getRowWidget: (item, index) {
+        final data = item!;
+        return cshGestureDetector(
+          child: ListItemWidget(
+            l10n.lotName,
+            lotValue: data.lotName,
+            noOfDevices: data.counter?.toString(),
+          ),
+          onTap: () => widget.onItemClick?.call(data.lotName),
+        );
+      },
     );
   }
 

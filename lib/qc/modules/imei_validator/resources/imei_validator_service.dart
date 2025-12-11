@@ -7,8 +7,8 @@ class ImeiValidatorService {
   static Stream<BaseActionResponse?> completeValidation(String? awbNumber, bool? isImei1Matched, bool? isImei2Matched) {
     var req = {
       "awb_number": awbNumber,
-      "imei_1": isImei1Matched,
-      "imei_2": isImei2Matched,
+      "imei1": isImei1Matched,
+      "imei2": isImei2Matched,
     };
 
     return QcService().post("/stock-in/fraud", BaseActionResponse.fromJson, body: jsonEncode(req));

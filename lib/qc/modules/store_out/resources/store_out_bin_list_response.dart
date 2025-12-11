@@ -4,11 +4,15 @@ part 'store_out_bin_list_response.g.dart';
 
 @JsonSerializable()
 class StoreOutBinListResponse {
-  @JsonKey(name: 'dt')
+  /// CshApiTable-style list container
+  @JsonKey(name: 'listList')
   List<StoreOutBinListItem?>? binList;
 
+  /// Performance monitoring metric
+  @JsonKey(name: 'pm')
+  double? pm;
 
-  StoreOutBinListResponse({this.binList});
+  StoreOutBinListResponse({this.binList, this.pm});
 
   static StoreOutBinListResponse fromJson(Map<String, dynamic> data) => _$StoreOutBinListResponseFromJson(data);
 
@@ -21,19 +25,30 @@ class StoreOutBinListItem {
 
   Map<String, dynamic> toJson() => _$StoreOutBinListItemToJson(this);
 
-  @JsonKey(name: 'tc')
-  int? totalCount;
+  @JsonKey(name: 'lotId')
+  int? lotId;
 
-  @JsonKey(name: 'ln')
+  @JsonKey(name: 'lotName')
   String? lotName;
 
-  @JsonKey(name: 'ic')
-  int? ic;
+  /// Number of lots / devices for this bin entry
+  @JsonKey(name: 'counter')
+  int? counter;
+
+  /// Completion flag (0/1)
+  @JsonKey(name: 'isCompleted')
+  int? isCompleted;
+
+  /// Row-level performance monitoring
+  @JsonKey(name: 'pm')
+  double? pm;
 
   StoreOutBinListItem({
-    this.totalCount,
+    this.lotId,
+    this.counter,
     this.lotName,
-    this.ic,
+    this.isCompleted,
+    this.pm,
   });
 }
 

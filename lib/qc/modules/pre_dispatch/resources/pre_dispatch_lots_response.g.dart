@@ -28,18 +28,22 @@ Map<String, dynamic> _$PreDispatchLotsResponseToJson(
 
 PreDispatchLotInfo _$PreDispatchLotInfoFromJson(Map<String, dynamic> json) =>
     PreDispatchLotInfo(
-      lotGroupName: json['lgn'] as String?,
-      lotQty: (json['lc'] as num?)?.toInt(),
-      pendingQty: (json['sp'] as num?)?.toInt(),
-      scannedQty: (json['sd'] as num?)?.toInt(),
-      lotType: json['lt'] as String?,
+      lotId: (json['lotId'] as num?)?.toInt(),
+      lotGroupName: json['lotGroupName'] as String?,
+      lotCount: (json['lotCount'] as num?)?.toInt(),
+      scanPending: (json['scanPending'] as num?)?.toInt(),
+      scanDone: (json['scanDone'] as num?)?.toInt(),
+      channel: json['channel'] as String?,
+      lotType: json['lotType'] as String?,
     );
 
 Map<String, dynamic> _$PreDispatchLotInfoToJson(PreDispatchLotInfo instance) =>
     <String, dynamic>{
-      'lgn': instance.lotGroupName,
-      'lc': instance.lotQty,
-      'sp': instance.pendingQty,
-      'sd': instance.scannedQty,
-      'lt': instance.lotType,
+      'lotId': instance.lotId,
+      'lotGroupName': instance.lotGroupName,
+      'lotCount': instance.lotCount,
+      'scanPending': instance.scanPending,
+      'scanDone': instance.scanDone,
+      'channel': instance.channel,
+      'lotType': instance.lotType,
     };

@@ -1,8 +1,8 @@
+import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/search_with_dropdown_widget.dart';
-
-import '../../../../src/utils/paginate_list_abstract.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import '../l10n.dart';
 import '../providers/pre_dispatch_lot_provider.dart';
 import '../resources/index.dart';
@@ -16,14 +16,15 @@ class PreDispatchLotsWidget extends StatefulWidget {
   State<PreDispatchLotsWidget> createState() => _PreDispatchLotsWidgetState();
 }
 
-class _PreDispatchLotsWidgetState extends PaginatedListState<PreDispatchLotInfo, PreDispatchLotsWidget> {
+class _PreDispatchLotsWidgetState extends State<PreDispatchLotsWidget> {
+  final CshListController _listController = CshListController();
   @override
   void initState() {
     super.initState();
     var provider = PreDispatchLotProvider.of(context: context, listen: false);
     provider.controller.stream.listen((event) {
       if (mounted) {
-        resetAndRefreshScreen();
+        _listController.refresh();
       }
     });
   }
@@ -42,57 +43,43 @@ class _PreDispatchLotsWidgetState extends PaginatedListState<PreDispatchLotInfo,
           onDropDownChange: (item) {
             var provider = PreDispatchLotProvider.of(context: context, listen: false);
             provider.resetSearchFilters();
-            resetAndRefreshScreen();
+            _listController.refresh();
           },
         ),
         Expanded(
-          child: iterate(
-            (item, index) => PreDispatchLotWidget(
-              lot: item,
-              index: index,
-              onItemClick: () => _onItemClick(context, index: index, l10n: l10n),
-            ),
-            onNoDataFound: () => Padding(
-              padding: const EdgeInsets.only(top: Dimens.space_16),
-              child: CshTextNew.subTitle1(l10n.noLotFound),
-            ),
+          child: CshApiList<PreDispatchLotInfo>(
+            apiConfig:
+                ListApiConfig(apiUrl: "/lot-pre-dispatch/list?", serviceGroup: TRCServiceGroups.qc),
+            controller: _listController,
+            shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+            listPadding: const EdgeInsets.all(Dimens.space_16),
+            verticalRowSpacing: Dimens.space_16,
+            itemFromJson: PreDispatchLotInfo.fromJson,
+            getRowWidget: (item, index) {
+              return PreDispatchLotWidget(
+                lot: item!,
+                index: index,
+                onItemClick: () => _onItemClick(context, lot: item, l10n: l10n),
+              );
+            },
           ),
         ),
       ],
     );
   }
 
-  @override
-  void requestApi(int pageNo,
-      {Function(List<PreDispatchLotInfo>? list)? onSuccess, Function(String errorMessage)? onError}) {
-    var provider = PreDispatchLotProvider.of(context: context, listen: false);
-
-    provider.getDataStream(pageNo, pageSize).listen(
-      (value) {
-        if (onSuccess != null) {
-          onSuccess(ArrayUtil.removeNullItems(value?.lots ?? []));
-        }
-      },
-      onError: (error) {
-        if (onError != null) {
-          onError(error);
-        }
-      },
-    );
-  }
-
-  void _onItemClick(BuildContext context, {required int index, required L10n l10n}) {
-    if (items[index].pendingQty != 0) {
-      PreDispatchScreen.navigate(context, items[index].lotGroupName, _allScanDoneCallback);
+  void _onItemClick(BuildContext context, {required PreDispatchLotInfo lot, required L10n l10n}) {
+    if ((lot.scanPending ?? 0) != 0) {
+      PreDispatchScreen.navigate(context, lot.lotGroupName, _allScanDoneCallback);
     } else {
-      if (isNotEmpty(items[index].lotGroupName)) {
+      if (isNotEmpty(lot.lotGroupName)) {
         var provider = PreDispatchLotProvider.of(context: context, listen: false);
         CshLoading().showLoading(context);
-        provider.completePreDispatchLot(items[index].lotGroupName!).then((value) {
+        provider.completePreDispatchLot(lot.lotGroupName!).then((value) {
           CshLoading().hideLoading(context);
           if (value?.isValid() == true) {
             CshSnackBar.success(context: context, message: value?.message ?? 'Success');
-            resetAndRefreshScreen();
+            _listController.refresh();
           } else {
             CshSnackBar.error(context: context, message: value?.errorMessage ?? 'Something Went Wrong.');
           }
@@ -109,7 +96,7 @@ class _PreDispatchLotsWidgetState extends PaginatedListState<PreDispatchLotInfo,
     Navigator.popUntil(context, ModalRoute.withName(PreDispatchLotScreen.route));
     provider.lotTypeQuery = null;
     provider.resetSearchFilters();
-    resetAndRefreshScreen();
+    _listController.refresh();
   }
 
   void _setSearchFilterAndReset(SearchType type, String value) {
@@ -119,6 +106,6 @@ class _PreDispatchLotsWidgetState extends PaginatedListState<PreDispatchLotInfo,
     } else {
       provider.barcode = value;
     }
-    resetAndRefreshScreen();
+    _listController.refresh();
   }
 }

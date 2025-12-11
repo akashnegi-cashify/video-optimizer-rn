@@ -33,7 +33,7 @@ class PreDispatchLotWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.bodyText2(l10n.lotQty, isPrimary: false)),
-                  Flexible(flex: 3, fit: FlexFit.tight, child: CshTextNew.h4('${lot?.lotQty}')),
+                  Flexible(flex: 3, fit: FlexFit.tight, child: CshTextNew.h4('${lot?.lotCount}')),
                 ],
               ),
               const SizedBox(height: Dimens.space_6),
@@ -41,7 +41,7 @@ class PreDispatchLotWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.bodyText2(l10n.scannedQty, isPrimary: false)),
-                  Flexible(flex: 3, fit: FlexFit.tight, child: CshTextNew.h4('${lot?.scannedQty}')),
+                  Flexible(flex: 3, fit: FlexFit.tight, child: CshTextNew.h4('${lot?.scanDone}')),
                 ],
               ),
               const SizedBox(height: Dimens.space_6),
@@ -49,7 +49,7 @@ class PreDispatchLotWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Flexible(flex: 2, fit: FlexFit.tight, child: CshTextNew.bodyText2(l10n.pendingQty, isPrimary: false)),
-                  Flexible(flex: 3, fit: FlexFit.tight, child: CshTextNew.h4('${lot?.pendingQty}')),
+                  Flexible(flex: 3, fit: FlexFit.tight, child: CshTextNew.h4('${lot?.scanPending}')),
                 ],
               ),
               const SizedBox(height: Dimens.space_6),

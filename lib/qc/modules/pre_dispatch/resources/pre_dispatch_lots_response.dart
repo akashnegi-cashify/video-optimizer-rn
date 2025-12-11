@@ -26,26 +26,34 @@ class PreDispatchLotsResponse {
 
 @JsonSerializable()
 class PreDispatchLotInfo {
-  @JsonKey(name: "lgn")
+  @JsonKey(name: "lotId")
+  int? lotId;
+
+  @JsonKey(name: "lotGroupName")
   String? lotGroupName;
 
-  @JsonKey(name: "lc")
-  int? lotQty;
+  @JsonKey(name: "lotCount")
+  int? lotCount;
 
-  @JsonKey(name: "sp")
-  int? pendingQty;
+  @JsonKey(name: "scanPending")
+  int? scanPending;
 
-  @JsonKey(name: "sd")
-  int? scannedQty;
+  @JsonKey(name: "scanDone")
+  int? scanDone;
 
-  @JsonKey(name: "lt")
+  @JsonKey(name: "channel")
+  String? channel;
+
+  @JsonKey(name: "lotType")
   String? lotType;
 
   PreDispatchLotInfo({
+    this.lotId,
     this.lotGroupName,
-    this.lotQty,
-    this.pendingQty,
-    this.scannedQty,
+    this.lotCount,
+    this.scanPending,
+    this.scanDone,
+    this.channel,
     this.lotType,
   });
 
