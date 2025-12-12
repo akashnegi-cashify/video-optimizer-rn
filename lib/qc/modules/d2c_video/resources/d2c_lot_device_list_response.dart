@@ -19,7 +19,7 @@ class D2cLotDeviceListResponse extends BaseActionResponse {
 
 @JsonSerializable()
 class D2cLotDeviceListData {
-  @JsonKey(name: "bc")
+  @JsonKey(name: "qrCode")
   String? deviceBarcode;
 
   D2cLotDeviceListData(this.deviceBarcode);

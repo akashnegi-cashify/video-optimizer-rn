@@ -12,11 +12,10 @@ class DisputeImageCaptureService {
 
   static Stream<DisputeImageCaptureSubmitSuccessResponse?> submitDisputeMediaData(
       {required String barcode, required Map<String, dynamic> bodyData}) {
-    Map<String, List<String>> query = {
-      "qrCode": [barcode],
-    };
-
-    return QcService().post("/source/audit/$barcode", DisputeImageCaptureSubmitSuccessResponse.fromJson,
-        params: query, body: jsonEncode(bodyData));
+    return QcService().post(
+      "/source/audit/$barcode",
+      DisputeImageCaptureSubmitSuccessResponse.fromJson,
+      body: jsonEncode(bodyData),
+    );
   }
 }

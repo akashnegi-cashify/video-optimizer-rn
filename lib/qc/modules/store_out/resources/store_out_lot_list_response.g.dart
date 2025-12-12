@@ -26,23 +26,27 @@ Map<String, dynamic> _$StoreOutLotListResponseToJson(
 
 StoreOutLotListItem _$StoreOutLotListItemFromJson(Map<String, dynamic> json) =>
     StoreOutLotListItem(
-      lotId: (json['lot_id'] as num?)?.toInt(),
-      lotCount: (json['lc'] as num?)?.toInt(),
-      lotGrpName: json['lgn'] as String?,
-      lotType: json['lt'] as String?,
-      ch: json['ch'] as String?,
-      deviceCount: (json['dc'] as num?)?.toInt(),
-      isStoreOutInProcess: json['isinstout'] as bool?,
+      lotId: (json['lotId'] as num?)?.toInt(),
+      lotCount: (json['lotCount'] as num?)?.toInt(),
+      lotGrpName: json['lotGroupName'] as String?,
+      lotType: json['lotType'] as String?,
+      ch: json['channel'] as String?,
+      deviceCount: (json['deviceCount'] as num?)?.toInt(),
+      isStoreOutInProcess: json['isInStoreOut'] as bool?,
+      facilityId: (json['facilityId'] as num?)?.toInt(),
+      facilityName: json['facilityName'] as String?,
     );
 
 Map<String, dynamic> _$StoreOutLotListItemToJson(
         StoreOutLotListItem instance) =>
     <String, dynamic>{
-      'lot_id': instance.lotId,
-      'lc': instance.lotCount,
-      'lgn': instance.lotGrpName,
-      'lt': instance.lotType,
-      'ch': instance.ch,
-      'dc': instance.deviceCount,
-      'isinstout': instance.isStoreOutInProcess,
+      'lotId': instance.lotId,
+      'lotCount': instance.lotCount,
+      'lotGroupName': instance.lotGrpName,
+      'lotType': instance.lotType,
+      'channel': instance.ch,
+      'deviceCount': instance.deviceCount,
+      'isInStoreOut': instance.isStoreOutInProcess,
+      'facilityId': instance.facilityId,
+      'facilityName': instance.facilityName,
     };

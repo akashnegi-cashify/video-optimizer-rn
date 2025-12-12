@@ -5,23 +5,18 @@ part 'store_out_in_process_response.g.dart';
 
 @JsonSerializable()
 class StoreOutInProcessResponse extends BaseResponse {
-  @JsonKey(name: "dt")
-  StoreOutInProcessData? storeOutInProcessData;
+  /// New v1/store-out/store-out-status fields
+  @JsonKey(name: "storeOutStatus")
+  bool? storeOutStatus;
 
-  StoreOutInProcessResponse(this.storeOutInProcessData, super.cashifyAlert, super.trackUrl);
+  @JsonKey(name: "lotId")
+  int? lotId;
 
-  static StoreOutInProcessResponse fromJson(Map<String, dynamic> json) => _$StoreOutInProcessResponseFromJson(json);
+  StoreOutInProcessResponse(this.storeOutStatus, this.lotId, super.cashifyAlert, super.trackUrl);
+
+  static StoreOutInProcessResponse fromJson(Map<String, dynamic> json) =>
+      _$StoreOutInProcessResponseFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$StoreOutInProcessResponseToJson(this);
-}
-
-@JsonSerializable()
-class StoreOutInProcessData {
-  @JsonKey(name: "isinstout")
-  bool? isStoreOutInProcess;
-
-  static StoreOutInProcessData fromJson(Map<String, dynamic> json) => _$StoreOutInProcessDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StoreOutInProcessDataToJson(this);
 }

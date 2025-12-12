@@ -9,9 +9,10 @@ import 'package:flutter_trc/src/common/searchable.dart';
 import 'package:provider/provider.dart';
 
 class D2cLotDeviceListingProvider extends CshChangeNotifier with Searchable {
+  final int lotId;
   final String groupLotName;
 
-  D2cLotDeviceListingProvider(this.groupLotName);
+  D2cLotDeviceListingProvider(this.lotId, this.groupLotName);
 
   List<D2cLotDeviceListData>? _d2cLotDeviceList;
 
@@ -33,7 +34,7 @@ class D2cLotDeviceListingProvider extends CshChangeNotifier with Searchable {
 
   Future<void> getLotDeviceList({bool isNotify = false}) {
     var completer = Completer<void>();
-    D2CVideoService.getLotDeviceList(groupLotName).listen(
+    D2CVideoService.getLotDeviceList(lotId, groupLotName).listen(
       (event) {
         _d2cLotDeviceList = event.d2cLotDeviceList;
         completer.complete();
@@ -50,7 +51,7 @@ class D2cLotDeviceListingProvider extends CshChangeNotifier with Searchable {
 
   Future<void> moveLotToNextStatus() {
     var completer = Completer<void>();
-    D2CVideoService.updateLotStatus(groupLotName).listen((event) {
+    D2CVideoService.updateLotStatus(lotId, groupLotName).listen((event) {
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

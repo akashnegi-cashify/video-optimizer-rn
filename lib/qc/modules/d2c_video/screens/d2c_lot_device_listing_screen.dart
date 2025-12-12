@@ -9,12 +9,15 @@ import 'package:provider/provider.dart';
 
 class D2cLotDeviceListingScreen extends StatelessWidget {
   static final String route = "/d2c-lot-device-listing";
+  final int? lotId;
   final String? groupLotName;
 
-  static navigate(BuildContext context, String groupLotName, {required Function(bool isRefreshLot) onBack}) {
+  static navigate(BuildContext context, int lotId, String groupLotName,
+      {required Function(bool isRefreshLot) onBack}) {
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return D2cLotDeviceListingScreen(
+          lotId: lotId,
           groupLotName: groupLotName,
         );
       },
@@ -29,14 +32,14 @@ class D2cLotDeviceListingScreen extends StatelessWidget {
     );
   }
 
-  const D2cLotDeviceListingScreen({this.groupLotName, super.key});
+  const D2cLotDeviceListingScreen({this.lotId, this.groupLotName, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: QcGeneralHeader("D2C Video Pending Lots"),
       body: ChangeNotifierProvider(
-        create: (_) => D2cLotDeviceListingProvider(groupLotName ?? ""),
+        create: (_) => D2cLotDeviceListingProvider(lotId ?? 0, groupLotName ?? ""),
         builder: (innerContext, _) {
           var provider = D2cLotDeviceListingProvider.of(innerContext, listen: false);
           return FutureBuilder(
@@ -58,7 +61,7 @@ class D2cLotDeviceListingScreen extends StatelessWidget {
 }
 
 class _D2cLotDeviceListing extends StatelessWidget {
-  const _D2cLotDeviceListing({super.key});
+  const _D2cLotDeviceListing();
 
   @override
   Widget build(BuildContext context) {

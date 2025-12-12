@@ -30,22 +30,22 @@ Map<String, dynamic> _$ScanNormalLotListResponseToJson(
 
 ScanNormalLotItem _$ScanNormalLotItemFromJson(Map<String, dynamic> json) =>
     ScanNormalLotItem(
-      id: (json['id'] as num?)?.toInt(),
-      qrCode: json['qr_code'] as String?,
-      model: json['m'] as String?,
-      brand: json['b'] as String?,
-      imei: json['im'] as String?,
-      stockBarcode: json['stbr'] as String?,
-      storagePosition: (json['p'] as num?)?.toInt(),
+      deviceId: (json['deviceId'] as num?)?.toInt(),
+      qrCode: json['qrCode'] as String?,
+      model: json['model'] as String?,
+      brand: json['brand'] as String?,
+      imei: json['imei'] as String?,
+      storageBarcode: json['storageBarcode'] as String?,
+      position: (json['position'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ScanNormalLotItemToJson(ScanNormalLotItem instance) =>
     <String, dynamic>{
-      if (instance.id case final value?) 'id': value,
-      if (instance.qrCode case final value?) 'qr_code': value,
-      if (instance.model case final value?) 'm': value,
-      if (instance.brand case final value?) 'b': value,
-      if (instance.imei case final value?) 'im': value,
-      if (instance.stockBarcode case final value?) 'stbr': value,
-      if (instance.storagePosition case final value?) 'p': value,
+      if (instance.deviceId case final value?) 'deviceId': value,
+      if (instance.qrCode case final value?) 'qrCode': value,
+      if (instance.model case final value?) 'model': value,
+      if (instance.brand case final value?) 'brand': value,
+      if (instance.imei case final value?) 'imei': value,
+      if (instance.storageBarcode case final value?) 'storageBarcode': value,
+      if (instance.position case final value?) 'position': value,
     };

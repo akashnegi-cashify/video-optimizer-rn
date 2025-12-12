@@ -8,25 +8,63 @@ class DisputedMediaDataResponse {
   String? rid;
   @JsonKey(name: "pm")
   int? pm;
-  @JsonKey(name: "m")
-  String? m;
-  @JsonKey(name: "b")
+
+  /// Device model (modal in backend DTO)
+  @JsonKey(name: "modal")
+  String? modal;
+
+  @JsonKey(name: "brand")
   String? brand;
-  @JsonKey(name: "il")
-  List<String>? il;
-  @JsonKey(name: "as")
+
+  /// List of IMEIs
+  @JsonKey(name: "imeis")
+  List<String>? imeis;
+
+  @JsonKey(name: "auditStatus")
   int? auditStatus;
+
+  /// List of audit entries
   @JsonKey(name: "auditData")
   List<DisputeMediaInfoData>? mediaDataList;
+
+  /// API key for the audit session
+  @JsonKey(name: "apiKey")
+  String? apiKey;
+
+  /// Overall label/heading for the audit
+  @JsonKey(name: "label")
+  String? label;
+
+  /// Total images count
+  @JsonKey(name: "images")
+  int? images;
+
+  /// Total videos count
+  @JsonKey(name: "videos")
+  int? videos;
+
+  /// Currently selected report name/key
+  @JsonKey(name: "selectedReport")
+  String? selectedReport;
+
+  /// Audit type
+  @JsonKey(name: "auditType")
+  int? auditType;
 
   DisputedMediaDataResponse({
     this.brand,
     this.auditStatus,
-    this.il,
-    this.m,
+    this.imeis,
+    this.modal,
     this.mediaDataList,
     this.pm,
     this.rid,
+    this.apiKey,
+    this.label,
+    this.images,
+    this.videos,
+    this.selectedReport,
+    this.auditType,
   });
 
   static DisputedMediaDataResponse fromJson(Map<String, dynamic> data) => _$DisputedMediaDataResponseFromJson(data);

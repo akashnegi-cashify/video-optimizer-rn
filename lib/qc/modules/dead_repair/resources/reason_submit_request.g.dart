@@ -13,6 +13,7 @@ ReasonSubmitRequest _$ReasonSubmitRequestFromJson(Map<String, dynamic> json) =>
       qr: json['qr'] as String?,
       id: (json['id'] as num?)?.toInt(),
       actionRemark: json['actionRemark'] as String?,
+      skus: (json['skus'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ReasonSubmitRequestToJson(
@@ -23,4 +24,5 @@ Map<String, dynamic> _$ReasonSubmitRequestToJson(
       if (instance.qr case final value?) 'qr': value,
       if (instance.id case final value?) 'id': value,
       if (instance.actionRemark case final value?) 'actionRemark': value,
+      if (instance.skus case final value?) 'skus': value,
     };

@@ -20,7 +20,7 @@ class StoreOutLotListContainer extends StatelessWidget {
   void onItemClicked(BuildContext context, String? lotName, int? lotId) {
     var provider = StoreOutProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.getStoreOutProcessStatus(lotId).then((value) {
+    provider.getStoreOutProcessStatus(lotId, lotName).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         showInProgressDialog(context, onProceed: () {

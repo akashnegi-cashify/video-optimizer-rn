@@ -37,11 +37,11 @@ Map<String, dynamic> _$D2cLotDeviceListResponseToJson(
 D2cLotDeviceListData _$D2cLotDeviceListDataFromJson(
         Map<String, dynamic> json) =>
     D2cLotDeviceListData(
-      json['bc'] as String?,
+      json['qrCode'] as String?,
     );
 
 Map<String, dynamic> _$D2cLotDeviceListDataToJson(
         D2cLotDeviceListData instance) =>
     <String, dynamic>{
-      'bc': instance.deviceBarcode,
+      'qrCode': instance.deviceBarcode,
     };

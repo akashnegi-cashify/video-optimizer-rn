@@ -70,7 +70,7 @@ abstract class CalculatorService {
       {int? categoryId, MyQuoteRequestData? quoteRequest}) {
     Map<String, dynamic> params = {
       "qrCode": deviceBarcode.toString(),
-      if (categoryId != null) "cid": categoryId.toString(),
+      if (categoryId != null) "categoryId": categoryId.toString(),
       if (categoryId != null) "csr": quoteRequest
     };
 

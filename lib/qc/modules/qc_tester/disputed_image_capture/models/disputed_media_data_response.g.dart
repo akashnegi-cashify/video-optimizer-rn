@@ -9,15 +9,22 @@ part of 'disputed_media_data_response.dart';
 DisputedMediaDataResponse _$DisputedMediaDataResponseFromJson(
         Map<String, dynamic> json) =>
     DisputedMediaDataResponse(
-      brand: json['b'] as String?,
-      auditStatus: (json['as'] as num?)?.toInt(),
-      il: (json['il'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      m: json['m'] as String?,
+      brand: json['brand'] as String?,
+      auditStatus: (json['auditStatus'] as num?)?.toInt(),
+      imeis:
+          (json['imeis'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      modal: json['modal'] as String?,
       mediaDataList: (json['auditData'] as List<dynamic>?)
           ?.map((e) => DisputeMediaInfoData.fromJson(e as Map<String, dynamic>))
           .toList(),
       pm: (json['pm'] as num?)?.toInt(),
       rid: json['r_id'] as String?,
+      apiKey: json['apiKey'] as String?,
+      label: json['label'] as String?,
+      images: (json['images'] as num?)?.toInt(),
+      videos: (json['videos'] as num?)?.toInt(),
+      selectedReport: json['selectedReport'] as String?,
+      auditType: (json['auditType'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DisputedMediaDataResponseToJson(
@@ -25,11 +32,17 @@ Map<String, dynamic> _$DisputedMediaDataResponseToJson(
     <String, dynamic>{
       'r_id': instance.rid,
       'pm': instance.pm,
-      'm': instance.m,
-      'b': instance.brand,
-      'il': instance.il,
-      'as': instance.auditStatus,
+      'modal': instance.modal,
+      'brand': instance.brand,
+      'imeis': instance.imeis,
+      'auditStatus': instance.auditStatus,
       'auditData': instance.mediaDataList,
+      'apiKey': instance.apiKey,
+      'label': instance.label,
+      'images': instance.images,
+      'videos': instance.videos,
+      'selectedReport': instance.selectedReport,
+      'auditType': instance.auditType,
     };
 
 DisputeMediaInfoData _$DisputeMediaInfoDataFromJson(

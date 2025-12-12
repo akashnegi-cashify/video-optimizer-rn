@@ -72,12 +72,10 @@ class _StoreOutWidgetState extends State<StoreOutWidget> with TickerProviderStat
   }
 
   void _onItemClick(BuildContext context, String? lotName, int lotType) {
-    var provider = StoreOutProvider.of(context, listen: false);
     LotItemsScanScreen.navigate(context, lotName: lotName, lotType: lotType).then((value) {
       if (lotType == LotType.NORMAL_LOT.value) {
+        var provider = StoreOutProvider.of(context, listen: false);
         provider.refreshLotList();
-      } else if (lotType == LotType.BIN_LOT.value) {
-        provider.fetchStoreOutBinList();
       }
     });
   }

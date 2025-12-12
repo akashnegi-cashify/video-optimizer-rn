@@ -18,10 +18,10 @@ class D2CDeviceDetailResponse extends BaseResponse {
 
 @JsonSerializable()
 class D2CDeviceDetail {
-  @JsonKey(name: 'qr')
+  @JsonKey(name: 'qrCode')
   String? deviceBarcode;
 
-  @JsonKey(name: 'mn')
+  @JsonKey(name: 'modelName')
   String? modelName;
 
   static D2CDeviceDetail fromJson(Map<String, dynamic> json) => _$D2CDeviceDetailFromJson(json);

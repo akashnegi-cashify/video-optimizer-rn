@@ -28,11 +28,11 @@ Map<String, dynamic> _$D2CDeviceDetailResponseToJson(
 
 D2CDeviceDetail _$D2CDeviceDetailFromJson(Map<String, dynamic> json) =>
     D2CDeviceDetail()
-      ..deviceBarcode = json['qr'] as String?
-      ..modelName = json['mn'] as String?;
+      ..deviceBarcode = json['qrCode'] as String?
+      ..modelName = json['modelName'] as String?;
 
 Map<String, dynamic> _$D2CDeviceDetailToJson(D2CDeviceDetail instance) =>
     <String, dynamic>{
-      'qr': instance.deviceBarcode,
-      'mn': instance.modelName,
+      'qrCode': instance.deviceBarcode,
+      'modelName': instance.modelName,
     };

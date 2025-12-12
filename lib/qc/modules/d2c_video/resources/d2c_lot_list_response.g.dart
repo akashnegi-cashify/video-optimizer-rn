@@ -26,10 +26,16 @@ Map<String, dynamic> _$D2cLotListResponseToJson(D2cLotListResponse instance) =>
 
 D2cLotListData _$D2cLotListDataFromJson(Map<String, dynamic> json) =>
     D2cLotListData(
-      json['gln'] as String?,
+      (json['lotId'] as num?)?.toInt(),
+      json['groupLotName'] as String?,
+      (json['facilityId'] as num?)?.toInt(),
+      json['facilityName'] as String?,
     );
 
 Map<String, dynamic> _$D2cLotListDataToJson(D2cLotListData instance) =>
     <String, dynamic>{
-      'gln': instance.groupLotName,
+      'lotId': instance.lotId,
+      'groupLotName': instance.groupLotName,
+      'facilityId': instance.facilityId,
+      'facilityName': instance.facilityName,
     };

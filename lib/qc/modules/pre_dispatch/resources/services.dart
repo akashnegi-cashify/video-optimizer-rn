@@ -7,10 +7,15 @@ import 'index.dart';
 class DispatchLotServices {
 
   static Stream<PreDispatchLotsResponse?> getPreDispatchListData(PreDispatchLotRequest request) {
-    return QcService().post(
-      "/lot-pre-dispatch/v2/list",
+    // v1 list endpoint is now GET-based; keep this for any existing usages
+    final params = <String, List<String>>{
+      if (request.pageNo != null) "pageNo": [request.pageNo.toString()],
+      if (request.pageSize != null) "pageSize": [request.pageSize.toString()],
+    };
+    return QcService().get(
+      "/lot-pre-dispatch/list",
       PreDispatchLotsResponse.fromJson,
-      body: jsonEncode(request),
+      params: params,
     );
   }
 

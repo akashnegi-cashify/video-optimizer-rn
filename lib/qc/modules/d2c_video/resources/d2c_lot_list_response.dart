@@ -18,10 +18,19 @@ class D2cLotListResponse extends BaseResponse {
 
 @JsonSerializable()
 class D2cLotListData {
-  @JsonKey(name: "gln")
+  @JsonKey(name: "lotId")
+  int? lotId;
+
+  @JsonKey(name: "groupLotName")
   String? groupLotName;
 
-  D2cLotListData(this.groupLotName);
+  @JsonKey(name: "facilityId")
+  int? facilityId;
+
+  @JsonKey(name: "facilityName")
+  String? facilityName;
+
+  D2cLotListData(this.lotId, this.groupLotName, this.facilityId, this.facilityName);
 
   static D2cLotListData fromJson(Map<String, dynamic> json) => _$D2cLotListDataFromJson(json);
 
