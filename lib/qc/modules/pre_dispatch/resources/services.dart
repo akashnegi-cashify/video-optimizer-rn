@@ -6,19 +6,6 @@ import 'index.dart';
 
 class DispatchLotServices {
 
-  static Stream<PreDispatchLotsResponse?> getPreDispatchListData(PreDispatchLotRequest request) {
-    // v1 list endpoint is now GET-based; keep this for any existing usages
-    final params = <String, List<String>>{
-      if (request.pageNo != null) "pageNo": [request.pageNo.toString()],
-      if (request.pageSize != null) "pageSize": [request.pageSize.toString()],
-    };
-    return QcService().get(
-      "/lot-pre-dispatch/list",
-      PreDispatchLotsResponse.fromJson,
-      params: params,
-    );
-  }
-
   static Stream<PreDispatchItemResponse?> fetchPreDispatchItemDetail(String groupLotName) {
     Map<String, List<String>> param = {
       "gln": [groupLotName],

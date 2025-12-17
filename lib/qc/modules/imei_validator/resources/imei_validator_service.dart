@@ -11,6 +11,6 @@ class ImeiValidatorService {
       "imei2": isImei2Matched,
     };
 
-    return QcService().post("/stock-in/fraud", BaseActionResponse.fromJson, body: jsonEncode(req));
+    return QcService().post("/stock-in/fraud", BaseActionResponse.fromJsonWithInt, body: jsonEncode(req));
   }
 }

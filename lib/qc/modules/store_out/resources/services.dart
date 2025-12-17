@@ -3,22 +3,9 @@ import 'dart:convert';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/qc/modules/store_out/resources/store_out_in_process_response.dart';
 
-import '../../../../src/common/resources/lot_list_request.dart';
 import 'index.dart';
 
 class StoreOutServices {
-  static Stream<StoreOutBinListResponse?> fetchStoreOutBinList({required BaseService service}) {
-    return service.get('/bin/lot/store-out/list', StoreOutBinListResponse.fromJson);
-  }
-
-  static Stream<StoreOutLotListResponse?> fetchStoreOutLotList(LotListRequest request, {required BaseService service}) {
-    return service.post(
-      '/v1/store-out/list',
-      StoreOutLotListResponse.fromJson,
-      body: jsonEncode(request),
-    );
-  }
-
   static Stream<BinOutVerifyResponse?> binOutVerifyBarCodeService(BinOutRequest request,
       {required BaseService service}) {
     var header = service.getHeaders(null);
@@ -31,14 +18,14 @@ class StoreOutServices {
         headers: header);
   }
 
-  static Stream<ScanNormalLotListResponse?> fetchNormalScanLotList(String lotName, int lotType,
+  static Stream<List<ScanNormalLotItem>?> fetchNormalScanLotList(String lotName, int lotType,
       {required BaseService service}) {
     var param = {
       "gln": [lotName]
     };
-    return service.get(
+    return service.getArray(
       "/v1/store-out/devices",
-      ScanNormalLotListResponse.fromJson,
+      ScanNormalLotItem.fromJson,
       params: param,
     );
   }
@@ -55,7 +42,7 @@ class StoreOutServices {
     );
   }
 
-  static Stream<NormalLotVerifyResponse?> normalLotVerifyBarCodeService({
+  static Stream<BaseResponse?> normalLotVerifyBarCodeService({
     required String lotGroupName,
     required String qrCode,
     required String displayBarcode,
@@ -67,12 +54,11 @@ class StoreOutServices {
       "qrCode": qrCode,
       "displayBarcode": displayBarcode,
     });
-    return service.post("/v1/store-out/device", NormalLotVerifyResponse.fromJson,
-        body: body, headers: header);
+    return service.post("/v1/store-out/device", BaseResponse.fromJson, body: body, headers: header);
   }
 
-  static Stream<StoreOutInProcessResponse?> getStoreOutInProcessStatus(
-      int? lotId, String? groupName, {required BaseService service}) {
+  static Stream<StoreOutInProcessResponse?> getStoreOutInProcessStatus(int? lotId, String? groupName,
+      {required BaseService service}) {
     final params = <String, List<String>>{
       "lid": [lotId.toString()],
       if (groupName != null) "gn": [groupName],

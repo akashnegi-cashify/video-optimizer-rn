@@ -1,4 +1,7 @@
 import 'package:calculator_ui/calculator_ui.dart';
+import 'package:components/list_page/config/list_api_config.dart';
+import 'package:components/list_page/controller/csh_list_controller.dart';
+import 'package:components/list_page/widgets/csh_api_list.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -8,7 +11,7 @@ import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_list_provider.dart'
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
 import 'package:flutter_trc/src/common/widgets/search_with_dropdown_widget.dart';
-import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 
 import '../l10n.dart';
 
@@ -29,12 +32,14 @@ class ReQcListWidget extends StatefulWidget {
   State<ReQcListWidget> createState() => _ReQcListWidgetState();
 }
 
-class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidget> {
+class _ReQcListWidgetState extends State<ReQcListWidget> {
   late final List<DropDownItem> _dropDownItems = [];
   DropDownItem? _selectedSearchType;
 
   final TextEditingController _searchController = TextEditingController();
   final TextInputDebounce _timer = TextInputDebounce();
+
+  final CshListController _listController = CshListController();
 
   @override
   void initState() {
@@ -52,7 +57,7 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
     } else {
       provider.lotName = value;
     }
-    resetAndRefreshScreen();
+    _listController.refresh();
   }
 
   @override
@@ -71,58 +76,34 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
           onDropDownChange: (item) {
             var provider = ReQcListProvider.of(context, listen: false);
             provider.resetSearchFilters();
-            resetAndRefreshScreen();
+            _listController.refresh();
           },
         ),
         Expanded(
           child: Stack(
             children: [
-              iterate(
-                (item, index) {
-                  return InkWell(
-                    onTap: () => _onItemClicked(item),
-                    child: _ReQcListItemWidget(
-                      index: index,
-                      dataModel: item,
-                      onSkipClick: () => _onSkipButtonClicked(item.lotGroupName),
-                    ),
-                  );
-                },
-                padding: const EdgeInsets.fromLTRB(Dimens.space_16, 0, Dimens.space_16, Dimens.space_16),
-                separator: const SizedBox(height: Dimens.space_8),
-                onRefresh: () async {},
-                onNoDataFound: () {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CshTextNew.subTitle1(l10n.noDataFound),
-                        const SizedBox(height: Dimens.space_12),
-                        CshMediumButton(
-                          text: l10n.refresh,
-                          onPressed: () {
-                            resetAndRefreshScreen();
-                          },
-                        )
-                      ],
-                    ),
-                  );
-                },
-                onError: (String error) {
-                  return Center(
-                    child: Row(
-                      children: [
-                        const SizedBox.shrink(),
-                        Expanded(
-                          child: Text(
-                            error,
-                            style: theme.primaryTextTheme.displaySmall,
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
+              CshApiList<ReQcListData>(
+                apiConfig: ListApiConfig(
+                  apiUrl: "/re-qc/v1",
+                  serviceGroup: TRCServiceGroups.qcConsole,
+                ),
+                controller: _listController,
+                shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+                listPadding: const EdgeInsets.all(Dimens.space_16),
+                verticalRowSpacing: Dimens.space_16,
+                itemFromJson: ReQcListData.fromJson,
+                getRowWidget: (item, index) {
+                  if (item != null) {
+                    return InkWell(
+                      onTap: () => _onItemClicked(item),
+                      child: _ReQcListItemWidget(
+                        index: index,
+                        dataModel: item,
+                        onSkipClick: () => _onSkipButtonClicked(item.lotId),
+                      ),
+                    );
+                  }
+                  return SizedBox.shrink();
                 },
               ),
               Positioned(
@@ -142,26 +123,16 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
     );
   }
 
-  _onSkipButtonClicked(String? lotGroupName) {
+  _onSkipButtonClicked(int? lotId) {
     var provider = ReQcListProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.skipReQc(lotGroupName).then((value) {
+    provider.skipReQc(lotId).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: "Request Completed Successfully");
-      resetAndRefreshScreen();
+      _listController.refresh();
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
-    });
-  }
-
-  @override
-  void requestApi(int pageNo, {Function(List<ReQcListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
-    var provider = ReQcListProvider.of(context, listen: false);
-    provider.getReQcList(pageSize, pageNo * pageSize).then((value) {
-      onSuccess?.call(value);
-    }, onError: (error) {
-      onError?.call(error);
     });
   }
 
@@ -185,13 +156,13 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
             Navigator.pop(context); // dismiss D2cPendingVideoListDialog
             CshLoading().hideLoading(context);
             CshSnackBar.success(context: context, message: "Request Completed Successfully");
-            resetAndRefreshScreen();
+            _listController.refresh();
           },
         );
       } else {
         CshLoading().hideLoading(context);
         CshSnackBar.success(context: context, message: "Request Completed Successfully");
-        resetAndRefreshScreen();
+        _listController.refresh();
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);
@@ -212,7 +183,7 @@ class _ReQcListWidgetState extends PaginatedListState<ReQcListData, ReQcListWidg
     StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotTypeFilters).then((value) {
       if (value != null && value is List<int>) {
         provider.lotTypeFilters = value;
-        resetAndRefreshScreen();
+        _listController.refresh();
       }
     });
   }

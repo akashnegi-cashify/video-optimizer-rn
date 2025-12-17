@@ -51,9 +51,9 @@ class ReQcListProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<void> skipReQc(String? lotName) {
+  Future<void> skipReQc(int? lotId) {
     var completer = Completer<void>();
-    ReQcService.skipReQc(lotName).listen((event) {
+    ReQcService.skipReQc(lotId).listen((event) {
       completer.complete();
     }, onError: (error) {
       var errorMessage = ApiErrorHelper.getErrorMessage(error);

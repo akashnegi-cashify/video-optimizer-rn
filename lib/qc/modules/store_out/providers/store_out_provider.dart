@@ -34,44 +34,6 @@ class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
     binListDataState = DataState();
   }
 
-  Future<List<StoreOutLotListItem>?> fetchStoreOutList(int pageNo, int offset) {
-    var completer = Completer<List<StoreOutLotListItem>?>();
-    LotListRequest request = LotListRequest(
-      pageNo: pageNo,
-      pageSize: offset,
-      filterMap: FilterMap(
-          searchQuery: searchQuery,
-          isStoreOut: _isStoreOutInProgress ? 1 : 0,
-          lotType: Validator.isListNullOrEmpty(_selectedLotTypeList) ? null : _selectedLotTypeList),
-    );
-    StoreOutServices.fetchStoreOutLotList(request, service: service).listen(
-      (event) {
-        if (!Validator.isListNullOrEmpty(event?.lotList)) {
-          completer.complete(event?.lotList);
-        } else {
-          completer.completeError("No data found");
-        }
-      },
-      onError: (error) {
-        completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-      },
-    );
-    return completer.future;
-  }
-
-  void fetchStoreOutBinList() {
-    binListDataState = binListDataState.copyWith(status: RequestStatus.initial, data: null);
-    notifyListeners();
-    StoreOutServices.fetchStoreOutBinList(service: service).listen((event) {
-      binListDataState = binListDataState.copyWith(status: RequestStatus.success, data: event);
-      notifyListeners();
-    }, onError: (error, stackTrace) {
-      var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong.";
-      binListDataState = binListDataState.copyWith(status: RequestStatus.failure, errorMsg: errorMsg, data: null);
-      notifyListeners();
-    });
-  }
-
   Future<void> binOutVerifyBarCode(BinOutRequest request) {
     var completer = Completer<BinOutVerifyResponse?>();
 

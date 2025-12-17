@@ -31,8 +31,9 @@ class ReQcService {
     return QcService().post("/lot-re-qc/v2", ReQcListResponse.fromJson, body: jsonEncode(req));
   }
 
-  static Stream<BaseResponse?> skipReQc(String? lotName) {
-    return QcService().post("/lot-re-qc/v3/skip-re-qc?lgn=$lotName", BaseResponse.fromJson);
+  static Stream<BaseResponse?> skipReQc(int? lotId) {
+    Map<String, int?> req = {"lotId": lotId};
+    return QcService().post("/re-qc/v1/skip-re-qc", BaseResponse.fromJson, body: jsonEncode(req));
   }
 
   static Stream<D2cLotDeviceListResponse?> completeReQc(String? lotGroupName) {

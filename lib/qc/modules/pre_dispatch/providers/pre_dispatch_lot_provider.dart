@@ -26,31 +26,6 @@ class PreDispatchLotProvider extends CshChangeNotifier {
     controller = StreamController.broadcast();
   }
 
-  Stream<PreDispatchLotsResponse?> getDataStream(int pageNo, int pageSize) {
-    FilterMap? filterMap;
-    PreDispatchLotRequest request = PreDispatchLotRequest()
-      ..pageNo = pageNo * pageSize
-      ..pageSize = pageSize;
-
-    if (!Validator.isNullOrEmpty(_lotName)) {
-      filterMap = FilterMap(searchQuery: _lotName);
-    }
-
-    if (!Validator.isNullOrEmpty(_barcode)) {
-      filterMap = filterMap ?? FilterMap();
-      filterMap.barcode = _barcode;
-    }
-
-    if (!Validator.isListNullOrEmpty(lotTypeQuery)) {
-      filterMap = filterMap ?? FilterMap();
-      filterMap.lotType = lotTypeQuery;
-    }
-
-    request.filterMap = filterMap;
-
-    return DispatchLotServices.getPreDispatchListData(request);
-  }
-
   set lotTypeQuery(List<int>? value) {
     controller.add(value);
     _lotTypeQuery = value;

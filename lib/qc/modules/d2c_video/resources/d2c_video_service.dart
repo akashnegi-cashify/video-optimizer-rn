@@ -18,10 +18,6 @@ class D2CVideoService {
     return QcService().get("/device/recording/$deviceBarcode/detail", D2CDeviceDetailResponse.fromJson);
   }
 
-  static Stream<D2cLotListResponse> getLotList() {
-    return QcService().get("/device/recording/pending-lot-list", D2cLotListResponse.fromJson);
-  }
-
   static Stream<D2cLotDeviceListResponse> getLotDeviceList(int lotId, String groupLotName) {
     Map<String, List<String>> req = {
       'lotId': [lotId.toString()],

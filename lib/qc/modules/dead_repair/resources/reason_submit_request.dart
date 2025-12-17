@@ -10,9 +10,6 @@ class ReasonSubmitRequest {
   @JsonKey(name: "remark", includeIfNull: false)
   String? remark;
 
-  @JsonKey(name: 'qr',includeIfNull: false)
-  String? qr;
-
   @JsonKey(name: 'id',includeIfNull: false)
   int? id;
 
@@ -26,7 +23,6 @@ class ReasonSubmitRequest {
   ReasonSubmitRequest({
     this.code,
     this.remark,
-    this.qr,
     this.id,
     this.actionRemark,
     this.skus,

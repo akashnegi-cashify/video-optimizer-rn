@@ -74,17 +74,17 @@ class DisputedMediaDataResponse {
 
 @JsonSerializable()
 class DisputeMediaInfoData {
-  @JsonKey(name: "ak")
+  @JsonKey(name: "apiKey")
   String? auditKey;
-  @JsonKey(name: "l")
+  @JsonKey(name: "label")
   String? label;
-  @JsonKey(name: "ic")
+  @JsonKey(name: "images")
   int? imageCount;
-  @JsonKey(name: "vc")
+  @JsonKey(name: "videos")
   int? videoCount;
   @JsonKey(name: "sr")
   String? subHeading;
-  @JsonKey(name: "at")
+  @JsonKey(name: "auditType")
   int? at;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<String>? imageS3Urls;

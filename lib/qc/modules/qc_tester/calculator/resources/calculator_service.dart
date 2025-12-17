@@ -74,7 +74,7 @@ abstract class CalculatorService {
       if (categoryId != null) "csr": quoteRequest
     };
 
-    return service.post("/v2/device/media", DeviceMediaResponse.fromJson, body: jsonEncode(params));
+    return service.post("/v1/device/media", DeviceMediaResponse.fromJson, body: jsonEncode(params));
   }
 
   Stream<DeviceMediaResponse?> submitDeviceMedia(List<MediaSubmitRequest>? mediaList, String? deviceBarcode) {

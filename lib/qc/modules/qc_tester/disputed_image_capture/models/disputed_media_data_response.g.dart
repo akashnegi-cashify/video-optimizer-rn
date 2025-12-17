@@ -48,21 +48,21 @@ Map<String, dynamic> _$DisputedMediaDataResponseToJson(
 DisputeMediaInfoData _$DisputeMediaInfoDataFromJson(
         Map<String, dynamic> json) =>
     DisputeMediaInfoData(
-      label: json['l'] as String?,
-      at: (json['at'] as num?)?.toInt(),
-      auditKey: json['ak'] as String?,
-      imageCount: (json['ic'] as num?)?.toInt(),
+      label: json['label'] as String?,
+      at: (json['auditType'] as num?)?.toInt(),
+      auditKey: json['apiKey'] as String?,
+      imageCount: (json['images'] as num?)?.toInt(),
       subHeading: json['sr'] as String?,
-      videoCount: (json['vc'] as num?)?.toInt(),
+      videoCount: (json['videos'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DisputeMediaInfoDataToJson(
         DisputeMediaInfoData instance) =>
     <String, dynamic>{
-      'ak': instance.auditKey,
-      'l': instance.label,
-      'ic': instance.imageCount,
-      'vc': instance.videoCount,
+      'apiKey': instance.auditKey,
+      'label': instance.label,
+      'images': instance.imageCount,
+      'videos': instance.videoCount,
       'sr': instance.subHeading,
-      'at': instance.at,
+      'auditType': instance.at,
     };

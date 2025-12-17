@@ -1,9 +1,11 @@
+import 'package:components/list_page/config/list_api_config.dart';
+import 'package:components/list_page/controller/csh_list_controller.dart';
+import 'package:components/list_page/widgets/csh_api_list.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 
-import '../../../../src/utils/paginate_list_abstract.dart';
 import '../l10n.dart';
-import '../providers/store_out_provider.dart';
 import '../resources/index.dart';
 import 'index.dart';
 
@@ -19,41 +21,41 @@ class StoreOutLotListWidget extends StatefulWidget {
   State<StoreOutLotListWidget> createState() => StoreOutLotListWidgetState();
 }
 
-class StoreOutLotListWidgetState extends PaginatedListState<StoreOutLotListItem, StoreOutLotListWidget>
-    with AutomaticKeepAliveClientMixin {
+class StoreOutLotListWidgetState extends State<StoreOutLotListWidget> with AutomaticKeepAliveClientMixin {
+  final CshListController _listController = CshListController();
+
+  void resetAndRefreshScreen() {
+    _listController.refresh();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     var l10n = L10n(context);
-    return iterate(
-      (item, index) => cshGestureDetector(
-          child: ListItemWidget(
-            l10n.groupName,
-            lotValue: item.lotGrpName,
-            noOfDevices: "${item.deviceCount ?? 0}",
-            lotType: item.lotType,
-            isInProcess: item.isStoreOutInProcess ?? false,
-          ),
-          onTap: () {
-            widget.onItemClick?.call(item.lotGrpName, item.lotId);
-          }),
-      padding: const EdgeInsets.only(left: Dimens.space_16, right: Dimens.space_16, bottom: Dimens.space_16),
-      separator: const SizedBox(height: Dimens.space_12),
-      onRefresh: () {
-        return Future.delayed(const Duration(milliseconds: 500));
+    return CshApiList<StoreOutLotListItem>(
+      apiConfig: ListApiConfig(
+        apiUrl: "/v1/store-out/list",
+        serviceGroup: TRCServiceGroups.qcConsole,
+      ),
+      controller: _listController,
+      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+      listPadding: const EdgeInsets.all(Dimens.space_16),
+      verticalRowSpacing: Dimens.space_16,
+      itemFromJson: StoreOutLotListItem.fromJson,
+      getRowWidget: (item, index) {
+        return cshGestureDetector(
+            child: ListItemWidget(
+              l10n.groupName,
+              lotValue: item?.lotGrpName,
+              noOfDevices: "${item?.deviceCount ?? 0}",
+              lotType: item?.lotType,
+              isInProcess: item?.isStoreOutInProcess ?? false,
+            ),
+            onTap: () {
+              widget.onItemClick?.call(item?.lotGrpName, item?.lotId);
+            });
       },
     );
-  }
-
-  @override
-  void requestApi(int pageNo,
-      {Function(List<StoreOutLotListItem>? list)? onSuccess, Function(String errorMessage)? onError}) {
-    var provider = StoreOutProvider.of(context, listen: false);
-    provider.fetchStoreOutList(pageNo * pageSize, pageSize).then((value) {
-      onSuccess?.call(value!);
-    }, onError: (error) {
-      onError?.call(error);
-    });
   }
 
   @override
