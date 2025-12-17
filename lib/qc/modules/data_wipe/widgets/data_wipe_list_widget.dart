@@ -95,10 +95,7 @@ class _DataWipeListWidgetState extends State<DataWipeListWidget> {
       children: [
         Expanded(
           child: CshApiList<DataWipeListItem>(
-            apiConfig: ListApiConfig(
-                apiUrl: "/v1/data-erasure/list",
-                serviceGroup: TRCServiceGroups.qcErazer,
-                headers: {"X-User-Auth": "${AuthHandler().userAuth}", 'X-SSO-TOKEN': 'false'}),
+            apiConfig: ListApiConfig(apiUrl: "/v1/data-erasure/list", serviceGroup: TRCServiceGroups.qcErazer),
             filterConfig: _getFilterConfig(),
             controller: _listController,
             itemFromJson: DataWipeListItem.fromJson,

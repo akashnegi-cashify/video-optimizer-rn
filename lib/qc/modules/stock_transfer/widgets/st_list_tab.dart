@@ -3,13 +3,14 @@ import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_list_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_service.dart';
+import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_status_filter_v1_response.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_dispatch_detail%20screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/pending_lot_detail_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/st_store_out_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/widgets/stock_transfer_list_item_widget.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
-import 'package:flutter_trc/qc/modules/stock_transfer/resources/stock_transfer_status_filter_v1_response.dart';
+
 enum StockTransferListTab {
   pending("PENDING"),
   dispatchPending("DISPATCH_PENDING"),
@@ -38,16 +39,13 @@ class StListTabState extends State<StListTab> {
     super.initState();
     _statusFiltersFuture = StockTransferService.getStatusFilterListV1(widget.tabType.value).first;
   }
+
   @override
   Widget build(BuildContext context) {
     return CshApiList<StockTransferListData>(
       apiConfig: ListApiConfig(
         apiUrl: "/v1/transfer-lot/list-lots?requestTab=${widget.tabType.value}&",
         serviceGroup: TRCServiceGroups.qcTransferLot,
-         headers: {
-                "X-User-Auth": "${AuthHandler().userAuth}" ,
-                'X-SSO-TOKEN' : 'false'           
-              }
       ),
       controller: _listController,
       filterConfig: FilterConfig(filterData: [
@@ -104,7 +102,7 @@ class StListTabState extends State<StListTab> {
             onScanned: (scannedData, controller) async {
           if (scannedData.isNotEmpty) {
             Navigator.pop(context); // dismiss scanner screen
-             var isRefresh = await Navigator.pushNamed(context, PendingDispatchDetailScreen.route,
+            var isRefresh = await Navigator.pushNamed(context, PendingDispatchDetailScreen.route,
                 arguments: PendingDispatchDetailScreen.arguments(item.lotName ?? "", scannedData));
             if (isRefresh == true) {
               _listController.refresh();
@@ -114,10 +112,10 @@ class StListTabState extends State<StListTab> {
         break;
 
       case StockTransferListTab.storeOut:
-              var isRefresh = await Navigator.pushNamed(context, StStoreOutScreen.route,
+        var isRefresh = await Navigator.pushNamed(context, StStoreOutScreen.route,
             arguments: StStoreOutScreen.arguments(item.lotId!));
-            if (isRefresh == true) {
-        _listController.refresh();
+        if (isRefresh == true) {
+          _listController.refresh();
         }
         break;
     }

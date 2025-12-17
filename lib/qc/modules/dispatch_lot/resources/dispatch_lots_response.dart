@@ -26,25 +26,26 @@ class DispatchLotsResponse {
 
 @JsonSerializable()
 class Lot {
-  @JsonKey(name: "lgn")
+
+  @JsonKey(name: "lotGroupName")
   String? lotGroupName;
 
-  @JsonKey(name: "ln")
+  @JsonKey(name: "lotName")
   String? lotName;
 
-  @JsonKey(name: "in")
+  @JsonKey(name: "invoiceNo")
   String? invoiceNumber;
 
-  @JsonKey(name: "idt")
+  @JsonKey(name: "invoiceDate")
   int? invoiceDate;
 
-  @JsonKey(name: "dc")
+  @JsonKey(name: "deviceCount")
   int? deviceQty;
 
-  @JsonKey(name: "vc")
+  @JsonKey(name: "vendorCode")
   String? vendorCode;
 
-  @JsonKey(name: "vn")
+  @JsonKey(name: "vendorName")
   String? vendorName;
 
   Lot({

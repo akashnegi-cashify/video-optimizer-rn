@@ -12,6 +12,6 @@ class MPinService {
 
   static Stream<BaseActionResponse> validateMPin(String? mPin) {
     var req = {"mpin": mPin};
-    return QcService().post("/v1/mpin/validate", BaseActionResponse.fromJson, body: jsonEncode(req));
+    return QcService().post("/v1/mpin/validate", BaseActionResponse.fromJsonWithInt, body: jsonEncode(req));
   }
 }

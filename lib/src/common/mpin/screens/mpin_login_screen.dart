@@ -56,7 +56,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
-    var userDetailsData = UserDetails().userDetailsData;
+    var userDetailsData = UserDetails().consoleUserDetail;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -82,7 +82,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CshTextNew.h4("Welcome ${userDetailsData?.userName}"),
+                    CshTextNew.h4("Welcome ${userDetailsData?.firstname}"),
                     const SizedBox(height: Dimens.space_8),
                     CshTextNew.h5(l10n.enterSixDigitPin),
                     const SizedBox(height: Dimens.space_8),

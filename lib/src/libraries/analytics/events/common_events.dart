@@ -21,7 +21,7 @@ abstract class CommonEvents extends BaseTrackingEvent {
   Future<Map<String, dynamic>?> getArguments() async {
     Map<String, dynamic> argumentsMap = {};
     argumentsMap[AnalyticEventParams.hitTimeStamp] = DateTime.now().toString();
-    argumentsMap[AnalyticEventParams.userId] = UserDetails().userDetailsData?.uid;
+    argumentsMap[AnalyticEventParams.userId] = UserDetails().consoleUserDetail?.empcode;
     argumentsMap[AnalyticEventParams.appVersion] = environment?.appVersion;
     argumentsMap[AnalyticEventParams.osVersion] = DeviceInfoUtil.getOsVersion();
     argumentsMap[AnalyticEventParams.deviceModel] = DeviceInfoUtil.getModelName();

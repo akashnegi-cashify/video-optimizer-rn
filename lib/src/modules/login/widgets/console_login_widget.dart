@@ -52,10 +52,13 @@ class ConsoleLoginWidget extends StatelessWidget {
               companyKey
             ]);
             AuthHandler().setUserAuth(userAuth!);
-            UserDetails().setUserDetailsData(userAuth);
-            AppPreferences.app.setLoginType(loginType.value);
-            UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                loginType: loginType);
+            UserDetails().setUserDetailsData().then((value) {
+              AppPreferences.app.setLoginType(loginType.value);
+              UserRoles.navigateToUserRoleScreen(context, UserDetails().getListOfPermissions() ?? [],
+                  loginType: loginType);
+            }, onError: (error) {
+              CshSnackBar.error(context: context, message: error);
+            });
           },
         ),
       ),

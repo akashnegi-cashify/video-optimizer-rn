@@ -13,7 +13,8 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var userDetailsData = UserDetails().userDetailsData;
+    var userDetailsData = UserDetails().consoleUserDetail;
+    var permissionResponse = UserDetails().permissionResponse;
     return Scaffold(
       appBar: const QcGeneralHeader("Profile", showBackBtn: true, showLogoutButton: false, showProfileButton: false),
       body: Padding(
@@ -34,7 +35,7 @@ class UserProfileScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: Dimens.space_16),
-              CshTextNew.h3('Welcome ${userDetailsData?.userName}'),
+              CshTextNew.h3('Welcome ${userDetailsData?.firstname}'),
               const SizedBox(height: Dimens.space_16),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
@@ -48,7 +49,7 @@ class UserProfileScreen extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(text: 'Mobile No - ', style: theme.textTheme.bodyMedium),
-                      TextSpan(text: '${userDetailsData?.mobileNumber}', style: theme.textTheme.titleSmall),
+                      TextSpan(text: '${userDetailsData?.mobile}', style: theme.textTheme.titleSmall),
                     ],
                   ),
                 ),
@@ -82,7 +83,7 @@ class UserProfileScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    _buildPermissionWidget(context, userDetailsData?.listOfRoles ?? []),
+                    _buildPermissionWidget(context, _getPermissionList(permissionResponse?.modules ?? [])),
                   ],
                 ),
               ),
@@ -97,6 +98,20 @@ class UserProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<String> _getPermissionList(List<ModuleResponse> list) {
+    List<String> permissionList = [];
+    for (var element in list) {
+      element.permissionList?.forEach(
+        (innerElement) {
+          if (!Validator.isNullOrEmpty(innerElement.permissionKey)) {
+            permissionList.add(innerElement.permissionKey!);
+          }
+        },
+      );
+    }
+    return permissionList;
   }
 
   _buildPermissionWidget(BuildContext context, List<String> roleList) {

@@ -6,24 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../src/common/searchable.dart';
-import '../resources/domain/dispatch_lot_interactor.dart';
-import '../resources/domain/dispatch_lot_interactor_impl.dart';
 import '../resources/index.dart';
 import '../resources/services.dart';
 
 class DispatchLotProvider extends CshChangeNotifier with Searchable {
-  late DispatchLotInteractor interactor;
   bool _showSearchBox = false;
   List<int>? _lotType;
   late StreamController<List<int>?> controller;
 
   DispatchLotProvider() {
     controller = StreamController.broadcast();
-    interactor = DispatchLotInteractorImpl();
   }
-
-  Stream<DispatchLotsResponse?> getDataStream(int pageIndex, int pageSize) =>
-      interactor.getData(pageIndex, pageSize, searchQuery: searchQuery, lotType: lotType);
 
   @override
   set searchQuery(String? value) {

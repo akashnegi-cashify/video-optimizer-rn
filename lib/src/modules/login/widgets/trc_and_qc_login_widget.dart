@@ -95,7 +95,7 @@ class TrcAndQcLoginWidget extends StatelessWidget {
     /// Handle valid QC login case
     String userAuth = AppPreferences.qc.getUserAuth()!;
     AuthHandler().setUserAuth(userAuth);
-    UserDetails().setUserDetailsData(userAuth);
+    UserDetails().setUserDetailsDataTemp(userAuth);
     UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
         loginType: LoginTypes.qcLogin);
   }

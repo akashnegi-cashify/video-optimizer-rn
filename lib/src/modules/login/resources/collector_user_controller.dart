@@ -94,7 +94,7 @@ class UserRoles {
     } else {
       CshSnackBar.error(
         context: context,
-        message: "Assigned role - ${UserDetails().userDetailsData?.role} is not created for app",
+        message: "Assigned role - ${UserDetails().consoleUserDetail?.role} is not created for app",
         duration: SnackBarDuration.LONG,
         snackBarPosition: SnackBarPosition.TOP,
       );

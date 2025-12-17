@@ -1,8 +1,9 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/environments/environment_config.dart';
-import '../l10n.dart';
+
 import '../../../resources/user_details.dart';
+import '../l10n.dart';
 import '../screens/inventory_home_screen.dart';
 import '../screens/return_page.dart';
 import '../screens/summary_screen.dart';
@@ -36,10 +37,10 @@ class InventoryDrawerWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: Dimens.space_16),
-                  if (!Validator.isNullOrEmpty(UserDetails().userDetailsData?.userName))
+                  if (!Validator.isNullOrEmpty(UserDetails().consoleUserDetail?.firstname))
                     Expanded(
                       child: Text(
-                        "Hi ${UserDetails().userDetailsData!.userName!}",
+                        "Hi ${UserDetails().consoleUserDetail?.firstname!}",
                         style: theme.primaryTextTheme.displaySmall?.copyWith(color: theme.colorScheme.surface),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
