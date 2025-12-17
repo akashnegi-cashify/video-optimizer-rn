@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v5.3.1+82 (XX-11-2025)
+
+### Migration:
+
+* `TRC - TRC Executive: Store In Store out` [(SCM-11006)](https://reglobe.atlassian.net/browse/SCM-11006)
+
+
 # v5.3.0+81 (XX-11-2025)
 
 ### Migration:

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/my_search_bar_widget.dart';
 import 'package:flutter_trc/src/modules/trc_executive/models/tl_list_response.dart';
 import 'package:flutter_trc/src/modules/trc_executive/providers/tl_list_provider.dart';
-import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_screen.dart';
+import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_store_out_screen.dart';
 import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 
 import '../l10n.dart';
@@ -38,7 +38,7 @@ class _TlListWidgetState extends PaginatedListState<TlListData, TlListWidget> {
             (item, index) {
               return InkWell(
                 onTap: () {
-                  DeviceScannerScreen.navigate(context, item);
+                  TRCExecutiveStoreOutScreen.navigate(context, item);
                 },
                 child: CshCard(
                   child: Column(

@@ -3,14 +3,15 @@ import 'package:flutter_trc/src/modules/trc_executive/models/tl_list_response.da
 
 @CshPageParam()
 class DeviceScannerScreenArgumentsModel {
-  @ParamKey(key: DeviceScannerScreenArgumentsModelParams.tlUser)
-  TlListData? tlUserData;
 
-  DeviceScannerScreenArgumentsModel({this.tlUserData});
+  @ParamKey(key: DeviceScannerScreenArgumentsModelParams.storageBarcode)
+  String? storageBarcode;
+
+  DeviceScannerScreenArgumentsModel({this.storageBarcode});
 }
 
 enum DeviceScannerScreenArgumentsModelParams with AbsParamKey {
-  tlUser("tlUser");
+  storageBarcode("sbr");
 
   @override
   final String value;

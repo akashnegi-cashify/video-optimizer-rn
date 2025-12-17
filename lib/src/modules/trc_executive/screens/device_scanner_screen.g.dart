@@ -14,7 +14,7 @@ dynamic schema() => {
       "title": "Device Scanner Screen",
       "isActive": true,
       "params": [
-        {"key": "tlUser", "value": null}
+        {"key": "sbr", "value": null}
       ]
 
       //#adminscreen

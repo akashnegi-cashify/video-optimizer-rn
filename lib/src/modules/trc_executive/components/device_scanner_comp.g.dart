@@ -8,7 +8,7 @@ part of 'device_scanner_comp.dart';
 
 DeviceScannerScreenArgumentsModel fromMap(Map<String, dynamic> map) {
   DeviceScannerScreenArgumentsModel model = DeviceScannerScreenArgumentsModel(
-    tlUserData: map["tlUser"],
+    storageBarcode: map["sbr"],
   );
   return model;
 }
@@ -17,7 +17,7 @@ Widget paramBuilder(
     Widget Function(DeviceScannerScreenArgumentsModel model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
-      "tlUser": provider.data["tlUser"],
+      "sbr": provider.data["sbr"],
     },
     builder: (context, data, child) {
       DeviceScannerScreenArgumentsModel model = fromMap(data);
@@ -27,9 +27,9 @@ Widget paramBuilder(
 }
 
 bool isValid(DeviceScannerScreenArgumentsModel model) {
-  var tlUserData = model.tlUserData;
+  var storageBarcode = model.storageBarcode;
 
-  return tlUserData != null;
+  return storageBarcode != null;
 }
 
 dynamic schema() => {
@@ -40,7 +40,7 @@ dynamic schema() => {
       "isActive": true,
       "title": "Device Scanner Component",
       "cpm": [
-        {"key": "tlUser", "value": null}
+        {"key": "sbr", "value": null}
       ],
       "configJson": {
         "type": "list",
