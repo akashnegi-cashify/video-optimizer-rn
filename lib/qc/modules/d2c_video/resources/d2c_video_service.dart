@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/qc/modules/d2c_video/resources/d2c_device_detail_response.dart';
 import 'package:flutter_trc/qc/modules/d2c_video/resources/d2c_lot_device_list_response.dart';
-import 'package:flutter_trc/qc/modules/d2c_video/resources/d2c_lot_list_response.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 
 class D2CVideoService {
@@ -18,13 +17,9 @@ class D2CVideoService {
     return QcService().get("/device/recording/$deviceBarcode/detail", D2CDeviceDetailResponse.fromJson);
   }
 
-  static Stream<D2cLotDeviceListResponse> getLotDeviceList(int lotId, String groupLotName) {
-    Map<String, List<String>> req = {
-      'lotId': [lotId.toString()],
-      'gln': [groupLotName],
-    };
+  static Stream<List<D2cLotDeviceListData>> getLotDeviceList(int lotId, String groupLotName) {
     return QcService()
-        .get("/device/recording/pending-lot-device-list", D2cLotDeviceListResponse.fromJson, params: req);
+        .getArray("/device/recording/pending-lot-device-list?lotId=$lotId", D2cLotDeviceListData.fromJson);
   }
 
   static Stream<BaseResponse> updateLotStatus(int lotId, String groupLotName) {

@@ -18,22 +18,23 @@ class DeviceReportListResponse extends BaseResponse {
 
 @JsonSerializable()
 class DeviceReportListData {
-  @JsonKey(name: "pi")
+
+  @JsonKey(name: "partId")
   int? partId;
 
-  @JsonKey(name: "pn")
+  @JsonKey(name: "partName")
   String? label;
 
-  @JsonKey(name: "ic")
+  @JsonKey(name: "imageCount")
   int? imageCount;
 
-  @JsonKey(name: "svi")
+  @JsonKey(name: "selectedVariationId")
   int? preSelectedVariantId;
 
-  @JsonKey(name: "svn")
+  @JsonKey(name: "selectedVariationName")
   String? preSelectedVariantName;
 
-  @JsonKey(name: "v")
+  @JsonKey(name: "value")
   Map<String, String>? variation;
 
   @JsonKey(includeToJson: false, includeFromJson: false)

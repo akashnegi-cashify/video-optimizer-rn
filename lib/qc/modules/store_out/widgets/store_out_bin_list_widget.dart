@@ -29,8 +29,6 @@ class _StoreOutBinListWidgetState extends State<StoreOutBinListWidget> with Auto
       apiConfig: ListApiConfig(apiUrl: "/bin/lot/store-out/list?", serviceGroup: TRCServiceGroups.qcConsole),
       controller: _listController,
       shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
-      listPadding: const EdgeInsets.all(Dimens.space_16),
-      verticalRowSpacing: Dimens.space_8,
       itemFromJson: StoreOutBinListItem.fromJson,
       getRowWidget: (item, index) {
         final data = item!;

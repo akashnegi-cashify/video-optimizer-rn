@@ -6,7 +6,7 @@ part 'd2c_lot_device_list_response.g.dart';
 
 @JsonSerializable()
 class D2cLotDeviceListResponse extends BaseActionResponse {
-  @JsonKey(name: "dt")
+  @JsonKey(name: "data")
   List<D2cLotDeviceListData>? d2cLotDeviceList;
 
   D2cLotDeviceListResponse(this.d2cLotDeviceList, super.cashifyAlert, super.trackUrl);

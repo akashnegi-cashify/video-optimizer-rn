@@ -34,23 +34,6 @@ class ReQcListProvider extends CshChangeNotifier {
     return Provider.of<ReQcListProvider>(context, listen: listen);
   }
 
-  Future<List<ReQcListData>?> getReQcList(int pageSize, int offset) {
-    var completer = Completer<List<ReQcListData>?>();
-    ReQcService.getReQcList(pageSize, offset,
-            searchQuery: _lotName, lotType: _lotTypeFilters, deviceBarcode: _deviceBarcode)
-        .listen((response) {
-      if (!Validator.isListNullOrEmpty(response?.list)) {
-        completer.complete(response?.list);
-      } else {
-        completer.completeError("No Data found");
-      }
-    }, onError: (error) {
-      var errorMessage = ApiErrorHelper.getErrorMessage(error);
-      completer.completeError(errorMessage.toString());
-    });
-    return completer.future;
-  }
-
   Future<void> skipReQc(int? lotId) {
     var completer = Completer<void>();
     ReQcService.skipReQc(lotId).listen((event) {
@@ -62,9 +45,9 @@ class ReQcListProvider extends CshChangeNotifier {
     return completer.future;
   }
 
-  Future<List<String>> completeReQc(String? lotGroupName) {
+  Future<List<String>> completeReQc(int? lotId) {
     var completer = Completer<List<String>>();
-    ReQcService.completeReQc(lotGroupName).listen((event) {
+    ReQcService.completeReQc(lotId).listen((event) {
       if (Validator.isTrue(event?.isSuccess)) {
         List<String> deviceList = [];
         if (!Validator.isListNullOrEmpty(event?.d2cLotDeviceList)) {

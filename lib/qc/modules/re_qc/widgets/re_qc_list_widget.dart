@@ -84,13 +84,11 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
             children: [
               CshApiList<ReQcListData>(
                 apiConfig: ListApiConfig(
-                  apiUrl: "/re-qc/v1",
+                  apiUrl: "/re-qc/v1/list",
                   serviceGroup: TRCServiceGroups.qcConsole,
                 ),
                 controller: _listController,
                 shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
-                listPadding: const EdgeInsets.all(Dimens.space_16),
-                verticalRowSpacing: Dimens.space_16,
                 itemFromJson: ReQcListData.fromJson,
                 getRowWidget: (item, index) {
                   if (item != null) {
@@ -138,16 +136,16 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
 
   void _onItemClicked(ReQcListData item) {
     if ((item.pendingCount ?? 0) <= 0) {
-      _completeReQc(item.lotGroupName);
+      _completeReQc(item.lotId);
       return;
     }
     Navigator.pushNamed(context, ReQcDetailScreen.route, arguments: ReQcDetailScreenArguments(item));
   }
 
-  _completeReQc(String? lotGroupName) {
+  _completeReQc(int? lotId) {
     var provider = ReQcListProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.completeReQc(lotGroupName).then((value) {
+    provider.completeReQc(lotId).then((value) {
       if (!Validator.isListNullOrEmpty(value)) {
         showD2cPendingVideoListDialog(
           context,
@@ -172,7 +170,7 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
             text: 'Retry',
             onPressed: () {
               Navigator.pop(context);
-              _completeReQc(lotGroupName);
+              _completeReQc(lotId);
             }),
       ]);
     });
@@ -216,7 +214,7 @@ class _ReQcListItemWidget extends StatelessWidget {
       padding: const EdgeInsets.all(Dimens.space_16),
       bgColor: _getColor(dataModel.auditCount, dataModel.pendingCount, theme),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           CshTextNew.subTitle1(title),
           const SizedBox(height: Dimens.space_4),
