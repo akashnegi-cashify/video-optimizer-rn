@@ -5,11 +5,11 @@ import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import '../../resources/user_details.dart';
 
 class UserNameWidget extends StatelessWidget {
-  const UserNameWidget({Key? key}) : super(key: key);
+  const UserNameWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     L10n l10n = L10n(context);
-    return CshTextNew.bodyText2("${l10n.loggedInUser} : ${UserDetails().userDetailsData?.firstName}");
+    return CshTextNew.bodyText2("${l10n.loggedInUser} : ${UserDetails().consoleUserDetail?.firstname}");
   }
 }

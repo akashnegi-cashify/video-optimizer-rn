@@ -6,36 +6,22 @@ part of 'user_details_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserDetailsResponse _$UserDetailsResponseFromJson(Map<String, dynamic> json) =>
-    UserDetailsResponse(
-      clid: json['clid'] as String?,
-      clv: json['clv'] as String?,
-      exp: (json['exp'] as num?)?.toInt(),
-      firstName: json['fname'] as String?,
-      gt: json['gt'] as String?,
-      kid: json['kid'] as String?,
-      listOfRoles:
-          (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      mobileNumber: json['mn'] as String?,
+UserDetailsResponse _$UserDetailsResponseFromJson(Map<String, dynamic> json) => UserDetailsResponse(
+      firstName: json['firstName'] as String?,
+      listOfRoles: (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      mobileNumber: json['mobile'] as String?,
       role: json['role'] as String?,
       uid: json['uid'] as String?,
-      userName: json['uname'] as String?,
-      vt: (json['vt'] as num?)?.toInt(),
+      userName: json['userName'] as String?,
+      mobileMd5: json['mobileMd5'] as String?,
     );
 
-Map<String, dynamic> _$UserDetailsResponseToJson(
-        UserDetailsResponse instance) =>
-    <String, dynamic>{
-      'fname': instance.firstName,
-      'mn': instance.mobileNumber,
+Map<String, dynamic> _$UserDetailsResponseToJson(UserDetailsResponse instance) => <String, dynamic>{
+      'firstName': instance.firstName,
+      'mobile': instance.mobileNumber,
       'uid': instance.uid,
       'role': instance.role,
-      'uname': instance.userName,
-      'kid': instance.kid,
+      'userName': instance.userName,
       'roles': instance.listOfRoles,
-      'clid': instance.clid,
-      'clv': instance.clv,
-      'exp': instance.exp,
-      'gt': instance.gt,
-      'vt': instance.vt,
+      'mobileMd5': instance.mobileMd5,
     };

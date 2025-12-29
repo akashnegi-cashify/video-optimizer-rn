@@ -26,21 +26,21 @@ Map<String, dynamic> _$DispatchLotsResponseToJson(
     };
 
 Lot _$LotFromJson(Map<String, dynamic> json) => Lot(
-      lotGroupName: json['lgn'] as String?,
-      lotName: json['ln'] as String?,
-      invoiceNumber: json['in'] as String?,
-      invoiceDate: (json['idt'] as num?)?.toInt(),
-      deviceQty: (json['dc'] as num?)?.toInt(),
-      vendorCode: json['vc'] as String?,
-      vendorName: json['vn'] as String?,
+      lotGroupName: json['lotGroupName'] as String?,
+      lotName: json['lotName'] as String?,
+      invoiceNumber: json['invoiceNo'] as String?,
+      invoiceDate: (json['invoiceDate'] as num?)?.toInt(),
+      deviceQty: (json['deviceCount'] as num?)?.toInt(),
+      vendorCode: json['vendorCode'] as String?,
+      vendorName: json['vendorName'] as String?,
     );
 
 Map<String, dynamic> _$LotToJson(Lot instance) => <String, dynamic>{
-      'lgn': instance.lotGroupName,
-      'ln': instance.lotName,
-      'in': instance.invoiceNumber,
-      'idt': instance.invoiceDate,
-      'dc': instance.deviceQty,
-      'vc': instance.vendorCode,
-      'vn': instance.vendorName,
+      'lotGroupName': instance.lotGroupName,
+      'lotName': instance.lotName,
+      'invoiceNo': instance.invoiceNumber,
+      'invoiceDate': instance.invoiceDate,
+      'deviceCount': instance.deviceQty,
+      'vendorCode': instance.vendorCode,
+      'vendorName': instance.vendorName,
     };

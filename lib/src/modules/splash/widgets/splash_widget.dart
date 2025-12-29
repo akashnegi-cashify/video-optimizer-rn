@@ -48,14 +48,17 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
   void _checkAuth(BuildContext context) {
     var loginType = AppPreferences.app.getLoginType();
     var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
-    String? userAuth = loginTypeEnum == LoginTypes.qcLogin ? AppPreferences.qc.getUserAuth() : AuthHandler().userAuth;
+    String? userAuth = AuthHandler().userAuth;
     if (Validator.isNullOrEmpty(userAuth)) {
       Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
     } else {
       AuthHandler().setUserAuth(userAuth!);
-      UserDetails().setUserDetailsData(userAuth);
-      UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-          loginType: loginTypeEnum);
+      UserDetails().setUserDetailsData().then((value) {
+        UserRoles.navigateToUserRoleScreen(context, UserDetails().getListOfPermissions() ?? [],
+            loginType: loginTypeEnum);
+      }, onError: (error) {
+        CshSnackBar.error(context: context, message: error);
+      });
     }
   }
 

@@ -36,7 +36,7 @@ class BinLotScanContainer extends StatelessWidget {
           var provider = LotScanProvider.of(builderContext);
           var isLoading = provider.binDataState.status == RequestStatus.initial;
           var itemList = provider.binDataState.data?.lotList;
-          var itemCount = itemList?.length ?? 0;
+          var itemCount = itemList?.length ?? 1;
 
           return isLoading
               ? const Center(

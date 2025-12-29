@@ -36,7 +36,7 @@ class D2cLotDeviceListingProvider extends CshChangeNotifier with Searchable {
     var completer = Completer<void>();
     D2CVideoService.getLotDeviceList(lotId, groupLotName).listen(
       (event) {
-        _d2cLotDeviceList = event.d2cLotDeviceList;
+        _d2cLotDeviceList = event;
         completer.complete();
         if (isNotify) {
           notifyListeners();

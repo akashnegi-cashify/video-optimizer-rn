@@ -122,7 +122,7 @@ class ReQcDetailProvider extends CshChangeNotifier {
 
   Future<List<String>> completeReQc() {
     var completer = Completer<List<String>>();
-    ReQcService.completeReQc(reQcListData.lotGroupName).listen((event) {
+    ReQcService.completeReQc(reQcListData.lotId).listen((event) {
       if (Validator.isTrue(event?.isSuccess)) {
         List<String> deviceList = [];
         if (!Validator.isListNullOrEmpty(event?.d2cLotDeviceList)) {

@@ -3,6 +3,7 @@ import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/widgets/search_with_dropdown_widget.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
+
 import '../l10n.dart';
 import '../providers/pre_dispatch_lot_provider.dart';
 import '../resources/index.dart';
@@ -18,6 +19,7 @@ class PreDispatchLotsWidget extends StatefulWidget {
 
 class _PreDispatchLotsWidgetState extends State<PreDispatchLotsWidget> {
   final CshListController _listController = CshListController();
+
   @override
   void initState() {
     super.initState();
@@ -48,12 +50,9 @@ class _PreDispatchLotsWidgetState extends State<PreDispatchLotsWidget> {
         ),
         Expanded(
           child: CshApiList<PreDispatchLotInfo>(
-            apiConfig:
-                ListApiConfig(apiUrl: "/lot-pre-dispatch/list?", serviceGroup: TRCServiceGroups.qc),
+            apiConfig: ListApiConfig(apiUrl: "/lot-pre-dispatch/list?", serviceGroup: TRCServiceGroups.qcConsole),
             controller: _listController,
             shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
-            listPadding: const EdgeInsets.all(Dimens.space_16),
-            verticalRowSpacing: Dimens.space_16,
             itemFromJson: PreDispatchLotInfo.fromJson,
             getRowWidget: (item, index) {
               return PreDispatchLotWidget(

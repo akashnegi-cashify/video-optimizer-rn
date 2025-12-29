@@ -34,7 +34,7 @@ class NormalLotScanContainer extends StatelessWidget {
       child: Builder(builder: (builderContext) {
         var provider = LotScanProvider.of(builderContext);
         var isLoading = provider.dataState.status == RequestStatus.initial;
-        var itemList = provider.dataState.data?.lotList;
+        var itemList = provider.dataState.data;
         var itemCount = itemList?.length ?? 0;
 
         if (isLoading) {
@@ -164,7 +164,7 @@ class NormalLotScanContainer extends StatelessWidget {
 
   _onScannerDetected(BuildContext context, String value, MlScannerController? controller, L10n l10n) {
     var provider = LotScanProvider.of(context, listen: false);
-    var item = provider.dataState.data?.lotList?[provider.scanPosition];
+    var item = provider.dataState.data?[provider.scanPosition];
 
     if (item?.qrCode?.containsIgnoreCase(value) == true) {
       controller?.stop();

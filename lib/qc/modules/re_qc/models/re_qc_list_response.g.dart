@@ -25,22 +25,24 @@ Map<String, dynamic> _$ReQcListResponseToJson(ReQcListResponse instance) =>
     };
 
 ReQcListData _$ReQcListDataFromJson(Map<String, dynamic> json) => ReQcListData(
-      lotGroupName: json['lgn'] as String?,
-      lotCount: (json['lc'] as num?)?.toInt(),
-      pendingCount: (json['pc'] as num?)?.toInt(),
-      doneCount: (json['dc'] as num?)?.toInt(),
-      auditCount: (json['ac'] as num?)?.toInt(),
-      lotType: json['lt'] as String?,
-      skipReQc: json['srqc'] as bool?,
+      lotGroupName: json['lotGroupName'] as String?,
+      lotCount: (json['lotCount'] as num?)?.toInt(),
+      pendingCount: (json['qcPending'] as num?)?.toInt(),
+      doneCount: (json['qcDone'] as num?)?.toInt(),
+      auditCount: (json['qcAudit'] as num?)?.toInt(),
+      lotType: json['lotType'] as String?,
+      lotId: (json['id'] as num?)?.toInt(),
+      skipReQc: json['skipReQc'] as bool?,
     );
 
 Map<String, dynamic> _$ReQcListDataToJson(ReQcListData instance) =>
     <String, dynamic>{
-      'lgn': instance.lotGroupName,
-      'lc': instance.lotCount,
-      'pc': instance.pendingCount,
-      'dc': instance.doneCount,
-      'ac': instance.auditCount,
-      'lt': instance.lotType,
-      'srqc': instance.skipReQc,
+      'lotGroupName': instance.lotGroupName,
+      'lotCount': instance.lotCount,
+      'qcPending': instance.pendingCount,
+      'qcDone': instance.doneCount,
+      'qcAudit': instance.auditCount,
+      'lotType': instance.lotType,
+      'skipReQc': instance.skipReQc,
+      'id': instance.lotId,
     };

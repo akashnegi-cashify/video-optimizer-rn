@@ -1,13 +1,16 @@
-import 'package:core/core.dart';
+import 'dart:async';
+
+import 'package:components/user_details/user_details_response.dart' as console;
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/common/user/my_user_details_response.dart';
+import 'package:flutter_trc/src/common/user/user_util.dart';
 import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../modules/login/models/user_details_response.dart';
 
 class UserDetails {
   UserDetailsResponse? _userDetailsData;
-  String? authToken;
+  MyUserDetailsResponse? _myUserDetailsResponse;
 
   UserDetails._();
 
@@ -19,12 +22,40 @@ class UserDetails {
 
   UserDetailsResponse? get userDetailsData => _userDetailsData;
 
-  void setUserDetailsData(String userAuthToken) {
-    print('UserDetails.setUserDetailsData $userAuthToken');
-    Map<String, dynamic> decodedUserAuth = JwtDecoder.decode(userAuthToken);
-    Logger.debug('mydebug------UserDetails.setUserDetailsData-------------', [decodedUserAuth]);
-    authToken = userAuthToken;
-    _userDetailsData = UserDetailsResponse.fromJson(decodedUserAuth);
+  console.UserDetailsResponse? get consoleUserDetail => _myUserDetailsResponse?.userDetailsResponse;
+
+  PermissionResponse? get permissionResponse => _myUserDetailsResponse?.permissionResponse;
+
+  setUserDetailsDataTemp(String token) {
+    var completer = Completer<void>();
+    UserUtil.onUserLoggedIn().then((value) {
+      _myUserDetailsResponse = value;
+      completer.complete();
+    }, onError: (error) {
+      completer.complete(error);
+    });
+    return completer.future;
+  }
+
+  Future<void> setUserDetailsData() {
+    var completer = Completer<void>();
+    UserUtil.onUserLoggedIn().then((value) {
+      _myUserDetailsResponse = value;
+      completer.complete();
+    }, onError: (error) {
+      completer.complete(error);
+    });
+    return completer.future;
+  }
+
+  List<String> getListOfPermissions() {
+    List<String> permissions = [];
+    _myUserDetailsResponse?.permissionResponse?.modules?.forEach((element) {
+      element.permissionList?.forEach((permission) {
+        permissions.add(permission.permissionKey!);
+      });
+    });
+    return permissions;
   }
 
   bool isEngineerRole() {

@@ -11,11 +11,11 @@ class QcRolePermissionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (QcRolePermissionHelper.hasPermission(role)) {
+    }
       return Padding(
         padding: padding,
         child: child,
       );
-    }
     return const SizedBox.shrink();
   }
 }

@@ -9,7 +9,7 @@ part of 'd2c_lot_device_list_response.dart';
 D2cLotDeviceListResponse _$D2cLotDeviceListResponseFromJson(
         Map<String, dynamic> json) =>
     D2cLotDeviceListResponse(
-      (json['dt'] as List<dynamic>?)
+      (json['data'] as List<dynamic>?)
           ?.map((e) => D2cLotDeviceListData.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['__ca'] == null
@@ -31,7 +31,7 @@ Map<String, dynamic> _$D2cLotDeviceListResponseToJson(
       's': instance.isSuccess,
       'em': instance.errorMsg,
       'sm': instance.successMessage,
-      'dt': instance.d2cLotDeviceList,
+      'data': instance.d2cLotDeviceList,
     };
 
 D2cLotDeviceListData _$D2cLotDeviceListDataFromJson(

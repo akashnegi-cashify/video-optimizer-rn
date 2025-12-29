@@ -16,7 +16,7 @@ class LotScanProvider extends QcTrcServiceInitProvider {
 
   int _scanItemPosition = 0;
 
-  late DataState<ScanNormalLotListResponse?> dataState;
+  late DataState<List<ScanNormalLotItem>?> dataState;
   late DataState<ScanBinLotListResponse?> binDataState;
 
   static LotScanProvider of(BuildContext context, {bool listen = true}) {
@@ -42,7 +42,7 @@ class LotScanProvider extends QcTrcServiceInitProvider {
 
   void fetchNormalLotScanList() {
     StoreOutServices.fetchNormalScanLotList(lotName, lotType, service: service).listen((event) {
-      if (Validator.isListNullOrEmpty(event?.lotList)) {
+      if (Validator.isListNullOrEmpty(event)) {
         dataState = dataState.copyWith(
             data: null,
             status: RequestStatus.failure,
@@ -93,14 +93,13 @@ class LotScanProvider extends QcTrcServiceInitProvider {
   Future<NormalLotVerifyResponse?> normalLotOutVerifyBarCode(NormalLotOutRequest request) {
     var completer = Completer<NormalLotVerifyResponse?>();
 
-    StoreOutServices.normalLotVerifyBarCodeService(lotGroupName: request.lotName ?? "", qrCode: request.stockBarcode ?? "", displayBarcode: request.locBarcode ?? "", service: service).listen((event) {
-      print('LotScanProvider.normalLotOutVerifyBarCode ::::: ${event?.status}');
-
-      if (event?.isValid() == true) {
-        completer.complete();
-      } else {
-        completer.completeError(event?.message ?? "Something Went Wrong.");
-      }
+    StoreOutServices.normalLotVerifyBarCodeService(
+            lotGroupName: request.lotName ?? "",
+            qrCode: request.stockBarcode ?? "",
+            displayBarcode: request.locBarcode ?? "",
+            service: service)
+        .listen((event) {
+      completer.complete();
     }, onError: (error, stackTrace) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong.";
       completer.completeError(errorMsg);
@@ -112,9 +111,8 @@ class LotScanProvider extends QcTrcServiceInitProvider {
   bool moveNext() {
     var value = false;
 
-    var itemLen = lotType == LotType.NORMAL_LOT.value
-        ? (dataState.data?.lotList?.length ?? 0)
-        : (binDataState.data?.lotList?.length ?? 0);
+    var itemLen =
+        lotType == LotType.NORMAL_LOT.value ? (dataState.data?.length ?? 0) : (binDataState.data?.lotList?.length ?? 0);
     itemLen = itemLen - 1;
     if (_scanItemPosition < itemLen) {
       value = true;

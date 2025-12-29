@@ -2,8 +2,9 @@ import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/store_out/resources/store_out_bin_list_response.dart';
-import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:flutter_trc/qc/modules/store_out/widgets/index.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
+
 import '../l10n.dart';
 
 class StoreOutBinListWidget extends StatefulWidget {
@@ -25,14 +26,9 @@ class _StoreOutBinListWidgetState extends State<StoreOutBinListWidget> with Auto
     var l10n = L10n(context);
 
     return CshApiList<StoreOutBinListItem>(
-      apiConfig: ListApiConfig(
-        apiUrl: "/bin/lot/store-out/list?",
-        serviceGroup: TRCServiceGroups.qcTransferLot,
-      ),
+      apiConfig: ListApiConfig(apiUrl: "/bin/lot/store-out/list?", serviceGroup: TRCServiceGroups.qcConsole),
       controller: _listController,
       shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
-      listPadding: const EdgeInsets.all(Dimens.space_16),
-      verticalRowSpacing: Dimens.space_8,
       itemFromJson: StoreOutBinListItem.fromJson,
       getRowWidget: (item, index) {
         final data = item!;

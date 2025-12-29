@@ -146,10 +146,10 @@ class DisputeImageCaptureProvider extends CshChangeNotifier {
       final videos = element.videoS3urls ?? [];
 
       dataMapList.add({
-        "ak": element.auditKey,
-        "at": element.at,
-        "im": images,
-        "vi": videos.map((e) => e.videoUrl).toList(),
+        "auditKey": element.auditKey,
+        "auditType": element.at,
+        "images": images,
+        "videos": videos.map((e) => e.videoUrl).toList(),
       });
 
       allImages.addAll(images.where((e) => e.isNotEmpty));

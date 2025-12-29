@@ -65,17 +65,18 @@ class _QCActionWidgetState extends State<QCActionWidget> {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
 
-    if (QcRolePermissionHelper.hasPermission(QcRole.qcVideographer)) {
-      return Center(
-        child: SizedBox(
-          width: double.infinity,
-          child: CshBigButton(
-            text: l10n.genericDeviceMedia,
-            onPressed: () => Navigator.pushNamed(context, D2cVideoHomeScreen.route),
-          ),
-        ),
-      );
-    }
+    // TODO: need to fix it
+    // if (QcRolePermissionHelper.hasPermission(QcRole.qcVideographer)) {
+    //   return Center(
+    //     child: SizedBox(
+    //       width: double.infinity,
+    //       child: CshBigButton(
+    //         text: l10n.genericDeviceMedia,
+    //         onPressed: () => Navigator.pushNamed(context, D2cVideoHomeScreen.route),
+    //       ),
+    //     ),
+    //   );
+    // }
 
     return Center(
       child: SingleChildScrollView(

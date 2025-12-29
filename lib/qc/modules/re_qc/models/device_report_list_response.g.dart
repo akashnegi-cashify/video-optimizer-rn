@@ -29,12 +29,12 @@ Map<String, dynamic> _$DeviceReportListResponseToJson(
 DeviceReportListData _$DeviceReportListDataFromJson(
         Map<String, dynamic> json) =>
     DeviceReportListData(
-      partId: (json['pi'] as num?)?.toInt(),
-      label: json['pn'] as String?,
-      imageCount: (json['ic'] as num?)?.toInt(),
-      preSelectedVariantId: (json['svi'] as num?)?.toInt(),
-      preSelectedVariantName: json['svn'] as String?,
-      variation: (json['v'] as Map<String, dynamic>?)?.map(
+      partId: (json['partId'] as num?)?.toInt(),
+      label: json['partName'] as String?,
+      imageCount: (json['imageCount'] as num?)?.toInt(),
+      preSelectedVariantId: (json['selectedVariationId'] as num?)?.toInt(),
+      preSelectedVariantName: json['selectedVariationName'] as String?,
+      variation: (json['value'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
     );
@@ -42,10 +42,10 @@ DeviceReportListData _$DeviceReportListDataFromJson(
 Map<String, dynamic> _$DeviceReportListDataToJson(
         DeviceReportListData instance) =>
     <String, dynamic>{
-      'pi': instance.partId,
-      'pn': instance.label,
-      'ic': instance.imageCount,
-      'svi': instance.preSelectedVariantId,
-      'svn': instance.preSelectedVariantName,
-      'v': instance.variation,
+      'partId': instance.partId,
+      'partName': instance.label,
+      'imageCount': instance.imageCount,
+      'selectedVariationId': instance.preSelectedVariantId,
+      'selectedVariationName': instance.preSelectedVariantName,
+      'value': instance.variation,
     };

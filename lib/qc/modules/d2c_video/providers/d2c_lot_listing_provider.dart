@@ -26,21 +26,4 @@ class D2cLotListingProvider extends CshChangeNotifier with Searchable {
     super.searchQuery = value;
     notifyListeners();
   }
-
-  Future<void> getLotList({bool isNotify = false}) {
-    var completer = Completer<void>();
-    D2CVideoService.getLotList().listen(
-      (event) {
-        _d2cLotList = event.d2cLotList;
-        completer.complete();
-        if (isNotify) {
-          notifyListeners();
-        }
-      },
-      onError: (error) {
-        completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-      },
-    );
-    return completer.future;
-  }
 }

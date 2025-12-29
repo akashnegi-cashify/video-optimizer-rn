@@ -18,25 +18,28 @@ class ReQcListResponse extends BaseResponse {
 
 @JsonSerializable()
 class ReQcListData {
-  @JsonKey(name: "lgn")
+  @JsonKey(name: "lotGroupName")
   String? lotGroupName;
 
-  @JsonKey(name: "lc")
+  @JsonKey(name: "lotCount")
   int? lotCount;
 
-  @JsonKey(name: "pc")
+  @JsonKey(name: "id")
+  int? lotId;
+
+  @JsonKey(name: "qcPending")
   int? pendingCount;
 
-  @JsonKey(name: "dc")
+  @JsonKey(name: "qcDone")
   int? doneCount;
 
-  @JsonKey(name: "ac")
+  @JsonKey(name: "qcAudit")
   int? auditCount;
 
-  @JsonKey(name: "lt")
+  @JsonKey(name: "lotType")
   String? lotType;
 
-  @JsonKey(name: "srqc")
+  @JsonKey(name: "skipReQc")
   bool? skipReQc;
 
   ReQcListData(
@@ -46,6 +49,7 @@ class ReQcListData {
       this.doneCount,
       this.auditCount,
       this.lotType,
+      this.lotId,
       this.skipReQc});
 
   static ReQcListData fromJson(Map<String, dynamic> json) => _$ReQcListDataFromJson(json);

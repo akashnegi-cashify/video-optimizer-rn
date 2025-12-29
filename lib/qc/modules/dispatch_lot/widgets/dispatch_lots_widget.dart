@@ -1,10 +1,14 @@
+import 'package:components/list_page/config/list_api_config.dart';
+import 'package:components/list_page/controller/csh_list_controller.dart';
+import 'package:components/list_page/widgets/csh_api_list.dart';
 import 'package:core_widgets/core_widgets.dart' as core;
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/providers/dispatch_lot_provider.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/widgets/index.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:ml_barcode_scanner/widgets/index.dart';
 
-import '../../../../src/utils/paginate_list_abstract.dart';
 import '../../qc_tester/disputed_image_capture/screens/disputed_image_capture_barcode_scanner_screen.dart';
 import '../l10n.dart';
 import '../resources/index.dart';
@@ -16,41 +20,41 @@ class DispatchLotsWidget extends StatefulWidget {
   State<DispatchLotsWidget> createState() => _DispatchLotsWidgetState();
 }
 
-class _DispatchLotsWidgetState extends PaginatedListState<Lot, DispatchLotsWidget> {
+class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
+  final CshListController _listController = CshListController();
+
   @override
   void initState() {
     super.initState();
     var provider = DispatchLotProvider.of(context: context, listen: false);
     provider.controller.stream.listen((event) {
-      resetAndRefreshScreen();
+      _listController.refresh();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
-    return iterate((item, index) => LotWidget(
+
+    return Expanded(
+        child: CshApiList<Lot>(
+      apiConfig: ListApiConfig(
+        apiUrl: "/lot-dispatch/list",
+        serviceGroup: TRCServiceGroups.qcConsole,
+      ),
+      controller: _listController,
+      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+      listPadding: const EdgeInsets.all(Dimens.space_16),
+      verticalRowSpacing: Dimens.space_16,
+      itemFromJson: Lot.fromJson,
+      getRowWidget: (item, index) {
+        return LotWidget(
           lot: item,
           index: index,
           onItemClick: () => _onItemClick(context, index: index, l10n: l10n),
-        ));
-  }
-
-  @override
-  void requestApi(int pageNo, {Function(List<Lot>? list)? onSuccess, Function(String errorMessage)? onError}) {
-    var provider = DispatchLotProvider.of(context: context, listen: false);
-    provider.getDataStream(pageNo * pageSize, pageSize).listen(
-      (value) {
-        if (onSuccess != null) {
-          onSuccess(core.ArrayUtil.removeNullItems(value?.lots ?? []));
-        }
+        );
       },
-      onError: (error) {
-        if (onError != null) {
-          onError(error);
-        }
-      },
-    );
+    ));
   }
 
   void _onItemClick(BuildContext context, {required int index, required L10n l10n}) {
@@ -60,12 +64,16 @@ class _DispatchLotsWidgetState extends PaginatedListState<Lot, DispatchLotsWidge
             var provider = DispatchLotProvider.of(context: context, listen: false);
             core.CshLoading().showLoading(context);
             provider.initiateDispatchCompletion(scannedData).then((value) {
-              core.CshLoading().hideLoading(context);
-              Navigator.pop(context); // dismiss scanner screen
-              _showAlert(context, value?.errorMsg, l10n);
+              if (mounted) {
+                core.CshLoading().hideLoading(context);
+                Navigator.pop(context); // dismiss scanner screen
+                _showAlert(context, value?.errorMsg, l10n);
+              }
             }, onError: (error) {
-              core.CshLoading().hideLoading(context);
-              core.CshSnackBar.error(context: context, message: error);
+              if (mounted) {
+                core.CshLoading().hideLoading(context);
+                core.CshSnackBar.error(context: context, message: error);
+              }
             });
 
             // pop scanner screen
@@ -92,7 +100,7 @@ class _DispatchLotsWidgetState extends PaginatedListState<Lot, DispatchLotsWidge
               ),
               onPressed: () {
                 Navigator.pop(context);
-                resetAndRefreshScreen();
+                _listController.refresh();
               },
             )
           ],
