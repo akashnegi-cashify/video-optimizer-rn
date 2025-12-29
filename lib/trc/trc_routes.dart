@@ -22,6 +22,7 @@ import 'package:flutter_trc/src/modules/engineer/screens/retrieved_part_list_scr
 import 'package:flutter_trc/src/modules/engineer/view_reports/view_report_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/home/home_screen.dart';
+import 'package:flutter_trc/src/modules/home/trc_home_screen_new.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/alternate_part_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/assign_part_barcode_scanner.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/assigned_device_details_screen.dart';
@@ -60,6 +61,7 @@ class TrcRoutes {
     return {
       SplashScreen.route: (_) => const SplashScreen(),
       HomeScreen.route: (_) => const HomeScreen(),
+      TrcHomeScreenNew.route: (_) => const TrcHomeScreenNew(),
       RubbingHomeScreen.route: (_) => const RubbingHomeScreen(),
       ReceivedRubbingDevicesScreen.route: (_) => const ReceivedRubbingDevicesScreen(),
       ElssHomeScreen.route: (_) => const ElssHomeScreen(),

@@ -28,8 +28,8 @@ class CombinedLoginWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: Dimens.space_20),
-              _buildLoginHeading(context, loginType!),
-              loginType == LoginTypes.trcLogin ? const TrcLoginWidget() : ConsoleLoginWidget(loginType!),
+              // _buildLoginHeading(context, loginType!),
+               ConsoleLoginWidget(loginType!),
             ],
           ),
         );
