@@ -10,10 +10,14 @@ import '../model/rubbing_device_receive_response.dart';
 import '../model/rubbing_devices_request.dart';
 
 class RubbingAPIService {
-  static Stream<RubbingDevicesResponse?> getReceivedDeviceList(RubbingDeviceListRequest request, bool isGlassChange) {
-    String startPoint = isGlassChange ? "/glass-change" : "/rubbing";
-    return TrcService()
-        .post("$startPoint/device/list", RubbingDevicesResponse.fromJson, body: jsonEncode(request.toJson()));
+  // static Stream<RubbingDevicesResponse?> getReceivedDeviceList(RubbingDeviceListRequest request, bool isGlassChange) {
+  //   String startPoint = isGlassChange ? "/glass-change" : "/rubbing";
+  //   return TrcService()
+  //       .post("$startPoint/device/list", RubbingDevicesResponse.fromJson, body: jsonEncode(request.toJson()));
+  // }
+
+  static Stream<RubbingDevicesResponse?> getReceivedDeviceList(RubbingDeviceListRequest request, bool isGlassChange)  {
+    return TrcService().get("/rubbing//list", RubbingDevicesResponse.fromJson);
   }
 
   static Stream<RubbingDoneResponse?> markRubbing(

@@ -7,9 +7,11 @@ part 'rubbing_devices_response.g.dart';
 @JsonSerializable()
 class RubbingDevicesResponse extends BaseResponse {
   @JsonKey(name: "r_id")
-  late String rId;
-  @JsonKey(name: "dt")
+  String? rId;
+  @JsonKey(name: "data")
   RubbingListData? dt;
+  @JsonKey(name: "hasNext")
+  bool? hasNext;
   @JsonKey(name: "s", defaultValue: false)
   late bool s;
 

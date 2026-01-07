@@ -8,15 +8,21 @@ part of 'rubbing_device_data.dart';
 
 RubbingDeviceData _$RubbingDeviceDataFromJson(Map<String, dynamic> json) =>
     RubbingDeviceData()
-      ..deviceId = (json['did'] as num).toInt()
-      ..productTitle = json['pt'] as String?
-      ..deviceBarcode = json['dbr'] as String?
-      ..trayBarcode = json['tbr'] as String?;
+      ..deviceId = (json['deviceId'] as num).toInt()
+      ..productTitle = json['productTitle'] as String?
+      ..deviceBarcode = json['deviceBarcode'] as String?
+      ..trayBarcode = json['trayBarcode'] as String?
+      ..assignedAt = (json['assignedAt'] as num?)?.toInt()
+      ..isUrgent = json['isUrgent'] as bool?
+      ..skewImageTaken = json['skewImageTaken'] as bool?;
 
 Map<String, dynamic> _$RubbingDeviceDataToJson(RubbingDeviceData instance) =>
     <String, dynamic>{
-      'did': instance.deviceId,
-      'pt': instance.productTitle,
-      'dbr': instance.deviceBarcode,
-      'tbr': instance.trayBarcode,
+      'deviceId': instance.deviceId,
+      'productTitle': instance.productTitle,
+      'deviceBarcode': instance.deviceBarcode,
+      'trayBarcode': instance.trayBarcode,
+      'assignedAt': instance.assignedAt,
+      'isUrgent': instance.isUrgent,
+      'skewImageTaken': instance.skewImageTaken,
     };

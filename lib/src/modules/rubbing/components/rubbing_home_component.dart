@@ -77,7 +77,7 @@ class RubbingHomeComponent extends StatelessComponent<NoneConfigModel> {
 
   _onScanned(BuildContext context,
       {required ReceivedDevicesProvider provider, required String barcode, MobileScannerController? controller}) {
-    var l10n = L10n(context);
+    var l10n = L10n(context,listen: false);
     controller?.stop();
     provider.receiveDeviceViaScanning(barcode).listen((event) {
       CshSnackBar.success(context: context, message: l10n.deviceReceivedSuccessfully);

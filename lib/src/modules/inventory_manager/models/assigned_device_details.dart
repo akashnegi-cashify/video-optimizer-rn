@@ -24,33 +24,34 @@ class AssignedDeviceDetails {
 
 @JsonSerializable()
 class AssignDeviceDetailsData {
-  @JsonKey(name: "did")
+  @JsonKey(name: "deviceId")
   int? did;
-  @JsonKey(name: "pt")
+
+  @JsonKey(name: "productTitle")
   String? productName;
 
-  @JsonKey(name: "dbr")
+  @JsonKey(name: "deviceBarcode")
   String? deviceBarcode;
 
-  @JsonKey(name: "st")
+  @JsonKey(name: "status")
   String? status;
 
-  @JsonKey(name: "en")
+  @JsonKey(name: "engineerName")
   String? engineerName;
 
-  @JsonKey(name: "rt")
+  @JsonKey(name: "repairType")
   String? repairType;
 
-  @JsonKey(name: "gr")
+  @JsonKey(name: "grade")
   String? grade;
 
-  @JsonKey(name: "lc")
+  @JsonKey(name: "location")
   String? lc;
 
   @JsonKey(name: "dr")
   String? deadRemark;
 
-  @JsonKey(name: "rc")
+  @JsonKey(name: "returnCount")
   int? returnCount;
 
   @JsonKey(name: "ismu")
@@ -62,14 +63,20 @@ class AssignDeviceDetailsData {
   @JsonKey(name: "rrs")
   List<String>? repairReasonList;
 
-  @JsonKey(name: "dimei")
+  @JsonKey(name: "deviceImei")
   String? imei;
 
   @JsonKey(name: "sno")
   String? serialNumber;
 
-  @JsonKey(name: "dc")
+  @JsonKey(name: "deviceColor")
   String? color;
+
+  @JsonKey(name: "isUrgent")
+  bool? isUrgent;
+
+  @JsonKey(name: "skewImageTaken")
+  bool? skewImageTaken;
 
   AssignDeviceDetailsData({
     this.did,
@@ -88,6 +95,8 @@ class AssignDeviceDetailsData {
     this.returnReason,
     this.color,
     this.serialNumber,
+    this.isUrgent,
+    this.skewImageTaken,
   });
 
   static AssignDeviceDetailsData fromJson(Map<String, dynamic> data) => _$AssignDeviceDetailsDataFromJson(data);

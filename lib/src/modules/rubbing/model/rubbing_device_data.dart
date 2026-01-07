@@ -4,14 +4,20 @@ part 'rubbing_device_data.g.dart';
 
 @JsonSerializable()
 class RubbingDeviceData {
-  @JsonKey(name: "did")
+  @JsonKey(name: "deviceId")
   late int deviceId;
-  @JsonKey(name: "pt")
+  @JsonKey(name: "productTitle")
   String? productTitle;
-  @JsonKey(name: "dbr")
+  @JsonKey(name: "deviceBarcode")
   String? deviceBarcode;
-  @JsonKey(name: "tbr")
+  @JsonKey(name: "trayBarcode")
   String? trayBarcode;
+  @JsonKey(name: "assignedAt")
+  int? assignedAt;
+  @JsonKey(name: "isUrgent")
+  bool? isUrgent;
+  @JsonKey(name: "skewImageTaken")
+  bool? skewImageTaken;
 
   static RubbingDeviceData fromJson(Map<String, dynamic> data) => _$RubbingDeviceDataFromJson(data);
 
