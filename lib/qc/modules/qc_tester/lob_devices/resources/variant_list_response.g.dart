@@ -9,7 +9,7 @@ part of 'variant_list_response.dart';
 VariantListResponse _$VariantListResponseFromJson(Map<String, dynamic> json) =>
     VariantListResponse(
       (json['pm'] as num?)?.toInt(),
-      (json['dt'] as List<dynamic>?)
+      (json['data'] as List<dynamic>?)
           ?.map((e) => VariantListData.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['__ca'] == null
@@ -24,7 +24,7 @@ Map<String, dynamic> _$VariantListResponseToJson(
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'pm': instance.pm,
-      'dt': instance.variantListResponseData,
+      'data': instance.variantListResponseData,
     };
 
 VariantListData _$VariantListDataFromJson(Map<String, dynamic> json) =>

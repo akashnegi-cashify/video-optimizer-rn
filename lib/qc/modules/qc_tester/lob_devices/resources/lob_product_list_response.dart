@@ -8,13 +8,10 @@ class LobProductListResponse extends BaseResponse {
   @JsonKey(name: 'r_id')
   String? rId;
 
-  @JsonKey(name: 'dt')
+  @JsonKey(name: 'data')
   List<LobProductListData>? productList;
 
-  @JsonKey(name: 'tc')
-  int? tc;
-
-  LobProductListResponse(this.rId, this.productList, this.tc) : super(null, '');
+  LobProductListResponse(this.rId, this.productList) : super(null, '');
 
   static LobProductListResponse fromJson(Map<String, dynamic> json) => _$LobProductListResponseFromJson(json);
 
@@ -23,15 +20,15 @@ class LobProductListResponse extends BaseResponse {
 
 @JsonSerializable()
 class LobProductListData {
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'productId')
   int? productId;
-  @JsonKey(name: 'n')
+  @JsonKey(name: 'productName')
   String? name;
-  @JsonKey(name: 'bid')
+  @JsonKey(name: 'brandId')
   int? brandId;
-  @JsonKey(name: 'b')
+  @JsonKey(name: 'brandName')
   String? brand;
-  @JsonKey(name: 'pmid')
+  @JsonKey(name: 'productMasterId')
   int? productMasterId;
 
   LobProductListData(this.productId, this.name, this.brandId, this.brand, this.productMasterId);

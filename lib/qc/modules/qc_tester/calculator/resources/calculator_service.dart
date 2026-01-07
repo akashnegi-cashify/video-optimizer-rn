@@ -134,14 +134,14 @@ abstract class CalculatorService {
   Stream<MyCalculatorResponse?> getLobCalculator(
       String? deviceBarcode, int? productMasterId, int? productId, int? categoryId, VariantListData? variantItem) {
     Map<String, dynamic> req = {
-      "qc": deviceBarcode,
-      "pmid": productMasterId.toString(),
-      "pid": productId.toString(),
-      "cat_id": categoryId.toString(),
+      "qrCode": deviceBarcode,
+      "productMasterId": productMasterId.toString(),
+      "productId": productId.toString(),
+      "categoryId": categoryId.toString(),
     };
     if (variantItem != null) {
-      req["vid"] = variantItem.id;
-      req["vn"] = variantItem.name;
+      req["variantId"] = variantItem.id;
+      req["variantName"] = variantItem.name;
     }
 
     return service.post("/manual-test/calculator/render", MyCalculatorResponse.fromJson, body: jsonEncode(req));

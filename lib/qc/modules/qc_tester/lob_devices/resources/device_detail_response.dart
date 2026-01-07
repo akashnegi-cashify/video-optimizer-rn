@@ -5,7 +5,7 @@ part 'device_detail_response.g.dart';
 
 @JsonSerializable()
 class DeviceDetailResponse extends BaseResponse {
-  @JsonKey(name: "dt")
+  @JsonKey(name: "data")
   DeviceDetailResponseData? deviceDetails;
 
   DeviceDetailResponse(this.deviceDetails, super.cashifyAlert, super.trackUrl);
@@ -18,7 +18,8 @@ class DeviceDetailResponse extends BaseResponse {
 
 @JsonSerializable()
 class DeviceDetailResponseData {
-  @JsonKey(name: "qc")
+
+  @JsonKey(name: "qrCode")
   String? qrCode;
 
   @JsonKey(name: "imei")
@@ -27,22 +28,22 @@ class DeviceDetailResponseData {
   @JsonKey(name: "imei2")
   String? imei2;
 
-  @JsonKey(name: "sn")
+  @JsonKey(name: "serialNo")
   String? serialNo;
 
-  @JsonKey(name: "br_id")
+  @JsonKey(name: "brandId")
   int? brandId;
 
-  @JsonKey(name: "cat_id")
+  @JsonKey(name: "categoryId")
   int? selectedCategoryId;
 
-  @JsonKey(name: "cat")
+  @JsonKey(name: "categories")
   List<CategoryData>? categoryList;
 
-  @JsonKey(name: "rm")
+  @JsonKey(name: "remarks")
   Map<String, int>? reasons;
 
-  @JsonKey(name: "idia")
+  @JsonKey(name: "isDeviceImeiApproved")
   bool? isDeviceImeiApproved;
 
   DeviceDetailResponseData(this.qrCode, this.imei1, this.serialNo, this.selectedCategoryId, this.categoryList, this.imei2,

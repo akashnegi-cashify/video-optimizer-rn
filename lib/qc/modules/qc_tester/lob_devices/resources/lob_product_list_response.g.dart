@@ -10,10 +10,9 @@ LobProductListResponse _$LobProductListResponseFromJson(
         Map<String, dynamic> json) =>
     LobProductListResponse(
       json['r_id'] as String?,
-      (json['dt'] as List<dynamic>?)
+      (json['data'] as List<dynamic>?)
           ?.map((e) => LobProductListData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['tc'] as num?)?.toInt(),
     )
       ..cashifyAlert = json['__ca'] == null
           ? null
@@ -26,24 +25,23 @@ Map<String, dynamic> _$LobProductListResponseToJson(
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'r_id': instance.rId,
-      'dt': instance.productList,
-      'tc': instance.tc,
+      'data': instance.productList,
     };
 
 LobProductListData _$LobProductListDataFromJson(Map<String, dynamic> json) =>
     LobProductListData(
-      (json['id'] as num?)?.toInt(),
-      json['n'] as String?,
-      (json['bid'] as num?)?.toInt(),
-      json['b'] as String?,
-      (json['pmid'] as num?)?.toInt(),
+      (json['productId'] as num?)?.toInt(),
+      json['productName'] as String?,
+      (json['brandId'] as num?)?.toInt(),
+      json['brandName'] as String?,
+      (json['productMasterId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$LobProductListDataToJson(LobProductListData instance) =>
     <String, dynamic>{
-      'id': instance.productId,
-      'n': instance.name,
-      'bid': instance.brandId,
-      'b': instance.brand,
-      'pmid': instance.productMasterId,
+      'productId': instance.productId,
+      'productName': instance.name,
+      'brandId': instance.brandId,
+      'brandName': instance.brand,
+      'productMasterId': instance.productMasterId,
     };

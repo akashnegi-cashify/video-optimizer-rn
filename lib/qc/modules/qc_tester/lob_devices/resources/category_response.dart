@@ -6,7 +6,7 @@ part 'category_response.g.dart';
 
 @JsonSerializable()
 class CategoryResponse extends BaseResponse {
-  @JsonKey(name: "cat")
+  @JsonKey(name: "category")
   CategoryData? categoryData;
 
   CategoryResponse(this.categoryData, super.cashifyAlert, super.trackUrl);
