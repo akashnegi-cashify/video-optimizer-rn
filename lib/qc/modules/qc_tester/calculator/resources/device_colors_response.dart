@@ -6,10 +6,10 @@ part 'device_colors_response.g.dart';
 @JsonSerializable()
 class DeviceColorResponse extends BaseResponse {
 
-  @JsonKey(name: "dt")
+  @JsonKey(name: "color")
   List<String>? deviceColorList;
 
-  @JsonKey(name: "sc")
+  @JsonKey(name: "strapColor")
   List<String>? strapColorList;
 
   DeviceColorResponse(this.deviceColorList, this.strapColorList, super.cashifyAlert, super.trackUrl);
