@@ -14,10 +14,11 @@ RubbingDevicesResponse _$RubbingDevicesResponseFromJson(
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
     )
-      ..rId = json['r_id'] as String
-      ..dt = json['dt'] == null
+      ..rId = json['r_id'] as String?
+      ..dt = json['data'] == null
           ? null
-          : RubbingListData.fromJson(json['dt'] as Map<String, dynamic>)
+          : RubbingListData.fromJson(json['data'])
+      ..hasNext = json['hasNext'] as bool?
       ..s = json['s'] as bool? ?? false;
 
 Map<String, dynamic> _$RubbingDevicesResponseToJson(
@@ -26,6 +27,7 @@ Map<String, dynamic> _$RubbingDevicesResponseToJson(
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'r_id': instance.rId,
-      'dt': instance.dt,
+      'data': instance.dt,
+      'hasNext': instance.hasNext,
       's': instance.s,
     };

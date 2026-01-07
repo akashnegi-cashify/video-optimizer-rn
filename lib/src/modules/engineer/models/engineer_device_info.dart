@@ -4,37 +4,43 @@ part 'engineer_device_info.g.dart';
 
 @JsonSerializable()
 class EngineerDeviceInfo {
-  @JsonKey(name: "did")
+  @JsonKey(name: "deviceId")
   late int deviceId;
 
-  @JsonKey(name: "rr")
+  @JsonKey(name: "returnReason")
   String? returnReason;
 
-  @JsonKey(name: "pt")
+  @JsonKey(name: "productTitle")
   String? productTitle;
 
-  @JsonKey(name: "dbr")
+  @JsonKey(name: "deviceBarcode")
   String? deviceBarcode;
 
-  @JsonKey(name: "st")
+  @JsonKey(name: "status")
   String? status;
 
-  @JsonKey(name: "rt")
+  @JsonKey(name: "repairType")
   String? repairType;
 
-  @JsonKey(name: "gr")
+  @JsonKey(name: "grade")
   String? grade;
 
-  @JsonKey(name: "dimei")
+  @JsonKey(name: "deviceImei")
   String? imei;
 
-  @JsonKey(name: "dc")
+  @JsonKey(name: "deviceColor")
   String? color;
 
-  @JsonKey(name: "rc")
+  @JsonKey(name: "isUrgent")
+  bool? isUrgent;
+
+  @JsonKey(name: "skewImageTaken")
+  bool? skewImageTaken;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
   int? returnCount;
 
-  @JsonKey(name: "rrs")
+  @JsonKey(includeToJson: false, includeFromJson: false)
   List<String>? repairReasonList;
 
   @JsonKey(includeToJson: false, includeFromJson: false)

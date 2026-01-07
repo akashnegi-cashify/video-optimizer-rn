@@ -11,6 +11,7 @@ import '../modules/login/models/user_details_response.dart';
 class UserDetails {
   UserDetailsResponse? _userDetailsData;
   MyUserDetailsResponse? _myUserDetailsResponse;
+  bool _isGlassChangeRole = false;
 
   UserDetails._();
 
@@ -66,11 +67,16 @@ class UserDetails {
     return userDetailsData!.listOfRoles!.contains(UserRoles.ROLE_ENGINEER);
   }
 
-  bool isGlassChangeRole() {
-    if (Validator.isListNullOrEmpty(userDetailsData?.listOfRoles)) {
-      return false;
-    }
+  setIsGlassChangeRole(bool isGlassChangeRole) {
+    _isGlassChangeRole = isGlassChangeRole;
+  }
 
-    return userDetailsData!.listOfRoles!.contains(UserRoles.ROLE_GLASS_CHANGE);
+  bool isGlassChangeRole() {
+    return _isGlassChangeRole;
+    // if (Validator.isListNullOrEmpty(userDetailsData?.listOfRoles)) {
+    //   return false;
+    // }
+
+    // return userDetailsData!.listOfRoles!.contains(UserRoles.ROLE_GLASS_CHANGE);
   }
 }

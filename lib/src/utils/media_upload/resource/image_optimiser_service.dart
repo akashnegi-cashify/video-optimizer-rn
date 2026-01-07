@@ -14,7 +14,7 @@ class ImageOptimizerService extends BaseService {
   @override
   Map<String, String> getHeaders(bool? isToAddAuth) {
     return {
-      ...(isToAddAuth ?? isToAddUserAuth()) ? CoreHeaders.X_USER_AUTH : {},
+      ...(isToAddAuth ?? isToAddUserAuth()) ? CoreHeaders.xSSOToken : {},
     };
   }
 

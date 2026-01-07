@@ -7,6 +7,6 @@ import '../models/qc_repost_response.dart';
 class RetrievedPartQcService {
   static Stream<QcRepostResponse?> getQcReport({Map<String, dynamic>? bodyData}) {
     return TrcService()
-        .post("/qc/parts/qc-report", QcRepostResponse.fromJson, body: bodyData != null ? jsonEncode(bodyData) : {});
+        .get("/qc/parts/qc-report", QcRepostResponse.fromJson);
   }
 }

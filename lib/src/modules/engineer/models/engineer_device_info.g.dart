@@ -8,30 +8,29 @@ part of 'engineer_device_info.dart';
 
 EngineerDeviceInfo _$EngineerDeviceInfoFromJson(Map<String, dynamic> json) =>
     EngineerDeviceInfo()
-      ..deviceId = (json['did'] as num).toInt()
-      ..returnReason = json['rr'] as String?
-      ..productTitle = json['pt'] as String?
-      ..deviceBarcode = json['dbr'] as String?
-      ..status = json['st'] as String?
-      ..repairType = json['rt'] as String?
-      ..grade = json['gr'] as String?
-      ..imei = json['dimei'] as String?
-      ..color = json['dc'] as String?
-      ..returnCount = (json['rc'] as num?)?.toInt()
-      ..repairReasonList =
-          (json['rrs'] as List<dynamic>?)?.map((e) => e as String).toList();
+      ..deviceId = (json['deviceId'] as num).toInt()
+      ..returnReason = json['returnReason'] as String?
+      ..productTitle = json['productTitle'] as String?
+      ..deviceBarcode = json['deviceBarcode'] as String?
+      ..status = json['status'] as String?
+      ..repairType = json['repairType'] as String?
+      ..grade = json['grade'] as String?
+      ..imei = json['deviceImei'] as String?
+      ..color = json['deviceColor'] as String?
+      ..isUrgent = json['isUrgent'] as bool?
+      ..skewImageTaken = json['skewImageTaken'] as bool?;
 
 Map<String, dynamic> _$EngineerDeviceInfoToJson(EngineerDeviceInfo instance) =>
     <String, dynamic>{
-      'did': instance.deviceId,
-      'rr': instance.returnReason,
-      'pt': instance.productTitle,
-      'dbr': instance.deviceBarcode,
-      'st': instance.status,
-      'rt': instance.repairType,
-      'gr': instance.grade,
-      'dimei': instance.imei,
-      'dc': instance.color,
-      'rc': instance.returnCount,
-      'rrs': instance.repairReasonList,
+      'deviceId': instance.deviceId,
+      'returnReason': instance.returnReason,
+      'productTitle': instance.productTitle,
+      'deviceBarcode': instance.deviceBarcode,
+      'status': instance.status,
+      'repairType': instance.repairType,
+      'grade': instance.grade,
+      'deviceImei': instance.imei,
+      'deviceColor': instance.color,
+      'isUrgent': instance.isUrgent,
+      'skewImageTaken': instance.skewImageTaken,
     };

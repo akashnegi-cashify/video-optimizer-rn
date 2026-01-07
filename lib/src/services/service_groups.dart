@@ -8,7 +8,8 @@ enum TRCServiceGroups with ServiceGroupsMixin {
   qcErazer("qc-data-erazer"),
   rms("sales-rms"),
   qcTransferLot("qc-transfer-lot"),
-  qcConsole("qc-console");
+  qcConsole("qc-console"),
+  unifyTrc("unify-trc");
 
   @override
   final String value;

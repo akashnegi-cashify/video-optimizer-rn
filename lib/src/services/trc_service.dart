@@ -8,7 +8,7 @@ class TrcService extends BaseService {
 
   @override
   TRCServiceGroups getServiceGroup() {
-    return TRCServiceGroups.trc;
+    return TRCServiceGroups.unifyTrc;
   }
 
   @override
@@ -19,7 +19,7 @@ class TrcService extends BaseService {
   @override
   Map<String, String> getHeaders(bool? isToAddAuth) {
     return {
-      ...(isToAddAuth ?? isToAddUserAuth()) ? CoreHeaders.X_USER_AUTH : {},
+      ...(isToAddAuth ?? isToAddUserAuth()) ? CoreHeaders.xSSOToken : {},
     };
   }
 

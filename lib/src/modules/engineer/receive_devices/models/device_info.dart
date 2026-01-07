@@ -3,13 +3,13 @@ part 'device_info.g.dart';
 
 @JsonSerializable()
 class DeviceInfo {
-  @JsonKey(name: "did")
+  @JsonKey(name: "deviceId")
   late int deviceId;
-  @JsonKey(name: "pt")
+  @JsonKey(name: "productTitle")
   String? productTitle;
-  @JsonKey(name: "dbr")
+  @JsonKey(name: "deviceBarcode")
   String? deviceBarcode;
-  @JsonKey(name: "st")
+  @JsonKey(name: "status")
   String? status;
 
   static DeviceInfo fromJson(Map<String, dynamic> data) => _$DeviceInfoFromJson(data);

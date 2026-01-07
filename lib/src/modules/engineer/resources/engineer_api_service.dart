@@ -252,7 +252,7 @@ class EngineerAPIService {
 
     String engPoint = roleType == RoleType.engineer ? "/engineer/list/retrieved-part" : "/qc/parts/list/retrieved-part";
 
-    return TrcService().post(engPoint, RetrievedPartListResponse.fromJson, body: jsonEncode(req));
+    return TrcService().get(engPoint, RetrievedPartListResponse.fromJson);
   }
 
   static Stream<RetrievedPartReasonListResponse?> getRetrievedPartReasonList(int? partRequestId) {

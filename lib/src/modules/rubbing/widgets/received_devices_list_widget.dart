@@ -1,15 +1,16 @@
+import 'package:components/components.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
-import 'package:flutter_trc/src/common/widgets/paginated_listview.dart';
-import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/glass_change_fail_reason_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_data.dart';
 import 'package:flutter_trc/src/modules/rubbing/providers/received_devices_provider.dart';
+import 'package:flutter_trc/src/resources/user_details.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:provider/provider.dart';
 
 class ReceivedDevicesListWidget extends StatefulWidget {
@@ -19,29 +20,63 @@ class ReceivedDevicesListWidget extends StatefulWidget {
   State<ReceivedDevicesListWidget> createState() => _ReceivedDevicesListWidgetState();
 }
 
-class _ReceivedDevicesListWidgetState extends PaginatedListState<RubbingDeviceData, ReceivedDevicesListWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return (isLoading && items.isEmpty)
-        ? const ShimmerListWidget()
-        : this.iterate((item, index) {
-            return _ItemReceivedDevicesWidget(
-              rubbingDeviceData: item!,
-              onRubbingAction: resetAndRefreshScreen,
-            );
-          }, onRefresh: () async {});
+class _ReceivedDevicesListWidgetState extends State<ReceivedDevicesListWidget> {
+  final CshListController _listController = CshListController();
+
+  FilterConfig _getFilterConfig() {
+    return FilterConfig(filterData: [
+      CshFilterData(
+        label: "Search Device Barcode",
+        field: 'deviceBarcode',
+        crudFilter: 'barcode',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "Product Name",
+        field: 'productTitle',
+        crudFilter: 'productName',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+    ]);
+  }
+
+  void _refreshList() {
+    _listController.refresh();
   }
 
   @override
-  void requestApi(int pageNo, int pageSize,
-      {Function(List<RubbingDeviceData>? list)? onSuccess, Function(String? errorMessage)? onError}) {
-    var provider = Provider.of<ReceivedDevicesProvider>(context, listen: false);
-    var l10 = L10n(context, listen: false);
-    provider.getDataStream(pageNo, pageSize, provider.searchQuery).listen((event) {
-      if (onSuccess != null) onSuccess(event?.dt?.deviceList);
-    }).onError((e) {
-      CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(e) ?? l10.somethingWentWrong);
-    });
+  Widget build(BuildContext context) {
+    final isGlassChange = UserDetails().isGlassChangeRole();
+    final apiUrl = isGlassChange ? "/glass-change/device/list" : "/rubbing//list";
+    
+    return CshApiList<RubbingDeviceData>(
+      apiConfig: ListApiConfig(
+        apiUrl: apiUrl,
+        serviceGroup: TRCServiceGroups.unifyTrc,
+      ),
+      filterConfig: _getFilterConfig(),
+      controller: _listController,
+      itemFromJson: RubbingDeviceData.fromJson,
+      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+      listPadding: EdgeInsets.zero,
+      verticalRowSpacing: Dimens.space_16,
+      isHideCoreFilterButton: true,
+      getRowWidget: (item, index) {
+        final data = item;
+        return _ItemReceivedDevicesWidget(
+          rubbingDeviceData: data!,
+          onRubbingAction: _refreshList,
+        );
+      },
+    );
   }
 }
 
