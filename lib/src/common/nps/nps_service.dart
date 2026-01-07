@@ -6,7 +6,7 @@ import 'package:flutter_trc/src/common/nps/resources/nps_question_response.dart'
 
 class NpsService {
   static Stream<NpsQuestionResponse> getNpsQuestions({required BaseService service}) {
-    return service.get("/nps/init/question/app", NpsQuestionResponse.fromJson);
+    return service.get("/nps/list", NpsQuestionResponse.fromJson);
   }
 
   static Stream<BaseActionResponse> submitNpsQuestions(Map<String, dynamic> body, {required BaseService service}) {

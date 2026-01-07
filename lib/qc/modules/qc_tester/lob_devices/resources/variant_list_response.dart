@@ -8,7 +8,7 @@ class VariantListResponse extends BaseResponse {
   @JsonKey(name: 'pm')
   int? pm;
 
-  @JsonKey(name: 'dt')
+  @JsonKey(name: 'data')
   List<VariantListData>? variantListResponseData;
 
   VariantListResponse(this.pm, this.variantListResponseData, super.cashifyAlert, super.trackUrl);

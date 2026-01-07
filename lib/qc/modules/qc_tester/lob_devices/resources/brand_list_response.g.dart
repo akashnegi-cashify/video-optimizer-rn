@@ -8,7 +8,7 @@ part of 'brand_list_response.dart';
 
 BrandListResponse _$BrandListResponseFromJson(Map<String, dynamic> json) =>
     BrandListResponse(
-      (json['dt'] as List<dynamic>?)
+      (json['data'] as List<dynamic>?)
           ?.map((e) => BrandListData.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['__ca'] == null
@@ -21,17 +21,17 @@ Map<String, dynamic> _$BrandListResponseToJson(BrandListResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'dt': instance.brandList,
+      'data': instance.brandList,
     };
 
 BrandListData _$BrandListDataFromJson(Map<String, dynamic> json) =>
     BrandListData(
-      (json['bid'] as num?)?.toInt(),
-      json['bn'] as String?,
+      (json['brandId'] as num?)?.toInt(),
+      json['brandName'] as String?,
     );
 
 Map<String, dynamic> _$BrandListDataToJson(BrandListData instance) =>
     <String, dynamic>{
-      'bid': instance.brandId,
-      'bn': instance.brandName,
+      'brandId': instance.brandId,
+      'brandName': instance.brandName,
     };

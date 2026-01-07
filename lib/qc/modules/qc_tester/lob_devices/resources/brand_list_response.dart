@@ -5,7 +5,7 @@ part 'brand_list_response.g.dart';
 
 @JsonSerializable()
 class BrandListResponse extends BaseResponse {
-  @JsonKey(name: 'dt')
+  @JsonKey(name: 'data')
   List<BrandListData>? brandList;
 
   BrandListResponse(this.brandList, super.cashifyAlert, super.trackUrl);
@@ -18,10 +18,10 @@ class BrandListResponse extends BaseResponse {
 
 @JsonSerializable()
 class BrandListData {
-  @JsonKey(name: 'bid')
+  @JsonKey(name: 'brandId')
   int? brandId;
 
-  @JsonKey(name: 'bn')
+  @JsonKey(name: 'brandName')
   String? brandName;
 
   BrandListData(this.brandId, this.brandName);

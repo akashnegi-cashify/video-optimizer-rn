@@ -5,7 +5,7 @@ part 'nps_question_response.g.dart';
 
 @JsonSerializable()
 class NpsQuestionResponse extends BaseResponse {
-  @JsonKey(name: "dt")
+  @JsonKey(name: "data")
   NpsResponseData? npsResponse;
 
   NpsQuestionResponse(super.cashifyAlert, super.trackUrl);

@@ -27,7 +27,7 @@ extension MediaUploadServiceExt on MediaUploadServiceType {
   BaseService get service {
     switch (this) {
       case MediaUploadServiceType.trc:
-        return TrcService();
+        return ImageOptimizerService();
       case MediaUploadServiceType.image_optimize:
         return ImageOptimizerService();
       case MediaUploadServiceType.oms:

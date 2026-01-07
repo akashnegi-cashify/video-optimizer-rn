@@ -8,9 +8,9 @@ part of 'category_response.dart';
 
 CategoryResponse _$CategoryResponseFromJson(Map<String, dynamic> json) =>
     CategoryResponse(
-      json['cat'] == null
+      json['category'] == null
           ? null
-          : CategoryData.fromJson(json['cat'] as Map<String, dynamic>),
+          : CategoryData.fromJson(json['category'] as Map<String, dynamic>),
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -21,5 +21,5 @@ Map<String, dynamic> _$CategoryResponseToJson(CategoryResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'cat': instance.categoryData,
+      'category': instance.categoryData,
     };
