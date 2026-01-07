@@ -8,13 +8,10 @@ class DeviceMediaResponse extends BaseResponse {
   @JsonKey(name: 'r_id')
   String? rId;
 
-  @JsonKey(name: 'dt')
+  @JsonKey(name: 'data')
   List<ImageListData>? imageList;
 
-  @JsonKey(name: 'tc')
-  int? totalCount;
-
-  DeviceMediaResponse(this.rId, this.imageList, this.totalCount, super.cashifyAlert, super.trackUrl);
+  DeviceMediaResponse(this.rId, this.imageList, super.cashifyAlert, super.trackUrl);
 
   static DeviceMediaResponse fromJson(Map<String, dynamic> json) => _$DeviceMediaResponseFromJson(json);
 
@@ -26,10 +23,10 @@ class ImageListData {
   @JsonKey(name: 'r_id')
   String? rId;
 
-  @JsonKey(name: 'mn')
+  @JsonKey(name: 'mediaName')
   String? imageName;
 
-  @JsonKey(name: 'iv')
+  @JsonKey(name: 'isVideo')
   bool? isVideo;
   @JsonKey(includeToJson: false, includeFromJson: false)
   String? mediaUrl;

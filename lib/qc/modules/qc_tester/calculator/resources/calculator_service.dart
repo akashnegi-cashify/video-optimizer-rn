@@ -55,7 +55,7 @@ abstract class CalculatorService {
   BaseService getService();
 
   Stream<MyCalculatorResponse?> getCalculator(String? deviceBarcode, String? pQuote, int? productId) {
-    Map<String, dynamic> req = {"ib": deviceBarcode, "pq_id": pQuote, "pid": productId};
+    Map<String, dynamic> req = {"qrCode": deviceBarcode, "sessionId": pQuote, "productId": productId};
     return service.post("/v1/cdp/cal", MyCalculatorResponse.fromJson, body: jsonEncode(req));
   }
 
