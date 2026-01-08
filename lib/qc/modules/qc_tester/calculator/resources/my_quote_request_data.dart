@@ -3,25 +3,25 @@ import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
 class MyQuoteRequestData extends QuoteRequestData {
-  @JsonKey(name: "masterManualAuditIds")
+  @JsonKey(name: "mmaids")
   List<int>? manualAuditQuestion;
 
   @JsonKey(name: "color")
   String? selectedDeviceColor;
 
-  @JsonKey(name: "strapColor")
+  @JsonKey(name: "sc")
   String? selectedStrapColor;
 
-  @JsonKey(name: "categoryId")
+  @JsonKey(name: "cat_id")
   int? categoryId;
 
-  @JsonKey(name: "remarks")
+  @JsonKey(name: "rm")
   String? testingRemarks;
 
-  @JsonKey(name: "variantId")
+  @JsonKey(name: "vid")
   int? variantId;
 
-  @JsonKey(name: "variantName")
+  @JsonKey(name: "vn")
   String? variantName;
 
   MyQuoteRequestData({this.manualAuditQuestion, QuoteRequestData? requestData}) {
@@ -52,15 +52,15 @@ class MyQuoteRequestData extends QuoteRequestData {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> parentJson = super.toJson();
     if (manualAuditQuestion != null) {
-      parentJson["masterManualAuditIds"] = manualAuditQuestion;
+      parentJson["mmaids"] = manualAuditQuestion;
     }
     parentJson["color"] = selectedDeviceColor;
-    parentJson["strapColor"] = selectedStrapColor;
-    parentJson["remarks"] = testingRemarks;
-    parentJson["variantId"] = variantId;
-    parentJson["variantName"] = variantName;
+    parentJson["sc"] = selectedStrapColor;
+    parentJson["rm"] = testingRemarks;
+    parentJson["vid"] = variantId;
+    parentJson["vn"] = variantName;
     if (categoryId != null) {
-      parentJson["categoryId"] = categoryId;
+      parentJson["cat_id"] = categoryId;
     }
     return parentJson;
   }

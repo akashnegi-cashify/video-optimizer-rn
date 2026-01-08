@@ -17,18 +17,4 @@ class VariantListProvider extends CalculatorServiceInitProvider with Searchable 
   final String seriesName;
 
   VariantListProvider(this.productId, this.seriesName);
-
-  Future<List<VariantListData>> getVariantList({required int pageSize, required int pageNo}) {
-    var completer = Completer<List<VariantListData>>();
-    service.getVariantList(productId, pageNo: pageNo, pageSize: pageSize, searchQuery: searchQuery).listen((event) {
-      if (!Validator.isListNullOrEmpty(event?.variantListResponseData)) {
-        completer.complete(event?.variantListResponseData);
-      } else {
-        completer.completeError("No variant found for this product");
-      }
-    }, onError: (error) {
-      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-    });
-    return completer.future;
-  }
 }
