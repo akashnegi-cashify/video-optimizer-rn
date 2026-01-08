@@ -1,0 +1,21 @@
+---
+name: Repository Context
+description: Key repository information and reference locations
+alwaysApply: true
+---
+
+# Repository Context
+
+## Key Locations
+
+- **Service Groups**: `lib/src/services/service_groups.dart` - Contains `TRCServiceGroups` enum
+- **Migration Guide**: `MIGRATION_GUIDE_ITERATE_TO_CSH_API_LIST.md` - Detailed migration documentation with examples
+- **Components**: `package:components/components.dart` - Core UI components including `CshApiList`
+- **List Request Types**: `package:components/resources/list/list_request.dart` - Contains `AdminFilterList` and `AdminFilterData`
+
+## Project Structure
+
+- Flutter TRC (Tech Refurbish Center) project
+- Uses Provider pattern for state management
+- Migrating from legacy `iterate()` pattern to modern `CshApiList` pattern
+- Service-based architecture with multiple service groups (QC, TRC, RMS, etc.)

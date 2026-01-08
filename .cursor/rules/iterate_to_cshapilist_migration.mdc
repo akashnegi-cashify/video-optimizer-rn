@@ -1,0 +1,104 @@
+---
+name: Iterate to CshApiList Migration
+description: Automatically detect and migrate iterate() pattern to CshApiList with preSelectedFilters
+alwaysApply: true
+---
+
+# Iterate to CshApiList Migration
+
+When you encounter code with `iterate()` pattern or `PaginatedListState`, automatically recognize it needs migration to `CshApiList`.
+
+## Pattern Recognition
+
+- `extends PaginatedListState<T, W>`
+- `iterate((item, index) { ... })`
+- `requestApi` method implementations
+- `MySearchBarWidget` for search functionality
+
+## Automatic Migration Process
+
+### 1. Extract API Information
+
+- Follow: Widget → Provider method → Service method
+- Identify: API endpoint, HTTP method, parameters, service group
+- Trace service class to determine service group (QcService → TRCServiceGroups.qcConsole, etc.)
+
+### 2. Categorize Parameters
+
+- **Fixed params** (from provider properties like deviceBarcode, categoryId, productId) → preSelectedFilters
+- **Search params** (user input like searchQuery) → filterData
+- **Pagination** (pageNo, pageSize, os, ps) → auto-handled by CshApiList (skip)
+
+### 3. Update Imports
+
+- Add: `components/components.dart`, `components/resources/list/list_request.dart`
+- Add: `src/services/service_groups.dart`
+- Remove: `hide iterate`, `my_search_bar_widget.dart`, `paginate_list_abstract.dart`
+
+### 4. Transform Code
+
+- State: `PaginatedListState` → `State` + add `CshListController`
+- Create `_getFilterConfig(provider)` with:
+  - `filterData`: User-controlled filters (CshFilterData with input/select types)
+  - `preSelectedFilters`: Fixed params (AdminFilterList with AdminFilterData)
+- Replace `iterate()` with `CshApiList<ItemType>`:
+  - `apiUrl`: Extracted endpoint
+  - `serviceGroup`: Determined from service class
+  - `filterConfig`: Call _getFilterConfig(provider)
+  - `listPadding`: Map from old `padding`
+  - `verticalRowSpacing`: Extract from `separator` height
+  - `getRowWidget`: Move logic from iterate callback
+- Remove: `requestApi` method, `MySearchBarWidget`
+
+**IMPORTANT: Do NOT add headers to `ListApiConfig`** - CshApiList uses default headers automatically.
+
+### 5. Service Group Mapping
+
+- QcService / QcCalculatorService → TRCServiceGroups.qcConsole
+- QcErazerService → TRCServiceGroups.qcErazer
+- QcTransferService → TRCServiceGroups.qcTransferLot
+- TrcService → TRCServiceGroups.trc
+- UnifyTrcService → TRCServiceGroups.unifyTrc
+- RmsService → TRCServiceGroups.rms
+
+### 6. PreSelected Filter Template
+
+```dart
+AdminFilterList(
+  type: 'field_name',
+  field: 'field_name',
+  value: AdminFilterData(search: provider.property?.toString()),
+)
+```
+
+### 7. Filter Data Template
+
+```dart
+CshFilterData(
+  label: "User-visible label",
+  field: 'api_param_name',
+  crudFilter: 'api_param_name',
+  filterType: CshFilterType.input,
+  valueType: CshFilterValueType.contains,
+  position: FilterPosition.top,
+  keyboardType: TextInputType.text,
+  filterGroup: FilterGroupType.multipleTypeSearch,
+)
+```
+
+## When User Says
+
+"Migrate this list" or shows code with iterate pattern
+
+**You Should:**
+1. Automatically identify it's an iterate → CshApiList migration
+2. Navigate through provider → service to extract API info
+3. Apply the full migration without asking for API details
+4. Reference MIGRATION_GUIDE_ITERATE_TO_CSH_API_LIST.md if you need detailed examples
+
+## Important Rules
+
+- Always preserve business logic from iterate callback in getRowWidget
+- Never add pagination params to preSelectedFilters
+- **Do not add headers to apiConfig** (uses default headers automatically)
+- Pass provider to _getFilterConfig to access its properties

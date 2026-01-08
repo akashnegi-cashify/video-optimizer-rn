@@ -59,23 +59,6 @@ class ProductListProvider extends CalculatorServiceInitProvider with Searchable 
     return Provider.of<ProductListProvider>(context, listen: listen);
   }
 
-  Future<List<LobProductListData>?> getProductsList(int pageNo, int pageSize) {
-    var completer = Completer<List<LobProductListData>?>();
-    service
-        .getProductList(deviceBarcode, brandId, categoryId,
-            pageNo: pageNo, pageSize: pageSize, searchQuery: searchQuery)
-        .listen((event) {
-      if (!Validator.isListNullOrEmpty(event?.productList)) {
-        completer.complete(event?.productList);
-      } else {
-        completer.completeError("Product List is empty");
-      }
-    }, onError: (error) {
-      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
-    });
-    return completer.future;
-  }
-
   bool isAllowedVariants() {
     for (CategoryData category in categoryList ?? []) {
       if (category.id == categoryId) {

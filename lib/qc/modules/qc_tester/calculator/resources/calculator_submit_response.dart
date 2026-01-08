@@ -6,10 +6,10 @@ part 'calculator_submit_response.g.dart';
 @JsonSerializable()
 class CalculatorSubmitResponse extends BaseResponse {
 
-  @JsonKey(name: "gr")
+  @JsonKey(name: "grade")
   String? grade;
 
-  @JsonKey(name: "cm")
+  @JsonKey(name: "cautionMessage")
   String? cautionMessage;
 
   CalculatorSubmitResponse(this.grade, this.cautionMessage, super.cashifyAlert, super.trackUrl);

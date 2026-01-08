@@ -1,0 +1,23 @@
+---
+name: Flutter/Dart Style Guidelines
+description: General Flutter and Dart code style conventions for the TRC project
+alwaysApply: true
+---
+
+# General Flutter/Dart Guidelines
+
+## Code Style
+
+- Prefer const constructors where possible
+- Use trailing commas for better formatting
+- Follow existing code patterns in the file
+
+## Error Handling
+
+- Check linter errors after making changes
+- Fix any introduced errors before completing
+
+## Provider Pattern
+
+- Use Provider.of(context) or CustomProvider.of(context) patterns
+- Pass listen: false when not rebuilding on changes

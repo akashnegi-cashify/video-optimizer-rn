@@ -113,20 +113,6 @@ abstract class CalculatorService {
     return service.get("/manaul-question/list?qrCode=$qrCode", ManualQuestionListResponse.fromJson);
   }
 
-  Stream<LobProductListResponse?> getProductList(String? deviceBarcode, int? brandId, int? categoryId,
-      {int? pageNo, int? pageSize, String? searchQuery}) {
-    Map<String, dynamic> req = {
-      "qr": deviceBarcode,
-      "cid": categoryId,
-      "bid": brandId,
-      "os": pageNo,
-      "ps": pageSize,
-      if (!Validator.isNullOrEmpty(searchQuery)) "pn": searchQuery,
-    };
-
-    return service.post("/manual-test/product/list", LobProductListResponse.fromJson, body: jsonEncode(req));
-  }
-
   Stream<LobProductListResponse?> getProductListAccToImei(String? imei) {
     return service.get("/manual-test/product/imei/list?imei=$imei", LobProductListResponse.fromJson);
   }
@@ -134,14 +120,14 @@ abstract class CalculatorService {
   Stream<MyCalculatorResponse?> getLobCalculator(
       String? deviceBarcode, int? productMasterId, int? productId, int? categoryId, VariantListData? variantItem) {
     Map<String, dynamic> req = {
-      "qrCode": deviceBarcode,
-      "productMasterId": productMasterId.toString(),
-      "productId": productId.toString(),
-      "categoryId": categoryId.toString(),
+      "qc": deviceBarcode,
+      "pmid": productMasterId.toString(),
+      "pid": productId.toString(),
+      "cat_id": categoryId.toString(),
     };
     if (variantItem != null) {
-      req["variantId"] = variantItem.id;
-      req["variantName"] = variantItem.name;
+      req["vid"] = variantItem.id;
+      req["vn"] = variantItem.name;
     }
 
     return service.post("/manual-test/calculator/render", MyCalculatorResponse.fromJson, body: jsonEncode(req));
@@ -168,16 +154,6 @@ abstract class CalculatorService {
     }
 
     return service.post("/device/mismatch/report/save", BaseActionResponse.fromJson, body: jsonEncode(req));
-  }
-
-  Stream<VariantListResponse?> getVariantList(int? productId, {int? pageNo, int? pageSize, String? searchQuery}) {
-    Map<String, dynamic> req = {
-      "pdid": productId,
-      "os": pageNo,
-      "ps": pageSize,
-      if (!Validator.isNullOrEmpty(searchQuery)) "pn": searchQuery,
-    };
-    return service.post("/manual-test/search/variant", VariantListResponse.fromJson, body: jsonEncode(req));
   }
 
   Stream<BrandListResponse?> getBrandList(int? categoryId) {
