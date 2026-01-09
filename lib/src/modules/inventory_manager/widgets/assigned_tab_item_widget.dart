@@ -56,13 +56,13 @@ class AssignedTabItemWidget extends StatelessWidget {
                         _labelValueWidget(theme, l10n.engineerSName, dataModel!.engineerName!),
                         const SizedBox(height: Dimens.space_8),
                       ],
-                      if (!Validator.isNullOrEmpty(dataModel!.lc)) ...[
-                        _labelValueWidget(theme, l10n.location, dataModel!.lc!),
+                      if (!Validator.isNullOrEmpty(dataModel!.location)) ...[
+                        _labelValueWidget(theme, l10n.location, dataModel!.location!),
                         const SizedBox(height: Dimens.space_8),
                       ],
-                      if (dataModel!.partCount != null && dataModel!.totalPartCount != null) ...[
+                      if (dataModel!.partAvailableCount != null && dataModel!.totalPartCount != null) ...[
                         _labelValueWidget(theme, l10n.partStatus,
-                            "${dataModel!.partCount!} out of ${dataModel!.totalPartCount!} not available"),
+                            "${dataModel!.partAvailableCount!} out of ${dataModel!.totalPartCount!} not available"),
                         const SizedBox(height: Dimens.space_8),
                       ],
                       if (dataModel!.assignedAt != null) ...[

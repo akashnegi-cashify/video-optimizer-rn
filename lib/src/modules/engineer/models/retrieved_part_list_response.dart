@@ -28,28 +28,31 @@ class RetrievedPartList {
 
 @JsonSerializable()
 class RetrievedPartListData {
-  @JsonKey(name: "prid")
+  @JsonKey(name: "partId")
   int? partId;
 
   @JsonKey(name: "sku")
   String? sku;
 
-  @JsonKey(name: "pn")
+  @JsonKey(name: "partName")
   String? partName;
 
-  @JsonKey(name: "dbr")
+  @JsonKey(name: "partVariationName")
+  String? partVariationName;
+
+  @JsonKey(name: "deviceBarcode")
   String? deviceBarcode;
 
-  @JsonKey(name: "rpbr")
+  @JsonKey(name: "retrievedPartBarcode")
   String? retrievedPartBarcode;
 
-  @JsonKey(name: "rr")
+  @JsonKey(name: "reason")
   String? reason;
 
-  @JsonKey(name: "rm")
+  @JsonKey(name: "remark")
   String? remark;
 
-  @JsonKey(name: "imgs")
+  @JsonKey(name: "images")
   List<String>? imageUrls;
 
   RetrievedPartListData(

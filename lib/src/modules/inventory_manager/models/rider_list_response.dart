@@ -20,10 +20,10 @@ class RiderListResponse {
 
 @JsonSerializable()
 class RiderListDataResponse {
-  @JsonKey(name: "rn")
+  @JsonKey(name: "key")
+  String? riderId;
+  @JsonKey(name: "value")
   String? riderName;
-  @JsonKey(name: "rid")
-  int? riderId;
 
   RiderListDataResponse({
     this.riderId,

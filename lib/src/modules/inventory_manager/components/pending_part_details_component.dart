@@ -195,12 +195,12 @@ class _PendingPartDetailsWidget extends StatelessWidget {
             _labelValueWidget(theme, l10n.engineerSName, detailsModelData!.engineerName!),
             const SizedBox(height: Dimens.space_8),
           ],
-          if (!Validator.isNullOrEmpty(detailsModelData?.pt)) ...[
-            _labelValueWidget(theme, l10n.deviceName, detailsModelData!.pt!),
+          if (!Validator.isNullOrEmpty(detailsModelData?.productTitle)) ...[
+            _labelValueWidget(theme, l10n.deviceName, detailsModelData!.productTitle!),
             const SizedBox(height: Dimens.space_8),
           ],
-          if (!Validator.isNullOrEmpty(detailsModelData?.lc)) ...[
-            _labelValueWidget(theme, l10n.location, detailsModelData!.lc!),
+          if (!Validator.isNullOrEmpty(detailsModelData?.location)) ...[
+            _labelValueWidget(theme, l10n.location, detailsModelData!.location!),
             const SizedBox(height: Dimens.space_8),
           ],
         ],
@@ -294,13 +294,13 @@ class _PendingPartDetailsWidget extends StatelessWidget {
             args: AssignedPartDetailsArguments(
           prid: arg?.prid ?? 0,
           assignDeviceDetailsData: AssignDeviceDetailsData(
-            did: arg?.detailsModelData?.did,
-            lc: arg?.detailsModelData?.lc,
+            did: arg?.detailsModelData?.deviceId,
+            lc: arg?.detailsModelData?.location,
             engineerName: arg?.detailsModelData?.engineerName,
             deviceBarcode: arg?.detailsModelData?.deviceBarcode,
             grade: arg?.detailsModelData?.grade,
             repairType: arg?.detailsModelData?.repairType,
-            productName: arg?.detailsModelData?.pt,
+            productName: arg?.detailsModelData?.productTitle,
           ),
         ));
         Navigator.of(context).pushReplacementNamed(AssignedPartDetailsScreen.route, arguments: arguments);

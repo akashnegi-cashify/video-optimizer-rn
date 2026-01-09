@@ -1,12 +1,12 @@
-import 'package:core/core.dart';
+import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/deliver/providers/pickup_deliver_provider.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../common/widgets/key_value_row_widget.dart';
-import '../../../../../common/widgets/paginated_listview.dart';
 import '../../../pending_delivery/receive/models/receive_response_model.dart';
 
 class PickupDeliverListWidget extends StatefulWidget {
@@ -16,9 +16,9 @@ class PickupDeliverListWidget extends StatefulWidget {
   State<PickupDeliverListWidget> createState() => _PickupDeliverListWidgetState();
 }
 
-class _PickupDeliverListWidgetState extends PaginatedListState<Part, PickupDeliverListWidget> {
+class _PickupDeliverListWidgetState extends State<PickupDeliverListWidget> {
+  final CshListController _listController = CshListController();
   late PickupDeliverProvider provider;
-
   late L10n l10n;
 
   @override
@@ -26,27 +26,49 @@ class _PickupDeliverListWidgetState extends PaginatedListState<Part, PickupDeliv
     provider = Provider.of<PickupDeliverProvider>(context, listen: false);
     l10n = L10n(context);
     provider.addListener(() {
-      resetAndRefreshScreen();
+      _refreshList();
     });
     super.didChangeDependencies();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return this.iterate((item, index) {
-      return _Item(part: item!);
-    }, onRefresh: () async {});
+  FilterConfig _getFilterConfig() {
+    return FilterConfig(filterData: [
+      CshFilterData(
+        label: "Search Barcode",
+        field: 'partBarcode',
+        crudFilter: 'barcode',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+    ]);
+  }
+
+  void _refreshList() {
+    _listController.refresh();
   }
 
   @override
-  void requestApi(int pageNo, int pageSize,
-      {Function(List<Part>? list)? onSuccess, Function(String? errorMessage)? onError}) {
-    provider.getDataStream(pageNo, pageSize, provider.searchQuery).listen((event) {
-      if (onSuccess != null) onSuccess(event?.data?.partList);
-    }).onError((e) {
-      if (onError != null) onError(e);
-      CshSnackBar.error(context: context, message: ApiErrorHelper.getError(e).message ?? l10n.somethingWentWrong);
-    });
+  Widget build(BuildContext context) {
+    return CshApiList<Part>(
+      apiConfig: ListApiConfig(
+        apiUrl: "/rider/return/picked",
+        serviceGroup: TRCServiceGroups.unifyTrc,
+      ),
+      filterConfig: _getFilterConfig(),
+      controller: _listController,
+      itemFromJson: Part.fromJson,
+      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+      listPadding: EdgeInsets.zero,
+      verticalRowSpacing: Dimens.space_8,
+      isHideCoreFilterButton: true,
+      getRowWidget: (item, index) {
+        final data = item;
+        return _Item(part: data!);
+      },
+    );
   }
 }
 

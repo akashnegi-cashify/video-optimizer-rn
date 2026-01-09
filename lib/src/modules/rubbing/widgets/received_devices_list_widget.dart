@@ -71,7 +71,7 @@ class _ReceivedDevicesListWidgetState extends State<ReceivedDevicesListWidget> {
       isHideCoreFilterButton: true,
       getRowWidget: (item, index) {
         final data = item;
-        return _ItemReceivedDevicesWidget(
+            return _ItemReceivedDevicesWidget(
           rubbingDeviceData: data!,
           onRubbingAction: _refreshList,
         );

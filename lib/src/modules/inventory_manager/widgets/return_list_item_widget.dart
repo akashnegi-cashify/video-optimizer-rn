@@ -25,10 +25,10 @@ class ReturnListItemWidget extends StatelessWidget {
         elevation: CardElevation.dimen_10,
         child: Column(
           children: [
-            if (!Validator.isNullOrEmpty(dataModel?.productName))
-              _labelAndValueWidget(theme, l10n.partName, dataModel!.productName!),
-            if (!Validator.isNullOrEmpty(dataModel?.productBarcode))
-              _labelAndValueWidget(theme, l10n.partBarcode, dataModel!.productBarcode!),
+            if (!Validator.isNullOrEmpty(dataModel?.partName))
+              _labelAndValueWidget(theme, l10n.partName, dataModel!.partName!),
+            if (!Validator.isNullOrEmpty(dataModel?.partBarcode))
+              _labelAndValueWidget(theme, l10n.partBarcode, dataModel!.partBarcode!),
             if (!Validator.isNullOrEmpty(dataModel?.sku))
               _labelAndValueWidget(theme, l10n.sku, dataModel!.sku!, padding: EdgeInsets.zero),
             if (!Validator.isNullOrEmpty(dataModel?.partVariantName))

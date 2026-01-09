@@ -131,8 +131,8 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
                                   theme, l10n.deviceBarcode, widget.arg!.detailsModelData!.deviceBarcode!),
                               const SizedBox(height: Dimens.space_8),
                             ],
-                            if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.pt)) ...[
-                              _labelAndValueWidget(theme, l10n.deviceName, widget.arg!.detailsModelData!.pt!),
+                            if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.productTitle)) ...[
+                              _labelAndValueWidget(theme, l10n.deviceName, widget.arg!.detailsModelData!.productTitle!),
                               const SizedBox(height: Dimens.space_8),
                             ],
                             if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.engineerName)) ...[
@@ -140,8 +140,8 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
                                   theme, l10n.engineerSName, widget.arg!.detailsModelData!.engineerName!),
                               const SizedBox(height: Dimens.space_8),
                             ],
-                            if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.lc)) ...[
-                              _labelAndValueWidget(theme, l10n.location, widget.arg!.detailsModelData!.lc!),
+                            if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.location)) ...[
+                              _labelAndValueWidget(theme, l10n.location, widget.arg!.detailsModelData!.location!),
                               const SizedBox(height: Dimens.space_8),
                             ],
                           ],
@@ -281,7 +281,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
       BuildContext context, L10n l10n, int partId, String productName, String partVariantName, String sku, AlternatePartArguments? args) {
     var provider = AlternatePartListProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.alternatePartRequest(partId, productName, sku, args?.detailsModelData?.did ?? -1, partVariantName).then((value) {
+    provider.alternatePartRequest(partId, productName, sku, args?.detailsModelData?.deviceId ?? -1, partVariantName).then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: l10n.alternatePartDataFetched);

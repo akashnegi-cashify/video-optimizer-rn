@@ -77,7 +77,7 @@ class _QcPendingTabWidgetState extends State<QcPendingTabWidget> {
       apiConfig: ListApiConfig(
         apiUrl: "/qc/parts/list",
         serviceGroup: TRCServiceGroups.unifyTrc,
-      ),
+              ),
       filterConfig: _getFilterConfig(),
       controller: _listController,
       itemFromJson: QcPartListData.fromJson,
@@ -87,17 +87,17 @@ class _QcPendingTabWidgetState extends State<QcPendingTabWidget> {
       isHideCoreFilterButton: false,
       getRowWidget: (item, index) {
         final data = item;
-        return QcPartListItemWidget(
+                      return QcPartListItemWidget(
           dataModel: data,
-          onCardClicked: (bool isFaulty) async {
+                        onCardClicked: (bool isFaulty) async {
             if (data?.prid != null) {
               _showUnlinkModal(context, theme, l10n, isFaulty, provider, data!);
-            } else {
-              CshSnackBar.error(context: context, message: l10n.noPridFound);
-            }
-          },
-        );
-      },
+                          } else {
+                            CshSnackBar.error(context: context, message: l10n.noPridFound);
+                          }
+                        },
+                      );
+                    },
     );
   }
 
