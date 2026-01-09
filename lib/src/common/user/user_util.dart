@@ -63,10 +63,11 @@ class UserUtil {
 
   static Future<PermissionResponse> _getUserPermissions(String? mobileMd5) {
     var completer = Completer<PermissionResponse>();
-    UserService.getUserPermissions(mobileMd5).listen((event) {
-      completer.complete(event);
-    }, onError: (error) {
-      completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
+    ConsoleUserService.getUserPermissions(mobileMd5 ?? "").listen((permissionRes) {
+      PermissionController().updateUserPermissions(permissionRes);
+      completer.complete(permissionRes);
+    }).onError((error) {
+      completer.completeError(error);
     });
     return completer.future;
   }
