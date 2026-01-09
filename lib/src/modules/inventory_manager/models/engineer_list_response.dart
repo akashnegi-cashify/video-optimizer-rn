@@ -1,3 +1,4 @@
+import 'package:core_widgets/core_widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'engineer_list_response.g.dart';
@@ -63,4 +64,28 @@ class EngineerDataResponse {
   static EngineerDataResponse fromJson(Map<String, dynamic> data) => _$EngineerDataResponseFromJson(data);
 
   Map<String, dynamic> toJson() => _$EngineerDataResponseToJson(this);
+}
+
+// Wrapper response model for CshApiList
+@JsonSerializable()
+class EngineerListApiResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  List<EngineerDataResponse>? data;
+
+  EngineerListApiResponse(super.cashifyAlert, super.trackUrl);
+
+  // Custom fromJson to convert EngineerListResponse to EngineerListApiResponse
+  static EngineerListApiResponse fromEngineerListResponse(EngineerListResponse? response) {
+    if (response == null) {
+      return EngineerListApiResponse(null, null);
+    }
+    final apiResponse = EngineerListApiResponse(null, null);
+    apiResponse.data = response.data?.engineerDataList;
+    return apiResponse;
+  }
+
+  static EngineerListApiResponse fromJson(Map<String, dynamic> json) => _$EngineerListApiResponseFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$EngineerListApiResponseToJson(this);
 }

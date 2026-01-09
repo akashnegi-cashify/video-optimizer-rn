@@ -45,32 +45,51 @@ PendingDeviceDetailData _$PendingDeviceDetailDataFromJson(
         Map<String, dynamic> json) =>
     PendingDeviceDetailData(
       isUrgent: json['isUrgent'] as bool?,
-      repairType: json['rt'] as String?,
-      partCount: (json['pc'] as num?)?.toInt(),
-      grade: json['gr'] as String?,
-      deviceBarcode: json['dbr'] as String?,
-      assignedAt: (json['asAt'] as num?)?.toInt(),
-      did: (json['did'] as num?)?.toInt(),
-      engineerName: json['en'] as String?,
-      lc: json['lc'] as String?,
-      pt: json['pt'] as String?,
-      tbr: json['tbr'] as String?,
-      totalPartCount: (json['tpc'] as num?)?.toInt(),
+      repairType: json['repairType'] as String?,
+      partAvailableCount: (json['partAvailableCount'] as num?)?.toInt(),
+      grade: json['grade'] as String?,
+      deviceBarcode: json['deviceBarcode'] as String?,
+      assignedAt: (json['assignedAt'] as num?)?.toInt(),
+      deviceId: (json['deviceId'] as num?)?.toInt(),
+      engineerName: json['engineerName'] as String?,
+      location: json['location'] as String?,
+      productTitle: json['productTitle'] as String?,
+      trayBarcode: json['trayBarcode'] as String?,
+      totalPartCount: (json['totalPartCount'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PendingDeviceDetailDataToJson(
         PendingDeviceDetailData instance) =>
     <String, dynamic>{
-      'did': instance.did,
-      'pt': instance.pt,
-      'dbr': instance.deviceBarcode,
-      'tbr': instance.tbr,
-      'pc': instance.partCount,
-      'tpc': instance.totalPartCount,
-      'en': instance.engineerName,
-      'lc': instance.lc,
-      'asAt': instance.assignedAt,
+      'deviceId': instance.deviceId,
+      'productTitle': instance.productTitle,
+      'deviceBarcode': instance.deviceBarcode,
+      'trayBarcode': instance.trayBarcode,
+      'partAvailableCount': instance.partAvailableCount,
+      'totalPartCount': instance.totalPartCount,
+      'engineerName': instance.engineerName,
+      'location': instance.location,
+      'assignedAt': instance.assignedAt,
       'isUrgent': instance.isUrgent,
-      'rt': instance.repairType,
-      'gr': instance.grade,
+      'repairType': instance.repairType,
+      'grade': instance.grade,
+    };
+
+PendingDeviceListApiResponse _$PendingDeviceListApiResponseFromJson(
+        Map<String, dynamic> json) =>
+    PendingDeviceListApiResponse(
+      json['__ca'] == null
+          ? null
+          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+      json['turl'] as String?,
+    )..data = (json['data'] as List<dynamic>?)
+        ?.map((e) => PendingDeviceDetailData.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+Map<String, dynamic> _$PendingDeviceListApiResponseToJson(
+        PendingDeviceListApiResponse instance) =>
+    <String, dynamic>{
+      '__ca': instance.cashifyAlert,
+      'turl': instance.trackUrl,
+      'data': instance.data,
     };

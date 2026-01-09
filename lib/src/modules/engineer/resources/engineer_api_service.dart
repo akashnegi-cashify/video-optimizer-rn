@@ -67,7 +67,7 @@ class EngineerAPIService {
 
   static Stream<PartsListResponse?> getAssignedParts(int deviceId) {
     Map<String, List<String>> paramData = {
-      "dId": [deviceId.toString()],
+      "did": [deviceId.toString()],
     };
     return TrcService().get("/engineer/list-assigned-part-request", PartsListResponse.fromJson, params: paramData);
   }

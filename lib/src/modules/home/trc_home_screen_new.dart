@@ -49,14 +49,14 @@ class TrcHomeScreenNew extends StatelessWidget {
                 text: "Rubbing",
                 onPressed: () {
                   UserDetails().setIsGlassChangeRole(false);
-                  Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(RubbingHomeScreen.route);
                 },
               ),
               CshBigButton(
                 text: "Glass Change",
                 onPressed: () {
                   UserDetails().setIsGlassChangeRole(true);
-                  Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(RubbingHomeScreen.route);
                 },
               ),
               TRCRolePermissionWidget(
@@ -64,20 +64,20 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Engineer",
                   onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) => false);
+                    Navigator.of(context).pushNamed(EngineerHomeScreen.route);
                   },
                 ),
               ),
               CshBigButton(
                 text: "ROLE_RIDER",
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(RiderHomeScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(RiderHomeScreen.route);
                 },
               ),
               CshBigButton(
                 text: "ROLE_L4",
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(L4HomeScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(L4HomeScreen.route);
                 },
               ),
               TRCRolePermissionWidget(
@@ -85,38 +85,38 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "ROLE_INVENTORY_MANAGER",
                   onPressed: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(InventoryHomeScreen.route, (route) => false);
+                    Navigator.of(context).pushNamed(InventoryHomeScreen.route);
                   },
                 ),
               ),
               CshBigButton(
                 text: "Part ROLE_QC",
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(PartQCHomeScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(PartQCHomeScreen.route);
                 },
               ),
               CshBigButton(
                 text: "TRC_EXECUTIVE",
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(TRCExecutiveScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(TRCExecutiveScreen.route);
                 },
               ),
               CshBigButton(
                 text: "QC_ROLE",
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(TrcTesterScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(TrcTesterScreen.route);
                 },
               ),
               CshBigButton(
                 text: "ROLE_STORAGE_MANAGER",
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(StoreManagerHomeScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(StoreManagerHomeScreen.route);
                 },
               ),
               CshBigButton(
                 text: "ROLE_TRC_AUDIT",
                 onPressed: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(TrcAuditScreen.route, (route) => false);
+                  Navigator.of(context).pushNamed(TrcAuditScreen.route);
                 },
               ),
             ],

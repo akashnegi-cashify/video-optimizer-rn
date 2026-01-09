@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate, ImageUtil;
 import 'package:csh_gallery_view/gallery/types.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +11,11 @@ import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/engineer/components/retrieved_part_list_component.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
 import 'package:flutter_trc/src/modules/engineer/providers/retrieved_part_list_provider.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:flutter_trc/src/utils/image_assest_helper.dart';
 import 'package:flutter_trc/src/utils/image_util.dart';
 import 'package:flutter_trc/src/utils/media_upload/media_optimiser_utils.dart';
 import 'package:flutter_trc/src/utils/media_upload/models/media_upload_service_type_enum.dart';
-import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -28,69 +29,116 @@ class RetrievedPartListWidget extends StatefulWidget {
   State<RetrievedPartListWidget> createState() => _RetrievedPartListWidgetState();
 }
 
-class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartListData, RetrievedPartListWidget> {
-  final _barcodeController = TextEditingController();
+class _RetrievedPartListWidgetState extends State<RetrievedPartListWidget> {
+  final CshListController _listController = CshListController();
 
-  final _debounce = TextInputDebounce();
+  FilterConfig _getFilterConfig() {
+    return FilterConfig(filterData: [
+      CshFilterData(
+        label: "Search Retrieved Part Barcode",
+        field: 'retrievedPartBarcode',
+        crudFilter: 'retrievedPartBarcode',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "Part Name",
+        field: 'partName',
+        crudFilter: 'partName',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "SKU",
+        field: 'sku',
+        crudFilter: 'partSku',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "Part Variation",
+        field: 'partVariationName',
+        crudFilter: 'request.partVariantName',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "Device Barcode",
+        field: 'deviceBarcode',
+        crudFilter: 'device.barcode',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "Part ID",
+        field: 'partId',
+        crudFilter: 'partId',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.number,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+    ]);
+  }
+
+  void _refreshList() {
+    _listController.refresh();
+  }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
-    var provider = RetrievedPartListProvider.of(context);
+    var provider = RetrievedPartListProvider.of(context, listen: false);
     return Stack(
       children: [
         Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
-              child: CshTextFormField(
-                hintText: l10n.retrievedPartBarcode,
-                hintStyle: theme.textTheme.labelSmall,
-                controller: _barcodeController,
-                onChanged: (_) {
-                  _debounce.start(() {
-                    provider.searchQuery = _barcodeController.text;
-                    resetAndRefreshScreen();
-                  });
-                },
-                suffixIcon: InkWell(
-                  child: const Icon(Icons.qr_code_2),
-                  onTap: () {
-                    CshMlScannerUtil().openScanner(context, onScanned: (scannedData, controller) {
-                      Navigator.pop(context); // close scanner
-                      _barcodeController.text = scannedData;
-                      provider.searchQuery = _barcodeController.text;
-                      resetAndRefreshScreen();
-                    });
-                  },
+            Expanded(
+              child: CshApiList<RetrievedPartListData>(
+                apiConfig: ListApiConfig(
+                  apiUrl: "/engineer/list/retrieved-part",
+                  serviceGroup: TRCServiceGroups.unifyTrc,
                 ),
-              ),
-            ),
-            Flexible(
-                flex: 1,
-                fit: FlexFit.tight,
-                child: iterate(
-                  (item, index) {
+                filterConfig: _getFilterConfig(),
+                controller: _listController,
+                itemFromJson: RetrievedPartListData.fromJson,
+                shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+                listPadding: const EdgeInsets.all(Dimens.space_16),
+                verticalRowSpacing: Dimens.space_16,
+                isHideCoreFilterButton: false,
+                getRowWidget: (item, index) {
+                  final data = item;
                     return _RetrievedPartItem(
-                      item,
+                    data!,
                       provider.roleType,
                       onCardClicked: (isFaulty) {
-                        if (item.partId != null) {
-                          _showUnlinkModal(context, theme, l10n, isFaulty, provider, item);
+                      if (data.partId != null) {
+                        _showUnlinkModal(context, theme, l10n, isFaulty, provider, data);
                         } else {
                           CshSnackBar.error(context: context, message: l10n.noPridFound);
                         }
                       },
                     );
                   },
-                  onRefresh: () async {},
-                  separator: const SizedBox(height: Dimens.space_16),
-                  padding: const EdgeInsets.all(Dimens.space_16),
-                  onNoDataFound: () {
-                    return Center(child: Text("No data found", style: theme.primaryTextTheme.titleMedium));
-                  },
-                ))
+              ),
+            ),
           ],
         ),
         if (provider.roleType == RoleType.partQc)
@@ -115,30 +163,20 @@ class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartList
       context,
       header: "Receive Retrieved Parts",
       hintText: "Scan Retrieved Part Barcode",
-      onDidPop: () => resetAndRefreshScreen(),
+      onDidPop: () => _refreshList(),
       onScanned: (scannedData, controller) {
         CshLoading().showLoading(context);
         controller?.stop();
         provider.receivePart(scannedData).then((value) {
           CshLoading().hideLoading(context);
           CshSnackBar.success(context: context, message: "Part received successfully");
+          _refreshList();
         }, onError: (error) {
           CshLoading().hideLoading(context);
           CshSnackBar.error(context: context, message: error.toString());
         }).whenComplete(() => controller?.start());
       },
     );
-  }
-
-  @override
-  void requestApi(int pageNo,
-      {Function(List<RetrievedPartListData>? list)? onSuccess, Function(String errorMessage)? onError}) {
-    var provider = RetrievedPartListProvider.of(context, listen: false);
-    provider.getList(++pageNo, pageSize).then((value) {
-      onSuccess?.call(value);
-    }, onError: (error) {
-      onError?.call(error);
-    });
   }
 
   _showUnlinkModal(
@@ -222,7 +260,7 @@ class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartList
     provider.updateRetrievedPartStatus(isFaulty, partId).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: l10n.statusUpdatedSuccessfully);
-      resetAndRefreshScreen();
+      _refreshList();
     }, onError: (error) {
       CshLoading().hideLoading(context);
       CshSnackBar.error(context: context, message: error);
@@ -231,8 +269,6 @@ class _RetrievedPartListWidgetState extends PaginatedListState<RetrievedPartList
 
   @override
   void dispose() {
-    _debounce.stop();
-    _barcodeController.dispose();
     super.dispose();
   }
 }
@@ -242,7 +278,7 @@ class _RetrievedPartItem extends StatelessWidget {
   final RoleType roleType;
   final Function(bool isFaulty)? onCardClicked;
 
-  const _RetrievedPartItem(this.item, this.roleType, {super.key, this.onCardClicked});
+  const _RetrievedPartItem(this.item, this.roleType, {this.onCardClicked});
 
   @override
   Widget build(BuildContext context) {

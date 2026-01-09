@@ -127,7 +127,8 @@ class InventoryHomeProvider extends CshChangeNotifier {
   Future<bool> assignRider() {
     var completer = Completer<bool>();
     try {
-      InventoryService.assignRider(getListIfAssignedRiderDId(), selectedRider?.riderId ?? -1).listen((event) {
+      int? riderIdInt = selectedRider?.riderId != null ? int.tryParse(selectedRider!.riderId!) : null;
+      InventoryService.assignRider(getListIfAssignedRiderDId(), riderIdInt ?? -1).listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
@@ -212,7 +213,7 @@ class InventoryHomeProvider extends CshChangeNotifier {
     if (assignedTabListData.isNotEmpty) {
       for (var element in assignedTabListData) {
         if (element.isAssignedToRider == true) {
-          dataList.add(element.did ?? -1);
+          dataList.add(element.deviceId ?? -1);
         }
       }
     }

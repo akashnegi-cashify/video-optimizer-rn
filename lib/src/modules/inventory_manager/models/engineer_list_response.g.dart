@@ -60,3 +60,22 @@ Map<String, dynamic> _$EngineerDataResponseToJson(
       'lc': instance.location,
       'isUrgent': instance.isUrgent,
     };
+
+EngineerListApiResponse _$EngineerListApiResponseFromJson(
+        Map<String, dynamic> json) =>
+    EngineerListApiResponse(
+      json['__ca'] == null
+          ? null
+          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+      json['turl'] as String?,
+    )..data = (json['data'] as List<dynamic>?)
+        ?.map((e) => EngineerDataResponse.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+Map<String, dynamic> _$EngineerListApiResponseToJson(
+        EngineerListApiResponse instance) =>
+    <String, dynamic>{
+      '__ca': instance.cashifyAlert,
+      'turl': instance.trackUrl,
+      'data': instance.data,
+    };
