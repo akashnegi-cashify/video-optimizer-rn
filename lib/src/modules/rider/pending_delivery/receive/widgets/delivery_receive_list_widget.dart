@@ -1,13 +1,13 @@
+import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/common/widgets/paginated_listview.dart';
 import 'package:flutter_trc/src/modules/rider/l10n.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:provider/provider.dart';
 
 import '../models/receive_response_model.dart';
 import '../providers/delivery_receive_provider.dart';
 import 'item_delivery_receive_widget.dart';
-import 'package:core/core.dart';
 
 class DeliveryReceiveListWidget extends StatefulWidget {
   const DeliveryReceiveListWidget({Key? key}) : super(key: key);
@@ -16,7 +16,8 @@ class DeliveryReceiveListWidget extends StatefulWidget {
   State<DeliveryReceiveListWidget> createState() => _DeliveryReceiveListWidgetState();
 }
 
-class _DeliveryReceiveListWidgetState extends PaginatedListState<Part, DeliveryReceiveListWidget> {
+class _DeliveryReceiveListWidgetState extends State<DeliveryReceiveListWidget> {
+  final CshListController _listController = CshListController();
   late DeliveryReceiveProvider provider;
   late L10n l10;
 
@@ -25,28 +26,51 @@ class _DeliveryReceiveListWidgetState extends PaginatedListState<Part, DeliveryR
     provider = Provider.of<DeliveryReceiveProvider>(context, listen: false);
     l10 = L10n(context);
     provider.addListener(() {
-      resetAndRefreshScreen();
+      _refreshList();
     });
     super.didChangeDependencies();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return this.iterate((item, index) {
-      return ItemDeliveryReceiveWidget(
-        item: item!,
-        onReceiveConfirm: resetAndRefreshScreen,
-      );
-    }, onRefresh: () async {});
+  FilterConfig _getFilterConfig() {
+    return FilterConfig(filterData: [
+      CshFilterData(
+        label: "Search Barcode",
+        field: 'partBarcode',
+        crudFilter: 'barcode',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+    ]);
+  }
+
+  void _refreshList() {
+    _listController.refresh();
   }
 
   @override
-  void requestApi(int pageNo, int pageSize,
-      {Function(List<Part>? list)? onSuccess, Function(String? errorMessage)? onError}) {
-    provider.getDataStream(pageNo, pageSize, provider.isUrgent, provider.searchQuery).listen((event) {
-      if (onSuccess != null) onSuccess(event?.data?.partList);
-    }).onError((e) {
-      CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(e) ?? l10.somethingWentWrong);
-    });
+  Widget build(BuildContext context) {
+    return CshApiList<Part>(
+      apiConfig: ListApiConfig(
+        apiUrl: "/rider/delivery/pickup/pending",
+        serviceGroup: TRCServiceGroups.unifyTrc,
+      ),
+      filterConfig: _getFilterConfig(),
+      controller: _listController,
+      itemFromJson: Part.fromJson,
+      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+      listPadding: EdgeInsets.zero,
+      verticalRowSpacing: Dimens.space_8,
+      isHideCoreFilterButton: true,
+      getRowWidget: (item, index) {
+        final data = item;
+      return ItemDeliveryReceiveWidget(
+          item: data!,
+          onReceiveConfirm: _refreshList,
+        );
+      },
+    );
   }
 }

@@ -41,24 +41,25 @@ RetrievedPartListData _$RetrievedPartListDataFromJson(
         Map<String, dynamic> json) =>
     RetrievedPartListData(
       json['sku'] as String?,
-      json['pn'] as String?,
-      json['dbr'] as String?,
-      json['rpbr'] as String?,
-      (json['prid'] as num?)?.toInt(),
-      json['rr'] as String?,
-      (json['imgs'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      json['rm'] as String?,
-    );
+      json['partName'] as String?,
+      json['deviceBarcode'] as String?,
+      json['retrievedPartBarcode'] as String?,
+      (json['partId'] as num?)?.toInt(),
+      json['reason'] as String?,
+      (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      json['remark'] as String?,
+    )..partVariationName = json['partVariationName'] as String?;
 
 Map<String, dynamic> _$RetrievedPartListDataToJson(
         RetrievedPartListData instance) =>
     <String, dynamic>{
-      'prid': instance.partId,
+      'partId': instance.partId,
       'sku': instance.sku,
-      'pn': instance.partName,
-      'dbr': instance.deviceBarcode,
-      'rpbr': instance.retrievedPartBarcode,
-      'rr': instance.reason,
-      'rm': instance.remark,
-      'imgs': instance.imageUrls,
+      'partName': instance.partName,
+      'partVariationName': instance.partVariationName,
+      'deviceBarcode': instance.deviceBarcode,
+      'retrievedPartBarcode': instance.retrievedPartBarcode,
+      'reason': instance.reason,
+      'remark': instance.remark,
+      'images': instance.imageUrls,
     };

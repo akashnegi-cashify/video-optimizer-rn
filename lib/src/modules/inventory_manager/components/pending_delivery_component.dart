@@ -1,5 +1,7 @@
 import 'package:builder_component/builder_component.dart';
-import 'package:core_widgets/core_widgets.dart' hide iterate;
+import 'package:components/components.dart';
+import 'package:components/resources/list/list_request.dart';
+import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -11,7 +13,7 @@ import 'package:flutter_trc/src/modules/inventory_manager/providers/pending_deli
 import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_delivery_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/pending_part_list_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/widgets/pending_delivery_item_widget.dart';
-import 'package:flutter_trc/src/utils/paginate_list_abstract.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
@@ -64,11 +66,55 @@ class _PendingDeliveryScreenBody extends StatefulWidget {
   State<_PendingDeliveryScreenBody> createState() => _PendingDeliveryScreenState();
 }
 
-class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetailData, _PendingDeliveryScreenBody> {
-  _PendingDeliveryScreenState() : super(initialScrollOffset: 10, pageSize: 10);
+class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
+  final CshListController _listController = CshListController();
   final TextEditingController _searchBarController = TextEditingController();
   bool _showUrgentRequestOnly = false;
   final TextInputDebounce _deBouncer = TextInputDebounce();
+
+  void refreshList() {
+    _listController.refresh();
+  }
+
+  FilterConfig _getFilterConfig(PendingDeliveryProvider provider) {
+    List<AdminFilterList> preSelectedFilters = [];
+    
+    // Add barcode filter if provided
+    if (provider.barcode.isNotEmpty) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: 'br',
+          field: 'br',
+          value: AdminFilterData(search: provider.barcode),
+        ),
+      );
+    }
+    
+    // Add eid filter (from provider)
+    if (provider.eid != null) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: 'fp.eid',
+          field: 'fp.eid',
+          value: AdminFilterData(search: provider.eid.toString()),
+        ),
+      );
+    }
+    
+    // Add isUrgent filter
+    preSelectedFilters.add(
+      AdminFilterList(
+        type: 'fp.is_urgent',
+        field: 'fp.is_urgent',
+        value: AdminFilterData(search: provider.isUrgent.toString()),
+      ),
+    );
+
+    return FilterConfig(
+      preSelectedFilters: preSelectedFilters,
+      filterData: [],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +153,7 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                       Navigator.of(context).pop(); // dismiss the scanner
                       provider.barcode = scannedData.trim();
                       _searchBarController.text = scannedData.trim();
-                      resetAndRefreshScreen();
+                      refreshList();
                       provider.barcode = "";
                     },
                   );
@@ -117,11 +163,11 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
                 _deBouncer.start(() {
                   if (data.isNotEmpty) {
                     provider.barcode = data.trim();
-                    resetAndRefreshScreen();
+                    refreshList();
                     provider.barcode = "";
                   } else {
                     provider.barcode = "";
-                    resetAndRefreshScreen();
+                    refreshList();
                   }
                 });
               },
@@ -133,8 +179,9 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
               onTap: () {
                 _showUrgentRequestOnly = !_showUrgentRequestOnly;
                 provider.isUrgent = _showUrgentRequestOnly;
+                provider.notifyListeners(); // Notify provider changes so Consumer rebuilds
                 setState(() {});
-                resetAndRefreshScreen();
+                refreshList();
               },
               child: Row(
                 children: [
@@ -150,74 +197,47 @@ class _PendingDeliveryScreenState extends PaginatedListState<PendingDeviceDetail
             ),
           ),
           Expanded(
-            child: iterate(
-              (item, index) {
-                return PendingDeliveryListItemWidget(
-                  index: (index + 1),
-                  dataModel: item,
-                  onCardPressed: () {
-                    if (item.did != null) {
-                      PendingPartListCompScreenArguments args = PendingPartListCompScreenArguments(
-                          arguments: PendingPartListScreenArguments(
-                        detailsModelData: item,
-                        did: item.did!,
-                      ));
+            child: Consumer<PendingDeliveryProvider>(
+              builder: (context, provider, child) {
+                return CshApiList<PendingDeviceDetailData>(
+                  apiConfig: ListApiConfig(
+                    apiUrl: "/inventory/list-pending-delivery-device-parts",
+                    serviceGroup: TRCServiceGroups.unifyTrc,
+                  ),
+                  filterConfig: _getFilterConfig(provider),
+                  controller: _listController,
+                  itemFromJson: PendingDeviceDetailData.fromJson,
+                  shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+                  listPadding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+                  verticalRowSpacing: Dimens.space_16,
+                  isHideCoreFilterButton: true,
+                  getRowWidget: (item, index) {
+                    final data = item;
+                    return PendingDeliveryListItemWidget(
+                      index: (index + 1),
+                      dataModel: data,
+                      onCardPressed: () {
+                        if (data?.deviceId != null) {
+                          PendingPartListCompScreenArguments args = PendingPartListCompScreenArguments(
+                              arguments: PendingPartListScreenArguments(
+                            detailsModelData: data,
+                            did: data!.deviceId!,
+                          ));
 
-                      Navigator.of(context).pushNamed(PendingPartListScreen.route, arguments: args);
-                    } else {
-                      CshSnackBar.error(context: context, message: l10n.noDidPresent);
-                    }
+                          Navigator.of(context).pushNamed(PendingPartListScreen.route, arguments: args);
+                        } else {
+                          CshSnackBar.error(context: context, message: l10n.noDidPresent);
+                        }
+                      },
+                    );
                   },
                 );
               },
-              onRefresh: () async {},
-              separator: const SizedBox(height: Dimens.space_16),
-              onNoDataFound: () {
-                return Center(
-                  child: Text(
-                    l10n.noDataFound,
-                    style: theme.primaryTextTheme.titleMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              },
-              onError: (String error) {
-                return Center(
-                  child: Row(
-                    children: [
-                      const SizedBox.shrink(),
-                      Expanded(
-                        child: Text(
-                          error,
-                          style: theme.primaryTextTheme.displaySmall,
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
             ),
           ),
         ],
       ),
     );
-  }
-
-  @override
-  void requestApi(int pageNo,
-      {Function(List<PendingDeviceDetailData>? list)? onSuccess, Function(String errorMessage)? onError}) {
-    var provider = PendingDeliveryProvider.of(context, listen: false);
-    provider.getPendingDeviceList(++pageNo).then((value) {
-      if (onSuccess != null) {
-        onSuccess(value.data?.dataList);
-      }
-    }, onError: (error) {
-      if (onError != null) {
-        onError(error);
-      }
-    });
   }
 
   @override

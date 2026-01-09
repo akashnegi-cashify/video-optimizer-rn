@@ -1,3 +1,4 @@
+import 'package:core_widgets/core_widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pending_device_list_response.g.dart';
@@ -44,40 +45,40 @@ class PendingDeviceData {
 
 @JsonSerializable()
 class PendingDeviceDetailData {
-  @JsonKey(name: "did")
-  int? did;
+  @JsonKey(name: "deviceId")
+  int? deviceId;
 
-  @JsonKey(name: "pt")
-  String? pt;
+  @JsonKey(name: "productTitle")
+  String? productTitle;
 
-  @JsonKey(name: "dbr")
+  @JsonKey(name: "deviceBarcode")
   String? deviceBarcode;
 
-  @JsonKey(name: "tbr")
-  String? tbr;
+  @JsonKey(name: "trayBarcode")
+  String? trayBarcode;
 
-  @JsonKey(name: 'pc')
-  int? partCount;
+  @JsonKey(name: 'partAvailableCount')
+  int? partAvailableCount;
 
-  @JsonKey(name: "tpc")
+  @JsonKey(name: "totalPartCount")
   int? totalPartCount;
 
-  @JsonKey(name: "en")
+  @JsonKey(name: "engineerName")
   String? engineerName;
 
-  @JsonKey(name: "lc")
-  String? lc;
+  @JsonKey(name: "location")
+  String? location;
 
-  @JsonKey(name: "asAt")
+  @JsonKey(name: "assignedAt")
   int? assignedAt;
 
   @JsonKey(name: "isUrgent")
   bool? isUrgent;
 
-  @JsonKey(name: "rt")
+  @JsonKey(name: "repairType")
   String? repairType;
 
-  @JsonKey(name: "gr")
+  @JsonKey(name: "grade")
   String? grade;
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isAssignedToRider;
@@ -85,15 +86,15 @@ class PendingDeviceDetailData {
   PendingDeviceDetailData({
     this.isUrgent,
     this.repairType,
-    this.partCount,
+    this.partAvailableCount,
     this.grade,
     this.deviceBarcode,
     this.assignedAt,
-    this.did,
+    this.deviceId,
     this.engineerName,
-    this.lc,
-    this.pt,
-    this.tbr,
+    this.location,
+    this.productTitle,
+    this.trayBarcode,
     this.totalPartCount,
     this.isAssignedToRider = false,
   });
@@ -101,4 +102,31 @@ class PendingDeviceDetailData {
   static PendingDeviceDetailData fromJson(Map<String, dynamic> data) => _$PendingDeviceDetailDataFromJson(data);
 
   Map<String, dynamic> toJson() => _$PendingDeviceDetailDataToJson(this);
+}
+
+// Wrapper response model for CshApiList
+@JsonSerializable()
+class PendingDeviceListApiResponse extends BaseResponse {
+  @JsonKey(name: "data")
+  List<PendingDeviceDetailData>? data;
+
+  PendingDeviceListApiResponse(super.cashifyAlert, super.trackUrl);
+
+  // Custom fromJson to convert PendingDeviceListResponse to PendingDeviceListApiResponse
+  static PendingDeviceListApiResponse fromPendingDeviceListResponse(
+    PendingDeviceListResponse? response,
+  ) {
+    if (response == null) {
+      return PendingDeviceListApiResponse(null, null);
+    }
+    final apiResponse = PendingDeviceListApiResponse(null, null);
+    apiResponse.data = response.data?.dataList;
+    return apiResponse;
+  }
+
+  static PendingDeviceListApiResponse fromJson(Map<String, dynamic> json) =>
+      _$PendingDeviceListApiResponseFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$PendingDeviceListApiResponseToJson(this);
 }

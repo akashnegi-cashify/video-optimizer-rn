@@ -1,9 +1,11 @@
-import 'package:core_widgets/core_widgets.dart' hide iterate;
+import 'package:components/components.dart';
+import 'package:components/resources/list/list_request.dart';
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 
-import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
 import '../models/pending_device_list_response.dart';
 import '../models/rider_list_response.dart';
@@ -20,8 +22,8 @@ class InventoryAssignedWidget extends StatefulWidget {
   State<InventoryAssignedWidget> createState() => InventoryAssignedWidgetState();
 }
 
-class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetailData, InventoryAssignedWidget> {
-  InventoryAssignedWidgetState() : super(initialScrollOffset: 10, pageSize: 10);
+class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
+  final CshListController _listController = CshListController();
   bool _showUrgentRequestOnly = false;
   final List<DropDownItem> _searchFilterList = [
     DropDownItem<SearchType>("1", "Barcode", extraData: SearchType.barcode),
@@ -36,8 +38,64 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
 
   @override
   void initState() {
-    _selectedSearchFilter = _searchFilterList[0];
     super.initState();
+    _selectedSearchFilter = _searchFilterList[0];
+  }
+
+  void refreshList() {
+    _listController.refresh();
+  }
+
+  FilterConfig _getFilterConfig(InventoryHomeProvider provider) {
+    List<AdminFilterList> preSelectedFilters = [];
+    
+    // Add barcode filter if selected
+    if (provider.barcode != null && provider.barcode?.isNotEmpty == true) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: 'br',
+          field: 'br',
+          value: AdminFilterData(search: provider.barcode),
+        ),
+      );
+    }
+    
+    // Add engineer name filter if selected (nested in fp)
+    if (provider.engineerName != null && provider.engineerName!.isNotEmpty) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: 'fp.engName',
+          field: 'fp.engName',
+          value: AdminFilterData(search: provider.engineerName),
+        ),
+      );
+    }
+    
+    // Add isUrgent filter (nested in fp)
+    preSelectedFilters.add(
+      AdminFilterList(
+        type: 'fp.is_urgent',
+        field: 'fp.is_urgent',
+        value: AdminFilterData(search: provider.isUrgent.toString()),
+      ),
+    );
+    
+    // Add location_group filter (nested in fp)
+    final locationsString = provider.getLocationsString();
+    if (locationsString != null && locationsString.isNotEmpty) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: 'fp.location_group',
+          field: 'fp.location_group',
+          value: AdminFilterData(search: locationsString),
+        ),
+      );
+    }
+
+    return FilterConfig(
+      preSelectedFilters: preSelectedFilters,
+      filterData: [],
+    );
   }
 
   @override
@@ -68,8 +126,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
                           provider.engineerName = null;
                           _searchBarController.text = "";
                           _selectedSearchFilter = item!;
-                          provider.resetDataList();
-                          resetAndRefreshScreen();
+                          refreshList();
                         });
                       }),
                 ),
@@ -93,8 +150,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
                               Navigator.of(context).pop();
                               _searchBarController.text = scannedData.trim();
                               provider.barcode = scannedData.trim();
-                              provider.resetDataList();
-                              resetAndRefreshScreen(pageNumber: 0);
+                              refreshList();
                               provider.barcode = "";
                             });
                           },
@@ -107,8 +163,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
                       } else {
                         provider.engineerName = data.trim();
                       }
-                      provider.resetDataList();
-                      resetAndRefreshScreen(pageNumber: 0);
+                      refreshList();
                     });
                   },
                 ),
@@ -134,8 +189,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
               _showUrgentRequestOnly = !_showUrgentRequestOnly;
               provider.isUrgent = _showUrgentRequestOnly;
               setState(() {});
-              provider.resetDataList();
-              resetAndRefreshScreen(pageNumber: 0);
+              refreshList();
             },
             child: Row(
               children: [
@@ -151,52 +205,80 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
           ),
         ),
         Expanded(
-          child: iterate(
-            (item, index) {
+          child: CshApiList<PendingDeviceDetailData>(
+            apiConfig: ListApiConfig(
+              apiUrl: "/inventory/list-assignment-pending-devices",
+              serviceGroup: TRCServiceGroups.unifyTrc,
+            ),
+            filterConfig: _getFilterConfig(provider),
+            controller: _listController,
+            itemFromJson: PendingDeviceDetailData.fromJson,
+            shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+            listPadding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
+            verticalRowSpacing: Dimens.space_8,
+            isHideCoreFilterButton: true,
+            getRowWidget: (item, index) {
+              final data = item;
+              // Find or create item in provider's assignedTabListData for checkbox state management
+              PendingDeviceDetailData? itemForWidget;
+              if (data?.deviceId != null) {
+                itemForWidget = provider.assignedTabListData.firstWhere(
+                  (element) => element.deviceId == data!.deviceId,
+                  orElse: () {
+                    final newItem = PendingDeviceDetailData(
+                      deviceId: data?.deviceId,
+                      deviceBarcode: data?.deviceBarcode,
+                      engineerName: data?.engineerName,
+                      location: data?.location,
+                      productTitle: data?.productTitle,
+                      trayBarcode: data?.trayBarcode,
+                      partAvailableCount: data?.partAvailableCount,
+                      totalPartCount: data?.totalPartCount,
+                      assignedAt: data?.assignedAt,
+                      isUrgent: data?.isUrgent,
+                      repairType: data?.repairType,
+                      grade: data?.grade,
+                      isAssignedToRider: false,
+                    );
+                    provider.assignedTabListData.add(newItem);
+                    return newItem;
+                  },
+                );
+                // Sync data from API response to existing item
+                itemForWidget.deviceBarcode = data?.deviceBarcode;
+                itemForWidget.engineerName = data?.engineerName;
+                itemForWidget.location = data?.location;
+                itemForWidget.productTitle = data?.productTitle;
+                itemForWidget.trayBarcode = data?.trayBarcode;
+                itemForWidget.partAvailableCount = data?.partAvailableCount;
+                itemForWidget.totalPartCount = data?.totalPartCount;
+                itemForWidget.assignedAt = data?.assignedAt;
+                itemForWidget.isUrgent = data?.isUrgent;
+                itemForWidget.repairType = data?.repairType;
+                itemForWidget.grade = data?.grade;
+              } else {
+                itemForWidget = data;
+              }
+              
               return AssignedTabItemWidget(
-                dataModel: item,
+                dataModel: itemForWidget,
                 onCardClicked: () {
-                  if (item.did != null) {
-                    AssignedDeviceDetailsScreenArguments args = AssignedDeviceDetailsScreenArguments(did: item.did!);
+                  if (data?.deviceId != null) {
+                    AssignedDeviceDetailsScreenArguments args = AssignedDeviceDetailsScreenArguments(did: data!.deviceId!);
                     Navigator.of(context).pushNamed(AssignedDeviceDetailsScreen.route, arguments: args);
                   } else {
                     CshSnackBar.error(context: context, message: l10n.noDidPresent);
                   }
                 },
-                onCheckBoxChange: (bool data) {
-                  item.isAssignedToRider = data;
-                  setState(() {});
+                onCheckBoxChange: (bool checked) {
+                  if (itemForWidget?.deviceId != null) {
+                    itemForWidget!.isAssignedToRider = checked;
+                    provider.notifyListeners();
+                    setState(() {});
+                  }
                 },
               );
             },
-            separator: const SizedBox(height: Dimens.space_8),
-            onRefresh: () async {},
-            onNoDataFound: () {
-              return Center(
-                child: Text(
-                  l10n.noDataFound,
-                  style: theme.primaryTextTheme.titleMedium,
-                  textAlign: TextAlign.center,
-                ),
-              );
-            },
-            onError: (String error) {
-              return Center(
-                child: Row(
-                  children: [
-                    const SizedBox.shrink(),
-                    Expanded(
-                      child: Text(
-                        error,
-                        style: theme.primaryTextTheme.displaySmall,
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
           ),
         ),
       ],
@@ -343,8 +425,7 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
     provider.assignRider().then((value) {
       CshLoading().hideLoading(context);
       if (value) {
-        provider.resetDataList();
-        resetAndRefreshScreen(pageNumber: 0);
+        refreshList();
         CshSnackBar.success(context: context, message: l10n.riderAssignedSuccessfully);
       }
     }, onError: (error) {
@@ -353,20 +434,6 @@ class InventoryAssignedWidgetState extends PaginatedListState<PendingDeviceDetai
     });
   }
 
-  @override
-  void requestApi(int pageNo,
-      {Function(List<PendingDeviceDetailData>? list)? onSuccess, Function(String errorMessage)? onError}) {
-    var provider = InventoryHomeProvider.of(context, listen: false);
-    provider.getListOfAssignmentPendingDevices(pageNo++, pageSize).then((value) {
-      if (onSuccess != null) {
-        onSuccess(value.data?.dataList);
-      }
-    }, onError: (error) {
-      if (onError != null) {
-        onError(error);
-      }
-    });
-  }
 
   bool _isSelectedFilterBarcode() {
     return _selectedSearchFilter.extraData == SearchType.barcode;

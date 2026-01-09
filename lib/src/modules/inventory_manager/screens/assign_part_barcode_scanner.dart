@@ -196,13 +196,13 @@ class _AssignBarcodeScannerCompWidgetState extends State<AssignBarcodeScannerCom
               args: AssignedPartDetailsArguments(
             prid: arg?.prid ?? 0,
             assignDeviceDetailsData: AssignDeviceDetailsData(
-              did: arg?.pendingDeviceDetailData?.did,
-              lc: arg?.pendingDeviceDetailData?.lc,
+              did: arg?.pendingDeviceDetailData?.deviceId,
+              lc: arg?.pendingDeviceDetailData?.location,
               engineerName: arg?.pendingDeviceDetailData?.engineerName,
               deviceBarcode: arg?.pendingDeviceDetailData?.deviceBarcode,
               grade: arg?.pendingDeviceDetailData?.grade,
               repairType: arg?.pendingDeviceDetailData?.repairType,
-              productName: arg?.pendingDeviceDetailData?.pt,
+              productName: arg?.pendingDeviceDetailData?.productTitle,
             ),
           ));
 

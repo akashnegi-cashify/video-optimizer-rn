@@ -24,30 +24,60 @@ Map<String, dynamic> _$ReturnPartResponseToJson(ReturnPartResponse instance) =>
 
 ReturnItemData _$ReturnItemDataFromJson(Map<String, dynamic> json) =>
     ReturnItemData(
-      statusCode: (json['stc'] as num?)?.toInt(),
       prid: (json['prid'] as num?)?.toInt(),
+      isUrgent: json['isUrgent'] as bool?,
+      requestType: json['rt'] as String?,
       status: json['st'] as String?,
-      productBarcode: json['pbr'] as String?,
+      statusCode: (json['stc'] as num?)?.toInt(),
+      updatedBy: json['updby'] as String?,
+      updatedAt: (json['updat'] as num?)?.toInt(),
+      deviceName: json['dna'] as String?,
+      deviceBarcode: json['dbr'] as String?,
       sku: json['sku'] as String?,
-      productName: json['pn'] as String?,
-      isBulk: json['isBulk'] as bool?,
-      isDamaged: json['isDamaged'] as bool?,
-      requestedQuantity: (json['rqty'] as num?)?.toInt(),
+      partName: json['pn'] as String?,
+      partColor: json['pc'] as String?,
       partVariantName: json['pvn'] as String?,
+      partBarcode: json['pbr'] as String?,
+      requestedQuantity: (json['rqty'] as num?)?.toInt(),
+      availableQuantity: (json['aqty'] as num?)?.toInt(),
+      isDamaged: json['isDamaged'] as bool?,
+      isBulk: json['isBulk'] as bool?,
+      retrievedImages: (json['rvc'] as num?)?.toInt(),
+      location: json['lc'] as String?,
+      altPartName: json['apn'] as String?,
+      altPartSku: json['asku'] as String?,
+      altPartColor: json['apc'] as String?,
+      altPartVariation: json['apvn'] as String?,
+      altPartStatus: json['ast'] as String?,
     );
 
 Map<String, dynamic> _$ReturnItemDataToJson(ReturnItemData instance) =>
     <String, dynamic>{
       'prid': instance.prid,
-      'sku': instance.sku,
-      'pn': instance.productName,
+      'isUrgent': instance.isUrgent,
+      'rt': instance.requestType,
       'st': instance.status,
       'stc': instance.statusCode,
+      'updby': instance.updatedBy,
+      'updat': instance.updatedAt,
+      'dna': instance.deviceName,
+      'dbr': instance.deviceBarcode,
+      'sku': instance.sku,
+      'pn': instance.partName,
+      'pc': instance.partColor,
+      'pvn': instance.partVariantName,
+      'pbr': instance.partBarcode,
       'rqty': instance.requestedQuantity,
-      'pbr': instance.productBarcode,
+      'aqty': instance.availableQuantity,
       'isDamaged': instance.isDamaged,
       'isBulk': instance.isBulk,
-      'pvn': instance.partVariantName,
+      'rvc': instance.retrievedImages,
+      'lc': instance.location,
+      'apn': instance.altPartName,
+      'asku': instance.altPartSku,
+      'apc': instance.altPartColor,
+      'apvn': instance.altPartVariation,
+      'ast': instance.altPartStatus,
     };
 
 ReturnItemPageData _$ReturnItemPageDataFromJson(Map<String, dynamic> json) =>
@@ -64,4 +94,21 @@ Map<String, dynamic> _$ReturnItemPageDataToJson(ReturnItemPageData instance) =>
       'pl': instance.listOfData,
       'tp': instance.totalPage,
       'tr': instance.totalRecord,
+    };
+
+ReturnPartListApiResponse _$ReturnPartListApiResponseFromJson(Map<String, dynamic> json) =>
+    ReturnPartListApiResponse(
+      json['__ca'] == null
+          ? null
+          : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
+      json['turl'] as String?,
+    )..data = (json['data'] as List<dynamic>?)
+        ?.map((e) => ReturnItemData.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+Map<String, dynamic> _$ReturnPartListApiResponseToJson(ReturnPartListApiResponse instance) =>
+    <String, dynamic>{
+      '__ca': instance.cashifyAlert,
+      'turl': instance.trackUrl,
+      'data': instance.data,
     };

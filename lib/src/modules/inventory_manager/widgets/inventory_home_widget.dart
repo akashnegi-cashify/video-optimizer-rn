@@ -1,13 +1,15 @@
 import 'dart:async';
 
+import 'package:components/components.dart' hide CshTabBar;
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 
-import '../../../utils/paginate_list_abstract.dart';
 import '../l10n.dart';
+import '../models/inventory_location_response.dart';
 import '../providers/inventory_home_provider.dart';
+import '../resources/inventory_manager_service.dart';
 import 'inventory_assigned_widget.dart';
 import 'inventory_drawer_widget.dart';
 import 'inventory_pending_delivery_widget.dart';
@@ -72,13 +74,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTi
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
-              GlobalKey<PaginatedListState> key;
-              if (_tabBarController.index == 0) {
-                key = _inventoryPendingWidgetKey;
-              } else {
-                key = _inventoryAssignedWidgetKey;
-              }
-              _selectLocationModal(true, paginatedKey: key);
+              _selectLocationModal(true);
             },
             backgroundColor: theme.primaryColor,
             child: CshIcon(
@@ -91,7 +87,7 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTi
     );
   }
 
-  _selectLocationModal(bool fromListSection, {GlobalKey<PaginatedListState>? paginatedKey}) {
+  _selectLocationModal(bool fromListSection) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
     var provider = InventoryHomeProvider.of(context, listen: false);
@@ -117,38 +113,11 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTi
                   ),
                   const SizedBox(height: Dimens.space_8),
                   Expanded(
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_4),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            provider.toggleLocationState(provider.listOfGroupLocation[index].locationName ?? "",
-                                !(provider.listOfGroupLocation[index].isSelected ?? false));
-                            setState(() {});
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: Dimens.space_6),
-                            child: Row(
-                              children: [
-                                CshCheckbox(
-                                  isSelected: provider.listOfGroupLocation[index].isSelected ?? false,
-                                  visualDensity: VisualDensity.compact,
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    provider.listOfGroupLocation[index].locationName ?? "",
-                                    style: theme.primaryTextTheme.displaySmall,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
+                    child: _LocationListWidget(
+                      provider: provider,
+                      onLocationToggled: () {
+                        setState(() {});
                       },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(height: Dimens.space_8);
-                      },
-                      itemCount: provider.inventoryLocationResponse!.locationsDataList!.length,
                     ),
                   ),
                   SizedBox(
@@ -159,8 +128,9 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTi
                         if (provider.checkForLocationSelected()) {
                           Navigator.of(context).pop();
                           provider.allowPendingListToShow(true);
-                          if (fromListSection && paginatedKey != null) {
-                            paginatedKey.currentState?.resetAndRefreshScreen();
+                          if (fromListSection) {
+                            // Refresh the pending delivery list
+                            _inventoryPendingWidgetKey.currentState?.refreshList();
                           }
                         } else {
                           CshSnackBar.error(
@@ -178,6 +148,122 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTi
           );
         },
       ),
+    );
+  }
+}
+
+class _LocationListWidget extends StatefulWidget {
+  final InventoryHomeProvider provider;
+  final VoidCallback onLocationToggled;
+
+  const _LocationListWidget({
+    Key? key,
+    required this.provider,
+    required this.onLocationToggled,
+  }) : super(key: key);
+
+  @override
+  State<_LocationListWidget> createState() => _LocationListWidgetState();
+}
+
+class _LocationListWidgetState extends State<_LocationListWidget> {
+  bool _isLoading = true;
+  List<String> _locations = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLocations();
+  }
+
+  void _loadLocations() {
+    InventoryService.getInventoryLocation().listen((response) {
+      if (response != null && response.locationsDataList != null) {
+        setState(() {
+          _locations = response.locationsDataList!;
+          _isLoading = false;
+        });
+        // Initialize provider's list with locations
+        for (var locationName in _locations) {
+          if (!widget.provider.listOfGroupLocation.any((e) => e.locationName == locationName)) {
+            widget.provider.listOfGroupLocation.add(
+              GroupLocationModel(locationName: locationName, isSelected: false),
+            );
+          }
+        }
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }, onError: (error) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
+    if (_isLoading) {
+      return const Center(child: CshShimmer(height: Dimens.space_60));
+    }
+
+    if (_locations.isEmpty) {
+      return Center(
+        child: Text(
+          "No locations found",
+          style: theme.primaryTextTheme.displaySmall,
+        ),
+      );
+    }
+
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(vertical: Dimens.space_4),
+      itemCount: _locations.length,
+      separatorBuilder: (context, index) => const SizedBox(height: Dimens.space_8),
+      itemBuilder: (context, index) {
+        final locationName = _locations[index];
+
+        // Find or create the location item in provider's list
+        var locationItem = widget.provider.listOfGroupLocation.firstWhere(
+          (element) => element.locationName == locationName,
+          orElse: () {
+            final newItem = GroupLocationModel(locationName: locationName, isSelected: false);
+            widget.provider.listOfGroupLocation.add(newItem);
+            return newItem;
+          },
+        );
+
+        return GestureDetector(
+          onTap: () {
+            widget.provider.toggleLocationState(
+              locationName,
+              !(locationItem.isSelected ?? false),
+            );
+            widget.onLocationToggled();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: Dimens.space_6),
+            child: Row(
+              children: [
+                CshCheckbox(
+                  isSelected: locationItem.isSelected ?? false,
+                  visualDensity: VisualDensity.compact,
+                ),
+                Expanded(
+                  child: Text(
+                    locationName,
+                    style: theme.primaryTextTheme.displaySmall,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
