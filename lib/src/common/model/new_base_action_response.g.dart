@@ -1,17 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'd2c_lot_device_list_response.dart';
+part of 'new_base_action_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-D2cLotDeviceListResponse _$D2cLotDeviceListResponseFromJson(
-        Map<String, dynamic> json) =>
-    D2cLotDeviceListResponse(
-      (json['data'] as List<dynamic>?)
-          ?.map((e) => D2cLotDeviceListData.fromJson(e as Map<String, dynamic>))
-          .toList(),
+NewBaseActionResponse _$NewBaseActionResponseFromJson(Map<String, dynamic> json) =>
+    NewBaseActionResponse(
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -22,8 +18,7 @@ D2cLotDeviceListResponse _$D2cLotDeviceListResponseFromJson(
       ..errorMsg = json['em'] as String?
       ..successMessage = json['sm'] as String?;
 
-Map<String, dynamic> _$D2cLotDeviceListResponseToJson(
-        D2cLotDeviceListResponse instance) =>
+Map<String, dynamic> _$NewBaseActionResponseToJson(NewBaseActionResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
@@ -31,17 +26,4 @@ Map<String, dynamic> _$D2cLotDeviceListResponseToJson(
       's': instance.isSuccess,
       'em': instance.errorMsg,
       'sm': instance.successMessage,
-      'data': instance.d2cLotDeviceList,
-    };
-
-D2cLotDeviceListData _$D2cLotDeviceListDataFromJson(
-        Map<String, dynamic> json) =>
-    D2cLotDeviceListData(
-      json['qrCode'] as String?,
-    );
-
-Map<String, dynamic> _$D2cLotDeviceListDataToJson(
-        D2cLotDeviceListData instance) =>
-    <String, dynamic>{
-      'qrCode': instance.deviceBarcode,
     };

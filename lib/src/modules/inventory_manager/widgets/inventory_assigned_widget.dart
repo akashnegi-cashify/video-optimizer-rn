@@ -1,5 +1,6 @@
 import 'package:components/components.dart';
 import 'package:components/resources/list/list_request.dart';
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -48,18 +49,18 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
 
   FilterConfig _getFilterConfig(InventoryHomeProvider provider) {
     List<AdminFilterList> preSelectedFilters = [];
-    
+
     // Add barcode filter if selected
     if (provider.barcode != null && provider.barcode?.isNotEmpty == true) {
       preSelectedFilters.add(
         AdminFilterList(
-          type: 'br',
-          field: 'br',
+          type: CshFilterValueType.equality.value,
+          field: "barcode",
           value: AdminFilterData(search: provider.barcode),
         ),
       );
     }
-    
+
     // Add engineer name filter if selected (nested in fp)
     if (provider.engineerName != null && provider.engineerName!.isNotEmpty) {
       preSelectedFilters.add(
@@ -70,31 +71,31 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
         ),
       );
     }
-    
+
     // Add isUrgent filter (nested in fp)
-    preSelectedFilters.add(
-      AdminFilterList(
-        type: 'fp.is_urgent',
-        field: 'fp.is_urgent',
-        value: AdminFilterData(search: provider.isUrgent.toString()),
-      ),
-    );
-    
+    // preSelectedFilters.add(
+    //   AdminFilterList(
+    //     type: CshFilterValueType.equality.value,
+    //     field: 'isUrgent',
+    //     value: AdminFilterData(search: provider.isUrgent.toString()),
+    //   ),
+    // );
+
     // Add location_group filter (nested in fp)
     final locationsString = provider.getLocationsString();
     if (locationsString != null && locationsString.isNotEmpty) {
-      preSelectedFilters.add(
-        AdminFilterList(
-          type: 'fp.location_group',
-          field: 'fp.location_group',
-          value: AdminFilterData(search: locationsString),
-        ),
-      );
+      // preSelectedFilters.add(
+      //   AdminFilterList(
+      //     type: CshFilterValueType.multiSelect.value,
+      //     field: 'location',
+      //     value: AdminFilterData(search: locationsString),
+      //   ),
+      // );
     }
 
     return FilterConfig(
-      preSelectedFilters: preSelectedFilters,
-      filterData: [],
+      // preSelectedFilters: preSelectedFilters,
+      // initialFilter: preSelectedFilters,
     );
   }
 
@@ -193,13 +194,8 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
             },
             child: Row(
               children: [
-                CshCheckbox(
-                  isSelected: _showUrgentRequestOnly,
-                ),
-                Text(
-                  l10n.showUrgentRequestsOnly,
-                  style: theme.primaryTextTheme.headlineMedium,
-                )
+                CshCheckbox(isSelected: _showUrgentRequestOnly),
+                Text(l10n.showUrgentRequestsOnly, style: theme.primaryTextTheme.headlineMedium)
               ],
             ),
           ),
@@ -259,12 +255,13 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
               } else {
                 itemForWidget = data;
               }
-              
+
               return AssignedTabItemWidget(
                 dataModel: itemForWidget,
                 onCardClicked: () {
                   if (data?.deviceId != null) {
-                    AssignedDeviceDetailsScreenArguments args = AssignedDeviceDetailsScreenArguments(did: data!.deviceId!);
+                    AssignedDeviceDetailsScreenArguments args =
+                        AssignedDeviceDetailsScreenArguments(did: data!.deviceId!);
                     Navigator.of(context).pushNamed(AssignedDeviceDetailsScreen.route, arguments: args);
                   } else {
                     CshSnackBar.error(context: context, message: l10n.noDidPresent);
@@ -433,7 +430,6 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
       CshSnackBar.error(context: context, message: error);
     });
   }
-
 
   bool _isSelectedFilterBarcode() {
     return _selectedSearchFilter.extraData == SearchType.barcode;

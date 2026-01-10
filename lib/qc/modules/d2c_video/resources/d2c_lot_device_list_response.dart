@@ -1,12 +1,12 @@
 import 'package:core_widgets/core_widgets.dart';
-import 'package:flutter_trc/src/common/model/base_action_response.dart';
+import 'package:flutter_trc/src/common/model/new_base_action_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'd2c_lot_device_list_response.g.dart';
 
 @JsonSerializable()
-class D2cLotDeviceListResponse extends BaseActionResponse {
-  @JsonKey(name: "data")
+class D2cLotDeviceListResponse extends NewBaseActionResponse {
+  @JsonKey(name: "dt")
   List<D2cLotDeviceListData>? d2cLotDeviceList;
 
   D2cLotDeviceListResponse(this.d2cLotDeviceList, super.cashifyAlert, super.trackUrl);

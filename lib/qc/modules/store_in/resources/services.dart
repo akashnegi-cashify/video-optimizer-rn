@@ -23,18 +23,13 @@ class StoreInServices {
   static Stream<StoreInLocationVerifyResponse?> storeInDevice(StoreInDeviceRequest request, bool mIsBinIn,
       {required BaseService service}) {
     if (mIsBinIn) {
-      final params = <String, List<String>>{
-        "lbc": [request.locBarcode.toString()],
-      };
-      return service.get(
-        "/bin/store-in/verify-location",
+      return service.post(
+        "/bin/store-in/verify-cell",
         StoreInLocationVerifyResponse.fromJson,
-        params: params,
+        body: jsonEncode(request),
       );
     } else {
-      // Normal store-in (unchanged)
       const String endUrl = "/v1/store-in/verify-cell";
-
       var headers = service.getHeaders(null);
       headers["content-type"] = "application/json";
 

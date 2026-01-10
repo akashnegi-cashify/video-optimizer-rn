@@ -1,7 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_trc/src/common/user/user_util.dart';
 import 'package:flutter_trc/src/common/user/widget/user_profile_action_widget.dart';
 import 'package:flutter_trc/src/libraries/alice/csh_alice.dart';
 
@@ -38,20 +37,10 @@ class QcGeneralHeader extends StatelessWidget implements PreferredSizeWidget {
           iconSize: MobileIconSize.medium,
           padding: EdgeInsets.zero,
           onClick: () {
-            UserUtil.onUserLoggedIn();
-            // CshAlice().alice?.showInspector();
+            // UserUtil.onUserLoggedIn();
+            CshAlice().alice?.showInspector();
           },
         ),
-      CshIcon(
-        FeatherIcons.info,
-        iconColor: Colors.amber,
-        iconSize: MobileIconSize.medium,
-        padding: EdgeInsets.zero,
-        onClick: () {
-          // UserUtil.onUserLoggedIn();
-          CshAlice().alice?.showInspector();
-        },
-      ),
       // CshIcon(
       //   FeatherIcons.externalLink,
       //   iconColor: Colors.amber,

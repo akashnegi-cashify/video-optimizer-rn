@@ -48,18 +48,15 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `fetchPreDispatchItemDetail`
 - **Endpoint**: `GET /lot/v2/devices`
 - **Request Parameters**:
-    - `groupLotName`: List<String> (Group Lot Name)
-
+    - `gln`: List`String` (Group Lot Name)
 - **Response**: `PreDispatchItemResponse`
     - `dt`: List`PreDispatchItem`
         - `id`: int
         - `did`: int (Device ID)
         - `mpid`: int
         - `qr_code`: String
-        - `model`: String (Model)
-
-        - `brand`: String (Brand)
-
+        - `m`: String (Model)
+        - `b`: String (Brand)
         - `im`: String (IMEI)
         - `s`: int (Status)
         - `gr`: String (Grade)

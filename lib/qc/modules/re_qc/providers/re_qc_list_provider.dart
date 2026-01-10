@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/resources/re_qc_service.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +47,7 @@ class ReQcListProvider extends CshChangeNotifier {
   Future<List<String>> completeReQc(int? lotId) {
     var completer = Completer<List<String>>();
     ReQcService.completeReQc(lotId).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
+      if (event?.isSuccess == 1) {
         List<String> deviceList = [];
         if (!Validator.isListNullOrEmpty(event?.d2cLotDeviceList)) {
           deviceList = event!.d2cLotDeviceList!.map((e) => e.deviceBarcode ?? "").toList();
