@@ -8,7 +8,6 @@ import 'package:flutter_trc/src/modules/inventory_manager/screens/inventory_home
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
-import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_screen.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_screen.dart';
 import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
@@ -17,8 +16,6 @@ import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:flutter_trc/trc/my_permissions/permissions.dart';
 import 'package:flutter_trc/trc/my_permissions/widget/trc_role_permission_widget.dart';
 
-import 'l10n.dart';
-
 class TrcHomeScreenNew extends StatelessWidget {
   static String route = "/trc_home_new";
 
@@ -26,9 +23,8 @@ class TrcHomeScreenNew extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = L10n(context);
     return Scaffold(
-      appBar: TrcHeader("Home"),
+      appBar: TrcHeader("Home", showBackBtn: false, showLogoutButton: true, showProfileButton: true),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
@@ -37,28 +33,37 @@ class TrcHomeScreenNew extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: Dimens.space_16,
             children: [
+              // Elss
               CshBigButton(
                 text: "Elss",
                 onPressed: () {
                   ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);
-                  // Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) => false, arguments: args);
-                  Navigator.pushNamed(context, ReceivedRubbingDevicesScreen.route);
+                  Navigator.of(context).pushNamed(ElssHomeScreen.route, arguments: args);
                 },
               ),
-              CshBigButton(
-                text: "Rubbing",
-                onPressed: () {
-                  UserDetails().setIsGlassChangeRole(false);
-                  Navigator.of(context).pushNamed(RubbingHomeScreen.route);
-                },
+              // Rubbing
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.rubbing,
+                child: CshBigButton(
+                  text: "Rubbing",
+                  onPressed: () {
+                    UserDetails().setIsGlassChangeRole(false);
+                    Navigator.of(context).pushNamed(RubbingHomeScreen.route);
+                  },
+                ),
               ),
-              CshBigButton(
-                text: "Glass Change",
-                onPressed: () {
-                  UserDetails().setIsGlassChangeRole(true);
-                  Navigator.of(context).pushNamed(RubbingHomeScreen.route);
-                },
+              // Glass Change
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.glassChange,
+                child: CshBigButton(
+                  text: "Glass Change",
+                  onPressed: () {
+                    UserDetails().setIsGlassChangeRole(true);
+                    Navigator.of(context).pushNamed(RubbingHomeScreen.route);
+                  },
+                ),
               ),
+              // Engineer
               TRCRolePermissionWidget(
                 permission: TrcPermissions.engineer,
                 child: CshBigButton(
@@ -68,56 +73,85 @@ class TrcHomeScreenNew extends StatelessWidget {
                   },
                 ),
               ),
-              CshBigButton(
-                text: "ROLE_RIDER",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(RiderHomeScreen.route);
-                },
+              // L4 Engineer
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.l4Engineer,
+                child: CshBigButton(
+                  text: "L4 Engineer",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(L4HomeScreen.route);
+                  },
+                ),
               ),
-              CshBigButton(
-                text: "ROLE_L4",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(L4HomeScreen.route);
-                },
+              // Rider
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.rider,
+                child: CshBigButton(
+                  text: "Rider",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(RiderHomeScreen.route);
+                  },
+                ),
               ),
+              // Inventory Manager
               TRCRolePermissionWidget(
                 permission: TrcPermissions.inventory,
                 child: CshBigButton(
-                  text: "ROLE_INVENTORY_MANAGER",
+                  text: "Inventory Manager",
                   onPressed: () {
                     Navigator.of(context).pushNamed(InventoryHomeScreen.route);
                   },
                 ),
               ),
-              CshBigButton(
-                text: "Part ROLE_QC",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(PartQCHomeScreen.route);
-                },
+              // Part QC
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.partQc,
+                child: CshBigButton(
+                  text: "Part QC",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(PartQCHomeScreen.route);
+                  },
+                ),
               ),
-              CshBigButton(
-                text: "TRC_EXECUTIVE",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(TRCExecutiveScreen.route);
-                },
+              // TRC Executive
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.executive,
+                child: CshBigButton(
+                  text: "TRC Executive",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(TRCExecutiveScreen.route);
+                  },
+                ),
               ),
-              CshBigButton(
-                text: "QC_ROLE",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(TrcTesterScreen.route);
-                },
+              // Tester (QC Role)
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.tester,
+                child: CshBigButton(
+                  text: "Tester",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(TrcTesterScreen.route);
+                  },
+                ),
               ),
-              CshBigButton(
-                text: "ROLE_STORAGE_MANAGER",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(StoreManagerHomeScreen.route);
-                },
+              // Store Manager
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.storeManager,
+                child: CshBigButton(
+                  text: "Store Manager",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(StoreManagerHomeScreen.route);
+                  },
+                ),
               ),
-              CshBigButton(
-                text: "ROLE_TRC_AUDIT",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(TrcAuditScreen.route);
-                },
+              // Auditor
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.auditor,
+                child: CshBigButton(
+                  text: "TRC Audit",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(TrcAuditScreen.route);
+                  },
+                ),
               ),
             ],
           ),
