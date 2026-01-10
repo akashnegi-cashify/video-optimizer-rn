@@ -14,7 +14,6 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:flutter_trc/src/modules/engineer/screens/device_report_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
-import 'package:flutter_trc/trc/my_permissions/widget/trc_role_permission_widget.dart';
 import 'package:flutter_trc/trc/my_permissions/permissions.dart';
 
 import 'send_to_tl_widget.dart';
@@ -28,6 +27,8 @@ class WIPDetailWidget extends StatefulWidget {
 
 class _WIPDetailWidgetState extends State<WIPDetailWidget> {
   bool _isPerformStartWork = false;
+
+  bool get _isEngineerRole => PermissionController().hasPermission(TrcPermissions.engineer);
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +77,8 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
               _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
-                buttonText: PermissionController().hasPermission(TrcPermissions.engineer)
-                    ? l10n.markOk
-                    : l10n.repairDone,
-                urlPath: PermissionController().hasPermission(TrcPermissions.engineer)
+                buttonText: _isEngineerRole ? l10n.markOk : l10n.repairDone,
+                urlPath: _isEngineerRole
                     ? EngineerDeviceActionStatusEnum.MARK_OK.value
                     : EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value,
                 onApiSuccess: () {
@@ -118,9 +117,8 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                 );
               },
             ),
-            TRCRolePermissionWidget(
-              permission: TrcPermissions.l4Engineer,
-              child: _StatusUpdateButtonWidget(
+            if (!_isEngineerRole)
+              _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
                 buttonText: l10n.markFI,
@@ -129,10 +127,8 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   Navigator.pop(context);
                 },
               ),
-            ),
-            TRCRolePermissionWidget(
-              permission: TrcPermissions.l4Engineer,
-              child: _StatusUpdateButtonWidget(
+            if (!_isEngineerRole)
+              _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
                 buttonText: l10n.markFFI,
@@ -141,10 +137,8 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   Navigator.pop(context);
                 },
               ),
-            ),
-            TRCRolePermissionWidget(
-              permission: TrcPermissions.l4Engineer,
-              child: _StatusUpdateButtonWidget(
+            if (!_isEngineerRole)
+              _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 buttonText: l10n.markNR,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
@@ -153,17 +147,14 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   Navigator.pop(context);
                 },
               ),
-            ),
-            TRCRolePermissionWidget(
-              permission: TrcPermissions.engineer,
-              child: Padding(
+            if (_isEngineerRole)
+              Padding(
                 padding: const EdgeInsets.only(top: Dimens.space_16),
                 child: SendToTLWidget(
                     deviceBarcode: provider.deviceBarcode,
                     color: deviceInfo?.color,
                     productTitle: deviceInfo?.productName),
               ),
-            ),
             Padding(
               padding: const EdgeInsets.only(top: Dimens.space_16),
               child: CshBigOutlineButton(
