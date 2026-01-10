@@ -96,7 +96,7 @@ class D2CVideoProvider extends CshChangeNotifier {
   Future<void> getDeviceDetails() {
     var completer = Completer<void>();
     D2CVideoService.getDeviceDetails(deviceBarcode).listen((event) {
-      deviceName = event.response?.modelName;
+      deviceName = event.modelName;
       completer.complete();
       notifyListeners();
     }, onError: (error) {

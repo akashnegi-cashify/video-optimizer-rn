@@ -36,14 +36,10 @@ class DispatchLotProvider extends CshChangeNotifier with Searchable {
     return Provider.of<DispatchLotProvider>(context, listen: listen);
   }
 
-  Future<DispatchCompleteResponse?> initiateDispatchCompletion(String invoiceNumber) {
+  Future<void> initiateDispatchCompletion(String invoiceNumber) {
     var completer = Completer<DispatchCompleteResponse?>();
     DispatchLotServices.completeDispatch(invoiceNumber).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
-        completer.complete(event);
-      } else {
-        completer.completeError(event?.errorMsg ?? "Something Went Wrong");
-      }
+      completer.complete();
     }, onError: (error, stack) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
       completer.completeError(errorMsg);

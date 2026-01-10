@@ -18,19 +18,20 @@ class StockMovementResponse extends BaseResponse {
 
 @JsonSerializable()
 class StockMovementListData {
-  @JsonKey(name: 's')
+
+  @JsonKey(name: 'status')
   String? status;
 
-  @JsonKey(name: 'rmk')
+  @JsonKey(name: 'remarks')
   String? remark;
 
-  @JsonKey(name: 'cb')
+  @JsonKey(name: 'createdBy')
   String? createdBy;
 
-  @JsonKey(name: 'ca')
+  @JsonKey(name: 'createdAt')
   int? createdAt;
 
-  @JsonKey(name: 'ics')
+  @JsonKey(name: 'IsCurrentStatus')
   bool? isCurrentStatus;
 
   StockMovementListData(this.status, this.remark, this.createdBy, this.createdAt, this.isCurrentStatus);

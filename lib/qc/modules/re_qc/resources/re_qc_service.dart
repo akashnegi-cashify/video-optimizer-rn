@@ -19,7 +19,7 @@ class ReQcService {
   }
 
   static Stream<LotDeviceListResponse?> getLotDeviceList(String? lotGroupName) {
-    return QcService().get("/lot/v2/devices?gln=$lotGroupName", LotDeviceListResponse.fromJson);
+    return QcService().get("/lot/v2/devices?lgn=$lotGroupName", LotDeviceListResponse.fromJson);
   }
 
   // static Stream<LotDeviceListResponse?> getTestCases(String? lotGroupName) {

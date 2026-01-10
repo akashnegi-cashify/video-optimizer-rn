@@ -19,16 +19,4 @@ class DispatchCompleteProvider extends CshChangeNotifier {
   static DispatchCompleteProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<DispatchCompleteProvider>(context, listen: listen);
   }
-
-  Future<DispatchCompleteResponse?> initiateDispatchCompletion() {
-    var completer = Completer<DispatchCompleteResponse?>();
-    DispatchLotServices.completeDispatch(textEditingController.text).listen((event) {
-      completer.complete(event);
-    }, onError: (error, stack) {
-      var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
-      completer.completeError(errorMsg);
-      Logger.debug('DispatchCompleteProvider.initiateDispatchCompletion', [errorMsg]);
-    });
-    return completer.future;
-  }
 }

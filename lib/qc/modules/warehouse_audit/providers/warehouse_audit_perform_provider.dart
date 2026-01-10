@@ -22,7 +22,7 @@ class WarehouseAuditPerformProvider extends CshChangeNotifier {
     WarehouseAuditService.scanDeviceForAudit(auditId, deviceBarcode,
             imagesListMap: imagesListMap, isManualEntry: isManualEntry)
         .listen((event) {
-      completer.complete(event?.scanDeviceData);
+      completer.complete(event);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

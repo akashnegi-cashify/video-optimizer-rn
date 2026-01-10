@@ -17,10 +17,10 @@ class DeviceReceiveProvider extends CshChangeNotifier {
     var completer = Completer<DeviceReceiveData>();
 
     DeviceReceiveService.receiveDevice(barcode).listen((event) {
-      if (event?.data != null) {
-        completer.complete(event!.data);
+      if (event != null) {
+        completer.complete(event);
       } else {
-        completer.completeError(event?.errorMsg.toString() ?? "");
+        completer.completeError("No data found");
       }
     }, onError: (error) {
       var message = ApiErrorHelper.getErrorMessage(error);

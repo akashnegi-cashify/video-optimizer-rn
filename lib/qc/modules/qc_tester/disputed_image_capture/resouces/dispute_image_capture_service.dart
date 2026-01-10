@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/services/qc_service.dart';
 
 import '../models/dispute_image_capture_submit_success_response.dart';
@@ -10,11 +11,11 @@ class DisputeImageCaptureService {
     return QcService().get("/source/audit/$barcode", DisputedMediaDataResponse.fromJson);
   }
 
-  static Stream<DisputeImageCaptureSubmitSuccessResponse?> submitDisputeMediaData(
+  static Stream<BaseResponse?> submitDisputeMediaData(
       {required String barcode, required Map<String, dynamic> bodyData}) {
     return QcService().post(
       "/source/audit/$barcode",
-      DisputeImageCaptureSubmitSuccessResponse.fromJson,
+      BaseResponse.fromJson,
       body: jsonEncode(bodyData),
     );
   }

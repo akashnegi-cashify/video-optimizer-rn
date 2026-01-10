@@ -9,10 +9,11 @@ import 'index.dart';
 class StoreOutServices {
   static Stream<StoreInLocationVerifyResponse?> binOutVerifyBarCodeService(BinOutRequest request,
       {required BaseService service}) {
-    return service.post("/bin/store-out", StoreInLocationVerifyResponse.fromJson, body: {
-      "stockBarcode": request.stockBarcode,
-      "locBarcode": request.locBarcode,
-    });
+    return service.post("/bin/store-out", StoreInLocationVerifyResponse.fromJson,
+        body: jsonEncode({
+          "stockBarcode": request.stockBarcode,
+          "locBarcode": request.locBarcode, 
+        }));
   }
 
   static Stream<List<ScanNormalLotItem>?> fetchNormalScanLotList(String lotName, int lotType,

@@ -5,7 +5,7 @@ part 'store_out_in_process_response.g.dart';
 
 @JsonSerializable()
 class StoreOutInProcessResponse extends BaseResponse {
-  /// New v1/store-out/store-out-status fields
+
   @JsonKey(name: "storeOutStatus")
   bool? storeOutStatus;
 

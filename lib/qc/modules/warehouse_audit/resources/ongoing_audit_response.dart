@@ -5,7 +5,7 @@ part 'ongoing_audit_response.g.dart';
 
 @JsonSerializable()
 class OnGoingAuditResponse extends BaseResponse {
-  @JsonKey(name: "dt")
+  @JsonKey(name: "data")
   List<OnGoingAuditData>? onGoingAuditList;
 
   OnGoingAuditResponse(this.onGoingAuditList, super.cashifyAlert, super.trackUrl);
@@ -18,25 +18,25 @@ class OnGoingAuditResponse extends BaseResponse {
 
 @JsonSerializable()
 class OnGoingAuditData {
-  @JsonKey(name: "aid")
+  @JsonKey(name: "id")
   int? auditId;
 
-  @JsonKey(name: "fn")
+  @JsonKey(name: "facilityName")
   String? facilityName;
 
-  @JsonKey(name: "s")
+  @JsonKey(name: "status")
   int? status;
 
-  @JsonKey(name: "std")
+  @JsonKey(name: "statusDesc")
   String? statusDescription;
 
-  @JsonKey(name: "rm")
+  @JsonKey(name: "remark")
   String? message;
 
-  @JsonKey(name: "sd")
+  @JsonKey(name: "startDate")
   double? startDate;
 
-  @JsonKey(name: "ed")
+  @JsonKey(name: "endDate")
   double? endDate;
 
   OnGoingAuditData(

@@ -9,7 +9,7 @@ part of 'ongoing_audit_response.dart';
 OnGoingAuditResponse _$OnGoingAuditResponseFromJson(
         Map<String, dynamic> json) =>
     OnGoingAuditResponse(
-      (json['dt'] as List<dynamic>?)
+      (json['data'] as List<dynamic>?)
           ?.map((e) => OnGoingAuditData.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['__ca'] == null
@@ -23,27 +23,27 @@ Map<String, dynamic> _$OnGoingAuditResponseToJson(
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'dt': instance.onGoingAuditList,
+      'data': instance.onGoingAuditList,
     };
 
 OnGoingAuditData _$OnGoingAuditDataFromJson(Map<String, dynamic> json) =>
     OnGoingAuditData(
-      (json['aid'] as num?)?.toInt(),
-      json['fn'] as String?,
-      (json['s'] as num?)?.toInt(),
-      json['std'] as String?,
-      json['rm'] as String?,
-      (json['sd'] as num?)?.toDouble(),
-      (json['ed'] as num?)?.toDouble(),
+      (json['id'] as num?)?.toInt(),
+      json['facilityName'] as String?,
+      (json['status'] as num?)?.toInt(),
+      json['statusDesc'] as String?,
+      json['remark'] as String?,
+      (json['startDate'] as num?)?.toDouble(),
+      (json['endDate'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$OnGoingAuditDataToJson(OnGoingAuditData instance) =>
     <String, dynamic>{
-      'aid': instance.auditId,
-      'fn': instance.facilityName,
-      's': instance.status,
-      'std': instance.statusDescription,
-      'rm': instance.message,
-      'sd': instance.startDate,
-      'ed': instance.endDate,
+      'id': instance.auditId,
+      'facilityName': instance.facilityName,
+      'status': instance.status,
+      'statusDesc': instance.statusDescription,
+      'remark': instance.message,
+      'startDate': instance.startDate,
+      'endDate': instance.endDate,
     };

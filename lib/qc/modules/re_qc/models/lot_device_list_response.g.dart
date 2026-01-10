@@ -9,7 +9,7 @@ part of 'lot_device_list_response.dart';
 LotDeviceListResponse _$LotDeviceListResponseFromJson(
         Map<String, dynamic> json) =>
     LotDeviceListResponse(
-      (json['dt'] as List<dynamic>?)
+      (json['data'] as List<dynamic>?)
           ?.map((e) => LotDeviceListData.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['__ca'] == null
@@ -23,41 +23,42 @@ Map<String, dynamic> _$LotDeviceListResponseToJson(
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      'dt': instance.deviceList,
+      'data': instance.deviceList,
     };
+
 
 LotDeviceListData _$LotDeviceListDataFromJson(Map<String, dynamic> json) =>
     LotDeviceListData(
       id: (json['id'] as num?)?.toInt(),
-      deviceId: (json['did'] as num?)?.toInt(),
-      mpid: (json['mpid'] as num?)?.toInt(),
-      qrCode: json['qr_code'] as String?,
-      model: json['m'] as String?,
-      brand: json['b'] as String?,
-      status: (json['s'] as num?)?.toInt(),
-      grade: json['gr'] as String?,
-      productTitle: json['pt'] as String?,
-      testAge: (json['ta'] as num?)?.toInt(),
-      statusDescription: json['sd'] as String?,
+      deviceId: (json['deviceId'] as num?)?.toInt(),
+      mpid: (json['mpId'] as num?)?.toInt(),
+      qrCode: json['qrCode'] as String?,
+      model: json['model'] as String?,
+      brand: json['brand'] as String?,
+      status: (json['status'] as num?)?.toInt(),
+      grade: json['grade'] as String?,
+      productTitle: json['productTitle'] as String?,
+      testAge: (json['testingAge'] as num?)?.toInt(),
+      statusDescription: json['statusDesc'] as String?,
       imei1: json['imei1'] as String?,
       imei2: json['imei2'] as String?,
-      serialNumber: json['sno'] as String?,
+      serialNumber: json['serialNumber'] as String?,
     );
 
 Map<String, dynamic> _$LotDeviceListDataToJson(LotDeviceListData instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'did': instance.deviceId,
-      'mpid': instance.mpid,
-      'qr_code': instance.qrCode,
-      'm': instance.model,
-      'b': instance.brand,
+      'deviceId': instance.deviceId,
+      'mpId': instance.mpid,
+      'qrCode': instance.qrCode,
+      'model': instance.model,
+      'brand': instance.brand,
       'imei1': instance.imei1,
       'imei2': instance.imei2,
-      'sno': instance.serialNumber,
-      's': instance.status,
-      'gr': instance.grade,
-      'pt': instance.productTitle,
-      'ta': instance.testAge,
-      'sd': instance.statusDescription,
+      'serialNumber': instance.serialNumber,
+      'status': instance.status,
+      'grade': instance.grade,
+      'productTitle': instance.productTitle,
+      'testingAge': instance.testAge,
+      'statusDesc': instance.statusDescription,
     };
