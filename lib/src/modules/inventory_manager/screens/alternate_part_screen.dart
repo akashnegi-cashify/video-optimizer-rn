@@ -1,12 +1,15 @@
 import 'package:builder_project/builder_project.dart';
+import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:provider/provider.dart';
 
 import '../../../app_builder/app_builder_groups/groups.dart';
 import '../l10n.dart';
 import '../models/alternate_part_comp_param.dart';
+import '../models/list_alternate_parts_response.dart';
 import '../models/parts_details_response.dart';
 import '../models/pending_device_list_response.dart';
 import '../providers/alternate_part_list_provider.dart';
@@ -70,145 +73,114 @@ class AlternatePartWidget extends StatefulWidget {
 }
 
 class _AlternatePartWidgetState extends State<AlternatePartWidget> {
+  final CshListController _listController = CshListController();
+
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     var theme = Theme.of(context);
+
     return ChangeNotifierProvider<AlternatePartListProvider>(
       create: (_) => AlternatePartListProvider(widget.arg?.prid),
       lazy: false,
       builder: (BuildContext insideContext, __) {
-        var provider = AlternatePartListProvider.of(insideContext);
-        if (provider.isDataLoading) {
-          return const Scaffold(
-            body: Center(
-              child: SizedBox(
-                width: Dimens.space_30,
-                height: Dimens.space_30,
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
-        } else if (provider.isDataLoading == false && !Validator.isNullOrEmpty(provider.errorMessage)) {
-          return Scaffold(
-            appBar: CshHeader(
-              l10n.alternatePartList,
-              showBackBtn: true,
-            ),
-            body: Center(
-              child: Row(
-                children: [
-                  const SizedBox.shrink(),
-                  Expanded(
-                    child: Text(
-                      provider.errorMessage,
-                      style: theme.primaryTextTheme.headlineMedium,
-                      textAlign: TextAlign.center,
-                    ),
+        return Scaffold(
+          appBar: CshHeader(
+            l10n.alternatePartList,
+            showBackBtn: true,
+          ),
+          body: Column(
+            children: [
+              // Device Info Card
+              Padding(
+                padding: const EdgeInsets.all(Dimens.space_8),
+                child: CshCard(
+                  child: Column(
+                    children: [
+                      if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.deviceBarcode)) ...[
+                        _labelAndValueWidget(theme, l10n.deviceBarcode, widget.arg!.detailsModelData!.deviceBarcode!),
+                        const SizedBox(height: Dimens.space_8),
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.productTitle)) ...[
+                        _labelAndValueWidget(theme, l10n.deviceName, widget.arg!.detailsModelData!.productTitle!),
+                        const SizedBox(height: Dimens.space_8),
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.engineerName)) ...[
+                        _labelAndValueWidget(theme, l10n.engineerSName, widget.arg!.detailsModelData!.engineerName!),
+                        const SizedBox(height: Dimens.space_8),
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.location)) ...[
+                        _labelAndValueWidget(theme, l10n.location, widget.arg!.detailsModelData!.location!),
+                      ],
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return Scaffold(
-            appBar: CshHeader(
-              l10n.alternatePartList,
-              showBackBtn: true,
-            ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: Dimens.space_12),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-                      child: CshCard(
-                        child: Column(
-                          children: [
-                            if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.deviceBarcode)) ...[
-                              _labelAndValueWidget(
-                                  theme, l10n.deviceBarcode, widget.arg!.detailsModelData!.deviceBarcode!),
-                              const SizedBox(height: Dimens.space_8),
-                            ],
-                            if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.productTitle)) ...[
-                              _labelAndValueWidget(theme, l10n.deviceName, widget.arg!.detailsModelData!.productTitle!),
-                              const SizedBox(height: Dimens.space_8),
-                            ],
-                            if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.engineerName)) ...[
-                              _labelAndValueWidget(
-                                  theme, l10n.engineerSName, widget.arg!.detailsModelData!.engineerName!),
-                              const SizedBox(height: Dimens.space_8),
-                            ],
-                            if (!Validator.isNullOrEmpty(widget.arg?.detailsModelData?.location)) ...[
-                              _labelAndValueWidget(theme, l10n.location, widget.arg!.detailsModelData!.location!),
-                              const SizedBox(height: Dimens.space_8),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: Dimens.space_16),
-                    _headerContainer(theme, l10n.originalPartRequest),
-                    const SizedBox(height: Dimens.space_8),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
-                      child: CshCard(
-                        child: Column(
-                          children: [
-                            if (!Validator.isNullOrEmpty(widget.arg?.itemDataModel?.partName)) ...[
-                              _labelAndValueWidget(theme, l10n.partName, widget.arg!.itemDataModel!.partName!),
-                              const SizedBox(height: Dimens.space_6),
-                            ],
-                            if (!Validator.isNullOrEmpty(widget.arg?.itemDataModel?.sku)) ...[
-                              _labelAndValueWidget(theme, l10n.sku, widget.arg!.itemDataModel!.sku!),
-                              const SizedBox(height: Dimens.space_6),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: Dimens.space_16),
-                    if (!Validator.isListNullOrEmpty(provider.listAlternatePartsResponse?.dataList)) ...[
-                      _headerContainer(theme, l10n.alternatePartsAvailable),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        primary: false,
-                        padding: const EdgeInsets.all(Dimens.space_8),
-                        itemBuilder: (context, index) {
-                          return AlternatePartItemWidget(
-                            dataModel: provider.listAlternatePartsResponse!.dataList![index],
-                            onRequestCallback: () {
-                              _showRequestAlternatePartRequest(
-                                context,
-                                theme,
-                                l10n,
-                                widget.arg?.prid ?? 0,
-                                provider.listAlternatePartsResponse!.dataList![index].productName ?? "",
-                                provider.listAlternatePartsResponse!.dataList![index].sku ?? "",
-                                provider.listAlternatePartsResponse!.dataList![index].partVariantName ?? "",
-                                widget.arg,
-                              );
-                            },
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(height: Dimens.space_6);
-                        },
-                        itemCount: provider.listAlternatePartsResponse!.dataList!.length,
-                      )
-                    ]
-                  ],
                 ),
               ),
-            ),
-          );
-        }
+              // Original Part Request Header
+              _headerContainer(theme, l10n.originalPartRequest),
+              const SizedBox(height: Dimens.space_8),
+              // Original Part Info Card
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
+                child: CshCard(
+                  child: Column(
+                    children: [
+                      if (!Validator.isNullOrEmpty(widget.arg?.itemDataModel?.partName)) ...[
+                        _labelAndValueWidget(theme, l10n.partName, widget.arg!.itemDataModel!.partName!),
+                        const SizedBox(height: Dimens.space_6),
+                      ],
+                      if (!Validator.isNullOrEmpty(widget.arg?.itemDataModel?.sku)) ...[
+                        _labelAndValueWidget(theme, l10n.sku, widget.arg!.itemDataModel!.sku!),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: Dimens.space_16),
+              // Alternate Parts Header
+              _headerContainer(theme, l10n.alternatePartsAvailable),
+              // Alternate Parts List using CshApiList
+              Expanded(
+                child: CshApiList<ListAlternateData>(
+                  apiConfig: ListApiConfig(
+                    apiUrl: "/part/list-alternate-parts?prid=${widget.arg?.prid}",
+                    serviceGroup: TRCServiceGroups.unifyTrc,
+                  ),
+                  filterConfig: FilterConfig(),
+                  controller: _listController,
+                  itemFromJson: ListAlternateData.fromJson,
+                  shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+                  listPadding: const EdgeInsets.all(Dimens.space_8),
+                  verticalRowSpacing: Dimens.space_6,
+                  isHideCoreFilterButton: true,
+                  getRowWidget: (item, index) {
+                    final data = item;
+                    return AlternatePartItemWidget(
+                      dataModel: data,
+                      onRequestCallback: () {
+                        _showRequestAlternatePartRequest(
+                          context,
+                          theme,
+                          l10n,
+                          widget.arg?.prid ?? 0,
+                          data?.productName ?? "",
+                          data?.sku ?? "",
+                          data?.partVariantName ?? "",
+                          widget.arg,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
 
-  _headerContainer(ThemeData theme, String label) {
+  Widget _headerContainer(ThemeData theme, String label) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
       height: Dimens.space_50,
@@ -223,7 +195,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
     );
   }
 
-  _labelAndValueWidget(ThemeData theme, String label, String value) {
+  Widget _labelAndValueWidget(ThemeData theme, String label, String value) {
     return Row(
       children: [
         Expanded(
@@ -245,8 +217,8 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
     );
   }
 
-  _showRequestAlternatePartRequest(BuildContext context, ThemeData theme, L10n l10n, int partId, String productName,
-      String sku, String partVariantName, AlternatePartArguments? args) {
+  void _showRequestAlternatePartRequest(BuildContext context, ThemeData theme, L10n l10n, int partId,
+      String productName, String sku, String partVariantName, AlternatePartArguments? args) {
     showCshBottomSheet(
       context: context,
       child: Padding(
@@ -277,11 +249,13 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
     );
   }
 
-  _requestAlternativePart(
-      BuildContext context, L10n l10n, int partId, String productName, String partVariantName, String sku, AlternatePartArguments? args) {
+  void _requestAlternativePart(BuildContext context, L10n l10n, int partId, String productName, String partVariantName,
+      String sku, AlternatePartArguments? args) {
     var provider = AlternatePartListProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.alternatePartRequest(partId, productName, sku, args?.detailsModelData?.deviceId ?? -1, partVariantName).then((value) {
+    provider
+        .alternatePartRequest(partId, productName, sku, args?.detailsModelData?.deviceId ?? -1, partVariantName)
+        .then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: l10n.alternatePartDataFetched);
