@@ -28,7 +28,7 @@ class TrcHomeScreenNew extends StatelessWidget {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     return Scaffold(
-      appBar: TrcHeader("Home"),
+      appBar: TrcHeader("Home", showBackBtn: false, showLogoutButton: true, showProfileButton: true),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),

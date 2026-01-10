@@ -14,7 +14,8 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:flutter_trc/src/modules/engineer/screens/device_report_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
-import 'package:flutter_trc/src/resources/user_details.dart';
+import 'package:flutter_trc/trc/my_permissions/widget/trc_role_permission_widget.dart';
+import 'package:flutter_trc/trc/my_permissions/permissions.dart';
 
 import 'send_to_tl_widget.dart';
 
@@ -26,14 +27,7 @@ class WIPDetailWidget extends StatefulWidget {
 }
 
 class _WIPDetailWidgetState extends State<WIPDetailWidget> {
-  late bool _isEngineerRole;
   bool _isPerformStartWork = false;
-
-  @override
-  void initState() {
-    _isEngineerRole = UserDetails().isEngineerRole();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,18 +72,32 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                 Navigator.pop(context);
               },
             ),
-            if (Validator.isTrue(provider.isScrewImagesUploaded()))
-              _StatusUpdateButtonWidget(
-                deviceBarcode: provider.deviceBarcode,
-                contentPadding: const EdgeInsets.only(top: Dimens.space_16),
-                buttonText: _isEngineerRole ? l10n.markOk : l10n.repairDone,
-                urlPath: _isEngineerRole
-                    ? EngineerDeviceActionStatusEnum.MARK_OK.value
-                    : EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value,
-                onApiSuccess: () {
-                  Navigator.pop(context);
-                },
+            if (Validator.isTrue(provider.isScrewImagesUploaded())) ...[
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.engineer,
+                child: _StatusUpdateButtonWidget(
+                  deviceBarcode: provider.deviceBarcode,
+                  contentPadding: const EdgeInsets.only(top: Dimens.space_16),
+                  buttonText: l10n.markOk,
+                  urlPath: EngineerDeviceActionStatusEnum.MARK_OK.value,
+                  onApiSuccess: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ),
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.l4Engineer,
+                child: _StatusUpdateButtonWidget(
+                  deviceBarcode: provider.deviceBarcode,
+                  contentPadding: const EdgeInsets.only(top: Dimens.space_16),
+                  buttonText: l10n.repairDone,
+                  urlPath: EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value,
+                  onApiSuccess: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
             const SizedBox(height: Dimens.space_16),
             CshBigOutlineButton(
               text: l10n.viewParts,
@@ -122,8 +130,9 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                 );
               },
             ),
-            if (!_isEngineerRole)
-              _StatusUpdateButtonWidget(
+            TRCRolePermissionWidget(
+              permission: TrcPermissions.l4Engineer,
+              child: _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
                 buttonText: l10n.markFI,
@@ -132,8 +141,10 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   Navigator.pop(context);
                 },
               ),
-            if (!_isEngineerRole)
-              _StatusUpdateButtonWidget(
+            ),
+            TRCRolePermissionWidget(
+              permission: TrcPermissions.l4Engineer,
+              child: _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
                 buttonText: l10n.markFFI,
@@ -142,8 +153,10 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   Navigator.pop(context);
                 },
               ),
-            if (!_isEngineerRole)
-              _StatusUpdateButtonWidget(
+            ),
+            TRCRolePermissionWidget(
+              permission: TrcPermissions.l4Engineer,
+              child: _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 buttonText: l10n.markNR,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
@@ -152,14 +165,17 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   Navigator.pop(context);
                 },
               ),
-            if (_isEngineerRole)
-              Padding(
+            ),
+            TRCRolePermissionWidget(
+              permission: TrcPermissions.engineer,
+              child: Padding(
                 padding: const EdgeInsets.only(top: Dimens.space_16),
                 child: SendToTLWidget(
                     deviceBarcode: provider.deviceBarcode,
                     color: deviceInfo?.color,
                     productTitle: deviceInfo?.productName),
               ),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: Dimens.space_16),
               child: CshBigOutlineButton(
