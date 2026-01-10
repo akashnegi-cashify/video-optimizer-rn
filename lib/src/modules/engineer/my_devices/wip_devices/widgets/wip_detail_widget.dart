@@ -72,32 +72,20 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                 Navigator.pop(context);
               },
             ),
-            if (Validator.isTrue(provider.isScrewImagesUploaded())) ...[
-              TRCRolePermissionWidget(
-                permission: TrcPermissions.engineer,
-                child: _StatusUpdateButtonWidget(
-                  deviceBarcode: provider.deviceBarcode,
-                  contentPadding: const EdgeInsets.only(top: Dimens.space_16),
-                  buttonText: l10n.markOk,
-                  urlPath: EngineerDeviceActionStatusEnum.MARK_OK.value,
-                  onApiSuccess: () {
-                    Navigator.pop(context);
-                  },
-                ),
+            if (Validator.isTrue(provider.isScrewImagesUploaded()))
+              _StatusUpdateButtonWidget(
+                deviceBarcode: provider.deviceBarcode,
+                contentPadding: const EdgeInsets.only(top: Dimens.space_16),
+                buttonText: PermissionController().hasPermission(TrcPermissions.engineer)
+                    ? l10n.markOk
+                    : l10n.repairDone,
+                urlPath: PermissionController().hasPermission(TrcPermissions.engineer)
+                    ? EngineerDeviceActionStatusEnum.MARK_OK.value
+                    : EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value,
+                onApiSuccess: () {
+                  Navigator.pop(context);
+                },
               ),
-              TRCRolePermissionWidget(
-                permission: TrcPermissions.l4Engineer,
-                child: _StatusUpdateButtonWidget(
-                  deviceBarcode: provider.deviceBarcode,
-                  contentPadding: const EdgeInsets.only(top: Dimens.space_16),
-                  buttonText: l10n.repairDone,
-                  urlPath: EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value,
-                  onApiSuccess: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
             const SizedBox(height: Dimens.space_16),
             CshBigOutlineButton(
               text: l10n.viewParts,
