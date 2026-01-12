@@ -14,7 +14,7 @@ import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_par
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:flutter_trc/src/modules/engineer/screens/device_report_screen.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/models/assigned_device_details.dart';
-import 'package:flutter_trc/src/resources/user_details.dart';
+import 'package:flutter_trc/trc/my_permissions/permissions.dart';
 
 import 'send_to_tl_widget.dart';
 
@@ -26,14 +26,9 @@ class WIPDetailWidget extends StatefulWidget {
 }
 
 class _WIPDetailWidgetState extends State<WIPDetailWidget> {
-  late bool _isEngineerRole;
   bool _isPerformStartWork = false;
 
-  @override
-  void initState() {
-    _isEngineerRole = UserDetails().isEngineerRole();
-    super.initState();
-  }
+  bool get _isEngineerRole => PermissionController().hasPermission(TrcPermissions.engineer);
 
   @override
   Widget build(BuildContext context) {

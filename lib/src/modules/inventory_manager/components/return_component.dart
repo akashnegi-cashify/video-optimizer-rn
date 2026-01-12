@@ -46,7 +46,7 @@ class ReturnComponent extends StatelessComponent<NoneConfigModel> {
                 ],
               ),
             ),
-            body: const TabBarView(
+            body: TabBarView(
               children: [
                 ReceiveTabWidget(),
                 ReturnTabWidget(),
