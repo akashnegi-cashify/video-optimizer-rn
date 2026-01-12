@@ -1,0 +1,196 @@
+---
+name: API Endpoint Conventions
+description: Conventions for API endpoint naming, versioning, and parameter usage
+alwaysApply: true
+---
+
+# API Endpoint Conventions
+
+## Endpoint Naming Patterns
+
+### Versioning
+
+- Use `/v1/`, `/v2/`, `/v3/` prefix for versioned endpoints
+- Examples:
+  - `/v1/store-out/devices`
+  - `/v2/lot/devices`
+  - `/v3/device/media/{deviceBarcode}`
+
+### Endpoint Structure
+
+- Use kebab-case for endpoint paths: `/lot-pre-dispatch/v2`
+- Group related endpoints by resource: `/device/`, `/lot/`, `/store-out/`
+- Use plural nouns for collections: `/devices`, `/orders`, `/audits`
+
+## HTTP Method Selection
+
+### GET Requests
+
+Use GET for:
+- Fetching data (lists, details, status)
+- Read-only operations
+- Query parameters in URL
+
+```dart
+service.get("/endpoint/path", ResponseType.fromJson, params: params);
+```
+
+### POST Requests
+
+Use POST for:
+- Creating resources
+- Submitting data
+- Mutations/updates
+- Complex request bodies
+
+```dart
+service.post("/endpoint/path", ResponseType.fromJson, body: jsonEncode(request));
+```
+
+## Parameter Patterns
+
+### Query Parameters
+
+- Use query parameters for filtering, pagination, and simple lookups
+- Format: `?paramName=value&paramName2=value2`
+- Common patterns:
+  - `?qrCode={deviceBarcode}`
+  - `?lotId={lotId}`
+  - `?gln={lotGroupName}`
+  - `?did={deviceId}`
+
+```dart
+// Inline query params
+service.get("/endpoint?qrCode=$barcode", ResponseType.fromJson);
+
+// Using params map
+Map<String, List<String>> params = {
+  "gln": [lotName],
+  "lid": [lotId.toString()],
+};
+service.get("/endpoint", ResponseType.fromJson, params: params);
+```
+
+### Path Parameters
+
+- Use path parameters for resource identification
+- Format: `/resource/{id}` or `/resource/{id}/action`
+- Common patterns:
+  - `/{deviceBarcode}`
+  - `/{auditId}`
+  - `/{lotId}`
+
+```dart
+service.get("/device/detail/{deviceBarcode}", ResponseType.fromJson);
+service.post("/device/recording/{deviceBarcode}/save", ResponseType.fromJson, body: body);
+```
+
+### Request Body Parameters
+
+- Use JSON-encoded bodies for complex data
+- Always use `jsonEncode()` for request bodies
+- Use Map for simple key-value pairs
+
+```dart
+// Simple map
+Map<String, dynamic> req = {
+  "qrCode": deviceBarcode,
+  "status": status,
+};
+service.post("/endpoint", ResponseType.fromJson, body: jsonEncode(req));
+
+// From request object
+service.post("/endpoint", ResponseType.fromJson, body: jsonEncode(request.toJson()));
+```
+
+## Common Endpoint Patterns
+
+### CRUD Operations
+
+- **List**: `GET /resource/list` or `GET /resource`
+- **Detail**: `GET /resource/{id}` or `GET /resource/detail?qrcode={id}`
+- **Create**: `POST /resource` or `POST /resource/create`
+- **Update**: `POST /resource/update/{id}` or `POST /resource/{id}`
+- **Delete**: `POST /resource/remove/{id}` or `POST /resource/delete`
+
+### Action Endpoints
+
+- **Complete**: `POST /resource/complete` or `POST /resource/{id}/complete`
+- **Verify**: `POST /resource/verify` or `GET /resource/verify`
+- **Scan**: `POST /resource/scan` or `GET /resource/scan`
+- **Submit**: `POST /resource/submit` or `POST /resource/{id}/submit`
+
+### Status and Filter Endpoints
+
+- **Status**: `GET /resource/status` or `GET /resource/status-options`
+- **Filters**: `GET /resource/filter/list` or `GET /resource/list-filters`
+
+## Conditional Endpoints
+
+Some endpoints vary based on conditions. Document both variants:
+
+```dart
+// Example: Conditional endpoint based on roleType
+var endPoint = roleType == RoleType.REPAIR_DEVICE.value 
+    ? '/repair/device/mark-repair' 
+    : '/dead/device/mark-dead';
+
+// Example: Conditional endpoint based on boolean flag
+String endPoint = isDeviceTypeLob 
+    ? "/manual-test/calculator/submit/{deviceBarcode}" 
+    : "/v1/cdp/cal/submit/{deviceBarcode}";
+```
+
+## Parameter Naming Conventions
+
+### Abbreviated Parameter Names
+
+The codebase uses abbreviated parameter names in request bodies:
+- `qrCode` or `qr` → device barcode
+- `gln` → group lot name
+- `ln` → lot name
+- `lid` → lot ID
+- `did` → device ID
+- `pid` → product ID
+- `pmid` → product master ID
+- `cat_id` → category ID
+- `vid` → variant ID
+- `vn` → variant name
+- `in` → invoice number
+- `wbn` → waybill number
+- `awb` → AWB number
+- `an` → agent name
+- `dc` → device count
+- `im` → image URL
+- `et` → entry type
+- `sc` → status code
+- `rt` → request type
+- `uid_1`, `uid_2` → user IDs
+- `vid` → video URLs
+- `img` → image URLs
+- `isr` → is receive return
+
+### Query Parameter Abbreviations
+
+- `gln` → group lot name
+- `ln` → lot name
+- `lid` → lot ID
+- `did` → device ID
+- `gn` → group name
+- `lbc` → location barcode
+- `lt` → location type
+- `lb` → last location
+
+## Endpoint Reference
+
+For a complete list of all API endpoints in the QC module, see:
+- **QC_API_ENDPOINTS.md** - Comprehensive documentation of all endpoints organized by module
+
+## Best Practices
+
+1. **Consistency**: Follow existing endpoint patterns in the same module
+2. **Versioning**: Use version prefixes (`/v1/`, `/v2/`) for breaking changes
+3. **Resource Naming**: Use clear, descriptive resource names
+4. **Parameter Types**: Use path params for IDs, query params for filters, body for complex data
+5. **Documentation**: Document conditional endpoints and parameter variations
+6. **Abbreviations**: Use established abbreviations for common parameters (see above)

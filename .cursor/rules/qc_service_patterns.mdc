@@ -1,0 +1,146 @@
+---
+name: QC Service Class Patterns
+description: Patterns for creating and extending service classes in the QC module
+alwaysApply: true
+---
+
+# QC Service Class Patterns
+
+## Service Class Hierarchy
+
+### Base Service Classes
+
+1. **BaseService** (from `core_widgets`)
+   - Base class for all services
+   - Provides `get()`, `post()`, `getArray()` methods
+   - Requires implementing `getServiceGroup()`, `isToAddUserAuth()`, `getHeaders()`
+
+2. **QcService** extends `BaseService`
+   - Default service for QC console operations
+   - Service Group: `TRCServiceGroups.qcConsole`
+   - Always adds user authentication (`isToAddUserAuth() = true`)
+   - Uses `CoreHeaders.xSSOToken` for authentication
+
+3. **QcErazerService** extends `QcService`
+   - For data erasure operations
+   - Service Group: `TRCServiceGroups.qcErazer`
+   - Overrides headers to maintain SSO token
+
+4. **QcTransferService** extends `QcService`
+   - For stock transfer operations
+   - Service Group: `TRCServiceGroups.qcTransferLot`
+
+5. **RmsService** extends `BaseService`
+   - For RMS operations
+   - Service Group: `TRCServiceGroups.rms`
+
+6. **TrcService** extends `BaseService`
+   - For TRC operations
+   - Service Group: `TRCServiceGroups.unifyTrc`
+
+## Creating a New Service Class
+
+### Pattern 1: Extending QcService (Most Common)
+
+```dart
+import 'package:flutter_trc/src/services/qc_service.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
+
+class MyCustomService extends QcService {
+  @override
+  TRCServiceGroups getServiceGroup() {
+    return TRCServiceGroups.qcConsole; // or appropriate group
+  }
+}
+```
+
+### Pattern 2: Extending BaseService Directly
+
+```dart
+import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
+
+class MyCustomService extends BaseService {
+  final bool addAuthorization;
+
+  MyCustomService({this.addAuthorization = false});
+
+  @override
+  TRCServiceGroups getServiceGroup() {
+    return TRCServiceGroups.qcConsole; // or appropriate group
+  }
+
+  @override
+  bool isToAddUserAuth() {
+    return true;
+  }
+
+  @override
+  Map<String, String> getHeaders(bool? isToAddAuth) {
+    return {
+      ...(isToAddAuth ?? isToAddUserAuth()) ? CoreHeaders.xSSOToken : {},
+    };
+  }
+
+  @override
+  bool isToAddAuthorization() {
+    return addAuthorization;
+  }
+}
+```
+
+## Service Group Mapping
+
+When creating a service, map it to the appropriate service group:
+
+- **QcService** → `TRCServiceGroups.qcConsole`
+- **QcErazerService** → `TRCServiceGroups.qcErazer`
+- **QcTransferService** → `TRCServiceGroups.qcTransferLot`
+- **RmsService** → `TRCServiceGroups.rms`
+- **TrcService** → `TRCServiceGroups.unifyTrc`
+
+## Module Service Classes
+
+Module-specific service classes (e.g., `DispatchLotServices`, `StoreOutServices`) are typically:
+- Static classes (no instance needed)
+- Use service instances internally (e.g., `QcService().get()`)
+- Located in `lib/qc/modules/{module_name}/resources/services.dart` or `*_service.dart`
+
+### Pattern for Module Services
+
+```dart
+import 'dart:convert';
+import 'package:flutter_trc/src/services/qc_service.dart';
+
+class MyModuleServices {
+  static Stream<ResponseType?> myMethod(RequestType request) {
+    return QcService().post(
+      "/endpoint/path",
+      ResponseType.fromJson,
+      body: jsonEncode(request),
+    );
+  }
+}
+```
+
+## When to Use Each Service
+
+- **QcService**: Default for most QC operations
+- **QcErazerService**: Data erasure/wiping operations
+- **QcTransferService**: Stock transfer lot operations
+- **RmsService**: RMS-specific operations
+- **TrcService**: TRC-specific operations
+- **BaseService parameter**: When flexibility is needed (e.g., `StoreOutServices` accepts `BaseService` to allow different implementations)
+
+## Header Configuration
+
+- Always use `CoreHeaders.xSSOToken` for authenticated requests
+- Check `isToAddUserAuth()` before adding headers
+- Use `getHeaders(null)` to get default headers from service
+
+## Important Notes
+
+- Service classes should be stateless
+- Use static methods for module services when possible
+- Always specify the correct service group
+- Inherit from `QcService` when in doubt (most common case)

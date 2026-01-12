@@ -1,0 +1,343 @@
+---
+name: Stream-based API Pattern
+description: Patterns for using Stream-based API calls in the QC module
+alwaysApply: true
+---
+
+# Stream-based API Pattern
+
+## Overview
+
+All API calls in the QC module return `Stream<T>` types. This allows for reactive programming and easy integration with Flutter's StreamBuilder widgets.
+
+## Basic Pattern
+
+### GET Request
+
+```dart
+static Stream<ResponseType?> getData(String param) {
+  return QcService().get(
+    "/endpoint/path",
+    ResponseType.fromJson,
+    params: {
+      "param": [param],
+    },
+  );
+}
+```
+
+### POST Request
+
+```dart
+static Stream<ResponseType?> submitData(RequestType request) {
+  return QcService().post(
+    "/endpoint/path",
+    ResponseType.fromJson,
+    body: jsonEncode(request),
+  );
+}
+```
+
+## Service Method Types
+
+### get() - Single Object Response
+
+Returns a `Stream<T?>` for a single object response.
+
+```dart
+static Stream<DeviceDetailResponse?> getDeviceDetails(String deviceBarcode) {
+  return QcService().get(
+    "/device/detail?qrcode=$deviceBarcode",
+    DeviceDetailResponse.fromJson,
+  );
+}
+```
+
+### getArray() - List Response
+
+Returns a `Stream<List<T>>` for array/list responses.
+
+```dart
+static Stream<List<ScanNormalLotItem>?> fetchNormalScanLotList(
+  String lotName,
+  {required BaseService service}
+) {
+  var param = {
+    "gln": [lotName]
+  };
+  return service.getArray(
+    "/v1/store-out/devices",
+    ScanNormalLotItem.fromJson,
+    params: param,
+  );
+}
+```
+
+### post() - Create/Update Operations
+
+Returns a `Stream<T?>` for POST operations.
+
+```dart
+static Stream<BaseResponse?> submitData(Map<String, dynamic> data) {
+  return QcService().post(
+    "/endpoint/path",
+    BaseResponse.fromJson,
+    body: jsonEncode(data),
+  );
+}
+```
+
+### post_() - Void Operations
+
+Returns a `Stream<void>` for operations that don't return data.
+
+```dart
+static Stream<void> initiateDataWipe(int id) {
+  return QcErazerService().post_(
+    "/v1/data-erasure/start-process",
+    body: jsonEncode({"id": id}),
+  );
+}
+```
+
+## Request Body Patterns
+
+### Simple Map
+
+```dart
+Map<String, dynamic> req = {
+  "qrCode": deviceBarcode,
+  "status": status,
+};
+return QcService().post(
+  "/endpoint",
+  ResponseType.fromJson,
+  body: jsonEncode(req),
+);
+```
+
+### From Request Object
+
+```dart
+static Stream<ResponseType?> submitRequest(MyRequest request) {
+  return QcService().post(
+    "/endpoint",
+    ResponseType.fromJson,
+    body: jsonEncode(request),
+  );
+}
+```
+
+### Conditional Fields
+
+```dart
+Map<String, dynamic> req = {
+  "field1": value1,
+  if (condition) "field2": value2,
+  if (!Validator.isNullOrEmpty(optionalField)) "field3": optionalField,
+};
+return QcService().post(
+  "/endpoint",
+  ResponseType.fromJson,
+  body: jsonEncode(req),
+);
+```
+
+## Query Parameters Pattern
+
+### Using params Map
+
+```dart
+Map<String, List<String>> params = {
+  "gln": [groupLotName],
+  "lid": [lotId.toString()],
+  if (groupName != null) "gn": [groupName],
+};
+return QcService().get(
+  "/endpoint",
+  ResponseType.fromJson,
+  params: params,
+);
+```
+
+### Inline Query String
+
+```dart
+return QcService().get(
+  "/endpoint?qrCode=$barcode&lotId=$lotId",
+  ResponseType.fromJson,
+);
+```
+
+## Response Parsing
+
+### fromJson Pattern
+
+All response models should implement a `fromJson` factory constructor:
+
+```dart
+class MyResponse {
+  final String? field1;
+  final int? field2;
+  
+  MyResponse({this.field1, this.field2});
+  
+  factory MyResponse.fromJson(Map<String, dynamic> json) {
+    return MyResponse(
+      field1: json['field1'],
+      field2: json['field2'],
+    );
+  }
+}
+```
+
+### fromJsonWithInt Pattern
+
+Some services use `fromJsonWithInt` for responses that return integer status codes:
+
+```dart
+return QcService().post(
+  "/endpoint",
+  BaseActionResponse.fromJsonWithInt,
+  body: jsonEncode(req),
+);
+```
+
+## Using Streams in Widgets
+
+### StreamBuilder Pattern
+
+```dart
+StreamBuilder<ResponseType?>(
+  stream: MyService.getData(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return CircularProgressIndicator();
+    }
+    if (snapshot.hasError) {
+      return ErrorWidget(snapshot.error);
+    }
+    if (snapshot.hasData) {
+      return WidgetUsingData(snapshot.data!);
+    }
+    return EmptyWidget();
+  },
+)
+```
+
+### Provider Pattern with Streams
+
+```dart
+class MyProvider extends CshChangeNotifier {
+  StreamSubscription? _subscription;
+  ResponseType? _data;
+  
+  void loadData() {
+    _subscription = MyService.getData().listen(
+      (data) {
+        _data = data;
+        notifyListeners();
+      },
+      onError: (error) {
+        // Handle error
+      },
+    );
+  }
+  
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+}
+```
+
+## Error Handling
+
+### Try-Catch with Streams
+
+```dart
+try {
+  await MyService.getData().first;
+} catch (e) {
+  // Handle error
+}
+```
+
+### Stream Error Handling
+
+```dart
+MyService.getData().listen(
+  (data) {
+    // Handle data
+  },
+  onError: (error) {
+    // Handle error
+  },
+);
+```
+
+## Headers Pattern
+
+### Default Headers
+
+Services automatically add default headers (SSO token). No need to specify unless custom headers are needed.
+
+### Custom Headers
+
+```dart
+var header = service.getHeaders(null);
+header["content-type"] = "application/x-www-form-urlencoded";
+return service.post(
+  "/endpoint",
+  ResponseType.fromJson,
+  body: body,
+  headers: header,
+);
+```
+
+## Service Instance Pattern
+
+### Direct Service Instance
+
+```dart
+static Stream<ResponseType?> myMethod() {
+  return QcService().get("/endpoint", ResponseType.fromJson);
+}
+```
+
+### Service Parameter Pattern
+
+Some services accept `BaseService` as a parameter for flexibility:
+
+```dart
+static Stream<ResponseType?> myMethod({
+  required BaseService service,
+}) {
+  return service.get("/endpoint", ResponseType.fromJson);
+}
+```
+
+## Best Practices
+
+1. **Always use Stream return types** - Never use Future for API calls
+2. **Use jsonEncode()** - Always encode request bodies with `jsonEncode()`
+3. **Implement fromJson** - All response models must have `fromJson` factory
+4. **Handle nullability** - Use nullable types (`T?`) for responses
+5. **Use getArray()** - Use `getArray()` for list responses, not `get()`
+6. **Parameter maps** - Use `Map<String, List<String>>` for query parameters
+7. **Conditional fields** - Use conditional expressions for optional request fields
+8. **Error handling** - Always handle stream errors in widgets or providers
+9. **Dispose subscriptions** - Cancel stream subscriptions in dispose methods
+10. **Service instances** - Create service instances inline (e.g., `QcService().get()`)
+
+## Common Patterns Summary
+
+| Pattern | Code |
+|---------|------|
+| GET with params | `service.get("/endpoint", Response.fromJson, params: params)` |
+| POST with body | `service.post("/endpoint", Response.fromJson, body: jsonEncode(req))` |
+| GET array | `service.getArray("/endpoint", Item.fromJson, params: params)` |
+| POST void | `service.post_("/endpoint", body: jsonEncode(req))` |
+| Inline query | `service.get("/endpoint?param=$value", Response.fromJson)` |
+| Custom headers | `service.post("/endpoint", Response.fromJson, body: body, headers: headers)` |
