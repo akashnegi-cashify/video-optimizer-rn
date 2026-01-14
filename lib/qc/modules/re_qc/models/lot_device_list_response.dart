@@ -5,7 +5,7 @@ part 'lot_device_list_response.g.dart';
 
 @JsonSerializable()
 class LotDeviceListResponse extends BaseResponse {
-  @JsonKey(name: "dt")
+  @JsonKey(name: "data")
   List<LotDeviceListData>? deviceList;
 
   LotDeviceListResponse(this.deviceList, super.cashifyAlert, super.trackUrl);
@@ -21,19 +21,19 @@ class LotDeviceListData {
   @JsonKey(name: 'id')
   int? id;
 
-  @JsonKey(name: 'did')
+  @JsonKey(name: 'deviceId')
   int? deviceId;
 
-  @JsonKey(name: 'mpid')
+  @JsonKey(name: 'mpId')
   int? mpid;
 
-  @JsonKey(name: 'qr_code')
+  @JsonKey(name: 'qrCode')
   String? qrCode;
 
-  @JsonKey(name: 'm')
+  @JsonKey(name: 'model')
   String? model;
 
-  @JsonKey(name: 'b')
+  @JsonKey(name: 'brand')
   String? brand;
 
   @JsonKey(name: 'imei1')
@@ -42,22 +42,22 @@ class LotDeviceListData {
   @JsonKey(name: 'imei2')
   String? imei2;
 
-  @JsonKey(name: 'sno')
+  @JsonKey(name: 'serialNumber')
   String? serialNumber;
 
-  @JsonKey(name: 's')
+  @JsonKey(name: 'status')
   int? status;
 
-  @JsonKey(name: 'gr')
+  @JsonKey(name: 'grade')
   String? grade;
 
-  @JsonKey(name: 'pt')
+  @JsonKey(name: 'productTitle')
   String? productTitle;
 
-  @JsonKey(name: 'ta')
+  @JsonKey(name: 'testingAge')
   int? testAge;
 
-  @JsonKey(name: 'sd')
+  @JsonKey(name: 'statusDesc')
   String? statusDescription;
 
   LotDeviceListData(

@@ -77,11 +77,7 @@ class LotScanProvider extends QcTrcServiceInitProvider {
     var completer = Completer<BinOutVerifyResponse?>();
 
     StoreOutServices.binOutVerifyBarCodeService(request, service: service).listen((event) {
-      if (event?.isValid() == true) {
         completer.complete();
-      } else {
-        completer.completeError(event?.message ?? "Something Went Wrong.");
-      }
     }, onError: (error, stackTrace) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong.";
       completer.completeError(errorMsg);

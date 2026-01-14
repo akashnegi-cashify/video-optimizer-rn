@@ -18,8 +18,8 @@ class ReQcService {
     return QcService().post("/re-qc/v1/complete?lotId=$lotId", D2cLotDeviceListResponse.fromJson);
   }
 
-  static Stream<LotDeviceListResponse?> getLotDeviceList(String? lotGroupName) {
-    return QcService().get("/lot/v2/devices?gln=$lotGroupName", LotDeviceListResponse.fromJson);
+  static Stream<LotDeviceListResponse?> getLotDeviceList(int? lotId) {
+    return QcService().get("/lot-device/v1/list?lid=$lotId'", LotDeviceListResponse.fromJson);
   }
 
   // static Stream<LotDeviceListResponse?> getTestCases(String? lotGroupName) {

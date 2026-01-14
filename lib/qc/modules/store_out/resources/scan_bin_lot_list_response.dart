@@ -4,7 +4,7 @@ part 'scan_bin_lot_list_response.g.dart';
 
 @JsonSerializable()
 class ScanBinLotListResponse {
-  @JsonKey(name: 'dt')
+  @JsonKey(name: 'data')
   List<ScanBinLotItem?>? lotList;
 
   // @JsonKey(name: 'tc')
@@ -33,16 +33,16 @@ class ScanBinLotItem {
 
   Map<String, dynamic> toJson() => _$ScanBinLotItemToJson(this);
 
-  @JsonKey(name: 'bc', includeIfNull: false)
+  @JsonKey(name: 'barcode', includeIfNull: false)
   String? barcode;
 
-  @JsonKey(name: 'il', includeIfNull: false)
+  @JsonKey(name: 'lotItemLocation', includeIfNull: false)
   String? itemLocBarCode;
 
-  @JsonKey(name: 'sp', includeIfNull: false)
+  @JsonKey(name: 'storagePosition', includeIfNull: false)
   int? storagePosition;
 
-  @JsonKey(name: 'pt', includeIfNull: false)
+  @JsonKey(name: 'productTitle', includeIfNull: false)
   String? productTitle;
 
   ScanBinLotItem({

@@ -34,16 +34,16 @@ Map<String, dynamic> _$DeviceReceiveResponseToJson(
 
 DeviceReceiveData _$DeviceReceiveDataFromJson(Map<String, dynamic> json) =>
     DeviceReceiveData(
-      json['dna'] as String?,
-      json['dbr'] as String?,
-      json['dst'] as String?,
-      json['drt'] as String?,
+      json['deviceName'] as String?,
+      json['deviceBarcode'] as String?,
+      json['deviceStatus'] as String?,
+      json['deviceRepairType'] as String?,
     );
 
 Map<String, dynamic> _$DeviceReceiveDataToJson(DeviceReceiveData instance) =>
     <String, dynamic>{
-      'dna': instance.productTitle,
-      'dbr': instance.deviceBarcode,
-      'dst': instance.status,
-      'drt': instance.repairType,
+      'deviceName': instance.productTitle,
+      'deviceBarcode': instance.deviceBarcode,
+      'deviceStatus': instance.status,
+      'deviceRepairType': instance.repairType,
     };

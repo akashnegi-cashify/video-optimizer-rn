@@ -30,13 +30,9 @@ class StoreInProvider extends QcTrcServiceInitProvider {
 
   void verifyStoreInDetails() {
     StoreInServices.verifyLocBarCode(locQrCode, isBinStoreIn, service: service).listen((event) {
-      if (event?.isValid() == true) {
         totalCount = event?.totalSpace;
         availableSpace = event?.availableSpace;
         errorMessage = null;
-      } else {
-        errorMessage = 'Error In Location Tagged To Device.';
-      }
     }, onError: (error, stackTrace) {
       errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong.";
       Logger.debug('StoreInProvider.verifyStoreInDetails', [errorMessage]);
@@ -53,13 +49,9 @@ class StoreInProvider extends QcTrcServiceInitProvider {
       isBinStoreIn,
       service: service,
     ).listen((event) {
-      if (event?.isValid() == true) {
         totalCount = event?.totalSpace;
         availableSpace = event?.availableSpace;
         completer.complete(event);
-      } else {
-        completer.completeError('Error In Location Tagged To Device.');
-      }
     }, onError: (error, stackTrace) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong.";
       Logger.debug('StoreInProvider.storeInDevice', [errorMsg]);

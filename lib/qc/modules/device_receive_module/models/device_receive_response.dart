@@ -28,16 +28,16 @@ class DeviceReceiveResponse extends BaseResponse {
 
 @JsonSerializable()
 class DeviceReceiveData {
-  @JsonKey(name: "dna")
+  @JsonKey(name: "deviceName")
   String? productTitle;
 
-  @JsonKey(name: "dbr")
+  @JsonKey(name: "deviceBarcode")
   String? deviceBarcode;
 
-  @JsonKey(name: "dst")
+  @JsonKey(name: "deviceStatus")
   String? status;
 
-  @JsonKey(name: "drt")
+  @JsonKey(name: "deviceRepairType")
   String? repairType;
 
 

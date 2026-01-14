@@ -117,11 +117,7 @@ class DisputeImageCaptureProvider extends CshChangeNotifier {
     try {
       DisputeImageCaptureService.submitDisputeMediaData(barcode: barcode, bodyData: _getSubmitDataMap(barcode)).listen(
           (event) {
-        if (Validator.isTrue(event?.isSuccess)) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something went wrong");
-        }
+        completer.complete(true);
       }, onError: (error) {
         String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         Logger.debug('mydebug------DisputeImageCaptureProvider.subDisputeMediaData', [em]);
@@ -136,34 +132,17 @@ class DisputeImageCaptureProvider extends CshChangeNotifier {
   }
 
   _getSubmitDataMap(String barcode) {
-    // Build per-audit media entries
-    final List<Map<String, dynamic>> dataMapList = [];
-    final List<String> allImages = [];
-    final List<String> allVideos = [];
-
+    List<Map<String, dynamic>> dataMapList = [];
     for (var element in mediaInfoList) {
-      final images = element.imageS3Urls ?? [];
-      final videos = element.videoS3urls ?? [];
-
       dataMapList.add({
-        "auditKey": element.auditKey,
+        "apiKey": element.auditKey,
         "auditType": element.at,
-        "images": images,
-        "videos": videos.map((e) => e.videoUrl).toList(),
+        "images": element.imageS3Urls,
+        "videos": element.videoS3urls?.map((e) => e.videoUrl).toList(),
       });
-
-      allImages.addAll(images.where((e) => e.isNotEmpty));
-      allVideos.addAll(videos.map((e) => e.videoUrl).where((e) => e.isNotEmpty));
     }
-
-    final bodyDataMap = <String, dynamic>{
-      // List<SourceAuditAppMediaRequest>
+    Map<String, dynamic> bodyDataMap = {
       "data": dataMapList,
-      // Additional top-level fields
-      "apiKey": disputeDataModel?.apiKey,
-      "auditType": disputeDataModel?.auditType,
-      "images": allImages,
-      "videos": allVideos,
     };
     Logger.debug('mydebug------DisputeImageCaptureProvider._getSubmitDataMap', [bodyDataMap]);
     return bodyDataMap;

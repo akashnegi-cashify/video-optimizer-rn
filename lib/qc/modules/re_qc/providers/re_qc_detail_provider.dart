@@ -23,6 +23,7 @@ class ReQcDetailProvider extends CshChangeNotifier {
   }
 
   String get lotName => reQcListData.lotGroupName ?? "";
+  int? get lotId => reQcListData.lotId;
 
   static ReQcDetailProvider of(BuildContext context, {bool listen = true}) {
     return Provider.of<ReQcDetailProvider>(context, listen: listen);
@@ -40,7 +41,7 @@ class ReQcDetailProvider extends CshChangeNotifier {
   Future<bool> getDeviceList() {
     var completer = Completer<bool>();
     try {
-      ReQcService.getLotDeviceList(lotName).listen((event) {
+      ReQcService.getLotDeviceList(lotId).listen((event) {
         if (Validator.isListNullOrEmpty(event?.deviceList)) {
           errorMessage = "Device list is not present";
           completer.completeError("Device list is not present");
@@ -123,7 +124,7 @@ class ReQcDetailProvider extends CshChangeNotifier {
   Future<List<String>> completeReQc() {
     var completer = Completer<List<String>>();
     ReQcService.completeReQc(reQcListData.lotId).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
+      if (event?.isSuccess == 1) {
         List<String> deviceList = [];
         if (!Validator.isListNullOrEmpty(event?.d2cLotDeviceList)) {
           deviceList = event!.d2cLotDeviceList!.map((e) => e.deviceBarcode ?? "").toList();

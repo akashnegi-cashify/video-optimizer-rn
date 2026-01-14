@@ -6,7 +6,7 @@ import 'package:flutter_trc/src/services/qc_service.dart';
 class ImeiValidatorService {
   static Stream<BaseActionResponse?> completeValidation(String? awbNumber, bool? isImei1Matched, bool? isImei2Matched) {
     var req = {
-      "awb_number": awbNumber,
+      "awbNumber": awbNumber,
       "imei1": isImei1Matched,
       "imei2": isImei2Matched,
     };

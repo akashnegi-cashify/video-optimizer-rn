@@ -6,8 +6,6 @@ part 'disputed_media_data_response.g.dart';
 class DisputedMediaDataResponse {
   @JsonKey(name: "r_id")
   String? rid;
-  @JsonKey(name: "pm")
-  int? pm;
 
   /// Device model (modal in backend DTO)
   @JsonKey(name: "modal")
@@ -23,33 +21,8 @@ class DisputedMediaDataResponse {
   @JsonKey(name: "auditStatus")
   int? auditStatus;
 
-  /// List of audit entries
   @JsonKey(name: "auditData")
   List<DisputeMediaInfoData>? mediaDataList;
-
-  /// API key for the audit session
-  @JsonKey(name: "apiKey")
-  String? apiKey;
-
-  /// Overall label/heading for the audit
-  @JsonKey(name: "label")
-  String? label;
-
-  /// Total images count
-  @JsonKey(name: "images")
-  int? images;
-
-  /// Total videos count
-  @JsonKey(name: "videos")
-  int? videos;
-
-  /// Currently selected report name/key
-  @JsonKey(name: "selectedReport")
-  String? selectedReport;
-
-  /// Audit type
-  @JsonKey(name: "auditType")
-  int? auditType;
 
   DisputedMediaDataResponse({
     this.brand,
@@ -57,14 +30,7 @@ class DisputedMediaDataResponse {
     this.imeis,
     this.modal,
     this.mediaDataList,
-    this.pm,
     this.rid,
-    this.apiKey,
-    this.label,
-    this.images,
-    this.videos,
-    this.selectedReport,
-    this.auditType,
   });
 
   static DisputedMediaDataResponse fromJson(Map<String, dynamic> data) => _$DisputedMediaDataResponseFromJson(data);
@@ -82,7 +48,7 @@ class DisputeMediaInfoData {
   int? imageCount;
   @JsonKey(name: "videos")
   int? videoCount;
-  @JsonKey(name: "sr")
+  @JsonKey(name: "selectedReport")
   String? subHeading;
   @JsonKey(name: "auditType")
   int? at;

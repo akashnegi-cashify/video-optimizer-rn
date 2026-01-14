@@ -18,22 +18,22 @@ class ScanDeviceResponse extends BaseResponse {
 
 @JsonSerializable()
 class ScanDeviceData {
-  @JsonKey(name: "qc")
+  @JsonKey(name: "qrCode")
   String? deviceBarcode;
 
-  @JsonKey(name: "s")
+  @JsonKey(name: "status")
   int? status;
 
-  @JsonKey(name: "rm")
+  @JsonKey(name: "remark")
   String? message;
 
-  @JsonKey(name: "mm")
+  @JsonKey(name: "mediaMap")
   Map<String, String>? requiredImageList;
 
-  @JsonKey(name: "cs")
+  @JsonKey(name: "currentStatus")
   String? currentStatus;
 
-  @JsonKey(name: "pn")
+  @JsonKey(name: "productName")
   String? productName;
 
   @JsonKey(name: "imei1")
@@ -42,10 +42,10 @@ class ScanDeviceData {
   @JsonKey(name: "imei2")
   String? imei2;
 
-  @JsonKey(name: "mod")
+  @JsonKey(name: "moneyOutDate")
   int? moneyOutDate;
 
-  @JsonKey(name: "sl")
+  @JsonKey(name: "storageLoc")
   String? storageLocation;
 
   static ScanDeviceData fromJson(Map<String, dynamic> json) => _$ScanDeviceDataFromJson(json);

@@ -63,11 +63,11 @@ class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
           if (scannedData.isNotEmpty) {
             var provider = DispatchLotProvider.of(context: context, listen: false);
             core.CshLoading().showLoading(context);
-            provider.initiateDispatchCompletion(scannedData).then((value) {
+            provider.initiateDispatchCompletion(scannedData).then((_) {
               if (mounted) {
                 core.CshLoading().hideLoading(context);
                 Navigator.pop(context); // dismiss scanner screen
-                _showAlert(context, value?.errorMsg, l10n);
+                _showAlert(context, l10n);
               }
             }, onError: (error) {
               if (mounted) {
@@ -84,14 +84,13 @@ class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
     Navigator.of(context).pushNamed(DisputedImageCaptureBarcodeScanner.route, arguments: args);
   }
 
-  void _showAlert(BuildContext context, String? message, L10n l10n) {
+  void _showAlert(BuildContext context, L10n l10n) {
     var theme = Theme.of(context);
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: core.CshTextNew.h3(l10n.success),
-          content: core.isNotEmpty(message) ? core.CshTextNew.h3(message!) : null,
           actions: <Widget>[
             TextButton(
               child: core.CshTextNew(

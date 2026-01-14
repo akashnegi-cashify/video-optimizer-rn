@@ -4,10 +4,10 @@ part 'scan_pre_dispatch_lot_request.g.dart';
 
 @JsonSerializable()
 class ScanPreDispatchRequest {
-  @JsonKey(name: "lgn",includeIfNull: false)
+  @JsonKey(name: "lotGroupName",includeIfNull: false)
   String? lotGroupName;
 
-  @JsonKey(name: "qr_code",includeIfNull: false)
+  @JsonKey(name: "qrCode",includeIfNull: false)
   String? qrCode;
 
   static ScanPreDispatchRequest fromJson(Map<String, dynamic> data) => _$ScanPreDispatchRequestFromJson(data);

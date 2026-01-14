@@ -25,29 +25,29 @@ Map<String, dynamic> _$ScanDeviceResponseToJson(ScanDeviceResponse instance) =>
 
 ScanDeviceData _$ScanDeviceDataFromJson(Map<String, dynamic> json) =>
     ScanDeviceData()
-      ..deviceBarcode = json['qc'] as String?
-      ..status = (json['s'] as num?)?.toInt()
-      ..message = json['rm'] as String?
-      ..requiredImageList = (json['mm'] as Map<String, dynamic>?)?.map(
+      ..deviceBarcode = json['qrCode'] as String?
+      ..status = (json['status'] as num?)?.toInt()
+      ..message = json['remark'] as String?
+      ..requiredImageList = (json['mediaMap'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       )
-      ..currentStatus = json['cs'] as String?
-      ..productName = json['pn'] as String?
+      ..currentStatus = json['currentStatus'] as String?
+      ..productName = json['productName'] as String?
       ..imei1 = json['imei1'] as String?
       ..imei2 = json['imei2'] as String?
-      ..moneyOutDate = (json['mod'] as num?)?.toInt()
-      ..storageLocation = json['sl'] as String?;
+      ..moneyOutDate = (json['moneyOutDate'] as num?)?.toInt()
+      ..storageLocation = json['storageLoc'] as String?;
 
 Map<String, dynamic> _$ScanDeviceDataToJson(ScanDeviceData instance) =>
     <String, dynamic>{
-      'qc': instance.deviceBarcode,
-      's': instance.status,
-      'rm': instance.message,
-      'mm': instance.requiredImageList,
-      'cs': instance.currentStatus,
-      'pn': instance.productName,
+      'qrCode': instance.deviceBarcode,
+      'status': instance.status,
+      'remark': instance.message,
+      'mediaMap': instance.requiredImageList,
+      'currentStatus': instance.currentStatus,
+      'productName': instance.productName,
       'imei1': instance.imei1,
       'imei2': instance.imei2,
-      'mod': instance.moneyOutDate,
-      'sl': instance.storageLocation,
+      'moneyOutDate': instance.moneyOutDate,
+      'storageLoc': instance.storageLocation,
     };

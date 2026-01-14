@@ -48,42 +48,39 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `fetchPreDispatchItemDetail`
 - **Endpoint**: `GET /lot/v2/devices`
 - **Request Parameters**:
-    - `groupLotName`: List<String> (Group Lot Name)
-
+   - `gln`: List`String` (Group Lot Name)
 - **Response**: `PreDispatchItemResponse`
-    - `dt`: List`PreDispatchItem`
-        - `id`: int
-        - `did`: int (Device ID)
-        - `mpid`: int
-        - `qr_code`: String
-        - `model`: String (Model)
-
-        - `brand`: String (Brand)
-
-        - `im`: String (IMEI)
-        - `s`: int (Status)
-        - `gr`: String (Grade)
-        - `pt`: String (Product Title)
+   - `dt`: List`PreDispatchItem`
+      - `id`: int
+      - `did`: int (Device ID)
+      - `mpid`: int
+      - `qr_code`: String
+      - `m`: String (Model)
+      - `b`: String (Brand)
+      - `im`: String (IMEI)
+      - `s`: int (Status)
+      - `gr`: String (Grade)
+      - `pt`: String (Product Title)
 
 #### `scanPreLotDispatch`
 - **Endpoint**: `POST /lot-pre-dispatch/v2`
 - **Request Body**: `ScanPreDispatchRequest`
-    - `lgn`: String (Lot Group Name)
-    - `qr_code`: String
+   - `lgn`: String (Lot Group Name)
+   - `qr_code`: String
 - **Response**: `ScanPreDispatchResponse`
-    - `cm`: String (Message)
-    - `s`: bool (Status)
-    - `success`: bool
-    - `dt`: `PreDispatchItem` (See `fetchPreDispatchItemDetail`)
+   - `cm`: String (Message)
+   - `s`: bool (Status)
+   - `success`: bool
+   - `dt`: `PreDispatchItem` (See `fetchPreDispatchItemDetail`)
 
 #### `completePreLotDispatch`
 - **Endpoint**: `POST /lot-pre-dispatch/v2/complete`
 - **Request Parameters**:
-    - `lgn`: List`String`
+   - `lgn`: List`String`
 - **Response**: `CompletePreDispatchResponse`
-    - `cm`: String (Message)
-    - `s`: bool
-    - `success`: bool
+   - `cm`: String (Message)
+   - `s`: bool
+   - `success`: bool
 
 ---
 
@@ -107,33 +104,33 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `reasonSubmission`
 - **Endpoint**: `/repair/device/mark-repair` or `/dead/device/mark-dead`
 - **Request Body**: `ReasonSubmitRequest`
-    - `qrCode`: String
-    - `remark`: String
-    - `id`: int
-    - `actionRemark`: String
-    - `skus`: List`String`
+   - `qrCode`: String
+   - `remark`: String
+   - `id`: int
+   - `actionRemark`: String
+   - `skus`: List`String`
 - **Response**: `DeviceMarkResponse`
-    - `success`: bool
-    - `s`: bool
-    - `message`: String
-    - `cm`: String (Confirm Message)
+   - `success`: bool
+   - `s`: bool
+   - `message`: String
+   - `cm`: String (Confirm Message)
 
 #### `fetchReasonList`
 - **Endpoint**: `/repair/device/mark-repair/remark` or `/dead/device/mark-dead/remark`
 - **Response**: `DeviceDeadRepairReasonListResponse`
-    - `dt`: List`String`
-    - `success`: bool
-    - `s`: bool
-    - `message`: String
+   - `dt`: List`String`
+   - `success`: bool
+   - `s`: bool
+   - `message`: String
 
 #### `getScanDeviceDetail`
 - **Endpoint**: `GET /dead/device/scan`
 - **Request Parameters**:
-    - `qr`: List`String`
+   - `qr`: List`String`
 - **Response**: `DeadMarkUpdateResponse`
-    - `mr`: String (Mark Response)
-    - `qr_code`: String
-    - `id`: int
+   - `mr`: String (Mark Response)
+   - `qr_code`: String
+   - `id`: int
 
 #### `updateReasonSubmissionId`
 - **Endpoint**: `POST /dead/device/mark-dead/update/remark`
@@ -143,11 +140,11 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `addRemovePart`
 - **Endpoint**: `/dead/device/add/part-sku` or `/dead/device/remove/part-sku`
 - **Request Body**: `AddRemovePartRequest`
-    - `sku`: String
-    - `id`: int
+   - `sku`: String
+   - `id`: int
 - **Response**: `AddRemovePartResponse`
-    - `s`: bool
-    - `cm`: String
+   - `s`: bool
+   - `cm`: String
 
 #### `fetchAcceptDeadReasonList`
 - **Endpoint**: `GET /dead/device/accept-dead/remark`
@@ -156,11 +153,11 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `submitDeadDeviceRequest`
 - **Endpoint**: `/dead/device/reject-dead` or `/dead/device/mark-repair` or `/dead/device/accept-dead`
 - **Request Body**: `AcceptRejectDeadRequest`
-    - `id`: int
-    - `remark`: String
-    - `actionRemark`: String
-    - `skus`: List`String`
-    - `repairLevel`: String
+   - `id`: int
+   - `remark`: String
+   - `actionRemark`: String
+   - `skus`: List`String`
+   - `repairLevel`: String
 - **Response**: `DeviceMarkResponse` (See `reasonSubmission`)
 
 ---
@@ -184,55 +181,55 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `skipReQc`
 - **Endpoint**: `POST /re-qc/v1/skip-re-qc`
 - **Request Body**: Map`String, int`
-    - `lotId`: int
+   - `lotId`: int
 - **Response**: `BaseResponse`
 
 #### `completeReQc`
 - **Endpoint**: `POST /re-qc/v1/complete`
 - **Request Query**: `lotId`
 - **Response**: `D2cLotDeviceListResponse`
-    - `data`: List`D2cLotDeviceListData`
-        - `qrCode`: String
+   - `data`: List`D2cLotDeviceListData`
+      - `qrCode`: String
 
 #### `getLotDeviceList`
 - **Endpoint**: `GET /lot/v2/devices`
 - **Request Query**: `gln` (Group Lot Name)
 - **Response**: `LotDeviceListResponse`
-    - `dt`: List`LotDeviceListData`
-        - `id`: int
-        - `did`: int (Device ID)
-        - `qr_code`: String
-        - `m`: String (Model)
-        - `s`: int (Status)
-        - `gr`: String (Grade)
-        - `pt`: String (Product Title)
+   - `dt`: List`LotDeviceListData`
+      - `id`: int
+      - `did`: int (Device ID)
+      - `qr_code`: String
+      - `m`: String (Model)
+      - `s`: int (Status)
+      - `gr`: String (Grade)
+      - `pt`: String (Product Title)
 
 #### `getDeviceReportList`
 - **Endpoint**: `GET /re-qc/v1/device/report-list`
 - **Request Query**: `did` (Device ID)
 - **Response**: `DeviceReportListResponse`
-    - `dt`: List`DeviceReportListData`
-        - `partId`: int
-        - `partName`: String
-        - `selectedVariationId`: int
-        - `selectedVariationName`: String
-        - `value`: Map`String, String`
+   - `dt`: List`DeviceReportListData`
+      - `partId`: int
+      - `partName`: String
+      - `selectedVariationId`: int
+      - `selectedVariationName`: String
+      - `value`: Map`String, String`
 
 #### `getDeviceAccessories`
 - **Endpoint**: `GET /lot-re-qc/v2/device/accessories`
 - **Request Query**: `did` (Device ID)
 - **Response**: `DeviceAccessoriesListResponse`
-    - `dt`: List`DeviceAccessoriesListData`
-        - `l`: String (Label)
-        - `v`: String (Value)
+   - `dt`: List`DeviceAccessoriesListData`
+      - `l`: String (Label)
+      - `v`: String (Value)
 
 #### `submitReQcData`
 - **Endpoint**: `POST /re-qc/v1/device-re-qc/{deviceBarcode}`
 - **Request Body**: Map`String, dynamic`
-    - `remark`: String
-    - `mismatchImages`: Map (Mismatch Images)
-    - `status`: int
-    - `imageUrl`: String (Optional)
+   - `remark`: String
+   - `mismatchImages`: Map (Mismatch Images)
+   - `status`: int
+   - `imageUrl`: String (Optional)
 - **Response**: `BaseActionResponse`
 
 ---
@@ -255,54 +252,54 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `binOutVerifyBarCodeService`
 - **Endpoint**: `POST /bin/lot/store-out`
 - **Request Body**: `BinOutRequest`
-    - `stockBarcode`: String
-    - `locBarcode`: String
+   - `stockBarcode`: String
+   - `locBarcode`: String
 - **Response**: `BinOutVerifyResponse`
-    - `s`: int (Success, 1=true)
-    - `ac`: int (Available Space)
-    - `tc`: int (Total Space)
-    - `message`: String
+   - `s`: int (Success, 1=true)
+   - `ac`: int (Available Space)
+   - `tc`: int (Total Space)
+   - `message`: String
 
 #### `fetchNormalScanLotList`
 - **Endpoint**: `GET /v1/store-out/devices`
 - **Request Parameters**:
-    - `gln`: List`String` (Lot Name)
+   - `gln`: List`String` (Lot Name)
 - **Response**: List`ScanNormalLotItem`
-    - `deviceId`: int
-    - `qrCode`: String
-    - `model`: String
-    - `brand`: String
-    - `imei`: String
-    - `storageBarcode`: String
-    - `position`: int
+   - `deviceId`: int
+   - `qrCode`: String
+   - `model`: String
+   - `brand`: String
+   - `imei`: String
+   - `storageBarcode`: String
+   - `position`: int
 
 #### `fetchBinScanLotList`
 - **Endpoint**: `GET /bin/lot/store-out/device/list`
 - **Request Parameters**:
-    - `ln`: List`String` (Lot Name)
+   - `ln`: List`String` (Lot Name)
 - **Response**: `ScanBinLotListResponse`
-    - `dt`: List`ScanBinLotItem`
-        - `sp`: int (Storage Position)
-        - `bc`: String (Barcode)
-        - `il`: String (Item Location Barcode)
-        - `pt`: String (Product Title)
+   - `dt`: List`ScanBinLotItem`
+      - `sp`: int (Storage Position)
+      - `bc`: String (Barcode)
+      - `il`: String (Item Location Barcode)
+      - `pt`: String (Product Title)
 
 #### `normalLotVerifyBarCodeService`
 - **Endpoint**: `POST /v1/store-out/device`
 - **Request Body**: Map`String, dynamic`
-    - `lotGroupName`: String
-    - `qrCode`: String
-    - `displayBarcode`: String
+   - `lotGroupName`: String
+   - `qrCode`: String
+   - `displayBarcode`: String
 - **Response**: `BaseResponse`
 
 #### `getStoreOutInProcessStatus`
 - **Endpoint**: `GET /v1/store-out/store-out-status`
 - **Request Parameters**:
-    - `lid`: List`String`
-    - `gn`: List`String` (Optional)
+   - `lid`: List`String`
+   - `gn`: List`String` (Optional)
 - **Response**: `StoreOutInProcessResponse`
-    - `storeOutStatus`: bool
-    - `lotId`: int
+   - `storeOutStatus`: bool
+   - `lotId`: int
 
 ---
 
@@ -320,11 +317,11 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `completeDispatch`
 - **Endpoint**: `POST /lot-dispatch/v2`
 - **Request Parameters**:
-    - `in`: List`String` (Invoice Number)
+   - `in`: List`String` (Invoice Number)
 - **Response**: `DispatchCompleteResponse`
-    - `dt`: String
-    - `em`: String
-    - `s`: bool
+   - `dt`: String
+   - `em`: String
+   - `s`: bool
 
 ---
 
@@ -343,45 +340,45 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `validateAwb`
 - **Endpoint**: `GET /stock-in/validate-awb`
 - **Request Parameters**:
-    - `awb`: List`String`
-    - `qrCode`: List`String`
+   - `awb`: List`String`
+   - `qrCode`: List`String`
 - **Response**: `ValidateAwbResponse`
-    - `product`: String
-    - `brand`: String
-    - `imei1`: String
-    - `imei2`: String
-    - `groups`: List`Groups`
-        - `l`: String (Label)
-        - `items`: List`Items`
-            - `k`: String
-            - `l`: String
-            - `img`: int
-            - `video`: int
-    - `video_time`: int
-    - `sourceName`: String
+   - `product`: String
+   - `brand`: String
+   - `imei1`: String
+   - `imei2`: String
+   - `groups`: List`Groups`
+      - `l`: String (Label)
+      - `items`: List`Items`
+         - `k`: String
+         - `l`: String
+         - `img`: int
+         - `video`: int
+   - `video_time`: int
+   - `sourceName`: String
 
 #### `pushAwb`
 - **Endpoint**: `POST /stock-in/push-to-qc`
 - **Request Body**: `StockInSubmitRequest`
-    - `awb`: String
-    - `qrcode`: String
-    - `selection`: List`SelectionData`
-        - `gl`: String (Group Label)
-        - `k`: String
-        - `v`: int
-        - `imgs`: List`String`
-        - `vids`: List`String`
-    - `bctr`: `AccessoriesData`
-        - `s`: String
-        - `qr`: String
-        - `hb`: int
-        - `hc`: int
-        - `hbc`: int
-        - `a`: String
+   - `awb`: String
+   - `qrcode`: String
+   - `selection`: List`SelectionData`
+      - `gl`: String (Group Label)
+      - `k`: String
+      - `v`: int
+      - `imgs`: List`String`
+      - `vids`: List`String`
+   - `bctr`: `AccessoriesData`
+      - `s`: String
+      - `qr`: String
+      - `hb`: int
+      - `hc`: int
+      - `hbc`: int
+      - `a`: String
 - **Response**: `StockInSubmitResponse`
-    - `success`: bool
-    - `s`: bool
-    - `cm`: String
+   - `success`: bool
+   - `s`: bool
+   - `cm`: String
 
 ---
 
@@ -406,59 +403,59 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `getDataWipeDetails`
 - **Endpoint**: `POST /v1/data-erasure/create/{deviceBarcode}`
 - **Response**: `DataWipeListItem`
-    - `id`: int
-    - `qrCode`: String
-    - `ep`: String (Erasure Provider)
-    - `sd`: String (Status)
-    - `sc`: int
-    - `pn`: String
-    - `em`: String
-    - `apiName`: String
-    - `imei`: String
-    - `imei2`: String
-    - `sno`: String
-    - `epc`: int
+   - `id`: int
+   - `qrCode`: String
+   - `ep`: String (Erasure Provider)
+   - `sd`: String (Status)
+   - `sc`: int
+   - `pn`: String
+   - `em`: String
+   - `apiName`: String
+   - `imei`: String
+   - `imei2`: String
+   - `sno`: String
+   - `epc`: int
 
 #### `initiateDataWipe`
 - **Endpoint**: `POST /v1/data-erasure/start-process`
 - **Request Body**: Map`String, int`
-    - `id`: int
+   - `id`: int
 - **Response**: Void
 
 #### `getDataWipeListFilters`
 - **Endpoint**: `GET /v1/data-erasure/filter/list`
 - **Response**: `DataWipeFilterListResponse`
-    - `dataWipeFilterMap`: Map`String, DataWipeFilterData`
-        - `fname`: String
-        - `ftype`: int
-        - `fval`: List`DataWipFilterListItem`
-            - `k`: int
-            - `v`: String
+   - `dataWipeFilterMap`: Map`String, DataWipeFilterData`
+      - `fname`: String
+      - `ftype`: int
+      - `fval`: List`DataWipFilterListItem`
+         - `k`: int
+         - `v`: String
 
 #### `getSmartWatchActionList`
 - **Endpoint**: `GET /v1/data-erasure/cashify/provider/status`
 - **Response**: `DataWipeSmartWatchActionResponse`
-    - `dataWipeSmartWatchActionMap`: Map`String, String`
+   - `dataWipeSmartWatchActionMap`: Map`String, String`
 
 #### `bulkInitiate`
 - **Endpoint**: `POST /v1/data-erasure/bulk-process`
 - **Request Body**: Map`String, int`
-    - `sc`: int
+   - `sc`: int
 - **Response**: `BaseActionResponse`
 
 #### `reportMisMatch`
 - **Endpoint**: `POST /v1/data-erasure/update/{deviceBarcode}`
 - **Request Body**: Map`String, dynamic`
-    - `imei`: String
-    - `imei2`: String
-    - `sno`: String
+   - `imei`: String
+   - `imei2`: String
+   - `sno`: String
 - **Response**: `BaseActionResponse`
 
 #### `submitSmartWatchAction`
 - **Endpoint**: `POST /v1/data-erasure/start-process`
 - **Request Body**: Map`String, dynamic`
-    - `status`: String
-    - `id`: int
+   - `status`: String
+   - `id`: int
 - **Response**: `BaseActionResponse`
 
 ---
@@ -478,31 +475,31 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `getOngoingAuditList`
 - **Endpoint**: `GET /warehouse-audit/list`
 - **Response**: `OnGoingAuditResponse`
-    - `dt`: List`OnGoingAuditData`
-        - `aid`: int (Audit ID)
-        - `fn`: String (Facility Name)
-        - `s`: int (Status)
-        - `std`: String (Status Description)
-        - `sd`: double (Start Date)
-        - `ed`: double (End Date)
+   - `dt`: List`OnGoingAuditData`
+      - `aid`: int (Audit ID)
+      - `fn`: String (Facility Name)
+      - `s`: int (Status)
+      - `std`: String (Status Description)
+      - `sd`: double (Start Date)
+      - `ed`: double (End Date)
 
 #### `scanDeviceForAudit`
 - **Endpoint**: `/warehouse-audit/scan/{auditId}` or `/warehouse-audit/scan/{auditId}/media`
 - **Request Body**: Map`String, dynamic`
-    - `qc`: String (Device Barcode)
-    - `me`: bool (Manual Entry)
-    - `mm`: Map`String, String` (Images List Map, Optional)
+   - `qc`: String (Device Barcode)
+   - `me`: bool (Manual Entry)
+   - `mm`: Map`String, String` (Images List Map, Optional)
 - **Response**: `ScanDeviceResponse`
-    - `dt`: `ScanDeviceData`
-        - `qc`: String
-        - `s`: int
-        - `rm`: String
-        - `mm`: Map`String, String`
-        - `cs`: String
-        - `pn`: String
-        - `imei1`: String
-        - `imei2`: String
-        - `sl`: String
+   - `dt`: `ScanDeviceData`
+      - `qc`: String
+      - `s`: int
+      - `rm`: String
+      - `mm`: Map`String, String`
+      - `cs`: String
+      - `pn`: String
+      - `imei1`: String
+      - `imei2`: String
+      - `sl`: String
 
 ---
 
@@ -534,144 +531,144 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `getCalculator`
 - **Endpoint**: `POST /v1/cdp/cal`
 - **Request Body**: Map`String, dynamic`
-    - `qrCode`: String
-    - `sessionId`: String
-    - `productId`: int
+   - `qrCode`: String
+   - `sessionId`: String
+   - `productId`: int
 - **Response**: `MyCalculatorResponse`
-    - `maq`: List`ManualAuditQuestionItem`
-    - `pn`: String (Device Name)
-    - `bn`: String (Brand Name)
+   - `maq`: List`ManualAuditQuestionItem`
+   - `pn`: String (Device Name)
+   - `bn`: String (Brand Name)
 
 #### `getDeviceColors`
 - **Endpoint**: `GET /device/color`
 - **Request Parameters**:
-    - `pid`: List`String`
+   - `pid`: List`String`
 - **Response**: `DeviceColorResponse`
-    - `color`: List`String`
-    - `strapColor`: List`String`
+   - `color`: List`String`
+   - `strapColor`: List`String`
 
 #### `getDeviceMedia`
 - **Endpoint**: `POST /v1/device/media`
 - **Request Body**: Map`String, dynamic`
-    - `qrCode`: String
-    - `categoryId`: String (Optional)
-    - `csr`: `MyQuoteRequestData` (Optional)
+   - `qrCode`: String
+   - `categoryId`: String (Optional)
+   - `csr`: `MyQuoteRequestData` (Optional)
 - **Response**: `DeviceMediaResponse`
-    - `r_id`: String
-    - `data`: List`ImageListData`
-        - `r_id`: String
-        - `mediaName`: String
-        - `isVideo`: bool
+   - `r_id`: String
+   - `data`: List`ImageListData`
+      - `r_id`: String
+      - `mediaName`: String
+      - `isVideo`: bool
 
 #### `submitDeviceMedia`
 - **Endpoint**: `POST /v3/device/media/{deviceBarcode}`
 - **Request Body**: Map`String, dynamic`
-    - `ml`: List`MediaSubmitRequest`
-        - `mn`: String (Image Name)
-        - `fp`: String (Media URL)
-        - `iv`: int (Is Video)
+   - `ml`: List`MediaSubmitRequest`
+      - `mn`: String (Image Name)
+      - `fp`: String (Media URL)
+      - `iv`: int (Is Video)
 - **Response**: `DeviceMediaResponse` (See `getDeviceMedia`)
 
 #### `submitCalculatorResponse`
 - **Endpoint**: `/manual-test/calculator/submit/{deviceBarcode}` or `/v1/cdp/cal/submit/{deviceBarcode}`
 - **Request Body**: `MyQuoteRequestData`
-    - `mmaids`: List`int`
-    - `color`: String
-    - `sc`: String
-    - `cat_id`: int
-    - `rm`: String
-    - `vid`: int
-    - `vn`: String
+   - `mmaids`: List`int`
+   - `color`: String
+   - `sc`: String
+   - `cat_id`: int
+   - `rm`: String
+   - `vid`: int
+   - `vn`: String
 - **Response**: `CalculatorSubmitResponse`
-    - `grade`: String
-    - `cautionMessage`: String
+   - `grade`: String
+   - `cautionMessage`: String
 
 #### `getDeviceStatus`
 - **Endpoint**: `GET /device/status`
 - **Request Query**: `qrCode`
 - **Response**: `DeviceStatusResponse`
-    - `status`: String
-    - `salesChannels`: List`String`
-    - `stockAge`: int
-    - `isCaptureQcImages`: bool
+   - `status`: String
+   - `salesChannels`: List`String`
+   - `stockAge`: int
+   - `isCaptureQcImages`: bool
 
 #### `submitManualQuestions`
 - **Endpoint**: `POST /manaul-question/submit`
 - **Request Query**: `qrCode`
 - **Request Body**: Map`String, List`String``
-    - `dt`: List`String`
+   - `dt`: List`String`
 - **Response**: `BaseActionResponse`
 
 #### `getManualQuestions`
 - **Endpoint**: `GET /manaul-question/list`
 - **Request Query**: `qrCode`
 - **Response**: `ManualQuestionListResponse`
-    - `dt`: List`ManualQuestionListData`
-        - `q`: String (Question)
-        - `a`: int
+   - `dt`: List`ManualQuestionListData`
+      - `q`: String (Question)
+      - `a`: int
 
 #### `getProductListAccToImei`
 - **Endpoint**: `GET /manual-test/product/imei/list`
 - **Request Query**: `imei`
 - **Response**: `LobProductListResponse`
-    - `data`: List`LobProductListData`
-        - `productId`: int
-        - `productName`: String
-        - `brandId`: int
-        - `brandName`: String
-        - `productMasterId`: int
+   - `data`: List`LobProductListData`
+      - `productId`: int
+      - `productName`: String
+      - `brandId`: int
+      - `brandName`: String
+      - `productMasterId`: int
 
 #### `getLobCalculator`
 - **Endpoint**: `POST /manual-test/calculator/render`
 - **Request Body**: Map`String, dynamic`
-    - `qc`: String
-    - `pmid`: String
-    - `pid`: String
-    - `cat_id`: String
-    - `vid`: int (Optional, from VariantListData)
-    - `vn`: String (Optional, from VariantListData)
+   - `qc`: String
+   - `pmid`: String
+   - `pid`: String
+   - `cat_id`: String
+   - `vid`: int (Optional, from VariantListData)
+   - `vn`: String (Optional, from VariantListData)
 - **Response**: `MyCalculatorResponse` (See `getCalculator`)
 
 #### `getDeviceDetail`
 - **Endpoint**: `GET /manual-test/scan-device/{deviceBarcode}`
 - **Response**: `DeviceDetailResponse`
-    - `data`: `DeviceDetailResponseData`
-        - `qrCode`: String
-        - `imei`: String
-        - `imei2`: String
-        - `serialNo`: String
-        - `brandId`: int
-        - `categoryId`: int
-        - `categories`: List`CategoryData`
-            - `id`: int
-            - `apiName`: String
-            - `name`: String
-            - `allowVariant`: bool
-            - `allowImei`: bool
+   - `data`: `DeviceDetailResponseData`
+      - `qrCode`: String
+      - `imei`: String
+      - `imei2`: String
+      - `serialNo`: String
+      - `brandId`: int
+      - `categoryId`: int
+      - `categories`: List`CategoryData`
+         - `id`: int
+         - `apiName`: String
+         - `name`: String
+         - `allowVariant`: bool
+         - `allowImei`: bool
 
 #### `reportMismatch`
 - **Endpoint**: `POST /device/mismatch/report/save`
 - **Request Body**: Map`String, dynamic`
-    - `qr`: String
-    - `image_url`: String
-    - `rm`: String
-    - `iaa`: bool
-    - `imna`: bool (Optional)
-    - `sno`: String (Optional)
-    - `imei`: List`String` (Optional)
+   - `qr`: String
+   - `image_url`: String
+   - `rm`: String
+   - `iaa`: bool
+   - `imna`: bool (Optional)
+   - `sno`: String (Optional)
+   - `imei`: List`String` (Optional)
 - **Response**: `BaseActionResponse`
 
 #### `getBrandList`
 - **Endpoint**: `GET /manual-test/brand/list/{categoryId}`
 - **Response**: `BrandListResponse`
-    - `data`: List`BrandListData`
-        - `brandId`: int
-        - `brandName`: String
+   - `data`: List`BrandListData`
+      - `brandId`: int
+      - `brandName`: String
 
 #### `getCategory`
 - **Endpoint**: `GET /v1/cdp/scan-device/{barcode}/{sessionId}`
 - **Response**: `CategoryResponse`
-    - `category`: `CategoryData` (See `getDeviceDetail`)
+   - `category`: `CategoryData` (See `getDeviceDetail`)
 
 ---
 
@@ -689,9 +686,9 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `getTestingCount`
 - **Endpoint**: `GET /testing/count`
 - **Response**: `TestingCountResponse`
-    - `dt`: `TestingCountData`
-        - `count`: int
-        - `lastUpdate`: int
+   - `dt`: `TestingCountData`
+      - `count`: int
+      - `lastUpdate`: int
 
 ---
 
@@ -711,41 +708,41 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `getAuditQuestionnaire`
 - **Endpoint**: `GET /device/test/audit/{scannedBarcode}`
 - **Response**: `NewAuditResponse`
-    - `r_id`: String
-    - `dt`: `AuditQuestionResponse`
-        - `dpr`: List`AuditQuestionData`
-            - `pi`: int (Question ID)
-            - `pn`: String (Question)
-            - `ic`: int (Image Count)
-            - `v`: Map`String, String` (Options)
-            - `subVariations`: Map`String, List`String``
-        - `maq`: List`ManualAuditQuestionItem`
-            - `mmid`: int
-            - `q`: String
-            - `is`: bool
+   - `r_id`: String
+   - `dt`: `AuditQuestionResponse`
+      - `dpr`: List`AuditQuestionData`
+         - `pi`: int (Question ID)
+         - `pn`: String (Question)
+         - `ic`: int (Image Count)
+         - `v`: Map`String, String` (Options)
+         - `subVariations`: Map`String, List`String``
+      - `maq`: List`ManualAuditQuestionItem`
+         - `mmid`: int
+         - `q`: String
+         - `is`: bool
 
 #### `submitAutQuestionResponses`
 - **Endpoint**: `POST /device/test/audit/{scannedBarcode}`
 - **Request Body**: Map`String, dynamic`
-    - `ap`: Map`String, dynamic` (Post Data)
-    - `mmaids`: List`int` (Optional)
+   - `ap`: Map`String, dynamic` (Post Data)
+   - `mmaids`: List`int` (Optional)
 - **Response**: `AuditSubmissionResponse`
-    - `r_id`: String
-    - `s`: bool
-    - `success`: bool
-    - `dt`: `AuditSubmissionResponseData`
-        - `pn`: String (Product Name)
-        - `bn`: String (Brand Name)
-        - `qa`: double
-        - `gr`: String (Grade)
-        - `ps`: List`PartsStatus`
+   - `r_id`: String
+   - `s`: bool
+   - `success`: bool
+   - `dt`: `AuditSubmissionResponseData`
+      - `pn`: String (Product Name)
+      - `bn`: String (Brand Name)
+      - `qa`: double
+      - `gr`: String (Grade)
+      - `ps`: List`PartsStatus`
 
 #### `checkIsTestingPass`
 - **Endpoint**: `POST /device/test/audit/{scannedBarcode}/check`
 - **Request Body**: Map`String, dynamic`
-    - `ap`: Map`String, dynamic`
+   - `ap`: Map`String, dynamic`
 - **Response**: `CheckDeviceTestingResponse`
-    - `dt`: Map`String, bool` (e.g., {"ip": true})
+   - `dt`: Map`String, bool` (e.g., {"ip": true})
 
 ---
 
@@ -764,23 +761,23 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `fetchDisputeImageCaptureData`
 - **Endpoint**: `GET /source/audit/{barcode}`
 - **Response**: `DisputedMediaDataResponse`
-    - `r_id`: String
-    - `pm`: int
-    - `modal`: String
-    - `brand`: String
-    - `imeis`: List`String`
-    - `auditData`: List`DisputeMediaInfoData`
-        - `apiKey`: String
-        - `label`: String
-        - `images`: int
-        - `videos`: int
-    - `apiKey`: String
+   - `r_id`: String
+   - `pm`: int
+   - `modal`: String
+   - `brand`: String
+   - `imeis`: List`String`
+   - `auditData`: List`DisputeMediaInfoData`
+      - `apiKey`: String
+      - `label`: String
+      - `images`: int
+      - `videos`: int
+   - `apiKey`: String
 
 #### `submitDisputeMediaData`
 - **Endpoint**: `POST /source/audit/{barcode}`
 - **Request Body**: Map`String, dynamic`
 - **Response**: `DisputeImageCaptureSubmitSuccessResponse`
-    - `s`: bool
+   - `s`: bool
 
 ---
 
@@ -798,15 +795,15 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `receiveDevice`
 - **Endpoint**: `POST /device/repair/receive`
 - **Request Body**: Map`String, String`
-    - `dbr`: String (Device Barcode)
+   - `dbr`: String (Device Barcode)
 - **Response**: `DeviceReceiveResponse`
-    - `dt`: `DeviceReceiveData`
-        - `dna`: String (Product Title)
-        - `dbr`: String
-        - `dst`: String
-        - `drt`: String
-    - `r_id`: String
-    - `s`: bool
+   - `dt`: `DeviceReceiveData`
+      - `dna`: String (Product Title)
+      - `dbr`: String
+      - `dst`: String
+      - `drt`: String
+   - `r_id`: String
+   - `s`: bool
 
 ---
 
@@ -824,9 +821,9 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `completeValidation`
 - **Endpoint**: `POST /stock-in/fraud`
 - **Request Body**: Map`String, dynamic`
-    - `awb_number`: String
-    - `imei1`: bool
-    - `imei2`: bool
+   - `awb_number`: String
+   - `imei1`: bool
+   - `imei2`: bool
 - **Response**: `BaseActionResponse`
 
 ---
@@ -845,12 +842,12 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `submitExternalAudit`
 - **Endpoint**: `POST /recording/external`
 - **Request Body**: Map`String, dynamic`
-    - `rt`: int (Audit Type)
-    - `uid_1`: String
-    - `vid`: List`String` (Video URLs)
-    - `uid_2`: String
-    - `img`: List`String` (Image URLs)
-    - `isr`: bool (Optional, Is Receive Return)
+   - `rt`: int (Audit Type)
+   - `uid_1`: String
+   - `vid`: List`String` (Video URLs)
+   - `uid_2`: String
+   - `img`: List`String` (Image URLs)
+   - `isr`: bool (Optional, Is Receive Return)
 - **Response**: `BaseResponse`
 
 ---
@@ -872,27 +869,27 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `saveVideo`
 - **Endpoint**: `POST /device/recording/{deviceBarcode}/save`
 - **Request Body**: Map`String, dynamic`
-    - `url`: String
+   - `url`: String
 - **Response**: `BaseResponse`
 
 #### `getDeviceDetails`
 - **Endpoint**: `GET /device/recording/{deviceBarcode}/detail`
 - **Response**: `D2CDeviceDetailResponse`
-    - `dt`: `D2CDeviceDetail`
-        - `qrCode`: String
-        - `modelName`: String
+   - `dt`: `D2CDeviceDetail`
+      - `qrCode`: String
+      - `modelName`: String
 
 #### `getLotDeviceList`
 - **Endpoint**: `GET /device/recording/pending-lot-device-list`
 - **Request Query**: `lotId`
 - **Response**: List`D2cLotDeviceListData`
-    - `qrCode`: String
+   - `qrCode`: String
 
 #### `updateLotStatus`
 - **Endpoint**: `POST /device/recording/update-group`
 - **Request Body**: Map`String, dynamic`
-    - `lotId`: int
-    - `groupLotName`: String
+   - `lotId`: int
+   - `groupLotName`: String
 - **Response**: `BaseResponse`
 
 ---
@@ -911,9 +908,9 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `fetchRepairReasonList`
 - **Endpoint**: `GET /repair/device/mark-repair/remark`
 - **Response**: `DeviceDeadRepairReasonListResponse`
-    - `dt`: List`DeviceDeadRepairReasonListData`
-        - `rn`: String (Reason)
-        - `id`: int
+   - `dt`: List`DeviceDeadRepairReasonListData`
+      - `rn`: String (Reason)
+      - `id`: int
 
 ---
 
@@ -933,29 +930,29 @@ This document contains all API endpoints used in the QC module, organized by mod
 - **Endpoint**: `GET /device/detail`
 - **Request Query**: `qrcode`
 - **Response**: `DeviceDetailResponse`
-    - `status`: String
-    - `repairStatus`: String
-    - `salesChannels`: List`String`
-    - `message`: String
-    - `stockAge`: int
-    - `barCode`: String
-    - `model`: String
-    - `imei`: String
-    - `serialNo`: String
-    - `location`: String
-    - `lotName`: String
-    - `storageType`: String
-    - `otexSource`: String
+   - `status`: String
+   - `repairStatus`: String
+   - `salesChannels`: List`String`
+   - `message`: String
+   - `stockAge`: int
+   - `barCode`: String
+   - `model`: String
+   - `imei`: String
+   - `serialNo`: String
+   - `location`: String
+   - `lotName`: String
+   - `storageType`: String
+   - `otexSource`: String
 
 #### `getDeviceStockMovement`
 - **Endpoint**: `GET /device/stock-movement/{deviceBarcode}`
 - **Response**: `StockMovementResponse`
-    - `dt`: List`StockMovementListData`
-        - `s`: String (Status)
-        - `rmk`: String (Remark)
-        - `cb`: String (Created By)
-        - `ca`: int (Created At)
-        - `ics`: bool (Is Current Status)
+   - `dt`: List`StockMovementListData`
+      - `s`: String (Status)
+      - `rmk`: String (Remark)
+      - `cb`: String (Created By)
+      - `ca`: int (Created At)
+      - `ics`: bool (Is Current Status)
 
 ---
 
@@ -984,88 +981,88 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `getStockTransferLotDetails`
 - **Endpoint**: `GET /v1/transfer-lot/fetch-store-out-device`
 - **Request Parameters**:
-    - `lotId`: List`String`
-    - `lt`: List`String` (Last Location Type, Optional)
-    - `lb`: List`String` (Last Location, Optional)
+   - `lotId`: List`String`
+   - `lt`: List`String` (Last Location Type, Optional)
+   - `lb`: List`String` (Last Location, Optional)
 - **Response**: `StLotDetailResponse`
-    - `ln`: String (Lot Name)
-    - `mo`: String (Model Name)
-    - `qr`: String (Barcode)
-    - `dst`: String (Destination)
-    - `lo`: String (Location)
-    - `dcnt`: int (Device Count)
-    - `scnt`: int (Scan Count)
-    - `st`: String (Storage)
-    - `did`: int (Device ID)
+   - `ln`: String (Lot Name)
+   - `mo`: String (Model Name)
+   - `qr`: String (Barcode)
+   - `dst`: String (Destination)
+   - `lo`: String (Location)
+   - `dcnt`: int (Device Count)
+   - `scnt`: int (Scan Count)
+   - `st`: String (Storage)
+   - `did`: int (Device ID)
 
 #### `addDevice`
 - **Endpoint**: `POST /v1/transfer-lot/add-device`
 - **Request Parameters**:
-    - `qrCode`: List`String`
-    - `lotId`: List`String`
+   - `qrCode`: List`String`
+   - `lotId`: List`String`
 - **Response**: `AddDeviceResponse`
-    - `rs`: bool (Is Reset)
+   - `rs`: bool (Is Reset)
 
 #### `getPendingLotDetails`
 - **Endpoint**: `GET /v1/transfer-lot/device/list`
 - **Request Parameters**:
-    - `pageSize`: List`String`
-    - `offset`: List`String`
-    - `filter`: List`String` (JSON string of filters)
-    - `filterObjectMap`: List`String` (JSON string for search query)
+   - `pageSize`: List`String`
+   - `offset`: List`String`
+   - `filter`: List`String` (JSON string of filters)
+   - `filterObjectMap`: List`String` (JSON string for search query)
 - **Response**: `TransferLotDetailListResponse`
-    - `data`: List`TransferLotDetailListData`
-        - `id`: int
-        - `statusCode`: int
-        - `qrCode`: String
-        - `lotName`: String
-        - `model`: String
-        - `brand`: String
-        - `source`: String
-        - `imei1`: String
-        - `imei2`: String
-        - `serialNumber`: String
-        - `createdBy`: String
-        - `createDate`: int
-        - `receiveDate`: int
-        - `receivedBy`: String
+   - `data`: List`TransferLotDetailListData`
+      - `id`: int
+      - `statusCode`: int
+      - `qrCode`: String
+      - `lotName`: String
+      - `model`: String
+      - `brand`: String
+      - `source`: String
+      - `imei1`: String
+      - `imei2`: String
+      - `serialNumber`: String
+      - `createdBy`: String
+      - `createDate`: int
+      - `receiveDate`: int
+      - `receivedBy`: String
 
 #### `getScannedDeviceDetails`
 - **Endpoint**: `GET /v1/transfer-lot/scan-device`
 - **Request Query**: `qrCode`
 - **Response**: `ScannedDeviceDetailResponse`
-    - `error`: bool
-    - `ermsg`: String
-    - `mo`: String (Modal)
-    - `br`: String (Brand)
-    - `st`: String (Status)
-    - `src`: String (Source)
-    - `el`: int (Eligible)
+   - `error`: bool
+   - `ermsg`: String
+   - `mo`: String (Modal)
+   - `br`: String (Brand)
+   - `st`: String (Status)
+   - `src`: String (Source)
+   - `el`: int (Eligible)
 
 #### `completePendingDispatch`
 - **Endpoint**: `POST /v1/transfer-lot/dispatch`
 - **Request Body**: Map`String, dynamic`
-    - `invoiceNo`: String
-    - `wbn`: String (AWB No)
-    - `img`: String (Invoice URL)
+   - `invoiceNo`: String
+   - `wbn`: String (AWB No)
+   - `img`: String (Invoice URL)
 - **Response**: `BaseResponse`
 
 #### `getStatusFilterListV1`
 - **Endpoint**: `GET /v1/transfer-lot/status-options`
 - **Request Query**: `requestTab`
 - **Response**: `StockTransferStatusFilterV1Response`
-    - `dt`: List`StockTransferStatusFilterData`
-        - `v`: String (Name)
-        - `k`: String (ID)
+   - `dt`: List`StockTransferStatusFilterData`
+      - `v`: String (Name)
+      - `k`: String (ID)
 
 #### `getTransferLotHeader`
 - **Endpoint**: `GET /v1/transfer-lot/{lotId}`
 - **Response**: `TransferLotHeaderResponse`
-    - `name`: String (Lot Name)
-    - `deviceCount`: int
-    - `status`: int
-    - `toFacilityName`: String
-    - `statusDesc`: String
+   - `name`: String (Lot Name)
+   - `deviceCount`: int
+   - `status`: int
+   - `toFacilityName`: String
+   - `statusDesc`: String
 
 ---
 
@@ -1085,28 +1082,28 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `entryScanData`
 - **Endpoint**: `POST /vendor/wh/entry/scan`
 - **Request Body**: Map`String, String`
-    - `et`: String (Scanned Barcode)
+   - `et`: String (Scanned Barcode)
 - **Response**: `GuardEntryScanResponse`
-    - `s`: int (Status)
+   - `s`: int (Status)
 
 #### `getCollectedOrderList`
 - **Endpoint**: `GET /collect-order/collected-orders`
 - **Response**: `CollectedOrderListResponse`
-    - `col`: List`CollectedOrderListData`
-        - `an`: String (Delivery Agent Name)
-        - `tm`: int (Time)
-        - `dc`: int (Quantity)
-        - `un`: String (Entry By User Name)
-        - `fn`: String (Facility Name)
-        - `im`: String (Image URL)
-    - `anl`: List`String` (Delivery Agent List)
+   - `col`: List`CollectedOrderListData`
+      - `an`: String (Delivery Agent Name)
+      - `tm`: int (Time)
+      - `dc`: int (Quantity)
+      - `un`: String (Entry By User Name)
+      - `fn`: String (Facility Name)
+      - `im`: String (Image URL)
+   - `anl`: List`String` (Delivery Agent List)
 
 #### `submitInvoice`
 - **Endpoint**: `POST /collect-order/collect`
 - **Request Body**: Map`String, dynamic`
-    - `an`: String (Agent Name)
-    - `dc`: int (Device Count)
-    - `im`: String (Image URL)
+   - `an`: String (Agent Name)
+   - `dc`: int (Device Count)
+   - `im`: String (Image URL)
 - **Response**: `BaseResponse`
 
 ---
@@ -1126,28 +1123,28 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `verifyLocBarCode`
 - **Endpoint**: `/bin/store-in/verify-cell` or `/store-in/validate-location`
 - **Request Parameters**:
-    - `lbc`: List`String` (Location Barcode)
+   - `lbc`: List`String` (Location Barcode)
 - **Response**: `StoreInLocationVerifyResponse`
-    - `s`: int (Success, 1=true)
-    - `availableCapacity`: int
-    - `totalCapacity`: int
-    - `verifyBarcodeStatus`: int
-    - `pm`: double
-    - `barCodeList`: List`VerifyBarcode`
-        - `qrCode`: String
-    - `message`: String
+   - `s`: int (Success, 1=true)
+   - `availableCapacity`: int
+   - `totalCapacity`: int
+   - `verifyBarcodeStatus`: int
+   - `pm`: double
+   - `barCodeList`: List`VerifyBarcode`
+      - `qrCode`: String
+   - `message`: String
 
 #### `storeInDevice` (Bin In)
 - **Endpoint**: `GET /bin/store-in/verify-location`
 - **Request Parameters**:
-    - `lbc`: List`String`
+   - `lbc`: List`String`
 - **Response**: `StoreInLocationVerifyResponse`
 
 #### `storeInDevice` (Normal)
 - **Endpoint**: `POST /v1/store-in/verify-cell`
 - **Request Body**: `StoreInDeviceRequest`
-    - `stockBarcode`: String
-    - `locBarcode`: String
+   - `stockBarcode`: String
+   - `locBarcode`: String
 - **Response**: `StoreInLocationVerifyResponse`
 
 ---
@@ -1168,31 +1165,31 @@ This document contains all API endpoints used in the QC module, organized by mod
 - **Endpoint**: `GET /supervisor/device-report/{deviceBarcode}`
 - **Request Query**: `idr` (Is Full Response, Boolean)
 - **Response**: `SupervisorDeviceDetailResponse`
-    - `dbr`: String (Device Barcode)
-    - `mtb`: String (Manual Tested By)
-    - `mta`: int (Manual Tested At)
-    - `ctb`: String (CDP Tested By)
-    - `cta`: int (CDP Tested At)
-    - `pv`: List`PartVariationData`
-        - `pi`: int (Part ID)
-        - `pn`: String (Part Name)
-        - `v`: Map`String, String` (Value)
-        - `svi`: int (Selected Variation ID)
-        - `svn`: String (Selected Variation Name)
-        - `c`: String (Category)
-    - `dm`: List`DeviceMediaData`
-        - `n`: String (Name)
-        - `p`: String (Path)
-        - `iv`: bool (Is Video)
-    - `dg`: String (Device Grade)
-    - `dgd`: String (Device Grade Desc)
-    - `ds`: String (Device Status)
+   - `dbr`: String (Device Barcode)
+   - `mtb`: String (Manual Tested By)
+   - `mta`: int (Manual Tested At)
+   - `ctb`: String (CDP Tested By)
+   - `cta`: int (CDP Tested At)
+   - `pv`: List`PartVariationData`
+      - `pi`: int (Part ID)
+      - `pn`: String (Part Name)
+      - `v`: Map`String, String` (Value)
+      - `svi`: int (Selected Variation ID)
+      - `svn`: String (Selected Variation Name)
+      - `c`: String (Category)
+   - `dm`: List`DeviceMediaData`
+      - `n`: String (Name)
+      - `p`: String (Path)
+      - `iv`: bool (Is Video)
+   - `dg`: String (Device Grade)
+   - `dgd`: String (Device Grade Desc)
+   - `ds`: String (Device Status)
 
 #### `submitDeviceData`
 - **Endpoint**: `POST /supervisor/device-report/{deviceBarcode}`
 - **Request Body**: Map`String, dynamic`
-    - `remarks`: String
-    - `mismatch`: Map`String, dynamic`
+   - `remarks`: String
+   - `mismatch`: Map`String, dynamic`
 - **Response**: `SupervisorDeviceDetailResponse`
 
 ---
@@ -1211,9 +1208,9 @@ This document contains all API endpoints used in the QC module, organized by mod
 #### `storeOutLotTypeFilters`
 - **Endpoint**: `GET /store-out/v2/list-lot-types`
 - **Response**: `LotTypeFilterResponse`
-    - `dt`: List`LotTypeFilterItem`
-        - `ln`: String (Lot Name)
-        - `lt`: int (Lot Type)
+   - `dt`: List`LotTypeFilterItem`
+      - `ln`: String (Lot Name)
+      - `lt`: int (Lot Type)
 
 ---
 

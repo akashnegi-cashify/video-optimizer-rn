@@ -4,7 +4,6 @@ import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/provider/qc_trc_service_init_provider.dart';
-import 'package:flutter_trc/src/common/resources/lot_list_request.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../src/common/searchable.dart';
@@ -38,11 +37,7 @@ class StoreOutProvider extends QcTrcServiceInitProvider with Searchable {
     var completer = Completer<BinOutVerifyResponse?>();
 
     StoreOutServices.binOutVerifyBarCodeService(request, service: service).listen((event) {
-      if (event?.isValid() == true) {
-        completer.complete();
-      } else {
-        completer.completeError(event?.message ?? "Something Went Wrong.");
-      }
+      completer.complete();
     }, onError: (error, stackTrace) {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong.";
       completer.completeError(errorMsg);

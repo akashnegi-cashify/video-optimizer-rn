@@ -1,9 +1,10 @@
+import 'package:components/list_page/config/list_api_config.dart';
+import 'package:components/list_page/widgets/csh_api_list.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/warehouse_audit/resources/ongoing_audit_response.dart';
-import 'package:flutter_trc/qc/modules/warehouse_audit/resources/warehouse_audit_service.dart';
 import 'package:flutter_trc/qc/modules/warehouse_audit/screens/warehouse_audit_perform_screen.dart';
-import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 
 import '../l10n.dart';
 
@@ -18,33 +19,18 @@ class _OnGoingAuditWidgetState extends State<OnGoingAuditWidget> {
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
-    return StreamBuilder(
-      stream: WarehouseAuditService.getOngoingAuditList(),
-      builder: (context, asyncSnapshot) {
-        if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-          return const ShimmerListWidget();
-        }
-
-        if (Validator.isListNullOrEmpty(asyncSnapshot.data?.onGoingAuditList)) {
-          return Center(child: CshTextNew.subTitle1(l10n.emptyAuditList));
-        }
-
-        if (asyncSnapshot.hasData && asyncSnapshot.data != null) {
-          var list = asyncSnapshot.data?.onGoingAuditList;
-          return CshList(
-              rowCount: list?.length ?? 0,
-              onRefresh: () {
-                setState(() {});
-              },
-              getRowWidget: (index) {
-                var item = list?[index];
-                return GestureDetector(
-                  onTap: () => WarehouseAuditPerformScreen.pushNamed(context, item!.auditId!),
-                  child: _Item(item),
-                );
-              });
-        }
-        return const SizedBox.shrink();
+    return CshApiList<OnGoingAuditData>(
+      apiConfig: ListApiConfig(apiUrl: "/warehouse-audit/app/list", serviceGroup: TRCServiceGroups.qcConsole),
+      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+      itemFromJson: OnGoingAuditData.fromJson,
+      noDataFoundWidget: ({isListEmpty, serverErrorMsg}) {
+        return Center(child: CshTextNew.subTitle1(l10n.emptyAuditList));
+      },
+      getRowWidget: (item, index) {
+        return GestureDetector(
+          onTap: () => WarehouseAuditPerformScreen.pushNamed(context, item!.auditId!),
+          child: _Item(item),
+        );
       },
     );
   }

@@ -30,19 +30,19 @@ Map<String, dynamic> _$StockMovementResponseToJson(
 StockMovementListData _$StockMovementListDataFromJson(
         Map<String, dynamic> json) =>
     StockMovementListData(
-      json['s'] as String?,
-      json['rmk'] as String?,
-      json['cb'] as String?,
-      (json['ca'] as num?)?.toInt(),
-      json['ics'] as bool?,
+      json['status'] as String?,
+      json['remarks'] as String?,
+      json['createdBy'] as String?,
+      (json['createdAt'] as num?)?.toInt(),
+      json['IsCurrentStatus'] as bool?,
     );
 
 Map<String, dynamic> _$StockMovementListDataToJson(
         StockMovementListData instance) =>
     <String, dynamic>{
-      's': instance.status,
-      'rmk': instance.remark,
-      'cb': instance.createdBy,
-      'ca': instance.createdAt,
-      'ics': instance.isCurrentStatus,
+      'status': instance.status,
+      'remarks': instance.remark,
+      'createdBy': instance.createdBy,
+      'createdAt': instance.createdAt,
+      'IsCurrentStatus': instance.isCurrentStatus,
     };

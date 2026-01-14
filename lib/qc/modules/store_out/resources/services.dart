@@ -1,21 +1,19 @@
 import 'dart:convert';
 
 import 'package:core_widgets/core_widgets.dart';
+import 'package:flutter_trc/qc/modules/store_in/resources/store_in_location_verify_response.dart';
 import 'package:flutter_trc/qc/modules/store_out/resources/store_out_in_process_response.dart';
 
 import 'index.dart';
 
 class StoreOutServices {
-  static Stream<BinOutVerifyResponse?> binOutVerifyBarCodeService(BinOutRequest request,
+  static Stream<StoreInLocationVerifyResponse?> binOutVerifyBarCodeService(BinOutRequest request,
       {required BaseService service}) {
-    var header = service.getHeaders(null);
-    header["content-type"] = "application/x-www-form-urlencoded";
-    return service.post("/bin/lot/store-out", BinOutVerifyResponse.fromJson,
-        body: {
+    return service.post("/bin/store-out", StoreInLocationVerifyResponse.fromJson,
+        body: jsonEncode({
           "stockBarcode": request.stockBarcode,
-          "locBarcode": request.locBarcode,
-        },
-        headers: header);
+          "locBarcode": request.locBarcode, 
+        }));
   }
 
   static Stream<List<ScanNormalLotItem>?> fetchNormalScanLotList(String lotName, int lotType,

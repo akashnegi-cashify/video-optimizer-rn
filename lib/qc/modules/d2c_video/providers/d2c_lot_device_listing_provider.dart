@@ -51,7 +51,7 @@ class D2cLotDeviceListingProvider extends CshChangeNotifier with Searchable {
 
   Future<void> moveLotToNextStatus() {
     var completer = Completer<void>();
-    D2CVideoService.updateLotStatus(lotId, groupLotName).listen((event) {
+    D2CVideoService.updateLotStatus(lotId).listen((event) {
       completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

@@ -17,32 +17,18 @@ DisputedMediaDataResponse _$DisputedMediaDataResponseFromJson(
       mediaDataList: (json['auditData'] as List<dynamic>?)
           ?.map((e) => DisputeMediaInfoData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pm: (json['pm'] as num?)?.toInt(),
       rid: json['r_id'] as String?,
-      apiKey: json['apiKey'] as String?,
-      label: json['label'] as String?,
-      images: (json['images'] as num?)?.toInt(),
-      videos: (json['videos'] as num?)?.toInt(),
-      selectedReport: json['selectedReport'] as String?,
-      auditType: (json['auditType'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DisputedMediaDataResponseToJson(
         DisputedMediaDataResponse instance) =>
     <String, dynamic>{
       'r_id': instance.rid,
-      'pm': instance.pm,
       'modal': instance.modal,
       'brand': instance.brand,
       'imeis': instance.imeis,
       'auditStatus': instance.auditStatus,
       'auditData': instance.mediaDataList,
-      'apiKey': instance.apiKey,
-      'label': instance.label,
-      'images': instance.images,
-      'videos': instance.videos,
-      'selectedReport': instance.selectedReport,
-      'auditType': instance.auditType,
     };
 
 DisputeMediaInfoData _$DisputeMediaInfoDataFromJson(
@@ -52,7 +38,7 @@ DisputeMediaInfoData _$DisputeMediaInfoDataFromJson(
       at: (json['auditType'] as num?)?.toInt(),
       auditKey: json['apiKey'] as String?,
       imageCount: (json['images'] as num?)?.toInt(),
-      subHeading: json['sr'] as String?,
+      subHeading: json['selectedReport'] as String?,
       videoCount: (json['videos'] as num?)?.toInt(),
     );
 
@@ -63,6 +49,6 @@ Map<String, dynamic> _$DisputeMediaInfoDataToJson(
       'label': instance.label,
       'images': instance.imageCount,
       'videos': instance.videoCount,
-      'sr': instance.subHeading,
+      'selectedReport': instance.subHeading,
       'auditType': instance.at,
     };

@@ -1,0 +1,260 @@
+---
+name: QC Module Structure
+description: Standard folder structure and file organization patterns for QC modules
+alwaysApply: true
+---
+
+# QC Module Structure
+
+## Standard Module Folder Structure
+
+Each QC module should follow this structure:
+
+```
+lib/qc/modules/{module_name}/
+├── components/          # Reusable component widgets
+│   └── {module}_component.dart
+├── dialogs/            # Dialog widgets
+│   └── {module}_dialog.dart
+├── models/            # Data models (request/response)
+│   └── {module}_response.dart
+│   └── {module}_request.dart
+├── providers/         # Provider classes for state management
+│   └── {module}_provider.dart
+├── resources/         # Service classes and related resources
+│   ├── services.dart  # or {module}_service.dart
+│   ├── index.dart     # Exports for resources
+│   └── {response}_response.dart
+├── screens/           # Screen widgets
+│   └── {module}_screen.dart
+└── widgets/           # Widget components
+    ├── {module}_widget.dart
+    └── index.dart     # Exports for widgets
+```
+
+## File Naming Conventions
+
+### Service Files
+
+- **Primary service file**: `services.dart` or `{module}_service.dart`
+- **Multiple services**: Use descriptive names like `{feature}_service.dart`
+- Examples:
+  - `services.dart` (DispatchLotServices)
+  - `re_qc_service.dart` (ReQcService)
+  - `calculator_service.dart` (CalculatorService)
+  - `qc_calculator_service.dart` (QcCalculatorService)
+
+### Model Files
+
+- **Response models**: `{name}_response.dart`
+- **Request models**: `{name}_request.dart`
+- **List responses**: `{name}_list_response.dart`
+- Examples:
+  - `pre_dispatch_item_response.dart`
+  - `scan_pre_dispatch_request.dart`
+  - `device_accessories_list_response.dart`
+
+### Widget Files
+
+- **Main widget**: `{module}_widget.dart`
+- **Component widgets**: `{feature}_widget.dart`
+- **Dialog widgets**: `{name}_dialog.dart`
+- Use `index.dart` to export widgets for cleaner imports
+
+### Provider Files
+
+- **Main provider**: `{module}_provider.dart`
+- **Feature providers**: `{feature}_provider.dart`
+- Examples:
+  - `re_qc_detail_provider.dart`
+  - `re_qc_question_tab_provider.dart`
+
+## Directory Organization
+
+### components/ Directory
+
+- Contains reusable component widgets
+- Typically used for larger, self-contained UI components
+- Example: `store_out_component.dart`, `supervisor_component.dart`
+
+### widgets/ Directory
+
+- Contains smaller, focused widget components
+- Use `index.dart` to export all widgets
+- Example structure:
+```dart
+// widgets/index.dart
+export 're_qc_device_summary_tab.dart';
+export 're_qc_questions_tab.dart';
+export 're_qc_scanner_tab.dart';
+```
+
+### resources/ Directory
+
+- Contains service classes and response/request models
+- Use `index.dart` to export resources
+- Example structure:
+```dart
+// resources/index.dart
+export 'services.dart';
+export 'pre_dispatch_item_response.dart';
+export 'scan_pre_dispatch_request.dart';
+```
+
+### models/ Directory
+
+- Alternative location for data models
+- Used when models are numerous or shared across modules
+- Example: `lib/qc/modules/re_qc/models/`
+
+### screens/ Directory
+
+- Contains screen-level widgets
+- Typically one screen per module
+- Example: `re_qc_list_screen.dart`, `device_receive_screen.dart`
+
+### dialogs/ Directory
+
+- Contains dialog widgets
+- Example: `supervisor_device_detail_dialog.dart`
+
+## Module Service Class Pattern
+
+### Static Service Class (Most Common)
+
+```dart
+// resources/services.dart
+import 'dart:convert';
+import 'package:flutter_trc/src/services/qc_service.dart';
+
+class MyModuleServices {
+  static Stream<ResponseType?> myMethod(RequestType request) {
+    return QcService().post(
+      "/endpoint/path",
+      ResponseType.fromJson,
+      body: jsonEncode(request),
+    );
+  }
+}
+```
+
+### Instance Service Class
+
+```dart
+// resources/my_service.dart
+class MyService {
+  final BaseService service;
+  
+  MyService(this.service);
+  
+  Stream<ResponseType?> myMethod() {
+    return service.get("/endpoint", ResponseType.fromJson);
+  }
+}
+```
+
+## Response Model Pattern
+
+```dart
+// resources/{name}_response.dart
+class MyResponse {
+  final String? field1;
+  final int? field2;
+  
+  MyResponse({this.field1, this.field2});
+  
+  factory MyResponse.fromJson(Map<String, dynamic> json) {
+    return MyResponse(
+      field1: json['field1'],
+      field2: json['field2'],
+    );
+  }
+}
+```
+
+## Request Model Pattern
+
+```dart
+// resources/{name}_request.dart
+class MyRequest {
+  final String field1;
+  final int? field2;
+  
+  MyRequest({required this.field1, this.field2});
+  
+  Map<String, dynamic> toJson() {
+    return {
+      'field1': field1,
+      'field2': field2,
+    };
+  }
+}
+```
+
+## Provider Pattern
+
+```dart
+// providers/{module}_provider.dart
+import 'package:core_widgets/core_widgets.dart';
+import '../resources/services.dart';
+
+class MyModuleProvider extends CshChangeNotifier {
+  // State variables
+  // Methods that call services
+  // Notify listeners on state changes
+}
+```
+
+## Import Patterns
+
+### Relative Imports
+
+- Use relative imports within the same module
+- Example: `import '../resources/services.dart';`
+
+### Absolute Imports
+
+- Use absolute imports for cross-module or package imports
+- Example: `import 'package:flutter_trc/src/services/qc_service.dart';`
+
+### Index Exports
+
+- Use `index.dart` files to create cleaner import paths
+- Example: `import '../widgets/index.dart';` instead of multiple individual imports
+
+## Common Module Patterns
+
+### Simple Module Structure
+
+```
+modules/{module_name}/
+├── resources/
+│   ├── services.dart
+│   └── index.dart
+├── screens/
+│   └── {module}_screen.dart
+└── widgets/
+    └── {module}_widget.dart
+```
+
+### Complex Module Structure
+
+```
+modules/{module_name}/
+├── components/
+├── dialogs/
+├── models/
+├── providers/
+├── resources/
+├── screens/
+└── widgets/
+```
+
+## Best Practices
+
+1. **Consistency**: Follow the same structure across all modules
+2. **Grouping**: Group related files in appropriate directories
+3. **Exports**: Use `index.dart` files to simplify imports
+4. **Naming**: Use descriptive, consistent naming conventions
+5. **Separation**: Separate concerns (services, models, widgets, providers)
+6. **Reusability**: Place reusable components in `components/` or shared locations
