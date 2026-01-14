@@ -16,10 +16,10 @@ class StoreOutServices {
         }));
   }
 
-  static Stream<List<ScanNormalLotItem>?> fetchNormalScanLotList(String lotName, int lotType,
+  static Stream<List<ScanNormalLotItem>?> fetchNormalScanLotList(int? lotId, int lotType,
       {required BaseService service}) {
     var param = {
-      "gln": [lotName]
+      "lid": [lotId.toString()]
     };
     return service.getArray(
       "/v1/store-out/devices",
@@ -40,15 +40,16 @@ class StoreOutServices {
     );
   }
 
+  // TO DO : need to  send id
   static Stream<BaseResponse?> normalLotVerifyBarCodeService({
-    required String lotGroupName,
+    required int? lotId,
     required String qrCode,
     required String displayBarcode,
     required BaseService service,
   }) {
     var header = service.getHeaders(null);
     final body = jsonEncode({
-      "lotGroupName": lotGroupName,
+      "lotId": lotId,
       "qrCode": qrCode,
       "displayBarcode": displayBarcode,
     });

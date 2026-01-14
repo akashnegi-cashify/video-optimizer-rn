@@ -8,15 +8,19 @@ class LotItemsScanCompParam {
   @ParamKey(key: LotItemsScanCompParamKeys.lotName)
   String? lotName;
 
+  @ParamKey(key: LotItemsScanCompParamKeys.lotId)
+  int? lotId;
+
   @ParamKey(key: LotItemsScanCompParamKeys.lotType)
   int? lotType;
 
-  LotItemsScanCompParam({this.header,this.lotType,this.lotName,});
+  LotItemsScanCompParam({this.header,this.lotType,this.lotName,this.lotId,});
 }
 
 enum LotItemsScanCompParamKeys with AbsParamKey {
   header("h"),
   lotName("ln"),
+  lotId("lid"),
   lotType("lt");
 
 

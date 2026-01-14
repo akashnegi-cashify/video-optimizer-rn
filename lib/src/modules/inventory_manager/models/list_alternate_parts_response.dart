@@ -9,15 +9,15 @@ class ListAlternatePartsResponse {
   @JsonKey(name: "s")
   bool? isSuccess;
   @JsonKey(name: "dt")
-  List<ListAlternateData>? dataList;
+  List<ListAlternateData>? data;  // Changed field name to 'data' for CshApiList compatibility
 
   ListAlternatePartsResponse({
     this.isSuccess,
     this.rid,
-    this.dataList,
+    this.data,
   });
 
-  static ListAlternatePartsResponse fromJson(Map<String, dynamic> data) => _$ListAlternatePartsResponseFromJson(data);
+  static ListAlternatePartsResponse fromJson(Map<String, dynamic> json) => _$ListAlternatePartsResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ListAlternatePartsResponseToJson(this);
 }

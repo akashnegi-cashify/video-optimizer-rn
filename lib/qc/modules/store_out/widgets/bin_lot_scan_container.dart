@@ -12,12 +12,14 @@ import '../resources/index.dart';
 import '../screens/index.dart';
 
 class BinLotScanContainer extends StatelessWidget {
-  final String lotName;
+  final int lotId;
+  final String? lotName;
   final int lotType;
 
   const BinLotScanContainer({
     super.key,
-    required this.lotName,
+    required this.lotId,
+    this.lotName,
     required this.lotType,
   });
 
@@ -29,7 +31,7 @@ class BinLotScanContainer extends StatelessWidget {
     var valueTextStyle = theme.primaryTextTheme.displayMedium?.copyWith(color: theme.primaryColor);
 
     return ChangeNotifierProvider(
-      create: (_) => LotScanProvider(lotType: lotType, lotName: lotName),
+      create: (_) => LotScanProvider(lotType: lotType, lotId: lotId, lotName: lotName),
       lazy: false,
       child: Builder(
         builder: (builderContext) {

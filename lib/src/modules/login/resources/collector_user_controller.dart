@@ -68,6 +68,7 @@ class UserRoles {
       }
     });
 
+    // Navigator.pushNamed(context, TrcHomeScreenNew.route);
     Navigator.pushNamedAndRemoveUntil(context, TrcHomeScreenNew.route, (route) => false);
 
     // if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {

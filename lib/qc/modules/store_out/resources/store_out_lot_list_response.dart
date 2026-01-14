@@ -4,10 +4,10 @@ part 'store_out_lot_list_response.g.dart';
 
 @JsonSerializable()
 class StoreOutLotListResponse {
-  @JsonKey(name: 'dt')
+  @JsonKey(name: 'data')
   List<StoreOutLotListItem>? lotList;
 
-  @JsonKey(name: 'tc')
+  @JsonKey(name: 'totalCount')
   int? totalCount;
 
   @JsonKey(name: 's')

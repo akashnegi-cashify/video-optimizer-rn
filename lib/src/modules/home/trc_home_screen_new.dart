@@ -43,7 +43,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               ),
               // Rubbing
               TRCRolePermissionWidget(
-                permission: TrcPermissions.rubbing,
+                permission: TrcPermissions.rubbing, 
                 child: CshBigButton(
                   text: "Rubbing",
                   onPressed: () {

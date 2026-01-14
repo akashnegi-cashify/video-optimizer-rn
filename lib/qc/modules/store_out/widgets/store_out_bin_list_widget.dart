@@ -8,7 +8,7 @@ import 'package:flutter_trc/src/services/service_groups.dart';
 import '../l10n.dart';
 
 class StoreOutBinListWidget extends StatefulWidget {
-  final Function(String? lotName)? onItemClick;
+  final Function(String? lotName, int? lotId)? onItemClick;
 
   const StoreOutBinListWidget({super.key, this.onItemClick});
 
@@ -38,7 +38,7 @@ class _StoreOutBinListWidgetState extends State<StoreOutBinListWidget> with Auto
             lotValue: data.lotName,
             noOfDevices: data.counter?.toString(),
           ),
-          onTap: () => widget.onItemClick?.call(data.lotName),
+          onTap: () => widget.onItemClick?.call(data.lotName, data.lotId),
         );
       },
     );

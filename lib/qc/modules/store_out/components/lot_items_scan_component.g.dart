@@ -11,6 +11,7 @@ LotItemsScanCompParam fromMap(Map<String, dynamic> map) {
     header: map["h"],
     lotName: map["ln"],
     lotType: map["lt"],
+    lotId: map["lid"],
   );
   return model;
 }
@@ -21,6 +22,7 @@ Widget paramBuilder(Widget Function(LotItemsScanCompParam model) paramBuilder) {
       "h": provider.data["h"],
       "ln": provider.data["ln"],
       "lt": provider.data["lt"],
+      "lid": provider.data["lid"],
     },
     builder: (context, data, child) {
       LotItemsScanCompParam model = fromMap(data);

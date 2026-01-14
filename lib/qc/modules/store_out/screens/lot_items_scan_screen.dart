@@ -27,11 +27,12 @@ class LotItemsScanScreen extends BaseScreen<LotItemsScanScreenArgs> {
         LotItemsScanCompParamKeys.header.value: "Lot Item Details",
         LotItemsScanCompParamKeys.lotType.value: args?.lotType,
         LotItemsScanCompParamKeys.lotName.value: args?.lotName,
+        LotItemsScanCompParamKeys.lotId.value: args?.lotId,
       },
     );
   }
 
-  static Future navigate(BuildContext context, {String? lotName, int? lotType}) {
+  static Future navigate(BuildContext context, {String? lotName, int? lotId, int? lotType}) {
     return Navigator.pushNamed(
       context,
       route,
@@ -39,6 +40,7 @@ class LotItemsScanScreen extends BaseScreen<LotItemsScanScreenArgs> {
         LotItemsScanScreen.pageKey,
         lotType: lotType,
         lotName: lotName,
+        lotId: lotId,
       ),
     );
   }
@@ -47,6 +49,7 @@ class LotItemsScanScreen extends BaseScreen<LotItemsScanScreenArgs> {
 class LotItemsScanScreenArgs extends BaseArguments {
   int? lotType;
   String? lotName;
+  int? lotId;
 
-  LotItemsScanScreenArgs(super.pageKey, {this.lotType, this.lotName});
+  LotItemsScanScreenArgs(super.pageKey, {this.lotType, this.lotName, this.lotId});
 }

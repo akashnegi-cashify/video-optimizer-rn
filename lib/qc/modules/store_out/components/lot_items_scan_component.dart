@@ -29,15 +29,23 @@ class LotItemsScanComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, configModel) {
     return  paramBuilder((paramModel) {
 
-      if(isEmpty(paramModel.lotName) || !LotType.isValid( paramModel.lotType)){
-        return Center(child: CshTextNew.h3("Lot Name and Type Must Not Be Null or Empty. "));
+      if(!LotType.isValid(paramModel.lotType)){
+        return Center(child: CshTextNew.h3("Lot Type Must Not Be Null or Empty."));
       }
 
       if(paramModel.lotType == LotType.NORMAL_LOT.value){
-        return NormalLotScanContainer(lotType: paramModel.lotType!,lotName: paramModel.lotName!,);
+        // Normal Lot requires lotId
+        if(paramModel.lotId == null){
+          return Center(child: CshTextNew.h3("Lot ID Must Not Be Null or Empty."));
+        }
+        return NormalLotScanContainer(lotId: paramModel.lotId!, lotType: paramModel.lotType!, lotName: paramModel.lotName);
       }
       else if(paramModel.lotType == LotType.BIN_LOT.value){
-        return BinLotScanContainer(lotType: paramModel.lotType!,lotName: paramModel.lotName!,);
+        // Bin Lot requires lotName (lotId can be null - uses lotName as identifier)
+        if(isEmpty(paramModel.lotName)){
+          return Center(child: CshTextNew.h3("Lot Name Must Not Be Null or Empty."));
+        }
+        return BinLotScanContainer(lotId: paramModel.lotId ?? 0, lotType: paramModel.lotType!, lotName: paramModel.lotName);
       }
       else {
         return Container();
