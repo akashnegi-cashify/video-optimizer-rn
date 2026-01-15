@@ -25,7 +25,8 @@ class TrcHomeScreenNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TrcHeader("Home", showBackBtn: false, showLogoutButton: true, showProfileButton: true),
+      appBar: TrcHeader("Home",
+          showBackBtn: false, showLogoutButton: true, showProfileButton: true),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
@@ -35,16 +36,21 @@ class TrcHomeScreenNew extends StatelessWidget {
             spacing: Dimens.space_16,
             children: [
               // Elss
-              CshBigButton(
-                text: "Elss",
-                onPressed: () {
-                  ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);
-                  Navigator.of(context).pushNamed(ElssHomeScreen.route, arguments: args);
-                },
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.elss,
+                child: CshBigButton(
+                  text: "Elss",
+                  onPressed: () {
+                    ElssHomeScreenArguments args =
+                        ElssHomeScreenArguments(isLogicFromQC: false);
+                    Navigator.of(context)
+                        .pushNamed(ElssHomeScreen.route, arguments: args);
+                  },
+                ),
               ),
               // Rubbing
               TRCRolePermissionWidget(
-                permission: TrcPermissions.rubbing, 
+                permission: TrcPermissions.rubbing,
                 child: CshBigButton(
                   text: "Rubbing",
                   onPressed: () {
@@ -92,13 +98,16 @@ class TrcHomeScreenNew extends StatelessWidget {
                               onPressed: () {
                                 final location = locationController.text.trim();
                                 if (location.isEmpty) {
-                                  CshSnackBar.error(context: context, message: "Please enter location");
+                                  CshSnackBar.error(
+                                      context: context,
+                                      message: "Please enter location");
                                   return;
                                 }
                                 // CshLoading().showLoading(context);
 
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pushNamed(EngineerHomeScreen.route);
+                                Navigator.of(context).pop();
+                                Navigator.of(context)
+                                    .pushNamed(EngineerHomeScreen.route);
 
                                 // EngineerAPIService.updateEngineerLocation(location).listen((event) {
                                 //   CshLoading().hideLoading(context);
@@ -183,7 +192,8 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Store Manager",
                   onPressed: () {
-                    Navigator.of(context).pushNamed(StoreManagerHomeScreen.route);
+                    Navigator.of(context)
+                        .pushNamed(StoreManagerHomeScreen.route);
                   },
                 ),
               ),
