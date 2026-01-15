@@ -103,20 +103,20 @@ class TrcHomeScreenNew extends StatelessWidget {
                                       message: "Please enter location");
                                   return;
                                 }
-                                // CshLoading().showLoading(context);
+                                CshLoading().showLoading(context);
 
-                                Navigator.of(context).pop();
-                                Navigator.of(context)
-                                    .pushNamed(EngineerHomeScreen.route);
+                                // Navigator.of(context).pop();
+                                // Navigator.of(context)
+                                //     .pushNamed(EngineerHomeScreen.route);
 
-                                // EngineerAPIService.updateEngineerLocation(location).listen((event) {
-                                //   CshLoading().hideLoading(context);
-                                //   Navigator.of(context).pop();
-                                //   Navigator.of(context).pushNamed(EngineerHomeScreen.route);
-                                // }, onError: (error) {
-                                //   CshLoading().hideLoading(context);
-                                //   CshSnackBar.error(context: context, message: error);
-                                // });
+                                EngineerAPIService.updateEngineerLocation(location).listen((event) {
+                                  CshLoading().hideLoading(context);
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pushNamed(EngineerHomeScreen.route);
+                                }, onError: (error) {
+                                  CshLoading().hideLoading(context);
+                                  CshSnackBar.error(context: context, message: error.toString());
+                                });
                               },
                             ),
                           ],

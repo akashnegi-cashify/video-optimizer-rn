@@ -305,8 +305,6 @@ class EngineerAPIService {
       "location": location,
     };
 
-
-// TODO: Change Api url
-    return TrcService().post("/engineer/assign-retrieved-part", BaseResponse.fromJson, body: jsonEncode(req));
+    return TrcService().post("/engineer/update-location", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 }

@@ -10,8 +10,13 @@ import 'package:flutter_trc/src/services/service_groups.dart';
 
 class VariantListScreen extends StatefulWidget {
   final Function(VariantListData? variantItem) onVariantSelected;
+  final bool isFromTrc;
 
-  const VariantListScreen({required this.onVariantSelected, super.key});
+  const VariantListScreen({
+    required this.onVariantSelected,
+    this.isFromTrc = false,
+    super.key,
+  });
 
   @override
   State<VariantListScreen> createState() => _VariantListScreenState();
@@ -64,7 +69,9 @@ class _VariantListScreenState extends State<VariantListScreen> {
             child: CshApiList<VariantListData>(
               apiConfig: ListApiConfig(
                 apiUrl: "/manual-test/search/variant",
-                serviceGroup: TRCServiceGroups.qcConsole,
+                serviceGroup: widget.isFromTrc
+                    ? TRCServiceGroups.unifyTrc
+                    : TRCServiceGroups.qcConsole,
               ),
               filterConfig: _getFilterConfig(provider),
               controller: _listController,
