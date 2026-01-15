@@ -169,7 +169,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
                       ),
                     ),
                     const SizedBox(height: Dimens.space_16),
-                    if (!Validator.isListNullOrEmpty(provider.listAlternatePartsResponse?.dataList)) ...[
+                    if (!Validator.isListNullOrEmpty(provider.listAlternatePartsResponse?.data)) ...[
                       _headerContainer(theme, l10n.alternatePartsAvailable),
                       ListView.separated(
                         shrinkWrap: true,
@@ -177,16 +177,16 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
                         padding: const EdgeInsets.all(Dimens.space_8),
                         itemBuilder: (context, index) {
                           return AlternatePartItemWidget(
-                            dataModel: provider.listAlternatePartsResponse!.dataList![index],
+                            dataModel: provider.listAlternatePartsResponse!.data![index],
                             onRequestCallback: () {
                               _showRequestAlternatePartRequest(
                                 context,
                                 theme,
                                 l10n,
                                 widget.arg?.prid ?? 0,
-                                provider.listAlternatePartsResponse!.dataList![index].productName ?? "",
-                                provider.listAlternatePartsResponse!.dataList![index].sku ?? "",
-                                provider.listAlternatePartsResponse!.dataList![index].partVariantName ?? "",
+                                provider.listAlternatePartsResponse!.data![index].productName ?? "",
+                                provider.listAlternatePartsResponse!.data![index].sku ?? "",
+                                provider.listAlternatePartsResponse!.data![index].partVariantName ?? "",
                                 widget.arg,
                               );
                             },
@@ -195,7 +195,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
                         separatorBuilder: (context, index) {
                           return const SizedBox(height: Dimens.space_6);
                         },
-                        itemCount: provider.listAlternatePartsResponse!.dataList!.length,
+                        itemCount: provider.listAlternatePartsResponse!.data!.length,
                       )
                     ]
                   ],
@@ -208,7 +208,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
     );
   }
 
-  _headerContainer(ThemeData theme, String label) {
+  Widget _headerContainer(ThemeData theme, String label) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
       height: Dimens.space_50,
@@ -223,7 +223,7 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
     );
   }
 
-  _labelAndValueWidget(ThemeData theme, String label, String value) {
+  Widget _labelAndValueWidget(ThemeData theme, String label, String value) {
     return Row(
       children: [
         Expanded(
@@ -245,8 +245,8 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
     );
   }
 
-  _showRequestAlternatePartRequest(BuildContext context, ThemeData theme, L10n l10n, int partId, String productName,
-      String sku, String partVariantName, AlternatePartArguments? args) {
+  void _showRequestAlternatePartRequest(BuildContext context, ThemeData theme, L10n l10n, int partId,
+      String productName, String sku, String partVariantName, AlternatePartArguments? args) {
     showCshBottomSheet(
       context: context,
       child: Padding(
@@ -277,11 +277,13 @@ class _AlternatePartWidgetState extends State<AlternatePartWidget> {
     );
   }
 
-  _requestAlternativePart(
-      BuildContext context, L10n l10n, int partId, String productName, String partVariantName, String sku, AlternatePartArguments? args) {
+  void _requestAlternativePart(BuildContext context, L10n l10n, int partId, String productName, String partVariantName,
+      String sku, AlternatePartArguments? args) {
     var provider = AlternatePartListProvider.of(context, listen: false);
     CshLoading().showLoading(context);
-    provider.alternatePartRequest(partId, productName, sku, args?.detailsModelData?.deviceId ?? -1, partVariantName).then((value) {
+    provider
+        .alternatePartRequest(partId, productName, sku, args?.detailsModelData?.deviceId ?? -1, partVariantName)
+        .then((value) {
       CshLoading().hideLoading(context);
       if (value) {
         CshSnackBar.success(context: context, message: l10n.alternatePartDataFetched);

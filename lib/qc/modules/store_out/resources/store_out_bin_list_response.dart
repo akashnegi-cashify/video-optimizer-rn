@@ -5,7 +5,7 @@ part 'store_out_bin_list_response.g.dart';
 @JsonSerializable()
 class StoreOutBinListResponse {
   /// CshApiTable-style list container
-  @JsonKey(name: 'listList')
+  @JsonKey(name: 'data')
   List<StoreOutBinListItem?>? binList;
 
   /// Performance monitoring metric

@@ -9,7 +9,7 @@ part of 'store_out_bin_list_response.dart';
 StoreOutBinListResponse _$StoreOutBinListResponseFromJson(
         Map<String, dynamic> json) =>
     StoreOutBinListResponse(
-      binList: (json['listList'] as List<dynamic>?)
+      binList: (json['data'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
               : StoreOutBinListItem.fromJson(e as Map<String, dynamic>))
@@ -20,7 +20,7 @@ StoreOutBinListResponse _$StoreOutBinListResponseFromJson(
 Map<String, dynamic> _$StoreOutBinListResponseToJson(
         StoreOutBinListResponse instance) =>
     <String, dynamic>{
-      'listList': instance.binList,
+      'data': instance.binList,
       'pm': instance.pm,
     };
 

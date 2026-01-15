@@ -12,10 +12,13 @@ class NormalLotOutRequest {
   String? locBarcode;
 
   @JsonKey(name: 'lgn')
-  String? lotName;
+  String? lotName; // Kept for backward compatibility, but not used in API call
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int? lotId; // Used for API call
 
 
-  NormalLotOutRequest({this.stockBarcode, this.locBarcode,this.lotName,});
+  NormalLotOutRequest({this.stockBarcode, this.locBarcode, this.lotName, this.lotId});
 
   static NormalLotOutRequest fromJson(Map<String, dynamic> data) => _$NormalLotOutRequestFromJson(data);
 

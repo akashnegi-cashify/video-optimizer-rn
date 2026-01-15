@@ -8,7 +8,7 @@ class DeviceMediaResponse extends BaseResponse {
   @JsonKey(name: 'r_id')
   String? rId;
 
-  @JsonKey(name: 'data')
+  @JsonKey(name: 'dt')  // Changed from 'data' to 'dt' to match API response
   List<ImageListData>? imageList;
 
   DeviceMediaResponse(this.rId, this.imageList, super.cashifyAlert, super.trackUrl);
@@ -23,10 +23,10 @@ class ImageListData {
   @JsonKey(name: 'r_id')
   String? rId;
 
-  @JsonKey(name: 'mediaName')
+  @JsonKey(name: 'mn')  // Changed from 'mediaName' to 'mn' to match API response
   String? imageName;
 
-  @JsonKey(name: 'isVideo')
+  @JsonKey(name: 'iv')  // Changed from 'isVideo' to 'iv' to match API response
   bool? isVideo;
   @JsonKey(includeToJson: false, includeFromJson: false)
   String? mediaUrl;

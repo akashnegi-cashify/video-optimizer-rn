@@ -13,7 +13,8 @@ class LobProductListResponse extends BaseResponse {
 
   LobProductListResponse(this.rId, this.productList) : super(null, '');
 
-  static LobProductListResponse fromJson(Map<String, dynamic> json) => _$LobProductListResponseFromJson(json);
+  static LobProductListResponse fromJson(Map<String, dynamic> json) =>
+      _$LobProductListResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$LobProductListResponseToJson(this);
 }
@@ -33,7 +34,8 @@ class LobProductListData {
 
   LobProductListData(this.productId, this.name, this.brandId, this.brand, this.productMasterId);
 
-  static LobProductListData fromJson(Map<String, dynamic> json) => _$LobProductListDataFromJson(json);
+  static LobProductListData fromJson(Map<String, dynamic> json) =>
+      _$LobProductListDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$LobProductListDataToJson(this);
 }

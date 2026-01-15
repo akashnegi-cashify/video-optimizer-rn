@@ -57,10 +57,10 @@ class _StoreOutWidgetState extends State<StoreOutWidget> with TickerProviderStat
             children: tabList.map((e) {
               if (e.key == const ValueKey('lotListTab')) {
                 return StoreOutLotListContainer(
-                    onItemClick: (value) => _onItemClick(context, value, LotType.NORMAL_LOT.value));
+                    onItemClick: (lotName, lotId) => _onItemClick(context, lotName, lotId, LotType.NORMAL_LOT.value));
               } else if (e.key == const ValueKey("binListTab")) {
                 return StoreOutBinListWidget(
-                    onItemClick: (value) => _onItemClick(context, value, LotType.BIN_LOT.value));
+                    onItemClick: (lotName, lotId) => _onItemClick(context, lotName, lotId, LotType.BIN_LOT.value));
               } else {
                 return const StoreOutBinOutWidget();
               }
@@ -71,8 +71,8 @@ class _StoreOutWidgetState extends State<StoreOutWidget> with TickerProviderStat
     );
   }
 
-  void _onItemClick(BuildContext context, String? lotName, int lotType) {
-    LotItemsScanScreen.navigate(context, lotName: lotName, lotType: lotType).then((value) {
+  void _onItemClick(BuildContext context, String? lotName, int? lotId, int lotType) {
+    LotItemsScanScreen.navigate(context, lotName: lotName, lotId: lotId, lotType: lotType).then((value) {
       if (lotType == LotType.NORMAL_LOT.value) {
         var provider = StoreOutProvider.of(context, listen: false);
         provider.refreshLotList();

@@ -11,7 +11,8 @@ import '../resources/index.dart';
 import '../resources/services.dart';
 
 class LotScanProvider extends QcTrcServiceInitProvider {
-  final String lotName;
+  final int? lotId;
+  final String? lotName; // Keep for display purposes
   final int lotType;
 
   int _scanItemPosition = 0;
@@ -23,7 +24,7 @@ class LotScanProvider extends QcTrcServiceInitProvider {
     return Provider.of<LotScanProvider>(context, listen: listen);
   }
 
-  LotScanProvider({required this.lotName, required this.lotType}) {
+  LotScanProvider({required this.lotId, this.lotName, required this.lotType}) {
     if (LotType.fromValue(lotType) == LotType.NORMAL_LOT) {
       dataState = DataState();
     } else {
@@ -41,7 +42,7 @@ class LotScanProvider extends QcTrcServiceInitProvider {
   }
 
   void fetchNormalLotScanList() {
-    StoreOutServices.fetchNormalScanLotList(lotName, lotType, service: service).listen((event) {
+    StoreOutServices.fetchNormalScanLotList(lotId, lotType, service: service).listen((event) {
       if (Validator.isListNullOrEmpty(event)) {
         dataState = dataState.copyWith(
             data: null,
@@ -60,7 +61,7 @@ class LotScanProvider extends QcTrcServiceInitProvider {
   }
 
   void fetchBinLotScanList() {
-    StoreOutServices.fetchBinScanLotList(lotName, lotType, service: service).listen((event) {
+    StoreOutServices.fetchBinScanLotList(lotName ?? "", lotType, service: service).listen((event) {
       binDataState = binDataState.copyWith(data: event, status: RequestStatus.success);
       notifyListeners();
     }, onError: (error, stackTrace) {
@@ -90,7 +91,7 @@ class LotScanProvider extends QcTrcServiceInitProvider {
     var completer = Completer<NormalLotVerifyResponse?>();
 
     StoreOutServices.normalLotVerifyBarCodeService(
-            lotGroupName: request.lotName ?? "",
+            lotId: request.lotId ?? lotId,
             qrCode: request.stockBarcode ?? "",
             displayBarcode: request.locBarcode ?? "",
             service: service)

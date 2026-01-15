@@ -9,7 +9,7 @@ part of 'device_media_response.dart';
 DeviceMediaResponse _$DeviceMediaResponseFromJson(Map<String, dynamic> json) =>
     DeviceMediaResponse(
       json['r_id'] as String?,
-      (json['data'] as List<dynamic>?)
+      (json['dt'] as List<dynamic>?)
           ?.map((e) => ImageListData.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['__ca'] == null
@@ -24,19 +24,19 @@ Map<String, dynamic> _$DeviceMediaResponseToJson(
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'r_id': instance.rId,
-      'data': instance.imageList,
+      'dt': instance.imageList,
     };
 
 ImageListData _$ImageListDataFromJson(Map<String, dynamic> json) =>
     ImageListData(
       json['r_id'] as String?,
-      json['mediaName'] as String?,
-      json['isVideo'] as bool?,
+      json['mn'] as String?,
+      json['iv'] as bool?,
     );
 
 Map<String, dynamic> _$ImageListDataToJson(ImageListData instance) =>
     <String, dynamic>{
       'r_id': instance.rId,
-      'mediaName': instance.imageName,
-      'isVideo': instance.isVideo,
+      'mn': instance.imageName,
+      'iv': instance.isVideo,
     };

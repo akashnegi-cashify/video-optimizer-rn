@@ -11,7 +11,7 @@ import '../providers/store_out_provider.dart';
 import 'index.dart';
 
 class StoreOutLotListContainer extends StatelessWidget {
-  final Function(String? lotName)? onItemClick;
+  final Function(String? lotName, int? lotId)? onItemClick;
 
   StoreOutLotListContainer({super.key, this.onItemClick});
 
@@ -25,12 +25,12 @@ class StoreOutLotListContainer extends StatelessWidget {
       if (value) {
         showInProgressDialog(context, onProceed: () {
           Navigator.pop(context);
-          onItemClick?.call(lotName);
+          onItemClick?.call(lotName, lotId);
         }, onCancel: () {
           listKey.currentState?.resetAndRefreshScreen();
         });
       } else {
-        onItemClick?.call(lotName);
+        onItemClick?.call(lotName, lotId);
       }
     }, onError: (error) {
       CshLoading().hideLoading(context);

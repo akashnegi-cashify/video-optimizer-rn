@@ -52,6 +52,9 @@ class ScanNormalLotItem {
   @JsonKey(name: 'storageBarcode', includeIfNull: false)
   String? storageBarcode;
 
+  @JsonKey(name: 'location', includeIfNull: false)
+  String? loc;
+  
   @JsonKey(name: 'position', includeIfNull: false)
   int? position;
 

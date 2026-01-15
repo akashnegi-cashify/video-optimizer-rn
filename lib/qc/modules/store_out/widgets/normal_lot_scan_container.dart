@@ -12,12 +12,14 @@ import '../screens/index.dart';
 import 'index.dart';
 
 class NormalLotScanContainer extends StatelessWidget {
-  final String lotName;
+  final int lotId;
+  final String? lotName;
   final int lotType;
 
   const NormalLotScanContainer({
     super.key,
-    required this.lotName,
+    required this.lotId,
+    this.lotName,
     required this.lotType,
   });
 
@@ -29,7 +31,7 @@ class NormalLotScanContainer extends StatelessWidget {
     var valueTextStyle = theme.primaryTextTheme.displayMedium?.copyWith(color: theme.primaryColor);
 
     return ChangeNotifierProvider(
-      create: (_) => LotScanProvider(lotType: lotType, lotName: lotName),
+      create: (_) => LotScanProvider(lotType: lotType, lotId: lotId, lotName: lotName),
       lazy: false,
       child: Builder(builder: (builderContext) {
         var provider = LotScanProvider.of(builderContext);
@@ -83,7 +85,7 @@ class NormalLotScanContainer extends StatelessWidget {
                 children: [
                   LabeledText(
                     label: l10n.barCode,
-                    value: itemList?[value]?.qrCode,
+                    value: itemList?[value].qrCode,
                     valueTextStyle: valueTextStyle,
                     labelTextStyle: labelTextStyle,
                     labelFlex: 1,
@@ -93,7 +95,7 @@ class NormalLotScanContainer extends StatelessWidget {
                   const SizedBox(height: Dimens.space_4),
                   LabeledText(
                     label: l10n.productTitle,
-                    value: itemList?[value]?.model,
+                    value: itemList?[value].model,
                     valueTextStyle: valueTextStyle,
                     labelTextStyle: labelTextStyle,
                     labelFlex: 1,
@@ -103,7 +105,7 @@ class NormalLotScanContainer extends StatelessWidget {
                   const SizedBox(height: Dimens.space_4),
                   LabeledText(
                     label: l10n.location,
-                    value: itemList?[value]?.qrCode,
+                    value: itemList?[value].storageBarcode,
                     valueTextStyle: valueTextStyle,
                     labelTextStyle: labelTextStyle,
                     labelFlex: 1,
@@ -171,7 +173,7 @@ class NormalLotScanContainer extends StatelessWidget {
       CshLoading().showLoading(context);
       provider
           .normalLotOutVerifyBarCode(
-        NormalLotOutRequest(locBarcode: item?.qrCode, stockBarcode: value, lotName: lotName),
+        NormalLotOutRequest(locBarcode: item?.qrCode, stockBarcode: value, lotId: lotId),
       )
           .then((value) {
         CshLoading().hideLoading(context);

@@ -6,6 +6,8 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/product_l
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/lob_product_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/widgets/product_list_selection.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
 class NewProductListWidget extends StatefulWidget {
@@ -19,6 +21,15 @@ class NewProductListWidget extends StatefulWidget {
 
 class _NewProductListWidgetState extends State<NewProductListWidget> with ProductListSelection {
   final CshListController _listController = CshListController();
+
+  /// Returns the appropriate service group based on login type
+  /// QC login uses qcConsole, TRC login uses unifyTrc
+  TRCServiceGroups _getServiceGroup() {
+    var loginTypeEnum = LoginTypes.fromValue(AppPreferences.app.getLoginType() ?? "");
+    return loginTypeEnum == LoginTypes.qcLogin 
+        ? TRCServiceGroups.qcConsole 
+        : TRCServiceGroups.unifyTrc;
+  }
 
   FilterConfig _getFilterConfig(ProductListProvider provider) {
     return FilterConfig(
@@ -73,7 +84,7 @@ class _NewProductListWidgetState extends State<NewProductListWidget> with Produc
             child: CshApiList<LobProductListData>(
               apiConfig: ListApiConfig(
                 apiUrl: "/manual-test/product/list",
-                serviceGroup: TRCServiceGroups.qcConsole,
+                serviceGroup: _getServiceGroup(),
               ),
               filterConfig: _getFilterConfig(provider),
               controller: _listController,
