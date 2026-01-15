@@ -36,6 +36,9 @@ class LotDeviceListData {
   @JsonKey(name: 'brand')
   String? brand;
 
+  @JsonKey(name: 'imei')
+  String? imei;
+
   @JsonKey(name: 'imei1')
   String? imei1;
 
@@ -60,21 +63,31 @@ class LotDeviceListData {
   @JsonKey(name: 'statusDesc')
   String? statusDescription;
 
-  LotDeviceListData(
-      {this.id,
-      this.deviceId,
-      this.mpid,
-      this.qrCode,
-      this.model,
-      this.brand,
-      this.status,
-      this.grade,
-      this.productTitle,
-      this.testAge,
-      this.statusDescription,
-      this.imei1,
-      this.imei2,
-      this.serialNumber});
+  @JsonKey(name: 'lotId')
+  int? lotId;
+
+  @JsonKey(name: 'lotGroupName')
+  String? lotGroupName;
+
+  LotDeviceListData({
+    this.id,
+    this.deviceId,
+    this.mpid,
+    this.qrCode,
+    this.model,
+    this.brand,
+    this.imei,
+    this.status,
+    this.grade,
+    this.productTitle,
+    this.testAge,
+    this.statusDescription,
+    this.imei1,
+    this.imei2,
+    this.serialNumber,
+    this.lotId,
+    this.lotGroupName,
+  });
 
   static LotDeviceListData fromJson(Map<String, dynamic> json) => _$LotDeviceListDataFromJson(json);
 

@@ -36,6 +36,7 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
   final TextInputDebounce _searchDeviceDeBouncer = TextInputDebounce();
   final TextEditingController _searchRiderController = TextEditingController();
   final TextInputDebounce _searchRiderDeBouncer = TextInputDebounce();
+  FilterConfig? _filterConfig;
 
   @override
   void initState() {
@@ -62,15 +63,15 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
     }
 
     // Add engineer name filter if selected (nested in fp)
-    if (provider.engineerName != null && provider.engineerName!.isNotEmpty) {
-      preSelectedFilters.add(
-        AdminFilterList(
-          type: 'fp.engName',
-          field: 'fp.engName',
-          value: AdminFilterData(search: provider.engineerName),
-        ),
-      );
-    }
+    // if (provider.engineerName != null && provider.engineerName!.isNotEmpty) {
+    //   preSelectedFilters.add(
+    //     AdminFilterList(
+    //       type: 'fp.engName',
+    //       field: 'fp.engName',
+    //       value: AdminFilterData(search: provider.engineerName),
+    //     ),
+    //   );
+    // }
 
     // Add isUrgent filter (nested in fp)
     // preSelectedFilters.add(
@@ -95,7 +96,7 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
 
     return FilterConfig(
       // preSelectedFilters: preSelectedFilters,
-      // initialFilter: preSelectedFilters,
+      initialFilter: preSelectedFilters,
     );
   }
 
@@ -104,6 +105,7 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
     var theme = Theme.of(context);
     var l10n = L10n(context);
     var provider = InventoryHomeProvider.of(context);
+    _filterConfig = _getFilterConfig(provider);
     return Column(
       children: [
         Container(
@@ -164,7 +166,9 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
                       } else {
                         provider.engineerName = data.trim();
                       }
-                      refreshList();
+                      setState(() {
+                        _filterConfig = _getFilterConfig(provider);
+                      });
                     });
                   },
                 ),
@@ -202,11 +206,12 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
         ),
         Expanded(
           child: CshApiList<PendingDeviceDetailData>(
+            key: ObjectKey(provider.barcode),
             apiConfig: ListApiConfig(
               apiUrl: "/inventory/list-assignment-pending-devices",
               serviceGroup: TRCServiceGroups.unifyTrc,
             ),
-            filterConfig: _getFilterConfig(provider),
+            filterConfig: _filterConfig,
             controller: _listController,
             itemFromJson: PendingDeviceDetailData.fromJson,
             shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),

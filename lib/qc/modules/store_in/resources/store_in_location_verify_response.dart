@@ -36,7 +36,7 @@ class StoreInLocationVerifyResponse {
     if (json.containsKey('dt') && json['dt'] is Map<String, dynamic>) {
       final dt = json['dt'] as Map<String, dynamic>;
       return StoreInLocationVerifyResponse(
-        success: dt['s'] is int ? dt['s'] : (dt['s'] == true ? 1 : 0),
+        verifyBarcodeStatus: dt['s'] is int ? dt['s'] : (dt['s'] == true ? 1 : 0),
         availableSpace: (dt['ac'] as num?)?.toInt(),
         totalSpace: (dt['tc'] as num?)?.toInt(),
         requestId: dt['r_id'] as String?,
