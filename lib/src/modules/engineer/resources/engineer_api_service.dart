@@ -299,4 +299,12 @@ class EngineerAPIService {
 
     return TrcService().post("/engineer/assign-retrieved-part", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
+
+  static Stream<BaseActionResponse?> updateEngineerLocation(String? location) {
+    Map<String, dynamic> req = {
+      "location": location,
+    };
+
+    return TrcService().post("/engineer/update-location", BaseActionResponse.fromJson, body: jsonEncode(req));
+  }
 }

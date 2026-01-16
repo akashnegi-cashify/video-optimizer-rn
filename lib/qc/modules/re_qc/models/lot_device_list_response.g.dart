@@ -35,6 +35,7 @@ LotDeviceListData _$LotDeviceListDataFromJson(Map<String, dynamic> json) =>
       qrCode: json['qrCode'] as String?,
       model: json['model'] as String?,
       brand: json['brand'] as String?,
+      imei: json['imei'] as String?,
       status: (json['status'] as num?)?.toInt(),
       grade: json['grade'] as String?,
       productTitle: json['productTitle'] as String?,
@@ -43,6 +44,8 @@ LotDeviceListData _$LotDeviceListDataFromJson(Map<String, dynamic> json) =>
       imei1: json['imei1'] as String?,
       imei2: json['imei2'] as String?,
       serialNumber: json['serialNumber'] as String?,
+      lotId: (json['lotId'] as num?)?.toInt(),
+      lotGroupName: json['lotGroupName'] as String?,
     );
 
 Map<String, dynamic> _$LotDeviceListDataToJson(LotDeviceListData instance) =>
@@ -53,6 +56,7 @@ Map<String, dynamic> _$LotDeviceListDataToJson(LotDeviceListData instance) =>
       'qrCode': instance.qrCode,
       'model': instance.model,
       'brand': instance.brand,
+      'imei': instance.imei,
       'imei1': instance.imei1,
       'imei2': instance.imei2,
       'serialNumber': instance.serialNumber,
@@ -61,4 +65,6 @@ Map<String, dynamic> _$LotDeviceListDataToJson(LotDeviceListData instance) =>
       'productTitle': instance.productTitle,
       'testingAge': instance.testAge,
       'statusDesc': instance.statusDescription,
+      'lotId': instance.lotId,
+      'lotGroupName': instance.lotGroupName,
     };

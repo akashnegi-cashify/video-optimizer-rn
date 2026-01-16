@@ -8,6 +8,8 @@ import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/screens/variant_lis
 import 'package:flutter_trc/src/libraries/analytics/analytics_controller.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/product_search_clicked_event.dart';
 import 'package:flutter_trc/src/libraries/analytics/events/variant_search_clicked_event.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:provider/provider.dart';
 
 mixin ProductListSelection {
@@ -43,6 +45,7 @@ mixin ProductListSelection {
                 _fireVariantAnalytics(variantItem!, provider.deviceBarcode, provider.categoryId);
                 onProductSelected(item, variantItem);
               },
+              isFromTrc: _isFromTrc(),
             ),
           );
         },
@@ -50,6 +53,12 @@ mixin ProductListSelection {
     } else {
       onProductSelected(item, null);
     }
+  }
+
+  /// Returns true if the current login is TRC (not QC)
+  bool _isFromTrc() {
+    var loginTypeEnum = LoginTypes.fromValue(AppPreferences.app.getLoginType() ?? "");
+    return loginTypeEnum != LoginTypes.qcLogin;
   }
 
   _fireProductSearchAnalytics(LobProductListData item, int? categoryId, String? deviceBarcode) {
