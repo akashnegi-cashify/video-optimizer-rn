@@ -8,19 +8,20 @@ import 'index.dart';
 
 class PreDispatchContainerWidget extends StatelessWidget {
   final String? lotGroupName;
+  final int? lotId;
 
-  const PreDispatchContainerWidget({super.key, this.lotGroupName,});
+  const PreDispatchContainerWidget({super.key, this.lotGroupName, this.lotId});
 
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
 
-    if (isEmpty(lotGroupName)) {
+    if (isEmpty(lotGroupName) || lotId == null) {
       return Center(child: CshTextNew.h3(l10n.lotGroupNotEmptyOrNull));
     }
 
     return ChangeNotifierProvider(
-      create: (context) => PreDispatchProvider(lotGroupName!),
+      create: (context) => PreDispatchProvider(lotGroupName!, lotId!),
       child: const PreDispatchWidget(),
     );
   }

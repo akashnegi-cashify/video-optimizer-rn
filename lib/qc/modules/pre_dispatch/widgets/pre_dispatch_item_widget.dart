@@ -1,6 +1,7 @@
 import 'package:builder_component/builder_component.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/re_qc/models/lot_device_list_response.dart';
 import 'package:ml_barcode_scanner/widgets/index.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +37,7 @@ class PreDispatchItemWidget extends StatelessWidget {
           child: RefreshIndicator(
             onRefresh: () {
               return Future.delayed(const Duration(seconds: 1), () {
-                provider.fetchPreDispatchItemDetail();
+                provider.getLotDeviceList();
               });
             },
             child: ListView.separated(

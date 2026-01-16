@@ -1,6 +1,5 @@
+import 'package:flutter_trc/qc/modules/re_qc/models/lot_device_list_response.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import 'index.dart';
 
 part 'scan_pre_dispatch_response.g.dart';
 
@@ -22,7 +21,7 @@ class ScanPreDispatchResponse {
   String? errorMessage;
 
   @JsonKey(includeFromJson: false,includeToJson: false)
-  PreDispatchItem? preDispatchItem;
+  LotDeviceListData? preDispatchItem;
 
   ScanPreDispatchResponse({
     this.message,

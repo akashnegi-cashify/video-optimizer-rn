@@ -27,12 +27,12 @@ class InventoryPendingDeliveryWidgetState extends State<InventoryPendingDelivery
     return FilterConfig(
       initialFilter: [
         AdminFilterList(
-          type: core.CshFilterValueType.equality.value,
+          type: core.CshFilterValueType.multiSelect.value,
           field: 'location_group',
-          value: AdminFilterData(search: provider.getLocationsString()),
+          value: AdminFilterData(list: provider.getLocationsString()?.split(',').toList()),
         ),
         // AdminFilterList(
-        //   type: 'is_urgent',
+        //   type: core.CshFilterValueType.equality.value,
         //   field: 'is_urgent',
         //   value: AdminFilterData(search: 'false'),
         // ),
