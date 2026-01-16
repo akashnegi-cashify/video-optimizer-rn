@@ -10,7 +10,7 @@ LobProductListResponse _$LobProductListResponseFromJson(
         Map<String, dynamic> json) =>
     LobProductListResponse(
       json['r_id'] as String?,
-      (json['dt'] as List<dynamic>?)
+      (json['data'] as List<dynamic>?)
           ?.map((e) => LobProductListData.fromJson(e as Map<String, dynamic>))
           .toList(),
     )

@@ -8,7 +8,7 @@ class LobProductListResponse extends BaseResponse {
   @JsonKey(name: 'r_id')
   String? rId;
 
-  @JsonKey(name: 'dt')
+  @JsonKey(name: 'data')
   List<LobProductListData>? productList;
 
   LobProductListResponse(this.rId, this.productList) : super(null, '');
