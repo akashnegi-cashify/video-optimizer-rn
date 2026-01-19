@@ -26,6 +26,7 @@ class PreDispatchComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((paramModel) => PreDispatchContainerWidget(
           lotGroupName: paramModel.lotGroupName,
+          lotId: paramModel.lotId,
         ));
   }
 

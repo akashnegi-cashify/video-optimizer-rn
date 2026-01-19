@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_trc/qc/modules/re_qc/models/lot_device_list_response.dart';
+import 'package:flutter_trc/qc/modules/re_qc/resources/re_qc_service.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/index.dart';
@@ -10,24 +12,25 @@ import '../resources/services.dart';
 import '../types.dart';
 
 class PreDispatchProvider extends CshChangeNotifier {
-  late DataState<PreDispatchItemResponse?> dataState;
+  late DataState<LotDeviceListResponse?> dataState;
   final String groupLotName;
+  final int lotId;
   ScanPreDispatchResponse? scanPreDispatchResponse;
 
   static PreDispatchProvider of({required BuildContext context, bool listen = true}) {
     return Provider.of<PreDispatchProvider>(context, listen: listen);
   }
 
-  PreDispatchProvider(this.groupLotName) {
+  PreDispatchProvider(this.groupLotName, this.lotId) {
     dataState = DataState();
-    fetchPreDispatchItemDetail();
+    getLotDeviceList();
   }
 
-  Future<PreDispatchItemResponse?> fetchPreDispatchItemDetail() {
+  Future<LotDeviceListResponse?> getLotDeviceList() {
     dataState = dataState.copyWith(data: null, status: RequestStatus.initial);
     notifyListeners();
-    var completer = Completer<PreDispatchItemResponse?>();
-    DispatchLotServices.fetchPreDispatchItemDetail(groupLotName).listen((event) {
+    var completer = Completer<LotDeviceListResponse?>();
+    ReQcService.getLotDeviceList(lotId).listen((event) {
       dataState = dataState.copyWith(data: event, status: RequestStatus.success);
       completer.complete(event);
       notifyListeners();
@@ -35,19 +38,19 @@ class PreDispatchProvider extends CshChangeNotifier {
       var errorMsg = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong";
       dataState = dataState.copyWith(errorMsg: errorMsg, status: RequestStatus.failure, data: null);
       completer.completeError(errorMsg);
-      Logger.debug('PreDispatchProvider.fetchPreDispatchItemDetail', [errorMsg]);
+      Logger.debug('PreDispatchProvider.getLotDeviceList', [errorMsg]);
       notifyListeners();
     });
     return completer.future;
   }
 
-  List<PreDispatchItem?>? getItemsBasedOnStatus(int? status) {
-    if (status == null) return dataState.data?.items;
-    return dataState.data?.items?.where((element) => element?.status == status).toList();
+  List<LotDeviceListData?>? getItemsBasedOnStatus(int? status) {
+    if (status == null) return dataState.data?.deviceList;
+    return dataState.data?.deviceList?.where((element) => element?.status == status).toList();
   }
 
   void refreshData() {
-     fetchPreDispatchItemDetail();
+     getLotDeviceList();
   }
 
   Future<ScanPreDispatchResponse?> scanPreDispatchLot(String qrCode) {
@@ -55,8 +58,8 @@ class PreDispatchProvider extends CshChangeNotifier {
     var request = ScanPreDispatchRequest(lotGroupName: groupLotName, qrCode: qrCode);
     DispatchLotServices.scanPreLotDispatch(request).listen((event) {
       scanPreDispatchResponse = event;
-      var item = ArrayUtil.firstWhere<PreDispatchItem?>(
-        dataState.data?.items ?? [],
+      var item = ArrayUtil.firstWhere<LotDeviceListData?>(
+        dataState.data?.deviceList ?? [],
             (element) => element?.qrCode == qrCode,
       );
 
@@ -95,7 +98,7 @@ class PreDispatchProvider extends CshChangeNotifier {
   }
 
   bool isAllItemScan(){
-    return dataState.data?.items?.every((element) => element?.status == DispatchConstants.SCANNED_STATUS) ?? false;
+    return dataState.data?.deviceList?.every((element) => element?.status == DispatchConstants.SCANNED_STATUS) ?? false;
   }
 
 

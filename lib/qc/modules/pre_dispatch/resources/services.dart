@@ -10,6 +10,7 @@ class DispatchLotServices {
       "gln": [groupLotName],
     };
 
+    // /lot-device/v1/list
     return QcService().get(
       "/lot/v2/devices",
       PreDispatchItemResponse.fromJson,

@@ -19,7 +19,7 @@ class ReQcService {
   }
 
   static Stream<LotDeviceListResponse?> getLotDeviceList(int? lotId) {
-    return QcService().get("/lot-device/v1/list?lid=$lotId'", LotDeviceListResponse.fromJson);
+    return QcService().get("/lot-device/v1/list?lid=$lotId", LotDeviceListResponse.fromJson);
   }
 
   // static Stream<LotDeviceListResponse?> getTestCases(String? lotGroupName) {
@@ -31,7 +31,7 @@ class ReQcService {
   }
 
   static Stream<DeviceAccessoriesListResponse?> getDeviceAccessories(int? deviceId) {
-    return QcService().get("/lot-re-qc/v2/device/accessories?did=$deviceId", DeviceAccessoriesListResponse.fromJson);
+    return QcService().get("/re-qc/v1/device/accessories?did=$deviceId", DeviceAccessoriesListResponse.fromJson);
   }
 
   static Stream<BaseActionResponse?> submitReQcData(
