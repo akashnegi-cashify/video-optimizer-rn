@@ -45,46 +45,37 @@ class StoreOutLotListContainer extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Selector<StoreOutProvider, ({bool showSearchBox, bool isStoreOutInProgress})>(
-          builder: (BuildContext selectorContext, value, Widget? child) {
-            var provider = StoreOutProvider.of(selectorContext, listen: false);
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_16),
-              child: Column(
-                children: [
-                  if (value.showSearchBox)
-                    MySearchBarWidget(
-                      isAutoFocus: true,
-                      showBorder: false,
-                      onQuery: (query) {
-                        provider.setSearchQuery(query);
-                        listKey.currentState?.resetAndRefreshScreen();
-                      },
-                    ),
-                  CshCard(
-                    padding: const EdgeInsets.only(left: Dimens.space_16, right: Dimens.space_8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CshTextNew.subTitle2(l10n.inProcessLot),
-                        CshSwitch(
-                          isSelected: value.isStoreOutInProgress,
-                          onChanged: (value) {
-                            provider.isStoreOutInProgress = value;
-                            listKey.currentState?.resetAndRefreshScreen();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          selector: (_, StoreOutProvider provider) {
-            return (showSearchBox: provider.showSearchBox, isStoreOutInProgress: provider.isStoreOutInProgress);
-          },
-        ),
+        // Selector<StoreOutProvider, ({bool showSearchBox, bool isStoreOutInProgress})>(
+        //   builder: (BuildContext selectorContext, value, Widget? child) {
+        //     var provider = StoreOutProvider.of(selectorContext, listen: false);
+        //     return Padding(
+        //       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_16),
+        //       child: Column(
+        //         children: [
+        //           CshCard(
+        //             padding: const EdgeInsets.only(left: Dimens.space_16, right: Dimens.space_8),
+        //             child: Row(
+        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //               children: [
+        //                 CshTextNew.subTitle2(l10n.inProcessLot),
+        //                 CshSwitch(
+        //                   isSelected: value.isStoreOutInProgress,
+        //                   onChanged: (value) {
+        //                     provider.isStoreOutInProgress = value;
+        //                     listKey.currentState?.resetAndRefreshScreen();
+        //                   },
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     );
+        //   },
+        //   selector: (_, StoreOutProvider provider) {
+        //     return (showSearchBox: provider.showSearchBox, isStoreOutInProgress: provider.isStoreOutInProgress);
+        //   },
+        // ),
         Expanded(
           child: Stack(
             children: [
@@ -97,7 +88,6 @@ class StoreOutLotListContainer extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 right: 0,
-                left: 0,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: Dimens.space_20, vertical: Dimens.space_16),
                   child: Row(
@@ -111,22 +101,6 @@ class StoreOutLotListContainer extends StatelessWidget {
                           FeatherIcons.filter,
                           iconColor: theme.colorScheme.background,
                         ),
-                      ),
-                      Selector<StoreOutProvider, bool>(
-                        builder: (BuildContext context, value, Widget? child) {
-                          return FloatingActionButton(
-                            onPressed: () => _showSearchBox(context),
-                            backgroundColor: theme.primaryColor,
-                            heroTag: 'searchQuery',
-                            child: CshIcon(
-                              value ? FeatherIcons.x : FeatherIcons.search,
-                              iconColor: theme.colorScheme.background,
-                            ),
-                          );
-                        },
-                        selector: (_, StoreOutProvider provider) {
-                          return provider.showSearchBox;
-                        },
                       ),
                     ],
                   ),

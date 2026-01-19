@@ -264,7 +264,6 @@ import 'package:flutter_trc/src/modules/login/resources/collector_user_controlle
 import 'package:flutter_trc/src/modules/login/resources/login_service.dart';
 import 'package:flutter_trc/src/modules/login/resources/notification_type.dart';
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
-import 'package:flutter_trc/src/modules/login/widgets/trc_login_widget.dart';
 import 'package:flutter_trc/src/modules/login/widgets/qc_login_widget.dart';
 import 'package:flutter_trc/src/modules/page_not_found.dart';
 import 'package:flutter_trc/src/modules/part_qc/l10n.dart';

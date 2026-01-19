@@ -1,4 +1,5 @@
 import 'package:calculator_ui/calculator_ui.dart';
+import 'package:components/list_page/config/filter_config.dart';
 import 'package:components/list_page/config/list_api_config.dart';
 import 'package:components/list_page/controller/csh_list_controller.dart';
 import 'package:components/list_page/widgets/csh_api_list.dart';
@@ -60,6 +61,31 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
     _listController.refresh();
   }
 
+  FilterConfig _getFilterConfig() {
+    return FilterConfig(filterData: [
+      CshFilterData(
+        label: "Lot Group Name",
+        field: 'lotGroupName',
+        crudFilter: 'groupName',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      // CshFilterData(
+      //   label: "Lot Id",
+      //   field: 'id',
+      //   crudFilter: 'id',
+      //   filterType: CshFilterType.input,
+      //   valueType: CshFilterValueType.contains,
+      //   position: FilterPosition.top,
+      //   keyboardType: TextInputType.text,
+      //   filterGroup: FilterGroupType.multipleTypeSearch,
+      // ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -67,18 +93,18 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SearchWithDropdownWidget(
-          padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
-          searchTypeValues: LotSearchType.values,
-          onSearch: (type, value) {
-            _setSearchFilterAndReset(type, value);
-          },
-          onDropDownChange: (item) {
-            var provider = ReQcListProvider.of(context, listen: false);
-            provider.resetSearchFilters();
-            _listController.refresh();
-          },
-        ),
+        // SearchWithDropdownWidget(
+        //   padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
+        //   searchTypeValues: LotSearchType.values,
+        //   onSearch: (type, value) {
+        //     _setSearchFilterAndReset(type, value);
+        //   },
+        //   onDropDownChange: (item) {
+        //     var provider = ReQcListProvider.of(context, listen: false);
+        //     provider.resetSearchFilters();
+        //     _listController.refresh();
+        //   },
+        // ),
         Expanded(
           child: Stack(
             children: [
@@ -88,6 +114,7 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
                   serviceGroup: TRCServiceGroups.qcConsole,
                 ),
                 controller: _listController,
+                filterConfig: _getFilterConfig(),
                 shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
                 itemFromJson: ReQcListData.fromJson,
                 getRowWidget: (item, index) {

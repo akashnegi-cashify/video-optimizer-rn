@@ -54,8 +54,7 @@ class ConsoleLoginWidget extends StatelessWidget {
             AuthHandler().setUserAuth(userAuth!);
             UserDetails().setUserDetailsData().then((value) {
               AppPreferences.app.setLoginType(loginType.value);
-              UserRoles.navigateToUserRoleScreen(context, UserDetails().getListOfPermissions() ?? [],
-                  loginType: loginType);
+              UserRoles.navigateToUserRoleScreen(context, loginType: loginType);
             }, onError: (error) {
               CshSnackBar.error(context: context, message: error);
             });

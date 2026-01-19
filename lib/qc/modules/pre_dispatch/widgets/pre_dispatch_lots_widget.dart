@@ -31,27 +31,43 @@ class _PreDispatchLotsWidgetState extends State<PreDispatchLotsWidget> {
     });
   }
 
+  FilterConfig _getFilterConfig() {
+    return FilterConfig(filterData: [
+      CshFilterData(
+        label: "Lot Group Name",
+        field: 'lotGroupName',
+        crudFilter: 'groupName',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
     return Column(
       children: [
-        SearchWithDropdownWidget(
-          padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
-          searchTypeValues: LotSearchType.values,
-          onSearch: (type, value) {
-            _setSearchFilterAndReset(type, value);
-          },
-          onDropDownChange: (item) {
-            var provider = PreDispatchLotProvider.of(context: context, listen: false);
-            provider.resetSearchFilters();
-            _listController.refresh();
-          },
-        ),
+        // SearchWithDropdownWidget(
+        //   padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
+        //   searchTypeValues: LotSearchType.values,
+        //   onSearch: (type, value) {
+        //     _setSearchFilterAndReset(type, value);
+        //   },
+        //   onDropDownChange: (item) {
+        //     var provider = PreDispatchLotProvider.of(context: context, listen: false);
+        //     provider.resetSearchFilters();
+        //     _listController.refresh();
+        //   },
+        // ),
         Expanded(
           child: CshApiList<PreDispatchLotInfo>(
             apiConfig: ListApiConfig(apiUrl: "/lot-pre-dispatch/list?", serviceGroup: TRCServiceGroups.qcConsole),
             controller: _listController,
+            filterConfig: _getFilterConfig(),
             shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
             itemFromJson: PreDispatchLotInfo.fromJson,
             getRowWidget: (item, index) {

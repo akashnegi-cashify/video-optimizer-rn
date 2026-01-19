@@ -1,3 +1,4 @@
+import 'package:components/list_page/config/filter_config.dart';
 import 'package:components/list_page/config/list_api_config.dart';
 import 'package:components/list_page/controller/csh_list_controller.dart';
 import 'package:components/list_page/widgets/csh_api_list.dart';
@@ -32,6 +33,21 @@ class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
     });
   }
 
+  FilterConfig _getFilterConfig() {
+    return FilterConfig(filterData: [
+      CshFilterData(
+        label: "Lot Group Name",
+        field: 'lotGroupName',
+        crudFilter: 'groupName',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
@@ -44,6 +60,7 @@ class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
             serviceGroup: TRCServiceGroups.qcConsole,
           ),
           controller: _listController,
+          filterConfig: _getFilterConfig(),
           shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
           listPadding: const EdgeInsets.all(Dimens.space_16),
           verticalRowSpacing: Dimens.space_16,

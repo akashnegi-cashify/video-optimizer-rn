@@ -1,4 +1,3 @@
-import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dar
 import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/modules/login/screens/login_screen.dart';
-import 'package:flutter_trc/src/resources/user_details.dart';
 
 import '../l10n.dart';
 
@@ -85,19 +83,15 @@ class TrcAndQcLoginWidget extends StatelessWidget {
     );
   }
 
-  _moveToLoginScreen(BuildContext context, LoginTypes loginType) {
-    if (loginType != LoginTypes.qcLogin || Validator.isNullOrEmpty(AppPreferences.qc.getUserAuth())) {
-      /// Handle non-QC login or empty auth case
-      LoginScreenArguments args = LoginScreenArguments(loginType: loginType);
-      Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
+  _moveToLoginScreen(BuildContext context, LoginTypes loginType) async {
+    var auth = await SharedPreferencesHelper().getUserAuth();
+    if (auth != null) {
+      AppPreferences.app.setLoginType(loginType.value);
+      UserRoles.navigateToUserRoleScreen(context, loginType: loginType);
       return;
     }
-    /// Handle valid QC login case
-    String userAuth = AppPreferences.qc.getUserAuth()!;
-    AuthHandler().setUserAuth(userAuth);
-    UserDetails().setUserDetailsDataTemp(userAuth);
-    UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-        loginType: LoginTypes.qcLogin);
+    LoginScreenArguments args = LoginScreenArguments(loginType: loginType);
+    Navigator.of(context).pushNamed(LoginScreen.route, arguments: args);
   }
 
   void _checkAppUpdate(BuildContext context, VoidCallback onProceed) {

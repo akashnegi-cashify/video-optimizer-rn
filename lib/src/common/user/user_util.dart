@@ -19,9 +19,10 @@ class UserUtil {
       context: context,
       child: LogoutModalWidget(
         onLogoutCallback: () {
-          var loginType = AppPreferences.app.getLoginType();
-          var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
-          _onLogout(context, loginTypeEnum);
+          Navigator.pushNamedAndRemoveUntil(context, TrcAndQcLoginScreen.route, (route) => false);
+          // var loginType = AppPreferences.app.getLoginType();
+          // var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
+          // _onLogout(context, loginTypeEnum);
         },
       ),
     );

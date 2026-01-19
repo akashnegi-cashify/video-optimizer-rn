@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
 import 'package:flutter_trc/src/common/user/user_util.dart';
 import 'package:flutter_trc/src/environments/environment_config.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
+import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
+import 'package:flutter_trc/trc/my_permissions/permission_extension.dart';
 
 class UserProfileScreen extends StatelessWidget {
   static const String route = "/user_profile_screen";
@@ -100,26 +103,26 @@ class UserProfileScreen extends StatelessWidget {
     );
   }
 
-  List<String> _getPermissionList(List<ModuleResponse> list) {
-    List<String> permissionList = [];
-    for (var element in list) {
-      element.permissionList?.forEach(
-        (innerElement) {
-          if (!Validator.isNullOrEmpty(innerElement.permissionKey)) {
-            permissionList.add(innerElement.permissionKey!);
-          }
-        },
-      );
+  List<String?> _getPermissionList(List<ModuleResponse> list) {
+    List<String?> permissionList = [];
+    var loginTypeValue = AppPreferences.app.getLoginType();
+    if (loginTypeValue != null) {
+      var serviceName = LoginTypes.fromValue(loginTypeValue).getServiceName();
+      List<PermissionDetail>? myList = PermissionController().getAllPermission(serviceName);
+      var newList = myList?.where((element) => element.selected == true);
+      if (newList != null) {
+        permissionList = newList.map((e) => e.permissionKey).toList();
+      }
     }
     return permissionList;
   }
 
-  _buildPermissionWidget(BuildContext context, List<String> roleList) {
+  _buildPermissionWidget(BuildContext context, List<String?> roleList) {
     var theme = Theme.of(context);
     var listWidget = List.generate(
       roleList.length,
       (index) => Chip(
-        label: Text(roleList[index], style: theme.primaryTextTheme.bodySmall),
+        label: Text(roleList[index] ?? "", style: theme.primaryTextTheme.bodySmall),
         backgroundColor: theme.primaryColor.withAlpha(50),
         elevation: 1,
         visualDensity: VisualDensity.compact,

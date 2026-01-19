@@ -6,9 +6,9 @@ class LogoutModalWidget extends StatelessWidget {
   final Function()? onLogoutCallback;
 
   const LogoutModalWidget({
-    Key? key,
+    super.key,
     this.onLogoutCallback,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class LogoutModalWidget extends StatelessWidget {
           ),
           const SizedBox(height: Dimens.space_16),
           Text(
-            l10n.doYouWantToLogout,
+            l10n.doYouWantToSwitchModule,
             style: theme.primaryTextTheme.bodyLarge,
           ),
           const SizedBox(height: Dimens.space_30),
