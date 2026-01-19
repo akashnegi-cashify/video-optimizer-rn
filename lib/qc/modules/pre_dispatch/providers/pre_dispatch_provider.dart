@@ -13,7 +13,7 @@ import '../types.dart';
 
 class PreDispatchProvider extends CshChangeNotifier {
   late DataState<LotDeviceListResponse?> dataState;
-  final String groupLotName;
+  final String? groupLotName;
   final int lotId;
   ScanPreDispatchResponse? scanPreDispatchResponse;
 

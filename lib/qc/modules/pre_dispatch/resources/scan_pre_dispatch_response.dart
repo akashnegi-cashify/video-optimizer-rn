@@ -9,7 +9,7 @@ class ScanPreDispatchResponse {
   String? message;
 
   @JsonKey(name: "s")
-  bool? status;
+  int? status;
 
   @JsonKey(name: "success")
   bool? success;

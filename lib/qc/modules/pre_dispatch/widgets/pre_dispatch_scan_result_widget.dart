@@ -15,8 +15,8 @@ class PreDispatchScanResultWidget extends StatelessWidget {
     var provider = PreDispatchProvider.of(context: context);
     var l10n = L10n(context);
     var item = provider.scanPreDispatchResponse;
-    var status = item?.status == true ? l10n.statusValid : item?.errorMessage;
-    var statusTextColor = item?.status == true ? customTheme.successColor : theme.colorScheme.error;
+    var status = item?.status == 1 ? l10n.statusValid : item?.errorMessage;
+    var statusTextColor = item?.status == 1 ? customTheme.successColor : theme.colorScheme.error;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

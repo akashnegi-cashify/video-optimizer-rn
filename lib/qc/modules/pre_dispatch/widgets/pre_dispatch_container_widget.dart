@@ -16,12 +16,12 @@ class PreDispatchContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
 
-    if (isEmpty(lotGroupName) || lotId == null) {
+    if (lotId == null) {
       return Center(child: CshTextNew.h3(l10n.lotGroupNotEmptyOrNull));
     }
 
     return ChangeNotifierProvider(
-      create: (context) => PreDispatchProvider(lotGroupName!, lotId!),
+      create: (context) => PreDispatchProvider(lotGroupName, lotId!),
       child: const PreDispatchWidget(),
     );
   }

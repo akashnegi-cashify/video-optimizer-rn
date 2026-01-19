@@ -48,9 +48,9 @@ class _PreDispatchWidgetState extends State<PreDispatchWidget> with SingleTicker
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CshShimmer(show: isLoading, child: CshTextNew.h3(provider.groupLotName)),
+                  CshShimmer(show: isLoading, child: CshTextNew.h3(provider.groupLotName ?? "Lot #${provider.lotId}")),
                   const SizedBox(height: Dimens.space_4),
-                  CshShimmer(show: isLoading, child: CshTextNew.h3("Number Of Devices - ${response?.totalCount ?? 0}")),
+                  CshShimmer(show: isLoading, child: CshTextNew.h3("Number Of Devices - ${response?.deviceList?.length ?? 0}")),
                   const SizedBox(height: Dimens.space_2),
                 ],
               ),

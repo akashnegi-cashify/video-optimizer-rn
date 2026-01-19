@@ -23,27 +23,31 @@ class PreDispatchScreen extends BaseScreen<PreDispatchScreenArgs> {
     );
   }
 
-  static Future navigate(BuildContext context, String? lotGroupName,VoidCallback? allScanDoneCallback) {
+  static Future navigate(BuildContext context, String? lotGroupName, int? lotId, VoidCallback? allScanDoneCallback) {
     return Navigator.pushNamed(
       context,
       PreDispatchScreen.route,
       arguments: PreDispatchScreenArgs(
         pageKey,
-        lotGroupName, allScanDoneCallback
+        lotGroupName,
+        lotId,
+        allScanDoneCallback,
       ),
     );
   }
 }
 
 class PreDispatchScreenArgs extends BaseArguments {
-  PreDispatchScreenArgs(super.pageKey, this.lotGroupName,this.allScanDoneCallback,);
+  PreDispatchScreenArgs(super.pageKey, this.lotGroupName, this.lotId, this.allScanDoneCallback);
 
   final String? lotGroupName;
+  final int? lotId;
   final VoidCallback? allScanDoneCallback;
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
     data[PreDispatchCompParamKeys.lotGroupName.value] = lotGroupName;
+    data[PreDispatchCompParamKeys.lotId.value] = lotId;
     data[PreDispatchCompParamKeys.allScanDoneCallback.value] = allScanDoneCallback;
     return data;
   }

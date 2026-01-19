@@ -4,14 +4,20 @@ part 'pre_dispatch_lots_response.g.dart';
 
 @JsonSerializable()
 class PreDispatchLotsResponse {
-  @JsonKey(name: "dt")
+  @JsonKey(name: "data")
   List<PreDispatchLotInfo?>? lots;
 
-  @JsonKey(name: "tc")
-  int? totalLot;
+  @JsonKey(name: "totalCount")
+  int? totalCount;
 
-  @JsonKey(name: "s")
-  bool? isSuccess;
+  @JsonKey(name: "currentPageSize")
+  int? currentPageSize;
+
+  @JsonKey(name: "currentPageNumber")
+  int? currentPageNumber;
+
+  @JsonKey(name: "hasNext")
+  bool? hasNext;
 
   static PreDispatchLotsResponse fromJson(Map<String, dynamic> data) => _$PreDispatchLotsResponseFromJson(data);
 
@@ -19,8 +25,10 @@ class PreDispatchLotsResponse {
 
   PreDispatchLotsResponse({
     this.lots,
-    this.totalLot,
-    this.isSuccess,
+    this.totalCount,
+    this.currentPageSize,
+    this.currentPageNumber,
+    this.hasNext,
   });
 }
 

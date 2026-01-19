@@ -10,7 +10,7 @@ CompletePreDispatchResponse _$CompletePreDispatchResponseFromJson(
         Map<String, dynamic> json) =>
     CompletePreDispatchResponse(
       message: json['cm'] as String?,
-      status: json['s'] as bool?,
+      status: (json['s'] as num?)?.toInt(),
       success: json['success'] as bool?,
       totalCount: (json['tc'] as num?)?.toInt(),
       errorMessage: json['em'] as String?,
