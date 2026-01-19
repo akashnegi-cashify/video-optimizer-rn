@@ -79,7 +79,9 @@ class TrcHomeScreenNew extends StatelessWidget {
                     final locationController = TextEditingController();
                     showCshBottomSheet(
                       context: context,
-                      child: Container(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
+                        child: Container(
                         padding: const EdgeInsets.all(Dimens.space_16),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -122,7 +124,7 @@ class TrcHomeScreenNew extends StatelessWidget {
                           ],
                         ),
                       ),
-                    );
+                    ),),
                   },
                 ),
               ),

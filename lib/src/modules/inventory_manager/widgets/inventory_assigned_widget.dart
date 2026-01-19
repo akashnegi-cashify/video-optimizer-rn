@@ -55,7 +55,7 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
     if (provider.barcode != null && provider.barcode?.isNotEmpty == true) {
       preSelectedFilters.add(
         AdminFilterList(
-          type: CshFilterValueType.equality.value,
+          type: CshFilterValueType.contains.value,
           field: "barcode",
           value: AdminFilterData(search: provider.barcode),
         ),

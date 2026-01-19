@@ -9,21 +9,25 @@ part of 'pre_dispatch_lots_response.dart';
 PreDispatchLotsResponse _$PreDispatchLotsResponseFromJson(
         Map<String, dynamic> json) =>
     PreDispatchLotsResponse(
-      lots: (json['dt'] as List<dynamic>?)
+      lots: (json['data'] as List<dynamic>?)
           ?.map((e) => e == null
               ? null
               : PreDispatchLotInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalLot: (json['tc'] as num?)?.toInt(),
-      isSuccess: json['s'] as bool?,
+      totalCount: (json['totalCount'] as num?)?.toInt(),
+      currentPageSize: (json['currentPageSize'] as num?)?.toInt(),
+      currentPageNumber: (json['currentPageNumber'] as num?)?.toInt(),
+      hasNext: json['hasNext'] as bool?,
     );
 
 Map<String, dynamic> _$PreDispatchLotsResponseToJson(
         PreDispatchLotsResponse instance) =>
     <String, dynamic>{
-      'dt': instance.lots,
-      'tc': instance.totalLot,
-      's': instance.isSuccess,
+      'data': instance.lots,
+      'totalCount': instance.totalCount,
+      'currentPageSize': instance.currentPageSize,
+      'currentPageNumber': instance.currentPageNumber,
+      'hasNext': instance.hasNext,
     };
 
 PreDispatchLotInfo _$PreDispatchLotInfoFromJson(Map<String, dynamic> json) =>

@@ -9,6 +9,7 @@ part of 'pre_dispatch_component.dart';
 PreDispatchCompParam fromMap(Map<String, dynamic> map) {
   PreDispatchCompParam model = PreDispatchCompParam(
     lotGroupName: map["lgn"],
+    lotId: map["lid"],
     allScanDoneCallback: map["allScanDoneCallback"],
   );
   return model;
@@ -18,6 +19,7 @@ Widget paramBuilder(Widget Function(PreDispatchCompParam model) paramBuilder) {
   return Selector<PageParamProvider, Map<String, dynamic>>(
     selector: (_, provider) => {
       "lgn": provider.data["lgn"],
+      "lid": provider.data["lid"],
       "allScanDoneCallback": provider.data["allScanDoneCallback"],
     },
     builder: (context, data, child) {
@@ -28,10 +30,9 @@ Widget paramBuilder(Widget Function(PreDispatchCompParam model) paramBuilder) {
 }
 
 bool isValid(PreDispatchCompParam model) {
-  var lotGroupName = model.lotGroupName;
-  var allScanDoneCallback = model.allScanDoneCallback;
+  var lotId = model.lotId;
 
-  return lotGroupName != null && allScanDoneCallback != null;
+  return lotId != null;
 }
 
 dynamic schema() => {
@@ -43,6 +44,7 @@ dynamic schema() => {
       "title": "Pre Dispatch Component",
       "cpm": [
         {"key": "lgn", "value": null},
+        {"key": "lid", "value": null},
         {"key": "allScanDoneCallback", "value": null}
       ],
       "configJson": {
