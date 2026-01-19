@@ -12,7 +12,7 @@ DeviceDeadRepairReasonListResponse _$DeviceDeadRepairReasonListResponseFromJson(
       data: (json['dt'] as List<dynamic>?)?.map((e) => e as String?).toList(),
     )
       ..success = json['success'] as bool?
-      ..status = json['s'] as bool?
+      ..status = (json['s'] as num?)?.toInt()
       ..message = json['message'] as String?;
 
 Map<String, dynamic> _$DeviceDeadRepairReasonListResponseToJson(

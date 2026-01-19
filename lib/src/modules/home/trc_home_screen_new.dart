@@ -158,53 +158,55 @@ class TrcHomeScreenNew extends StatelessWidget {
     final locationController = TextEditingController();
     showCshBottomSheet(
       context: context,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Container(
-          padding: const EdgeInsets.all(Dimens.space_16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: Dimens.space_16,
-            children: [
-              CshTextNew.h4("Enter Location"),
-              CshTextFormField(
-                controller: locationController,
-                hintText: "Enter Location",
-                autofocus: true,
-                textInputAction: TextInputAction.done,
-              ),
-              CshBigButton(
-                text: "Submit",
-                onPressed: () {
-                  final location = locationController.text.trim();
-                  if (location.isEmpty) {
-                    CshSnackBar.error(context: context, message: "Please enter location");
-                    return;
-                  }
-                  CshLoading().showLoading(context);
-                  EngineerAPIService.updateEngineerLocation(location).listen((event) {
-                    if (context.mounted) {
-                      CshLoading().hideLoading(context);
-                      Navigator.of(context).pop();
-                      if (isL4Engineer) {
-                        Navigator.of(context).pushNamed(L4HomeScreen.route);
-                      } else {
-                        Navigator.of(context).pushNamed(EngineerHomeScreen.route);
+      child: Builder(builder: (innerContext) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
+          child: Container(
+            padding: const EdgeInsets.all(Dimens.space_16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: Dimens.space_16,
+              children: [
+                CshTextNew.h4("Enter Location"),
+                CshTextFormField(
+                  controller: locationController,
+                  hintText: "Enter Location",
+                  autofocus: true,
+                  textInputAction: TextInputAction.done,
+                ),
+                CshBigButton(
+                  text: "Submit",
+                  onPressed: () {
+                    final location = locationController.text.trim();
+                    if (location.isEmpty) {
+                      CshSnackBar.error(context: context, message: "Please enter location");
+                      return;
+                    }
+                    CshLoading().showLoading(context);
+                    EngineerAPIService.updateEngineerLocation(location).listen((event) {
+                      if (context.mounted) {
+                        CshLoading().hideLoading(context);
+                        Navigator.of(context).pop();
+                        if (isL4Engineer) {
+                          Navigator.of(context).pushNamed(L4HomeScreen.route);
+                        } else {
+                          Navigator.of(context).pushNamed(EngineerHomeScreen.route);
+                        }
                       }
-                    }
-                  }, onError: (error) {
-                    if (context.mounted) {
-                      CshLoading().hideLoading(context);
-                      CshSnackBar.error(context: context, message: error.toString());
-                    }
-                  });
-                },
-              ),
-            ],
+                    }, onError: (error) {
+                      if (context.mounted) {
+                        CshLoading().hideLoading(context);
+                        CshSnackBar.error(context: context, message: error.toString());
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
