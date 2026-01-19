@@ -71,6 +71,7 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
   final TextEditingController _searchBarController = TextEditingController();
   bool _showUrgentRequestOnly = false;
   final TextInputDebounce _deBouncer = TextInputDebounce();
+  FilterConfig? _filterConfig;
 
   void refreshList() {
     _listController.refresh();
@@ -78,42 +79,38 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
 
   FilterConfig _getFilterConfig(PendingDeliveryProvider provider) {
     List<AdminFilterList> preSelectedFilters = [];
-    
-    // Add barcode filter if provided
+
     if (provider.barcode.isNotEmpty) {
       preSelectedFilters.add(
         AdminFilterList(
-          type: 'br',
-          field: 'br',
+          type: CshFilterValueType.contains.value,
+          field: 'barcode',
           value: AdminFilterData(search: provider.barcode),
         ),
       );
     }
-    
-    // Add eid filter (from provider)
+
     if (provider.eid != null) {
       preSelectedFilters.add(
         AdminFilterList(
-          type: 'fp.eid',
-          field: 'fp.eid',
+          type: CshFilterValueType.equality.value,
+          field: 'engineer.id',
           value: AdminFilterData(search: provider.eid.toString()),
         ),
       );
     }
-    
-    // Add isUrgent filter
-    preSelectedFilters.add(
-      AdminFilterList(
-        type: 'fp.is_urgent',
-        field: 'fp.is_urgent',
-        value: AdminFilterData(search: provider.isUrgent.toString()),
-      ),
-    );
 
-    return FilterConfig(
-      preSelectedFilters: preSelectedFilters,
-      filterData: [],
-    );
+    if (Validator.isTrue(_showUrgentRequestOnly)) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: CshFilterValueType.equality.value,
+          field: 'isUrgent',
+          value: AdminFilterData(search: _showUrgentRequestOnly.toString()),
+        ),
+      );
+    }
+
+    return FilterConfig(initialFilter: preSelectedFilters);
   }
 
   @override
@@ -121,6 +118,7 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
     var theme = Theme.of(context);
     var l10n = L10n(context);
     var provider = PendingDeliveryProvider.of(context);
+    _filterConfig = _getFilterConfig(provider);
     return Scaffold(
       appBar: CshHeader(
         l10n.requestedParts,
@@ -153,8 +151,9 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
                       Navigator.of(context).pop(); // dismiss the scanner
                       provider.barcode = scannedData.trim();
                       _searchBarController.text = scannedData.trim();
-                      refreshList();
-                      provider.barcode = "";
+                      setState(() {
+                        _filterConfig = _getFilterConfig(provider);
+                      });
                     },
                   );
                 },
@@ -163,12 +162,12 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
                 _deBouncer.start(() {
                   if (data.isNotEmpty) {
                     provider.barcode = data.trim();
-                    refreshList();
-                    provider.barcode = "";
                   } else {
                     provider.barcode = "";
-                    refreshList();
                   }
+                  setState(() {
+                    _filterConfig = _getFilterConfig(provider);
+                  });
                 });
               },
             ),
@@ -177,21 +176,15 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
             padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
             child: GestureDetector(
               onTap: () {
-                _showUrgentRequestOnly = !_showUrgentRequestOnly;
-                provider.isUrgent = _showUrgentRequestOnly;
-                provider.notifyListeners(); // Notify provider changes so Consumer rebuilds
-                setState(() {});
-                refreshList();
+                setState(() {
+                  _showUrgentRequestOnly = !_showUrgentRequestOnly;
+                  _filterConfig = _getFilterConfig(provider);
+                });
               },
               child: Row(
                 children: [
-                  CshCheckbox(
-                    isSelected: _showUrgentRequestOnly,
-                  ),
-                  Text(
-                    l10n.showUrgentRequestsOnly,
-                    style: theme.primaryTextTheme.headlineMedium,
-                  )
+                  CshCheckbox(isSelected: _showUrgentRequestOnly),
+                  Text(l10n.showUrgentRequestsOnly, style: theme.primaryTextTheme.headlineMedium)
                 ],
               ),
             ),
@@ -200,11 +193,12 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
             child: Consumer<PendingDeliveryProvider>(
               builder: (context, provider, child) {
                 return CshApiList<PendingDeviceDetailData>(
+                  key: ObjectKey("${provider.barcode}-$_showUrgentRequestOnly"),
                   apiConfig: ListApiConfig(
                     apiUrl: "/inventory/list-pending-delivery-device-parts",
                     serviceGroup: TRCServiceGroups.unifyTrc,
                   ),
-                  filterConfig: _getFilterConfig(provider),
+                  filterConfig: _filterConfig,
                   controller: _listController,
                   itemFromJson: PendingDeviceDetailData.fromJson,
                   shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),

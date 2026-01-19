@@ -1,6 +1,5 @@
 import 'package:components/components.dart';
 import 'package:components/resources/list/list_request.dart';
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -63,41 +62,28 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
     }
 
     // Add engineer name filter if selected (nested in fp)
-    // if (provider.engineerName != null && provider.engineerName!.isNotEmpty) {
-    //   preSelectedFilters.add(
-    //     AdminFilterList(
-    //       type: 'fp.engName',
-    //       field: 'fp.engName',
-    //       value: AdminFilterData(search: provider.engineerName),
-    //     ),
-    //   );
-    // }
-
-    // Add isUrgent filter (nested in fp)
-    // preSelectedFilters.add(
-    //   AdminFilterList(
-    //     type: CshFilterValueType.equality.value,
-    //     field: 'isUrgent',
-    //     value: AdminFilterData(search: provider.isUrgent.toString()),
-    //   ),
-    // );
-
-    // Add location_group filter (nested in fp)
-    final locationsString = provider.getLocationsString();
-    if (locationsString != null && locationsString.isNotEmpty) {
-      // preSelectedFilters.add(
-      //   AdminFilterList(
-      //     type: CshFilterValueType.multiSelect.value,
-      //     field: 'location',
-      //     value: AdminFilterData(search: locationsString),
-      //   ),
-      // );
+    if (provider.engineerName != null && provider.engineerName!.isNotEmpty) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: CshFilterValueType.contains.value,
+          field: 'engineer.name',
+          value: AdminFilterData(search: provider.engineerName),
+        ),
+      );
     }
 
-    return FilterConfig(
-      // preSelectedFilters: preSelectedFilters,
-      initialFilter: preSelectedFilters,
-    );
+    // Add isUrgent filter (nested in fp)
+    if (Validator.isTrue(provider.isUrgent)) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: CshFilterValueType.equality.value,
+          field: 'isUrgent',
+          value: AdminFilterData(search: provider.isUrgent.toString()),
+        ),
+      );
+    }
+
+    return FilterConfig(initialFilter: preSelectedFilters);
   }
 
   @override
@@ -153,8 +139,9 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
                               Navigator.of(context).pop();
                               _searchBarController.text = scannedData.trim();
                               provider.barcode = scannedData.trim();
-                              refreshList();
-                              provider.barcode = "";
+                              setState(() {
+                                _filterConfig = _getFilterConfig(provider);
+                              });
                             });
                           },
                         )
@@ -206,7 +193,7 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
         ),
         Expanded(
           child: CshApiList<PendingDeviceDetailData>(
-            key: ObjectKey(provider.barcode),
+            key: ObjectKey("${provider.barcode}-${provider.engineerName}-${provider.isUrgent}"),
             apiConfig: ListApiConfig(
               apiUrl: "/inventory/list-assignment-pending-devices",
               serviceGroup: TRCServiceGroups.unifyTrc,

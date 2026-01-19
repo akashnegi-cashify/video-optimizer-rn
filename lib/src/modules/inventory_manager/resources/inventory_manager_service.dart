@@ -38,18 +38,6 @@ class InventoryService {
         .post("/inventory/assignment-pending/engineer/list", EngineerListResponse.fromJson, body: jsonEncode(mapData));
   }
 
-  static Stream<PendingDeviceListResponse?> getPendingDeviceList(int eid, int pageNumber, int offsetLength,
-      {bool? isUrgent = false, String? enteredOrScannedBr}) {
-    Map<String, dynamic> mapData = {
-      "br": enteredOrScannedBr ?? "",
-      "fp": {"eid": eid, "is_urgent": isUrgent},
-      "ln": offsetLength,
-      "pno": pageNumber
-    };
-    return TrcService().post("/inventory/list-pending-delivery-device-parts", PendingDeviceListResponse.fromJson,
-        body: jsonEncode(mapData));
-  }
-
   static Stream<PendingPartListResponse?> getPendingPartListData(int did) {
     Map<String, List<String>> paramsData = {
       "did": [did.toString()],

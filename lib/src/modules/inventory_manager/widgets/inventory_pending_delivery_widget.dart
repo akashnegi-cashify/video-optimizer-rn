@@ -1,13 +1,13 @@
 import 'package:components/components.dart';
 import 'package:components/resources/list/list_request.dart';
 import 'package:core_widgets/core_widgets.dart' as core;
+import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
 import '../models/engineer_list_response.dart';
 import '../providers/inventory_home_provider.dart';
 import 'engineer_list_item_widget.dart';
-
 
 class InventoryPendingDeliveryWidget extends StatefulWidget {
   const InventoryPendingDeliveryWidget({Key? key}) : super(key: key);
@@ -27,15 +27,10 @@ class InventoryPendingDeliveryWidgetState extends State<InventoryPendingDelivery
     return FilterConfig(
       initialFilter: [
         AdminFilterList(
-          type: core.CshFilterValueType.multiSelect.value,
+          type: CshFilterValueType.multiSelect.value,
           field: 'location_group',
           value: AdminFilterData(list: provider.getLocationsString()?.split(',').toList()),
         ),
-        // AdminFilterList(
-        //   type: core.CshFilterValueType.equality.value,
-        //   field: 'is_urgent',
-        //   value: AdminFilterData(search: 'false'),
-        // ),
       ],
     );
   }
@@ -43,7 +38,7 @@ class InventoryPendingDeliveryWidgetState extends State<InventoryPendingDelivery
   @override
   Widget build(BuildContext context) {
     var provider = InventoryHomeProvider.of(context, listen: false);
-    
+
     return Column(
       children: [
         Expanded(
