@@ -69,7 +69,7 @@ class _PreDispatchLotsWidgetState extends State<PreDispatchLotsWidget> {
 
   void _onItemClick(BuildContext context, {required PreDispatchLotInfo lot, required L10n l10n}) {
     if ((lot.scanPending ?? 0) != 0) {
-      PreDispatchScreen.navigate(context, lot.lotGroupName, _allScanDoneCallback);
+      PreDispatchScreen.navigate(context, lot.lotGroupName, lot.lotId, _allScanDoneCallback);
     } else {
       if (isNotEmpty(lot.lotGroupName)) {
         var provider = PreDispatchLotProvider.of(context: context, listen: false);

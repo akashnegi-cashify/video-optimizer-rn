@@ -10,7 +10,7 @@ class CompletePreDispatchResponse {
   String? message;
 
   @JsonKey(name: "s")
-  bool? status;
+  int? status;
 
   @JsonKey(name: "success")
   bool? success;
@@ -34,6 +34,6 @@ class CompletePreDispatchResponse {
   Map<String, dynamic> toJson() => _$CompletePreDispatchResponseToJson(this);
 
   bool isValid(){
-    return status == true;
+    return status == 1;
   }
 }
