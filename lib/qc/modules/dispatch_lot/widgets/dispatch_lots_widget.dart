@@ -36,25 +36,28 @@ class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
   Widget build(BuildContext context) {
     var l10n = L10n(context);
 
-    return Expanded(
+    return Column(children: [
+      Expanded(
         child: CshApiList<Lot>(
-      apiConfig: ListApiConfig(
-        apiUrl: "/lot-dispatch/list",
-        serviceGroup: TRCServiceGroups.qcConsole,
-      ),
-      controller: _listController,
-      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
-      listPadding: const EdgeInsets.all(Dimens.space_16),
-      verticalRowSpacing: Dimens.space_16,
-      itemFromJson: Lot.fromJson,
-      getRowWidget: (item, index) {
-        return LotWidget(
-          lot: item,
-          index: index,
-          onItemClick: () => _onItemClick(context, index: index, l10n: l10n),
-        );
-      },
-    ));
+          apiConfig: ListApiConfig(
+            apiUrl: "/lot-dispatch/list",
+            serviceGroup: TRCServiceGroups.qcConsole,
+          ),
+          controller: _listController,
+          shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+          listPadding: const EdgeInsets.all(Dimens.space_16),
+          verticalRowSpacing: Dimens.space_16,
+          itemFromJson: Lot.fromJson,
+          getRowWidget: (item, index) {
+            return LotWidget(
+              lot: item,
+              index: index,
+              onItemClick: () => _onItemClick(context, index: index, l10n: l10n),
+            );
+          },
+        ),
+      )
+    ]);
   }
 
   void _onItemClick(BuildContext context, {required int index, required L10n l10n}) {
