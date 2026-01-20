@@ -1,6 +1,7 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../l10n.dart';
 import '../models/pending_device_list_response.dart';
 
@@ -10,11 +11,11 @@ class AssignedTabItemWidget extends StatelessWidget {
   final Function()? onCardClicked;
 
   const AssignedTabItemWidget({
-    Key? key,
+    super.key,
     required this.onCheckBoxChange,
     this.onCardClicked,
     this.dataModel,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

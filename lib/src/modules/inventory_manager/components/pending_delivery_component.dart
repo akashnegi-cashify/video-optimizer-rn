@@ -60,7 +60,7 @@ class _PendingDeliveryWidget extends StatelessWidget {
 }
 
 class _PendingDeliveryScreenBody extends StatefulWidget {
-  const _PendingDeliveryScreenBody({Key? key}) : super(key: key);
+  const _PendingDeliveryScreenBody();
 
   @override
   State<_PendingDeliveryScreenBody> createState() => _PendingDeliveryScreenState();
@@ -100,17 +100,14 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
       );
     }
 
-    if (Validator.isTrue(_showUrgentRequestOnly)) {
-      preSelectedFilters.add(
-        AdminFilterList(
-          type: CshFilterValueType.equality.value,
-          field: 'isUrgent',
-          value: AdminFilterData(search: _showUrgentRequestOnly.toString()),
-        ),
-      );
-    }
-
     return FilterConfig(initialFilter: preSelectedFilters);
+  }
+
+  String _getApiEndPoint() {
+    var apiEndPoint = _showUrgentRequestOnly
+        ? "/inventory/list-pending-delivery-device-parts?isUrgent=$_showUrgentRequestOnly&"
+        : "/inventory/list-pending-delivery-device-parts";
+    return apiEndPoint;
   }
 
   @override
@@ -195,7 +192,7 @@ class _PendingDeliveryScreenState extends State<_PendingDeliveryScreenBody> {
                 return CshApiList<PendingDeviceDetailData>(
                   key: ObjectKey("${provider.barcode}-$_showUrgentRequestOnly"),
                   apiConfig: ListApiConfig(
-                    apiUrl: "/inventory/list-pending-delivery-device-parts",
+                    apiUrl: _getApiEndPoint(),
                     serviceGroup: TRCServiceGroups.unifyTrc,
                   ),
                   filterConfig: _filterConfig,

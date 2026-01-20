@@ -27,34 +27,11 @@ class InventoryService {
     return TrcService().get("/location/group-list", InventoryLocationResponse.fromJson);
   }
 
-  static Stream<EngineerListResponse?> getAssignmentPendingEngineerList(
-      String locations, int pageNumber, int offsetLength) {
-    Map<String, dynamic> mapData = {
-      "fp": {"is_urgent": false, "location_group": locations},
-      "ln": offsetLength,
-      "pno": pageNumber
-    };
-    return TrcService()
-        .post("/inventory/assignment-pending/engineer/list", EngineerListResponse.fromJson, body: jsonEncode(mapData));
-  }
-
   static Stream<PendingPartListResponse?> getPendingPartListData(int did) {
     Map<String, List<String>> paramsData = {
       "did": [did.toString()],
     };
     return TrcService().get("/device/list-pending-part-request", PendingPartListResponse.fromJson, params: paramsData);
-  }
-
-  static Stream<PendingDeviceListResponse?> getListOfAssignmentPendingDevices(int pageNo, int offsetLength,
-      {String? barcode, bool? isUrgent = false, String? locations, String? engineerName}) {
-    Map<String, dynamic> dataMap = {
-      "br": barcode ?? "",
-      "fp": {"is_urgent": isUrgent, "location_group": locations, if (engineerName != null) "engName": engineerName},
-      "ln": offsetLength,
-      "pno": pageNo,
-    };
-    return TrcService().post("/inventory/list-assignment-pending-devices", PendingDeviceListResponse.fromJson,
-        body: jsonEncode(dataMap));
   }
 
   static Stream<PartsDetailsResponse?> getPendingPartDetails(int prid) {
