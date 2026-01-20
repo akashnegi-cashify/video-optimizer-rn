@@ -76,21 +76,20 @@ class ElssService {
   }
 
   static Stream<BrandsListingResponse?> getBrandsData() {
-    return TrcService().get("/brand/list-all-brands", BrandsListingResponse.fromJson);
+    var path = Uri.encodeFull('/brand/list?pagination={"page":0,"pageSize":1000}');
+    return TrcService().get(path, BrandsListingResponse.fromJson);
   }
 
   static Stream<BrandsAllProductResponse?> getBrandsAllProducts(int bid) {
-    Map<String, List<String>> paramsData = {
-      "bid": [bid.toString()]
-    };
-    return TrcService().get("/product/list-all-products", BrandsAllProductResponse.fromJson, params: paramsData);
+    var path = Uri.encodeFull('/product/list?bid=$bid&pagination={"page":0,"pageSize":1000}');
+    return TrcService().get(path, BrandsAllProductResponse.fromJson);
   }
 
   static Stream<ProductsColorResponse?> getProductsColoursData(int pid) {
     Map<String, List<String>> paramsData = {
       "pid": [pid.toString()],
     };
-    return TrcService().get("/product/list-colors", ProductsColorResponse.fromJson, params: paramsData);
+    return TrcService().get("/device/color", ProductsColorResponse.fromJson, params: paramsData);
   }
 
   static Stream<DeviceDetailsSubmit?> submitDeviceDetails(int bid, int pid, String barcode, {String? color}) {

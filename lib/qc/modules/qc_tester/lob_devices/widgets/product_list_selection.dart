@@ -19,7 +19,7 @@ mixin ProductListSelection {
       onTap: () => _onItemClicked(context, item, onProductSelected),
       child: CshCard(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CshTextNew.subTitle1(item.brand ?? ""),
             const SizedBox(height: Dimens.space_4),

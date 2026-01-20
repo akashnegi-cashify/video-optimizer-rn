@@ -6,7 +6,7 @@ part 'products_colour_response.g.dart';
 class ProductsColorResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "dt")
+  @JsonKey(name: "color")
   List<String>? listOfColours;
   @JsonKey(name: "s")
   bool? isSuccess;

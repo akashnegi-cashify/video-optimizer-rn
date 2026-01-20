@@ -94,7 +94,7 @@ class UserProfileScreen extends StatelessWidget {
               CshBigButton(
                   text: "Logout",
                   onPressed: () {
-                    UserUtil.applicationLogout(context);
+                    UserUtil.showLogoutDialog(context);
                   }),
             ],
           ),

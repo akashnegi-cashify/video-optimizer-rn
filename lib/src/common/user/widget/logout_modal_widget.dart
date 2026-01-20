@@ -1,13 +1,18 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+
 import '../../l10n.dart';
+
+enum LogoutModalType { logout, switchUserModule }
 
 class LogoutModalWidget extends StatelessWidget {
   final Function()? onLogoutCallback;
+  final LogoutModalType type;
 
   const LogoutModalWidget({
     super.key,
     this.onLogoutCallback,
+    this.type = LogoutModalType.switchUserModule,
   });
 
   @override
@@ -20,12 +25,12 @@ class LogoutModalWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            l10n.logout,
+            type == LogoutModalType.switchUserModule ? l10n.switchUserModule : l10n.logout,
             style: theme.primaryTextTheme.displayMedium,
           ),
           const SizedBox(height: Dimens.space_16),
           Text(
-            l10n.doYouWantToSwitchModule,
+            type == LogoutModalType.switchUserModule ? l10n.doYouWantToSwitchModule : l10n.doYouWantToLogout,
             style: theme.primaryTextTheme.bodyLarge,
           ),
           const SizedBox(height: Dimens.space_30),

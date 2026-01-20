@@ -26,12 +26,12 @@ Map<String, dynamic> _$BrandsListingResponseToJson(
 
 BrandsDataModel _$BrandsDataModelFromJson(Map<String, dynamic> json) =>
     BrandsDataModel(
-      brandId: (json['bid'] as num?)?.toInt(),
-      brandName: json['bn'] as String?,
+      brandId: json['key'] as String?,
+      brandName: json['value'] as String?,
     );
 
 Map<String, dynamic> _$BrandsDataModelToJson(BrandsDataModel instance) =>
     <String, dynamic>{
-      'bid': instance.brandId,
-      'bn': instance.brandName,
+      'key': instance.brandId,
+      'value': instance.brandName,
     };
