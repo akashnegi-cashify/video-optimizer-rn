@@ -22,7 +22,7 @@ class ActionComponent extends StatelessComponent {
   @override
   Widget buildView(BuildContext context, configModel) {
     return paramBuilder((param) {
-      return ActionWidget();
+      return ActionWidget(param.barcode);
     });
   }
 

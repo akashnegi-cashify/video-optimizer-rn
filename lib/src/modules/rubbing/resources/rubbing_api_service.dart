@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/glass_change_fail_reason_response.dart';
-import 'package:flutter_trc/src/modules/rubbing/model/rubbing_devices_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_done_response.dart';
 
 import '../../../services/trc_service.dart';
 import '../model/rubbing_device_receive_response.dart';
-import '../model/rubbing_devices_request.dart';
 
 class RubbingAPIService {
   // static Stream<RubbingDevicesResponse?> getReceivedDeviceList(RubbingDeviceListRequest request, bool isGlassChange) {
@@ -15,10 +13,6 @@ class RubbingAPIService {
   //   return TrcService()
   //       .post("$startPoint/device/list", RubbingDevicesResponse.fromJson, body: jsonEncode(request.toJson()));
   // }
-
-  static Stream<RubbingDevicesResponse?> getReceivedDeviceList(RubbingDeviceListRequest request, bool isGlassChange)  {
-    return TrcService().get("/rubbing//list", RubbingDevicesResponse.fromJson);
-  }
 
   static Stream<RubbingDoneResponse?> markRubbing(
       String scannedBarcode, bool rubbingDone, bool isGlassChange, String? selectedReason) {

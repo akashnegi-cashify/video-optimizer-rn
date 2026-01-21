@@ -20,29 +20,6 @@ class ActionProvider extends CshChangeNotifier {
   ListState<RetrievedPartListData> listState = ListState(status: RequestStatus.initial);
 
   ActionProvider(String barcode) {
-    getItemData(barcode);
-  }
-
-  Future<bool> getItemData(String barcode) {
-    listState = ListState(status: RequestStatus.initial);
-    var completer = Completer<bool>();
-    EngineerAPIService.getRetrievedPartList(0, 10, query: barcode, roleType: RoleType.partQc).listen((event) {
-      if (Validator.isListNullOrEmpty(event?.retrievedPartListResponse?.retrievedPartList)) {
-        listState = ListState(status: RequestStatus.failure, items: [], errorMsg: "No Data Found");
-        completer.completeError("No Data Found!!");
-      } else {
-        listState = ListState(
-            status: RequestStatus.success, items: event!.retrievedPartListResponse!.retrievedPartList!, errorMsg: null);
-        completer.complete(true);
-      }
-    }, onError: (error, stackTrace) {
-      String apiErr = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-      listState = ListState(status: RequestStatus.failure, items: [], errorMsg: apiErr);
-      completer.completeError(apiErr);
-    }, onDone: () {
-      notifyListeners();
-    });
-    return completer.future;
   }
 
   Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId, String? remarks) {
@@ -58,10 +35,5 @@ class ActionProvider extends CshChangeNotifier {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });
     return completer.future;
-  }
-
-  resetListData() {
-    listState = ListState(status: RequestStatus.initial, items: []);
-    notifyListeners();
   }
 }

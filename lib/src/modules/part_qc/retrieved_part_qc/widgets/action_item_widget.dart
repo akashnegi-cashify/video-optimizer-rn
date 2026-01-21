@@ -206,7 +206,6 @@ class _ActionWidgetItemState extends State<ActionWidgetItem> {
     provider.updateRetrievedPartStatus(isFaulty, partId, _remarkController.text).then((value) {
       CshLoading().hideLoading(context);
       CshSnackBar.success(context: context, message: l10n.statusUpdatedSuccessfully);
-      provider.resetListData();
       _remarkController.clear();
       Navigator.of(context).pop();
       setState(() {});

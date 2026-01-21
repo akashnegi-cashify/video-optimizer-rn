@@ -9,16 +9,6 @@ import 'package:flutter_trc/src/modules/rubbing/resources/rubbing_api_service.da
 import '../../model/search_query.dart';
 
 class ReceivedDevicesInteractorImpl implements ReceivedDevicesInteractor {
-  @override
-  Stream<RubbingDevicesResponse?> getData(int pageIndex, int pageSize, String? query, {bool isGlassChange = false}) {
-    RubbingDeviceListRequest request = RubbingDeviceListRequest();
-    if (query != null) {
-      request.searchQuery = SearchQuery()..br = query;
-    }
-    request.pageNo = pageIndex;
-    request.pageSize = pageSize;
-    return RubbingAPIService.getReceivedDeviceList(request, isGlassChange);
-  }
 
   @override
   Stream<RubbingDoneResponse?> markRubbing(String barcode, bool isDone,
