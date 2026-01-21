@@ -116,7 +116,7 @@ class _ReceiveTabWidgetState extends State<ReceiveTabWidget> {
         Expanded(
           child: CshApiList<ListResponsePendingDataResponse>(
             apiConfig: ListApiConfig(
-              apiUrl: "/inventory/receive-pending-parts?pbr=$_scannedBarcode",
+              apiUrl: "/inventory/receive-pending-parts?pbr=$_scannedBarcode&",
               serviceGroup: TRCServiceGroups.unifyTrc,
             ),
             filterConfig: _getFilterConfig(),

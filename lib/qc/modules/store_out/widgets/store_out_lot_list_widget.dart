@@ -4,6 +4,7 @@ import 'package:components/list_page/controller/csh_list_controller.dart';
 import 'package:components/list_page/widgets/csh_api_list.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/store_out/providers/index.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
 import '../l10n.dart';
@@ -42,6 +43,15 @@ class StoreOutLotListWidgetState extends State<StoreOutLotListWidget> with Autom
         filterGroup: FilterGroupType.multipleTypeSearch,
       ),
     ]);
+  }
+
+  @override
+  void initState() {
+    var provider = StoreOutProvider.of(context, listen: false);
+    provider.refreshLotListStream.listen((event) {
+      resetAndRefreshScreen();
+    });
+    super.initState();
   }
 
   @override

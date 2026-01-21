@@ -20,7 +20,8 @@ class TrcExecutiveStoreOutProvider extends CshChangeNotifier {
 
   Future<void> storeOut(String barcode) {
     var completer = Completer<void>();
-    DeviceScannerService.storeOut(barcode, tlData.id).listen((event) {
+    int tlId = tlData.id != null ? int.parse(tlData.id!) : -1;
+    DeviceScannerService.storeOut(barcode, tlId).listen((event) {
       completer.complete();
     }, onError: (error) {
       var message = ApiErrorHelper.getErrorMessage(error);

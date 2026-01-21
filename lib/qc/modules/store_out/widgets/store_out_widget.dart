@@ -53,19 +53,18 @@ class _StoreOutWidgetState extends State<StoreOutWidget> with TickerProviderStat
         ),
         Expanded(
           child: TabBarView(
-            controller: _controller,
-            children: tabList.map((e) {
-              if (e.key == const ValueKey('lotListTab')) {
-                return StoreOutLotListContainer(
-                    onItemClick: (lotName, lotId) => _onItemClick(context, lotName, lotId, LotType.NORMAL_LOT.value));
-              } else if (e.key == const ValueKey("binListTab")) {
-                return StoreOutBinListWidget(
-                    onItemClick: (lotName, lotId) => _onItemClick(context, lotName, lotId, LotType.BIN_LOT.value));
-              } else {
-                return const StoreOutBinOutWidget();
-              }
-            }).toList()
-          ),
+              controller: _controller,
+              children: tabList.map((e) {
+                if (e.key == const ValueKey('lotListTab')) {
+                  return StoreOutLotListContainer(
+                      onItemClick: (lotName, lotId) => _onItemClick(context, lotName, lotId, LotType.NORMAL_LOT.value));
+                } else if (e.key == const ValueKey("binListTab")) {
+                  return StoreOutBinListWidget(
+                      onItemClick: (lotName, lotId) => _onItemClick(context, lotName, lotId, LotType.BIN_LOT.value));
+                } else {
+                  return const StoreOutBinOutWidget();
+                }
+              }).toList()),
         ),
       ],
     );
@@ -73,9 +72,9 @@ class _StoreOutWidgetState extends State<StoreOutWidget> with TickerProviderStat
 
   void _onItemClick(BuildContext context, String? lotName, int? lotId, int lotType) {
     LotItemsScanScreen.navigate(context, lotName: lotName, lotId: lotId, lotType: lotType).then((value) {
-      if (lotType == LotType.NORMAL_LOT.value) {
+      if (lotType == LotType.NORMAL_LOT.value || lotType == LotType.BIN_LOT.value) {
         var provider = StoreOutProvider.of(context, listen: false);
-        provider.refreshLotList();
+        provider.refreshLotList(lotType);
       }
     });
   }

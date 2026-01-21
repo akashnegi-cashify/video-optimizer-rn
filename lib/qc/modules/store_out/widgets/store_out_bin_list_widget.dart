@@ -1,6 +1,7 @@
 import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/store_out/providers/index.dart';
 import 'package:flutter_trc/qc/modules/store_out/resources/store_out_bin_list_response.dart';
 import 'package:flutter_trc/qc/modules/store_out/widgets/index.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
@@ -27,6 +28,15 @@ class _StoreOutBinListWidgetState extends State<StoreOutBinListWidget> with Auto
     return loginTypeEnum == LoginTypes.qcLogin
         ? TRCServiceGroups.qcConsole
         : TRCServiceGroups.unifyTrc;
+  }
+
+  @override
+  void initState() {
+    var provider = StoreOutProvider.of(context, listen: false);
+    provider.refreshBinLotListController.listen((event) {
+      _listController.refresh();
+    });
+    super.initState();
   }
 
   @override

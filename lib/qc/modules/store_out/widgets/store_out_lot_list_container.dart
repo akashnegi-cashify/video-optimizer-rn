@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/qc/modules/store_out/widgets/store_out_in_progress_dialog.dart';
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
-import 'package:flutter_trc/src/common/widgets/my_search_bar_widget.dart';
-import 'package:provider/provider.dart';
 
-import '../l10n.dart';
 import '../providers/store_out_provider.dart';
 import 'index.dart';
 
@@ -41,41 +38,9 @@ class StoreOutLotListContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var l10n = L10n(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Selector<StoreOutProvider, ({bool showSearchBox, bool isStoreOutInProgress})>(
-        //   builder: (BuildContext selectorContext, value, Widget? child) {
-        //     var provider = StoreOutProvider.of(selectorContext, listen: false);
-        //     return Padding(
-        //       padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_16),
-        //       child: Column(
-        //         children: [
-        //           CshCard(
-        //             padding: const EdgeInsets.only(left: Dimens.space_16, right: Dimens.space_8),
-        //             child: Row(
-        //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //               children: [
-        //                 CshTextNew.subTitle2(l10n.inProcessLot),
-        //                 CshSwitch(
-        //                   isSelected: value.isStoreOutInProgress,
-        //                   onChanged: (value) {
-        //                     provider.isStoreOutInProgress = value;
-        //                     listKey.currentState?.resetAndRefreshScreen();
-        //                   },
-        //                 ),
-        //               ],
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     );
-        //   },
-        //   selector: (_, StoreOutProvider provider) {
-        //     return (showSearchBox: provider.showSearchBox, isStoreOutInProgress: provider.isStoreOutInProgress);
-        //   },
-        // ),
         Expanded(
           child: Stack(
             children: [
@@ -111,15 +76,6 @@ class StoreOutLotListContainer extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  void _showSearchBox(BuildContext context) {
-    var provider = StoreOutProvider.of(context, listen: false);
-    provider.showSearchBox = !provider.showSearchBox;
-    if (isNotEmpty(provider.searchQuery)) {
-      provider.setSearchQuery("");
-      listKey.currentState?.resetAndRefreshScreen();
-    }
   }
 
   void _openFilterScreen(BuildContext context) {
