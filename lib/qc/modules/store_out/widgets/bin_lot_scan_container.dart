@@ -155,15 +155,15 @@ class BinLotScanContainer extends StatelessWidget {
         });
   }
 
-  _onScannerDetected(BuildContext context, String value, MlScannerController? controller, L10n l10n) {
+  _onScannerDetected(BuildContext context, String deviceBarcode, MlScannerController? controller, L10n l10n) {
     var provider = LotScanProvider.of(context, listen: false);
 
     var item = provider.binDataState.data?.lotList?[provider.scanPosition];
 
-    if (item?.barcode?.containsIgnoreCase(value) == true) {
+    if (item?.barcode?.containsIgnoreCase(deviceBarcode) == true) {
       controller?.stop();
       CshLoading().showLoading(context);
-      provider.binOutVerifyBarCode(BinOutRequest(locBarcode: item?.itemLocBarCode, stockBarcode: value)).then((_) {
+      provider.binOutVerifyBarCode(BinOutRequest(locBarcode: item?.itemLocBarCode, stockBarcode: deviceBarcode)).then((_) {
         CshLoading().hideLoading(context);
         CshSnackBar.success(context: context, message: l10n.binOutSuccessfully);
         var res = provider.moveNext();

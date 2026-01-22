@@ -164,16 +164,16 @@ class NormalLotScanContainer extends StatelessWidget {
         });
   }
 
-  _onScannerDetected(BuildContext context, String value, MlScannerController? controller, L10n l10n) {
+  _onScannerDetected(BuildContext context, String deviceBarcode, MlScannerController? controller, L10n l10n) {
     var provider = LotScanProvider.of(context, listen: false);
     var item = provider.dataState.data?[provider.scanPosition];
 
-    if (item?.qrCode?.containsIgnoreCase(value) == true) {
+    if (item?.qrCode?.containsIgnoreCase(deviceBarcode) == true) {
       controller?.stop();
       CshLoading().showLoading(context);
       provider
           .normalLotOutVerifyBarCode(
-        NormalLotOutRequest(locBarcode: item?.qrCode, stockBarcode: value, lotId: lotId),
+        NormalLotOutRequest(locBarcode: item?.storageBarcode, stockBarcode: deviceBarcode, lotId: lotId),
       )
           .then((value) {
         CshLoading().hideLoading(context);
