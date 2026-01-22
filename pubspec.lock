@@ -216,11 +216,11 @@ packages:
     dependency: "direct main"
     description:
       path: calculator_ui
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
+      ref: no_selection_calc
+      resolved-ref: "0ddd397b4f642ca94eb3dd1818f8642dcb5a5087"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.2"
+    version: "2.2.4"
   camera:
     dependency: "direct overridden"
     description:

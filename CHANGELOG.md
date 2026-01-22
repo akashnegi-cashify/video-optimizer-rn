@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v5.4.0+83 (XX-11-2025)
+
+### Feature:
+
+* `QC/TRC - Support New CDP Flag “No Preselect” in Calculator Flow` [(SCM-SCM-12129)](https://reglobe.atlassian.net/browse/SCM-SCM-12129)
+
+
 # v5.3.1+82 (XX-11-2025)
 
 ### Migration:
