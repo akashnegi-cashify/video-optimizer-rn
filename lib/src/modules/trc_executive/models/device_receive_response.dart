@@ -20,19 +20,19 @@ class DeviceReceiveResponse extends BaseActionResponse {
 
 @JsonSerializable()
 class DeviceReceiveData {
-  @JsonKey(name: "pt")
+  @JsonKey(name: "productTitle")
   String? productTitle;
 
-  @JsonKey(name: "dbr")
+  @JsonKey(name: "deviceBarcode")
   String? deviceBarcode;
 
-  @JsonKey(name: "st")
+  @JsonKey(name: "status")
   String? status;
 
-  @JsonKey(name: "rt")
+  @JsonKey(name: "repairType")
   String? repairType;
 
-  @JsonKey(name: "ro")
+  @JsonKey(name: "repairOrderNo")
   String? repairOrder;
 
   @JsonKey(name: "isUrgent")
@@ -41,7 +41,7 @@ class DeviceReceiveData {
   @JsonKey(name: "ele")
   String? elssEngineerName;
 
-  @JsonKey(name: "rs")
+  @JsonKey(name: "rubbingStatus")
   int? rubbingOrGlassChangeStatus;
 
   DeviceReceiveData(
