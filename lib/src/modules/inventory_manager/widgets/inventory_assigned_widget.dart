@@ -1,6 +1,5 @@
 import 'package:components/components.dart';
 import 'package:components/resources/list/list_request.dart';
-import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -17,7 +16,7 @@ import 'assigned_tab_item_widget.dart';
 enum SearchType { barcode, engineer }
 
 class InventoryAssignedWidget extends StatefulWidget {
-  const InventoryAssignedWidget({Key? key}) : super(key: key);
+  const InventoryAssignedWidget({super.key});
 
   @override
   State<InventoryAssignedWidget> createState() => InventoryAssignedWidgetState();
@@ -37,6 +36,7 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
   final TextEditingController _searchRiderController = TextEditingController();
   final TextInputDebounce _searchRiderDeBouncer = TextInputDebounce();
   FilterConfig? _filterConfig;
+  var _listRefreshCounter = 0;
 
   @override
   void initState() {
@@ -63,41 +63,17 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
     }
 
     // Add engineer name filter if selected (nested in fp)
-    // if (provider.engineerName != null && provider.engineerName!.isNotEmpty) {
-    //   preSelectedFilters.add(
-    //     AdminFilterList(
-    //       type: 'fp.engName',
-    //       field: 'fp.engName',
-    //       value: AdminFilterData(search: provider.engineerName),
-    //     ),
-    //   );
-    // }
-
-    // Add isUrgent filter (nested in fp)
-    // preSelectedFilters.add(
-    //   AdminFilterList(
-    //     type: CshFilterValueType.equality.value,
-    //     field: 'isUrgent',
-    //     value: AdminFilterData(search: provider.isUrgent.toString()),
-    //   ),
-    // );
-
-    // Add location_group filter (nested in fp)
-    final locationsString = provider.getLocationsString();
-    if (locationsString != null && locationsString.isNotEmpty) {
-      // preSelectedFilters.add(
-      //   AdminFilterList(
-      //     type: CshFilterValueType.multiSelect.value,
-      //     field: 'location',
-      //     value: AdminFilterData(search: locationsString),
-      //   ),
-      // );
+    if (provider.engineerName != null && provider.engineerName!.isNotEmpty) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: CshFilterValueType.contains.value,
+          field: 'engineer.name',
+          value: AdminFilterData(search: provider.engineerName),
+        ),
+      );
     }
 
-    return FilterConfig(
-      // preSelectedFilters: preSelectedFilters,
-      initialFilter: preSelectedFilters,
-    );
+    return FilterConfig(initialFilter: preSelectedFilters);
   }
 
   @override
@@ -105,7 +81,7 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
     var theme = Theme.of(context);
     var l10n = L10n(context);
     var provider = InventoryHomeProvider.of(context);
-    _filterConfig = _getFilterConfig(provider);
+    _filterConfig ??= _getFilterConfig(provider);
     return Column(
       children: [
         Container(
@@ -125,11 +101,11 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
                       items: _searchFilterList,
                       onChanged: (DropDownItem? item) {
                         setState(() {
+                          _listRefreshCounter++;
                           provider.barcode = null;
                           provider.engineerName = null;
                           _searchBarController.text = "";
                           _selectedSearchFilter = item!;
-                          refreshList();
                         });
                       }),
                 ),
@@ -153,8 +129,10 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
                               Navigator.of(context).pop();
                               _searchBarController.text = scannedData.trim();
                               provider.barcode = scannedData.trim();
-                              refreshList();
-                              provider.barcode = "";
+                              setState(() {
+                                _listRefreshCounter++;
+                                _filterConfig = _getFilterConfig(provider);
+                              });
                             });
                           },
                         )
@@ -167,6 +145,7 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
                         provider.engineerName = data.trim();
                       }
                       setState(() {
+                        _listRefreshCounter++;
                         _filterConfig = _getFilterConfig(provider);
                       });
                     });
@@ -191,10 +170,11 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
           padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8),
           child: GestureDetector(
             onTap: () {
-              _showUrgentRequestOnly = !_showUrgentRequestOnly;
-              provider.isUrgent = _showUrgentRequestOnly;
-              setState(() {});
-              refreshList();
+              setState(() {
+                _listRefreshCounter++;
+                _showUrgentRequestOnly = !_showUrgentRequestOnly;
+                _filterConfig = _getFilterConfig(provider);
+              });
             },
             child: Row(
               children: [
@@ -206,9 +186,9 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
         ),
         Expanded(
           child: CshApiList<PendingDeviceDetailData>(
-            key: ObjectKey(provider.barcode),
+            key: ObjectKey(_listRefreshCounter),
             apiConfig: ListApiConfig(
-              apiUrl: "/inventory/list-assignment-pending-devices",
+              apiUrl: _getApiEndPoints(),
               serviceGroup: TRCServiceGroups.unifyTrc,
             ),
             filterConfig: _filterConfig,
@@ -219,64 +199,23 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
             verticalRowSpacing: Dimens.space_8,
             isHideCoreFilterButton: true,
             getRowWidget: (item, index) {
-              final data = item;
-              // Find or create item in provider's assignedTabListData for checkbox state management
-              PendingDeviceDetailData? itemForWidget;
-              if (data?.deviceId != null) {
-                itemForWidget = provider.assignedTabListData.firstWhere(
-                  (element) => element.deviceId == data!.deviceId,
-                  orElse: () {
-                    final newItem = PendingDeviceDetailData(
-                      deviceId: data?.deviceId,
-                      deviceBarcode: data?.deviceBarcode,
-                      engineerName: data?.engineerName,
-                      location: data?.location,
-                      productTitle: data?.productTitle,
-                      trayBarcode: data?.trayBarcode,
-                      partAvailableCount: data?.partAvailableCount,
-                      totalPartCount: data?.totalPartCount,
-                      assignedAt: data?.assignedAt,
-                      isUrgent: data?.isUrgent,
-                      repairType: data?.repairType,
-                      grade: data?.grade,
-                      isAssignedToRider: false,
-                    );
-                    provider.assignedTabListData.add(newItem);
-                    return newItem;
-                  },
-                );
-                // Sync data from API response to existing item
-                itemForWidget.deviceBarcode = data?.deviceBarcode;
-                itemForWidget.engineerName = data?.engineerName;
-                itemForWidget.location = data?.location;
-                itemForWidget.productTitle = data?.productTitle;
-                itemForWidget.trayBarcode = data?.trayBarcode;
-                itemForWidget.partAvailableCount = data?.partAvailableCount;
-                itemForWidget.totalPartCount = data?.totalPartCount;
-                itemForWidget.assignedAt = data?.assignedAt;
-                itemForWidget.isUrgent = data?.isUrgent;
-                itemForWidget.repairType = data?.repairType;
-                itemForWidget.grade = data?.grade;
-              } else {
-                itemForWidget = data;
-              }
-
               return AssignedTabItemWidget(
-                dataModel: itemForWidget,
+                dataModel: item,
                 onCardClicked: () {
-                  if (data?.deviceId != null) {
+                  if (item?.deviceId != null) {
                     AssignedDeviceDetailsScreenArguments args =
-                        AssignedDeviceDetailsScreenArguments(did: data!.deviceId!);
+                        AssignedDeviceDetailsScreenArguments(did: item!.deviceId!);
                     Navigator.of(context).pushNamed(AssignedDeviceDetailsScreen.route, arguments: args);
                   } else {
                     CshSnackBar.error(context: context, message: l10n.noDidPresent);
                   }
                 },
                 onCheckBoxChange: (bool checked) {
-                  if (itemForWidget?.deviceId != null) {
-                    itemForWidget!.isAssignedToRider = checked;
-                    provider.notifyListeners();
-                    setState(() {});
+                  if (item?.deviceId != null) {
+                    item!.isAssignedToRider = checked;
+                    var newData = item.copyWith();
+                    _listController.updateItem(index, newData);
+                    provider.updateAssignedTabListData(checked, newData.deviceId!);
                   }
                 },
               );
@@ -285,6 +224,12 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
         ),
       ],
     );
+  }
+
+  String _getApiEndPoints() {
+    return _showUrgentRequestOnly
+        ? "/inventory/list-assignment-pending-devices?isUrgent=$_showUrgentRequestOnly&"
+        : "/inventory/list-assignment-pending-devices";
   }
 
   _getRiderList(ThemeData theme, L10n l10n) {

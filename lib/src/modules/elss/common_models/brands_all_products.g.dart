@@ -28,13 +28,13 @@ Map<String, dynamic> _$BrandsAllProductResponseToJson(
 BrandsAllProductDataList _$BrandsAllProductDataListFromJson(
         Map<String, dynamic> json) =>
     BrandsAllProductDataList(
-      productName: json['pn'] as String?,
-      pid: (json['pid'] as num?)?.toInt(),
+      productName: json['value'] as String?,
+      pid: json['key'] as String?,
     );
 
 Map<String, dynamic> _$BrandsAllProductDataListToJson(
         BrandsAllProductDataList instance) =>
     <String, dynamic>{
-      'pid': instance.pid,
-      'pn': instance.productName,
+      'key': instance.pid,
+      'value': instance.productName,
     };

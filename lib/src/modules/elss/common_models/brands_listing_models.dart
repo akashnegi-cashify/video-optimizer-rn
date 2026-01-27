@@ -24,9 +24,9 @@ class BrandsListingResponse {
 
 @JsonSerializable()
 class BrandsDataModel {
-  @JsonKey(name: "bid")
-  int? brandId;
-  @JsonKey(name: "bn")
+  @JsonKey(name: "key")
+  String? brandId;
+  @JsonKey(name: "value")
   String? brandName;
 
   BrandsDataModel({

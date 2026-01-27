@@ -7,21 +7,8 @@ import 'package:flutter_trc/src/common/mpin/screens/mpin_login_screen.dart';
 import 'package:flutter_trc/src/common/mpin/screens/mpin_setup_screen.dart';
 import 'package:flutter_trc/src/common/nps/dialog/show_nps_dialog.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
-import 'package:flutter_trc/src/modules/audit/screens/trc_audit_screen.dart';
 import 'package:flutter_trc/src/modules/home/trc_home_screen_new.dart';
-import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/login/resources/login_types.dart';
-import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home_screen.dart';
-import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
-import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
-import 'package:flutter_trc/src/resources/user_details.dart';
-
-import '../../elss/common_screen/elss_home_screen.dart';
-import '../../engineer/widgets/engineer_home_widget.dart';
-import '../../inventory_manager/screens/inventory_home_screen.dart';
-import '../../part_qc/screens/pq_home_screen.dart';
-import '../../rider/rider_home_screen.dart';
-import '../../rubbing/widgets/rubbing_home_screen.dart';
 
 class UserRoles {
   static const String ROLE_STORAGE_MANAGER = "STORAGE_MANAGER";
@@ -38,11 +25,10 @@ class UserRoles {
   static const String QC_ROLE = "QC_ROLE";
   static const String ROLE_TRC_AUDIT = "AUDITOR";
 
-  static navigateToUserRoleScreen(BuildContext context, List<String> listOfRoles,
-      {required LoginTypes loginType}) async {
+  static navigateToUserRoleScreen(BuildContext context, {required LoginTypes loginType}) async {
     switch (loginType) {
       case LoginTypes.trcLogin:
-        navigateToTrcRole(context, listOfRoles);
+        navigateToTrcRole(context);
         break;
       case LoginTypes.qcLogin:
         String? savedPin = AppPreferences.qc.getQcMPin();
@@ -61,7 +47,7 @@ class UserRoles {
     }
   }
 
-  static navigateToTrcRole(BuildContext context, List<String> listOfRoles) {
+  static navigateToTrcRole(BuildContext context) {
     Future.delayed(Duration(seconds: 1), () {
       if (AppNavKey.navKey.currentState?.context != null) {
         showNpsDialog(AppNavKey.navKey.currentState!.context, LoginTypes.trcLogin);

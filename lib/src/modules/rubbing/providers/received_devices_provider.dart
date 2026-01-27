@@ -26,13 +26,6 @@ class ReceivedDevicesProvider extends CshChangeNotifier with Searchable {
 
   List<GlassChangeFailReasonItem>? get glassChangeFailReasonList => _glassChangeFailReasonList;
 
-  Stream<RubbingDevicesResponse?> getDataStream(
-    int pageIndex,
-    int pageSize,
-    String? searchQuery,
-  ) =>
-      interactor.getData(pageIndex, pageSize, searchQuery, isGlassChange: isGlassChangeRole);
-
   Stream<RubbingDeviceReceiveResponse?> receiveDeviceViaScanning(String barcode) =>
       interactor.receiveDeviceForRubbing(barcode, isGlassChange: isGlassChangeRole);
 

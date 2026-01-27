@@ -59,7 +59,6 @@ class DispatchLotContainer extends StatelessWidget {
               Positioned(
                   bottom: 0,
                   right: 0,
-                  left: 0,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Dimens.space_20, vertical: 16),
                     child: Row(
@@ -74,25 +73,7 @@ class DispatchLotContainer extends StatelessWidget {
                             iconColor: theme.colorScheme.background,
                           ),
                         ),
-                        Selector<DispatchLotProvider, bool>(
-                          builder: (BuildContext context, value, Widget? child) {
-                            return FloatingActionButton(
-                              onPressed: () => _showSearchBox(context),
-                              backgroundColor: theme.primaryColor,
-                              heroTag: 'searchQuery',
-                              child: CshIcon(
-                                value ? FeatherIcons.x : FeatherIcons.search,
-                                iconColor: theme.colorScheme.background,
-                              ),
-                            );
-                          },
-                          selector: (
-                            BuildContext context,
-                            DispatchLotProvider provider,
-                          ) {
-                            return provider.showSearchBox;
-                          },
-                        ),
+
                       ],
                     ),
                   ))

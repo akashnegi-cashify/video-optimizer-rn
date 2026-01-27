@@ -5,7 +5,6 @@ import '../../model/rubbing_devices_response.dart';
 import '../../model/rubbing_done_response.dart';
 
 mixin ReceivedDevicesInteractor {
-  Stream<RubbingDevicesResponse?> getData(int pageIndex, int pageSize, String? query, {bool isGlassChange = false});
 
   Stream<RubbingDoneResponse?> markRubbing(String barcode, bool isDone,
       {bool isGlassChangeRole = false, String? partBarcode, String? selectedReason});

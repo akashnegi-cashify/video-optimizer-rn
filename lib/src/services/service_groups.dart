@@ -9,7 +9,8 @@ enum TRCServiceGroups with ServiceGroupsMixin {
   rms("sales-rms"),
   qcTransferLot("qc-transfer-lot"),
   qcConsole("qc-console"),
-  unifyTrc("unify-trc");
+  unifyTrc("unify-trc"),
+  salesOrder("qc-sales-order");
 
   @override
   final String value;

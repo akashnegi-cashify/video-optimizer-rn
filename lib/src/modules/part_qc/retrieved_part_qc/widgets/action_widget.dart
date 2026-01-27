@@ -1,4 +1,5 @@
 import 'package:components/components.dart';
+import 'package:components/resources/list/list_request.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/modules/engineer/models/retrieved_part_list_response.dart';
@@ -8,7 +9,9 @@ import 'package:flutter_trc/src/services/service_groups.dart';
 import 'action_item_widget.dart';
 
 class ActionWidget extends StatefulWidget {
-  const ActionWidget({super.key});
+  final String? barcode;
+
+  const ActionWidget(this.barcode, {super.key});
 
   @override
   State<ActionWidget> createState() => _ActionWidgetState();
@@ -18,17 +21,22 @@ class _ActionWidgetState extends State<ActionWidget> {
   final CshListController _listController = CshListController();
 
   FilterConfig _getFilterConfig() {
-    return FilterConfig(filterData: [
-      CshFilterData(
-        label: "Search Part Barcode",
-        field: 'retrievedPartBarcode',
-        crudFilter: 'retrievedPartBarcode',
-        filterType: CshFilterType.input,
-        valueType: CshFilterValueType.contains,
-        position: FilterPosition.top,
-        keyboardType: TextInputType.text,
-        filterGroup: FilterGroupType.multipleTypeSearch,
-      ),
+    return FilterConfig(initialFilter: [
+      AdminFilterList(
+          field: "partBarcode",
+          type: CshFilterValueType.equality.value,
+          value: AdminFilterData(search: widget.barcode))
+    ], filterData: [
+      // CshFilterData(
+      //   label: "Search Part Barcode",
+      //   field: 'partBarcode',
+      //   crudFilter: 'partBarcode',
+      //   filterType: CshFilterType.input,
+      //   valueType: CshFilterValueType.contains,
+      //   position: FilterPosition.top,
+      //   keyboardType: TextInputType.text,
+      //   filterGroup: FilterGroupType.multipleTypeSearch,
+      // ),
       CshFilterData(
         label: "Part Name",
         field: 'partName',
@@ -42,7 +50,7 @@ class _ActionWidgetState extends State<ActionWidget> {
       CshFilterData(
         label: "SKU",
         field: 'sku',
-        crudFilter: 'sku',
+        crudFilter: 'partSku',
         filterType: CshFilterType.input,
         valueType: CshFilterValueType.contains,
         position: FilterPosition.top,
@@ -52,7 +60,7 @@ class _ActionWidgetState extends State<ActionWidget> {
       CshFilterData(
         label: "Device Barcode",
         field: 'deviceBarcode',
-        crudFilter: 'deviceBarcode',
+        crudFilter: 'device.barcode',
         filterType: CshFilterType.input,
         valueType: CshFilterValueType.contains,
         position: FilterPosition.top,

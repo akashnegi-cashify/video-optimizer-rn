@@ -54,8 +54,7 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
     } else {
       AuthHandler().setUserAuth(userAuth!);
       UserDetails().setUserDetailsData().then((value) {
-        UserRoles.navigateToUserRoleScreen(context, UserDetails().getListOfPermissions() ?? [],
-            loginType: loginTypeEnum);
+        UserRoles.navigateToUserRoleScreen(context, loginType: loginTypeEnum);
       }, onError: (error) {
         CshSnackBar.error(context: context, message: error);
       });

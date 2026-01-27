@@ -11,10 +11,16 @@ extension MyPermission on PermissionController {
       return true;
     }
     for (var detail in item!.permissionList!) {
-      if (permission.permissions!.contains(detail.permissionKey) && ((detail.selected == true || detail.groupPermission == true))) {
+      if (permission.permissions!.contains(detail.permissionKey) &&
+          ((detail.selected == true || detail.groupPermission == true))) {
         return true;
       }
     }
     return false;
+  }
+
+  List<PermissionDetail>? getAllPermission(String moduleName) {
+    var item = userPermissions?.modules?.firstWhere((element) => element.moduleKey == moduleName);
+    return item?.permissionList;
   }
 }

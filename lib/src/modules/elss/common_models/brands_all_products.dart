@@ -24,9 +24,9 @@ class BrandsAllProductResponse {
 
 @JsonSerializable()
 class BrandsAllProductDataList {
-  @JsonKey(name: "pid")
-  int? pid;
-  @JsonKey(name: "pn")
+  @JsonKey(name: "key")
+  String? pid;
+  @JsonKey(name: "value")
   String? productName;
 
   BrandsAllProductDataList({

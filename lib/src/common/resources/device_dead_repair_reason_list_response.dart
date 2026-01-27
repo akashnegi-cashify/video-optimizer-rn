@@ -11,7 +11,7 @@ class DeviceDeadRepairReasonListResponse {
   bool? success;
 
   @JsonKey(name: 's')
-  bool? status;
+  int? status;
 
   @JsonKey(name: 'message')
   String? message;
@@ -23,6 +23,6 @@ class DeviceDeadRepairReasonListResponse {
   Map<String, dynamic> toJson() => _$DeviceDeadRepairReasonListResponseToJson(this);
 
   bool isValid(){
-    return status == true;
+    return status == 1;
   }
 }

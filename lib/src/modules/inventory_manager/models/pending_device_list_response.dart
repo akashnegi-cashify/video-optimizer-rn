@@ -104,6 +104,41 @@ class PendingDeviceDetailData {
   Map<String, dynamic> toJson() => _$PendingDeviceDetailDataToJson(this);
 }
 
+extension PendingDeviceDetailDataClone on PendingDeviceDetailData {
+  PendingDeviceDetailData copyWith({
+    int? deviceId,
+    String? productTitle,
+    String? deviceBarcode,
+    String? trayBarcode,
+    int? partAvailableCount,
+    int? totalPartCount,
+    String? engineerName,
+    String? location,
+    int? assignedAt,
+    bool? isUrgent,
+    String? repairType,
+    String? grade,
+    bool? isAssignedToRider,
+  }) {
+    return PendingDeviceDetailData(
+      deviceId: deviceId ?? this.deviceId,
+      productTitle: productTitle ?? this.productTitle,
+      deviceBarcode: deviceBarcode ?? this.deviceBarcode,
+      trayBarcode: trayBarcode ?? this.trayBarcode,
+      partAvailableCount: partAvailableCount ?? this.partAvailableCount,
+      totalPartCount: totalPartCount ?? this.totalPartCount,
+      engineerName: engineerName ?? this.engineerName,
+      location: location ?? this.location,
+      assignedAt: assignedAt ?? this.assignedAt,
+      isUrgent: isUrgent ?? this.isUrgent,
+      repairType: repairType ?? this.repairType,
+      grade: grade ?? this.grade,
+      isAssignedToRider: isAssignedToRider ?? this.isAssignedToRider,
+    );
+  }
+}
+
+
 // Wrapper response model for CshApiList
 @JsonSerializable()
 class PendingDeviceListApiResponse extends BaseResponse {

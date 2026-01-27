@@ -44,7 +44,7 @@ class _TlListWidgetState extends PaginatedListState<TlListData, TlListWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CshTextNew.subTitle1(item.employeeCode ?? ""),
+                      CshTextNew.subTitle1(item.id ?? ""),
                       const SizedBox(height: Dimens.space_4),
                       CshTextNew.subTitle1(item.name ?? ""),
                     ],

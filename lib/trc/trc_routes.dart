@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/user/widget/user_profile_screen.dart';
 import 'package:flutter_trc/src/modules/audit/screens/trc_audit_screen.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/elss_qc/screens/add_part_screen_qc.dart';
@@ -120,6 +121,7 @@ class TrcRoutes {
       TlListScreen.route: (_) => const TlListScreen(),
       TrcAuditScreen.route: (_) => const TrcAuditScreen(),
       TRCExecutiveStoreOutScreen.route: (_) => const TRCExecutiveStoreOutScreen(),
+      UserProfileScreen.route: (_) => const UserProfileScreen(),
     };
   }
 }

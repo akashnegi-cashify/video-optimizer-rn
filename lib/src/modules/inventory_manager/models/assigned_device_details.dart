@@ -48,25 +48,25 @@ class AssignDeviceDetailsData {
   @JsonKey(name: "location")
   String? lc;
 
-  @JsonKey(name: "dr")
+  @JsonKey(name: "deadRemark")
   String? deadRemark;
 
   @JsonKey(name: "returnCount")
   int? returnCount;
 
-  @JsonKey(name: "ismu")
+  @JsonKey(name: "skewImageTaken")
   bool? isScrewMediaUploaded;
 
-  @JsonKey(name: "rr")
+  @JsonKey(name: "returnReason")
   String? returnReason;
 
-  @JsonKey(name: "rrs")
+  @JsonKey(name: "repairReasons")
   List<String>? repairReasonList;
 
   @JsonKey(name: "deviceImei")
   String? imei;
 
-  @JsonKey(name: "sno")
+  @JsonKey(name: "serailNo")
   String? serialNumber;
 
   @JsonKey(name: "deviceColor")
@@ -74,9 +74,6 @@ class AssignDeviceDetailsData {
 
   @JsonKey(name: "isUrgent")
   bool? isUrgent;
-
-  @JsonKey(name: "skewImageTaken")
-  bool? skewImageTaken;
 
   AssignDeviceDetailsData({
     this.did,
@@ -96,7 +93,6 @@ class AssignDeviceDetailsData {
     this.color,
     this.serialNumber,
     this.isUrgent,
-    this.skewImageTaken,
   });
 
   static AssignDeviceDetailsData fromJson(Map<String, dynamic> data) => _$AssignDeviceDetailsDataFromJson(data);

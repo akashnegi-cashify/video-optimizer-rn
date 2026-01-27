@@ -18,16 +18,13 @@ class TlListResponse extends BaseResponse {
 
 @JsonSerializable()
 class TlListData {
-  @JsonKey(name: "id")
-  int? id;
+  @JsonKey(name: "key")
+  String? id;
 
-  @JsonKey(name: "n")
+  @JsonKey(name: "value")
   String? name;
 
-  @JsonKey(name: "eid")
-  String? employeeCode;
-
-  TlListData(this.id, this.name, this.employeeCode);
+  TlListData(this.id, this.name);
 
   static TlListData fromJson(Map<String, dynamic> json) => _$TlListDataFromJson(json);
 

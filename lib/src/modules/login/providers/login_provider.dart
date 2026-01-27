@@ -88,8 +88,7 @@ class TRCLoginProvider extends CshChangeNotifier {
             AppPreferences.qc.saveUserAuthToken(accessToken);
             AppPreferences.app.setLoginType(LoginTypes.qcLogin.value);
             _fireLoginAnalytics();
-            UserRoles.navigateToUserRoleScreen(context, UserDetails().userDetailsData?.listOfRoles ?? [],
-                loginType: LoginTypes.qcLogin);
+            UserRoles.navigateToUserRoleScreen(context, loginType: LoginTypes.qcLogin);
           }
           completer.complete(true);
         } else {

@@ -11,7 +11,7 @@ ProductsColorResponse _$ProductsColorResponseFromJson(
     ProductsColorResponse(
       isSuccess: json['s'] as bool?,
       listOfColours:
-          (json['dt'] as List<dynamic>?)?.map((e) => e as String).toList(),
+          (json['color'] as List<dynamic>?)?.map((e) => e as String).toList(),
       refId: json['r_id'] as String?,
     );
 
@@ -19,6 +19,6 @@ Map<String, dynamic> _$ProductsColorResponseToJson(
         ProductsColorResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      'dt': instance.listOfColours,
+      'color': instance.listOfColours,
       's': instance.isSuccess,
     };

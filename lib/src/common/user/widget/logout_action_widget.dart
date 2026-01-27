@@ -11,7 +11,7 @@ class LogoutActionWidget extends StatelessWidget {
     var theme = Theme.of(context);
     return GestureDetector(
       onTap: () async {
-        UserUtil.applicationLogout(context);
+        UserUtil.switchAppModule(context);
       },
       child: CshIcon(
         FeatherIcons.logOut,

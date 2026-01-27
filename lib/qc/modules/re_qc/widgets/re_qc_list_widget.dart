@@ -1,7 +1,9 @@
 import 'package:calculator_ui/calculator_ui.dart';
+import 'package:components/list_page/config/filter_config.dart';
 import 'package:components/list_page/config/list_api_config.dart';
 import 'package:components/list_page/controller/csh_list_controller.dart';
 import 'package:components/list_page/widgets/csh_api_list.dart';
+import 'package:components/resources/list/list_request.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
@@ -9,21 +11,10 @@ import 'package:flutter_trc/qc/modules/re_qc/dialog/d2c_pending_video_list_dialo
 import 'package:flutter_trc/qc/modules/re_qc/models/re_qc_list_response.dart';
 import 'package:flutter_trc/qc/modules/re_qc/providers/re_qc_list_provider.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_detail_screen.dart';
-import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
-import 'package:flutter_trc/src/common/widgets/search_with_dropdown_widget.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/resources/lot_type_filter_service.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
 import '../l10n.dart';
-
-enum _SearchType {
-  lotName("ln", "Lot Name"),
-  barcode("br", "Barcode");
-
-  final String code;
-  final String name;
-
-  const _SearchType(this.code, this.name);
-}
 
 class ReQcListWidget extends StatefulWidget {
   const ReQcListWidget({super.key});
@@ -33,52 +24,62 @@ class ReQcListWidget extends StatefulWidget {
 }
 
 class _ReQcListWidgetState extends State<ReQcListWidget> {
-  late final List<DropDownItem> _dropDownItems = [];
-  DropDownItem? _selectedSearchType;
-
-  final TextEditingController _searchController = TextEditingController();
-  final TextInputDebounce _timer = TextInputDebounce();
-
   final CshListController _listController = CshListController();
 
-  @override
-  void initState() {
-    for (var element in _SearchType.values) {
-      _dropDownItems.add(DropDownItem(element.code, element.name));
-    }
-    _selectedSearchType = _dropDownItems[0];
-    super.initState();
-  }
-
-  _setSearchFilterAndReset(SearchType type, String value) {
+  FilterConfig _getFilterConfig() {
     var provider = ReQcListProvider.of(context, listen: false);
-    if (type == LotSearchType.barcode) {
-      provider.deviceBarcode = value;
-    } else {
-      provider.lotName = value;
+
+    List<AdminFilterList> preSelectedFilters = [];
+
+    if (provider.lotTypeFilters != null) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: CshFilterValueType.equality.value,
+          field: 'id',
+          value: AdminFilterData(list: provider.lotTypeFilters!.map((e) => e.toString()).toList()),
+        ),
+      );
     }
-    _listController.refresh();
+
+    return FilterConfig(initialFilter: preSelectedFilters, filterData: [
+      CshFilterData(
+        label: "Lot Group Name",
+        field: 'lotGroupName',
+        crudFilter: 'groupName',
+        filterType: CshFilterType.input,
+        valueType: CshFilterValueType.contains,
+        position: FilterPosition.top,
+        keyboardType: TextInputType.text,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "Lot Type",
+        field: 'id',
+        crudFilter: 'id',
+        filterType: CshFilterType.select,
+        valueType: CshFilterValueType.multiSelect,
+        position: FilterPosition.bottom,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+        lookUpsObs: (paginationInfo) {
+          return LotTypeFilterService.storeOutLotTypeFiltersNew().map((event) {
+            final list = event?.data ?? [];
+            return list
+                .where((e) => e.lotName != null && e.lotType != null)
+                .map((e) => CshLooksUpData(label: e.lotName!, value: e.lotType!.toString()))
+                .toList();
+          });
+        },
+        enableFilterPagination: false,
+      ),
+    ]);
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var l10n = L10n(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SearchWithDropdownWidget(
-          padding: const EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
-          searchTypeValues: LotSearchType.values,
-          onSearch: (type, value) {
-            _setSearchFilterAndReset(type, value);
-          },
-          onDropDownChange: (item) {
-            var provider = ReQcListProvider.of(context, listen: false);
-            provider.resetSearchFilters();
-            _listController.refresh();
-          },
-        ),
         Expanded(
           child: Stack(
             children: [
@@ -88,8 +89,10 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
                   serviceGroup: TRCServiceGroups.qcConsole,
                 ),
                 controller: _listController,
+                filterConfig: _getFilterConfig(),
                 shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
                 itemFromJson: ReQcListData.fromJson,
+                isHideCoreFilterButton: true,
                 getRowWidget: (item, index) {
                   if (item != null) {
                     return InkWell(
@@ -109,7 +112,8 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
                 right: Dimens.space_16,
                 child: FloatingActionButton(
                   heroTag: "filter",
-                  onPressed: () => _openFilterScreen(context),
+                  // onPressed: () => _openFilterScreen(context),
+                  onPressed: () => _listController.openFilter(),
                   backgroundColor: theme.primaryColor,
                   child: CshIcon(FeatherIcons.filter, iconSize: MobileIconSize.large),
                 ),
@@ -176,26 +180,16 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
     });
   }
 
-  void _openFilterScreen(BuildContext context) {
-    var provider = ReQcListProvider.of(context, listen: false);
-    StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotTypeFilters).then((value) {
-      if (value != null && value is List<int>) {
-        provider.lotTypeFilters = value;
-        _listController.refresh();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.stop();
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  bool _isSearchTypeBarcode() {
-    return _selectedSearchType?.id == _SearchType.barcode.code;
-  }
+// void _openFilterScreen(BuildContext context) {
+//   var provider = ReQcListProvider.of(context, listen: false);
+//   StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotTypeFilters).then((value) {
+//     provider.lotTypeFilters = [11];
+//     // if (value != null && value is List<int>) {
+//     //   provider.lotTypeFilters = value;
+//     //   _listController.refresh();
+//     // }
+//   });
+// }
 }
 
 class _ReQcListItemWidget extends StatelessWidget {

@@ -5,9 +5,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/engineer_list_response.dart';
 import '../models/inventory_location_response.dart';
-import '../models/pending_device_list_response.dart';
 import '../models/rider_list_response.dart';
 import '../resources/inventory_manager_service.dart';
 
@@ -25,8 +23,7 @@ class InventoryHomeProvider extends CshChangeNotifier {
   InventoryLocationResponse? inventoryLocationResponse;
   String? barcode;
   String? engineerName;
-  bool isUrgent = false;
-  List<PendingDeviceDetailData> assignedTabListData = [];
+  List<int> selectedDeviceIdList = [];
   String? errorMessage;
   RiderListResponse? riderListResponse;
   RiderListDataResponse? selectedRider;
@@ -50,54 +47,13 @@ class InventoryHomeProvider extends CshChangeNotifier {
     });
   }
 
-  Future<EngineerListResponse?> getAssignmentPendingEngineerList(int pageNumber, int pageSize) {
-    var completer = Completer<EngineerListResponse?>();
-    try {
-      InventoryService.getAssignmentPendingEngineerList(getLocationsString() ?? "", ++pageNumber, pageSize).listen(
-          (event) {
-        if (Validator.isTrue(event?.isSuccess)) {
-          completer.complete(event);
-        } else {
-          completer.completeError("Something went wrong!!");
-        }
-      }, onError: (error) {
-        String apiErrorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong!!";
-        Logger.debug('mydebug------InventoryHomeProvider.getAssignmentPendingEngineerList', [apiErrorMessage]);
-        completer.completeError(apiErrorMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
+  void updateAssignedTabListData(bool checked, int deviceId) {
+    if (checked) {
+      selectedDeviceIdList.add(deviceId);
+    } else {
+      selectedDeviceIdList.remove(deviceId);
     }
-    return completer.future;
-  }
-
-  Future<PendingDeviceListResponse> getListOfAssignmentPendingDevices(int pageNo, int pageSize) {
-    var completer = Completer<PendingDeviceListResponse>();
-    try {
-      InventoryService.getListOfAssignmentPendingDevices(pageNo, pageSize,
-              isUrgent: isUrgent, barcode: barcode, locations: getLocationsString(), engineerName: engineerName)
-          .listen((event) {
-        if (event != null && event.isSuccess == true) {
-          completer.complete(event);
-          if (!Validator.isListNullOrEmpty(event.data?.dataList)) {
-            assignedTabListData.addAll(event.data!.dataList!);
-          }
-        } else {
-          completer.completeError("Something went wrong");
-        }
-      }, onError: (error) {
-        String errMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
-        Logger.debug('mydebug------InventoryHomeProvider.getListOfAssignmentPendingDevices', [errMessage]);
-        completer.completeError(errMessage);
-      }, onDone: () {
-        notifyListeners();
-      });
-    } catch (e) {
-      completer.completeError(e.toString());
-    }
-    return completer.future;
+    notifyListeners();
   }
 
   Future<bool> getListOfRiders() {
@@ -128,7 +84,7 @@ class InventoryHomeProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       int? riderIdInt = selectedRider?.riderId != null ? int.tryParse(selectedRider!.riderId!) : null;
-      InventoryService.assignRider(getListIfAssignedRiderDId(), riderIdInt ?? -1).listen((event) {
+      InventoryService.assignRider(selectedDeviceIdList, riderIdInt ?? -1).listen((event) {
         if (event != null && event.isSuccess == true) {
           completer.complete(true);
         } else {
@@ -192,32 +148,8 @@ class InventoryHomeProvider extends CshChangeNotifier {
     return false;
   }
 
-  resetDataList() {
-    assignedTabListData.clear();
-    notifyListeners();
-  }
-
-  checkIfAssignedForRider() {
-    if (assignedTabListData.isNotEmpty) {
-      for (var element in assignedTabListData) {
-        if (element.isAssignedToRider == true) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  List<int> getListIfAssignedRiderDId() {
-    List<int> dataList = [];
-    if (assignedTabListData.isNotEmpty) {
-      for (var element in assignedTabListData) {
-        if (element.isAssignedToRider == true) {
-          dataList.add(element.deviceId ?? -1);
-        }
-      }
-    }
-    return dataList;
+  bool checkIfAssignedForRider() {
+    return selectedDeviceIdList.isNotEmpty;
   }
 
   List<RiderListDataResponse> getSearchResults({String? pattern}) {

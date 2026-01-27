@@ -26,9 +26,7 @@ class _NewProductListWidgetState extends State<NewProductListWidget> with Produc
   /// QC login uses qcConsole, TRC login uses unifyTrc
   TRCServiceGroups _getServiceGroup() {
     var loginTypeEnum = LoginTypes.fromValue(AppPreferences.app.getLoginType() ?? "");
-    return loginTypeEnum == LoginTypes.qcLogin 
-        ? TRCServiceGroups.qcConsole 
-        : TRCServiceGroups.unifyTrc;
+    return loginTypeEnum == LoginTypes.qcLogin ? TRCServiceGroups.qcConsole : TRCServiceGroups.unifyTrc;
   }
 
   FilterConfig _getFilterConfig(ProductListProvider provider) {
@@ -36,8 +34,8 @@ class _NewProductListWidgetState extends State<NewProductListWidget> with Produc
       filterData: [
         CshFilterData(
           label: "Search by product name",
-          field: 'pn',
-          crudFilter: 'pn',
+          field: "productName",
+          crudFilter: 'productName',
           filterType: CshFilterType.input,
           valueType: CshFilterValueType.contains,
           position: FilterPosition.top,
@@ -45,20 +43,20 @@ class _NewProductListWidgetState extends State<NewProductListWidget> with Produc
           filterGroup: FilterGroupType.multipleTypeSearch,
         ),
       ],
-      preSelectedFilters: [
+      initialFilter: [
+        // AdminFilterList(
+        //   type: 'qr',
+        //   field: 'qr',
+        //   value: AdminFilterData(search: provider.deviceBarcode),
+        // ),
         AdminFilterList(
-          type: 'qr',
-          field: 'qr',
-          value: AdminFilterData(search: provider.deviceBarcode),
-        ),
-        AdminFilterList(
-          type: 'cid',
-          field: 'cid',
+          type: CshFilterValueType.equality.value,
+          field: 'deviceCategory.id',
           value: AdminFilterData(search: provider.categoryId?.toString()),
         ),
         AdminFilterList(
-          type: 'bid',
-          field: 'bid',
+          type: CshFilterValueType.equality.value,
+          field: 'brand.brandId',
           value: AdminFilterData(search: provider.brandId?.toString()),
         ),
       ],
@@ -76,10 +74,9 @@ class _NewProductListWidgetState extends State<NewProductListWidget> with Produc
         mainAxisSize: MainAxisSize.min,
         children: [
           const Padding(
-            padding: EdgeInsets.all(Dimens.space_16),
+            padding: EdgeInsets.fromLTRB(Dimens.space_16, Dimens.space_16, Dimens.space_16, 0),
             child: CshTextNew.h3("Please select product"),
           ),
-          const SizedBox(height: Dimens.space_16),
           Expanded(
             child: CshApiList<LobProductListData>(
               apiConfig: ListApiConfig(
@@ -92,7 +89,7 @@ class _NewProductListWidgetState extends State<NewProductListWidget> with Produc
               shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
               listPadding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
               verticalRowSpacing: Dimens.space_12,
-              isHideCoreFilterButton: true,
+              isHideCoreFilterButton: false,
               getRowWidget: (item, index) {
                 final data = item;
                 return buildItemWidget(context, data!, widget.onProductSelected);

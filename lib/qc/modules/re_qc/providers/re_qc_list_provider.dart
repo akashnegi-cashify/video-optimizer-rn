@@ -7,21 +7,7 @@ import 'package:flutter_trc/qc/modules/re_qc/resources/re_qc_service.dart';
 import 'package:provider/provider.dart';
 
 class ReQcListProvider extends CshChangeNotifier {
-  String? _lotName;
-
-  String? _deviceBarcode;
-
   List<int>? _lotTypeFilters;
-
-  set lotName(String? value) {
-    _deviceBarcode = null;
-    _lotName = value;
-  }
-
-  set deviceBarcode(String? value) {
-    _lotName = null;
-    _deviceBarcode = value;
-  }
 
   set lotTypeFilters(List<int>? value) {
     _lotTypeFilters = value;
@@ -61,10 +47,5 @@ class ReQcListProvider extends CshChangeNotifier {
       completer.completeError(errorMessage.toString());
     });
     return completer.future;
-  }
-
-  void resetSearchFilters() {
-    _lotName = null;
-    _deviceBarcode = null;
   }
 }

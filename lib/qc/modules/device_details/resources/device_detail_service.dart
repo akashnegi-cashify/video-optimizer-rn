@@ -4,10 +4,10 @@ import 'package:flutter_trc/src/services/qc_service.dart';
 
 class DeviceDetailService {
   static Stream<DeviceDetailResponse?> getDeviceDetails(String deviceBarcode) {
-    return QcService().get("/device/detail?qrcode=$deviceBarcode", DeviceDetailResponse.fromJson);
+    return QcService().get("/device/app/detail?qrcode=$deviceBarcode", DeviceDetailResponse.fromJson);
   }
 
   static Stream<StockMovementResponse?> getDeviceStockMovement(String deviceBarcode) {
-    return QcService().get("/device/stock-movement/$deviceBarcode", StockMovementResponse.fromJson);
+    return QcService().get("/device/app/stock-movement/$deviceBarcode", StockMovementResponse.fromJson);
   }
 }
