@@ -30,6 +30,8 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
 
   bool get _isEngineerRole => PermissionController().hasPermission(TrcPermissions.engineer);
 
+  bool get _isL4Engineer => PermissionController().hasPermission(TrcPermissions.l4Engineer);
+
   @override
   Widget build(BuildContext context) {
     var provider = WIPDeviceDetailProvider.of(context);
@@ -77,10 +79,10 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
               _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
-                buttonText: _isEngineerRole ? l10n.markOk : l10n.repairDone,
-                urlPath: _isEngineerRole
-                    ? EngineerDeviceActionStatusEnum.MARK_OK.value
-                    : EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value,
+                buttonText: _isL4Engineer ? l10n.repairDone : l10n.markOk,
+                urlPath: _isL4Engineer
+                    ? EngineerDeviceActionStatusEnum.MARK_REPAIR_DONE.value
+                    : EngineerDeviceActionStatusEnum.MARK_OK.value,
                 onApiSuccess: () {
                   Navigator.pop(context);
                 },
@@ -117,7 +119,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                 );
               },
             ),
-            if (!_isEngineerRole)
+            if (_isL4Engineer)
               _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
@@ -127,7 +129,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   Navigator.pop(context);
                 },
               ),
-            if (!_isEngineerRole)
+            if (_isL4Engineer)
               _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 contentPadding: const EdgeInsets.only(top: Dimens.space_16),
@@ -137,7 +139,7 @@ class _WIPDetailWidgetState extends State<WIPDetailWidget> {
                   Navigator.pop(context);
                 },
               ),
-            if (!_isEngineerRole)
+            if (_isL4Engineer)
               _StatusUpdateButtonWidget(
                 deviceBarcode: provider.deviceBarcode,
                 buttonText: l10n.markNR,

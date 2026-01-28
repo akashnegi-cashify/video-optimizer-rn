@@ -7,7 +7,7 @@ part of 'device_receive_response.dart';
 // **************************************************************************
 
 DeviceReceiveResponse _$DeviceReceiveResponseFromJson(
-        Map<String, dynamic> json) =>
+    Map<String, dynamic> json) =>
     DeviceReceiveResponse(
       json['__ca'] == null
           ? null
@@ -23,7 +23,7 @@ DeviceReceiveResponse _$DeviceReceiveResponseFromJson(
           : DeviceReceiveData.fromJson(json['dt'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$DeviceReceiveResponseToJson(
-        DeviceReceiveResponse instance) =>
+    DeviceReceiveResponse instance) =>
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
@@ -36,24 +36,24 @@ Map<String, dynamic> _$DeviceReceiveResponseToJson(
 
 DeviceReceiveData _$DeviceReceiveDataFromJson(Map<String, dynamic> json) =>
     DeviceReceiveData(
-      json['pt'] as String?,
-      json['dbr'] as String?,
-      json['st'] as String?,
-      json['rt'] as String?,
+      json['productTitle'] as String?,
+      json['deviceBarcode'] as String?,
+      json['status'] as String?,
+      json['repairType'] as String?,
       json['isUrgent'] as bool?,
       json['ele'] as String?,
-      json['ro'] as String?,
-      (json['rs'] as num?)?.toInt(),
+      json['repairOrderNo'] as String?,
+      (json['rubbingStatus'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DeviceReceiveDataToJson(DeviceReceiveData instance) =>
     <String, dynamic>{
-      'pt': instance.productTitle,
-      'dbr': instance.deviceBarcode,
-      'st': instance.status,
-      'rt': instance.repairType,
-      'ro': instance.repairOrder,
+      'productTitle': instance.productTitle,
+      'deviceBarcode': instance.deviceBarcode,
+      'status': instance.status,
+      'repairType': instance.repairType,
+      'repairOrderNo': instance.repairOrder,
       'isUrgent': instance.isUrgent,
-      'ele': instance.elssEngineerName,
-      'rs': instance.rubbingOrGlassChangeStatus,
+      'elssEngineerName': instance.elssEngineerName,
+      'rubbingStatus': instance.rubbingOrGlassChangeStatus,
     };
