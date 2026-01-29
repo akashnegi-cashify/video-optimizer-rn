@@ -4,8 +4,8 @@
 
 ### Feature:
 
-* `QC/TRC - Support New CDP Flag “No Preselect” in Calculator Flow` [(SCM-SCM-12129)](https://reglobe.atlassian.net/browse/SCM-SCM-12129)
-* `IMEI Validation Bypass - Apple Online Devices` [(SCM-SCM-12445)](https://reglobe.atlassian.net/browse/SCM-SCM-12445)
+* `QC/TRC - Support New CDP Flag “No Preselect” in Calculator Flow` [(SCM-12129)](https://reglobe.atlassian.net/browse/SCM-12129)
+* `IMEI Validation Bypass - Apple Online Devices` [(SCM-12445)](https://reglobe.atlassian.net/browse/SCM-12445)
 
 
 # v5.3.1+82 (XX-11-2025)
