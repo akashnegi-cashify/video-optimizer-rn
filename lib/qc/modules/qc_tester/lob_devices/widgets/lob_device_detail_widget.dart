@@ -46,6 +46,7 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
   late bool _isRunSerialValidatorFlow = false;
   int _serialNoRetryCounter = 0;
   bool _isShowManualEnterSerialButton = false;
+  bool _isMarkDeadDevice = false;
 
   @override
   void initState() {
@@ -83,6 +84,24 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     super.initState();
   }
 
+  Widget _buildDeadDeviceSwitch() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        CshTextNew.subTitle1("Is Device Dead"),
+        CshSwitch(
+          isSelected: _isMarkDeadDevice,
+          onChanged: (value) {
+            setState(() {
+              _isMarkDeadDevice = value;
+              _isRunImeiValidatorFlow = value ? false : true;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var l10n = L10n(context);
@@ -90,7 +109,9 @@ class _LobDeviceDetailWidgetState extends State<LobDeviceDetailWidget> {
     return Container(
       padding: const EdgeInsets.all(Dimens.space_20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (Validator.isTrue(widget.deviceDetails?.isBypassImeiValidation)) _buildDeadDeviceSwitch(),
           CshTextNew.subTitle1(l10n.updateCategoryIfNeeded),
           const SizedBox(height: Dimens.space_16),
           Row(

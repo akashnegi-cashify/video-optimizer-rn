@@ -45,8 +45,11 @@ class DeviceDetailResponseData {
   @JsonKey(name: "idia")
   bool? isDeviceImeiApproved;
 
+  @JsonKey(name: "ibiv")
+  bool? isBypassImeiValidation;
+
   DeviceDetailResponseData(this.qrCode, this.imei1, this.serialNo, this.selectedCategoryId, this.categoryList, this.imei2,
-      this.reasons, this.isDeviceImeiApproved, this.brandId);
+      this.reasons, this.isDeviceImeiApproved, this.brandId, this.isBypassImeiValidation);
 
   static DeviceDetailResponseData fromJson(Map<String, dynamic> json) => _$DeviceDetailResponseDataFromJson(json);
 
