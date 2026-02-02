@@ -8,7 +8,8 @@ import '../providers/dispatch_lot_provider.dart';
 import 'index.dart';
 
 class DispatchLotContainer extends StatelessWidget {
-  const DispatchLotContainer({super.key});
+  DispatchLotContainer({super.key});
+  final GlobalKey<DispatchLotsWidgetState> globalKey = GlobalKey<DispatchLotsWidgetState>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,46 +17,10 @@ class DispatchLotContainer extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Selector<DispatchLotProvider, bool>(
-          builder: (BuildContext selectorContext, value, Widget? child) {
-            var provider = DispatchLotProvider.of(context: selectorContext, listen: false);
-            if (value) {
-              return Container(
-                padding: const EdgeInsets.all(Dimens.space_16),
-                child: SearchBarWidget(
-                  initialText: provider.searchQuery,
-                  onQuery: (value) {
-                    provider.searchQuery = value;
-                  },
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-          selector: (
-            BuildContext context,
-            DispatchLotProvider provider,
-          ) {
-            return provider.showSearchBox;
-          },
-        ),
         Expanded(
           child: Stack(
             children: [
-              Positioned.fill(
-                child: Selector<DispatchLotProvider, String>(
-                  builder: (BuildContext context, value, Widget? child) {
-                    return DispatchLotsWidget(key: ObjectKey(value));
-                  },
-                  selector: (
-                    BuildContext context,
-                    DispatchLotProvider provider,
-                  ) {
-                    return provider.searchQuery ?? '';
-                  },
-                ),
-              ),
+              DispatchLotsWidget(key: globalKey),
               Positioned(
                   bottom: 0,
                   right: 0,
@@ -84,17 +49,7 @@ class DispatchLotContainer extends StatelessWidget {
     );
   }
 
-  void _showSearchBox(BuildContext context) {
-    var provider = DispatchLotProvider.of(context: context, listen: false);
-    provider.showSearchBox = !provider.showSearchBox;
-  }
-
   void _openFilterScreen(BuildContext context) {
-    var provider = DispatchLotProvider.of(context: context, listen: false);
-    StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.lotType).then((value) {
-      if (value != null && value is List<int>) {
-        provider.lotType = value;
-      }
-    });
+    globalKey.currentState?.openFilter();
   }
 }

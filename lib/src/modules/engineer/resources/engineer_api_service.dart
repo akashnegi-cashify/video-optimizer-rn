@@ -286,7 +286,7 @@ class EngineerAPIService {
       "imid": [mediaType.toString()],
       "did": [deviceId.toString()],
     };
-    return TrcService().get("/device/v2/media", GenericDeviceMediaResponse.fromJson, params: params);
+    return TrcService().get("/device/v1/media", GenericDeviceMediaResponse.fromJson, params: params);
   }
 
   static Stream<BaseActionResponse?> replacePartBarcode(

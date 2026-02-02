@@ -74,13 +74,13 @@ abstract class CalculatorService {
       if (categoryId != null) "csr": quoteRequest
     };
 
-    return service.post("/v2/device/media", DeviceMediaResponse.fromJson, body: jsonEncode(params));
+    return service.post("/v1/device/media", DeviceMediaResponse.fromJson, body: jsonEncode(params));
   }
 
   Stream<DeviceMediaResponse?> submitDeviceMedia(List<MediaSubmitRequest>? mediaList, String? deviceBarcode) {
     var encodedList = mediaList?.map((e) => e.toJson()).toList();
     Map<String, dynamic> request = {"ml": encodedList};
-    return service.post("/v3/device/media/$deviceBarcode", DeviceMediaResponse.fromJson, body: jsonEncode(request));
+    return service.post("/v1/device/media/$deviceBarcode", DeviceMediaResponse.fromJson, body: jsonEncode(request));
   }
 
   Stream<CalculatorSubmitResponse?> submitCalculatorResponse(MyQuoteRequestData? quoteRequest, String? deviceBarcode,

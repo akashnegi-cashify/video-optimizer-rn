@@ -7,6 +7,7 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/providers/dispatch_lot_provider.dart';
 import 'package:flutter_trc/qc/modules/dispatch_lot/widgets/index.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/resources/lot_type_filter_service.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:ml_barcode_scanner/widgets/index.dart';
 
@@ -18,10 +19,10 @@ class DispatchLotsWidget extends StatefulWidget {
   const DispatchLotsWidget({super.key});
 
   @override
-  State<DispatchLotsWidget> createState() => _DispatchLotsWidgetState();
+  State<DispatchLotsWidget> createState() => DispatchLotsWidgetState();
 }
 
-class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
+class DispatchLotsWidgetState extends State<DispatchLotsWidget> {
   final CshListController _listController = CshListController();
 
   @override
@@ -45,7 +46,30 @@ class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
         keyboardType: TextInputType.text,
         filterGroup: FilterGroupType.multipleTypeSearch,
       ),
+      CshFilterData(
+        label: "Lot Type",
+        field: 'lotType',
+        crudFilter: 'lotType',
+        filterType: CshFilterType.select,
+        valueType: CshFilterValueType.multiSelect,
+        position: FilterPosition.bottom,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+        lookUpsObs: (paginationInfo) {
+          return LotTypeFilterService.storeOutLotTypeFiltersNew().map((event) {
+            final list = event?.data ?? [];
+            return list
+                .where((e) => e.lotName != null && e.lotType != null)
+                .map((e) => CshLooksUpData(label: e.lotName!, value: e.lotType!.toString()))
+                .toList();
+          });
+        },
+        enableFilterPagination: false,
+      ),
     ]);
+  }
+
+  void openFilter() {
+    _listController.openFilter();
   }
 
   @override
@@ -65,6 +89,7 @@ class _DispatchLotsWidgetState extends State<DispatchLotsWidget> {
           listPadding: const EdgeInsets.all(Dimens.space_16),
           verticalRowSpacing: Dimens.space_16,
           itemFromJson: Lot.fromJson,
+          isHideCoreFilterButton: true,
           getRowWidget: (item, index) {
             return LotWidget(
               lot: item,

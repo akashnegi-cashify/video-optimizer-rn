@@ -23,7 +23,6 @@ import '../common_models/elss_success_response.dart';
 import '../common_models/part_device_list.dart';
 import '../common_models/parts_elss_action.dart';
 import '../common_models/products_colour_response.dart';
-import '../common_models/qc_s3_details_config.dart';
 import '../common_models/submit_parts_logic_model.dart';
 import '../common_models/upload_fault_images_response.dart';
 
@@ -160,10 +159,6 @@ class ElssService {
       "qr": [barcode]
     };
     return QcService().get("/device/elss/channel-options", ChannelOptionResponse.fromJson, params: paramData);
-  }
-
-  static Stream<QcS3DetailsResponse?> fetchS3Details() {
-    return QcService().get("/v2/s3/config", QcS3DetailsResponse.fromJson);
   }
 
   static Stream<ElssSuccessResponse?> submitAcceptElss(List<Map<String, dynamic>> partsDataList, String barcode,
