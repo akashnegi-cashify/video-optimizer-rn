@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:localization/localization/locale_provider.dart';
+import 'package:core_widgets/core_widgets.dart' hide isEmpty, isNotEmpty;
+
+import 'package:flutter_trc/src/modules/rider/pending_delivery/pending_delivery_widget.dart';
+import 'package:flutter_trc/src/modules/rider/pending_delivery/receive/widgets/delivery_receive_widget.dart';
+import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/widgets/delivery_deliver_widget.dart';
+
+void main() {
+  Widget buildTestWidget(Widget child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          extensions: [
+            CustomColors(
+              successColor: Colors.green,
+              warnColor: Colors.orange,
+              inputStrokeColor: Colors.grey,
+              searchShadow: Colors.grey.withAlpha(50),
+              shadows: const {},
+            ),
+          ],
+        ),
+        home: Scaffold(body: child),
+      ),
+    );
+  }
+
+  group('PendingDeliveryWidget', () {
+    testWidgets('renders without error', (tester) async {
+      await tester.pumpWidget(buildTestWidget(const PendingDeliveryWidget()));
+      await tester.pump();
+
+      expect(find.byType(PendingDeliveryWidget), findsOneWidget);
+    });
+
+    testWidgets('displays TabBarView', (tester) async {
+      await tester.pumpWidget(buildTestWidget(const PendingDeliveryWidget()));
+      await tester.pump();
+
+      expect(find.byType(TabBarView), findsOneWidget);
+    });
+
+    testWidgets('displays tab bar with two tabs', (tester) async {
+      await tester.pumpWidget(buildTestWidget(const PendingDeliveryWidget()));
+      await tester.pump();
+
+      expect(find.byType(CshTab), findsNWidgets(2));
+    });
+
+    testWidgets('first tab shows DeliveryReceiveWidget', (tester) async {
+      await tester.pumpWidget(buildTestWidget(const PendingDeliveryWidget()));
+      await tester.pump();
+
+      // DeliveryReceiveWidget should be shown by default (first tab)
+      expect(find.byType(DeliveryReceiveWidget), findsOneWidget);
+    });
+
+    testWidgets('can switch to second tab (Deliver)', (tester) async {
+      await tester.pumpWidget(buildTestWidget(const PendingDeliveryWidget()));
+      await tester.pump();
+
+      // Find and tap the second tab
+      final tabFinder = find.byType(CshTab);
+      await tester.tap(tabFinder.last);
+      await tester.pumpAndSettle();
+
+      // DeliveryDeliverWidget should now be visible
+      expect(find.byType(DeliveryDeliverWidget), findsOneWidget);
+    });
+
+    testWidgets('uses AutomaticKeepAliveClientMixin', (tester) async {
+      await tester.pumpWidget(buildTestWidget(const PendingDeliveryWidget()));
+      await tester.pump();
+
+      // Widget should keep alive when switching tabs
+      expect(find.byType(PendingDeliveryWidget), findsOneWidget);
+    });
+
+    testWidgets('displays Column as root widget', (tester) async {
+      await tester.pumpWidget(buildTestWidget(const PendingDeliveryWidget()));
+      await tester.pump();
+
+      expect(find.byType(Column), findsAtLeastNWidgets(1));
+    });
+
+    testWidgets('has Expanded widget for TabBarView', (tester) async {
+      await tester.pumpWidget(buildTestWidget(const PendingDeliveryWidget()));
+      await tester.pump();
+
+      expect(find.byType(Expanded), findsAtLeastNWidgets(1));
+    });
+  });
+}

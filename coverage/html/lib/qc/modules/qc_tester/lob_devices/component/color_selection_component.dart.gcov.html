@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/qc/modules/qc_tester/lob_devices/component/color_selection_component.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory lib/qc/modules/qc_tester/lob_devices/component">lib/qc/modules/qc_tester/lob_devices/component</a> - color_selection_component.dart</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">14.3&nbsp;%</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">1</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-02-03 16:56:15</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : import 'package:builder_component/builder_component.dart';</span>
+<span id="L2"><span class="lineNum">       2</span>              : import 'package:csh_annotation/annotation.dart';</span>
+<span id="L3"><span class="lineNum">       3</span>              : import 'package:flutter/material.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/models/color_selection_screen_arg_model.dart';</span>
+<span id="L5"><span class="lineNum">       5</span>              : import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/color_selection_provider.dart';</span>
+<span id="L6"><span class="lineNum">       6</span>              : import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/widgets/color_selection_widget.dart';</span>
+<span id="L7"><span class="lineNum">       7</span>              : import 'package:flutter_trc/src/app_builder/app_builder_groups/qc_groups.dart';</span>
+<span id="L8"><span class="lineNum">       8</span>              : import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';</span>
+<span id="L9"><span class="lineNum">       9</span>              : import 'package:provider/provider.dart';</span>
+<span id="L10"><span class="lineNum">      10</span>              : </span>
+<span id="L11"><span class="lineNum">      11</span>              : part 'color_selection_component.g.dart';</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span>              : @CshComponent(</span>
+<span id="L14"><span class="lineNum">      14</span>              :   key: ColorSelectionComponent.COMP_KEY,</span>
+<span id="L15"><span class="lineNum">      15</span>              :   configModel: NoneConfigModel,</span>
+<span id="L16"><span class="lineNum">      16</span>              :   componentGroup: QcComponentGroup.qcColorSelectionComponentKey,</span>
+<span id="L17"><span class="lineNum">      17</span>              :   params: ColorSelectionScreenArgModelKeys.values,</span>
+<span id="L18"><span class="lineNum">      18</span>              :   paramModel: ColorSelectionScreenArgModel,</span>
+<span id="L19"><span class="lineNum">      19</span>              : )</span>
+<span id="L20"><span class="lineNum">      20</span>              : class ColorSelectionComponent extends StatelessComponent&lt;NoneConfigModel&gt; {</span>
+<span id="L21"><span class="lineNum">      21</span>              :   static const String COMP_KEY = &quot;QC_color_selection_component&quot;;</span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   const ColorSelectionComponent(super.jsonConfig, {super.key});</span></span>
+<span id="L24"><span class="lineNum">      24</span>              : </span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L26"><span class="lineNum">      26</span>              :   Widget buildView(BuildContext context, configModel) {</span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :     return paramBuilder((model) {</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :       return ChangeNotifierProvider(</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :         create: (_) =&gt; ColorSelectionProvider(model.productId),</span></span>
+<span id="L30"><span class="lineNum">      30</span>              :         lazy: false,</span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :         child: ColorSelectionWidget(model.deviceBarcode, model.onColorSelected),</span></span>
+<span id="L32"><span class="lineNum">      32</span>              :       );</span>
+<span id="L33"><span class="lineNum">      33</span>              :     });</span>
+<span id="L34"><span class="lineNum">      34</span>              :   }</span>
+<span id="L35"><span class="lineNum">      35</span>              : </span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L37"><span class="lineNum">      37</span>              :   Function(Map&lt;String, dynamic&gt; data)? fromConfig() {</span>
+<span id="L38"><span class="lineNum">      38</span>              :     return NoneConfigModel.fromConfig;</span>
+<span id="L39"><span class="lineNum">      39</span>              :   }</span>
+<span id="L40"><span class="lineNum">      40</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.4-0</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_trc/src/common/l10n.dart' as l10n_common;
 import 'package:intl/intl.dart';

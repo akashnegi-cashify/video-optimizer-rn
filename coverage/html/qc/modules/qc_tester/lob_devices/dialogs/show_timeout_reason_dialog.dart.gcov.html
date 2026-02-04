@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - qc/modules/qc_tester/lob_devices/dialogs/show_timeout_reason_dialog.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory qc/modules/qc_tester/lob_devices/dialogs">qc/modules/qc_tester/lob_devices/dialogs</a> - show_timeout_reason_dialog.dart</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-01-30 13:38:21</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : import 'package:core_widgets/core_widgets.dart';</span>
+<span id="L2"><span class="lineNum">       2</span>              : import 'package:flutter/material.dart';</span>
+<span id="L3"><span class="lineNum">       3</span>              : import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/reasons.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : </span>
+<span id="L5"><span class="lineNum">       5</span>              : import '../l10n.dart';</span>
+<span id="L6"><span class="lineNum">       6</span>              : </span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 : void showTimeOutReasonDialog(BuildContext context, List&lt;Reasons&gt; reasons,</span></span>
+<span id="L8"><span class="lineNum">       8</span>              :     {required Function(Reasons reason) onReasonSelected}) {</span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 :   var l10n = L10n(context, listen: false);</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :   showCshBottomSheet(</span></span>
+<span id="L11"><span class="lineNum">      11</span>              :     isDismissible: false,</span>
+<span id="L12"><span class="lineNum">      12</span>              :     isScrollControlled: true,</span>
+<span id="L13"><span class="lineNum">      13</span>              :     context: context,</span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :     child: Container(</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :       constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.6),</span></span>
+<span id="L16"><span class="lineNum">      16</span>              :       padding: const EdgeInsets.all(Dimens.space_16),</span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :       child: Column(</span></span>
+<span id="L18"><span class="lineNum">      18</span>              :         crossAxisAlignment: CrossAxisAlignment.stretch,</span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :         children: [</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :           CshTextNew.h3(l10n.unableToScan),</span></span>
+<span id="L21"><span class="lineNum">      21</span>              :           const SizedBox(height: Dimens.space_16),</span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :           ListView.separated(</span></span>
+<span id="L23"><span class="lineNum">      23</span>              :               shrinkWrap: true,</span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :               itemBuilder: (context, index) {</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :                 var item = reasons[index];</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :                 return GestureDetector(</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :                   onTap: () =&gt; onReasonSelected(item),</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :                   child: CshCard(child: CshTextNew.subTitle1(item.name ?? &quot;NA&quot;)),</span></span>
+<span id="L29"><span class="lineNum">      29</span>              :                 );</span>
+<span id="L30"><span class="lineNum">      30</span>              :               },</span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :               separatorBuilder: (context, index) {</span></span>
+<span id="L32"><span class="lineNum">      32</span>              :                 return const SizedBox(height: Dimens.space_8);</span>
+<span id="L33"><span class="lineNum">      33</span>              :               },</span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :               itemCount: reasons.length),</span></span>
+<span id="L35"><span class="lineNum">      35</span>              :         ],</span>
+<span id="L36"><span class="lineNum">      36</span>              :       ),</span>
+<span id="L37"><span class="lineNum">      37</span>              :     ),</span>
+<span id="L38"><span class="lineNum">      38</span>              :   );</span>
+<span id="L39"><span class="lineNum">      39</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.4-0</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
