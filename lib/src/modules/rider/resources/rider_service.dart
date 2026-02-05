@@ -4,9 +4,9 @@ import 'package:flutter_trc/src/services/trc_service.dart';
 class RiderService {
   static Stream<BaseResponse?> receiveDevice(String partBarcode) {
     Map<String, List<String>> paramData = {
-      "prid": [partBarcode.toString()]
+      "pbr": [partBarcode.toString()]
     };
-    // TODO: need to change api
-    return TrcService().put("/rider/delivery/receive-part", BaseResponse.fromJson, params: paramData);
+
+    return TrcService().put("/rider/delivery/receive-part/barcode", BaseResponse.fromJson, params: paramData);
   }
 }
