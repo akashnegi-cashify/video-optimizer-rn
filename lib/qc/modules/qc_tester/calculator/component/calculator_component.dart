@@ -48,7 +48,7 @@ class CalculatorComponent extends StatelessComponent<NoneConfigModel> {
       showSummary: true,
       calculatorAnalytics: isQcLogin ? CalculatorAnalyticsHelper(deviceBarcode ?? "") : null,
       deviceId: "d_id",
-      ruleExecutorServiceGroup: isQcLogin ? TRCServiceGroups.qc : TRCServiceGroups.trc,
+      ruleExecutorServiceGroup: isQcLogin ? TRCServiceGroups.qcConsole : TRCServiceGroups.unifyTrc,
       handleQuoteRequest: (QuoteRequestData requestData, String? partialQuoteId, String? udid) {
         if (calculatorResponse?.manualAuditQuestions != null) {
           _showDisputedQuestions(

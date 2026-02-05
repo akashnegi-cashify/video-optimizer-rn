@@ -42,6 +42,9 @@ import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/delivery_deliver_engineer_parts_screen.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/pickup_receive_engineer_parts_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
+import 'package:flutter_trc/src/modules/rider/screens/rider_pending_delivery_deliver_screen.dart';
+import 'package:flutter_trc/src/modules/rider/screens/rider_pending_delivery_receive_screen.dart';
+import 'package:flutter_trc/src/modules/rider/screens/rider_pending_pickup_screen.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_screen.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_screen.dart';
 import 'package:flutter_trc/src/modules/splash/splash_screen.dart';
@@ -122,6 +125,9 @@ class TrcRoutes {
       TrcAuditScreen.route: (_) => const TrcAuditScreen(),
       TRCExecutiveStoreOutScreen.route: (_) => const TRCExecutiveStoreOutScreen(),
       UserProfileScreen.route: (_) => const UserProfileScreen(),
+      PendingDeliveryReceiveScreen.route: (_) => const PendingDeliveryReceiveScreen(),
+      RiderPendingDeliveryDeliverScreen.route: (_) => const RiderPendingDeliveryDeliverScreen(),
+      RiderPendingPickupScreen.route: (_) => const RiderPendingPickupScreen(),
     };
   }
 }

@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
@@ -28,15 +29,15 @@ class TrcHomeScreenNew extends StatelessWidget {
       appBar: TrcHeader("Home", showBackBtn: false, showLogoutButton: true, showProfileButton: true),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: Dimens.space_16,
             children: [
               // Elss
               TRCRolePermissionWidget(
                 permission: TrcPermissions.elss,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "Elss",
                   onPressed: () {
@@ -48,6 +49,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               // Rubbing
               TRCRolePermissionWidget(
                 permission: TrcPermissions.rubbing,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "Rubbing",
                   onPressed: () {
@@ -59,6 +61,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               // Glass Change
               TRCRolePermissionWidget(
                 permission: TrcPermissions.glassChange,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "Glass Change",
                   onPressed: () {
@@ -70,16 +73,19 @@ class TrcHomeScreenNew extends StatelessWidget {
               // Engineer
               TRCRolePermissionWidget(
                 permission: TrcPermissions.engineer,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(text: "Engineer", onPressed: () => _enterLocation(context, false)),
               ),
               // L4 Engineer
               TRCRolePermissionWidget(
                 permission: TrcPermissions.l4Engineer,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(text: "L4 Engineer", onPressed: () => _enterLocation(context, true)),
               ),
               // Rider
               TRCRolePermissionWidget(
                 permission: TrcPermissions.rider,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "Rider",
                   onPressed: () {
@@ -90,6 +96,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               // Inventory Manager
               TRCRolePermissionWidget(
                 permission: TrcPermissions.inventory,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "Inventory Manager",
                   onPressed: () {
@@ -100,6 +107,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               // Part QC
               TRCRolePermissionWidget(
                 permission: TrcPermissions.partQc,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "Part QC",
                   onPressed: () {
@@ -110,6 +118,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               // TRC Executive
               TRCRolePermissionWidget(
                 permission: TrcPermissions.executive,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "TRC Executive",
                   onPressed: () {
@@ -120,6 +129,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               // Tester (QC Role)
               TRCRolePermissionWidget(
                 permission: TrcPermissions.tester,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "Tester",
                   onPressed: () {
@@ -130,6 +140,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               // Store Manager
               TRCRolePermissionWidget(
                 permission: TrcPermissions.storeManager,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "Store Manager",
                   onPressed: () {
@@ -140,6 +151,7 @@ class TrcHomeScreenNew extends StatelessWidget {
               // Auditor
               TRCRolePermissionWidget(
                 permission: TrcPermissions.auditor,
+                padding: EdgeInsets.only(top: Dimens.space_16),
                 child: CshBigButton(
                   text: "TRC Audit",
                   onPressed: () {
@@ -156,9 +168,10 @@ class TrcHomeScreenNew extends StatelessWidget {
 
   void _enterLocation(BuildContext context, bool isL4Engineer) {
     final locationController = TextEditingController();
+    String? locationError;
     showCshBottomSheet(
       context: context,
-      child: Builder(builder: (innerContext) {
+      child: StatefulBuilder(builder: (innerContext, setState) {
         return Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
           child: Container(
@@ -174,30 +187,38 @@ class TrcHomeScreenNew extends StatelessWidget {
                   hintText: "Enter Location",
                   autofocus: true,
                   textInputAction: TextInputAction.done,
+                  errorText: locationError,
                 ),
                 CshBigButton(
                   text: "Submit",
                   onPressed: () {
                     final location = locationController.text.trim();
                     if (location.isEmpty) {
-                      CshSnackBar.error(context: context, message: "Please enter location");
+                      setState(() {
+                        locationError = "Please enter location";
+                      });
                       return;
                     }
-                    CshLoading().showLoading(context);
+                    setState(() {
+                      locationError = null;
+                    });
+                    CshLoading().showLoading(innerContext);
                     EngineerAPIService.updateEngineerLocation(location).listen((event) {
-                      if (context.mounted) {
-                        CshLoading().hideLoading(context);
-                        Navigator.of(context).pop();
+                      if (innerContext.mounted) {
+                        CshLoading().hideLoading(innerContext);
+                        Navigator.of(innerContext).pop();
                         if (isL4Engineer) {
-                          Navigator.of(context).pushNamed(L4HomeScreen.route);
+                          Navigator.of(innerContext).pushNamed(L4HomeScreen.route);
                         } else {
-                          Navigator.of(context).pushNamed(EngineerHomeScreen.route);
+                          Navigator.of(innerContext).pushNamed(EngineerHomeScreen.route);
                         }
                       }
                     }, onError: (error) {
-                      if (context.mounted) {
-                        CshLoading().hideLoading(context);
-                        CshSnackBar.error(context: context, message: error.toString());
+                      if (innerContext.mounted) {
+                        CshLoading().hideLoading(innerContext);
+                        setState(() {
+                          locationError = ApiErrorHelper.getErrorMessage(error).toString();
+                        });
                       }
                     });
                   },

@@ -37,7 +37,7 @@ class ConsoleLoginWidget extends StatelessWidget {
           mfaBypassClientId: getClientId(),
           // mfaBypassClientId: "sales-rms:epoch",
           versionNumber: "",
-          loginType: LoginType.mobile,
+          loginType: loginType == LoginTypes.trcLogin ? LoginType.email : LoginType.mobile,
           onSubmit: (userAuth, mode, mobileNumber, pin, {required companyKey, credential}) {
             Logger.debug('mydebug-----_RmsLoginWidgetState.build', [
               'userAuth',

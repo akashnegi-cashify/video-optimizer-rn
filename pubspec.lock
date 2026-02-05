@@ -215,12 +215,10 @@ packages:
   calculator_ui:
     dependency: "direct main"
     description:
-      path: calculator_ui
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
-      url: "https://github.com/reglobe/flutter_admin_ui.git"
-    source: git
-    version: "2.2.2"
+      path: "../flutter_admin_ui/calculator_ui"
+      relative: true
+    source: path
+    version: "2.2.4"
   camera:
     dependency: "direct overridden"
     description:
@@ -352,12 +350,10 @@ packages:
   components:
     dependency: "direct main"
     description:
-      path: components
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
-      url: "https://github.com/reglobe/flutter_admin_ui.git"
-    source: git
-    version: "2.2.2"
+      path: "../flutter_admin_ui/components"
+      relative: true
+    source: path
+    version: "2.2.4"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -394,12 +390,10 @@ packages:
   core_widgets:
     dependency: "direct main"
     description:
-      path: core_widgets
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
-      url: "https://github.com/reglobe/flutter_admin_ui.git"
-    source: git
-    version: "2.2.2"
+      path: "../flutter_admin_ui/core_widgets"
+      relative: true
+    source: path
+    version: "2.2.4"
   cross_file:
     dependency: transitive
     description:
@@ -1423,11 +1417,11 @@ packages:
     dependency: transitive
     description:
       path: media_widget
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
+      ref: main
+      resolved-ref: a207c039bcaa7d101c5d716db275819160ca2405
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.2"
+    version: "2.2.4"
   meta:
     dependency: transitive
     description:
