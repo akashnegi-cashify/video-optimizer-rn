@@ -24,7 +24,8 @@ class TlListComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, configModel) {
     return ChangeNotifierProvider(
       create: (_) => TlListProvider(),
-      child: const TlListWidget(),
+      // child: const TlListWidget(onTlSelected: (tl) => ,),
+      child: SizedBox.shrink(),
     );
   }
 

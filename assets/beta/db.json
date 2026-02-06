@@ -83,10 +83,6 @@
           "id": 10,
           "key": "TRC_rider_home_component",
           "type": "component"
-        },
-        {
-          "id": 86,
-          "key": "header_TRC_general_component"
         }
       ]
     },
@@ -667,6 +663,22 @@
         },
         {
           "id": 85,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 50,
+      "pageKey": "TRC_trc_executive_lot_list_screen",
+      "dt": [
+        {
+          "id": 87,
+          "key": "TRC_trc_executive_lot_list_component",
+          "type": "component"
+        },
+        {
+          "id": 88,
           "key": "header_TRC_general_component",
           "type": "component"
         }
@@ -2515,6 +2527,28 @@
       "configJson": {
         "config": {
           "ht": "Rider",
+          "sbb": true,
+          "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 87,
+      "locale": "en",
+      "key": "TRC_trc_executive_lot_list_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 88,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Store Out Lot List",
           "sbb": true,
           "slb": false
         }

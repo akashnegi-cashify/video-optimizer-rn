@@ -4,6 +4,7 @@ import 'package:csh_annotation/annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/app_builder/app_builder_groups/groups.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/general_app_header/models/none_config_model.dart';
+import 'package:flutter_trc/src/modules/rider/rider_home_widget.dart';
 import 'package:flutter_trc/src/modules/rider/screens/rider_pending_delivery_deliver_screen.dart';
 import 'package:flutter_trc/src/modules/rider/screens/rider_pending_delivery_receive_screen.dart';
 import 'package:flutter_trc/src/modules/rider/screens/rider_pending_pickup_screen.dart';
@@ -22,27 +23,27 @@ class RiderHomeComponent extends StatelessComponent<NoneConfigModel> {
 
   @override
   Widget buildView(BuildContext context, configModel) {
-    // return const RiderWidget();
-    return Padding(
-      padding: const EdgeInsets.all(Dimens.space_16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: Dimens.space_16,
-        children: [
-          CshBigButton(
-            text: "Pending Delivery",
-            onPressed: () => _showDialog(context),
-          ),
-          CshBigButton(
-            text: "Pending Pickup",
-            onPressed: () {
-              Navigator.pushNamed(context, RiderPendingPickupScreen.route);
-            },
-          ),
-        ],
-      ),
-    );
+    return const RiderWidget();
+    // return Padding(
+    //   padding: const EdgeInsets.all(Dimens.space_16),
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.stretch,
+    //     mainAxisAlignment: MainAxisAlignment.center,
+    //     spacing: Dimens.space_16,
+    //     children: [
+    //       CshBigButton(
+    //         text: "Pending Delivery",
+    //         onPressed: () => _showDialog(context),
+    //       ),
+    //       CshBigButton(
+    //         text: "Pending Pickup",
+    //         onPressed: () {
+    //           Navigator.pushNamed(context, RiderPendingPickupScreen.route);
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 
   void _showDialog(BuildContext context) {

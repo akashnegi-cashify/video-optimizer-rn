@@ -1,0 +1,160 @@
+---
+description: Generate CshApiList-based list widgets from curl commands. Trigger when user says "create list" and provides a curl command.
+alwaysApply: true
+---
+
+# Create List from Curl
+
+When the user says **"create list"** (or similar) and shares a **curl command** for a list API, generate a complete list implementation following this rule.
+
+## 1. Parse the Curl Command
+
+Extract from the curl:
+
+| Extract | Where | Use |
+|---------|--------|-----|
+| **Endpoint** | URL path after host (e.g. `/lot-dispatch/list`) | `ListApiConfig.apiUrl` |
+| **HTTP method** | `-X GET` or `-X POST` (default GET) | Determines if list uses GET; CshApiList typically uses GET for list |
+| **Query params** | `?key=value&key2=value2` or `--data-urlencode` | Map to `CshFilterData` in `_getFilterConfig()` |
+| **Headers** | `-H "x-sso-token: ..."` etc. | Map to service group (see below) |
+| **Response body** | If user provides sample JSON response | Use to generate response model and item class |
+
+- Strip the base URL; use only the **path** for `apiUrl` (e.g. `"/lot-dispatch/list"`).
+- Do **not** add headers to `ListApiConfig`; CshApiList uses default headers.
+
+## 2. Service Group Mapping
+
+Map from typical curl/auth to `TRCServiceGroups` (from `lib/src/services/service_groups.dart`):
+
+- **x-sso-token** or QC console APIs → `TRCServiceGroups.qcConsole`
+- **qc-data-erazer** → `TRCServiceGroups.qcErazer`
+- **qc-transfer-lot** → `TRCServiceGroups.qcTransferLot`
+- **sales-rms** / RMS → `TRCServiceGroups.rms`
+- **unify-trc** / TRC → `TRCServiceGroups.unifyTrc`
+- **qc-sales-order** → `TRCServiceGroups.salesOrder`
+
+When in doubt, use `TRCServiceGroups.qcConsole`.
+
+## 3. Filter Configuration (from Query Params)
+
+Map each **user-controllable** query param to `CshFilterData`:
+
+**Text / search params:**
+```dart
+CshFilterData(
+  label: "Display Label",        // Human-readable
+  field: 'camelCaseParam',       // Same as API param usually
+  crudFilter: 'apiParamName',    // Exact name sent to API
+  filterType: CshFilterType.input,
+  valueType: CshFilterValueType.contains,
+  position: FilterPosition.top,
+  keyboardType: TextInputType.text,
+  filterGroup: FilterGroupType.multipleTypeSearch,
+),
+```
+
+**Select / enum params:**
+```dart
+CshFilterData(
+  label: "Type",
+  field: 'lotType',
+  crudFilter: 'lotType',
+  filterType: CshFilterType.select,
+  valueType: CshFilterValueType.multiSelect,
+  position: FilterPosition.bottom,
+  filterGroup: FilterGroupType.multipleTypeSearch,
+  lookUpsObs: (paginationInfo) => Stream.value([/* CshLooksUpData list */]),
+  enableFilterPagination: false,
+),
+```
+
+- **Pagination params** (`pageNo`, `pageSize`, `os`, `ps`) are handled by CshApiList — do **not** add them to filters.
+- Use `FilterPosition.top` for main search input, `FilterPosition.bottom` for selects.
+
+## 4. Files to Generate
+
+### 4.1 Response model — `lib/qc/modules/{module}/resources/{name}_response.dart`
+
+- `part '{name}_response.g.dart';`
+- Wrapper class (if API returns `{ "dt": [...], "tc": 123, "s": true }`) with `@JsonSerializable()` and `@JsonKey(name: "dt")` etc.
+- **Item class** (the type of each list row): `@JsonSerializable()`, fields with `@JsonKey(name: "apiFieldName")`, nullable types, constructor, `static Item fromJson(Map<String, dynamic> data) => _$ItemFromJson(data);` and `toJson`.
+- Use Dart-friendly names for properties (e.g. `invoiceNo` → `invoiceNumber`) and keep `@JsonKey(name: "invoiceNo")`.
+
+### 4.2 Row widget — `lib/qc/modules/{module}/widgets/{item}_widget.dart`
+
+- StatelessWidget: `{ItemName}Widget`.
+- Props: `final ItemType? item; final int index; final VoidCallback? onItemClick;`
+- Body: `cshGestureDetector(onTap: onItemClick, child: CshCard(child: Column(...)))`.
+- Inside Column: label row (e.g. `#${index + 1}   ${item?.primaryField}`) then rows of `CshTextNew.h4(label, isPrimary: false)` and value. Use `Dimens.space_12` / `Dimens.space_6` for spacing.
+- Import: `core_widgets`, `flutter/material`, module `../resources/index.dart` (and `../l10n.dart` if using L10n).
+
+### 4.3 List widget — `lib/qc/modules/{module}/widgets/{name}_widget.dart`
+
+- StatefulWidget with state class holding `final CshListController _listController = CshListController();`
+- Optional: in `initState`, subscribe to a provider’s stream and call `_listController.refresh()` (only if user has a provider that should refresh the list).
+- `FilterConfig _getFilterConfig()` returning `FilterConfig(filterData: [ ... ])` with one `CshFilterData` per filter (from step 3).
+- `build()`:
+  - Return `Column(children: [ Expanded(child: CshApiList<ItemType>( ... )) ])`.
+  - `CshApiList<ItemType>`:
+    - `apiConfig: ListApiConfig(apiUrl: "/path/from/curl", serviceGroup: TRCServiceGroups.xxx)` — **no headers**.
+    - `controller: _listController`
+    - `filterConfig: _getFilterConfig()`
+    - `shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60)`
+    - `listPadding: const EdgeInsets.all(Dimens.space_16)`
+    - `verticalRowSpacing: Dimens.space_16`
+    - `itemFromJson: ItemType.fromJson`
+    - `isHideCoreFilterButton: true`
+    - `getRowWidget: (item, index) => ItemWidget(item: item, index: index, onItemClick: () => ...)`
+- Imports: `components/list_page/config/filter_config.dart`, `list_page/config/list_api_config.dart`, `list_page/controller/csh_list_controller.dart`, `list_page/widgets/csh_api_list.dart`, `core_widgets`, `flutter/material`, `src/services/service_groups.dart`, module `../resources/index.dart`, `../widgets/index.dart` (if row widget is in same widgets folder).
+
+### 4.4 Exports
+
+- In `lib/qc/modules/{module}/resources/index.dart`: add `export '{name}_response.dart';`
+- In `lib/qc/modules/{module}/widgets/index.dart`: add `export '{name}_widget.dart';` and `export '{item}_widget.dart';`
+
+### 4.5 Post-generation
+
+- Remind user to run: `flutter pub run build_runner build` (or `dart run build_runner build`) to generate `*.g.dart` for the response model.
+
+## 5. Rules
+
+- Always use **CshApiList\<T\>**; do not use the old `iterate()` or `PaginatedListState` pattern.
+- **Never** add `headers` to `ListApiConfig`; default headers are applied automatically.
+- Item model must have a static `fromJson(Map<String, dynamic> data)` used as `itemFromJson: ItemType.fromJson`.
+- Row widget must accept the item type and `index`; use `CshCard` and `CshTextNew` for layout.
+- If the user does not specify module or list name, infer from the endpoint (e.g. `/lot-dispatch/list` → module `dispatch_lot`, name `dispatch_lots`) or ask once.
+
+## 6. Example (minimal)
+
+**User input (curl):**
+```bash
+curl -X GET 'https://api.example.com/lot-dispatch/list?groupName=foo&lotType=1' -H 'x-sso-token: xxx'
+```
+
+**Extracted:** endpoint `/lot-dispatch/list`, GET, query params `groupName`, `lotType`. Service group: `qcConsole`.
+
+**Generated list widget snippet:**
+```dart
+CshApiList<Lot>(
+  apiConfig: ListApiConfig(
+    apiUrl: "/lot-dispatch/list",
+    serviceGroup: TRCServiceGroups.qcConsole,
+  ),
+  controller: _listController,
+  filterConfig: _getFilterConfig(),
+  shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+  listPadding: const EdgeInsets.all(Dimens.space_16),
+  verticalRowSpacing: Dimens.space_16,
+  itemFromJson: Lot.fromJson,
+  isHideCoreFilterButton: true,
+  getRowWidget: (item, index) => LotWidget(lot: item, index: index, onItemClick: () => {}),
+)
+```
+
+**Generated _getFilterConfig (two filters):**
+- One `CshFilterData` for `groupName` (input, contains, top).
+- One `CshFilterData` for `lotType` (select, multiSelect, bottom); if no lookup source is provided, use `lookUpsObs: (p) => Stream.value([])` and note that user may add options later.
+
+**Response model:** From sample JSON (e.g. `{"dt": [...], "tc": 0, "s": true}` and one item shape), generate a wrapper class with `dt`/`tc`/`s` and an item class with `@JsonKey` for each field; add `part 'dispatch_lots_response.g.dart';` and run build_runner.
+
+Reference implementations in this repo: `lib/qc/modules/dispatch_lot/widgets/dispatch_lots_widget.dart`, `lib/qc/modules/dispatch_lot/resources/dispatch_lots_response.dart`, `lib/qc/modules/dispatch_lot/widgets/lot_widget.dart`.

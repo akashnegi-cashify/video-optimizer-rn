@@ -59,6 +59,7 @@ import '../src/modules/engineer/retreived_parts/screens/retrieved_parts_details_
 import '../src/modules/part_qc/retrieved_part_qc/screens/action_screen.dart';
 import '../src/modules/part_qc/retrieved_part_qc/screens/view_repost_qc_screen.dart';
 import '../src/modules/trc_executive/screens/tl_list_screen.dart';
+import '../src/modules/trc_executive/screens/trc_executive_lot_list_screen.dart';
 
 class TrcRoutes {
   static Map<String, WidgetBuilder> getRoutes() {
@@ -122,6 +123,7 @@ class TrcRoutes {
       DeviceReportScreen.route: (_) => const DeviceReportScreen(),
       PartRequestReasonsScreen.route: (_) => const PartRequestReasonsScreen(),
       TlListScreen.route: (_) => const TlListScreen(),
+      TrcExecutiveLotListScreen.route: (_) => const TrcExecutiveLotListScreen(),
       TrcAuditScreen.route: (_) => const TrcAuditScreen(),
       TRCExecutiveStoreOutScreen.route: (_) => const TRCExecutiveStoreOutScreen(),
       UserProfileScreen.route: (_) => const UserProfileScreen(),
