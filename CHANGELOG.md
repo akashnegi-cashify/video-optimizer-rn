@@ -4,8 +4,16 @@
 
 ### Migration:
 
-* `QC - Migrarte to console apis` [(SCM-11040)](https://reglobe.atlassian.net/browse/SCM-11040)
-* `TRC - Rubbing/Glass Change` [(SCM-11229)](https://reglobe.atlassian.net/browse/SCM-11229)
+* `QC Migration` [(SCM-12213)](https://reglobe.atlassian.net/browse/SCM-12213)
+* `TRC Migration` [(SCM-11225)](https://reglobe.atlassian.net/browse/SCM-11225)
+
+
+# v5.4.0+83 (XX-11-2025)
+
+### Feature:
+
+* `QC/TRC - Support New CDP Flag “No Preselect” in Calculator Flow` [(SCM-12129)](https://reglobe.atlassian.net/browse/SCM-12129)
+* `IMEI Validation Bypass - Apple Online Devices` [(SCM-12445)](https://reglobe.atlassian.net/browse/SCM-12445)
 
 
 # v5.3.1+82 (XX-11-2025)

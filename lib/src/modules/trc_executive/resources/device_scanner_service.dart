@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/qc/modules/store_in/resources/store_in_location_verify_response.dart';
 import 'package:flutter_trc/src/modules/trc_executive/models/device_receive_response.dart';
+import 'package:flutter_trc/src/modules/trc_executive/models/lot_device_list_response.dart';
 import 'package:flutter_trc/src/modules/trc_executive/models/tl_list_response.dart';
 import 'package:flutter_trc/src/services/trc_service.dart';
 
@@ -26,6 +27,14 @@ class DeviceScannerService {
 
   static Stream<StoreInLocationVerifyResponse?> getStorageDetails(String? barcode) {
     return TrcService().get("/storage/details?tbr=$barcode", StoreInLocationVerifyResponse.fromJson);
+  }
+
+  static Stream<LotDeviceListResponse?> getLotDeviceList(String lotName) {
+    return TrcService().get(
+      "/storage/lot/device/list",
+      LotDeviceListResponse.fromJson,
+      params: {"ln": [lotName]},
+    );
   }
 
   static Stream<BaseResponse?> storeOut(String? barcode, int? tlId) {

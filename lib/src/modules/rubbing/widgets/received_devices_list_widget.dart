@@ -1,9 +1,11 @@
 import 'package:components/components.dart';
+import 'package:components/resources/list/list_request.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
+import 'package:flutter_trc/src/common/widgets/search_with_scanner_widget.dart';
 import 'package:flutter_trc/src/common/widgets/title_value_row_widget.dart';
 import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/glass_change_fail_reason_response.dart';
@@ -14,7 +16,7 @@ import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:provider/provider.dart';
 
 class ReceivedDevicesListWidget extends StatefulWidget {
-  const ReceivedDevicesListWidget({Key? key}) : super(key: key);
+  const ReceivedDevicesListWidget({super.key});
 
   @override
   State<ReceivedDevicesListWidget> createState() => _ReceivedDevicesListWidgetState();
@@ -22,29 +24,44 @@ class ReceivedDevicesListWidget extends StatefulWidget {
 
 class _ReceivedDevicesListWidgetState extends State<ReceivedDevicesListWidget> {
   final CshListController _listController = CshListController();
+  FilterConfig? _filterConfig;
+  int _updateCounter = 0;
 
-  FilterConfig _getFilterConfig() {
-    return FilterConfig(filterData: [
-      CshFilterData(
-        label: "Search Device Barcode",
-        field: 'deviceBarcode',
-        crudFilter: 'barcode',
-        filterType: CshFilterType.input,
-        valueType: CshFilterValueType.contains,
-        position: FilterPosition.top,
-        keyboardType: TextInputType.text,
-        filterGroup: FilterGroupType.multipleTypeSearch,
-      ),
-      CshFilterData(
-        label: "Product Name",
-        field: 'productTitle',
-        crudFilter: 'productName',
-        filterType: CshFilterType.input,
-        valueType: CshFilterValueType.contains,
-        position: FilterPosition.top,
-        keyboardType: TextInputType.text,
-        filterGroup: FilterGroupType.multipleTypeSearch,
-      ),
+  FilterConfig _getFilterConfig(BuildContext context) {
+    var provider = Provider.of<ReceivedDevicesProvider>(context, listen: false);
+    List<AdminFilterList> preSelectedFilters = [];
+
+    // Add barcode filter if selected
+    if (provider.searchQuery != null && provider.searchQuery?.isNotEmpty == true) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: CshFilterValueType.contains.value,
+          field: "barcode",
+          value: AdminFilterData(search: provider.searchQuery),
+        ),
+      );
+    }
+    return FilterConfig(initialFilter: preSelectedFilters, filterData: [
+      // CshFilterData(
+      //   label: "Search Device Barcode",
+      //   field: 'deviceBarcode',
+      //   crudFilter: 'barcode',
+      //   filterType: CshFilterType.input,
+      //   valueType: CshFilterValueType.contains,
+      //   position: FilterPosition.top,
+      //   keyboardType: TextInputType.text,
+      //   filterGroup: FilterGroupType.multipleTypeSearch,
+      // ),
+      // CshFilterData(
+      //   label: "Product Name",
+      //   field: 'productTitle',
+      //   crudFilter: 'productName',
+      //   filterType: CshFilterType.input,
+      //   valueType: CshFilterValueType.contains,
+      //   position: FilterPosition.top,
+      //   keyboardType: TextInputType.text,
+      //   filterGroup: FilterGroupType.multipleTypeSearch,
+      // ),
     ]);
   }
 
@@ -55,27 +72,51 @@ class _ReceivedDevicesListWidgetState extends State<ReceivedDevicesListWidget> {
   @override
   Widget build(BuildContext context) {
     final isGlassChange = UserDetails().isGlassChangeRole();
-    final apiUrl = isGlassChange ? "/glass-change/device/list" : "/rubbing//list";
-    
-    return CshApiList<RubbingDeviceData>(
-      apiConfig: ListApiConfig(
-        apiUrl: apiUrl,
-        serviceGroup: TRCServiceGroups.unifyTrc,
-      ),
-      filterConfig: _getFilterConfig(),
-      controller: _listController,
-      itemFromJson: RubbingDeviceData.fromJson,
-      shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
-      listPadding: EdgeInsets.zero,
-      verticalRowSpacing: Dimens.space_16,
-      isHideCoreFilterButton: true,
-      getRowWidget: (item, index) {
-        final data = item;
-            return _ItemReceivedDevicesWidget(
-          rubbingDeviceData: data!,
-          onRubbingAction: _refreshList,
-        );
-      },
+    final apiUrl = isGlassChange ? "/glass-change/device/list" : "/rubbing/list";
+    var l10n = L10n(context);
+    _filterConfig = _getFilterConfig(context);
+    var provider = Provider.of<ReceivedDevicesProvider>(context);
+
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.all(Dimens.space_16),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimens.space_4)),
+          child: SearchWithScannerWidget(
+            l10n.searchBarCode,
+            onQuery: (query, isManualSearch) {
+              provider.searchQuery = query;
+              setState(() {
+                _updateCounter++;
+              });
+              // provider.searchQuery = query;
+            },
+          ),
+        ),
+        Expanded(
+          child: CshApiList<RubbingDeviceData>(
+            key: ObjectKey(_updateCounter),
+            apiConfig: ListApiConfig(
+              apiUrl: apiUrl,
+              serviceGroup: TRCServiceGroups.unifyTrc,
+            ),
+            filterConfig: _filterConfig,
+            controller: _listController,
+            itemFromJson: RubbingDeviceData.fromJson,
+            shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+            listPadding: EdgeInsets.zero,
+            verticalRowSpacing: Dimens.space_16,
+            isHideCoreFilterButton: true,
+            getRowWidget: (item, index) {
+              final data = item;
+              return _ItemReceivedDevicesWidget(
+                rubbingDeviceData: data!,
+                onRubbingAction: _refreshList,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

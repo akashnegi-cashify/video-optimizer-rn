@@ -2,7 +2,6 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/qc/modules/store_out/widgets/store_out_in_progress_dialog.dart';
-import 'package:flutter_trc/qc/qc_common/lot_type_filters/screens/store_out_lot_filter_screen.dart';
 
 import '../providers/store_out_provider.dart';
 import 'index.dart';
@@ -79,12 +78,6 @@ class StoreOutLotListContainer extends StatelessWidget {
   }
 
   void _openFilterScreen(BuildContext context) {
-    var provider = StoreOutProvider.of(context, listen: false);
-    StoreOutLotFilterScreen.navigate(context, selectedLotType: provider.selectedLotTypeList).then((value) {
-      if (value != null && value is List<int>) {
-        provider.selectedLotTypeList = value;
-        listKey.currentState?.resetAndRefreshScreen();
-      }
-    });
+    listKey.currentState?.openFilter();
   }
 }

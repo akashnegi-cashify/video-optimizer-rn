@@ -216,11 +216,11 @@ packages:
     dependency: "direct main"
     description:
       path: calculator_ui
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
+      ref: "v2.3.0"
+      resolved-ref: e9f6ee04fd8b02b04cf336e51ef3d336fdab37d0
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.2"
+    version: "2.2.4"
   camera:
     dependency: "direct overridden"
     description:
@@ -353,11 +353,11 @@ packages:
     dependency: "direct main"
     description:
       path: components
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
+      ref: "v2.3.0"
+      resolved-ref: e9f6ee04fd8b02b04cf336e51ef3d336fdab37d0
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.2"
+    version: "2.2.4"
   connectivity_plus:
     dependency: "direct main"
     description:
@@ -395,11 +395,11 @@ packages:
     dependency: "direct main"
     description:
       path: core_widgets
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
+      ref: "v2.3.0"
+      resolved-ref: e9f6ee04fd8b02b04cf336e51ef3d336fdab37d0
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.2"
+    version: "2.2.4"
   cross_file:
     dependency: transitive
     description:
@@ -1204,11 +1204,11 @@ packages:
     dependency: "direct main"
     description:
       path: imei_serial_reader
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
+      ref: "v2.3.0"
+      resolved-ref: e9f6ee04fd8b02b04cf336e51ef3d336fdab37d0
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.2"
+    version: "2.2.4"
   intl:
     dependency: "direct main"
     description:
@@ -1423,11 +1423,11 @@ packages:
     dependency: transitive
     description:
       path: media_widget
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
+      ref: main
+      resolved-ref: a207c039bcaa7d101c5d716db275819160ca2405
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.2"
+    version: "2.2.4"
   meta:
     dependency: transitive
     description:
@@ -1448,11 +1448,11 @@ packages:
     dependency: "direct main"
     description:
       path: ml_barcode_scanner
-      ref: "v2.2.2"
-      resolved-ref: "17499b94474809538bd2c4f98639ac47f0bdea0b"
+      ref: "v2.3.0"
+      resolved-ref: e9f6ee04fd8b02b04cf336e51ef3d336fdab37d0
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.2"
+    version: "2.2.4"
   mobile_scanner:
     dependency: "direct overridden"
     description:

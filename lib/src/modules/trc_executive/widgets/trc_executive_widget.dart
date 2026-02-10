@@ -5,7 +5,7 @@ import 'package:flutter_trc/qc/modules/store_in/resources/store_in_location_veri
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:flutter_trc/src/modules/trc_executive/resources/device_scanner_service.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_screen.dart';
-import 'package:flutter_trc/src/modules/trc_executive/screens/tl_list_screen.dart';
+import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_lot_list_screen.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../l10n.dart';
@@ -48,7 +48,7 @@ class TrcExecutiveWidget extends StatelessWidget {
             CshMediumButton(
               text: l10n.storeOut,
               onPressed: () {
-                Navigator.pushNamed(context, TlListScreen.route);
+                Navigator.pushNamed(context, TrcExecutiveLotListScreen.route);
               },
             )
           ],

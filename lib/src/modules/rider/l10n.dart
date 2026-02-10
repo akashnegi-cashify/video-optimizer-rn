@@ -64,6 +64,8 @@ class L10n extends BaseL10n {
 
   String get cashify => Intl.message("Cashify", locale: localName, name: "cashify");
 
+  String get rider => Intl.message("Rider", locale: localName, name: "rider");
+
   String get pendingDelivery => Intl.message("Pending Delivery", locale: localName, name: "pendingDelivery");
 
   String get pendingPickup => Intl.message("Pending Pickup", locale: localName, name: "pendingPickup");

@@ -13,9 +13,11 @@ class L10n extends BaseL10n {
 
   String get deviceBarcode => Intl.message("Device Barcode", locale: localName, name: "deviceBarcode");
 
+  String get device => Intl.message("Device", locale: localName, name: "device");
+
   String get rubbingOrGlassChange => Intl.message("Rubbing/Glass Change", locale: localName, name: "rubbingOrGlassChange");
 
-  String get productTitle => Intl.message("Product Title", locale: localName, name: "productTitle");
+  String get productTitle => Intl.message("Product", locale: localName, name: "productTitle");
 
   String get elssEngineerName => Intl.message("Elss Engineer Name", locale: localName, name: "elssEngineerName");
 
@@ -47,4 +49,16 @@ class L10n extends BaseL10n {
 
   String get scanDeviceBarcode => Intl.message("Scan Device Barcode", locale: localName, name: "scanDeviceBarcode");
 
+  String get barcode => Intl.message("Barcode", locale: localName, name: "barcode");
+
+  String get location => Intl.message("Location", locale: localName, name: "location");
+
+  String get allDevicesCompleted =>
+      Intl.message("All devices completed", locale: localName, name: "allDevicesCompleted");
+
+  String get storeOutCompleted =>
+      Intl.message("Store out completed", locale: localName, name: "storeOutCompleted");
+
+  String get scannedBarcodeDoesNotMatch =>
+      Intl.message("Scanned barcode does not match expected device", locale: localName, name: "scannedBarcodeDoesNotMatch");
 }

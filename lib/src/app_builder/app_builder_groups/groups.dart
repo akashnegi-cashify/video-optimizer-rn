@@ -81,6 +81,7 @@ enum ComponentGroup with AbsComponentGroup {
   trcDeviceReportComponentKey("Trc Device Report Component"),
   trcPartRequestReasonsComponentKey("Trc Part Request Reasons Component"),
   trcTlListComponentKey("Trc TL List Component"),
+  trcExecutiveLotListComponentKey("Trc Executive Lot List Component"),
   trcAuditComponentKey("Trc Audit Component");
 
   @override
@@ -166,6 +167,7 @@ enum PageGroup with AbsPageGroup {
   trcDeviceReportPageKey("Trc Device Report"),
   trcPartRequestReasonsPageKey("Trc Part Request Reasons"),
   trcTlListPageKey("Trc TL List"),
+  trcExecutiveLotListPageKey("Trc Executive Lot List"),
   trcAuditPageKey("Trc Audit");
 
   @override

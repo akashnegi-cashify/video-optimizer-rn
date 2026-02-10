@@ -42,6 +42,7 @@ import 'package:flutter_trc/src/modules/splash/components/splash_component.dart'
 import 'package:flutter_trc/src/modules/trc_executive/components/device_scanner_comp.dart';
 import 'package:flutter_trc/src/modules/trc_executive/components/tl_list_component.dart';
 import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_component.dart';
+import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_lot_list_component.dart';
 import 'package:flutter_trc/src/modules/trc_tester/components/trc_tester_component.dart';
 
 import '../src/modules/engineer/retreived_parts/components/retrieved_parts_data_details_component.dart';
@@ -192,6 +193,9 @@ class TrcComponentRegistry {
 
       case TlListComponent.COMP_KEY:
         return TlListComponent(jsonConfig);
+
+      case TrcExecutiveLotListComponent.COMP_KEY:
+        return TrcExecutiveLotListComponent(jsonConfig);
 
       case TrcAuditComponent.COMP_KEY:
         return TrcAuditComponent(jsonConfig);

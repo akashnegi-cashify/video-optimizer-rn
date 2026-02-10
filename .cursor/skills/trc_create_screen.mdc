@@ -1,0 +1,64 @@
+---
+description: How to create a new screen (and optional component) in the TRC app builder flow. Use when the user asks to "create a screen", "add a screen", or "new screen".
+alwaysApply: true
+---
+
+# TRC: Create a New Screen
+
+When asked to create a new screen in this project, follow this flow. Reference existing implementations: `TlListScreen` / `TrcExecutiveLotListScreen`, `TlListComponent` / `TrcExecutiveLotListComponent`.
+
+## 1. App builder groups
+
+**File:** `lib/src/app_builder/app_builder_groups/groups.dart`
+
+- Add **PageGroup** enum value: `yourScreenPageKey("Your Screen Label")`.
+- If the screen has its own component (not reusing an existing one): add **ComponentGroup** enum value: `yourComponentKey("Your Component Label")`.
+
+## 2. Screen
+
+- **New file:** `lib/src/modules/<module>/screens/<screen_snake_case>_screen.dart`
+  - `part '<screen_snake_case>_screen.g.dart';`
+  - `@CshPage(key: YourScreen.pageKey, pageGroup: PageGroup.yourScreenPageKey)`
+  - `class YourScreen extends BaseScreen`
+  - `static const String pageKey = "TRC_<screen_snake_case>_screen";`
+  - `static const String route = "/<screen_snake_case>_screen";`
+  - `buildView` returns `const PageWidget(pageKey: pageKey)`
+  - Imports: `builder_project`, `csh_annotation`, `flutter/material`, `app_builder_groups/groups.dart`.
+
+- **New file:** `lib/src/modules/<module>/screens/<screen_snake_case>_screen.g.dart` (create manually; do not rely on build_runner)
+  - `part of '<screen_snake_case>_screen.dart';`
+  - `dynamic schema() => { "type": "@@page", "key": "TRC_<screen_snake_case>_screen", "pageGroup": "<Label>", "title": "<Screen Title>", "isActive": true, "params": null };`
+
+## 3. Optional: Dedicated component
+
+If the screen should use a **new component** (not an existing one):
+
+- **New file:** `lib/src/modules/<module>/components/<component_snake_case>_component.dart`
+  - Mirror `TlListComponent` / `TrcExecutiveLotListComponent`: `@CshComponent`, `COMP_KEY = "TRC_<component_snake_case>_component"`, `componentGroup: ComponentGroup.yourComponentKey`, `buildView` (e.g. with Provider + existing or new widget).
+  - **New file:** `.../components/<component_snake_case>_component.g.dart` (manual): `part of` and `schema()` with `"key": "TRC_<component_snake_case>_component"`, `"componentType": "<Label>"`, `configJson` (e.g. same shape as `TlListComponent` with `none`).
+
+- **File:** `lib/trc/trc_component_registry.dart`
+  - Import the new component; in `getRegisteredComponent` add `case YourComponent.COMP_KEY: return YourComponent(jsonConfig);`
+
+## 4. Route and navigation
+
+- **File:** `lib/trc/trc_routes.dart`
+  - Import the new screen; in `getRoutes()` add `YourScreen.route: (_) => const YourScreen(),`
+
+- Wire the entry point (e.g. button) to `Navigator.pushNamed(context, YourScreen.route);`
+
+## 5. db.json (all four files)
+
+Apply to: `assets/db.json`, `assets/beta/db.json`, `assets/prodTest/db.json`, `assets/stage/db.json`.
+
+- **pageData:** Use the next free `pageId` and next free `dt[].id`. **Sort by id:** place the new block so pageData stays ordered by `pageId` (e.g. after the last page with a smaller pageId; do not insert in between).
+  - `pageKey`: `"TRC_<screen_snake_case>_screen"`
+  - `dt`: array with one entry for the main component (`"key": "TRC_<component_snake_case>_component"` or existing component key, `"type": "component"`) and one for header if needed (`"key": "header_TRC_general_component"`).
+
+- **componentData** (only if you added a new component): Add an object with `componentId` matching the id used in pageData for that component, `"locale": "en"`, `"key": "TRC_<component_snake_case>_component"`, `"configJson": { "config": { "none": "None" } }`. **Sort by id:** place it so componentData stays ordered by `componentId` (e.g. after the last entry with a smaller componentId; do not insert in between).
+
+## Notes
+
+- **.g.dart:** Create by hand; do not run build_runner for these screens/components.
+- **Ids:** In each db.json, ensure `pageId` and all `dt[].id` / `componentId` are unique. Keep **pageData** ordered by `pageId` and **componentData** ordered by `componentId`.
+- **Naming:** Screen/component keys use `TRC_` prefix and snake_case (e.g. `TRC_trc_executive_lot_list_screen`).

@@ -44,6 +44,7 @@ DeviceDetailResponseData _$DeviceDetailResponseDataFromJson(
       ),
       json['isDeviceImeiApproved'] as bool?,
       (json['brandId'] as num?)?.toInt(),
+      json['ibiv'] as bool?,
     );
 
 Map<String, dynamic> _$DeviceDetailResponseDataToJson(
@@ -58,6 +59,7 @@ Map<String, dynamic> _$DeviceDetailResponseDataToJson(
       'categories': instance.categoryList,
       'remarks': instance.reasons,
       'isDeviceImeiApproved': instance.isDeviceImeiApproved,
+      'ibiv': instance.isBypassImeiValidation,
     };
 
 CategoryData _$CategoryDataFromJson(Map<String, dynamic> json) => CategoryData(

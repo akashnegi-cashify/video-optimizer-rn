@@ -5,6 +5,7 @@ import 'package:components/list_page/widgets/csh_api_list.dart';
 import 'package:core_widgets/core_widgets.dart' hide iterate;
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/store_out/providers/index.dart';
+import 'package:flutter_trc/qc/qc_common/lot_type_filters/resources/lot_type_filter_service.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
 import '../l10n.dart';
@@ -30,6 +31,10 @@ class StoreOutLotListWidgetState extends State<StoreOutLotListWidget> with Autom
     _listController.refresh();
   }
 
+  void openFilter() {
+    _listController.openFilter();
+  }
+
   FilterConfig _getFilterConfig() {
     return FilterConfig(filterData: [
       CshFilterData(
@@ -41,6 +46,25 @@ class StoreOutLotListWidgetState extends State<StoreOutLotListWidget> with Autom
         position: FilterPosition.top,
         keyboardType: TextInputType.text,
         filterGroup: FilterGroupType.multipleTypeSearch,
+      ),
+      CshFilterData(
+        label: "Lot Type",
+        field: 'lotType',
+        crudFilter: 'lotType',
+        filterType: CshFilterType.select,
+        valueType: CshFilterValueType.multiSelect,
+        position: FilterPosition.bottom,
+        filterGroup: FilterGroupType.multipleTypeSearch,
+        lookUpsObs: (paginationInfo) {
+          return LotTypeFilterService.storeOutLotTypeFiltersNew().map((event) {
+            final list = event?.data ?? [];
+            return list
+                .where((e) => e.lotName != null && e.lotType != null)
+                .map((e) => CshLooksUpData(label: e.lotName!, value: e.lotType!.toString()))
+                .toList();
+          });
+        },
+        enableFilterPagination: false,
       ),
     ]);
   }
@@ -66,6 +90,7 @@ class StoreOutLotListWidgetState extends State<StoreOutLotListWidget> with Autom
       controller: _listController,
       filterConfig: _getFilterConfig(),
       shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+      isHideCoreFilterButton: true,
       listPadding: const EdgeInsets.all(Dimens.space_16),
       verticalRowSpacing: Dimens.space_16,
       itemFromJson: StoreOutLotListItem.fromJson,

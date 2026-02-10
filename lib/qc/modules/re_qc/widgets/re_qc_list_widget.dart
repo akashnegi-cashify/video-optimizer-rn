@@ -54,8 +54,8 @@ class _ReQcListWidgetState extends State<ReQcListWidget> {
       ),
       CshFilterData(
         label: "Lot Type",
-        field: 'id',
-        crudFilter: 'id',
+        field: 'lotType',
+        crudFilter: 'lotType',
         filterType: CshFilterType.select,
         valueType: CshFilterValueType.multiSelect,
         position: FilterPosition.bottom,

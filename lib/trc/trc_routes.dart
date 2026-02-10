@@ -42,6 +42,9 @@ import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/delivery_deliver_engineer_parts_screen.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/pickup_receive_engineer_parts_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
+import 'package:flutter_trc/src/modules/rider/screens/rider_pending_delivery_deliver_screen.dart';
+import 'package:flutter_trc/src/modules/rider/screens/rider_pending_delivery_receive_screen.dart';
+import 'package:flutter_trc/src/modules/rider/screens/rider_pending_pickup_screen.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_screen.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_screen.dart';
 import 'package:flutter_trc/src/modules/splash/splash_screen.dart';
@@ -56,6 +59,7 @@ import '../src/modules/engineer/retreived_parts/screens/retrieved_parts_details_
 import '../src/modules/part_qc/retrieved_part_qc/screens/action_screen.dart';
 import '../src/modules/part_qc/retrieved_part_qc/screens/view_repost_qc_screen.dart';
 import '../src/modules/trc_executive/screens/tl_list_screen.dart';
+import '../src/modules/trc_executive/screens/trc_executive_lot_list_screen.dart';
 
 class TrcRoutes {
   static Map<String, WidgetBuilder> getRoutes() {
@@ -119,9 +123,13 @@ class TrcRoutes {
       DeviceReportScreen.route: (_) => const DeviceReportScreen(),
       PartRequestReasonsScreen.route: (_) => const PartRequestReasonsScreen(),
       TlListScreen.route: (_) => const TlListScreen(),
+      TrcExecutiveLotListScreen.route: (_) => const TrcExecutiveLotListScreen(),
       TrcAuditScreen.route: (_) => const TrcAuditScreen(),
       TRCExecutiveStoreOutScreen.route: (_) => const TRCExecutiveStoreOutScreen(),
       UserProfileScreen.route: (_) => const UserProfileScreen(),
+      PendingDeliveryReceiveScreen.route: (_) => const PendingDeliveryReceiveScreen(),
+      RiderPendingDeliveryDeliverScreen.route: (_) => const RiderPendingDeliveryDeliverScreen(),
+      RiderPendingPickupScreen.route: (_) => const RiderPendingPickupScreen(),
     };
   }
 }

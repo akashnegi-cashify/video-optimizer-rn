@@ -94,7 +94,7 @@ class _CalculatorScannerWidgetState extends State<CalculatorScannerWidget> {
     try {
       _category = await provider.getCategory(_deviceBarcode!, scannedData);
       if (context.mounted) {
-        if (_category?.categoryKey == DeviceCategoryIdType.mobile.value) {
+        if (_category?.categoryKey?.toLowerCase() == DeviceCategoryIdType.mobile.value.toLowerCase()) {
           CshLoading().hideLoading(context);
           _getCalculator(provider, controller, DeviceType.mobile_device);
         } else {

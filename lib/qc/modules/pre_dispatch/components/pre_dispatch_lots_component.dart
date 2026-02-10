@@ -24,7 +24,7 @@ class PreDispatchLotsComponent extends StatelessComponent<NoneConfigModel> {
   Widget buildView(BuildContext context, configModel) {
     return ChangeNotifierProvider(
       create: (BuildContext context) => PreDispatchLotProvider(),
-      child: const PreDispatchLotContainer(),
+      child: PreDispatchLotContainer(),
     );
   }
 
