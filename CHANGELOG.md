@@ -4,8 +4,8 @@
 
 ### Migration:
 
-* `QC - Migrarte to console apis` [(SCM-11040)](https://reglobe.atlassian.net/browse/SCM-11040)
-* `TRC - Rubbing/Glass Change` [(SCM-11229)](https://reglobe.atlassian.net/browse/SCM-11229)
+* `QC Migration` [(SCM-12213)](https://reglobe.atlassian.net/browse/SCM-12213)
+* `TRC Migration` [(SCM-11225)](https://reglobe.atlassian.net/browse/SCM-11225)
 
 
 # v5.3.1+82 (XX-11-2025)
