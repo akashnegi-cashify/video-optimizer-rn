@@ -76,7 +76,7 @@ class ConsumePartButtonWidget extends StatelessWidget {
       //         retrievedPartBarcode: retrievedPartBarcode, remarks: remarks, reasonId: reasonId)
       //     .listen((event) {
       CshLoading().hideLoading(context);
-      if (event?.isSuccess == true) {
+      if (event != null) {
         if (onRequestCompletion != null) {
           onRequestCompletion!();
         }

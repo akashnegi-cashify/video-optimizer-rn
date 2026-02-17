@@ -61,7 +61,7 @@ class InventoryHomeProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.geListOfRider("").listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
           riderListResponse = event;
         } else {
@@ -85,7 +85,7 @@ class InventoryHomeProvider extends CshChangeNotifier {
     try {
       int? riderIdInt = selectedRider?.riderId != null ? int.tryParse(selectedRider!.riderId!) : null;
       InventoryService.assignRider(selectedDeviceIdList, riderIdInt ?? -1).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
         } else {
           completer.completeError("Something went wrong");

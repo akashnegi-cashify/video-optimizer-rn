@@ -10,7 +10,6 @@ AuditSubmissionResponse _$AuditSubmissionResponseFromJson(
         Map<String, dynamic> json) =>
     AuditSubmissionResponse(
       json['r_id'] as String?,
-      json['s'] as bool?,
       json['success'] as bool?,
       json['dt'] == null
           ? null
@@ -23,7 +22,6 @@ Map<String, dynamic> _$AuditSubmissionResponseToJson(
     <String, dynamic>{
       'success': instance.success,
       'r_id': instance.referenceId,
-      's': instance.status,
       'dt': instance.auditSubmissionData,
     };
 

@@ -101,11 +101,7 @@ class CreateShipmentProvider extends CshChangeNotifier {
     try {
       CreateShipmentService.createShipment(facilityId, selectedBox?.id, groupId, selectedProvider?.key ?? "").listen(
           (event) {
-        if (Validator.isTrue(event?.isSuccess)) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something went wrong");
-        }
+        completer.complete(true);
       }, onError: (error) {
         String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         Logger.debug('mydebug------CreateShipmentProvider.generateShipment', [em]);
@@ -118,5 +114,4 @@ class CreateShipmentProvider extends CshChangeNotifier {
     }
     return completer.future;
   }
-
 }

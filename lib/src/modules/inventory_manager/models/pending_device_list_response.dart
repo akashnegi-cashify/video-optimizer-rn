@@ -7,13 +7,10 @@ part 'pending_device_list_response.g.dart';
 class PendingDeviceListResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   PendingDeviceData? data;
 
   PendingDeviceListResponse({
-    this.isSuccess,
     this.refId,
     this.data,
   });

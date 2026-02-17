@@ -44,7 +44,7 @@ class StStoreOutProvider extends CshChangeNotifier {
   Future<void> skipDevice() {
     var completer = Completer<void>();
     StockTransferService.skipDeviceFromLot(lotId, lotDetails?.barcode).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
+      if (event != null) {
         _lastLotDetails = lotDetails;
         completer.complete();
       } else {

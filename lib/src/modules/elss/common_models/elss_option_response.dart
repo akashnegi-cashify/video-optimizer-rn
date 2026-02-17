@@ -7,8 +7,6 @@ part 'elss_option_response.g.dart';
 class ElssOptionResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "em")
   String? errorMessage;
   @JsonKey(name: "dt")
@@ -16,7 +14,6 @@ class ElssOptionResponse {
 
   ElssOptionResponse(
     this.errorMessage,
-    this.isSuccess,
     this.refId,
     this.listOfOptions,
   );

@@ -9,7 +9,6 @@ part of 'channel_option_response.dart';
 ChannelOptionResponse _$ChannelOptionResponseFromJson(
         Map<String, dynamic> json) =>
     ChannelOptionResponse(
-      isSuccess: json['s'] as bool?,
       pm: (json['pm'] as num?)?.toInt(),
       refId: json['r_id'] as String?,
       channelOptionData: json['dt'] == null
@@ -20,7 +19,6 @@ ChannelOptionResponse _$ChannelOptionResponseFromJson(
 Map<String, dynamic> _$ChannelOptionResponseToJson(
         ChannelOptionResponse instance) =>
     <String, dynamic>{
-      's': instance.isSuccess,
       'pm': instance.pm,
       'r_id': instance.refId,
       'dt': instance.channelOptionData,

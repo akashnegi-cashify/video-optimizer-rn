@@ -6,11 +6,8 @@ part 'cancel_part_request_response.g.dart';
 class CancelPartResponse {
   @JsonKey(name: 'r_id')
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
 
   CancelPartResponse({
-    this.isSuccess,
     this.refId,
   });
 

@@ -8,7 +8,6 @@ part of 'return_part_response.dart';
 
 ReturnPartResponse _$ReturnPartResponseFromJson(Map<String, dynamic> json) =>
     ReturnPartResponse(
-      isSuccess: json['s'] as bool?,
       refid: json['r_id'] as String?,
       listData: json['dt'] == null
           ? null
@@ -18,7 +17,6 @@ ReturnPartResponse _$ReturnPartResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ReturnPartResponseToJson(ReturnPartResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refid,
-      's': instance.isSuccess,
       'dt': instance.listData,
     };
 

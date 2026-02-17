@@ -6,11 +6,8 @@ part 'alternate_part_request_response.g.dart';
 class AlternatePartRequestResponse {
   @JsonKey(name: "r_id")
   String? rid;
-  @JsonKey(name: "s")
-  bool? isSuccess;
 
   AlternatePartRequestResponse({
-    this.isSuccess,
     this.rid,
   });
 

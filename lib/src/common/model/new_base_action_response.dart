@@ -8,9 +8,6 @@ class NewBaseActionResponse extends BaseResponse {
   @JsonKey(name: "r_id")
   String? refId;
 
-  @JsonKey(name: "s")
-  int? isSuccess;
-
   @JsonKey(name: "em")
   String? errorMsg;
 

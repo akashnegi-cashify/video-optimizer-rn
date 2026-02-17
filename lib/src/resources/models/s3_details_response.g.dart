@@ -8,7 +8,6 @@ part of 's3_details_response.dart';
 
 S3DetailsResponse _$S3DetailsResponseFromJson(Map<String, dynamic> json) =>
     S3DetailsResponse(
-      json['s'] as bool?,
       json['r_id'] as String?,
       json['dt'] == null
           ? null
@@ -19,7 +18,6 @@ Map<String, dynamic> _$S3DetailsResponseToJson(S3DetailsResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
       'dt': instance.data,
-      's': instance.isSuccess,
     };
 
 S3DataResponse _$S3DataResponseFromJson(Map<String, dynamic> json) =>

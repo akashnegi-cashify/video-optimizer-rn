@@ -25,7 +25,7 @@ class ActionProvider extends CshChangeNotifier {
   Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId, String? remarks) {
     var completer = Completer<bool>();
     PartQcServiceElss.updateRetrievedPartStatus(isFaulty, partId, remarks: remarks).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
+      if (event != null) {
         completer.complete(true);
       } else {
         completer.completeError(event?.errorMsg ?? "No data found");

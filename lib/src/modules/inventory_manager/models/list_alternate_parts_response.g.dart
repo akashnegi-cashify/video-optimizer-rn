@@ -9,7 +9,6 @@ part of 'list_alternate_parts_response.dart';
 ListAlternatePartsResponse _$ListAlternatePartsResponseFromJson(
         Map<String, dynamic> json) =>
     ListAlternatePartsResponse(
-      isSuccess: json['s'] as bool?,
       rid: json['r_id'] as String?,
       data: (json['dt'] as List<dynamic>?)
           ?.map((e) => ListAlternateData.fromJson(e as Map<String, dynamic>))
@@ -20,7 +19,6 @@ Map<String, dynamic> _$ListAlternatePartsResponseToJson(
         ListAlternatePartsResponse instance) =>
     <String, dynamic>{
       'r_id': instance.rid,
-      's': instance.isSuccess,
       'dt': instance.data,
     };
 

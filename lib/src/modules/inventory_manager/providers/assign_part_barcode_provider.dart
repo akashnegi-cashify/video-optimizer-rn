@@ -19,7 +19,7 @@ class AssignPartBarcodeProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.partLinkBarcode(prid!, barcode).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
         } else {
           completer.completeError("Something went wrong");

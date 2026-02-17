@@ -8,7 +8,6 @@ part of 'rider_list_response.dart';
 
 RiderListResponse _$RiderListResponseFromJson(Map<String, dynamic> json) =>
     RiderListResponse(
-      isSuccess: json['s'] as bool?,
       rid: json['r_id'] as String?,
       riderDataList: (json['dt'] as List<dynamic>?)
           ?.map(
@@ -19,7 +18,6 @@ RiderListResponse _$RiderListResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$RiderListResponseToJson(RiderListResponse instance) =>
     <String, dynamic>{
       'r_id': instance.rid,
-      's': instance.isSuccess,
       'dt': instance.riderDataList,
     };
 

@@ -6,13 +6,10 @@ part 'part_available_quantity_response.g.dart';
 class PartAvailableQuantityResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   PartAvailableQuantityData? quantityData;
 
   PartAvailableQuantityResponse({
-    this.isSuccess,
     this.quantityData,
     this.refId,
   });

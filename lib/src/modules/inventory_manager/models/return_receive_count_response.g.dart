@@ -8,7 +8,6 @@ part of 'return_receive_count_response.dart';
 
 ReturnCountResponse _$ReturnCountResponseFromJson(Map<String, dynamic> json) =>
     ReturnCountResponse(
-      isSuccess: json['s'] as bool?,
       rid: json['r_id'] as String?,
       data: json['dt'] == null
           ? null
@@ -20,7 +19,6 @@ Map<String, dynamic> _$ReturnCountResponseToJson(
         ReturnCountResponse instance) =>
     <String, dynamic>{
       'r_id': instance.rid,
-      's': instance.isSuccess,
       'dt': instance.data,
     };
 

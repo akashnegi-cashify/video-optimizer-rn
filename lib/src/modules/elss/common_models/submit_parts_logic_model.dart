@@ -6,8 +6,6 @@ part 'submit_parts_logic_model.g.dart';
 class SubmitPartsLogicResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "success")
   bool? success;
   @JsonKey(name: "pm")
@@ -18,7 +16,6 @@ class SubmitPartsLogicResponse {
   SubmitPartsLogicResponse({
     this.success,
     this.pm,
-    this.isSuccess,
     this.data,
     this.refId,
   });

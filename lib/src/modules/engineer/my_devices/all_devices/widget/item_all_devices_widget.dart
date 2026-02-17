@@ -111,11 +111,8 @@ class ItemAllDevicesWidget extends StatelessWidget {
           return;
         }
 
-        // if it's a success response
-        if (event.isSuccess) {
-          CshSnackBar.success(context: context, message: l10n.deviceSentToInProgress);
-          return;
-        }
+        // Success response
+        CshSnackBar.success(context: context, message: l10n.deviceSentToInProgress);
       },
       onError: (error) {
         // Display common API errors

@@ -6,13 +6,10 @@ part 'return_receive_count_response.g.dart';
 class ReturnCountResponse {
   @JsonKey(name: "r_id")
   String? rid;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   ReturnCountDataResponse? data;
 
   ReturnCountResponse({
-    this.isSuccess,
     this.rid,
     this.data,
   });

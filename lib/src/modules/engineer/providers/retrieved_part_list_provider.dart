@@ -37,11 +37,7 @@ class RetrievedPartListProvider extends CshChangeNotifier with Searchable {
   Future<bool> receivePart(String partBarcode) {
     var completer = Completer<bool>();
     PartQcServiceElss.receiveRetrievedParts(partBarcode).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
-        completer.complete(true);
-      } else {
-        completer.completeError(event?.errorMsg ?? "No data found");
-      }
+      completer.complete(true);
     }, onError: (error, stackTrace) {
       Logger.debug('mydebug-----RetrievedPartListProvider.receivePart', [stackTrace]);
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
@@ -52,11 +48,7 @@ class RetrievedPartListProvider extends CshChangeNotifier with Searchable {
   Future<bool> updateRetrievedPartStatus(bool isFaulty, int partId) {
     var completer = Completer<bool>();
     PartQcServiceElss.updateRetrievedPartStatus(isFaulty, partId).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
-        completer.complete(true);
-      } else {
-        completer.completeError(event?.errorMsg ?? "No data found");
-      }
+      completer.complete(true);
     }, onError: (error, stackTrace) {
       Logger.debug('mydebug-----RetrievedPartListProvider.updateRetrievedPartStatus', [stackTrace]);
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());

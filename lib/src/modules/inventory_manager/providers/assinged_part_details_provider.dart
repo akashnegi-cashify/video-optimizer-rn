@@ -43,7 +43,7 @@ class AssignedPartDetailsProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.getAsssignedPartQuantity(prid!).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           partAvailableQuantityResponse = event;
           completer.complete(true);
         } else {
@@ -66,7 +66,7 @@ class AssignedPartDetailsProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.cancelAssignedPart(prid!).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
         } else {
           completer.completeError("Something went wrong");
@@ -89,7 +89,7 @@ class AssignedPartDetailsProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.unlinkPartBarcode(prid!).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
         } else {
           completer.completeError("Something went wrong");

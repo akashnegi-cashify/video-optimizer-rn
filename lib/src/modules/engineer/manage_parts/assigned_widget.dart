@@ -38,10 +38,6 @@ class _AssignedWidgetState extends State<AssignedWidget> {
           return const ShimmerListWidget();
         }
 
-        if (asyncSnapshot.data?.isSuccess == false) {
-          CshSnackBar.error(context: context, message: asyncSnapshot.data?.errorMsg ?? l10n.somethingWentWrong);
-        }
-
         if (asyncSnapshot.hasData && asyncSnapshot.data != null) {
           return CshList(
             rowCount: asyncSnapshot.data!.partDataList?.length ?? 0,

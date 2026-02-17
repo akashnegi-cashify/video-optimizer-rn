@@ -43,7 +43,7 @@ class AlternatePartListProvider extends CshChangeNotifier {
 
     try {
       InventoryService.alternatePartRequest(partId, productName, sku, did, partVariantName).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
         } else {
           completer.completeError("Something went wrong");

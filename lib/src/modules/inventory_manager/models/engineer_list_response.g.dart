@@ -9,7 +9,6 @@ part of 'engineer_list_response.dart';
 EngineerListResponse _$EngineerListResponseFromJson(
         Map<String, dynamic> json) =>
     EngineerListResponse(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
       data: json['dt'] == null
           ? null
@@ -21,7 +20,6 @@ Map<String, dynamic> _$EngineerListResponseToJson(
         EngineerListResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.data,
     };
 

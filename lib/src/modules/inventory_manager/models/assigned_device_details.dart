@@ -6,13 +6,10 @@ part 'assigned_device_details.g.dart';
 class AssignedDeviceDetails {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   AssignDeviceDetailsData? detailsData;
 
   AssignedDeviceDetails({
-    this.isSuccess,
     this.refId,
     this.detailsData,
   });

@@ -6,13 +6,10 @@ part 'logout_response.g.dart';
 class LogoutResponse {
   @JsonKey(name: "r_id")
   String? referenceId;
-  @JsonKey(name: "s")
-  int? status;
   @JsonKey(name: "msg")
   String? successMessage;
 
   LogoutResponse(
-    this.status,
     this.referenceId,
     this.successMessage,
   );

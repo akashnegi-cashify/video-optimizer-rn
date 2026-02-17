@@ -6,13 +6,10 @@ part 'list_alternate_part_response.g.dart';
 class ListAlternatePartResponse {
   @JsonKey(name: "r_id")
   String? rid;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   ListAlternatePartData? data;
 
   ListAlternatePartResponse({
-    this.isSuccess,
     this.rid,
     this.data,
   });

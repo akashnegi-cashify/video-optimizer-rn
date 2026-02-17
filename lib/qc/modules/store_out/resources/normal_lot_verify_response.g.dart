@@ -10,12 +10,10 @@ NormalLotVerifyResponse _$NormalLotVerifyResponseFromJson(
         Map<String, dynamic> json) =>
     NormalLotVerifyResponse(
       message: json['message'] as String?,
-      status: json['s'] as bool?,
     );
 
 Map<String, dynamic> _$NormalLotVerifyResponseToJson(
         NormalLotVerifyResponse instance) =>
     <String, dynamic>{
-      's': instance.status,
       'message': instance.message,
     };

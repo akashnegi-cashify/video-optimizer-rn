@@ -7,13 +7,10 @@ part 'return_part_response.g.dart';
 class ReturnPartResponse {
   @JsonKey(name: "r_id")
   String? refid;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   ReturnItemPageData? listData;
 
   ReturnPartResponse({
-    this.isSuccess,
     this.refid,
     this.listData,
   });

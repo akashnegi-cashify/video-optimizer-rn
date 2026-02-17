@@ -6,13 +6,10 @@ part 'brands_all_products.g.dart';
 class BrandsAllProductResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<BrandsAllProductDataList>? listOfAllProducts;
 
   BrandsAllProductResponse({
-    this.isSuccess,
     this.listOfAllProducts,
     this.refId,
   });

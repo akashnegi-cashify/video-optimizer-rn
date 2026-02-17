@@ -8,13 +8,10 @@ part 'pending_part_list_response.g.dart';
 class PendingPartListResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<PendingPartDataResponse>? partDataList;
 
   PendingPartListResponse({
-    this.isSuccess,
     this.refId,
     this.partDataList,
   });

@@ -180,7 +180,7 @@ class _MPinLoginScreenState extends State<MPinLoginScreen> with WidgetsBindingOb
     CshLoading().showLoading(context);
     MPinService.validateMPin(_mPin).listen((event) {
       CshLoading().hideLoading(context);
-      if (Validator.isTrue(event.isSuccess)) {
+      if (event != null) {
         _moveToHomeScreen();
       } else {
         setState(() {

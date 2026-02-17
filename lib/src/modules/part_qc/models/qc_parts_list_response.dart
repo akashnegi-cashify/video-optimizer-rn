@@ -6,13 +6,10 @@ part 'qc_parts_list_response.g.dart';
 class QcPartsListResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<QcPartListData>? dataList;
 
   QcPartsListResponse({
-    this.isSuccess,
     this.refId,
     this.dataList,
   });

@@ -4,10 +4,7 @@ part 'dispute_image_capture_submit_success_response.g.dart';
 
 @JsonSerializable()
 class DisputeImageCaptureSubmitSuccessResponse {
-  @JsonKey(name: "s")
-  bool? isSuccess;
-
-  DisputeImageCaptureSubmitSuccessResponse({this.isSuccess});
+  DisputeImageCaptureSubmitSuccessResponse();
 
   static DisputeImageCaptureSubmitSuccessResponse fromJson(Map<String, dynamic> data) =>
       _$DisputeImageCaptureSubmitSuccessResponseFromJson(data);

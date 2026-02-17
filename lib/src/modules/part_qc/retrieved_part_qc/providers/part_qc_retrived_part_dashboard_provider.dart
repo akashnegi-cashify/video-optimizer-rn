@@ -15,7 +15,7 @@ class PartQcRetrievedPartDashboardProvider extends BasePartQcRetrievedPartProvid
   Future<bool> receivePart(String partBarcode) {
     var completer = Completer<bool>();
     PartQcServiceElss.receiveRetrievedParts(partBarcode).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
+      if (event != null) {
         completer.complete(true);
       } else {
         completer.completeError(event?.errorMsg ?? "No data found");

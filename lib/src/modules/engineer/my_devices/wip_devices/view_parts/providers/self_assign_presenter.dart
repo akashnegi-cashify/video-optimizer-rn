@@ -12,11 +12,7 @@ class SelfAssignPresenter {
 
   void replacePart(ReplacePartRequest data, L10n l10n) {
     EngineerAPIService.replacePart(data).listen((event) {
-      if (event?.isSuccess == true) {
-        actions.onReplacePartSuccess();
-      } else {
-        actions.onError(event?.errorMsg ?? l10n.somethingWentWrong);
-      }
+      actions.onReplacePartSuccess();
     }, onError: (error, stacktrace) {
       actions.onError(ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);
     });

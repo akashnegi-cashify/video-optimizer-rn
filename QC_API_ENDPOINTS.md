@@ -318,10 +318,8 @@ This document contains all API endpoints used in the QC module, organized by mod
 - **Endpoint**: `POST /lot-dispatch/v2`
 - **Request Parameters**:
    - `in`: List`String` (Invoice Number)
-- **Response**: `DispatchCompleteResponse`
-   - `dt`: String
-   - `em`: String
-   - `s`: bool
+- **Response**: `BaseResponse`
+   - `dt`: String (optional)
 
 ---
 

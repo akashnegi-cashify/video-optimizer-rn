@@ -6,11 +6,8 @@ part 'device_details_submit.g.dart';
 class DeviceDetailsSubmit {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
 
   DeviceDetailsSubmit({
-    this.isSuccess,
     this.refId,
   });
 

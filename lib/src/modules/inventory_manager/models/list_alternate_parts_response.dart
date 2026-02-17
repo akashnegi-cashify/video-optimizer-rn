@@ -6,13 +6,10 @@ part 'list_alternate_parts_response.g.dart';
 class ListAlternatePartsResponse {
   @JsonKey(name: "r_id")
   String? rid;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<ListAlternateData>? data;  // Changed field name to 'data' for CshApiList compatibility
 
   ListAlternatePartsResponse({
-    this.isSuccess,
     this.rid,
     this.data,
   });

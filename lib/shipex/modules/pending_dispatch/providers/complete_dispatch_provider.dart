@@ -129,11 +129,7 @@ class CompleteDispatchProvider extends CshChangeNotifier with Searchable {
       DispatchService.sendDispatchProof(_scannedAwbList?.map((e) => e.awb!).toList(), deliveryPartnerKey,
               isCsv: isCsvUpload ?? false)
           .listen((event) {
-        if (event != null && Validator.isTrue(event.isSuccess)) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something went wrong");
-        }
+        completer.complete(true);
       }, onError: (error) {
         String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         Logger.debug('mydebug------ShipexDispatchProvider.sendPodInPdfOrInCsv', [em]);

@@ -9,7 +9,6 @@ part of 'brands_listing_models.dart';
 BrandsListingResponse _$BrandsListingResponseFromJson(
         Map<String, dynamic> json) =>
     BrandsListingResponse(
-      isSuccess: json['s'] as bool?,
       brandDataList: (json['dt'] as List<dynamic>?)
           ?.map((e) => BrandsDataModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -20,7 +19,6 @@ Map<String, dynamic> _$BrandsListingResponseToJson(
         BrandsListingResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.brandDataList,
     };
 

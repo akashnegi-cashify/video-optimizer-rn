@@ -25,11 +25,9 @@ Map<String, dynamic> _$LoginSuccessResponseToJson(
 LoginSuccessData _$LoginSuccessDataFromJson(Map<String, dynamic> json) =>
     LoginSuccessData(
       json['token'] as String?,
-      json['s'] as bool?,
     );
 
 Map<String, dynamic> _$LoginSuccessDataToJson(LoginSuccessData instance) =>
     <String, dynamic>{
       'token': instance.token,
-      's': instance.status,
     };

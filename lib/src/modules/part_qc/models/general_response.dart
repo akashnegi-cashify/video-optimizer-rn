@@ -6,11 +6,8 @@ part 'general_response.g.dart';
 class GeneralResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
 
   GeneralResponse({
-    this.isSuccess,
     this.refId,
   });
 

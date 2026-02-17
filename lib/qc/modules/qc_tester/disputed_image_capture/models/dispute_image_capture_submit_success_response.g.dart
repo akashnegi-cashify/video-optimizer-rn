@@ -9,12 +9,8 @@ part of 'dispute_image_capture_submit_success_response.dart';
 DisputeImageCaptureSubmitSuccessResponse
     _$DisputeImageCaptureSubmitSuccessResponseFromJson(
             Map<String, dynamic> json) =>
-        DisputeImageCaptureSubmitSuccessResponse(
-          isSuccess: json['s'] as bool?,
-        );
+        DisputeImageCaptureSubmitSuccessResponse();
 
 Map<String, dynamic> _$DisputeImageCaptureSubmitSuccessResponseToJson(
         DisputeImageCaptureSubmitSuccessResponse instance) =>
-    <String, dynamic>{
-      's': instance.isSuccess,
-    };
+    <String, dynamic>{};

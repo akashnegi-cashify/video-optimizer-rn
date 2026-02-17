@@ -10,7 +10,6 @@ PartsElssActionResponse _$PartsElssActionResponseFromJson(
         Map<String, dynamic> json) =>
     PartsElssActionResponse(
       success: json['success'] as bool?,
-      isSuccess: json['s'] as bool?,
       pm: (json['pm'] as num?)?.toInt(),
       actionsData: json['dt'] == null
           ? null
@@ -22,7 +21,6 @@ Map<String, dynamic> _$PartsElssActionResponseToJson(
         PartsElssActionResponse instance) =>
     <String, dynamic>{
       'success': instance.success,
-      's': instance.isSuccess,
       'pm': instance.pm,
       'r_id': instance.refId,
       'dt': instance.actionsData,

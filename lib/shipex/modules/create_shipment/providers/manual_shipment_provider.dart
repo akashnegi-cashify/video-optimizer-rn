@@ -72,7 +72,7 @@ class ManualShipmentProvider extends CshChangeNotifier {
       CreateShipmentService.createManualShipment((facilityId != null) ? facilityId.toString() : "", boxId, groupId,
               selectedProvider?.key ?? "", docUrl, awbNumber)
           .listen((event) {
-        if (Validator.isTrue(event?.isSuccess)) {
+        if (event != null) {
           completer.complete(true);
         } else {
           completer.completeError('something went wrong');
@@ -99,11 +99,7 @@ class ManualShipmentProvider extends CshChangeNotifier {
         awbNumber: awbNumber,
         awbUrl: docUrl,
       ).listen((event) {
-        if (Validator.isTrue(event?.isSuccess)) {
-          completer.complete(true);
-        } else {
-          completer.completeError('something went wrong');
-        }
+        completer.complete(true);
       }, onError: (error) {
         String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         completer.completeError(em);

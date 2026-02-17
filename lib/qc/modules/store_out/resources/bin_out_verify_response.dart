@@ -4,11 +4,8 @@ part 'bin_out_verify_response.g.dart';
 
 @JsonSerializable()
 class BinOutVerifyResponse {
-  @JsonKey(name: "s")
-  int? success;
-
   bool isValid() {
-    return success == 1;
+    return true;
   }
 
   @JsonKey(name: "ac")
@@ -21,7 +18,6 @@ class BinOutVerifyResponse {
   String? message;
 
   BinOutVerifyResponse({
-    this.success,
     this.availableSpace,
     this.totalSpace,
     this.message,

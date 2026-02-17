@@ -125,11 +125,9 @@ class ELssProviderQc extends CshChangeNotifier {
     try {
       ElssService.submitPartsForLogic(bodyData).listen((event) {
         if (event != null) {
-          if (Validator.isTrue(event.isSuccess)) {
-            completer.complete(event.data?.optionsAllowed);
-          } else {
-            completer.completeError("Something Went Wrong");
-          }
+          completer.complete(event.data?.optionsAllowed);
+        } else {
+          completer.completeError("Something Went Wrong");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";

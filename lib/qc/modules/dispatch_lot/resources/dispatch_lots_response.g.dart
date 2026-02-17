@@ -14,7 +14,6 @@ DispatchLotsResponse _$DispatchLotsResponseFromJson(
               (e) => e == null ? null : Lot.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalLot: (json['tc'] as num?)?.toInt(),
-      isSuccess: json['s'] as bool?,
     );
 
 Map<String, dynamic> _$DispatchLotsResponseToJson(
@@ -22,7 +21,6 @@ Map<String, dynamic> _$DispatchLotsResponseToJson(
     <String, dynamic>{
       'dt': instance.lots,
       'tc': instance.totalLot,
-      's': instance.isSuccess,
     };
 
 Lot _$LotFromJson(Map<String, dynamic> json) => Lot(

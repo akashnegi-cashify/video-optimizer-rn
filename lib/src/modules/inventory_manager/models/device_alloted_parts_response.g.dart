@@ -9,7 +9,6 @@ part of 'device_alloted_parts_response.dart';
 DeviceAllottedPartsResponse _$DeviceAllottedPartsResponseFromJson(
         Map<String, dynamic> json) =>
     DeviceAllottedPartsResponse(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
       allottedPartsList: (json['dt'] as List<dynamic>?)
           ?.map((e) =>
@@ -21,7 +20,6 @@ Map<String, dynamic> _$DeviceAllottedPartsResponseToJson(
         DeviceAllottedPartsResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.allottedPartsList,
     };
 

@@ -6,13 +6,10 @@ part 'device_alloted_parts_response.g.dart';
 class DeviceAllottedPartsResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<DeviceAllottedPartsData>? allottedPartsList;
 
   DeviceAllottedPartsResponse({
-    this.isSuccess,
     this.refId,
     this.allottedPartsList,
   });

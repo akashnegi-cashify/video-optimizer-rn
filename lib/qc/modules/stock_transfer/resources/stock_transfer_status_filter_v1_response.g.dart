@@ -13,7 +13,6 @@ StockTransferStatusFilterV1Response _$StockTransferStatusFilterV1ResponseFromJso
           ?.map((e) =>
               StockTransferStatusFilterData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['s'] as bool?,
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -26,7 +25,6 @@ Map<String, dynamic> _$StockTransferStatusFilterV1ResponseToJson(
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'dt': instance.filterList,
-      's': instance.success,
     };
 
 StockTransferStatusFilterData _$StockTransferStatusFilterDataFromJson(

@@ -23,10 +23,8 @@ class LoginSuccessResponse {
 class LoginSuccessData {
   @JsonKey(name: "token")
   String? token;
-  @JsonKey(name: "s")
-  bool? status;
 
-  LoginSuccessData(this.token, this.status);
+  LoginSuccessData(this.token);
 
   static LoginSuccessData fromJson(Map<String, dynamic> data) => _$LoginSuccessDataFromJson(data);
 

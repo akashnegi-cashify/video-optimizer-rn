@@ -8,10 +8,7 @@ class DocumentLinkResponse extends BaseResponse {
   @JsonKey(name: "dt")
   String? documentLink;
 
-  @JsonKey(name: "s")
-  bool? status;
-
-  DocumentLinkResponse(this.documentLink, this.status, super.cashifyAlert, super.trackUrl);
+  DocumentLinkResponse(this.documentLink, super.cashifyAlert, super.trackUrl);
 
   static DocumentLinkResponse fromJson(Map<String, dynamic> json) => _$DocumentLinkResponseFromJson(json);
 
