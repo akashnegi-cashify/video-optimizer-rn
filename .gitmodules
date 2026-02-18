@@ -1,0 +1,3 @@
+[submodule ".cursor/global"]
+	path = .cursor/global
+	url = https://github.com/reglobe/flutter-cursor-config.git
