@@ -223,15 +223,9 @@ class _StatusUpdateButtonWidget extends StatelessWidget {
               CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
               return;
             }
-            if (value.isSuccess == true) {
-              CshSnackBar.success(context: context, message: l10n.deviceStatusUpdatedSuccessfully);
-              if (onApiSuccess != null) {
-                onApiSuccess!();
-              }
-            } else if (value.errorMsg != null) {
-              CshSnackBar.error(context: context, message: value.errorMsg!);
-            } else {
-              CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
+            CshSnackBar.success(context: context, message: l10n.deviceStatusUpdatedSuccessfully);
+            if (onApiSuccess != null) {
+              onApiSuccess!();
             }
           }, (loading) {
             if (loading) {
@@ -255,11 +249,7 @@ class _StatusUpdateButtonWidget extends StatelessWidget {
   Future<void> _updateStatus(L10n l10n) {
     var completer = Completer<void>();
     _getUpdateStatusStream().listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
-        completer.complete();
-      } else {
-        completer.completeError(event?.errorMsg.toString() ?? l10n.somethingWentWrong);
-      }
+      completer.complete();
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

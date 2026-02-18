@@ -10,7 +10,6 @@ part of 'part_available_quantity_response.dart';
 PartAvailableQuantityResponse _$PartAvailableQuantityResponseFromJson(
         Map<String, dynamic> json) =>
     PartAvailableQuantityResponse(
-      isSuccess: json['s'] as bool?,
       quantityData: json['dt'] == null
           ? null
           : PartAvailableQuantityData.fromJson(
@@ -22,7 +21,6 @@ Map<String, dynamic> _$PartAvailableQuantityResponseToJson(
         PartAvailableQuantityResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.quantityData,
     };
 

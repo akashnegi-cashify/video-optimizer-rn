@@ -6,13 +6,10 @@ part 'recommended_part_response.g.dart';
 class RecommendedPartResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<RecommendedPartData>? dataList;
 
   RecommendedPartResponse({
-    this.isSuccess,
     this.dataList,
     this.refId,
   });

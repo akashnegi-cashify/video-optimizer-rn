@@ -7,9 +7,6 @@ part 'engineer_action_response.g.dart';
 
 @JsonSerializable()
 class EngineerActionResponse extends BaseResponse {
-  @JsonKey(name: "s")
-  late bool isSuccess;
-
   @JsonKey(name: "em")
   String? errorMsg;
 

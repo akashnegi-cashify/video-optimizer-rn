@@ -8,15 +8,11 @@ class AuditSubmissionResponse {
   bool? success;
   @JsonKey(name: "r_id")
   String? referenceId;
-
-  @JsonKey(name: "s")
-  bool? status;
   @JsonKey(name: "dt")
   AuditSubmissionResponseData? auditSubmissionData;
 
   AuditSubmissionResponse(
     this.referenceId,
-    this.status,
     this.success,
     this.auditSubmissionData,
   );

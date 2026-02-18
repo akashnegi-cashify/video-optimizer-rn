@@ -16,7 +16,6 @@ DeviceReturnReasonsResponse _$DeviceReturnReasonsResponseFromJson(
       json['turl'] as String?,
     )
       ..rId = json['r_id'] as String
-      ..isSuccess = json['s'] as bool
       ..errorMsg = json['em'] as String?
       ..reasons = (json['dt'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
@@ -28,7 +27,6 @@ Map<String, dynamic> _$DeviceReturnReasonsResponseToJson(
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'r_id': instance.rId,
-      's': instance.isSuccess,
       'em': instance.errorMsg,
       'dt': instance.reasons,
     };

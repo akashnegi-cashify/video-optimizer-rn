@@ -9,7 +9,6 @@ part of 'part_summary_response.dart';
 
 PartSummaryResponse _$PartSummaryResponseFromJson(Map<String, dynamic> json) =>
     PartSummaryResponse(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
       summaryData: json['dt'] == null
           ? null
@@ -20,7 +19,6 @@ Map<String, dynamic> _$PartSummaryResponseToJson(
         PartSummaryResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.summaryData,
     };
 

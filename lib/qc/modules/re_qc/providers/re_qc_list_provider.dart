@@ -33,15 +33,11 @@ class ReQcListProvider extends CshChangeNotifier {
   Future<List<String>> completeReQc(int? lotId) {
     var completer = Completer<List<String>>();
     ReQcService.completeReQc(lotId).listen((event) {
-      if (event?.isSuccess == 1) {
-        List<String> deviceList = [];
-        if (!Validator.isListNullOrEmpty(event?.d2cLotDeviceList)) {
-          deviceList = event!.d2cLotDeviceList!.map((e) => e.deviceBarcode ?? "").toList();
-        }
-        completer.complete(deviceList);
-      } else {
-        completer.completeError(event?.errorMsg.toString() ?? "Something went wrong");
+      List<String> deviceList = [];
+      if (!Validator.isListNullOrEmpty(event?.d2cLotDeviceList)) {
+        deviceList = event!.d2cLotDeviceList!.map((e) => e.deviceBarcode ?? "").toList();
       }
+      completer.complete(deviceList);
     }, onError: (error) {
       var errorMessage = ApiErrorHelper.getErrorMessage(error);
       completer.completeError(errorMessage.toString());

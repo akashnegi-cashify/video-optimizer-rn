@@ -10,9 +10,6 @@ class DispatchLotsResponse {
   @JsonKey(name: "tc")
   int? totalLot;
 
-  @JsonKey(name: "s")
-  bool? isSuccess;
-
   static DispatchLotsResponse fromJson(Map<String, dynamic> data) => _$DispatchLotsResponseFromJson(data);
 
   Map<String, dynamic> toJson() => _$DispatchLotsResponseToJson(this);
@@ -20,7 +17,6 @@ class DispatchLotsResponse {
   DispatchLotsResponse({
     this.lots,
     this.totalLot,
-    this.isSuccess,
   });
 }
 

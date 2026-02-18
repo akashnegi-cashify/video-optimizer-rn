@@ -6,14 +6,11 @@ part 'part_device_list.g.dart';
 class PartDeviceListResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<PartItemDataResponse>? partDataList;
 
   PartDeviceListResponse(
     this.refId,
-    this.isSuccess,
     this.partDataList,
   );
 

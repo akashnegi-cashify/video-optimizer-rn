@@ -6,8 +6,6 @@ part 'parts_elss_action.g.dart';
 class PartsElssActionResponse {
   @JsonKey(name: "success")
   bool? success;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "pm")
   int? pm;
   @JsonKey(name: "r_id")
@@ -17,7 +15,6 @@ class PartsElssActionResponse {
 
   PartsElssActionResponse({
     this.success,
-    this.isSuccess,
     this.pm,
     this.actionsData,
     this.refId,

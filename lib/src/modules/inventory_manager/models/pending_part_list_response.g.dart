@@ -10,7 +10,6 @@ part of 'pending_part_list_response.dart';
 PendingPartListResponse _$PendingPartListResponseFromJson(
         Map<String, dynamic> json) =>
     PendingPartListResponse(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
       partDataList: (json['dt'] as List<dynamic>?)
           ?.map((e) =>
@@ -22,7 +21,6 @@ Map<String, dynamic> _$PendingPartListResponseToJson(
         PendingPartListResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.partDataList,
     };
 

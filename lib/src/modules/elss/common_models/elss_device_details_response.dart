@@ -8,8 +8,6 @@ part 'elss_device_details_response.g.dart';
 class ElssDeviceDetailsResponse {
   @JsonKey(name: "r_id")
   String? referenceId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "success")
   bool? success;
   @JsonKey(name: "em")
@@ -19,8 +17,8 @@ class ElssDeviceDetailsResponse {
 
   ElssDeviceDetailsResponse(
     this.referenceId,
+    this.success,
     this.errorMessage,
-    this.isSuccess,
     this.deviceDetailsData,
   );
 

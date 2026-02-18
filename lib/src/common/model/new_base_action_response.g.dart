@@ -15,7 +15,6 @@ NewBaseActionResponse _$NewBaseActionResponseFromJson(Map<String, dynamic> json)
       json['turl'] as String?,
     )
       ..refId = json['r_id'] as String?
-      ..isSuccess = json['s'] as int?
       ..errorMsg = json['em'] as String?
       ..successMessage = json['sm'] as String?;
 
@@ -24,7 +23,6 @@ Map<String, dynamic> _$NewBaseActionResponseToJson(NewBaseActionResponse instanc
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'em': instance.errorMsg,
       'sm': instance.successMessage,
     };

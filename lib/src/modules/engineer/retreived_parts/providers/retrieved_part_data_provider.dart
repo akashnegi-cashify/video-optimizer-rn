@@ -68,11 +68,7 @@ class RetrievedPartsDataProviders extends CshChangeNotifier {
     EngineerAPIService.getReceivePartByEngineer(partBarcode ?? partInfo?.partBarcode, partId, partInfo?.prId,
             retrievedPartRequest: retrievedPartRequest)
         .listen((event) {
-      if (event?.isSuccess == true) {
-        completer.complete();
-      } else {
-        completer.completeError(event?.errorMsg ?? "Something went wrong");
-      }
+      completer.complete();
     }, onError: (error, stackTrace) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

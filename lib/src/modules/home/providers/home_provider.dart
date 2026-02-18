@@ -15,13 +15,7 @@ class HomeScreenProviders extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       HomeScreenService.userLogout().listen((event) {
-        if (event != null) {
-          if (event.status == 1) {
-            completer.complete(true);
-          } else {
-            completer.complete(false);
-          }
-        }
+        completer.complete(true);
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         completer.completeError(errorMessage);

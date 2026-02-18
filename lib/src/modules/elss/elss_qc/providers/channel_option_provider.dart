@@ -70,11 +70,7 @@ class ChannelOptionProvider extends CshChangeNotifier {
     Map<String, dynamic> bodyData = _getBodyDataMapForPNA(dataList, optionId);
     try {
       ElssService.markPnaStatus(barcode, bodyData).listen((event) {
-        if (event != null && event.isSuccess == true) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong");
-        }
+        completer.complete(true);
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
         completer.completeError(errorMessage);
@@ -114,11 +110,7 @@ class ChannelOptionProvider extends CshChangeNotifier {
 
     try {
       ElssService.submitAcceptElss(partsDataList, barcode, optionId: optionId).listen((event) {
-        if (event != null && event.isSuccess == true) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something Went Wrong!!");
-        }
+        completer.complete(true);
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         Logger.debug('mydebug------ChannelOptionProvider.submitElssAccpetData', [errorMessage]);

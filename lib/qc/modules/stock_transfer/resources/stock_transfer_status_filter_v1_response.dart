@@ -8,10 +8,7 @@ class StockTransferStatusFilterV1Response extends BaseResponse {
   @JsonKey(name: "dt")
   List<StockTransferStatusFilterData>? filterList;
 
-  @JsonKey(name: "s")
-  bool? success;
-
-  StockTransferStatusFilterV1Response(this.filterList, this.success, super.cashifyAlert, super.trackUrl);
+  StockTransferStatusFilterV1Response(this.filterList, super.cashifyAlert, super.trackUrl);
 
   static StockTransferStatusFilterV1Response fromJson(Map<String, dynamic> json) =>
       _$StockTransferStatusFilterV1ResponseFromJson(json);

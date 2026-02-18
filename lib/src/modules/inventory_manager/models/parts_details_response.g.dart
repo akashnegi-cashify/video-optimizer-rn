@@ -10,7 +10,6 @@ part of 'parts_details_response.dart';
 PartsDetailsResponse _$PartsDetailsResponseFromJson(
         Map<String, dynamic> json) =>
     PartsDetailsResponse(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
       partsDetails: json['dt'] == null
           ? null
@@ -21,7 +20,6 @@ Map<String, dynamic> _$PartsDetailsResponseToJson(
         PartsDetailsResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.partsDetails,
     };
 

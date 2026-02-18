@@ -10,7 +10,6 @@ part of 'assigned_part_details_response.dart';
 AssignedPartsDetails _$AssignedPartsDetailsFromJson(
         Map<String, dynamic> json) =>
     AssignedPartsDetails(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
       data: json['dt'] == null
           ? null
@@ -21,7 +20,6 @@ Map<String, dynamic> _$AssignedPartsDetailsToJson(
         AssignedPartsDetails instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.data,
     };
 

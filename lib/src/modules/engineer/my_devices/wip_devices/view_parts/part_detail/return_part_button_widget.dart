@@ -42,7 +42,7 @@ class ReturnPartButtonWidget extends StatelessWidget {
 
   returnPart(BuildContext context, L10n l10n, String? partBarcode) =>
       EngineerAPIService.getReturnReasonList().listen((event) async {
-        if (event != null && event.isSuccess == true && event.reasons != null && event.reasons!.isNotEmpty) {
+        if (event != null && event.reasons != null && event.reasons!.isNotEmpty) {
           askForTheReasonOfReturn(
             context,
             event.reasons!,
@@ -68,15 +68,10 @@ class ReturnPartButtonWidget extends StatelessWidget {
                     return;
                   }
 
-                  if (event.isSuccess) {
-                    if (onRequestCompletion != null) {
-                      onRequestCompletion!();
-                    }
-                    _showSnackBar(context, l10n.partSentToReturn);
-                    return;
+                  if (onRequestCompletion != null) {
+                    onRequestCompletion!();
                   }
-
-                  _showSnackBar(context, l10n.somethingWentWrong, isError: true);
+                  _showSnackBar(context, l10n.partSentToReturn);
                 }, onError: (error, stacktrace) {
                   _showSnackBar(context, ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong,
                       isError: true);

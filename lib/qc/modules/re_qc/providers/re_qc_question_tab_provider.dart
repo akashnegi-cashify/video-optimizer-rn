@@ -87,11 +87,7 @@ class ReQcQuestionsProvider extends CshChangeNotifier {
     LotReQcStatusType status = Validator.isTrue(isMarkFail) ? LotReQcStatusType.MIS_MATCH : LotReQcStatusType.MATCH;
 
     ReQcService.submitReQcData(req, deviceBarcode, remarks, status.value, imagePath: imagePath).listen((event) {
-      if (Validator.isTrue(event?.isSuccess)) {
-        completer.complete(true);
-      } else {
-        completer.completeError(event?.errorMsg ?? "Something went wrong");
-      }
+      completer.complete(true);
     }, onError: (error) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

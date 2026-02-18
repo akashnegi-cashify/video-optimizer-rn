@@ -1,7 +1,7 @@
 @Library('jenkins-build-pipeline')
 import in.cashify.build.FlutterBuilder
 
-def builder = new FlutterBuilder(this, [slackChannels: '#console-flutter'])
+def builder = new FlutterBuilder(this, [slackChannels: '#console-flutter', 'outlineCollectionId':'c402865e-4f0d-46d1-a718-399e1f80e715'])
 def params = [
         choice(choices: ['stage', 'beta', 'prod', 'Runner'], description: 'Deployment Environment', name: 'FLAVOR'),
         choice(choices: ['android', 'ios', 'web'], description: 'Platform name Environment', name: 'PLATFORM'),

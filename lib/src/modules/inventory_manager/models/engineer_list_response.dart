@@ -7,13 +7,10 @@ part 'engineer_list_response.g.dart';
 class EngineerListResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   EngineerListDataResponse? data;
 
   EngineerListResponse({
-    this.isSuccess,
     this.refId,
     this.data,
   });

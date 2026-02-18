@@ -10,7 +10,6 @@ part of 'assigned_device_details.dart';
 AssignedDeviceDetails _$AssignedDeviceDetailsFromJson(
         Map<String, dynamic> json) =>
     AssignedDeviceDetails(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
       detailsData: json['dt'] == null
           ? null
@@ -22,7 +21,6 @@ Map<String, dynamic> _$AssignedDeviceDetailsToJson(
         AssignedDeviceDetails instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.detailsData,
     };
 

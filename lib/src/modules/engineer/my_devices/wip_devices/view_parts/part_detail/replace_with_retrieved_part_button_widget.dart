@@ -49,7 +49,7 @@ class ReplaceWithRetrievedPartButtonWidget extends StatelessWidget {
     CshLoading().showLoading(context);
     EngineerAPIService.replacePartBarcode(partBarcode, partRequestId, deviceId).listen((event) {
       CshLoading().hideLoading(context);
-      if (Validator.isTrue(event?.isSuccess)) {
+      if (event != null) {
         onRequestCompletion();
         _showSnackBar(context, l10n.partReplacedSuccessfully);
       } else {

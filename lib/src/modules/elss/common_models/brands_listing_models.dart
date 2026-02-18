@@ -6,13 +6,10 @@ part 'brands_listing_models.g.dart';
 class BrandsListingResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<BrandsDataModel>? brandDataList;
 
   BrandsListingResponse({
-    this.isSuccess,
     this.brandDataList,
     this.refId,
   });

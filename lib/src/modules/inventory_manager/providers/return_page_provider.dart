@@ -22,7 +22,7 @@ class ReturnProvider extends CshChangeNotifier {
     var completer = Completer<ReturnPartResponse>();
     try {
       InventoryService.inventoryReturnPartList(pageNum, offset, br: br).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(event);
         } else {
           completer.completeError("Something went wrong");
@@ -44,11 +44,11 @@ class ReturnProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.getListReceivePendingPartList(pbr).listen((event) {
-        if (event != null && event.isSuccess == true && !Validator.isListNullOrEmpty(event.dataList)) {
+        if (event != null && !Validator.isListNullOrEmpty(event.dataList)) {
           listReceivePendingPartResponse = event;
           _putItemIntoReceivedList(event.dataList!.first.prid ?? -1);
           completer.complete(true);
-        } else if (event != null && event.isSuccess == true && Validator.isListNullOrEmpty(event.dataList)) {
+        } else if (event != null && Validator.isListNullOrEmpty(event.dataList)) {
           completer.completeError("No Parts Available!!");
         } else {
           completer.completeError("Something went wrong");

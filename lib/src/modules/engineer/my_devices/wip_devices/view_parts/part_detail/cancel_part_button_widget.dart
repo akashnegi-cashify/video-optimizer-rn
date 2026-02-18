@@ -36,11 +36,7 @@ class CancelPartButtonWidget extends StatelessWidget {
                 return;
               }
 
-              if (event.isSuccess) {
-                CshSnackBar.success(context: context, message: l10n.cancelPartRequestSuccess(partInfo.partName));
-                return;
-              }
-              CshSnackBar.error(context: context, message: l10n.somethingWentWrong);
+              CshSnackBar.success(context: context, message: l10n.cancelPartRequestSuccess(partInfo.partName));
             }, onDone: () {
               onRequestCompletion();
             }, onError: (error, stackTrace) {

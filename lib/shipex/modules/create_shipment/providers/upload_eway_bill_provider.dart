@@ -18,11 +18,7 @@ class UploadEwayBillProvider extends CshChangeNotifier {
       CreateShipmentService.uploadEWayBill(
               facilityId: facilityId.toString(), shipmentId: shipmentId, eWayBillNumber: awbNumber, fileUrl: s3Url)
           .listen((event) {
-        if (Validator.isTrue(event?.isSuccess)) {
-          completer.complete(true);
-        } else {
-          completer.completeError("Something went wrong");
-        }
+        completer.complete(true);
       }, onError: (error) {
         String em = ApiErrorHelper.getErrorMessage(error) ?? "Something went wrong";
         Logger.debug('mydebug------UploadEwayBillProvider.uploadEwayBill', [em]);

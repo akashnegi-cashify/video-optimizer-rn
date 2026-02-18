@@ -9,7 +9,6 @@ part of 'qc_parts_list_response.dart';
 
 QcPartsListResponse _$QcPartsListResponseFromJson(Map<String, dynamic> json) =>
     QcPartsListResponse(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
       dataList: (json['dt'] as List<dynamic>?)
           ?.map((e) => QcPartListData.fromJson(e as Map<String, dynamic>))
@@ -20,7 +19,6 @@ Map<String, dynamic> _$QcPartsListResponseToJson(
         QcPartsListResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.dataList,
     };
 

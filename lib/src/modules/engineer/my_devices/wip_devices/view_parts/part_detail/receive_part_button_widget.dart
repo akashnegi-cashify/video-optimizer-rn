@@ -65,12 +65,12 @@ class ReceivePartButtonWidget extends StatelessWidget {
         return;
       }
 
-      if (event.isSuccess == true) {
-        onRequestCompletion();
-        _showSnackBar(context, l10n.deviceReceivedSuccessfully);
-      } else {
+      if (event.errorMsg != null) {
         Navigator.pop(context);
         _showSnackBar(context, event.errorMsg.toString(), isError: true);
+      } else {
+        onRequestCompletion();
+        _showSnackBar(context, l10n.deviceReceivedSuccessfully);
       }
     }, onError: (error, stackTrace) {
       CshLoading().hideLoading(context);

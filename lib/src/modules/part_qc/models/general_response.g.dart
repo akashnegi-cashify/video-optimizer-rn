@@ -9,12 +9,10 @@ part of 'general_response.dart';
 
 GeneralResponse _$GeneralResponseFromJson(Map<String, dynamic> json) =>
     GeneralResponse(
-      isSuccess: json['s'] as bool?,
       refId: json['r_id'] as String?,
     );
 
 Map<String, dynamic> _$GeneralResponseToJson(GeneralResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
     };

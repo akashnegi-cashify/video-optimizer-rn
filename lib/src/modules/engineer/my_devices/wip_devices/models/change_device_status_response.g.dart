@@ -15,7 +15,6 @@ ChangeDeviceStatusResponse _$ChangeDeviceStatusResponseFromJson(
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
       json['turl'] as String?,
     )
-      ..isSuccess = json['s'] as bool
       ..errorMsg = json['em'] as String?
       ..deviceInfo = json['dt'] == null
           ? null
@@ -26,7 +25,6 @@ Map<String, dynamic> _$ChangeDeviceStatusResponseToJson(
     <String, dynamic>{
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
-      's': instance.isSuccess,
       'em': instance.errorMsg,
       'dt': instance.deviceInfo,
     };

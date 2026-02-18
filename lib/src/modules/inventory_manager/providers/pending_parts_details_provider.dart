@@ -69,7 +69,7 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.getPartAvailableQuantity(prid).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           availableQuantityResponse = event;
           completer.complete(true);
         } else {
@@ -110,7 +110,7 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.cancelPartRequest(prid).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
           _fetchPartsDetailsData();
         } else {
@@ -133,7 +133,7 @@ class PendingPartDetailsProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       InventoryService.linkDeadPart(prid).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
         } else {
           completer.completeError("Something went wrong");

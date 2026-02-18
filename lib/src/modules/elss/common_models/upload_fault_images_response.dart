@@ -6,10 +6,8 @@ part 'upload_fault_images_response.g.dart';
 class UploadFaultImagesResponse {
   @JsonKey(name: "r_id")
   String? referenceId;
-  @JsonKey(name: "s")
-  bool? success;
 
-  UploadFaultImagesResponse(this.referenceId, this.success);
+  UploadFaultImagesResponse(this.referenceId);
 
   static UploadFaultImagesResponse fromJson(Map<String, dynamic> data) => _$UploadFaultImagesResponseFromJson(data);
 

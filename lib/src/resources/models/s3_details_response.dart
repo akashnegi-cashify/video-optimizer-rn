@@ -8,11 +8,8 @@ class S3DetailsResponse {
   String? refId;
   @JsonKey(name: "dt")
   S3DataResponse? data;
-  @JsonKey(name: "s")
-  bool? isSuccess;
 
   S3DetailsResponse(
-    this.isSuccess,
     this.refId,
     this.data,
   );

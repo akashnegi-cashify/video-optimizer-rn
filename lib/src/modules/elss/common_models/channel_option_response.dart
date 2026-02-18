@@ -5,8 +5,6 @@ part 'channel_option_response.g.dart';
 
 @JsonSerializable()
 class ChannelOptionResponse {
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "pm")
   int? pm;
   @JsonKey(name: "r_id")
@@ -15,7 +13,6 @@ class ChannelOptionResponse {
   ChannelOptionDataModel? channelOptionData;
 
   ChannelOptionResponse({
-    this.isSuccess,
     this.pm,
     this.refId,
     this.channelOptionData,

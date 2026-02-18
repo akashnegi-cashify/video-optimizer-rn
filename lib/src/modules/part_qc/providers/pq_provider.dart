@@ -29,7 +29,7 @@ class PartQcProvider extends CshChangeNotifier {
     try {
       PartQcServiceElss.getQcPartList(pbr: pbr).listen(
         (event) {
-          if (event != null && event.isSuccess == true) {
+          if (event != null) {
             _qcPartsListResponse = event;
             completer.complete(event);
           } else {
@@ -57,7 +57,7 @@ class PartQcProvider extends CshChangeNotifier {
     var completer = Completer<bool>();
     try {
       PartQcServiceElss.submitPartStatus(isFaulty, prid).listen((event) {
-        if (event != null && event.isSuccess == true) {
+        if (event != null) {
           completer.complete(true);
         } else {
           completer.completeError("Something went wrong");

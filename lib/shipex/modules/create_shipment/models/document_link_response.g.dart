@@ -11,7 +11,6 @@ DocumentLinkResponse _$DocumentLinkResponseFromJson(
         Map<String, dynamic> json) =>
     DocumentLinkResponse(
       json['dt'] as String?,
-      json['s'] as bool?,
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -24,5 +23,4 @@ Map<String, dynamic> _$DocumentLinkResponseToJson(
       '__ca': instance.cashifyAlert,
       'turl': instance.trackUrl,
       'dt': instance.documentLink,
-      's': instance.status,
     };

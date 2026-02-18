@@ -7,9 +7,6 @@ class DeviceReturnReasonsResponse extends BaseResponse {
   @JsonKey(name: "r_id")
   late String rId;
 
-  @JsonKey(name: "s")
-  late bool isSuccess;
-
   @JsonKey(name: "em")
   String? errorMsg;
 

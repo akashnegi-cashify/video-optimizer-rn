@@ -6,12 +6,10 @@ part 'rider_list_response.g.dart';
 class RiderListResponse {
   @JsonKey(name: "r_id")
   String? rid;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   List<RiderListDataResponse>? riderDataList;
 
-  RiderListResponse({this.isSuccess, this.rid, this.riderDataList});
+  RiderListResponse({this.rid, this.riderDataList});
 
   static RiderListResponse fromJson(Map<String, dynamic> data) => _$RiderListResponseFromJson(data);
 

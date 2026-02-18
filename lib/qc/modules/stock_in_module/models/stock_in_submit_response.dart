@@ -7,9 +7,6 @@ class StockInSubmitResponse {
   @JsonKey(name: "success")
   bool? success;
 
-  @JsonKey(name: "s")
-  bool? status;
-
   @JsonKey(name: "cm")
   String? confirmationMessage;
 

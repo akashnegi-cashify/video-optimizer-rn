@@ -8,11 +8,8 @@ class ProductsColorResponse {
   String? refId;
   @JsonKey(name: "color")
   List<String>? listOfColours;
-  @JsonKey(name: "s")
-  bool? isSuccess;
 
   ProductsColorResponse({
-    this.isSuccess,
     this.listOfColours,
     this.refId,
   });

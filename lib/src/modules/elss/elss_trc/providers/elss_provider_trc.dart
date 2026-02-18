@@ -328,11 +328,9 @@ class ELssProviderTrc extends CshChangeNotifier {
       ElssService.elssSubmitPartsRequest(dataMap).listen((event) {
         if (event != null) {
           elssPartSubmitResponse = event;
-          if (event.isSuccess ?? false) {
-            completer.complete(true);
-          } else {
-            completer.completeError(event.errorMessage ?? "Error in submitting details!!");
-          }
+          completer.complete(true);
+        } else {
+          completer.completeError("Error in submitting details!!");
         }
       }, onError: (error) {
         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Some error occurred";

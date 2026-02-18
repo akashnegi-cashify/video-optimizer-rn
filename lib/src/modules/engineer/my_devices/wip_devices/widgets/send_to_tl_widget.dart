@@ -25,7 +25,7 @@ class SendToTLWidget extends StatelessWidget {
         EngineerAPIService.listDeviceReturnReasons().listen((event) async {
           CshLoading().hideLoading(context);
 
-          if (event != null && event.isSuccess == true && event.reasons != null && event.reasons!.isNotEmpty) {
+          if (event != null && event.reasons != null && event.reasons!.isNotEmpty) {
             var dropDownItem = await _askForTheReasonOfReturn(
               context,
               returnReasons: event.reasons!,
@@ -78,12 +78,7 @@ class SendToTLWidget extends StatelessWidget {
         return;
       }
 
-      if (event.isSuccess) {
-        completer.complete();
-        return;
-      }
-
-      completer.completeError(l10n.somethingWentWrong);
+      completer.complete();
     }, onError: (error, stacktrace) {
       completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());
     });

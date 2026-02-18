@@ -37,7 +37,7 @@ class DispatchLotProvider extends CshChangeNotifier with Searchable {
   }
 
   Future<void> initiateDispatchCompletion(String invoiceNumber) {
-    var completer = Completer<DispatchCompleteResponse?>();
+    var completer = Completer<void>();
     DispatchLotServices.completeDispatch(invoiceNumber).listen((event) {
       completer.complete();
     }, onError: (error, stack) {

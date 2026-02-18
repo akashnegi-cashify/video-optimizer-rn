@@ -5,13 +5,10 @@ part 'part_summary_response.g.dart';
 class PartSummaryResponse {
   @JsonKey(name: "r_id")
   String? refId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "dt")
   PartSummaryData? summaryData;
 
   PartSummaryResponse({
-    this.isSuccess,
     this.refId,
     this.summaryData,
   });

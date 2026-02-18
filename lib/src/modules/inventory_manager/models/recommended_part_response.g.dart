@@ -10,7 +10,6 @@ part of 'recommended_part_response.dart';
 RecommendedPartResponse _$RecommendedPartResponseFromJson(
         Map<String, dynamic> json) =>
     RecommendedPartResponse(
-      isSuccess: json['s'] as bool?,
       dataList: (json['dt'] as List<dynamic>?)
           ?.map((e) => RecommendedPartData.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,7 +20,6 @@ Map<String, dynamic> _$RecommendedPartResponseToJson(
         RecommendedPartResponse instance) =>
     <String, dynamic>{
       'r_id': instance.refId,
-      's': instance.isSuccess,
       'dt': instance.dataList,
     };
 

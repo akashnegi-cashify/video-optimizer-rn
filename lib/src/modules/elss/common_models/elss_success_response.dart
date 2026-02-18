@@ -8,13 +8,10 @@ class ElssSuccessResponse {
   bool? success;
   @JsonKey(name: "r_id")
   String? referenceId;
-  @JsonKey(name: "s")
-  bool? isSuccess;
   @JsonKey(name: "pm")
   int? pm;
 
   ElssSuccessResponse({
-    this.isSuccess,
     this.pm,
     this.referenceId,
     this.success,
