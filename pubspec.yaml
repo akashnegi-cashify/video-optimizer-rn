@@ -164,6 +164,7 @@ flutter_launcher_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.4
   flutter_lints: ^5.0.0
   frontend_server_client: ^4.0.0
   change_app_package_name: ^1.1.0

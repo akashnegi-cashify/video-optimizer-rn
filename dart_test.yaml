@@ -1,0 +1,183 @@
+# Flutter Test Configuration
+# https://github.com/dart-lang/test/blob/master/pkgs/test/doc/configuration.md
+
+# =============================================================================
+# TAGS CONFIGURATION
+# Use tags to categorize and selectively run tests
+# Run specific tags: flutter test --tags "unit"
+# Exclude tags: flutter test --exclude-tags "slow"
+# =============================================================================
+tags:
+  unit:
+    # Unit tests for individual functions, methods, and classes
+  integration:
+    # Integration tests that test multiple components together
+  slow:
+    # Tests that take longer to run (skip in quick test runs)
+  smoke:
+    # Quick sanity check tests
+  service:
+    # Service layer tests
+  model:
+    # Model/response parsing tests
+  provider:
+    # Provider state management tests
+  utils:
+    # Utility function tests
+
+# =============================================================================
+# PRESETS
+# Define named configurations that can be activated via --preset flag
+# Example: flutter test --preset ci
+# =============================================================================
+presets:
+  # Quick tests - excludes slow tests, runs in parallel
+  quick:
+    exclude_tags: "slow"
+    concurrency: 8
+    timeout: 30s
+
+  # CI pipeline configuration
+  ci:
+    concurrency: 4
+    timeout: 2m
+    reporter: expanded
+    
+  # Coverage run configuration
+  coverage:
+    concurrency: 1
+    timeout: 5m
+    
+  # Unit tests only
+  unit-only:
+    paths:
+      - "test/unit/"
+    exclude_tags: "integration"
+    
+  # Service tests only
+  services-only:
+    paths:
+      - "test/unit/services/"
+      
+  # Model tests only  
+  models-only:
+    paths:
+      - "test/unit/models/"
+      
+  # Provider tests only
+  providers-only:
+    paths:
+      - "test/unit/providers/"
+      
+  # Library tests only
+  libraries-only:
+    paths:
+      - "test/unit/libraries/"
+      
+  # Interceptor tests only
+  interceptors-only:
+    paths:
+      - "test/unit/interceptors/"
+      
+  # Utility tests only
+  utils-only:
+    paths:
+      - "test/unit/utils/"
+
+# =============================================================================
+# DEFAULT PATHS
+# Specify which paths to include by default
+# Comment out to run all tests in test/ directory
+# =============================================================================
+paths:
+  - "test/unit/"
+  - "test/helpers/"
+
+# =============================================================================
+# FILENAME PATTERNS
+# Customize test file detection patterns
+# Default is files ending in _test.dart
+# =============================================================================
+filename: "*_test.dart"
+
+# =============================================================================
+# EXCLUDE PATTERNS
+# Files/directories to always exclude from test runs
+# =============================================================================
+# Note: dart_test.yaml doesn't have a direct "exclude" option for paths
+# Use tags and --exclude-tags flag instead, or configure in presets
+
+# =============================================================================
+# TEST EXECUTION SETTINGS
+# =============================================================================
+
+# Number of tests to run in parallel
+concurrency: 20
+
+# Default timeout for tests
+timeout: 1m
+
+# Retry failed tests (useful for flaky tests)
+# retry: 1
+
+# Test output format: compact, expanded, json
+reporter: expanded
+
+# Fail fast - stop on first failure
+# fail_fast: true
+
+# =============================================================================
+# PLATFORM CONFIGURATION
+# Specify platforms to run tests on
+# =============================================================================
+platforms:
+  - vm
+  # - chrome  # Uncomment for web tests
+  # - firefox
+
+# =============================================================================
+# OVERRIDE SETTINGS FOR SPECIFIC FILES/FOLDERS
+# =============================================================================
+# override_platforms:
+#   # Example: Run specific tests only on VM
+#   # test/unit/services/:
+#   #   platforms: [vm]
+
+# =============================================================================
+# USAGE EXAMPLES
+# =============================================================================
+# 
+# Run all tests:
+#   flutter test
+#
+# Run with specific preset:
+#   flutter test --preset quick
+#   flutter test --preset ci
+#   flutter test --preset unit-only
+#   flutter test --preset services-only
+#
+# Run tests with specific tag:
+#   flutter test --tags "unit"
+#   flutter test --tags "service"
+#   flutter test --tags "model"
+#
+# Exclude tests with specific tag:
+#   flutter test --exclude-tags "slow"
+#   flutter test --exclude-tags "integration"
+#
+# Combine tags:
+#   flutter test --tags "unit" --exclude-tags "slow"
+#
+# Run specific test file:
+#   flutter test test/unit/services/qc_service_test.dart
+#
+# Run specific directory:
+#   flutter test test/unit/models/
+#
+# Run with coverage:
+#   flutter test --coverage --preset coverage
+#
+# Run in verbose mode:
+#   flutter test --reporter expanded
+#
+# =============================================================================

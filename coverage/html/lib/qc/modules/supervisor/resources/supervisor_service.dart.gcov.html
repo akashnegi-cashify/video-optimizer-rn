@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/qc/modules/supervisor/resources/supervisor_service.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory lib/qc/modules/supervisor/resources">lib/qc/modules/supervisor/resources</a> - supervisor_service.dart</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">8</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-02-03 16:56:15</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : import 'dart:convert';</span>
+<span id="L2"><span class="lineNum">       2</span>              : </span>
+<span id="L3"><span class="lineNum">       3</span>              : import 'package:flutter_trc/qc/modules/supervisor/resources/supervisor_device_detail_response.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : import 'package:flutter_trc/src/services/qc_service.dart';</span>
+<span id="L5"><span class="lineNum">       5</span>              : </span>
+<span id="L6"><span class="lineNum">       6</span>              : class SupervisorService {</span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           2 :   static Stream&lt;SupervisorDeviceDetailResponse?&gt; getDeviceDetails(String? deviceBarcode,</span></span>
+<span id="L8"><span class="lineNum">       8</span>              :       {bool isFullResponse = false}) {</span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           2 :     return QcService()</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           4 :         .get('/supervisor/device-report/$deviceBarcode?idr=$isFullResponse', SupervisorDeviceDetailResponse.fromJson);</span></span>
+<span id="L11"><span class="lineNum">      11</span>              :   }</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           1 :   static Stream&lt;SupervisorDeviceDetailResponse?&gt; submitDeviceData(</span></span>
+<span id="L14"><span class="lineNum">      14</span>              :     String? deviceBarcode,</span>
+<span id="L15"><span class="lineNum">      15</span>              :     Map&lt;String, dynamic&gt; mismatchedData, {</span>
+<span id="L16"><span class="lineNum">      16</span>              :     String? remarks,</span>
+<span id="L17"><span class="lineNum">      17</span>              :   }) {</span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :     Map&lt;String, dynamic&gt; request = {</span></span>
+<span id="L19"><span class="lineNum">      19</span>              :       &quot;remarks&quot;: remarks,</span>
+<span id="L20"><span class="lineNum">      20</span>              :       &quot;mismatch&quot;: mismatchedData,</span>
+<span id="L21"><span class="lineNum">      21</span>              :     };</span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           3 :     return QcService().post('/supervisor/device-report/$deviceBarcode', SupervisorDeviceDetailResponse.fromJson,</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           1 :         body: jsonEncode(request));</span></span>
+<span id="L25"><span class="lineNum">      25</span>              :   }</span>
+<span id="L26"><span class="lineNum">      26</span>              : </span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           1 :   static String getDummyData() {</span></span>
+<span id="L28"><span class="lineNum">      28</span>              :     return '{&quot;r_id&quot;:&quot;09356982-0e6f-4885-8e09-d52b87d910e7&quot;,&quot;mtb&quot;:&quot;Akash Sharma QA&quot;,&quot;mta&quot;:1690790266000,&quot;ctb&quot;:&quot;Surbhi&quot;,&quot;cta&quot;:1687939830000,&quot;pv&quot;:[{&quot;pi&quot;:377,&quot;pn&quot;:&quot;Mobile Switch On&quot;,&quot;v&quot;:{&quot;2451&quot;:&quot;Not Working&quot;},&quot;svi&quot;:2452,&quot;svn&quot;:&quot;Working&quot;,&quot;c&quot;:&quot;Does the Mobile Switch on?&quot;},{&quot;pi&quot;:378,&quot;pn&quot;:&quot;Touchscreen Check&quot;,&quot;v&quot;:{&quot;2454&quot;:&quot;Not Working&quot;,&quot;2455&quot;:&quot;Not Tested&quot;},&quot;svi&quot;:2453,&quot;svn&quot;:&quot;Yes its Working&quot;,&quot;c&quot;:&quot;Screen Condition&quot;},{&quot;pi&quot;:385,&quot;pn&quot;:&quot;Wifi condition&quot;,&quot;v&quot;:{&quot;2481&quot;:&quot;Not Working&quot;,&quot;2482&quot;:&quot;wifi Not Tested&quot;},&quot;svi&quot;:2480,&quot;svn&quot;:&quot;Working&quot;,&quot;c&quot;:&quot;Functional Condition&quot;},{&quot;pi&quot;:387,&quot;pn&quot;:&quot;Bluetooth&quot;,&quot;v&quot;:{&quot;2487&quot;:&quot;Bluetooth not working&quot;,&quot;2488&quot;:&quot;Not Tested&quot;},&quot;svi&quot;:2486,&quot;svn&quot;:&quot;Bluetooth Working&quot;,&quot;c&quot;:&quot;Functional Condition&quot;},{&quot;pi&quot;:412,&quot;pn&quot;:&quot;Physical Condition&quot;,&quot;v&quot;:{&quot;2567&quot;:&quot;Minor Scratches&quot;,&quot;2568&quot;:&quot;Minor Dents&quot;,&quot;2569&quot;:&quot;Major Dents&quot;,&quot;2570&quot;:&quot;Cracked or Broken Panel&quot;,&quot;2571&quot;:&quot;Bent&quot;,&quot;2572&quot;:&quot;Missing Panel&quot;,&quot;2573&quot;:&quot;Not Checked&quot;,&quot;400276&quot;:&quot;Heavy Scratches&quot;,&quot;400992&quot;:&quot;Heavy Scratches&quot;},&quot;svi&quot;:2566,&quot;svn&quot;:&quot;No Scratches&quot;,&quot;c&quot;:&quot;Phones overall condition&quot;},{&quot;pi&quot;:434,&quot;pn&quot;:&quot;Physical Condition Scratch&quot;,&quot;v&quot;:{&quot;3008&quot;:&quot;Minor Scratch&quot;,&quot;3009&quot;:&quot;Major Scratch&quot;,&quot;3010&quot;:&quot;Not Checked&quot;,&quot;400993&quot;:&quot;Normal sign of usage&quot;,&quot;400994&quot;:&quot;Minor paint peel-off/Bubble&quot;,&quot;400995&quot;:&quot;Major paint peel-off/Bubble&quot;,&quot;401040&quot;:&quot;Major Scratch on Body&quot;,&quot;401041&quot;:&quot;Minor Scratch on Body&quot;},&quot;svi&quot;:3007,&quot;svn&quot;:&quot;No Scratches&quot;,&quot;c&quot;:&quot;Phones overall condition&quot;},{&quot;pi&quot;:435,&quot;pn&quot;:&quot;Physical Condition Dent&quot;,&quot;v&quot;:{&quot;3012&quot;:&quot;Minor Dents&quot;,&quot;3013&quot;:&quot;Major Dents&quot;,&quot;3014&quot;:&quot;Not Checked&quot;},&quot;svi&quot;:3011,&quot;svn&quot;:&quot;No Dents&quot;,&quot;c&quot;:&quot;Phones overall condition&quot;},{&quot;pi&quot;:436,&quot;pn&quot;:&quot;Physical Condition Panel&quot;,&quot;v&quot;:{&quot;3016&quot;:&quot;Missing Panel&quot;,&quot;3017&quot;:&quot;Not Checked&quot;,&quot;3018&quot;:&quot;NO Defect in Panel&quot;,&quot;3044&quot;:&quot;Loose Panel&quot;,&quot;400297&quot;:&quot;Glass Panel Damaged&quot;},&quot;svi&quot;:3015,&quot;svn&quot;:&quot;Cracked or Broken Panel&quot;,&quot;c&quot;:&quot;Phones overall condition&quot;},{&quot;pi&quot;:437,&quot;pn&quot;:&quot;Physical Condition Bent&quot;,&quot;v&quot;:{&quot;3020&quot;:&quot;Loose Screen&quot;,&quot;3021&quot;:&quot;Not Checked&quot;,&quot;3022&quot;:&quot;Phone not Bent&quot;},&quot;svi&quot;:3019,&quot;svn&quot;:&quot;Bent Panel&quot;,&quot;c&quot;:&quot;Phones overall condition&quot;},{&quot;pi&quot;:414,&quot;pn&quot;:&quot;Icloud/Id lock (For Iphone)&quot;,&quot;v&quot;:{&quot;2643&quot;:&quot;Icloud Locked&quot;,&quot;2644&quot;:&quot;Not Checked&quot;},&quot;svi&quot;:2642,&quot;svn&quot;:&quot;Icloud Not Locked&quot;,&quot;c&quot;:&quot;Icloud/Id lock/Brand lock&quot;},{&quot;pi&quot;:400271,&quot;pn&quot;:&quot;Country Lock&quot;,&quot;v&quot;:{&quot;400776&quot;:&quot;Country Lock Enabled\t&quot;},&quot;svi&quot;:400775,&quot;svn&quot;:&quot;Country Lock Not Enabled\t&quot;,&quot;c&quot;:&quot;Icloud/Id lock/Brand lock&quot;},{&quot;pi&quot;:400302,&quot;pn&quot;:&quot;Battery Health&quot;,&quot;v&quot;:{&quot;400850&quot;:&quot;Battery health 50 to 80%&quot;,&quot;400851&quot;:&quot;Battery health less than 50%&quot;,&quot;400852&quot;:&quot;Battery Health 50 to 60%&quot;,&quot;400853&quot;:&quot;Battery Health 40 to 50%&quot;,&quot;400854&quot;:&quot;Battery Health 30 to 40%&quot;,&quot;400855&quot;:&quot;Battery Health 20 to 30%&quot;,&quot;400856&quot;:&quot;Battery is in poor health&quot;},&quot;svi&quot;:400849,&quot;svn&quot;:&quot;Battery health above 80%&quot;,&quot;c&quot;:&quot;Battery Health&quot;},{&quot;pi&quot;:396,&quot;pn&quot;:&quot;Proximity Sensor&quot;,&quot;v&quot;:{&quot;2515&quot;:&quot;Proximity Sensor Not Working&quot;,&quot;2516&quot;:&quot;Not Tested&quot;},&quot;svi&quot;:2514,&quot;svn&quot;:&quot;Proximity Sensor Working&quot;,&quot;c&quot;:&quot;Functional Condition&quot;},{&quot;pi&quot;:404,&quot;pn&quot;:&quot;Sim Tray&quot;,&quot;v&quot;:{&quot;2539&quot;:&quot;Sim Tray Missing&quot;,&quot;2540&quot;:&quot;Sim Tray Broken&quot;,&quot;2541&quot;:&quot;Not Tested&quot;},&quot;svi&quot;:2538,&quot;svn&quot;:&quot;Sim Tray Available&quot;,&quot;c&quot;:&quot;Functional Condition&quot;},{&quot;pi&quot;:444,&quot;pn&quot;:&quot;Back Flashlight&quot;,&quot;v&quot;:{&quot;3042&quot;:&quot;Back Flashlight Not Working&quot;},&quot;svi&quot;:3043,&quot;svn&quot;:&quot;Back Flashlight Working&quot;,&quot;c&quot;:&quot;Functional Condition&quot;}],&quot;dm&quot;:[{&quot;r_id&quot;:&quot;09356982-0e6f-4885-8e09-d52b87d910e7&quot;,&quot;n&quot;:&quot;bottom panel&quot;,&quot;p&quot;:&quot;https://s3n.stage.cashify.in/trc/5087b7dd096046cebc985abcf471d3e4.webp&quot;,&quot;iv&quot;:false},{&quot;r_id&quot;:&quot;09356982-0e6f-4885-8e09-d52b87d910e7&quot;,&quot;n&quot;:&quot;Screen&quot;,&quot;p&quot;:&quot;https://s3n.stage.cashify.in/trc/284aea2f0b944ad19b8414d6acb88a4b.webp&quot;,&quot;iv&quot;:false},{&quot;r_id&quot;:&quot;09356982-0e6f-4885-8e09-d52b87d910e7&quot;,&quot;n&quot;:&quot;Back panel Image&quot;,&quot;p&quot;:&quot;https://s3n.stage.cashify.in/trc/f8ab45a11ae643c2a3992ff7d4504fd1.webp&quot;,&quot;iv&quot;:false},{&quot;r_id&quot;:&quot;09356982-0e6f-4885-8e09-d52b87d910e7&quot;,&quot;n&quot;:&quot;Top Image&quot;,&quot;p&quot;:&quot;https://s3n.stage.cashify.in/trc/791d07fe7f7448dc98c42e1302c16d28.mp4&quot;,&quot;iv&quot;:true}]}';</span>
+<span id="L29"><span class="lineNum">      29</span>              :   }</span>
+<span id="L30"><span class="lineNum">      30</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.4-0</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

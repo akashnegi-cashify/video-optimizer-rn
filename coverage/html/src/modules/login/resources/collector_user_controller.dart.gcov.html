@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - src/modules/login/resources/collector_user_controller.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory src/modules/login/resources">src/modules/login/resources</a> - collector_user_controller.dart</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-01-30 13:38:21</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : import 'package:core_widgets/core_widgets.dart';</span>
+<span id="L2"><span class="lineNum">       2</span>              : import 'package:flutter/material.dart';</span>
+<span id="L3"><span class="lineNum">       3</span>              : import 'package:flutter_trc/rms/modules/home/screens/rms_home_screen.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : import 'package:flutter_trc/shipex/modules/shipex_home/screens/shipex_home_screen.dart';</span>
+<span id="L5"><span class="lineNum">       5</span>              : import 'package:flutter_trc/src/app.dart';</span>
+<span id="L6"><span class="lineNum">       6</span>              : import 'package:flutter_trc/src/common/mpin/screens/mpin_login_screen.dart';</span>
+<span id="L7"><span class="lineNum">       7</span>              : import 'package:flutter_trc/src/common/mpin/screens/mpin_setup_screen.dart';</span>
+<span id="L8"><span class="lineNum">       8</span>              : import 'package:flutter_trc/src/common/nps/dialog/show_nps_dialog.dart';</span>
+<span id="L9"><span class="lineNum">       9</span>              : import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';</span>
+<span id="L10"><span class="lineNum">      10</span>              : import 'package:flutter_trc/src/modules/home/trc_home_screen_new.dart';</span>
+<span id="L11"><span class="lineNum">      11</span>              : import 'package:flutter_trc/src/modules/login/resources/login_types.dart';</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span>              : class UserRoles {</span>
+<span id="L14"><span class="lineNum">      14</span>              :   static const String ROLE_STORAGE_MANAGER = &quot;STORAGE_MANAGER&quot;;</span>
+<span id="L15"><span class="lineNum">      15</span>              :   static const String ROLE_INVENTORY_MANAGER = &quot;INVENTORY_MANAGER&quot;;</span>
+<span id="L16"><span class="lineNum">      16</span>              :   static const String ROLE_RIDER = &quot;RIDER&quot;;</span>
+<span id="L17"><span class="lineNum">      17</span>              :   static const String ROLE_QC = &quot;PART_QC&quot;;</span>
+<span id="L18"><span class="lineNum">      18</span>              :   static const String ROLE_RUNNER = &quot;RUNNER&quot;;</span>
+<span id="L19"><span class="lineNum">      19</span>              :   static const String ROLE_ENGINEER = &quot;ENGINEER&quot;;</span>
+<span id="L20"><span class="lineNum">      20</span>              :   static const String ROLE_L4 = &quot;L4_ENGINEER&quot;;</span>
+<span id="L21"><span class="lineNum">      21</span>              :   static const String ROLE_ELSS = &quot;ELSS&quot;;</span>
+<span id="L22"><span class="lineNum">      22</span>              :   static const String ROLE_RUBBING = &quot;RUBBING_ENGINEER&quot;;</span>
+<span id="L23"><span class="lineNum">      23</span>              :   static const String ROLE_GLASS_CHANGE = &quot;GLASS_CHANGE_ENGINEER&quot;;</span>
+<span id="L24"><span class="lineNum">      24</span>              :   static const String TRC_EXECUTIVE = &quot;TRC_EXECUTIVE&quot;;</span>
+<span id="L25"><span class="lineNum">      25</span>              :   static const String QC_ROLE = &quot;QC_ROLE&quot;;</span>
+<span id="L26"><span class="lineNum">      26</span>              :   static const String ROLE_TRC_AUDIT = &quot;AUDITOR&quot;;</span>
+<span id="L27"><span class="lineNum">      27</span>              : </span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :   static navigateToUserRoleScreen(BuildContext context, {required LoginTypes loginType}) async {</span></span>
+<span id="L29"><span class="lineNum">      29</span>              :     switch (loginType) {</span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :       case LoginTypes.trcLogin:</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :         navigateToTrcRole(context);</span></span>
+<span id="L32"><span class="lineNum">      32</span>              :         break;</span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :       case LoginTypes.qcLogin:</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :         String? savedPin = AppPreferences.qc.getQcMPin();</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :         if (Validator.isTrue(AppPreferences.qc.getIsBioMetricEnabled()) || !Validator.isNullOrEmpty(savedPin)) {</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :           Navigator.pushNamedAndRemoveUntil(context, MPinLoginScreen.route, (route) =&gt; false);</span></span>
+<span id="L37"><span class="lineNum">      37</span>              :         } else {</span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :           Navigator.pushNamedAndRemoveUntil(context, MPinSetupScreen.route, (route) =&gt; false);</span></span>
+<span id="L39"><span class="lineNum">      39</span>              :         }</span>
+<span id="L40"><span class="lineNum">      40</span>              :         break;</span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :       case LoginTypes.shipexLogin:</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :         Navigator.of(context).pushNamedAndRemoveUntil(ShipexHomeScreen.route, (route) =&gt; false);</span></span>
+<span id="L43"><span class="lineNum">      43</span>              :         break;</span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :       case LoginTypes.rmsLogin:</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :         Navigator.of(context).pushNamedAndRemoveUntil(RmsHomeScreen.route, (route) =&gt; false);</span></span>
+<span id="L46"><span class="lineNum">      46</span>              :         break;</span>
+<span id="L47"><span class="lineNum">      47</span>              :     }</span>
+<span id="L48"><span class="lineNum">      48</span>              :   }</span>
+<span id="L49"><span class="lineNum">      49</span>              : </span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaUNC">           0 :   static navigateToTrcRole(BuildContext context) {</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaUNC">           0 :     Future.delayed(Duration(seconds: 1), () {</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaUNC">           0 :       if (AppNavKey.navKey.currentState?.context != null) {</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaUNC">           0 :         showNpsDialog(AppNavKey.navKey.currentState!.context, LoginTypes.trcLogin);</span></span>
+<span id="L54"><span class="lineNum">      54</span>              :       }</span>
+<span id="L55"><span class="lineNum">      55</span>              :     });</span>
+<span id="L56"><span class="lineNum">      56</span>              : </span>
+<span id="L57"><span class="lineNum">      57</span>              :     // Navigator.pushNamed(context, TrcHomeScreenNew.route);</span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaUNC">           0 :     Navigator.pushNamedAndRemoveUntil(context, TrcHomeScreenNew.route, (route) =&gt; false);</span></span>
+<span id="L59"><span class="lineNum">      59</span>              : </span>
+<span id="L60"><span class="lineNum">      60</span>              :     // if (listOfRoles.contains(UserRoles.ROLE_ELSS)) {</span>
+<span id="L61"><span class="lineNum">      61</span>              :     //   ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);</span>
+<span id="L62"><span class="lineNum">      62</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(ElssHomeScreen.route, (route) =&gt; false, arguments: args);</span>
+<span id="L63"><span class="lineNum">      63</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_RUBBING) || listOfRoles.contains(UserRoles.ROLE_GLASS_CHANGE)) {</span>
+<span id="L64"><span class="lineNum">      64</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(RubbingHomeScreen.route, (route) =&gt; false);</span>
+<span id="L65"><span class="lineNum">      65</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_ENGINEER)) {</span>
+<span id="L66"><span class="lineNum">      66</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(EngineerHomeScreen.route, (route) =&gt; false);</span>
+<span id="L67"><span class="lineNum">      67</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_RIDER)) {</span>
+<span id="L68"><span class="lineNum">      68</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(RiderHomeScreen.route, (route) =&gt; false);</span>
+<span id="L69"><span class="lineNum">      69</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_L4)) {</span>
+<span id="L70"><span class="lineNum">      70</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(L4HomeScreen.route, (route) =&gt; false);</span>
+<span id="L71"><span class="lineNum">      71</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_INVENTORY_MANAGER)) {</span>
+<span id="L72"><span class="lineNum">      72</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(InventoryHomeScreen.route, (route) =&gt; false);</span>
+<span id="L73"><span class="lineNum">      73</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_QC)) {</span>
+<span id="L74"><span class="lineNum">      74</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(PartQCHomeScreen.route, (route) =&gt; false);</span>
+<span id="L75"><span class="lineNum">      75</span>              :     // } else if (listOfRoles.contains(UserRoles.TRC_EXECUTIVE)) {</span>
+<span id="L76"><span class="lineNum">      76</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(TRCExecutiveScreen.route, (route) =&gt; false);</span>
+<span id="L77"><span class="lineNum">      77</span>              :     // } else if (listOfRoles.contains(UserRoles.QC_ROLE)) {</span>
+<span id="L78"><span class="lineNum">      78</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(TrcTesterScreen.route, (route) =&gt; false);</span>
+<span id="L79"><span class="lineNum">      79</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_STORAGE_MANAGER)) {</span>
+<span id="L80"><span class="lineNum">      80</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(StoreManagerHomeScreen.route, (route) =&gt; false);</span>
+<span id="L81"><span class="lineNum">      81</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_STORAGE_MANAGER)) {</span>
+<span id="L82"><span class="lineNum">      82</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(StoreManagerHomeScreen.route, (route) =&gt; false);</span>
+<span id="L83"><span class="lineNum">      83</span>              :     // } else if (listOfRoles.contains(UserRoles.ROLE_TRC_AUDIT)) {</span>
+<span id="L84"><span class="lineNum">      84</span>              :     //   Navigator.of(context).pushNamedAndRemoveUntil(TrcAuditScreen.route, (route) =&gt; false);</span>
+<span id="L85"><span class="lineNum">      85</span>              :     // } else {</span>
+<span id="L86"><span class="lineNum">      86</span>              :     //   CshSnackBar.error(</span>
+<span id="L87"><span class="lineNum">      87</span>              :     //     context: context,</span>
+<span id="L88"><span class="lineNum">      88</span>              :     //     message: &quot;Assigned role - ${UserDetails().consoleUserDetail?.role} is not created for app&quot;,</span>
+<span id="L89"><span class="lineNum">      89</span>              :     //     duration: SnackBarDuration.LONG,</span>
+<span id="L90"><span class="lineNum">      90</span>              :     //     snackBarPosition: SnackBarPosition.TOP,</span>
+<span id="L91"><span class="lineNum">      91</span>              :     //   );</span>
+<span id="L92"><span class="lineNum">      92</span>              :     // }</span>
+<span id="L93"><span class="lineNum">      93</span>              :   }</span>
+<span id="L94"><span class="lineNum">      94</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.4-0</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

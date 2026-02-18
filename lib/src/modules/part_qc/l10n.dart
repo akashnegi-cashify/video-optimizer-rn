@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'package:intl/intl.dart';
 import 'package:localization/localization/base_l10n.dart';
 
