@@ -80,6 +80,10 @@ class L10n extends BaseL10n {
 
   String get deviceName => Intl.message("Device Name", locale: localName, name: "deviceName");
 
+  String get deviceImei => Intl.message("Device IMEI", locale: localName, name: "deviceImei");
+
+  String get deviceColor => Intl.message("Device Color", locale: localName, name: "deviceColor");
+
   String get sync => Intl.message("Sync", locale: localName, name: "sync");
 
   String get partSku => Intl.message("Part Sku", locale: localName, name: "partSku");

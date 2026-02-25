@@ -278,6 +278,8 @@ class _DeviceCardWidget extends StatelessWidget {
             TitleValueRowWidget(title: l10n.deviceIMEI, value: deviceInfo?.imei ?? ""),
           if (!Validator.isNullOrEmpty(deviceInfo?.serialNumber))
             TitleValueRowWidget(title: l10n.serialNumber, value: deviceInfo?.serialNumber ?? ""),
+          if (!Validator.isNullOrEmpty(deviceInfo?.color))
+            TitleValueRowWidget(title: l10n.color, value: deviceInfo!.color ?? ""),
         ],
       ),
     );
