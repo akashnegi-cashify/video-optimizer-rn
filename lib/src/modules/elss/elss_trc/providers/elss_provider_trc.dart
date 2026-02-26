@@ -170,16 +170,49 @@ class ELssProviderTrc extends CshChangeNotifier {
   }
 
   setSelectedOptionKey(int key) {
-    selectedOptionKey = key;
-    int index = productOptionList.indexWhere((element) {
-      if (element.key != null) {
-        return (element.key! == selectedOptionKey);
+    // If clicking the same already-selected option, reset to -1 (deselect)
+    if (key == selectedOptionKey) {
+      selectedOptionKey = -1;
+      submitButtonName = "Select Option";
+      // Clear applicable reasons for the previously selected option
+      int prevIndex = productOptionList.indexWhere((element) {
+        if (element.key != null) {
+          return (element.key! == key);
+        }
+        return false;
+      });
+      if (prevIndex != -1 && (productOptionList[prevIndex].isApplicableReasonRequired ?? false)) {
+        productOptionList[prevIndex].isRub = false;
+        productOptionList[prevIndex].isPNA = false;
+        productOptionList[prevIndex].isGc = false;
       }
-      return false;
-    });
+    } else {
+      // Clear applicable reasons for the previously selected option before switching
+      if (selectedOptionKey != -1) {
+        int prevIndex = productOptionList.indexWhere((element) {
+          if (element.key != null) {
+            return (element.key! == selectedOptionKey);
+          }
+          return false;
+        });
+        if (prevIndex != -1 && (productOptionList[prevIndex].isApplicableReasonRequired ?? false)) {
+          productOptionList[prevIndex].isRub = false;
+          productOptionList[prevIndex].isPNA = false;
+          productOptionList[prevIndex].isGc = false;
+        }
+      }
+      
+      selectedOptionKey = key;
+      int index = productOptionList.indexWhere((element) {
+        if (element.key != null) {
+          return (element.key! == selectedOptionKey);
+        }
+        return false;
+      });
 
-    if (index != -1) {
-      submitButtonName = productOptionList[index].optionName ?? "";
+      if (index != -1) {
+        submitButtonName = productOptionList[index].optionName ?? "";
+      }
     }
     notifyListeners();
   }

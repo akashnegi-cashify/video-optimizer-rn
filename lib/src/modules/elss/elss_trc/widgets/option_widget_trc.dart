@@ -31,6 +31,19 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
   SelectionType? _selectedValue;
 
   @override
+  void didUpdateWidget(PartSelectionOptionWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Reset sub-menu selection when switching to a different main option
+    if (oldWidget.groupValueKey != widget.groupValueKey) {
+      if (widget.keyValue != widget.groupValueKey) {
+        setState(() {
+          _selectedValue = null;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var l10n = L10n(context);
@@ -51,7 +64,31 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                   }
                 },
               ),
-              Text(widget.dataModel.optionName ?? "", style: theme.primaryTextTheme.headlineMedium)
+              Expanded(
+                child: Text(widget.dataModel.optionName ?? "", style: theme.primaryTextTheme.headlineMedium),
+              ),
+              // Reset button - only show when option is selected AND has sub-menus
+              if (widget.keyValue == widget.groupValueKey && (widget.dataModel.isApplicableReasonRequired ?? false))
+                InkWell(
+                  onTap: () {
+                    // Reset sub-menu selections
+                    setState(() {
+                      _selectedValue = null;
+                    });
+                    // Clear applicable reasons in provider
+                    widget.onApplicableReasonCallback(widget.keyValue, false, false, false);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8, vertical: Dimens.space_4),
+                    child: Text(
+                      "Reset",
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.primaryColor,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
           if (widget.keyValue == widget.groupValueKey && (widget.dataModel.isApplicableReasonRequired ?? false))
