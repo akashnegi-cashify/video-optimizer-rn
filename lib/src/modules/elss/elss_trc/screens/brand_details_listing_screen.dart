@@ -1,5 +1,6 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
 import 'package:flutter_trc/src/modules/elss/elss_trc/screens/part_selection_screen_trc.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,8 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
   bool _showProductsListing = false, _showColourListing = false;
   int? _brandId, _productId;
   String? _colour;
+  String? _selectedBrandName;
+  String? _selectedProductName;
 
   @override
   Widget build(BuildContext context) {
@@ -60,24 +63,55 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                     style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
-                  CshDropDown(
-                    onChanged: (DropDownItem data) {
+                  InkWell(
+                    onTap: () {
+                      _showSearchableBottomSheet(
+                        title: l10n.selectBrand,
+                        hintText: "Search brand...",
+                        items: provider.getBrandDropDownItems(provider.brandDetailsData!.brandDataList!),
+                        onSelected: (DropDownItem data) {
                       if (data.id != null) {
                         _brandId = int.parse(data.id!);
+                            _selectedBrandName = data.label;
                         if (provider.productsColorResponse != null || provider.brandsAllProductResponse != null) {
                           provider.resetProductsColors();
                           _showColourListing = false;
                           _showProductsListing = false;
                           _productId = null;
+                              _selectedProductName = null;
                           _colour = null;
+                            }
                           setState(() {});
-                        }
-
                         _getProductsFromBrandId(innerContext, int.parse(data.id!));
                       }
                     },
-                    hintText: l10n.selectBrand,
-                    items: provider.getBrandDropDownItems(provider.brandDetailsData!.brandDataList!),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: theme.extension<CustomColors>()?.inputStrokeColor ?? Colors.grey),
+                        borderRadius: BorderRadius.circular(CshRadius.rad4.value),
+                        color: theme.canvasColor,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _selectedBrandName ?? l10n.selectBrand,
+                              style: _selectedBrandName != null
+                                  ? theme.textTheme.labelSmall
+                                  : theme.textTheme.labelSmall?.copyWith(color: theme.shadowColor),
+                            ),
+                          ),
+                          CshIcon.assets(
+                            packageIcon('ic_down_arrow.png'),
+                            padding: EdgeInsets.zero,
+                            iconSize: MobileIconSize.medium,
+                          ),
+                        ],
+                      ),
+                    ),
                   )
                 ],
                 if (_showProductsListing == true &&
@@ -88,21 +122,52 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                     style: theme.primaryTextTheme.headlineMedium,
                   ),
                   const SizedBox(height: Dimens.space_8),
-                  CshDropDown(
-                    hintText: l10n.selectProduct,
-                    onChanged: (DropDownItem data) {
+                  InkWell(
+                    onTap: () {
+                      _showSearchableBottomSheet(
+                        title: l10n.selectProduct,
+                        hintText: "Search product...",
+                        items: provider.getProductDropDownItems(provider.brandsAllProductResponse!.listOfAllProducts!),
+                        onSelected: (DropDownItem data) {
                       if (data.id != null) {
                         _productId = int.parse(data.id!);
+                            _selectedProductName = data.label;
                         if (provider.productsColorResponse != null) {
                           provider.resetColors();
                           _showColourListing = false;
                           _colour = null;
+                            }
                           setState(() {});
-                        }
                         _getColoursFromProductId(innerContext, int.parse(data.id!));
                       }
                     },
-                    items: provider.getProductDropDownItems(provider.brandsAllProductResponse!.listOfAllProducts!),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: theme.extension<CustomColors>()?.inputStrokeColor ?? Colors.grey),
+                        borderRadius: BorderRadius.circular(CshRadius.rad4.value),
+                        color: theme.canvasColor,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _selectedProductName ?? l10n.selectProduct,
+                              style: _selectedProductName != null
+                                  ? theme.textTheme.labelSmall
+                                  : theme.textTheme.labelSmall?.copyWith(color: theme.shadowColor),
+                            ),
+                          ),
+                          CshIcon.assets(
+                            packageIcon('ic_down_arrow.png'),
+                            padding: EdgeInsets.zero,
+                            iconSize: MobileIconSize.medium,
+                          ),
+                        ],
+                      ),
+                    ),
                   )
                 ],
                 if (_showColourListing) ...[
@@ -193,6 +258,24 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
     );
   }
 
+  void _showSearchableBottomSheet({
+    required String title,
+    required String hintText,
+    required List<DropDownItem> items,
+    required Function(DropDownItem) onSelected,
+  }) {
+    showCshBottomSheet(
+      context: context,
+      wrapContent: false,
+      child: _SearchableBottomSheetContent(
+        title: title,
+        hintText: hintText,
+        items: items,
+        onSelected: onSelected,
+      ),
+    );
+  }
+
   _getProductsFromBrandId(BuildContext insideContext, int brandId) {
     var provider = BrandsListingProvider.of(insideContext, listen: false);
     CshLoading().showLoading(context);
@@ -237,5 +320,108 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
       CshSnackBar.error(context: context, message: error);
       CshLoading().hideLoading(context);
     });
+  }
+}
+
+class _SearchableBottomSheetContent extends StatefulWidget {
+  final String title;
+  final String hintText;
+  final List<DropDownItem> items;
+  final Function(DropDownItem) onSelected;
+
+  const _SearchableBottomSheetContent({
+    required this.title,
+    required this.hintText,
+    required this.items,
+    required this.onSelected,
+  });
+
+  @override
+  State<_SearchableBottomSheetContent> createState() => _SearchableBottomSheetContentState();
+}
+
+class _SearchableBottomSheetContentState extends State<_SearchableBottomSheetContent> {
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = "";
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final filteredItems = _searchQuery.isEmpty
+        ? widget.items
+        : widget.items.where((item) => (item.label ?? "").toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: bottomInset, top: Dimens.space_12),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.50,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(Dimens.space_16),
+              child: Text(
+                widget.title,
+                style: theme.primaryTextTheme.headlineMedium,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+              child: CshTextFormField(
+                controller: _searchController,
+                hintText: widget.hintText,
+                prefixIcon: CshIcon(FeatherIcons.search, iconSize: MobileIconSize.small),
+                suffixIcon: _searchQuery.isNotEmpty
+                    ? CshIcon(FeatherIcons.x, iconSize: MobileIconSize.small, onClick: () {
+                        _searchController.clear();
+                        setState(() {
+                          _searchQuery = "";
+                        });
+                      })
+                    : null,
+                onChanged: (value) {
+                  setState(() {
+                    _searchQuery = value;
+                  });
+                },
+              ),
+            ),
+            const SizedBox(height: Dimens.space_8),
+            Expanded(
+              child: filteredItems.isEmpty
+                  ? const Center(
+                      child: Text("No results found"),
+                    )
+                  : ListView.builder(
+                      itemCount: filteredItems.length,
+                      itemBuilder: (context, index) {
+                        final item = filteredItems[index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                            widget.onSelected(item);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_12),
+                            child: Text(
+                              item.label ?? "",
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

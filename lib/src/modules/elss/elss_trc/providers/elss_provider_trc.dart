@@ -170,6 +170,21 @@ class ELssProviderTrc extends CshChangeNotifier {
   }
 
   setSelectedOptionKey(int key) {
+    // Clear applicable reasons for the previously selected option before switching
+    if (selectedOptionKey != -1) {
+      int prevIndex = productOptionList.indexWhere((element) {
+        if (element.key != null) {
+          return (element.key! == selectedOptionKey);
+        }
+        return false;
+      });
+      if (prevIndex != -1 && (productOptionList[prevIndex].isApplicableReasonRequired ?? false)) {
+        productOptionList[prevIndex].isRub = false;
+        productOptionList[prevIndex].isPNA = false;
+        productOptionList[prevIndex].isGc = false;
+      }
+    }
+    
     selectedOptionKey = key;
     int index = productOptionList.indexWhere((element) {
       if (element.key != null) {

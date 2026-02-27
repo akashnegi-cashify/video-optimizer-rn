@@ -26,12 +26,14 @@ Map<String, dynamic> _$TlListResponseToJson(TlListResponse instance) =>
     };
 
 TlListData _$TlListDataFromJson(Map<String, dynamic> json) => TlListData(
-      json['key'] as String,
+      (json['id'] as num?)?.toInt(),
       json['value'] as String?,
+      json['key'] as String?,
     );
 
 Map<String, dynamic> _$TlListDataToJson(TlListData instance) =>
     <String, dynamic>{
-      'key': instance.id,
+      'id': instance.id,
       'value': instance.name,
+      'key': instance.employeeCode,
     };

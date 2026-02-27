@@ -38,7 +38,7 @@ AssignDeviceDetailsData _$AssignDeviceDetailsDataFromJson(
       deadRemark: json['deadRemark'] as String?,
       returnCount: (json['returnCount'] as num?)?.toInt(),
       isScrewMediaUploaded: json['skewImageTaken'] as bool?,
-      imei: json['dimei'] as String?,
+      imei: json['deviceImei'] as String?,
       repairReasonList:
           (json['repairReasons'] as List<dynamic>?)?.map((e) => e as String).toList(),
       returnReason: json['returnReason'] as String?,
@@ -63,7 +63,7 @@ Map<String, dynamic> _$AssignDeviceDetailsDataToJson(
       'skewImageTaken': instance.isScrewMediaUploaded,
       'returnReason': instance.returnReason,
       'repairReasons': instance.repairReasonList,
-      'dimei': instance.imei,
+      'deviceImei': instance.imei,
       'serailNo': instance.serialNumber,
       'deviceColor': instance.color,
       'isUrgent': instance.isUrgent,

@@ -20,7 +20,7 @@ class _BrandListWidgetState extends State<BrandListWidget> {
     if (Validator.isNullOrEmpty(_query)) {
       return widget.brandList;
     } else {
-      return widget.brandList.where((element) => element.brandName!.toLowerCase().contains(_query!)).toList();
+      return widget.brandList.where((element) => element.brandName?.toLowerCase().contains(_query!.toLowerCase()) ?? false).toList();
     }
   }
 
