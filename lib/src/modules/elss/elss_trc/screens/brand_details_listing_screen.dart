@@ -70,21 +70,21 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                         hintText: "Search brand...",
                         items: provider.getBrandDropDownItems(provider.brandDetailsData!.brandDataList!),
                         onSelected: (DropDownItem data) {
-                          if (data.id != null) {
-                            _brandId = int.parse(data.id!);
+                      if (data.id != null) {
+                        _brandId = int.parse(data.id!);
                             _selectedBrandName = data.label;
-                            if (provider.productsColorResponse != null || provider.brandsAllProductResponse != null) {
-                              provider.resetProductsColors();
-                              _showColourListing = false;
-                              _showProductsListing = false;
-                              _productId = null;
+                        if (provider.productsColorResponse != null || provider.brandsAllProductResponse != null) {
+                          provider.resetProductsColors();
+                          _showColourListing = false;
+                          _showProductsListing = false;
+                          _productId = null;
                               _selectedProductName = null;
-                              _colour = null;
+                          _colour = null;
                             }
-                            setState(() {});
-                            _getProductsFromBrandId(innerContext, int.parse(data.id!));
-                          }
-                        },
+                          setState(() {});
+                        _getProductsFromBrandId(innerContext, int.parse(data.id!));
+                      }
+                    },
                       );
                     },
                     child: Container(
@@ -129,18 +129,18 @@ class _BrandsDetailsListingScreenState extends State<BrandsDetailsListingScreen>
                         hintText: "Search product...",
                         items: provider.getProductDropDownItems(provider.brandsAllProductResponse!.listOfAllProducts!),
                         onSelected: (DropDownItem data) {
-                          if (data.id != null) {
-                            _productId = int.parse(data.id!);
+                      if (data.id != null) {
+                        _productId = int.parse(data.id!);
                             _selectedProductName = data.label;
-                            if (provider.productsColorResponse != null) {
-                              provider.resetColors();
-                              _showColourListing = false;
-                              _colour = null;
+                        if (provider.productsColorResponse != null) {
+                          provider.resetColors();
+                          _showColourListing = false;
+                          _colour = null;
                             }
-                            setState(() {});
-                            _getColoursFromProductId(innerContext, int.parse(data.id!));
-                          }
-                        },
+                          setState(() {});
+                        _getColoursFromProductId(innerContext, int.parse(data.id!));
+                      }
+                    },
                       );
                     },
                     child: Container(

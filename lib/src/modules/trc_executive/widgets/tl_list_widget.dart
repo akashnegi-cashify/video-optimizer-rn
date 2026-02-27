@@ -57,7 +57,7 @@ class _TlListWidgetState extends State<TlListWidget> {
     final q = _searchQuery.trim().toLowerCase();
     return _allList.where((e) {
       return (e.name?.toLowerCase().contains(q) ?? false) ||
-          (e.id?.toLowerCase().contains(q) ?? false);
+          (e.id?.toString().toLowerCase().contains(q) ?? false);
     }).toList();
   }
 
@@ -106,7 +106,7 @@ class _TlListWidgetState extends State<TlListWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                CshTextNew.subTitle1(item.id ?? ""),
+                                CshTextNew.subTitle1(item.id?.toString() ?? ""),
                                 const SizedBox(height: Dimens.space_4),
                                 CshTextNew.subTitle1(item.name ?? ""),
                               ],
