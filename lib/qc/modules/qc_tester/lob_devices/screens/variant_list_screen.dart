@@ -39,7 +39,7 @@ class _VariantListScreenState extends State<VariantListScreen> {
           filterGroup: FilterGroupType.multipleTypeSearch,
         ),
       ],
-      preSelectedFilters: [
+      initialFilter: [
         AdminFilterList(
           type: 'pdid',
           field: 'pdid',
