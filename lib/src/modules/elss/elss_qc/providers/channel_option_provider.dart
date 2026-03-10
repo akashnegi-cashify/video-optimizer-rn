@@ -56,7 +56,7 @@ class ChannelOptionProvider extends CshChangeNotifier {
     if (dataList.isNotEmpty) {
       for (var element in dataList) {
         if (element.isPnaSelected == true) {
-          pnaMarkedMap.add({"sku": element.sku, "pn": element.partName, "pcl": element.partColour});
+          pnaMarkedMap.add({"sku": element.sku, "partName": element.partName, "partColor": element.partColour});
         }
       }
     }
@@ -99,7 +99,7 @@ class ChannelOptionProvider extends CshChangeNotifier {
     for (var element in dataList) {
       listDataMap.add({
         "sku": element.sku,
-        "pn": element.partName,
+        "partName": element.partName,
       });
     }
     return listDataMap;

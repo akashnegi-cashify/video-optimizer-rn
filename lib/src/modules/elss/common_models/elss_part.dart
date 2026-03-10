@@ -6,17 +6,17 @@ part 'elss_part.g.dart';
 class ElssPart {
   @JsonKey(name: "sku")
   String? sku;
-  @JsonKey(name: "pn")
+  @JsonKey(name: "partName")
   String? partName;
-  @JsonKey(name: "ac")
+  @JsonKey(name: "action")
   String? action;
-  @JsonKey(name: "acc")
+  @JsonKey(name: "actionCode")
   int? actionConstant;
   @JsonKey(name: "isManualAdded")
   bool? isManualAdded;
-  @JsonKey(name: "pc")
+  @JsonKey(name: "partCount")
   int? partCount;
-  @JsonKey(name: "pcl")
+  @JsonKey(name: "partColor")
   String? partColour;
   @JsonKey(name: "isPnaSelected")
   bool? isPnaSelected;
@@ -28,17 +28,17 @@ class ElssPart {
   List<String>? partsImageList;
   @JsonKey(includeFromJson: false, includeToJson: false)
   int? elssPartId;
-  @JsonKey(name: "qt")
+  @JsonKey(name: "quantity")
   int? quantity;
   @JsonKey(name: "_v")
   int? version;
-  @JsonKey(name: "cc")
+  @JsonKey(name: "categoryCode")
   String? categoryCode;
 
-  @JsonKey(name: "pr")
+  @JsonKey(name: "price")
   double? price;
 
-  @JsonKey(name: "pvn")
+  @JsonKey(name: "partVariantName")
   String? partVariantName;
 
   ElssPart({

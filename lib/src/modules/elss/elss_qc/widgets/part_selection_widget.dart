@@ -101,7 +101,21 @@ class PartSelectionWidget extends StatelessWidget {
                     },
                   ),
                 ] else
-                  const SizedBox(height: Dimens.space_20),
+                  Padding(
+                    padding: const EdgeInsets.all(Dimens.space_16),
+                    child: CshCard(
+                      radius: CshRadius.rad4,
+                      elevation: CardElevation.dimen_10,
+                      padding: const EdgeInsets.symmetric(vertical: Dimens.space_32, horizontal: Dimens.space_16),
+                      child: Center(
+                        child: Text(
+                          l10n.noPartsFound,
+                          style: theme.primaryTextTheme.displaySmall,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -179,7 +193,7 @@ class PartSelectionWidget extends StatelessWidget {
         );
       }
     }, onError: (error) {
-      CshSnackBar.error(context: context, message: error);
+      CshSnackBar.error(context: context, message: error.toString());
       CshLoading().hideLoading(context);
     });
   }
