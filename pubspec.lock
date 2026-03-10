@@ -353,11 +353,11 @@ packages:
     dependency: "direct main"
     description:
       path: components
-      ref: "v2.3.0"
-      resolved-ref: e9f6ee04fd8b02b04cf336e51ef3d336fdab37d0
+      ref: mfa
+      resolved-ref: c0e647b2a0ba8a9831d0991f4005d9a97f851f24
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
-    version: "2.2.4"
+    version: "2.3.2"
   connectivity_plus:
     dependency: "direct main"
     description:

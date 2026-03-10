@@ -216,7 +216,7 @@ dependency_overrides:
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.3.0
+      ref: mfa
       path: components
 
   core_widgets:
