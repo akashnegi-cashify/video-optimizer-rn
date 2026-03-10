@@ -12,10 +12,16 @@ enum RubbingOrGlassChangeEnum {
     if (id == null) {
       return RubbingOrGlassChangeEnum.notRequired;
     }
-    return RubbingOrGlassChangeEnum.values.firstWhere((element) => element.id == id);
+    return RubbingOrGlassChangeEnum.values.firstWhere(
+      (element) => element.id == id,
+      orElse: () => RubbingOrGlassChangeEnum.notRequired, // Default to "Not Required" if value not found
+    );
   }
 
   static RubbingOrGlassChangeEnum findByLabel(String label) {
-    return RubbingOrGlassChangeEnum.values.firstWhere((element) => element.label.toLowerCase() == label.toLowerCase());
+    return RubbingOrGlassChangeEnum.values.firstWhere(
+      (element) => element.label.toLowerCase() == label.toLowerCase(),
+      orElse: () => RubbingOrGlassChangeEnum.notRequired, // Default to "Not Required" if label not found
+    );
   }
 }

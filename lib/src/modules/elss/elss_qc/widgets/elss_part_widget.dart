@@ -33,9 +33,15 @@ class _ElssPartWidgetState extends State<ElssPartWidget> {
 
   @override
   void initState() {
-    _selectedOption = _selectionOptionsList
-        .firstWhere((element) => element.id == widget.dataModel?.actionConstant.toString());
     super.initState();
+    if (widget.dataModel?.actionConstant != null) {
+      _selectedOption = _selectionOptionsList.firstWhere(
+        (element) => element.id == widget.dataModel!.actionConstant.toString(),
+        orElse: () => _selectionOptionsList.first, // Default to first option if value not found
+      );
+    } else {
+      _selectedOption = _selectionOptionsList.first; // Default to first option if actionConstant is null
+    }
   }
 
   @override

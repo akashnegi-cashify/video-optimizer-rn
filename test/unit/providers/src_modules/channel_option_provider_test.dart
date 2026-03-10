@@ -110,7 +110,7 @@ void main() {
         expect(result, isEmpty);
       });
 
-      test('should return list of maps with sku and pn', () {
+      test('should return list of maps with sku and partName', () {
         final parts = [
           ElssPart(sku: 'SKU001', partName: 'Part 1'),
           ElssPart(sku: 'SKU002', partName: 'Part 2'),
@@ -118,7 +118,7 @@ void main() {
         final result = provider.getPostDataMapForElssOptionData(parts);
         expect(result.length, 2);
         expect(result[0]['sku'], 'SKU001');
-        expect(result[0]['pn'], 'Part 1');
+        expect(result[0]['partName'], 'Part 1');
       });
     });
 
