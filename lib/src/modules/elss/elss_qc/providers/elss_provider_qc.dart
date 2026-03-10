@@ -43,7 +43,10 @@ class ELssProviderQc extends CshChangeNotifier {
         elssDeviceDetails = event;
         if (event.deviceDetailsData?.rubbingOrGlassChange != null) {
           _selectedRubbingOrGlassChangeValue = _rubbingOrGlassChangeDropdown
-              .firstWhere((element) => element.id == event.deviceDetailsData!.rubbingOrGlassChange!.toString());
+              .firstWhere(
+                (element) => element.id == event.deviceDetailsData!.rubbingOrGlassChange!.toString(),
+                orElse: () => _rubbingOrGlassChangeDropdown.last, // Default to "Not Required" if value not found
+              );
         }
         if (!Validator.isListNullOrEmpty(event.deviceDetailsData?.repairPartList)) {
           int k = 0;
@@ -105,10 +108,10 @@ class ELssProviderQc extends CshChangeNotifier {
       rprlList = List.generate(elssPartList.length, (index) {
         return {
           "sku": elssPartList[index].sku,
-          "pn": elssPartList[index].partName,
-          "pcl": elssPartList[index].partColour,
-          "acc": elssPartList[index].actionConstant,
-          "cc": elssPartList[index].categoryCode,
+          "partName": elssPartList[index].partName,
+          "partColor": elssPartList[index].partColour,
+          "actionCode": elssPartList[index].actionConstant,
+          "categoryCode": elssPartList[index].categoryCode,
         };
       });
     }
@@ -125,13 +128,17 @@ class ELssProviderQc extends CshChangeNotifier {
     try {
       ElssService.submitPartsForLogic(bodyData).listen((event) {
         if (event != null) {
-          completer.complete(event.data?.optionsAllowed);
+          completer.complete(event.data?.optionsAllowed ?? false);
         } else {
           completer.completeError("Something Went Wrong");
         }
       }, onError: (error) {
-        String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
-        completer.completeError(errorMessage);
+        try {
+          String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? "Something Went Wrong!!";
+          completer.completeError(errorMessage);
+        } catch (e) {
+          completer.completeError("Something Went Wrong!!");
+        }
       }, onDone: () {
         notifyListeners();
       });
