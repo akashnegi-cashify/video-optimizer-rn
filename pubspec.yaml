@@ -222,7 +222,7 @@ dependency_overrides:
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.3.0
+      ref: mfa
       path: core_widgets
 
   calculator_ui:
