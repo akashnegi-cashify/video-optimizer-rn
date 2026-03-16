@@ -33,6 +33,8 @@ class DevicePart {
   String? partVariantName;
   @JsonKey(name:"rpd")
   Map<String, dynamic>? retrievedPartData;
+  @JsonKey(name: "price")
+  double? price;
 
 
   static DevicePart fromJson(Map<String, dynamic> data) => _$DevicePartFromJson(data);

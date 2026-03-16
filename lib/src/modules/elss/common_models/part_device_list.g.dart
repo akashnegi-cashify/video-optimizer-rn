@@ -33,6 +33,7 @@ PartItemDataResponse _$PartItemDataResponseFromJson(
       errorMessage: json['emsg'] as String?,
       categoryCode: json['cc'] as String?,
       productVariantName: json['pvn'] as String?,
+      price: (json['price'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$PartItemDataResponseToJson(
@@ -45,4 +46,5 @@ Map<String, dynamic> _$PartItemDataResponseToJson(
       'qty': instance.partQuantity,
       'emsg': instance.errorMessage,
       'cc': instance.categoryCode,
+      'price': instance.price,
     };

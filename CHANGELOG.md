@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v6.0.1+84 (XX-11-2025)
+
+### Feature:
+
+* `TRC - Approval Part Mechanism` [(SCM-12880)](https://reglobe.atlassian.net/browse/SCM-12880)
+
+
 # v6.0.0+83 (XX-11-2025)
 
 ### Migration:

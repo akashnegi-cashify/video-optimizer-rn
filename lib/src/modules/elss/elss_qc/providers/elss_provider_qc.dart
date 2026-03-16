@@ -92,6 +92,7 @@ class ELssProviderQc extends CshChangeNotifier {
         categoryCode: element.categoryCode,
         // mark default value is required for manually added parts
         actionConstant: ElssPartsSelectionOptions.optimizationRequired.id,
+        price: element.price,
       );
       data.elssPartId = elssPartList.length;
 
@@ -112,6 +113,7 @@ class ELssProviderQc extends CshChangeNotifier {
           "partColor": elssPartList[index].partColour,
           "actionCode": elssPartList[index].actionConstant,
           "categoryCode": elssPartList[index].categoryCode,
+          if (elssPartList[index].price != null) "price": elssPartList[index].price,
         };
       });
     }

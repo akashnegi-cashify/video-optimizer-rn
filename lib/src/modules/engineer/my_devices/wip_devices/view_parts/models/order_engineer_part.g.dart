@@ -27,6 +27,7 @@ OrderEngineerPart _$OrderEngineerPartFromJson(Map<String, dynamic> json) =>
       ..categoryCode = json['cc'] as String?
       ..partVariantName = json['pvn'] as String?
       ..retrievedPartData = json['rpd'] as Map<String, dynamic>?
+      ..price = (json['price'] as num?)?.toDouble()
       ..status = json['st'] as String?
       ..statusCode = (json['stc'] as num?)?.toInt()
       ..retrievedImageCount = (json['rvc'] as num?)?.toInt()
@@ -53,6 +54,7 @@ Map<String, dynamic> _$OrderEngineerPartToJson(OrderEngineerPart instance) =>
       'cc': instance.categoryCode,
       'pvn': instance.partVariantName,
       'rpd': instance.retrievedPartData,
+      'price': instance.price,
       'st': instance.status,
       'stc': instance.statusCode,
       'rvc': instance.retrievedImageCount,

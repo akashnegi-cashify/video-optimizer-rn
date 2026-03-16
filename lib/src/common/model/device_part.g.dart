@@ -22,7 +22,8 @@ DevicePart _$DevicePartFromJson(Map<String, dynamic> json) => DevicePart()
   ..action = json['ac'] as String?
   ..categoryCode = json['cc'] as String?
   ..partVariantName = json['pvn'] as String?
-  ..retrievedPartData = json['rpd'] as Map<String, dynamic>?;
+  ..retrievedPartData = json['rpd'] as Map<String, dynamic>?
+  ..price = (json['price'] as num?)?.toDouble();
 
 Map<String, dynamic> _$DevicePartToJson(DevicePart instance) =>
     <String, dynamic>{
@@ -41,4 +42,5 @@ Map<String, dynamic> _$DevicePartToJson(DevicePart instance) =>
       'cc': instance.categoryCode,
       'pvn': instance.partVariantName,
       'rpd': instance.retrievedPartData,
+      'price': instance.price,
     };
