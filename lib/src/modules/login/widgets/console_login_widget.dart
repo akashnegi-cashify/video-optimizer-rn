@@ -35,9 +35,11 @@ class ConsoleLoginWidget extends StatelessWidget {
           isCompanyNameEditable: true,
           enterMobileNumberSubTitle: l10n.pleaseEnterCredentials,
           mfaBypassClientId: getClientId(),
+          bypassMfa: true,
           // mfaBypassClientId: "sales-rms:epoch",
           versionNumber: "",
-          loginType: loginType == LoginTypes.trcLogin ? LoginType.email : LoginType.mobile,
+          loginType: loginType == LoginTypes.trcLogin || loginType == LoginTypes.qcLogin ? LoginType.email : LoginType.mobile,
+          // loginType: LoginType.email,
           onSubmit: (userAuth, mode, mobileNumber, pin, {required companyKey, credential}) {
             Logger.debug('mydebug-----_RmsLoginWidgetState.build', [
               'userAuth',

@@ -7,6 +7,7 @@
 * `QC Migration` [(SCM-12213)](https://reglobe.atlassian.net/browse/SCM-12213)
 * `TRC Migration` [(SCM-11225)](https://reglobe.atlassian.net/browse/SCM-11225)
 * `Remove isSuccess key from all repsonse object.`
+* `Login with clid for username and password` [(SCM-13018)](https://reglobe.atlassian.net/browse/SCM-13018)
 
 
 # v5.4.0+83 (XX-11-2025)
