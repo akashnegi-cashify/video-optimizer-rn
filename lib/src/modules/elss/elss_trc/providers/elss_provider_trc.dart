@@ -274,15 +274,15 @@ class ELssProviderTrc extends CshChangeNotifier {
         return {
           "isManualAdded": elssPartList[index].isManualAdded,
           "isPnaSelected": elssPartList[index].isPnaSelected,
-          "partColor": elssPartList[index].partColour,
-          "partCount": 1,
-          if (!Validator.isNullOrEmpty(elssPartList[index].action)) "action": elssPartList[index].action,
-          "partName": elssPartList[index].partName,
-          if (!Validator.isNullOrEmpty(elssPartList[index].partVariantName)) "partVariantName": elssPartList[index].partVariantName,
+          "pcl": elssPartList[index].partColour,
+          "pc": 1,
+          if (!Validator.isNullOrEmpty(elssPartList[index].action)) "ac": elssPartList[index].action,
+          "pn": elssPartList[index].partName,
+          if (!Validator.isNullOrEmpty(elssPartList[index].partVariantName)) "pvn": elssPartList[index].partVariantName,
           "sku": elssPartList[index].sku,
           "selectedPos": elssPartList[index].isManualAdded == true ? -1 : 0,
           "_v": 0,
-          "categoryCode": elssPartList[index].categoryCode,
+          "cc": elssPartList[index].categoryCode,
         };
       });
     }
