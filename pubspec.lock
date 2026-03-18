@@ -354,7 +354,7 @@ packages:
     description:
       path: components
       ref: mfa
-      resolved-ref: c0e647b2a0ba8a9831d0991f4005d9a97f851f24
+      resolved-ref: "8c529057cbfdf50e8fb9e5212136ad766bd1a711"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "2.3.2"

@@ -1,6 +1,13 @@
 # TRC Releases
 
-# v6.0.0+83 (XX-11-2025)
+# v6.0.1+84 (18-03-2026)
+
+### Migration:
+
+* `TRC - App Production Improvements` [(SCM-13326)](https://reglobe.atlassian.net/browse/SCM-13326)
+
+
+# v6.0.0+83 (16-03-2026)
 
 ### Migration:
 
