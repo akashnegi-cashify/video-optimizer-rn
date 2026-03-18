@@ -1,12 +1,13 @@
-import 'package:components/components.dart';
-import 'package:components/resources/list/list_request.dart';
+import 'dart:async';
+
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/providers/variant_list_provider.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/resources/variant_list_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/lob_devices/widgets/variant_list_item_widget.dart';
 import 'package:flutter_trc/src/app_builder/app_headers/qc_general_header/widgets/qc_general_header.dart';
-import 'package:flutter_trc/src/services/service_groups.dart';
+import 'package:flutter_trc/src/common/widgets/my_search_bar_widget.dart';
+import 'package:flutter_trc/src/common/widgets/shimmer_list_widget.dart';
 
 class VariantListScreen extends StatefulWidget {
   final Function(VariantListData? variantItem) onVariantSelected;
@@ -23,30 +24,13 @@ class VariantListScreen extends StatefulWidget {
 }
 
 class _VariantListScreenState extends State<VariantListScreen> {
-  final CshListController _listController = CshListController();
-
-  FilterConfig _getFilterConfig(VariantListProvider provider) {
-    return FilterConfig(
-      filterData: [
-        CshFilterData(
-          label: "Search by variant name",
-          field: 'pn',
-          crudFilter: 'pn',
-          filterType: CshFilterType.input,
-          valueType: CshFilterValueType.contains,
-          position: FilterPosition.top,
-          keyboardType: TextInputType.text,
-          filterGroup: FilterGroupType.multipleTypeSearch,
-        ),
-      ],
-      initialFilter: [
-        AdminFilterList(
-          type: 'pdid',
-          field: 'pdid',
-          value: AdminFilterData(search: provider.productId.toString()),
-        ),
-      ],
-    );
+  @override
+  void initState() {
+    super.initState();
+    scheduleMicrotask(() {
+      var provider = VariantListProvider.of(context, listen: false);
+      provider.getVariantList();
+    });
   }
 
   @override
@@ -56,7 +40,6 @@ class _VariantListScreenState extends State<VariantListScreen> {
       appBar: const QcGeneralHeader("Please select variant", showBackBtn: true),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: Dimens.space_16),
           CshCard(
@@ -65,38 +48,38 @@ class _VariantListScreenState extends State<VariantListScreen> {
             child: CshTextNew.h3(provider.seriesName),
           ),
           const SizedBox(height: Dimens.space_16),
-          Expanded(
-            child: CshApiList<VariantListData>(
-              apiConfig: ListApiConfig(
-                apiUrl: "/manual-test/search/variant",
-                serviceGroup: widget.isFromTrc
-                    ? TRCServiceGroups.unifyTrc
-                    : TRCServiceGroups.qcConsole,
-              ),
-              filterConfig: _getFilterConfig(provider),
-              controller: _listController,
-              itemFromJson: VariantListData.fromJson,
-              shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
-              listPadding:
-                  const EdgeInsets.symmetric(horizontal: Dimens.space_16),
-              verticalRowSpacing: Dimens.space_12,
-              isHideCoreFilterButton: true,
-              getRowWidget: (item, index) {
-                final data = item;
-                return VariantListItemWidget(data!, onTap: (item) {
-                  if (Validator.isNullOrEmpty(item.commonName)) {
-                    CshSnackBar.error(
-                        context: context,
-                        message: "Model no. is missing.",
-                        snackBarPosition: SnackBarPosition.TOP);
-                    return;
-                  }
-
-                  widget.onVariantSelected(item);
-                });
-              },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+            child: MySearchBarWidget(
+              hintText: "Search by variant name",
+              onQuery: (query) => provider.setSearchQuery(query),
             ),
           ),
+          const SizedBox(height: Dimens.space_8),
+          if (provider.isShowLoading)
+            const Expanded(child: ShimmerListWidget(itemCount: 4))
+          else
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16),
+                itemCount: provider.variantList?.length ?? 0,
+                itemBuilder: (context, index) {
+                  var item = provider.variantList![index];
+                  return VariantListItemWidget(item, onTap: (item) {
+                    if (Validator.isNullOrEmpty(item.commonName)) {
+                      CshSnackBar.error(
+                        context: context,
+                        message: "Model no. is missing.",
+                        snackBarPosition: SnackBarPosition.TOP,
+                      );
+                      return;
+                    }
+                    widget.onVariantSelected(item);
+                  });
+                },
+                separatorBuilder: (_, __) => const SizedBox(height: Dimens.space_12),
+              ),
+            ),
         ],
       ),
     );
