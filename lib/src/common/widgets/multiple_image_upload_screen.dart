@@ -139,7 +139,8 @@ enum DeviceMediaType {
   markToTl(2),
   screwSealImages(3),
   markFail(5),
-  glassChange(6);
+  glassChange(6),
+  cameraCleaning(7);
 
   final int val;
 

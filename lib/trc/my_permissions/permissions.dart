@@ -13,4 +13,5 @@ class TrcPermissions {
   static Permission rubbing = Permission(module: "trc-console", permissions: ["app_rubbing"]);
   static Permission glassChange = Permission(module: "trc-console", permissions: ["app_glass_change"]);
   static Permission elss = Permission(module: "trc-console", permissions: ["app_elss"]);
+  static Permission cameraCleaning = Permission(module: "trc-console", permissions: ["app_camera_cleaning"]);
 }
