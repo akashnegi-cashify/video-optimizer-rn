@@ -5,13 +5,14 @@ import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/common/user/my_user_details_response.dart';
 import 'package:flutter_trc/src/common/user/user_util.dart';
 import 'package:flutter_trc/src/modules/login/resources/collector_user_controller.dart';
+import 'package:flutter_trc/src/modules/rubbing/resources/rubbing_module_role_type.dart';
 
 import '../modules/login/models/user_details_response.dart';
 
 class UserDetails {
   UserDetailsResponse? _userDetailsData;
   MyUserDetailsResponse? _myUserDetailsResponse;
-  bool _isGlassChangeRole = false;
+  RubbingModuleRoleType _rubbingRoleType = RubbingModuleRoleType.rubbing;
 
   UserDetails._();
 
@@ -67,16 +68,11 @@ class UserDetails {
     return userDetailsData!.listOfRoles!.contains(UserRoles.ROLE_ENGINEER);
   }
 
-  setIsGlassChangeRole(bool isGlassChangeRole) {
-    _isGlassChangeRole = isGlassChangeRole;
+  setRubbingRoleType(RubbingModuleRoleType roleType) {
+    _rubbingRoleType = roleType;
   }
 
-  bool isGlassChangeRole() {
-    return _isGlassChangeRole;
-    // if (Validator.isListNullOrEmpty(userDetailsData?.listOfRoles)) {
-    //   return false;
-    // }
-
-    // return userDetailsData!.listOfRoles!.contains(UserRoles.ROLE_GLASS_CHANGE);
+  RubbingModuleRoleType getRubbingRoleType() {
+    return _rubbingRoleType;
   }
 }

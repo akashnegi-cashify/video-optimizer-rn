@@ -35,12 +35,16 @@ class OptionResponse {
   bool? isPnaApplicable;
   @JsonKey(name: "isGc")
   bool? isGlassChangeApplicable;
+  @JsonKey(name: "isCc")
+  bool? isCameraCleaningApplicable;
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isOptionSelected;
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isApplicableReasonRequired;
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isGc;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  bool? isCc;
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool? isRub;
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -52,7 +56,9 @@ class OptionResponse {
     this.isGlassChangeApplicable,
     this.key,
     this.optionName, {
+    this.isCameraCleaningApplicable = false,
     this.isGc = false,
+    this.isCc = false,
     this.isPNA = false,
     this.isRub = false,
     this.isOptionSelected = false,
@@ -63,6 +69,9 @@ class OptionResponse {
     if (Validator.isTrue(isPnaApplicable) &&
         Validator.isTrue(isGlassChangeApplicable) &&
         Validator.isTrue(isRubbingApplicable)) {
+      return true;
+    }
+    if (Validator.isTrue(isCameraCleaningApplicable)) {
       return true;
     }
     return false;

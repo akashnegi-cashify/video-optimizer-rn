@@ -121,6 +121,10 @@ class ELssProviderQc extends CshChangeNotifier {
     dataMap["rprl"] = rprlList;
     dataMap["dbr"] = scannedBarcode;
     dataMap["rs"] = _selectedRubbingOrGlassChangeValue?.id;
+    // Set isCc flag when camera cleaning is selected
+    if (_selectedRubbingOrGlassChangeValue?.id == RubbingOrGlassChangeEnum.cameraCleaning.id) {
+      dataMap["isCc"] = true;
+    }
     return dataMap;
   }
 

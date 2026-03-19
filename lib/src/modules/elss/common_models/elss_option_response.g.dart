@@ -30,6 +30,7 @@ OptionResponse _$OptionResponseFromJson(Map<String, dynamic> json) =>
       json['isGc'] as bool?,
       (json['k'] as num?)?.toInt(),
       json['v'] as String?,
+      isCameraCleaningApplicable: json['isCc'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$OptionResponseToJson(OptionResponse instance) =>
@@ -39,4 +40,5 @@ Map<String, dynamic> _$OptionResponseToJson(OptionResponse instance) =>
       'isra': instance.isRubbingApplicable,
       'isPna': instance.isPnaApplicable,
       'isGc': instance.isGlassChangeApplicable,
+      'isCc': instance.isCameraCleaningApplicable,
     };

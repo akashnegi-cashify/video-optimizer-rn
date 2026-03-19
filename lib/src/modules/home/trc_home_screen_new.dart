@@ -10,6 +10,7 @@ import 'package:flutter_trc/src/modules/inventory_manager/screens/inventory_home
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
+import 'package:flutter_trc/src/modules/rubbing/resources/rubbing_module_role_type.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/rubbing_home_screen.dart';
 import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
@@ -53,7 +54,7 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Rubbing",
                   onPressed: () {
-                    UserDetails().setIsGlassChangeRole(false);
+                    UserDetails().setRubbingRoleType(RubbingModuleRoleType.rubbing);
                     Navigator.of(context).pushNamed(RubbingHomeScreen.route);
                   },
                 ),
@@ -65,7 +66,19 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Glass Change",
                   onPressed: () {
-                    UserDetails().setIsGlassChangeRole(true);
+                    UserDetails().setRubbingRoleType(RubbingModuleRoleType.glassChange);
+                    Navigator.of(context).pushNamed(RubbingHomeScreen.route);
+                  },
+                ),
+              ),
+              // Camera Cleaning
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.cameraCleaning,
+                padding: EdgeInsets.only(top: Dimens.space_16),
+                child: CshBigButton(
+                  text: "Camera Cleaning",
+                  onPressed: () {
+                    UserDetails().setRubbingRoleType(RubbingModuleRoleType.cameraCleaning);
                     Navigator.of(context).pushNamed(RubbingHomeScreen.route);
                   },
                 ),

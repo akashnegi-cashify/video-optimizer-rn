@@ -64,6 +64,9 @@ class L10n extends BaseL10n {
   String get glassChangeApplicable =>
       Intl.message("Glass Change Applicable", locale: localName, name: "glassChangeApplicable");
 
+  String get cameraCleaningApplicable =>
+      Intl.message("Camera Cleaning Applicable", locale: localName, name: "cameraCleaningApplicable");
+
   String get swipeDownToClose => Intl.message("Swipe down to close", locale: localName, name: "swipeDownToClose");
 
   String get imageUploadedSuccessfully =>

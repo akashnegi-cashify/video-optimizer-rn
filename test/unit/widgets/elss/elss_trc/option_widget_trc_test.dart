@@ -44,7 +44,7 @@ void main() {
               onGroupValueChanged: (value) {
                 lastGroupValueChanged = value;
               },
-              onApplicableReasonCallback: (key, isGcs, isPna, isRub) {
+              onApplicableReasonCallback: (key, isGcs, isPna, isRub, {bool isCc = false}) {
                 lastApplicableKey = key;
                 lastIsGcs = isGcs;
                 lastIsPna = isPna;

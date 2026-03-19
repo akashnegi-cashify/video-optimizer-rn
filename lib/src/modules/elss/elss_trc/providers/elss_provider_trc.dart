@@ -35,7 +35,7 @@ class ELssProviderTrc extends CshChangeNotifier {
   List<ElssPart> manualAddedPartsList = [];
   int selectedOptionKey = -1;
   String submitButtonName = "Select Option";
-  bool isGc = false, isPna = false, isra = false;
+  bool isGc = false, isPna = false, isra = false, isCc = false;
   UploadFaultImagesResponse? uploadFaultImagesResponse;
   String apiErrorMessage = "";
   ElssPartSubmitResponse? elssPartSubmitResponse;
@@ -183,9 +183,10 @@ class ELssProviderTrc extends CshChangeNotifier {
         productOptionList[prevIndex].isRub = false;
         productOptionList[prevIndex].isPNA = false;
         productOptionList[prevIndex].isGc = false;
+        productOptionList[prevIndex].isCc = false;
       }
     }
-    
+
     selectedOptionKey = key;
     int index = productOptionList.indexWhere((element) {
       if (element.key != null) {
@@ -208,12 +209,13 @@ class ELssProviderTrc extends CshChangeNotifier {
         element.isRub = false;
         element.isPNA = false;
         element.isGc = false;
+        element.isCc = false;
       }
     }
     notifyListeners();
   }
 
-  setApplicableReasonsToOptions(int key, {bool? isGca, bool? isPnaa, bool? isRuba}) {
+  setApplicableReasonsToOptions(int key, {bool? isGca, bool? isPnaa, bool? isRuba, bool? isCca}) {
     int index = productOptionList.indexWhere((element) {
       if (element.key != null) {
         return element.key! == key;
@@ -224,6 +226,7 @@ class ELssProviderTrc extends CshChangeNotifier {
       productOptionList[index].isPNA = isPnaa;
       productOptionList[index].isRub = isRuba;
       productOptionList[index].isGc = isGca;
+      productOptionList[index].isCc = isCca;
     }
     notifyListeners();
   }
@@ -256,9 +259,11 @@ class ELssProviderTrc extends CshChangeNotifier {
           isGc = productOptionList[index].isGc ?? false;
           isPna = productOptionList[index].isPNA ?? false;
           isra = productOptionList[index].isRub ?? false;
+          isCc = productOptionList[index].isCc ?? false;
           dataMap["isGc"] = isGc;
           dataMap["isPna"] = isPna;
           dataMap["isra"] = isra;
+          dataMap["isCc"] = isCc;
         }
       }
       ElssOption? option = ElssOption.getEnumFromValue(selectedOptionKey);
