@@ -199,6 +199,7 @@ class TrcComponentRegistry {
 
       case TrcAuditComponent.COMP_KEY:
         return TrcAuditComponent(jsonConfig);
+
       default:
         return null;
     }

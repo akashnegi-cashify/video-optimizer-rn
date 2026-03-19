@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../common_models/elss_option_response.dart';
 import '../l10n.dart';
 
-enum SelectionType { rubbingApplicable, pnaApplicable, glassChangeApplicable }
+enum SelectionType { rubbingApplicable, pnaApplicable, glassChangeApplicable, cameraCleaningApplicable }
 
 class PartSelectionOptionWidget extends StatefulWidget {
   final OptionResponse dataModel;
@@ -12,7 +12,7 @@ class PartSelectionOptionWidget extends StatefulWidget {
   final int groupValueKey;
   final Function(int) onGroupValueChanged;
 
-  final Function(int, bool, bool, bool) onApplicableReasonCallback;
+  final Function(int, bool, bool, bool, {bool isCc}) onApplicableReasonCallback;
 
   const PartSelectionOptionWidget({
     Key? key,
@@ -76,7 +76,7 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                       _selectedValue = null;
                     });
                     // Clear applicable reasons in provider
-                    widget.onApplicableReasonCallback(widget.keyValue, false, false, false);
+                    widget.onApplicableReasonCallback(widget.keyValue, false, false, false, isCc: false);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Dimens.space_8, vertical: Dimens.space_4),
@@ -104,7 +104,7 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                     title: Text(l10n.rubbingApplicable, style: theme.primaryTextTheme.headlineSmall),
                     onChanged: (data) {
                       setValue(data);
-                      widget.onApplicableReasonCallback(widget.keyValue, false, false, true);
+                      widget.onApplicableReasonCallback(widget.keyValue, false, false, true, isCc: false);
                     },
                   ),
                   CshRadio(
@@ -113,7 +113,7 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                     value: SelectionType.pnaApplicable,
                     onChanged: (data) {
                       setValue(data);
-                      widget.onApplicableReasonCallback(widget.keyValue, false, true, false);
+                      widget.onApplicableReasonCallback(widget.keyValue, false, true, false, isCc: false);
                     },
                   ),
                   CshRadio(
@@ -122,9 +122,19 @@ class _PartSelectionOptionWidgetState extends State<PartSelectionOptionWidget> {
                     title: Text(l10n.glassChangeApplicable, style: theme.primaryTextTheme.headlineSmall),
                     onChanged: (data) {
                       setValue(data);
-                      widget.onApplicableReasonCallback(widget.keyValue, true, false, false);
+                      widget.onApplicableReasonCallback(widget.keyValue, true, false, false, isCc: false);
                     },
                   ),
+                  if (widget.dataModel.isCameraCleaningApplicable == true)
+                    CshRadio(
+                      groupValue: _selectedValue,
+                      value: SelectionType.cameraCleaningApplicable,
+                      title: Text(l10n.cameraCleaningApplicable, style: theme.primaryTextTheme.headlineSmall),
+                      onChanged: (data) {
+                        setValue(data);
+                        widget.onApplicableReasonCallback(widget.keyValue, false, false, false, isCc: true);
+                      },
+                    ),
                 ],
               ),
             )

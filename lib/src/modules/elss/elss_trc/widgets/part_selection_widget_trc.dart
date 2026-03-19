@@ -230,9 +230,9 @@ class _PartSelectionWidgetTrcState extends State<PartSelectionWidgetTrc> {
                             provider.setSelectedOptionKey(data);
                             setState(() {});
                           },
-                          onApplicableReasonCallback: (int keyValue, bool isGcs, bool isPna, bool isRub) {
+                          onApplicableReasonCallback: (int keyValue, bool isGcs, bool isPna, bool isRub, {bool isCc = false}) {
                             provider.setApplicableReasonsToOptions(keyValue,
-                                isGca: isGcs, isPnaa: isPna, isRuba: isRub);
+                                isGca: isGcs, isPnaa: isPna, isRuba: isRub, isCca: isCc);
                             setState(() {});
                           },
                           groupValueKey: provider.selectedOptionKey,

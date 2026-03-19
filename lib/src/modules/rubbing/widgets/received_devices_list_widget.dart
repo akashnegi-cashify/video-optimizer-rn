@@ -11,6 +11,7 @@ import 'package:flutter_trc/src/modules/rubbing/l10n.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/glass_change_fail_reason_response.dart';
 import 'package:flutter_trc/src/modules/rubbing/model/rubbing_device_data.dart';
 import 'package:flutter_trc/src/modules/rubbing/providers/received_devices_provider.dart';
+import 'package:flutter_trc/src/modules/rubbing/resources/rubbing_module_role_type.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:provider/provider.dart';
@@ -71,8 +72,12 @@ class _ReceivedDevicesListWidgetState extends State<ReceivedDevicesListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final isGlassChange = UserDetails().isGlassChangeRole();
-    final apiUrl = isGlassChange ? "/glass-change/device/list" : "/rubbing/list";
+    final roleType = UserDetails().getRubbingRoleType();
+    final apiUrl = switch (roleType) {
+      RubbingModuleRoleType.rubbing => "/rubbing/list",
+      RubbingModuleRoleType.glassChange => "/glass-change/device/list",
+      RubbingModuleRoleType.cameraCleaning => "/camera-cleaning/device/list",
+    };
     var l10n = L10n(context);
     _filterConfig = _getFilterConfig(context);
     var provider = Provider.of<ReceivedDevicesProvider>(context);
@@ -150,21 +155,7 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
                   ? null
                   : () => markRubbing(provider, l10n, context, false),
               secondBtnClick: rubbingDeviceData.deviceBarcode != null
-                  ? () {
-                      if (Validator.isTrue(provider.isGlassChangeRole)) {
-                        CshMlScannerUtil().openScanner(
-                          context,
-                          header: "Scan part barcode",
-                          hintText: "Scan part barcode",
-                          onScanned: (scannedData, controller) {
-                            Navigator.pop(context); // close scanner
-                            markRubbing(provider, l10n, context, true, partBarcode: scannedData);
-                          },
-                        );
-                      } else {
-                        markRubbing(provider, l10n, context, true);
-                      }
-                    }
+                  ? () => markRubbing(provider, l10n, context, true)
                   : null,
             ),
           ],
@@ -175,7 +166,7 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
 
   void markRubbing(ReceivedDevicesProvider provider, L10n l10n, BuildContext context, bool isDone,
       {String? partBarcode}) {
-    if (provider.isGlassChangeRole) {
+    if (provider.roleType != RubbingModuleRoleType.rubbing) {
       if (isDone) {
         _performRubbingApiCall(
           provider: provider,
@@ -183,7 +174,7 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
           context: context,
           isDone: isDone,
           partBarcode: partBarcode,
-          captureImage: true,
+          captureImage: provider.roleType != RubbingModuleRoleType.cameraCleaning,
         );
       } else {
         if (Validator.isListNullOrEmpty(provider.glassChangeFailReasonList)) {
@@ -231,7 +222,11 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
     provider.markRubbing(rubbingDeviceData.deviceBarcode!, isDone, partBarcode, selectedReason).then((res) {
       CshLoading().hideLoading(context);
       if (captureImage) {
-        _captureImage(context, rubbingDeviceData.deviceBarcode!, isImageMarkingRequired: !isDone, onComplete: () {
+        final mediaType = provider.roleType == RubbingModuleRoleType.cameraCleaning
+            ? DeviceMediaType.cameraCleaning
+            : DeviceMediaType.glassChange;
+        _captureImage(context, rubbingDeviceData.deviceBarcode!, mediaType,
+            isImageMarkingRequired: !isDone, onComplete: () {
           showSuccessMessage(res?.successMsg ?? "", context);
           onRubbingAction();
         });
@@ -246,13 +241,13 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
     });
   }
 
-  _captureImage(BuildContext context, String deviceBarcode,
+  _captureImage(BuildContext context, String deviceBarcode, DeviceMediaType mediaType,
       {bool isImageMarkingRequired = false, VoidCallback? onComplete}) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => MultipleImageUploadScreen(
-          DeviceMediaType.glassChange,
+          mediaType,
           deviceBarcode,
           isImageMarkingRequired: isImageMarkingRequired,
           callStatusUpdateApi: () {
@@ -273,7 +268,7 @@ class _ItemReceivedDevicesWidget extends StatelessWidget {
     String? selectedReason;
     showCshBottomSheet(
       context: context,
-      isDismissible: false,
+      isDismissible: true,
       child: StatefulBuilder(builder: (_, setState) {
         return Container(
           padding: EdgeInsets.all(Dimens.space_16),

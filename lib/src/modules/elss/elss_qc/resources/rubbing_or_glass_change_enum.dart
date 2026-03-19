@@ -1,6 +1,7 @@
 enum RubbingOrGlassChangeEnum {
   rubbing(1, "Rubbing Required"),
   glassChange(2, "Glass Change Required"),
+  cameraCleaning(3, "Camera Cleaning Required"),
   notRequired(0, "Not Required");
 
   final int id;
