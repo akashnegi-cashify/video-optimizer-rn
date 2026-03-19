@@ -5,6 +5,7 @@
 ### Feature:
 
 * `TRC - Approval Part Mechanism` [(SCM-12880)](https://reglobe.atlassian.net/browse/SCM-12880)
+* `TRC - Camera glass clean flow` [(SCM-11882)](https://reglobe.atlassian.net/browse/SCM-11882)
 
 
 # v6.0.1+84 (18-03-2026)
