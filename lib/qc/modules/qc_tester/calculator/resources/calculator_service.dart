@@ -156,6 +156,16 @@ abstract class CalculatorService {
     return service.post("/device/mismatch/report/save", BaseActionResponse.fromJson, body: jsonEncode(req));
   }
 
+  Stream<VariantListResponse?> getVariantList(int productId) {
+    var pagination = Uri.encodeFull(jsonEncode({"pageSize": 1000, "page": 0}));
+    var filter = Uri.encodeFull(jsonEncode([
+      {"type": "EQUALITY", "field": "pdid", "value": {"search": productId.toString()}}
+    ]));
+    var scm = Uri.encodeFull(jsonEncode(true));
+    var url = "/manual-test/search/variant?pagination=$pagination&filter=$filter&scm=$scm";
+    return service.get(url, VariantListResponse.fromJson);
+  }
+
   Stream<BrandListResponse?> getBrandList(int? categoryId) {
     return service.get("/manual-test/brand/list/$categoryId", BrandListResponse.fromJson);
   }

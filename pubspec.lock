@@ -354,7 +354,7 @@ packages:
     description:
       path: components
       ref: mfa
-      resolved-ref: c0e647b2a0ba8a9831d0991f4005d9a97f851f24
+      resolved-ref: "8c529057cbfdf50e8fb9e5212136ad766bd1a711"
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "2.3.2"
@@ -1432,10 +1432,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394"
+      sha256: e3641ec5d63ebf0d9b41bd43201a66e3fc79a65db5f61fc181f04cd27aab950c
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.0"
+    version: "1.16.0"
   mime:
     dependency: transitive
     description:
@@ -2030,10 +2030,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: ab2726c1a94d3176a45960b6234466ec367179b87dd74f1611adb1f3b5fb9d55
+      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.7"
+    version: "0.7.6"
   text_recognizer:
     dependency: transitive
     description:
