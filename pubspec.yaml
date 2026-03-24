@@ -51,31 +51,31 @@ dependencies:
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.3.0
+      ref: main
       path: components
 
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.3.0
+      ref: main
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.3.0
+      ref: main
       path: calculator_ui
 
   ml_barcode_scanner:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.3.0
+      ref: main
       path: ml_barcode_scanner
 
   imei_serial_reader:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.3.0
+      ref: main
       path: imei_serial_reader
 
   builder_component:
@@ -216,7 +216,7 @@ dependency_overrides:
   components:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: mfa
+      ref: main
       path: components
 #  components:
 #    path: ../flutter_admin_ui/components
@@ -224,13 +224,13 @@ dependency_overrides:
   core_widgets:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: mfa
+      ref: main
       path: core_widgets
 
   calculator_ui:
     git:
       url: https://github.com/reglobe/flutter_admin_ui.git
-      ref: v2.3.0
+      ref: main
       path: calculator_ui
 #  ml_barcode_scanner:
 #    path: ../flutter_admin_ui/ml_barcode_scanner
