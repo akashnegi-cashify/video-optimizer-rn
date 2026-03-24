@@ -1,5 +1,13 @@
 # TRC Releases
 
+# v6.0.2+85 (XX-03-2026)
+
+### Feature:
+
+* `QC - Calculator for Pixel lab` [(SCM-13396)](https://reglobe.atlassian.net/browse/SCM-13396)
+* `TRC - Filter fixes for inventory and rider` [(SCM-13465)](https://reglobe.atlassian.net/browse/SCM-13465)
+
+
 # v6.0.1+84 (18-03-2026)
 
 ### Migration:

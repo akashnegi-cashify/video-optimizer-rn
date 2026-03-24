@@ -54,6 +54,7 @@ import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_
 import 'modules/qc_tester/disputed_image_capture/screens/disputed_image_capture_screen.dart';
 import 'modules/qc_tester/lob_devices/screens/product_list_screen.dart';
 import 'modules/stock_in_module/screens/index.dart';
+import 'modules/pixel_testing/screens/pixel_testing_screen.dart';
 import 'modules/store_out/screens/index.dart';
 
 class QcRoutes {
@@ -120,6 +121,7 @@ class QcRoutes {
       D2cVideoHomeScreen.route: (_) => const D2cVideoHomeScreen(),
       D2cLotListingScreen.route: (_) => const D2cLotListingScreen(),
       D2cLotDeviceListingScreen.route: (_) => const D2cLotDeviceListingScreen(),
+      PixelTestingScreen.route: (_) => const PixelTestingScreen(),
     };
   }
 }

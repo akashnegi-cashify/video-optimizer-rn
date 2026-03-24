@@ -1447,6 +1447,17 @@
       ]
     },
     {
+      "pageId": 10056,
+      "pageKey": "QC_pixel_testing_screen",
+      "dt": [
+        {
+          "id": 10142,
+          "key": "QC_pixel_testing_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 20001,
       "pageKey": "shipex_home_screen",
       "dt": [
@@ -3535,6 +3546,17 @@
           "ht": "Pending Video Lot",
           "sbb": true,
           "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 10142,
+      "locale": "en",
+      "key": "QC_pixel_testing_component",
+      "configJson": {
+        "colSpan": 12,
+        "config": {
+          "none": "None"
         }
       }
     },

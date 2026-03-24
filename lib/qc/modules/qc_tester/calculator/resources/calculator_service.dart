@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:calculator/calculator.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/calculator_submit_response.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/resources/device_colors_response.dart';
@@ -57,6 +58,19 @@ abstract class CalculatorService {
   Stream<MyCalculatorResponse?> getCalculator(String? deviceBarcode, String? pQuote, int? productId) {
     Map<String, dynamic> req = {"qrCode": deviceBarcode, "sessionId": pQuote, "productId": productId};
     return service.post("/v1/cdp/cal", MyCalculatorResponse.fromJson, body: jsonEncode(req));
+  }
+
+  Stream<MyCalculatorResponse?> getPixelCalculator(String? deviceBarcode) {
+    return service.get("/calculator-test/calculator/render/$deviceBarcode", MyCalculatorResponse.fromJson);
+  }
+
+  Stream<CalculatorSubmitResponse?> submitPixelCalculatorResponse(
+      QuoteRequestData? quoteRequest, String? deviceBarcode) {
+    return service.post(
+      "/calculator-test/calculator/submit/$deviceBarcode",
+      CalculatorSubmitResponse.fromJson,
+      body: jsonEncode(quoteRequest?.toJson()),
+    );
   }
 
   Stream<DeviceColorResponse?> getDeviceColors(int? productId) {
@@ -159,7 +173,11 @@ abstract class CalculatorService {
   Stream<VariantListResponse?> getVariantList(int productId) {
     var pagination = Uri.encodeFull(jsonEncode({"pageSize": 1000, "page": 0}));
     var filter = Uri.encodeFull(jsonEncode([
-      {"type": "EQUALITY", "field": "pdid", "value": {"search": productId.toString()}}
+      {
+        "type": "EQUALITY",
+        "field": "pdid",
+        "value": {"search": productId.toString()}
+      }
     ]));
     var scm = Uri.encodeFull(jsonEncode(true));
     var url = "/manual-test/search/variant?pagination=$pagination&filter=$filter&scm=$scm";

@@ -18,9 +18,12 @@ class InventoryPendingDeliveryWidget extends StatefulWidget {
 
 class InventoryPendingDeliveryWidgetState extends State<InventoryPendingDeliveryWidget> {
   final CshListController _listController = CshListController();
+  var _listRefreshCounter = 0;
 
   void refreshList() {
-    _listController.refresh();
+    setState(() {
+      _listRefreshCounter++;
+    });
   }
 
   FilterConfig _getFilterConfig(InventoryHomeProvider provider) {
@@ -43,6 +46,7 @@ class InventoryPendingDeliveryWidgetState extends State<InventoryPendingDelivery
       children: [
         Expanded(
           child: CshApiList<EngineerDataResponse>(
+            key: ObjectKey(_listRefreshCounter),
             apiConfig: ListApiConfig(
               apiUrl: "/inventory/assignment-pending/engineer/list",
               serviceGroup: TRCServiceGroups.unifyTrc,

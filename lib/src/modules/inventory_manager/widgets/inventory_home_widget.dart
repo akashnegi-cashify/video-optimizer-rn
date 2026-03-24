@@ -129,8 +129,12 @@ class _InventoryHomeWidgetState extends State<InventoryHomeWidget> with SingleTi
                           Navigator.of(context).pop();
                           provider.allowPendingListToShow(true);
                           if (fromListSection) {
-                            // Refresh the pending delivery list
-                            _inventoryPendingWidgetKey.currentState?.refreshList();
+                            // Refresh only the currently visible tab
+                            if (_tabBarController.index == 0) {
+                              _inventoryPendingWidgetKey.currentState?.refreshList();
+                            } else {
+                              _inventoryAssignedWidgetKey.currentState?.refreshList();
+                            }
                           }
                         } else {
                           CshSnackBar.error(
