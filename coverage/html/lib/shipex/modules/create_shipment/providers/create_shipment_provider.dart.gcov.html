@@ -32,17 +32,13 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">68</td>
+            <td class="headerCovTableEntry">66</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-02-03 16:56:15</td>
+            <td class="headerValue">2026-03-24 18:52:44</td>
             <td></td>
-            <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryHi">-</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -163,25 +159,20 @@
 <span id="L101"><span class="lineNum">     101</span>              :     try {</span>
 <span id="L102"><span class="lineNum">     102</span> <span class="tlaUNC">           0 :       CreateShipmentService.createShipment(facilityId, selectedBox?.id, groupId, selectedProvider?.key ?? &quot;&quot;).listen(</span></span>
 <span id="L103"><span class="lineNum">     103</span> <span class="tlaUNC">           0 :           (event) {</span></span>
-<span id="L104"><span class="lineNum">     104</span> <span class="tlaUNC">           0 :         if (Validator.isTrue(event?.isSuccess)) {</span></span>
-<span id="L105"><span class="lineNum">     105</span> <span class="tlaUNC">           0 :           completer.complete(true);</span></span>
-<span id="L106"><span class="lineNum">     106</span>              :         } else {</span>
-<span id="L107"><span class="lineNum">     107</span> <span class="tlaUNC">           0 :           completer.completeError(&quot;Something went wrong&quot;);</span></span>
-<span id="L108"><span class="lineNum">     108</span>              :         }</span>
-<span id="L109"><span class="lineNum">     109</span> <span class="tlaUNC">           0 :       }, onError: (error) {</span></span>
-<span id="L110"><span class="lineNum">     110</span> <span class="tlaUNC">           0 :         String em = ApiErrorHelper.getErrorMessage(error) ?? &quot;Something went wrong&quot;;</span></span>
-<span id="L111"><span class="lineNum">     111</span> <span class="tlaUNC">           0 :         Logger.debug('mydebug------CreateShipmentProvider.generateShipment', [em]);</span></span>
-<span id="L112"><span class="lineNum">     112</span> <span class="tlaUNC">           0 :         completer.completeError(em);</span></span>
-<span id="L113"><span class="lineNum">     113</span> <span class="tlaUNC">           0 :       }, onDone: () {</span></span>
-<span id="L114"><span class="lineNum">     114</span> <span class="tlaUNC">           0 :         notifyListeners();</span></span>
-<span id="L115"><span class="lineNum">     115</span>              :       });</span>
-<span id="L116"><span class="lineNum">     116</span>              :     } catch (e) {</span>
-<span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 :       completer.completeError(e.toString());</span></span>
-<span id="L118"><span class="lineNum">     118</span>              :     }</span>
-<span id="L119"><span class="lineNum">     119</span> <span class="tlaUNC">           0 :     return completer.future;</span></span>
-<span id="L120"><span class="lineNum">     120</span>              :   }</span>
-<span id="L121"><span class="lineNum">     121</span>              : </span>
-<span id="L122"><span class="lineNum">     122</span>              : }</span>
+<span id="L104"><span class="lineNum">     104</span> <span class="tlaUNC">           0 :         completer.complete(true);</span></span>
+<span id="L105"><span class="lineNum">     105</span> <span class="tlaUNC">           0 :       }, onError: (error) {</span></span>
+<span id="L106"><span class="lineNum">     106</span> <span class="tlaUNC">           0 :         String em = ApiErrorHelper.getErrorMessage(error) ?? &quot;Something went wrong&quot;;</span></span>
+<span id="L107"><span class="lineNum">     107</span> <span class="tlaUNC">           0 :         Logger.debug('mydebug------CreateShipmentProvider.generateShipment', [em]);</span></span>
+<span id="L108"><span class="lineNum">     108</span> <span class="tlaUNC">           0 :         completer.completeError(em);</span></span>
+<span id="L109"><span class="lineNum">     109</span> <span class="tlaUNC">           0 :       }, onDone: () {</span></span>
+<span id="L110"><span class="lineNum">     110</span> <span class="tlaUNC">           0 :         notifyListeners();</span></span>
+<span id="L111"><span class="lineNum">     111</span>              :       });</span>
+<span id="L112"><span class="lineNum">     112</span>              :     } catch (e) {</span>
+<span id="L113"><span class="lineNum">     113</span> <span class="tlaUNC">           0 :       completer.completeError(e.toString());</span></span>
+<span id="L114"><span class="lineNum">     114</span>              :     }</span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :     return completer.future;</span></span>
+<span id="L116"><span class="lineNum">     116</span>              :   }</span>
+<span id="L117"><span class="lineNum">     117</span>              : }</span>
         </pre>
               </td>
             </tr>

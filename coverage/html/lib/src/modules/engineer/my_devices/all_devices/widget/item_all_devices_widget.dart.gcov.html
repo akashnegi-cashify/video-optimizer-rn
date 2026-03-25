@@ -32,17 +32,13 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">58</td>
+            <td class="headerCovTableEntry">57</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-02-03 16:56:15</td>
+            <td class="headerValue">2026-03-24 18:52:44</td>
             <td></td>
-            <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryHi">-</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -173,29 +169,26 @@
 <span id="L111"><span class="lineNum">     111</span>              :           return;</span>
 <span id="L112"><span class="lineNum">     112</span>              :         }</span>
 <span id="L113"><span class="lineNum">     113</span>              : </span>
-<span id="L114"><span class="lineNum">     114</span>              :         // if it's a success response</span>
-<span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :         if (event.isSuccess) {</span></span>
-<span id="L116"><span class="lineNum">     116</span> <span class="tlaUNC">           0 :           CshSnackBar.success(context: context, message: l10n.deviceSentToInProgress);</span></span>
-<span id="L117"><span class="lineNum">     117</span>              :           return;</span>
-<span id="L118"><span class="lineNum">     118</span>              :         }</span>
-<span id="L119"><span class="lineNum">     119</span>              :       },</span>
-<span id="L120"><span class="lineNum">     120</span> <span class="tlaUNC">           0 :       onError: (error) {</span></span>
-<span id="L121"><span class="lineNum">     121</span>              :         // Display common API errors</span>
-<span id="L122"><span class="lineNum">     122</span> <span class="tlaUNC">           0 :         CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);</span></span>
-<span id="L123"><span class="lineNum">     123</span>              :       },</span>
-<span id="L124"><span class="lineNum">     124</span> <span class="tlaUNC">           0 :       onDone: () {</span></span>
-<span id="L125"><span class="lineNum">     125</span>              :         // hide loading</span>
-<span id="L126"><span class="lineNum">     126</span>              : </span>
-<span id="L127"><span class="lineNum">     127</span> <span class="tlaUNC">           0 :         if (provider.refreshAllDeviceList != null) {</span></span>
-<span id="L128"><span class="lineNum">     128</span> <span class="tlaUNC">           0 :           provider.refreshAllDeviceList!();</span></span>
-<span id="L129"><span class="lineNum">     129</span>              :         }</span>
-<span id="L130"><span class="lineNum">     130</span> <span class="tlaUNC">           0 :         CshLoading().hideLoading(context);</span></span>
-<span id="L131"><span class="lineNum">     131</span>              :         // popping of bottom sheet after the request completion</span>
-<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :         Navigator.pop(context);</span></span>
-<span id="L133"><span class="lineNum">     133</span>              :       },</span>
-<span id="L134"><span class="lineNum">     134</span>              :     );</span>
-<span id="L135"><span class="lineNum">     135</span>              :   }</span>
-<span id="L136"><span class="lineNum">     136</span>              : }</span>
+<span id="L114"><span class="lineNum">     114</span>              :         // Success response</span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaUNC">           0 :         CshSnackBar.success(context: context, message: l10n.deviceSentToInProgress);</span></span>
+<span id="L116"><span class="lineNum">     116</span>              :       },</span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaUNC">           0 :       onError: (error) {</span></span>
+<span id="L118"><span class="lineNum">     118</span>              :         // Display common API errors</span>
+<span id="L119"><span class="lineNum">     119</span> <span class="tlaUNC">           0 :         CshSnackBar.error(context: context, message: ApiErrorHelper.getErrorMessage(error) ?? l10n.somethingWentWrong);</span></span>
+<span id="L120"><span class="lineNum">     120</span>              :       },</span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaUNC">           0 :       onDone: () {</span></span>
+<span id="L122"><span class="lineNum">     122</span>              :         // hide loading</span>
+<span id="L123"><span class="lineNum">     123</span>              : </span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaUNC">           0 :         if (provider.refreshAllDeviceList != null) {</span></span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaUNC">           0 :           provider.refreshAllDeviceList!();</span></span>
+<span id="L126"><span class="lineNum">     126</span>              :         }</span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaUNC">           0 :         CshLoading().hideLoading(context);</span></span>
+<span id="L128"><span class="lineNum">     128</span>              :         // popping of bottom sheet after the request completion</span>
+<span id="L129"><span class="lineNum">     129</span> <span class="tlaUNC">           0 :         Navigator.pop(context);</span></span>
+<span id="L130"><span class="lineNum">     130</span>              :       },</span>
+<span id="L131"><span class="lineNum">     131</span>              :     );</span>
+<span id="L132"><span class="lineNum">     132</span>              :   }</span>
+<span id="L133"><span class="lineNum">     133</span>              : }</span>
         </pre>
               </td>
             </tr>

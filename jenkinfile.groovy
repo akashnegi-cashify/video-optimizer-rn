@@ -5,6 +5,7 @@ def builder = new FlutterBuilder(this, [slackChannels: '#console-flutter', 'outl
 def params = [
         choice(choices: ['stage', 'beta', 'prod', 'Runner'], description: 'Deployment Environment', name: 'FLAVOR'),
         choice(choices: ['android', 'ios', 'web'], description: 'Platform name Environment', name: 'PLATFORM'),
-        choice(choices: ['aab', 'apk'], description: 'Android build type', name: 'EXPORT_TYPE')
+        choice(choices: ['aab', 'apk'], description: 'Android build type', name: 'EXPORT_TYPE'),
+        string(defaultValue: '10', description: 'Minimum code coverage threshold (%)', name: 'MIN_COVERAGE')
 ]
 jenkinsBuildPipeline(builder, params)

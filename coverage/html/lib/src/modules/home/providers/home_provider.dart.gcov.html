@@ -32,17 +32,13 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntry">13</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-02-03 16:56:15</td>
+            <td class="headerValue">2026-03-24 18:52:44</td>
             <td></td>
-            <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryHi">-</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -77,26 +73,20 @@
 <span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     var completer = Completer&lt;bool&gt;();</span></span>
 <span id="L16"><span class="lineNum">      16</span>              :     try {</span>
 <span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC">           0 :       HomeScreenService.userLogout().listen((event) {</span></span>
-<span id="L18"><span class="lineNum">      18</span>              :         if (event != null) {</span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :           if (event.status == 1) {</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :             completer.complete(true);</span></span>
-<span id="L21"><span class="lineNum">      21</span>              :           } else {</span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :             completer.complete(false);</span></span>
-<span id="L23"><span class="lineNum">      23</span>              :           }</span>
-<span id="L24"><span class="lineNum">      24</span>              :         }</span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :       }, onError: (error) {</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? &quot;Something went wrong&quot;;</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :         completer.completeError(errorMessage);</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :       }, onDone: () {</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :         notifyListeners();</span></span>
-<span id="L30"><span class="lineNum">      30</span>              :       });</span>
-<span id="L31"><span class="lineNum">      31</span>              :     } catch (e) {</span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :       completer.completeError(e.toString());</span></span>
-<span id="L33"><span class="lineNum">      33</span>              :     }</span>
-<span id="L34"><span class="lineNum">      34</span>              : </span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :     return completer.future;</span></span>
-<span id="L36"><span class="lineNum">      36</span>              :   }</span>
-<span id="L37"><span class="lineNum">      37</span>              : }</span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :         completer.complete(true);</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :       }, onError: (error) {</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :         String errorMessage = ApiErrorHelper.getErrorMessage(error) ?? &quot;Something went wrong&quot;;</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :         completer.completeError(errorMessage);</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :       }, onDone: () {</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :         notifyListeners();</span></span>
+<span id="L24"><span class="lineNum">      24</span>              :       });</span>
+<span id="L25"><span class="lineNum">      25</span>              :     } catch (e) {</span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :       completer.completeError(e.toString());</span></span>
+<span id="L27"><span class="lineNum">      27</span>              :     }</span>
+<span id="L28"><span class="lineNum">      28</span>              : </span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :     return completer.future;</span></span>
+<span id="L30"><span class="lineNum">      30</span>              :   }</span>
+<span id="L31"><span class="lineNum">      31</span>              : }</span>
         </pre>
               </td>
             </tr>

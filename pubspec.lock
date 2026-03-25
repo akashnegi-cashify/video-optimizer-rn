@@ -1454,7 +1454,7 @@ packages:
     source: git
     version: "2.3.2"
   mobile_scanner:
-    dependency: "direct overridden"
+    dependency: "direct overridden3"
     description:
       name: mobile_scanner
       sha256: d234581c090526676fd8fab4ada92f35c6746e3fb4f05a399665d75a399fb760
