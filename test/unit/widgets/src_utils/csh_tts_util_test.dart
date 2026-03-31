@@ -1,7 +1,27 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/src/utils/csh_tts_util.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('flutter_tts'),
+      (MethodCall methodCall) async {
+        switch (methodCall.method) {
+          case 'setVolume':
+          case 'setSpeechRate':
+          case 'speak':
+            return 1;
+          default:
+            return null;
+        }
+      },
+    );
+  });
+
   group('CshTtsUtil', () {
     test('singleton instance returns same instance', () {
       final instance1 = CshTtsUtil();
@@ -23,10 +43,6 @@ void main() {
       final instance = CshTtsUtil();
       expect(instance.speak, isA<Function>());
     });
-
-    // Note: The actual TTS functionality requires platform channels
-    // which cannot be tested in unit tests without mocking.
-    // The FlutterTts plugin requires a real device or emulator.
   });
 
   group('CshTtsUtil - Singleton Pattern', () {

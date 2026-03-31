@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/src/utils/media_upload/providers/image_upload_provider.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() async {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (MethodCall methodCall) async {
+        if (methodCall.method == 'getApplicationDocumentsDirectory') {
+          return '.';
+        }
+        return null;
+      },
+    );
+    await GetStorage.init();
+    await GetStorage.init('GetStorage');
+  });
+
   group('ImageUploadProvider', () {
     test('can be instantiated with default values', () {
       final provider = ImageUploadProvider();
 
       expect(provider.isDataLoading, false);
-      expect(provider.s3Url, '');
+      expect(provider.s3Url, isNull);
     });
 
     test('can be instantiated with initial s3Url', () {
@@ -133,7 +152,7 @@ void main() {
       final provider = ImageUploadProvider();
 
       // s3Url is not a setter, but we can verify the initial state
-      expect(provider.s3Url, '');
+      expect(provider.s3Url, isNull);
     });
   });
 

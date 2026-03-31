@@ -3,10 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:localization/localization/locale_provider.dart';
 import 'package:core_widgets/core_widgets.dart' hide isEmpty, isNotEmpty;
+import 'package:core_widgets/src/theme/theme_change.provider.dart';
 
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/widgets/pickup_receive_engineer_parts_widget.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/models/pickup_receive_engineer_parts_param.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/delivery_response.dart';
+import 'package:flutter_trc/src/modules/rider/pending_delivery/deliver/models/engineer_parts_response.dart';
 import 'package:flutter_trc/src/modules/rider/engineer_card_widget.dart';
 
 void main() {
@@ -14,6 +16,7 @@ void main() {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider<ThemeChangeProvider>(create: (_) => ThemeChangeProvider(false)),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -23,7 +26,11 @@ void main() {
               warnColor: Colors.orange,
               inputStrokeColor: Colors.grey,
               searchShadow: Colors.grey.withAlpha(50),
-              shadows: const {},
+              shadows: {
+                10: const BoxShadow(color: Colors.black12, blurRadius: 10),
+                15: const BoxShadow(color: Colors.black12, blurRadius: 15),
+                20: const BoxShadow(color: Colors.black12, blurRadius: 20),
+              },
             ),
           ],
         ),
@@ -160,7 +167,7 @@ void main() {
       ));
       await tester.pump();
 
-      expect(find.byType(StreamBuilder), findsAtLeastNWidgets(1));
+      expect(find.byType(StreamBuilder<EngineerPartsResponse?>), findsAtLeastNWidgets(1));
     });
 
     testWidgets('handles engineer with null name', (tester) async {

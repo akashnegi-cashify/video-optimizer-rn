@@ -7,7 +7,21 @@ void main() {
   /// Builds a testable widget with MaterialApp wrapper
   Widget buildTestWidget(Widget child) {
     return MaterialApp(
-      theme: ThemeData(),
+      theme: ThemeData(
+        extensions: [
+          CustomColors(
+            successColor: Colors.green,
+            warnColor: Colors.orange,
+            inputStrokeColor: Colors.grey,
+            searchShadow: Colors.grey.withAlpha(50),
+            shadows: {
+              10: const BoxShadow(color: Colors.black12, blurRadius: 10),
+              15: const BoxShadow(color: Colors.black12, blurRadius: 15),
+              20: const BoxShadow(color: Colors.black12, blurRadius: 20),
+            },
+          ),
+        ],
+      ),
       home: Scaffold(body: child),
     );
   }
@@ -118,7 +132,9 @@ void main() {
       final textField = find.byType(TextField);
       if (textField.evaluate().isNotEmpty) {
         await tester.enterText(textField.first, 'test query');
-        await tester.pumpAndSettle();
+        await tester.pump();
+        // Flush debounce timer from search field
+        await tester.pump(const Duration(seconds: 1));
       }
 
       expect(find.byType(SearchbarWidget), findsOneWidget);

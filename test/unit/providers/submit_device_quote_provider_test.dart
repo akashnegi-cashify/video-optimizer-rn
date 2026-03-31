@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/calculator/providers/submit_device_quote_provider.dart';
 import '../../helpers/provider_test_helpers.dart';
@@ -5,6 +6,16 @@ import '../../helpers/provider_test_helpers.dart';
 /// Tests for SubmitDeviceQuoteProvider - the actual provider implementation.
 /// These tests import and execute the real provider code to ensure coverage.
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (MethodCall methodCall) async => '/tmp',
+    );
+  });
+
   group('SubmitDeviceQuoteProvider', () {
     late SubmitDeviceQuoteProvider provider;
 

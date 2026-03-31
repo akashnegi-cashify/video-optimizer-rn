@@ -1,23 +1,42 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/src/utils/connectivity_util.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('dev.fluttercommunity.plus/connectivity'),
+      (MethodCall methodCall) async {
+        if (methodCall.method == 'check') {
+          return ['wifi'];
+        }
+        return null;
+      },
+    );
+  });
+
+  tearDown(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('dev.fluttercommunity.plus/connectivity'),
+      null,
+    );
+  });
+
   group('ConnectivityUtil', () {
     test('checkConnectivity method exists', () {
       // Verify the static method exists
       expect(ConnectivityUtil.checkConnectivity, isA<Function>());
     });
 
-    test('checkConnectivity returns a Future<bool>', () {
+    test('checkConnectivity returns a Future<bool>', () async {
       // Verify the return type
       final result = ConnectivityUtil.checkConnectivity();
       expect(result, isA<Future<bool>>());
     });
-
-    // Note: Full connectivity testing requires mocking the Connectivity plugin
-    // which is a platform channel and cannot be directly mocked in unit tests
-    // without using mockito or a similar mocking framework.
-    // The actual connectivity check depends on the device's network state.
   });
 
   group('ConnectivityUtil - Class Structure', () {

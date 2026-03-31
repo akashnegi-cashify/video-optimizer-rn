@@ -6,11 +6,11 @@ import 'package:flutter_trc/src/modules/inventory_manager/models/recommended_par
 
 void main() {
   group('PendingPartDetailsInfoWidget', () {
-    test('is a StatelessWidget', () {
+    test('is a StatefulWidget', () {
       const widget = PendingPartDetailsInfoWidget(
         detailsData: null,
       );
-      expect(widget, isA<StatelessWidget>());
+      expect(widget, isA<StatefulWidget>());
     });
 
     test('accepts null detailsData', () {

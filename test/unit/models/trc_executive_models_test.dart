@@ -13,11 +13,13 @@ void main() {
         final json = {
           'dt': [
             {
-              'key': '1',
+              'id': 1,
+              'key': 'EMP001',
               'value': 'TL One',
             },
             {
-              'key': '2',
+              'id': 2,
+              'key': 'EMP002',
               'value': 'TL Two',
             },
           ],
@@ -27,9 +29,9 @@ void main() {
 
         expect(result.tlList, isNotNull);
         expect(result.tlList?.length, 2);
-        expect(result.tlList?[0].id, '1');
+        expect(result.tlList?[0].id, 1);
         expect(result.tlList?[0].name, 'TL One');
-        expect(result.tlList?[1].id, '2');
+        expect(result.tlList?[1].id, 2);
         expect(result.tlList?[1].name, 'TL Two');
       });
 
@@ -58,7 +60,7 @@ void main() {
       test('should serialize response to JSON correctly', () {
         final response = TlListResponse.fromJson({
           'dt': [
-            {'key': '1', 'value': 'Test TL'},
+            {'id': 1, 'key': 'EMP001', 'value': 'Test TL'},
           ],
         });
 
@@ -74,24 +76,26 @@ void main() {
     group('fromJson', () {
       test('should parse complete data correctly', () {
         final json = {
-          'key': 'TL123',
+          'id': 123,
+          'key': 'EMP001',
           'value': 'Team Lead Name',
         };
 
         final result = TlListData.fromJson(json);
 
-        expect(result.id, 'TL123');
+        expect(result.id, 123);
         expect(result.name, 'Team Lead Name');
+        expect(result.employeeCode, 'EMP001');
       });
 
       test('should parse data with missing optional fields', () {
         final json = {
-          'key': 'ID_ONLY',
+          'id': 1,
         };
 
         final result = TlListData.fromJson(json);
 
-        expect(result.id, 'ID_ONLY');
+        expect(result.id, 1);
         // name might be null or throw depending on generated code
       });
     });
@@ -99,12 +103,14 @@ void main() {
     group('toJson', () {
       test('should serialize data to JSON correctly', () {
         final data = TlListData.fromJson({
+          'id': 123,
           'key': 'KEY123',
           'value': 'Value123',
         });
 
         final json = data.toJson();
 
+        expect(json['id'], 123);
         expect(json['key'], 'KEY123');
         expect(json['value'], 'Value123');
       });

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:localization/localization/locale_provider.dart';
 import 'package:core_widgets/core_widgets.dart' hide isEmpty, isNotEmpty;
+import 'package:core_widgets/src/theme/theme_change.provider.dart';
 
 import 'package:flutter_trc/src/modules/rider/pending_delivery/receive/widgets/delivery_receive_widget.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/receive/widgets/delivery_receive_list_widget.dart';
@@ -12,6 +13,7 @@ void main() {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider<ThemeChangeProvider>(create: (_) => ThemeChangeProvider(false)),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -21,7 +23,11 @@ void main() {
               warnColor: Colors.orange,
               inputStrokeColor: Colors.grey,
               searchShadow: Colors.grey.withAlpha(50),
-              shadows: const {},
+              shadows: {
+                10: const BoxShadow(color: Colors.black12, blurRadius: 10),
+                15: const BoxShadow(color: Colors.black12, blurRadius: 15),
+                20: const BoxShadow(color: Colors.black12, blurRadius: 20),
+              },
             ),
           ],
         ),
@@ -114,6 +120,9 @@ void main() {
       await tester.pump();
 
       expect(find.text('TEST123'), findsOneWidget);
+
+      // Flush debounce timer from search field
+      await tester.pump(const Duration(seconds: 1));
     });
 
     testWidgets('displays CshCard wrapper for search', (tester) async {

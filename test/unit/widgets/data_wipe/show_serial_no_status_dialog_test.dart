@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:core_widgets/core_widgets.dart' hide isEmpty;
+import 'package:localization/localization/locale_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter_trc/qc/modules/data_wipe/dialog/show_serial_no_status_dialog.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/resources/verification_status_enum.dart';
@@ -10,21 +12,26 @@ void main() {
     Widget buildTestWidget({
       required Widget Function(BuildContext) builder,
     }) {
-      return MaterialApp(
-        theme: ThemeData(
-          extensions: [
-            CustomColors(
-              successColor: Colors.green,
-              warnColor: Colors.orange,
-              inputStrokeColor: Colors.grey,
-              searchShadow: Colors.grey.withAlpha(50),
-              shadows: const {},
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
+        ],
+        child: MaterialApp(
+          theme: ThemeData(
+            extensions: [
+              CustomColors(
+                successColor: Colors.green,
+                warnColor: Colors.orange,
+                inputStrokeColor: Colors.grey,
+                searchShadow: Colors.grey.withAlpha(50),
+                shadows: const {},
+              ),
+            ],
+          ),
+          home: Builder(
+            builder: (context) => Scaffold(
+              body: builder(context),
             ),
-          ],
-        ),
-        home: Builder(
-          builder: (context) => Scaffold(
-            body: builder(context),
           ),
         ),
       );

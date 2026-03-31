@@ -13,7 +13,21 @@ void main() {
         ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
       ],
       child: MaterialApp(
-        theme: ThemeData(),
+        theme: ThemeData(
+          extensions: [
+            CustomColors(
+              successColor: Colors.green,
+              warnColor: Colors.orange,
+              inputStrokeColor: Colors.grey,
+              searchShadow: Colors.grey.withAlpha(50),
+              shadows: {
+                10: const BoxShadow(color: Colors.black12, blurRadius: 10),
+                15: const BoxShadow(color: Colors.black12, blurRadius: 15),
+                20: const BoxShadow(color: Colors.black12, blurRadius: 20),
+              },
+            ),
+          ],
+        ),
         home: child,
       ),
     );

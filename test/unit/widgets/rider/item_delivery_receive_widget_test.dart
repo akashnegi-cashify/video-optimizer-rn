@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:localization/localization/locale_provider.dart';
 import 'package:core_widgets/core_widgets.dart' hide isEmpty, isNotEmpty;
+import 'package:core_widgets/src/theme/theme_change.provider.dart';
 
 import 'package:flutter_trc/src/modules/rider/pending_delivery/receive/widgets/item_delivery_receive_widget.dart';
 import 'package:flutter_trc/src/modules/rider/pending_delivery/receive/models/receive_response_model.dart';
@@ -22,6 +23,7 @@ void main() {
         ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
         ChangeNotifierProvider<DeliveryReceiveProvider>.value(
             value: mockDeliveryReceiveProvider),
+        ChangeNotifierProvider<ThemeChangeProvider>(create: (_) => ThemeChangeProvider(false)),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -31,7 +33,11 @@ void main() {
               warnColor: Colors.orange,
               inputStrokeColor: Colors.grey,
               searchShadow: Colors.grey.withAlpha(50),
-              shadows: const {},
+              shadows: {
+                10: const BoxShadow(color: Colors.black12, blurRadius: 10),
+                15: const BoxShadow(color: Colors.black12, blurRadius: 15),
+                20: const BoxShadow(color: Colors.black12, blurRadius: 20),
+              },
             ),
           ],
         ),
@@ -243,8 +249,8 @@ void main() {
       await tester.tap(button);
       await tester.pump();
 
-      // CshAlertPopup should be shown (creates AlertDialog internally)
-      expect(find.byType(AlertDialog), findsOneWidget);
+      // CshAlertPopup should be shown (creates Dialog internally)
+      expect(find.byType(Dialog), findsOneWidget);
     });
   });
 }
