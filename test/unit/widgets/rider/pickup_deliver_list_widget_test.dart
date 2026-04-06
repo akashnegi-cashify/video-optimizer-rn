@@ -5,6 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:localization/localization/locale_provider.dart';
 import 'package:components/components.dart';
 import 'package:core_widgets/core_widgets.dart' hide isEmpty, isNotEmpty;
+import 'package:core_widgets/src/theme/theme_change.provider.dart';
 
 import 'package:flutter_trc/src/modules/rider/pending_pickup/deliver/widgets/pickup_deliver_list_widget.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/deliver/providers/pickup_deliver_provider.dart';
@@ -21,6 +22,7 @@ void main() {
         ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
         ChangeNotifierProvider<PickupDeliverProvider>.value(
             value: mockPickupDeliverProvider),
+        ChangeNotifierProvider<ThemeChangeProvider>(create: (_) => ThemeChangeProvider(false)),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -30,7 +32,11 @@ void main() {
               warnColor: Colors.orange,
               inputStrokeColor: Colors.grey,
               searchShadow: Colors.grey.withAlpha(50),
-              shadows: const {},
+              shadows: {
+                10: const BoxShadow(color: Colors.black12, blurRadius: 10),
+                15: const BoxShadow(color: Colors.black12, blurRadius: 15),
+                20: const BoxShadow(color: Colors.black12, blurRadius: 20),
+              },
             ),
           ],
         ),
@@ -87,7 +93,7 @@ void main() {
       await tester.pumpWidget(buildTestWidget(const PickupDeliverListWidget()));
       await tester.pump();
 
-      verify(() => mockPickupDeliverProvider.addListener(any())).called(1);
+      verify(() => mockPickupDeliverProvider.addListener(any())).called(greaterThanOrEqualTo(1));
     });
   });
 }

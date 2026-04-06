@@ -10,9 +10,9 @@ void main() {
 
     setUp(() {
       statusList = [
-        DataWipFilterListItem.fromJson({'id': '1', 'label': 'CASHIFY'}),
-        DataWipFilterListItem.fromJson({'id': '2', 'label': 'BLANCCO'}),
-        DataWipFilterListItem.fromJson({'id': '3', 'label': 'OTHER'}),
+        DataWipFilterListItem.fromJson({'k': 1, 'v': 'CASHIFY'}),
+        DataWipFilterListItem.fromJson({'k': 2, 'v': 'BLANCCO'}),
+        DataWipFilterListItem.fromJson({'k': 3, 'v': 'OTHER'}),
       ];
     });
 
@@ -103,7 +103,7 @@ void main() {
 
     testWidgets('displays items with null labels gracefully', (tester) async {
       final listWithNullLabel = [
-        DataWipFilterListItem.fromJson({'id': '1', 'label': null}),
+        DataWipFilterListItem.fromJson({'k': 1, 'v': null}),
       ];
 
       await tester.pumpWidget(buildTestWidget(

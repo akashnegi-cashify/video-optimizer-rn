@@ -1,11 +1,19 @@
 # TRC Releases
 
-# v6.0.2+85 (XX-11-2025)
+# v6.0.3+86 (06-04-2026)
 
 ### Feature:
 
 * `TRC - Approval Part Mechanism` [(SCM-12880)](https://reglobe.atlassian.net/browse/SCM-12880)
 * `TRC - Camera glass clean flow` [(SCM-11882)](https://reglobe.atlassian.net/browse/SCM-11882)
+
+
+# v6.0.2+85 (XX-03-2026)
+
+### Feature:
+
+* `QC - Calculator for Pixel lab` [(SCM-13396)](https://reglobe.atlassian.net/browse/SCM-13396)
+* `TRC - Filter fixes for inventory and rider` [(SCM-13465)](https://reglobe.atlassian.net/browse/SCM-13465)
 
 
 # v6.0.1+84 (18-03-2026)

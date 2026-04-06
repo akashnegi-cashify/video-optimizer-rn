@@ -12,6 +12,7 @@ import 'package:flutter_trc/qc/modules/external_audit/external_audit_home_screen
 import 'package:flutter_trc/qc/modules/gaurd/screens/qc_guard_home_screen.dart';
 import 'package:flutter_trc/qc/modules/imei_validator/resources/imei_qrcode_response.dart';
 import 'package:flutter_trc/qc/modules/imei_validator/screens/imei_validator_screen.dart';
+import 'package:flutter_trc/qc/modules/pixel_testing/widget/pixel_testing_button_widget.dart';
 import 'package:flutter_trc/qc/modules/qc_actions/resources/services.dart';
 import 'package:flutter_trc/qc/modules/re_qc/screens/re_qc_list_screen.dart';
 import 'package:flutter_trc/qc/modules/stock_transfer/screens/stock_transfer_list_screen.dart';
@@ -84,6 +85,16 @@ class _QCActionWidgetState extends State<QCActionWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            PixelTestingButtonWidget(),
+            const SizedBox(height: Dimens.space_16),
+            QcRolePermissionWidget(
+              role: QcRole.qcVideographer,
+              child: CshBigButton(
+                text: l10n.genericDeviceMedia,
+                onPressed: () => Navigator.pushNamed(context, D2cVideoHomeScreen.route),
+              ),
+            ),
+            const SizedBox(height: Dimens.space_16),
             QcRolePermissionWidget(
               role: QcRole.qcElss,
               child: CshBigButton(

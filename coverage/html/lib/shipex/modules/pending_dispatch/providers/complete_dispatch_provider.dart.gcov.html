@@ -32,17 +32,13 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">132</td>
+            <td class="headerCovTableEntry">130</td>
             <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-02-03 16:56:15</td>
+            <td class="headerValue">2026-03-24 18:52:44</td>
             <td></td>
-            <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryHi">-</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -191,131 +187,127 @@
 <span id="L129"><span class="lineNum">     129</span> <span class="tlaUNC">           0 :       DispatchService.sendDispatchProof(_scannedAwbList?.map((e) =&gt; e.awb!).toList(), deliveryPartnerKey,</span></span>
 <span id="L130"><span class="lineNum">     130</span>              :               isCsv: isCsvUpload ?? false)</span>
 <span id="L131"><span class="lineNum">     131</span> <span class="tlaUNC">           0 :           .listen((event) {</span></span>
-<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :         if (event != null &amp;&amp; Validator.isTrue(event.isSuccess)) {</span></span>
-<span id="L133"><span class="lineNum">     133</span> <span class="tlaUNC">           0 :           completer.complete(true);</span></span>
-<span id="L134"><span class="lineNum">     134</span>              :         } else {</span>
-<span id="L135"><span class="lineNum">     135</span> <span class="tlaUNC">           0 :           completer.completeError(&quot;Something went wrong&quot;);</span></span>
-<span id="L136"><span class="lineNum">     136</span>              :         }</span>
-<span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :       }, onError: (error) {</span></span>
-<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :         String em = ApiErrorHelper.getErrorMessage(error) ?? &quot;Something went wrong&quot;;</span></span>
-<span id="L139"><span class="lineNum">     139</span> <span class="tlaUNC">           0 :         Logger.debug('mydebug------ShipexDispatchProvider.sendPodInPdfOrInCsv', [em]);</span></span>
-<span id="L140"><span class="lineNum">     140</span> <span class="tlaUNC">           0 :         completer.completeError(em);</span></span>
-<span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :       }, onDone: () {</span></span>
-<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :         notifyListeners();</span></span>
-<span id="L143"><span class="lineNum">     143</span>              :       });</span>
-<span id="L144"><span class="lineNum">     144</span>              :     } catch (e) {</span>
-<span id="L145"><span class="lineNum">     145</span> <span class="tlaUNC">           0 :       completer.completeError(e.toString());</span></span>
-<span id="L146"><span class="lineNum">     146</span>              :     }</span>
-<span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC">           0 :     return completer.future;</span></span>
-<span id="L148"><span class="lineNum">     148</span>              :   }</span>
-<span id="L149"><span class="lineNum">     149</span>              : </span>
-<span id="L150"><span class="lineNum">     150</span> <span class="tlaUNC">           0 :   Future&lt;bool&gt; finishDispatch() async {</span></span>
-<span id="L151"><span class="lineNum">     151</span> <span class="tlaUNC">           0 :     File? combinedFile = await _combineImageIntoOne(listOfInvoicePicture);</span></span>
-<span id="L152"><span class="lineNum">     152</span>              :     if (combinedFile == null) {</span>
-<span id="L153"><span class="lineNum">     153</span> <span class="tlaUNC">           0 :       return Future.error(&quot;Failed in image processing, please try again&quot;);</span></span>
-<span id="L154"><span class="lineNum">     154</span>              :     }</span>
-<span id="L155"><span class="lineNum">     155</span>              : </span>
-<span id="L156"><span class="lineNum">     156</span> <span class="tlaUNC">           0 :     var completer = Completer&lt;bool&gt;();</span></span>
-<span id="L157"><span class="lineNum">     157</span>              :     try {</span>
-<span id="L158"><span class="lineNum">     158</span> <span class="tlaUNC">           0 :       var compressedFile = await ImageUtil.compressImage(combinedFile);</span></span>
-<span id="L159"><span class="lineNum">     159</span> <span class="tlaUNC">           0 :       String imageUrl = await _uploadImage(compressedFile);</span></span>
-<span id="L160"><span class="lineNum">     160</span> <span class="tlaUNC">           0 :       DispatchService.completeDispatch(_scannedAwbList?.map((e) =&gt; e.awb!).toList(), imageUrl, deliveryPartnerKey)</span></span>
-<span id="L161"><span class="lineNum">     161</span> <span class="tlaUNC">           0 :           .listen((event) {</span></span>
-<span id="L162"><span class="lineNum">     162</span> <span class="tlaUNC">           0 :         completer.complete(true);</span></span>
-<span id="L163"><span class="lineNum">     163</span> <span class="tlaUNC">           0 :       }, onError: (error) {</span></span>
-<span id="L164"><span class="lineNum">     164</span> <span class="tlaUNC">           0 :         completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());</span></span>
-<span id="L165"><span class="lineNum">     165</span>              :       });</span>
-<span id="L166"><span class="lineNum">     166</span>              :     } catch (e) {</span>
-<span id="L167"><span class="lineNum">     167</span> <span class="tlaUNC">           0 :       completer.completeError(e.toString());</span></span>
-<span id="L168"><span class="lineNum">     168</span>              :     }</span>
-<span id="L169"><span class="lineNum">     169</span> <span class="tlaUNC">           0 :     return completer.future;</span></span>
-<span id="L170"><span class="lineNum">     170</span>              :   }</span>
-<span id="L171"><span class="lineNum">     171</span>              : </span>
-<span id="L172"><span class="lineNum">     172</span> <span class="tlaUNC">           0 :   Future&lt;File?&gt; _combineImageIntoOne(List&lt;File&gt; imgPathList) async {</span></span>
-<span id="L173"><span class="lineNum">     173</span> <span class="tlaUNC">           0 :     if (imgPathList.length == 1) {</span></span>
-<span id="L174"><span class="lineNum">     174</span> <span class="tlaUNC">           0 :       return Future.value(imgPathList.first);</span></span>
-<span id="L175"><span class="lineNum">     175</span>              :     }</span>
-<span id="L176"><span class="lineNum">     176</span> <span class="tlaUNC">           0 :     List&lt;ui.Image&gt; images = [];</span></span>
-<span id="L177"><span class="lineNum">     177</span>              :     int w = 0;</span>
-<span id="L178"><span class="lineNum">     178</span>              :     int h = 0;</span>
-<span id="L179"><span class="lineNum">     179</span>              : </span>
-<span id="L180"><span class="lineNum">     180</span>              :     // Load images</span>
-<span id="L181"><span class="lineNum">     181</span> <span class="tlaUNC">           0 :     for (File file in imgPathList) {</span></span>
-<span id="L182"><span class="lineNum">     182</span> <span class="tlaUNC">           0 :       if (file.existsSync()) {</span></span>
-<span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC">           0 :         Uint8List bytes = file.readAsBytesSync();</span></span>
-<span id="L184"><span class="lineNum">     184</span> <span class="tlaUNC">           0 :         ui.Codec codec = await ui.instantiateImageCodec(bytes);</span></span>
-<span id="L185"><span class="lineNum">     185</span> <span class="tlaUNC">           0 :         ui.FrameInfo frameInfo = await codec.getNextFrame();</span></span>
-<span id="L186"><span class="lineNum">     186</span> <span class="tlaUNC">           0 :         ui.Image image = frameInfo.image;</span></span>
-<span id="L187"><span class="lineNum">     187</span> <span class="tlaUNC">           0 :         images.add(image);</span></span>
-<span id="L188"><span class="lineNum">     188</span>              : </span>
-<span id="L189"><span class="lineNum">     189</span> <span class="tlaUNC">           0 :         w = images.length &gt; 1 ? w = images[0].width : image.width;</span></span>
-<span id="L190"><span class="lineNum">     190</span> <span class="tlaUNC">           0 :         h += image.height;</span></span>
-<span id="L191"><span class="lineNum">     191</span> <span class="tlaUNC">           0 :         h += 15;</span></span>
-<span id="L192"><span class="lineNum">     192</span>              :       }</span>
-<span id="L193"><span class="lineNum">     193</span>              :     }</span>
-<span id="L194"><span class="lineNum">     194</span>              : </span>
-<span id="L195"><span class="lineNum">     195</span>              :     // Create canvas and draw images</span>
-<span id="L196"><span class="lineNum">     196</span> <span class="tlaUNC">           0 :     ui.PictureRecorder recorder = ui.PictureRecorder();</span></span>
-<span id="L197"><span class="lineNum">     197</span> <span class="tlaUNC">           0 :     ui.Canvas canvas = ui.Canvas(recorder);</span></span>
-<span id="L198"><span class="lineNum">     198</span> <span class="tlaUNC">           0 :     canvas.drawColor(Colors.white, BlendMode.color);</span></span>
-<span id="L199"><span class="lineNum">     199</span>              : </span>
-<span id="L200"><span class="lineNum">     200</span>              :     double top = 0;</span>
-<span id="L201"><span class="lineNum">     201</span>              :     int bitmapHeight = 0;</span>
-<span id="L202"><span class="lineNum">     202</span> <span class="tlaUNC">           0 :     for (int i = 0; i &lt; images.length; i++) {</span></span>
-<span id="L203"><span class="lineNum">     203</span> <span class="tlaUNC">           0 :       ui.Image image = images[i];</span></span>
-<span id="L204"><span class="lineNum">     204</span> <span class="tlaUNC">           0 :       top = i == 0 ? 0 : top + bitmapHeight + 15;</span></span>
-<span id="L205"><span class="lineNum">     205</span> <span class="tlaUNC">           0 :       canvas.drawImage(image, Offset(0, top).scale(1, 1), Paint());</span></span>
-<span id="L206"><span class="lineNum">     206</span> <span class="tlaUNC">           0 :       _drawText(canvas, &quot;${i + 1}&quot;, 80 - 10.0, top + image.height - 80 + 10.0);</span></span>
-<span id="L207"><span class="lineNum">     207</span>              : </span>
-<span id="L208"><span class="lineNum">     208</span> <span class="tlaUNC">           0 :       if (i &gt; 0) {</span></span>
-<span id="L209"><span class="lineNum">     209</span> <span class="tlaUNC">           0 :         _drawLine(canvas, 0.0, top - 15 / 2, image.width.toDouble(), top - 15 / 2);</span></span>
-<span id="L210"><span class="lineNum">     210</span>              :       }</span>
-<span id="L211"><span class="lineNum">     211</span> <span class="tlaUNC">           0 :       bitmapHeight = image.height;</span></span>
-<span id="L212"><span class="lineNum">     212</span>              :     }</span>
-<span id="L213"><span class="lineNum">     213</span>              : </span>
-<span id="L214"><span class="lineNum">     214</span>              :     // Convert to PNG and save into a file</span>
-<span id="L215"><span class="lineNum">     215</span> <span class="tlaUNC">           0 :     ui.Picture picture = recorder.endRecording();</span></span>
-<span id="L216"><span class="lineNum">     216</span> <span class="tlaUNC">           0 :     ui.Image image = await picture.toImage(w, h);</span></span>
-<span id="L217"><span class="lineNum">     217</span> <span class="tlaUNC">           0 :     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);</span></span>
-<span id="L218"><span class="lineNum">     218</span>              : </span>
-<span id="L219"><span class="lineNum">     219</span>              :     if (byteData != null) {</span>
-<span id="L220"><span class="lineNum">     220</span> <span class="tlaUNC">           0 :       Uint8List pngBytes = byteData.buffer.asUint8List();</span></span>
-<span id="L221"><span class="lineNum">     221</span> <span class="tlaUNC">           0 :       return saveImageToFile(pngBytes);</span></span>
-<span id="L222"><span class="lineNum">     222</span>              :     }</span>
-<span id="L223"><span class="lineNum">     223</span>              :     return null;</span>
-<span id="L224"><span class="lineNum">     224</span>              :   }</span>
-<span id="L225"><span class="lineNum">     225</span>              : </span>
-<span id="L226"><span class="lineNum">     226</span> <span class="tlaUNC">           0 :   void _drawText(ui.Canvas canvas, String text, double x, double y) {</span></span>
-<span id="L227"><span class="lineNum">     227</span> <span class="tlaUNC">           0 :     TextPainter painter = TextPainter(</span></span>
-<span id="L228"><span class="lineNum">     228</span> <span class="tlaUNC">           0 :       text: TextSpan(</span></span>
-<span id="L229"><span class="lineNum">     229</span>              :         text: text,</span>
-<span id="L230"><span class="lineNum">     230</span>              :         style: const TextStyle(color: Colors.blue, fontSize: 40),</span>
-<span id="L231"><span class="lineNum">     231</span>              :       ),</span>
-<span id="L232"><span class="lineNum">     232</span>              :       textAlign: TextAlign.center,</span>
-<span id="L233"><span class="lineNum">     233</span>              :       textDirection: TextDirection.ltr,</span>
-<span id="L234"><span class="lineNum">     234</span>              :     );</span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :         completer.complete(true);</span></span>
+<span id="L133"><span class="lineNum">     133</span> <span class="tlaUNC">           0 :       }, onError: (error) {</span></span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 :         String em = ApiErrorHelper.getErrorMessage(error) ?? &quot;Something went wrong&quot;;</span></span>
+<span id="L135"><span class="lineNum">     135</span> <span class="tlaUNC">           0 :         Logger.debug('mydebug------ShipexDispatchProvider.sendPodInPdfOrInCsv', [em]);</span></span>
+<span id="L136"><span class="lineNum">     136</span> <span class="tlaUNC">           0 :         completer.completeError(em);</span></span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaUNC">           0 :       }, onDone: () {</span></span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :         notifyListeners();</span></span>
+<span id="L139"><span class="lineNum">     139</span>              :       });</span>
+<span id="L140"><span class="lineNum">     140</span>              :     } catch (e) {</span>
+<span id="L141"><span class="lineNum">     141</span> <span class="tlaUNC">           0 :       completer.completeError(e.toString());</span></span>
+<span id="L142"><span class="lineNum">     142</span>              :     }</span>
+<span id="L143"><span class="lineNum">     143</span> <span class="tlaUNC">           0 :     return completer.future;</span></span>
+<span id="L144"><span class="lineNum">     144</span>              :   }</span>
+<span id="L145"><span class="lineNum">     145</span>              : </span>
+<span id="L146"><span class="lineNum">     146</span> <span class="tlaUNC">           0 :   Future&lt;bool&gt; finishDispatch() async {</span></span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaUNC">           0 :     File? combinedFile = await _combineImageIntoOne(listOfInvoicePicture);</span></span>
+<span id="L148"><span class="lineNum">     148</span>              :     if (combinedFile == null) {</span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaUNC">           0 :       return Future.error(&quot;Failed in image processing, please try again&quot;);</span></span>
+<span id="L150"><span class="lineNum">     150</span>              :     }</span>
+<span id="L151"><span class="lineNum">     151</span>              : </span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaUNC">           0 :     var completer = Completer&lt;bool&gt;();</span></span>
+<span id="L153"><span class="lineNum">     153</span>              :     try {</span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaUNC">           0 :       var compressedFile = await ImageUtil.compressImage(combinedFile);</span></span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaUNC">           0 :       String imageUrl = await _uploadImage(compressedFile);</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaUNC">           0 :       DispatchService.completeDispatch(_scannedAwbList?.map((e) =&gt; e.awb!).toList(), imageUrl, deliveryPartnerKey)</span></span>
+<span id="L157"><span class="lineNum">     157</span> <span class="tlaUNC">           0 :           .listen((event) {</span></span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaUNC">           0 :         completer.complete(true);</span></span>
+<span id="L159"><span class="lineNum">     159</span> <span class="tlaUNC">           0 :       }, onError: (error) {</span></span>
+<span id="L160"><span class="lineNum">     160</span> <span class="tlaUNC">           0 :         completer.completeError(ApiErrorHelper.getErrorMessage(error).toString());</span></span>
+<span id="L161"><span class="lineNum">     161</span>              :       });</span>
+<span id="L162"><span class="lineNum">     162</span>              :     } catch (e) {</span>
+<span id="L163"><span class="lineNum">     163</span> <span class="tlaUNC">           0 :       completer.completeError(e.toString());</span></span>
+<span id="L164"><span class="lineNum">     164</span>              :     }</span>
+<span id="L165"><span class="lineNum">     165</span> <span class="tlaUNC">           0 :     return completer.future;</span></span>
+<span id="L166"><span class="lineNum">     166</span>              :   }</span>
+<span id="L167"><span class="lineNum">     167</span>              : </span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaUNC">           0 :   Future&lt;File?&gt; _combineImageIntoOne(List&lt;File&gt; imgPathList) async {</span></span>
+<span id="L169"><span class="lineNum">     169</span> <span class="tlaUNC">           0 :     if (imgPathList.length == 1) {</span></span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaUNC">           0 :       return Future.value(imgPathList.first);</span></span>
+<span id="L171"><span class="lineNum">     171</span>              :     }</span>
+<span id="L172"><span class="lineNum">     172</span> <span class="tlaUNC">           0 :     List&lt;ui.Image&gt; images = [];</span></span>
+<span id="L173"><span class="lineNum">     173</span>              :     int w = 0;</span>
+<span id="L174"><span class="lineNum">     174</span>              :     int h = 0;</span>
+<span id="L175"><span class="lineNum">     175</span>              : </span>
+<span id="L176"><span class="lineNum">     176</span>              :     // Load images</span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaUNC">           0 :     for (File file in imgPathList) {</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaUNC">           0 :       if (file.existsSync()) {</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaUNC">           0 :         Uint8List bytes = file.readAsBytesSync();</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaUNC">           0 :         ui.Codec codec = await ui.instantiateImageCodec(bytes);</span></span>
+<span id="L181"><span class="lineNum">     181</span> <span class="tlaUNC">           0 :         ui.FrameInfo frameInfo = await codec.getNextFrame();</span></span>
+<span id="L182"><span class="lineNum">     182</span> <span class="tlaUNC">           0 :         ui.Image image = frameInfo.image;</span></span>
+<span id="L183"><span class="lineNum">     183</span> <span class="tlaUNC">           0 :         images.add(image);</span></span>
+<span id="L184"><span class="lineNum">     184</span>              : </span>
+<span id="L185"><span class="lineNum">     185</span> <span class="tlaUNC">           0 :         w = images.length &gt; 1 ? w = images[0].width : image.width;</span></span>
+<span id="L186"><span class="lineNum">     186</span> <span class="tlaUNC">           0 :         h += image.height;</span></span>
+<span id="L187"><span class="lineNum">     187</span> <span class="tlaUNC">           0 :         h += 15;</span></span>
+<span id="L188"><span class="lineNum">     188</span>              :       }</span>
+<span id="L189"><span class="lineNum">     189</span>              :     }</span>
+<span id="L190"><span class="lineNum">     190</span>              : </span>
+<span id="L191"><span class="lineNum">     191</span>              :     // Create canvas and draw images</span>
+<span id="L192"><span class="lineNum">     192</span> <span class="tlaUNC">           0 :     ui.PictureRecorder recorder = ui.PictureRecorder();</span></span>
+<span id="L193"><span class="lineNum">     193</span> <span class="tlaUNC">           0 :     ui.Canvas canvas = ui.Canvas(recorder);</span></span>
+<span id="L194"><span class="lineNum">     194</span> <span class="tlaUNC">           0 :     canvas.drawColor(Colors.white, BlendMode.color);</span></span>
+<span id="L195"><span class="lineNum">     195</span>              : </span>
+<span id="L196"><span class="lineNum">     196</span>              :     double top = 0;</span>
+<span id="L197"><span class="lineNum">     197</span>              :     int bitmapHeight = 0;</span>
+<span id="L198"><span class="lineNum">     198</span> <span class="tlaUNC">           0 :     for (int i = 0; i &lt; images.length; i++) {</span></span>
+<span id="L199"><span class="lineNum">     199</span> <span class="tlaUNC">           0 :       ui.Image image = images[i];</span></span>
+<span id="L200"><span class="lineNum">     200</span> <span class="tlaUNC">           0 :       top = i == 0 ? 0 : top + bitmapHeight + 15;</span></span>
+<span id="L201"><span class="lineNum">     201</span> <span class="tlaUNC">           0 :       canvas.drawImage(image, Offset(0, top).scale(1, 1), Paint());</span></span>
+<span id="L202"><span class="lineNum">     202</span> <span class="tlaUNC">           0 :       _drawText(canvas, &quot;${i + 1}&quot;, 80 - 10.0, top + image.height - 80 + 10.0);</span></span>
+<span id="L203"><span class="lineNum">     203</span>              : </span>
+<span id="L204"><span class="lineNum">     204</span> <span class="tlaUNC">           0 :       if (i &gt; 0) {</span></span>
+<span id="L205"><span class="lineNum">     205</span> <span class="tlaUNC">           0 :         _drawLine(canvas, 0.0, top - 15 / 2, image.width.toDouble(), top - 15 / 2);</span></span>
+<span id="L206"><span class="lineNum">     206</span>              :       }</span>
+<span id="L207"><span class="lineNum">     207</span> <span class="tlaUNC">           0 :       bitmapHeight = image.height;</span></span>
+<span id="L208"><span class="lineNum">     208</span>              :     }</span>
+<span id="L209"><span class="lineNum">     209</span>              : </span>
+<span id="L210"><span class="lineNum">     210</span>              :     // Convert to PNG and save into a file</span>
+<span id="L211"><span class="lineNum">     211</span> <span class="tlaUNC">           0 :     ui.Picture picture = recorder.endRecording();</span></span>
+<span id="L212"><span class="lineNum">     212</span> <span class="tlaUNC">           0 :     ui.Image image = await picture.toImage(w, h);</span></span>
+<span id="L213"><span class="lineNum">     213</span> <span class="tlaUNC">           0 :     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);</span></span>
+<span id="L214"><span class="lineNum">     214</span>              : </span>
+<span id="L215"><span class="lineNum">     215</span>              :     if (byteData != null) {</span>
+<span id="L216"><span class="lineNum">     216</span> <span class="tlaUNC">           0 :       Uint8List pngBytes = byteData.buffer.asUint8List();</span></span>
+<span id="L217"><span class="lineNum">     217</span> <span class="tlaUNC">           0 :       return saveImageToFile(pngBytes);</span></span>
+<span id="L218"><span class="lineNum">     218</span>              :     }</span>
+<span id="L219"><span class="lineNum">     219</span>              :     return null;</span>
+<span id="L220"><span class="lineNum">     220</span>              :   }</span>
+<span id="L221"><span class="lineNum">     221</span>              : </span>
+<span id="L222"><span class="lineNum">     222</span> <span class="tlaUNC">           0 :   void _drawText(ui.Canvas canvas, String text, double x, double y) {</span></span>
+<span id="L223"><span class="lineNum">     223</span> <span class="tlaUNC">           0 :     TextPainter painter = TextPainter(</span></span>
+<span id="L224"><span class="lineNum">     224</span> <span class="tlaUNC">           0 :       text: TextSpan(</span></span>
+<span id="L225"><span class="lineNum">     225</span>              :         text: text,</span>
+<span id="L226"><span class="lineNum">     226</span>              :         style: const TextStyle(color: Colors.blue, fontSize: 40),</span>
+<span id="L227"><span class="lineNum">     227</span>              :       ),</span>
+<span id="L228"><span class="lineNum">     228</span>              :       textAlign: TextAlign.center,</span>
+<span id="L229"><span class="lineNum">     229</span>              :       textDirection: TextDirection.ltr,</span>
+<span id="L230"><span class="lineNum">     230</span>              :     );</span>
+<span id="L231"><span class="lineNum">     231</span>              : </span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaUNC">           0 :     painter.layout();</span></span>
+<span id="L233"><span class="lineNum">     233</span> <span class="tlaUNC">           0 :     painter.paint(canvas, Offset(x, y));</span></span>
+<span id="L234"><span class="lineNum">     234</span>              :   }</span>
 <span id="L235"><span class="lineNum">     235</span>              : </span>
-<span id="L236"><span class="lineNum">     236</span> <span class="tlaUNC">           0 :     painter.layout();</span></span>
-<span id="L237"><span class="lineNum">     237</span> <span class="tlaUNC">           0 :     painter.paint(canvas, Offset(x, y));</span></span>
-<span id="L238"><span class="lineNum">     238</span>              :   }</span>
-<span id="L239"><span class="lineNum">     239</span>              : </span>
-<span id="L240"><span class="lineNum">     240</span> <span class="tlaUNC">           0 :   void _drawLine(ui.Canvas canvas, double x1, double y1, double x2, double y2) {</span></span>
-<span id="L241"><span class="lineNum">     241</span> <span class="tlaUNC">           0 :     ui.Paint paint = ui.Paint()</span></span>
-<span id="L242"><span class="lineNum">     242</span> <span class="tlaUNC">           0 :       ..strokeWidth = 3</span></span>
-<span id="L243"><span class="lineNum">     243</span> <span class="tlaUNC">           0 :       ..color = Colors.black;</span></span>
-<span id="L244"><span class="lineNum">     244</span>              : </span>
-<span id="L245"><span class="lineNum">     245</span> <span class="tlaUNC">           0 :     canvas.drawLine(Offset(x1, y1), Offset(x2, y2), paint);</span></span>
-<span id="L246"><span class="lineNum">     246</span>              :   }</span>
-<span id="L247"><span class="lineNum">     247</span>              : </span>
-<span id="L248"><span class="lineNum">     248</span> <span class="tlaUNC">           0 :   Future&lt;File&gt; saveImageToFile(Uint8List bytes) async {</span></span>
-<span id="L249"><span class="lineNum">     249</span> <span class="tlaUNC">           0 :     final Directory tempDir = await getTemporaryDirectory();</span></span>
-<span id="L250"><span class="lineNum">     250</span> <span class="tlaUNC">           0 :     File outputFile = File('${tempDir.path}/pod.jpeg');</span></span>
-<span id="L251"><span class="lineNum">     251</span> <span class="tlaUNC">           0 :     outputFile.createSync();</span></span>
-<span id="L252"><span class="lineNum">     252</span> <span class="tlaUNC">           0 :     outputFile.writeAsBytesSync(bytes);</span></span>
-<span id="L253"><span class="lineNum">     253</span> <span class="tlaUNC">           0 :     print('Image combined successfully and saved as: ${outputFile.path}');</span></span>
-<span id="L254"><span class="lineNum">     254</span>              :     return outputFile;</span>
-<span id="L255"><span class="lineNum">     255</span>              :   }</span>
-<span id="L256"><span class="lineNum">     256</span>              : }</span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaUNC">           0 :   void _drawLine(ui.Canvas canvas, double x1, double y1, double x2, double y2) {</span></span>
+<span id="L237"><span class="lineNum">     237</span> <span class="tlaUNC">           0 :     ui.Paint paint = ui.Paint()</span></span>
+<span id="L238"><span class="lineNum">     238</span> <span class="tlaUNC">           0 :       ..strokeWidth = 3</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaUNC">           0 :       ..color = Colors.black;</span></span>
+<span id="L240"><span class="lineNum">     240</span>              : </span>
+<span id="L241"><span class="lineNum">     241</span> <span class="tlaUNC">           0 :     canvas.drawLine(Offset(x1, y1), Offset(x2, y2), paint);</span></span>
+<span id="L242"><span class="lineNum">     242</span>              :   }</span>
+<span id="L243"><span class="lineNum">     243</span>              : </span>
+<span id="L244"><span class="lineNum">     244</span> <span class="tlaUNC">           0 :   Future&lt;File&gt; saveImageToFile(Uint8List bytes) async {</span></span>
+<span id="L245"><span class="lineNum">     245</span> <span class="tlaUNC">           0 :     final Directory tempDir = await getTemporaryDirectory();</span></span>
+<span id="L246"><span class="lineNum">     246</span> <span class="tlaUNC">           0 :     File outputFile = File('${tempDir.path}/pod.jpeg');</span></span>
+<span id="L247"><span class="lineNum">     247</span> <span class="tlaUNC">           0 :     outputFile.createSync();</span></span>
+<span id="L248"><span class="lineNum">     248</span> <span class="tlaUNC">           0 :     outputFile.writeAsBytesSync(bytes);</span></span>
+<span id="L249"><span class="lineNum">     249</span> <span class="tlaUNC">           0 :     print('Image combined successfully and saved as: ${outputFile.path}');</span></span>
+<span id="L250"><span class="lineNum">     250</span>              :     return outputFile;</span>
+<span id="L251"><span class="lineNum">     251</span>              :   }</span>
+<span id="L252"><span class="lineNum">     252</span>              : }</span>
         </pre>
               </td>
             </tr>

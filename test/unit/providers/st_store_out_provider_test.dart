@@ -45,9 +45,9 @@ void main() {
     group('setData', () {
       test('should set lotDetails when null', () {
         final data = StLotDetailResponse.fromJson({
-          'barcode': 'TEST123',
-          'dc': 10,
-          'sc': 5,
+          'qr': 'TEST123',
+          'dcnt': 10,
+          'scnt': 5,
         });
 
         provider.setData(data);
@@ -58,14 +58,14 @@ void main() {
 
       test('should update existing lotDetails', () {
         final initialData = StLotDetailResponse.fromJson({
-          'barcode': 'INITIAL',
-          'dc': 10,
+          'qr': 'INITIAL',
+          'dcnt': 10,
         });
         provider.setData(initialData);
 
         final newData = StLotDetailResponse.fromJson({
-          'barcode': 'UPDATED',
-          'dc': 20,
+          'qr': 'UPDATED',
+          'dcnt': 20,
         });
         provider.setData(newData);
 
@@ -83,8 +83,8 @@ void main() {
 
       test('should return true when more devices available', () {
         provider.lotDetails = StLotDetailResponse.fromJson({
-          'dc': 10, // deviceCount
-          'sc': 5,  // scanCount
+          'dcnt': 10, // deviceCount
+          'scnt': 5,  // scanCount
         });
 
         // deviceCount (10) > scanCount (5) + 1 = 6 -> true
@@ -93,8 +93,8 @@ void main() {
 
       test('should return false when no more devices available', () {
         provider.lotDetails = StLotDetailResponse.fromJson({
-          'dc': 5,  // deviceCount
-          'sc': 4,  // scanCount
+          'dcnt': 5,  // deviceCount
+          'scnt': 4,  // scanCount
         });
 
         // deviceCount (5) > scanCount (4) + 1 = 5 -> false
@@ -103,8 +103,8 @@ void main() {
 
       test('should return false when all devices scanned', () {
         provider.lotDetails = StLotDetailResponse.fromJson({
-          'dc': 5,  // deviceCount
-          'sc': 5,  // scanCount
+          'dcnt': 5,  // deviceCount
+          'scnt': 5,  // scanCount
         });
 
         // deviceCount (5) > scanCount (5) + 1 = 6 -> false

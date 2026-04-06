@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/qc/modules/qc_tester/audit/providers/audit_questions_provider.dart';
@@ -7,7 +8,7 @@ import '../../helpers/provider_test_helpers.dart';
 /// Testable subclass that doesn't make API calls in constructor
 class TestableAuditQuestionsProvider extends AuditQuestionsProvider {
   TestableAuditQuestionsProvider(super.scannedData);
-  
+
   @override
   getAuditQuestionsData(String scannedBarcode) {
     // Skip API call in tests
@@ -19,6 +20,14 @@ class TestableAuditQuestionsProvider extends AuditQuestionsProvider {
 /// These tests import and execute the real provider code to ensure coverage.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+      const MethodChannel('plugins.flutter.io/path_provider'),
+      (MethodCall methodCall) async => '/tmp',
+    );
+  });
 
   group('AuditQuestionsProvider', () {
     late TestableAuditQuestionsProvider provider;
@@ -67,7 +76,7 @@ void main() {
 
       test('should not throw when questionList is empty', () {
         provider.auditData = AuditQuestionResponse.fromJson({
-          'aql': [],
+          'dpr': [],
         });
 
         expect(
@@ -78,9 +87,9 @@ void main() {
 
       test('should update selectedOption when question found', () {
         provider.auditData = AuditQuestionResponse.fromJson({
-          'aql': [
-            {'qid': 1, 'q': 'Question 1'},
-            {'qid': 2, 'q': 'Question 2'},
+          'dpr': [
+            {'pi': 1, 'pn': 'Question 1'},
+            {'pi': 2, 'pn': 'Question 2'},
           ],
         });
 
@@ -91,8 +100,8 @@ void main() {
 
       test('should not update when question not found', () {
         provider.auditData = AuditQuestionResponse.fromJson({
-          'aql': [
-            {'qid': 1, 'q': 'Question 1'},
+          'dpr': [
+            {'pi': 1, 'pn': 'Question 1'},
           ],
         });
 
@@ -103,8 +112,8 @@ void main() {
 
       test('should notify listeners', () {
         provider.auditData = AuditQuestionResponse.fromJson({
-          'aql': [
-            {'qid': 1, 'q': 'Question 1'},
+          'dpr': [
+            {'pi': 1, 'pn': 'Question 1'},
           ],
         });
 

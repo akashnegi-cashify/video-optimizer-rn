@@ -25,6 +25,7 @@ class InventoryAssignedWidget extends StatefulWidget {
 class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
   final CshListController _listController = CshListController();
   bool _showUrgentRequestOnly = false;
+
   final List<DropDownItem> _searchFilterList = [
     DropDownItem<SearchType>("1", "Barcode", extraData: SearchType.barcode),
     DropDownItem<SearchType>("2", "Engineer", extraData: SearchType.engineer),
@@ -45,7 +46,11 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
   }
 
   void refreshList() {
-    _listController.refresh();
+    var provider = InventoryHomeProvider.of(context, listen: false);
+    setState(() {
+      _listRefreshCounter++;
+      _filterConfig = _getFilterConfig(provider);
+    });
   }
 
   FilterConfig _getFilterConfig(InventoryHomeProvider provider) {
@@ -69,6 +74,18 @@ class InventoryAssignedWidgetState extends State<InventoryAssignedWidget> {
           type: CshFilterValueType.contains.value,
           field: 'engineer.name',
           value: AdminFilterData(search: provider.engineerName),
+        ),
+      );
+    }
+
+    // Add location group filter
+    var locationsString = provider.getLocationsString();
+    if (locationsString != null && locationsString.isNotEmpty) {
+      preSelectedFilters.add(
+        AdminFilterList(
+          type: CshFilterValueType.multiSelect.value,
+          field: 'engineer.locationGroup.groupName',
+          value: AdminFilterData(list: locationsString.split(',').toList()),
         ),
       );
     }

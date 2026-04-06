@@ -27,6 +27,7 @@ class PartRequestReasonsProvider extends CshChangeNotifier {
   PartRequestReasonsProvider(this.partRequestList) {
     Future.wait([_getReasonList(), _getCategoryCodeList()]).catchError((error) {
       reasonListError = error.toString();
+      return <dynamic>[];
     }).whenComplete(
       () {
         isPageLoading = false;

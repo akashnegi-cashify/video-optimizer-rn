@@ -1,13 +1,53 @@
+import 'package:builder_component/builder_component.dart';
+import 'package:core_widgets/core_widgets.dart' hide isNotEmpty;
+import 'package:core_widgets/src/theme/theme_change.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/src/modules/rubbing/widgets/received_rubbing_devices_screen.dart';
+import 'package:localization/localization/locale_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   /// Builds a testable widget with MaterialApp wrapper
   Widget buildTestWidget(Widget child) {
-    return MaterialApp(
-      theme: ThemeData(),
-      home: Scaffold(body: child),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<InternetProvider>.value(
+          value: InternetProvider(checkInternetConnectivity: false),
+        ),
+        ChangeNotifierProvider<DBSyncProvider>(
+          create: (_) {
+            final p = DBSyncProvider(
+              const SizedBox(), false, '', '', false, false, null, false, false,
+            );
+            p.syncingDB = false;
+            return p;
+          },
+        ),
+        ChangeNotifierProvider<GlobalParamProvider>(
+          create: (_) => GlobalParamProvider(),
+        ),
+        ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider<ThemeChangeProvider>(create: (_) => ThemeChangeProvider(false)),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          extensions: [
+            CustomColors(
+              successColor: Colors.green,
+              warnColor: Colors.orange,
+              inputStrokeColor: Colors.grey,
+              searchShadow: Colors.grey.withAlpha(50),
+              shadows: {
+                10: const BoxShadow(color: Colors.black12, blurRadius: 10),
+                15: const BoxShadow(color: Colors.black12, blurRadius: 15),
+                20: const BoxShadow(color: Colors.black12, blurRadius: 20),
+              },
+            ),
+          ],
+        ),
+        home: Scaffold(body: child),
+      ),
     );
   }
 

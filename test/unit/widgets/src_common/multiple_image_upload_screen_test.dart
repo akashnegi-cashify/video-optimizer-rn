@@ -1,4 +1,5 @@
 import 'package:core_widgets/core_widgets.dart' hide isEmpty, isNotEmpty;
+import 'package:core_widgets/src/theme/theme_change.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_trc/src/common/widgets/multiple_image_upload_screen.dart';
@@ -11,9 +12,24 @@ void main() {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider<ThemeChangeProvider>(create: (_) => ThemeChangeProvider(false)),
       ],
       child: MaterialApp(
-        theme: ThemeData(),
+        theme: ThemeData(
+          extensions: [
+            CustomColors(
+              successColor: Colors.green,
+              warnColor: Colors.orange,
+              inputStrokeColor: Colors.grey,
+              searchShadow: Colors.grey.withAlpha(50),
+              shadows: {
+                10: const BoxShadow(color: Colors.black12, blurRadius: 10),
+                15: const BoxShadow(color: Colors.black12, blurRadius: 15),
+                20: const BoxShadow(color: Colors.black12, blurRadius: 20),
+              },
+            ),
+          ],
+        ),
         home: child,
       ),
     );
@@ -32,6 +48,10 @@ void main() {
       await tester.pump();
 
       expect(find.byType(MultipleImageUploadScreen), findsOneWidget);
+
+      // Flush pending timers from widget initialization
+      await tester.pumpWidget(const SizedBox());
+      await tester.pump(const Duration(seconds: 1));
     });
 
     testWidgets('renders Scaffold', (tester) async {

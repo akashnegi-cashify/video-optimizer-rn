@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter_trc/src/modules/rider/pending_pickup/receive/resources/pickup_receive_api_service.dart';
 
@@ -24,7 +25,8 @@ class PickupReceiveProvider extends CshChangeNotifier with Searchable {
     }, onDone: () {
       notifyListeners();
     }, onError: (e, s) {
-      errorHandler(e);
+      var error = ApiErrorHelper.getErrorMessage(e);
+      errorHandler(error.toString());
     });
   }
 

@@ -37,12 +37,8 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-02-03 16:56:15</td>
+            <td class="headerValue">2026-03-24 18:52:44</td>
             <td></td>
-            <td class="headerItem">Functions:</td>
-            <td class="headerCovTableEntryHi">-</td>
-            <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">0</td>
           </tr>
                   <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
                 </table>
@@ -80,7 +76,7 @@
 <span id="L18"><span class="lineNum">      18</span>              : import '../l10n.dart';</span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
 <span id="L20"><span class="lineNum">      20</span>              : class CalculatorScannerWidget extends StatefulWidget {</span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           5 :   const CalculatorScannerWidget({super.key});</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           2 :   const CalculatorScannerWidget({super.key});</span></span>
 <span id="L22"><span class="lineNum">      22</span>              : </span>
 <span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :   @override</span></span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   State&lt;CalculatorScannerWidget&gt; createState() =&gt; _CalculatorScannerWidgetState();</span></span>
@@ -156,7 +152,7 @@
 <span id="L94"><span class="lineNum">      94</span>              :     try {</span>
 <span id="L95"><span class="lineNum">      95</span> <span class="tlaUNC">           0 :       _category = await provider.getCategory(_deviceBarcode!, scannedData);</span></span>
 <span id="L96"><span class="lineNum">      96</span> <span class="tlaUNC">           0 :       if (context.mounted) {</span></span>
-<span id="L97"><span class="lineNum">      97</span> <span class="tlaUNC">           0 :         if (_category?.categoryKey == DeviceCategoryIdType.mobile.value) {</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaUNC">           0 :         if (_category?.categoryKey?.toLowerCase() == DeviceCategoryIdType.mobile.value.toLowerCase()) {</span></span>
 <span id="L98"><span class="lineNum">      98</span> <span class="tlaUNC">           0 :           CshLoading().hideLoading(context);</span></span>
 <span id="L99"><span class="lineNum">      99</span> <span class="tlaUNC">           0 :           _getCalculator(provider, controller, DeviceType.mobile_device);</span></span>
 <span id="L100"><span class="lineNum">     100</span>              :         } else {</span>

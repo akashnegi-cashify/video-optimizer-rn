@@ -33,6 +33,7 @@ import 'package:flutter_trc/qc/modules/warehouse_audit/components/warehouse_audi
 import 'package:flutter_trc/qc/qc_common/lot_type_filters/components/store_out_lots_filter_component.dart';
 
 import 'modules/data_wipe/components/data_wipe_detail_component.dart';
+import 'modules/pixel_testing/components/pixel_testing_component.dart';
 import 'modules/data_wipe/components/data_wipe_list_component.dart';
 import 'modules/dead_repair/components/index.dart';
 import 'modules/device_receive_module/components/device_receive_component.dart';
@@ -178,6 +179,9 @@ class QcComponentRegistry {
 
       case D2cVideoHomeComponent.COMP_KEY:
         return D2cVideoHomeComponent(jsonConfig);
+
+      case PixelTestingComponent.COMP_KEY:
+        return PixelTestingComponent(jsonConfig);
 
       default:
         return null;

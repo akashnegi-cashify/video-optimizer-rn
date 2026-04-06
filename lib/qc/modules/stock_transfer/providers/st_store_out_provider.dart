@@ -17,6 +17,8 @@ class StStoreOutProvider extends CshChangeNotifier {
 
   Stream<StLotDetailResponse?> get lotDetailsStream => _lotDetailsStreamController.stream;
 
+  Future<void>? _addStreamFuture;
+
   int? lotId;
   StLotDetailResponse? lotDetails;
   StLotDetailResponse? _lastLotDetails;
@@ -26,7 +28,7 @@ class StStoreOutProvider extends CshChangeNotifier {
   }
 
   void getLotDetailsStream() {
-    _lotDetailsStreamController.sink.addStream(StockTransferService.getStockTransferLotDetails(
+    _addStreamFuture = _lotDetailsStreamController.sink.addStream(StockTransferService.getStockTransferLotDetails(
       lotId,
       lastLocationType: _lastLotDetails?.storage,
       lastLocation: _lastLotDetails?.location,
@@ -62,7 +64,9 @@ class StStoreOutProvider extends CshChangeNotifier {
 
   @override
   void dispose() {
-    _lotDetailsStreamController.close();
+    _addStreamFuture?.whenComplete(() {
+      _lotDetailsStreamController.close();
+    });
     super.dispose();
   }
 
