@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/qc/modules/d2c_video/screens/d2c_video_home_screen.dart';
 import 'package:flutter_trc/qc/modules/data_wipe/screens/data_wipe_home_screen.dart';
 import 'package:flutter_trc/qc/modules/device_details/screens/device_details_screen.dart';
 import 'package:flutter_trc/qc/modules/device_receive_module/screens/device_receive_screen.dart';
@@ -85,6 +86,14 @@ class _QCActionWidgetState extends State<QCActionWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             PixelTestingButtonWidget(),
+            const SizedBox(height: Dimens.space_16),
+            QcRolePermissionWidget(
+              role: QcRole.qcVideographer,
+              child: CshBigButton(
+                text: l10n.genericDeviceMedia,
+                onPressed: () => Navigator.pushNamed(context, D2cVideoHomeScreen.route),
+              ),
+            ),
             const SizedBox(height: Dimens.space_16),
             QcRolePermissionWidget(
               role: QcRole.qcElss,
