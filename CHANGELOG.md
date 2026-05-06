@@ -1,5 +1,12 @@
 # TRC Releases
 
+# v6.0.4+87 (24-04-2026)
+
+### Feature:
+
+* `QC build for testing`
+
+
 # v6.0.3+86 (06-04-2026)
 
 ### Feature:

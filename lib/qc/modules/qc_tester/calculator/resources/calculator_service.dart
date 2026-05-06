@@ -167,7 +167,7 @@ abstract class CalculatorService {
       req["imei"] = scannedList;
     }
 
-    return service.post("/device/mismatch/report/save", BaseActionResponse.fromJson, body: jsonEncode(req));
+    return service.post("/device/mismatch/report/save", BaseActionResponse.fromJsonWithInt, body: jsonEncode(req));
   }
 
   Stream<VariantListResponse?> getVariantList(int productId) {
