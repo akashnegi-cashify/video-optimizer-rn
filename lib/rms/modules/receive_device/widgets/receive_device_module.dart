@@ -1,8 +1,8 @@
 import 'package:calculator_ui/calculator_ui.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/rms/modules/facility_list/resources/facility_list_response.dart';
-import 'package:flutter_trc/rms/modules/facility_list/screens/facility_list_screen.dart';
+import 'package:flutter_trc/src/common/facility_list/resources/facility_list_response.dart';
+import 'package:flutter_trc/src/common/facility_list/screens/facility_list_screen.dart';
 import 'package:flutter_trc/rms/modules/receive_device/dialog/show_accessories_dialog.dart';
 import 'package:flutter_trc/rms/modules/receive_device/providers/receive_device_module_provider.dart';
 import 'package:flutter_trc/rms/modules/receive_device/resources/accessories_data.dart';
@@ -34,7 +34,7 @@ class ReceiveDeviceModule extends StatelessWidget {
   }
 
   _onReceiveDeviceButtonClicked(BuildContext context, ReceiveDeviceModuleProvider provider) {
-    FacilityListData? facility = AppPreferences.app.getFacility();
+    FacilityListData? facility = AppPreferences.rms.getFacility();
     if (facility == null) {
       _getFacility(context, onSelected: () {
         onFacilityChanged?.call();
@@ -46,9 +46,9 @@ class ReceiveDeviceModule extends StatelessWidget {
   }
 
   _getFacility(BuildContext context, {required VoidCallback onSelected}) {
-    FacilityListScreen.openFacilityScreen(context, onFacilitySelected: (facility) {
+    CommonFacilityListScreen.openFacilityScreen(context, onFacilitySelected: (facility) {
       Navigator.pop(context); // Close the facility list screen
-      AppPreferences.app.setFacility(facility).then((_) {
+      AppPreferences.rms.setFacility(facility).then((_) {
         onSelected();
       });
     });
@@ -67,7 +67,7 @@ class ReceiveDeviceModule extends StatelessWidget {
             _resetController = resetController;
           },
           onScanned: (scannedData, controller) {
-            int facilityId = AppPreferences.app.getFacility()?.id ?? 0;
+            int facilityId = AppPreferences.rms.getFacility()?.id ?? 0;
             CshLoading().showLoading(context);
             controller?.stop();
             provider.getDeviceDetails(scannedData, barcodeType).then((value) {

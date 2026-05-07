@@ -82,7 +82,11 @@ enum ComponentGroup with AbsComponentGroup {
   trcPartRequestReasonsComponentKey("Trc Part Request Reasons Component"),
   trcTlListComponentKey("Trc TL List Component"),
   trcExecutiveLotListComponentKey("Trc Executive Lot List Component"),
-  trcAuditComponentKey("Trc Audit Component");
+  trcAuditComponentKey("Trc Audit Component"),
+  paintShopHomeComponentKey("Paint Shop Home"),
+  dismantleHomeComponentKey("Dismantle Home"),
+  laptopAnalyzerHomeComponentKey("Laptop Analyzer Home"),
+  bodyShopHomeComponentKey("Body Shop Home");
 
   @override
   final String value;
@@ -168,7 +172,11 @@ enum PageGroup with AbsPageGroup {
   trcPartRequestReasonsPageKey("Trc Part Request Reasons"),
   trcTlListPageKey("Trc TL List"),
   trcExecutiveLotListPageKey("Trc Executive Lot List"),
-  trcAuditPageKey("Trc Audit");
+  trcAuditPageKey("Trc Audit"),
+  paintShopHomePageKey("Paint Shop Home"),
+  dismantleHomePageKey("Dismantle Home"),
+  laptopAnalyzerHomePageKey("Laptop Analyzer Home"),
+  bodyShopHomePageKey("Body Shop Home");
 
   @override
   final String value;

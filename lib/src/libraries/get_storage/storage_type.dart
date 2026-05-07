@@ -1,6 +1,8 @@
 enum StorageType {
   appStorage("GetStorage"),
-  qcStorage("QcStorage");
+  qcStorage("QcStorage"),
+  rmsStorage("RmsStorage"),
+  trcStorage("TrcStorage");
 
   final String value;
 

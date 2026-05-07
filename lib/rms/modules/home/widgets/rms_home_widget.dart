@@ -1,14 +1,15 @@
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/rms/modules/receive_device/widgets/receive_device_create_video_module.dart';
-import 'package:flutter_trc/rms/rms_common/widgets/current_facility_widget.dart';
+import 'package:flutter_trc/src/common/facility_list/widgets/current_facility_widget.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 
 import '../../receive_device/widgets/receive_device_module.dart';
 
 class RmsHomeWidget extends StatelessWidget {
   RmsHomeWidget({super.key});
 
-  final GlobalKey<CurrentFacilityState> currentFacilityKey = GlobalKey<CurrentFacilityState>();
+  final GlobalKey<CurrentFacilityWidgetState> currentFacilityKey = GlobalKey<CurrentFacilityWidgetState>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,11 @@ class RmsHomeWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CurrentFacility(key: currentFacilityKey),
+          CurrentFacilityWidget(
+            key: currentFacilityKey,
+            getFacility: AppPreferences.rms.getFacility,
+            setFacility: AppPreferences.rms.setFacility,
+          ),
           const SizedBox(height: 200),
           ReceiveDeviceModule(onFacilityChanged: _onFacilityChanged),
           const SizedBox(height: Dimens.space_16),

@@ -1,14 +1,22 @@
 import 'package:components/auth/handler/auth_handler.dart';
 import 'package:flutter_trc/src/libraries/get_storage/app_storage.dart';
 import 'package:flutter_trc/src/libraries/get_storage/qc_storage.dart';
+import 'package:flutter_trc/src/libraries/get_storage/rms_storage.dart';
+import 'package:flutter_trc/src/libraries/get_storage/trc_storage.dart';
 
 class AppPreferences {
   static final QcStorage _qcStorage = QcStorage();
   static final AppStorage _appStorage = AppStorage();
+  static final RmsStorage _rmsStorage = RmsStorage();
+  static final TrcStorage _trcStorage = TrcStorage();
 
   static QcStorage get qc => _qcStorage;
 
   static AppStorage get app => _appStorage;
+
+  static RmsStorage get rms => _rmsStorage;
+
+  static TrcStorage get trc => _trcStorage;
 
   AppPreferences._privateConstructor();
 
@@ -17,10 +25,14 @@ class AppPreferences {
   Future<void> init() async {
     await _qcStorage.init();
     await _appStorage.init();
+    await _rmsStorage.init();
+    await _trcStorage.init();
   }
 
   Future<void> resetAndClearAll() async {
     _appStorage.clear();
+    _rmsStorage.clear();
+    _trcStorage.clear();
     await AuthHandler().onSessionExpire();
   }
 }

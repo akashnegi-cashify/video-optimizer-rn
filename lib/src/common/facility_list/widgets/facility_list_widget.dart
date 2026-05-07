@@ -7,13 +7,20 @@ import '../resources/facility_list_response.dart';
 
 class FacilityListWidget extends StatelessWidget {
   final Function(FacilityListData facility)? onFacilitySelected;
+  final String apiUrl;
+  final TRCServiceGroups serviceGroup;
 
-  const FacilityListWidget(this.onFacilitySelected, {super.key});
+  const FacilityListWidget(
+    this.onFacilitySelected, {
+    super.key,
+    this.apiUrl = '/facility/list',
+    this.serviceGroup = TRCServiceGroups.rms,
+  });
 
   @override
   Widget build(BuildContext context) {
     return CshApiList<FacilityListData>(
-        apiConfig: ListApiConfig(apiUrl: '/facility/list', serviceGroup: TRCServiceGroups.rms),
+        apiConfig: ListApiConfig(apiUrl: apiUrl, serviceGroup: serviceGroup),
         pageSize: 10,
         shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
         filterConfig: FilterConfig(filterData: [

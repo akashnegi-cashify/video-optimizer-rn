@@ -52,6 +52,10 @@ import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home
 import 'package:flutter_trc/src/modules/trc_executive/screens/device_scanner_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_store_out_screen.dart';
+import 'package:flutter_trc/src/modules/dismantle/screens/dismantle_home_screen.dart';
+import 'package:flutter_trc/src/modules/body_shop/screens/body_shop_home_screen.dart';
+import 'package:flutter_trc/src/modules/laptop_analyzer/screens/laptop_analyzer_home_screen.dart';
+import 'package:flutter_trc/src/modules/paint_shop/screens/paint_shop_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 
 import '../src/modules/engineer/retreived_parts/screens/image_view_screen.dart';
@@ -126,6 +130,10 @@ class TrcRoutes {
       TrcExecutiveLotListScreen.route: (_) => const TrcExecutiveLotListScreen(),
       TrcAuditScreen.route: (_) => const TrcAuditScreen(),
       TRCExecutiveStoreOutScreen.route: (_) => const TRCExecutiveStoreOutScreen(),
+      PaintShopHomeScreen.route: (_) => const PaintShopHomeScreen(),
+      DismantleHomeScreen.route: (_) => const DismantleHomeScreen(),
+      LaptopAnalyzerHomeScreen.route: (_) => const LaptopAnalyzerHomeScreen(),
+      BodyShopHomeScreen.route: (_) => const BodyShopHomeScreen(),
       UserProfileScreen.route: (_) => const UserProfileScreen(),
       PendingDeliveryReceiveScreen.route: (_) => const PendingDeliveryReceiveScreen(),
       RiderPendingDeliveryDeliverScreen.route: (_) => const RiderPendingDeliveryDeliverScreen(),

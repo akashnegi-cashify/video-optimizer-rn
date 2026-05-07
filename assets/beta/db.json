@@ -685,6 +685,70 @@
       ]
     },
     {
+      "pageId": 51,
+      "pageKey": "TRC_paint_shop_home_screen",
+      "dt": [
+        {
+          "id": 89,
+          "key": "TRC_paint_shop_home_component",
+          "type": "component"
+        },
+        {
+          "id": 90,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 52,
+      "pageKey": "TRC_dismantle_home_screen",
+      "dt": [
+        {
+          "id": 91,
+          "key": "TRC_dismantle_home_component",
+          "type": "component"
+        },
+        {
+          "id": 92,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 53,
+      "pageKey": "TRC_laptop_analyzer_home_screen",
+      "dt": [
+        {
+          "id": 93,
+          "key": "TRC_laptop_analyzer_home_component",
+          "type": "component"
+        },
+        {
+          "id": 94,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
+      "pageId": 54,
+      "pageKey": "TRC_body_shop_home_screen",
+      "dt": [
+        {
+          "id": 95,
+          "key": "TRC_body_shop_home_component",
+          "type": "component"
+        },
+        {
+          "id": 96,
+          "key": "header_TRC_general_component",
+          "type": "component"
+        }
+      ]
+    },
+    {
       "pageId": 10001,
       "pageKey": "QC_qc_tester_home_screen",
       "dt": [
@@ -2562,6 +2626,94 @@
           "ht": "Store Out Lot List",
           "sbb": true,
           "slb": false
+        }
+      }
+    },
+    {
+      "componentId": 89,
+      "locale": "en",
+      "key": "TRC_paint_shop_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 90,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Paint Shop Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 91,
+      "locale": "en",
+      "key": "TRC_dismantle_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 92,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Dismantle Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 93,
+      "locale": "en",
+      "key": "TRC_laptop_analyzer_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 94,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Laptop Analyzer Home",
+          "sbb": false,
+          "slb": true
+        }
+      }
+    },
+    {
+      "componentId": 95,
+      "locale": "en",
+      "key": "TRC_body_shop_home_component",
+      "configJson": {
+        "config": {
+          "none": "None"
+        }
+      }
+    },
+    {
+      "componentId": 96,
+      "locale": "en",
+      "key": "header_TRC_general_component",
+      "configJson": {
+        "config": {
+          "ht": "Body Shop Home",
+          "sbb": false,
+          "slb": true
         }
       }
     },

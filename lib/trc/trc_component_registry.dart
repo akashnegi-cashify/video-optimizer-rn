@@ -43,9 +43,13 @@ import 'package:flutter_trc/src/modules/trc_executive/components/device_scanner_
 import 'package:flutter_trc/src/modules/trc_executive/components/tl_list_component.dart';
 import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_component.dart';
 import 'package:flutter_trc/src/modules/trc_executive/components/trc_executive_lot_list_component.dart';
+import 'package:flutter_trc/src/modules/body_shop/components/body_shop_home_component.dart';
+import 'package:flutter_trc/src/modules/dismantle/components/dismantle_home_component.dart';
+import 'package:flutter_trc/src/modules/laptop_analyzer/components/laptop_analyzer_home_component.dart';
 import 'package:flutter_trc/src/modules/trc_tester/components/trc_tester_component.dart';
 
 import '../src/modules/engineer/retreived_parts/components/retrieved_parts_data_details_component.dart';
+import '../src/modules/paint_shop/components/paint_shop_home_component.dart';
 import '../src/modules/part_qc/retrieved_part_qc/components/action_component.dart';
 import '../src/modules/part_qc/retrieved_part_qc/components/view_report_qc_component.dart';
 import '../src/modules/store_manager/components/store_manager_home_component.dart';
@@ -199,6 +203,18 @@ class TrcComponentRegistry {
 
       case TrcAuditComponent.COMP_KEY:
         return TrcAuditComponent(jsonConfig);
+
+      case PaintShopHomeComponent.COMP_KEY:
+        return PaintShopHomeComponent(jsonConfig);
+
+      case DismantleHomeComponent.COMP_KEY:
+        return DismantleHomeComponent(jsonConfig);
+
+      case LaptopAnalyzerHomeComponent.COMP_KEY:
+        return LaptopAnalyzerHomeComponent(jsonConfig);
+
+      case BodyShopHomeComponent.COMP_KEY:
+        return BodyShopHomeComponent(jsonConfig);
 
       default:
         return null;

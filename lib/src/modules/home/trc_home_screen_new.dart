@@ -1,13 +1,19 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/src/common/facility_list/widgets/current_facility_widget.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
+import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
 import 'package:flutter_trc/src/modules/audit/screens/trc_audit_screen.dart';
+import 'package:flutter_trc/src/modules/body_shop/screens/body_shop_home_screen.dart';
+import 'package:flutter_trc/src/modules/dismantle/screens/dismantle_home_screen.dart';
 import 'package:flutter_trc/src/modules/elss/common_screen/elss_home_screen.dart';
 import 'package:flutter_trc/src/modules/engineer/resources/engineer_api_service.dart';
 import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.dart';
 import 'package:flutter_trc/src/modules/inventory_manager/screens/inventory_home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
+import 'package:flutter_trc/src/modules/laptop_analyzer/screens/laptop_analyzer_home_screen.dart';
+import 'package:flutter_trc/src/modules/paint_shop/screens/paint_shop_home_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
 import 'package:flutter_trc/src/modules/rubbing/resources/rubbing_module_role_type.dart';
@@ -16,6 +22,7 @@ import 'package:flutter_trc/src/modules/store_manager/screens/store_manager_home
 import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 import 'package:flutter_trc/src/resources/user_details.dart';
+import 'package:flutter_trc/src/services/service_groups.dart';
 import 'package:flutter_trc/trc/my_permissions/permissions.dart';
 import 'package:flutter_trc/trc/my_permissions/widget/trc_role_permission_widget.dart';
 
@@ -35,6 +42,13 @@ class TrcHomeScreenNew extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              CurrentFacilityWidget(
+                getFacility: AppPreferences.trc.getFacility,
+                setFacility: AppPreferences.trc.setFacility,
+                serviceGroup: TRCServiceGroups.unifyTrc,
+                apiUrl: "/console/facility/list",
+                showForce: true,
+              ),
               // Elss
               TRCRolePermissionWidget(
                 permission: TrcPermissions.elss,
@@ -172,6 +186,34 @@ class TrcHomeScreenNew extends StatelessWidget {
                   },
                 ),
               ),
+              SizedBox(height: Dimens.space_16),
+              CshBigButton(
+                text: "Paint Shop",
+                onPressed: () {
+                  Navigator.of(context).pushNamed(PaintShopHomeScreen.route);
+                },
+              ),
+              SizedBox(height: Dimens.space_16),
+              CshBigButton(
+                text: "Body Shop",
+                onPressed: () {
+                  Navigator.of(context).pushNamed(BodyShopHomeScreen.route);
+                },
+              ),
+              SizedBox(height: Dimens.space_16),
+              CshBigButton(
+                text: "Dismantling",
+                onPressed: () {
+                  Navigator.of(context).pushNamed(DismantleHomeScreen.route);
+                },
+              ),
+              SizedBox(height: Dimens.space_16),
+              CshBigButton(
+                text: "Laptop Analyzer",
+                onPressed: () {
+                  Navigator.of(context).pushNamed(LaptopAnalyzerHomeScreen.route);
+                },
+              )
             ],
           ),
         ),

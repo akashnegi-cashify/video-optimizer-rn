@@ -38,7 +38,14 @@
       "Bash(gh --version)",
       "Skill(claude-api)",
       "Skill(claude-api:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(sort -t: -k2 -n)",
+      "Bash(grep -E \"\\\\.\\(dart\\)$\")",
+      "Bash(find /Users/vipingupta/Documents/Developer/flutter_workspace/flutter_trc -name *button*.dart -path */core_widgets/* -o -name *button*.dart -path */csh*)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "atlassian"
+  ]
 }
