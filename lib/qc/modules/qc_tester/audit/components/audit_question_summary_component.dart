@@ -211,8 +211,9 @@ class _AuditSummaryState extends State<_AuditSummary> {
     });
   }
 
-  _showDeviceStatusDialog(BuildContext context, String deviceStatus) {
-    showAlertDialog(context, title: "Channel", desc: deviceStatus, onPosBtnPressed: (_) {
+  _showDeviceStatusDialog(BuildContext context, DeviceStatus deviceStatus) {
+    showAlertDialog(context, title: "Channel/Grade", desc: "${deviceStatus.deviceStatus} - ${deviceStatus.grade}",
+        onPosBtnPressed: (_) {
       Navigator.pop(context); // dismiss dialog
       _scanAgain(context);
     });

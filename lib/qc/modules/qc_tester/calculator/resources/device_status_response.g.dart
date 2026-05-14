@@ -16,6 +16,7 @@ DeviceStatusResponse _$DeviceStatusResponseFromJson(
           .toList(),
       (json['stockAge'] as num?)?.toInt(),
       json['isCaptureQcImages'] as bool?,
+      json['grade'] as String?,
       json['__ca'] == null
           ? null
           : CashifyAlert.fromJson(json['__ca'] as Map<String, dynamic>),
@@ -31,4 +32,5 @@ Map<String, dynamic> _$DeviceStatusResponseToJson(
       'salesChannels': instance.salesChannels,
       'stockAge': instance.stockAge,
       'isCaptureQcImages': instance.isCaptureQcImages,
+      'grade': instance.grade,
     };

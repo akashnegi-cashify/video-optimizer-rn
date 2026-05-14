@@ -11,6 +11,13 @@ import 'package:provider/provider.dart';
 
 import '../resources/audit_service.dart';
 
+class DeviceStatus {
+  String? deviceStatus;
+  String? grade;
+
+  DeviceStatus(this.deviceStatus, this.grade);
+}
+
 class AuditQuestionSubmitProvider extends CalculatorServiceInitProvider {
   List<int>? manualQuestionListIds;
 
@@ -65,7 +72,7 @@ class AuditQuestionSubmitProvider extends CalculatorServiceInitProvider {
     return completer.future;
   }
 
-  Future<String> getDeviceStatus(String deviceBarcode) async {
+  Future<DeviceStatus> getDeviceStatus(String deviceBarcode) async {
     String? errorMessage;
     for (int i = 0; i < 5; i++) {
       try {
@@ -89,8 +96,9 @@ class AuditQuestionSubmitProvider extends CalculatorServiceInitProvider {
         } else {
           deviceStatus = subTitle + deviceStatusResponse.salesChannels!.join(",");
         }
+        String? grade = deviceStatusResponse.grade;
         errorMessage = null;
-        return deviceStatus;
+        return DeviceStatus(deviceStatus, grade);
       } catch (e) {
         errorMessage = ApiErrorHelper.getErrorMessage(e);
         continue;
