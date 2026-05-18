@@ -5,10 +5,10 @@ part 'mark_to_tl_reasons_response.g.dart';
 
 @JsonSerializable()
 class MarkToTlReasonsResponse extends BaseResponse {
-  @JsonKey(name: "isSuccess", defaultValue: false)
-  late bool isSuccess;
+  @JsonKey(name: "s")
+  bool? isSuccess;
 
-  @JsonKey(name: "responseData")
+  @JsonKey(name: "dt")
   List<MarkToTlReason>? responseData;
 
   MarkToTlReasonsResponse(super.cashifyAlert, super.trackUrl);

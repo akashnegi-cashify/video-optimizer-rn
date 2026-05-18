@@ -29,7 +29,7 @@ class _AnalyzerInProgressScreenState extends State<AnalyzerInProgressScreen> {
       CshFilterData(
         label: "Search device barcode",
         field: 'deviceBarcode',
-        crudFilter: 'dbr',
+        crudFilter: 'barcode',
         filterType: CshFilterType.input,
         valueType: CshFilterValueType.contains,
         position: FilterPosition.top,
@@ -48,7 +48,7 @@ class _AnalyzerInProgressScreenState extends State<AnalyzerInProgressScreen> {
           Expanded(
             child: CshApiList<AnalyzerDevice>(
               apiConfig: ListApiConfig(
-                apiUrl: "/laptop/laptop-analyzer/device/list",
+                apiUrl: "/laptop/analysis/device/list",
                 serviceGroup: TRCServiceGroups.unifyTrc,
               ),
               controller: _listController,

@@ -9,7 +9,7 @@ class LaptopAnalyzerService {
       "st": [statusType.value.toString()],
     };
     return TrcService().post(
-      "/console/manage/device/update-status",
+      "/device/update-status",
       BaseActionResponse.fromJson,
       params: params,
     );

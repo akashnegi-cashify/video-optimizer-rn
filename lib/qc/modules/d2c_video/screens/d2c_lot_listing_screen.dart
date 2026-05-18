@@ -25,7 +25,7 @@ class D2cLotListingScreen extends StatelessWidget {
         builder: (innerContext, _) {
           var provider = D2cLotListingProvider.of(innerContext, listen: false);
           return Padding(
-            padding: const EdgeInsets.all(Dimens.space_16),
+            padding: const EdgeInsets.all(Dimens.space_8),
             child: _D2cLotListing(),
           );
         },
@@ -45,51 +45,45 @@ class _D2cLotListing extends StatelessWidget {
     var list = provider.d2cLotList;
     var theme = Theme.of(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        MySearchBarWidget(
-          hintText: "Search by lot name",
-          onQuery: (query) {
-            provider.searchQuery = query;
-          },
-        ),
-        const SizedBox(height: Dimens.space_16),
+        // MySearchBarWidget(
+        //   hintText: "Search by lot name",
+        //   onQuery: (query) {
+        //     provider.searchQuery = query;
+        //   },
+        // ),
+        // const SizedBox(height: Dimens.space_16),
         Expanded(
-          child: Validator.isListNullOrEmpty(list)
-              ? Center(
-                  child: Text(
-                    "No data found",
-                    style: theme.primaryTextTheme.titleMedium?.copyWith(color: theme.colorScheme.error),
-                  ),
-                )
-              : CshApiList<D2cLotListData>(
-                  apiConfig: ListApiConfig(
-                    apiUrl: "/device/recording/pending-lot-list",
-                    serviceGroup: TRCServiceGroups.qcConsole,
-                  ),
-                  controller: _listController,
-                  shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
-                  listPadding: const EdgeInsets.all(Dimens.space_16),
-                  verticalRowSpacing: Dimens.space_16,
-                  itemFromJson: D2cLotListData.fromJson,
-                  getRowWidget: (item, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        if (item == null || item.lotId == null || item.groupLotName == null) return;
-                        D2cLotDeviceListingScreen.navigate(
-                          context,
-                          item.lotId!,
-                          item.groupLotName!,
-                          onBack: (isRefreshLot) {
-                            if (isRefreshLot) {
-                              _listController.refresh();
-                            }
-                          },
-                        );
-                      },
-                      child: CshCard(child: CshTextNew.subTitle1(item?.groupLotName ?? "")),
-                    );
-                  },
-                ),
+          child: CshApiList<D2cLotListData>(
+            apiConfig: ListApiConfig(
+              apiUrl: "/device/recording/pending-lot-list",
+              serviceGroup: TRCServiceGroups.qcConsole,
+            ),
+            controller: _listController,
+            shimmerLoaderWidget: const CshShimmer(height: Dimens.space_60),
+            listPadding: const EdgeInsets.symmetric(vertical: Dimens.space_8, horizontal: Dimens.space_8),
+            verticalRowSpacing: Dimens.space_16,
+            itemFromJson: D2cLotListData.fromJson,
+            getRowWidget: (item, index) {
+              return GestureDetector(
+                onTap: () {
+                  if (item == null || item.lotId == null || item.groupLotName == null) return;
+                  D2cLotDeviceListingScreen.navigate(
+                    context,
+                    item.lotId!,
+                    item.groupLotName!,
+                    onBack: (isRefreshLot) {
+                      if (isRefreshLot) {
+                        _listController.refresh();
+                      }
+                    },
+                  );
+                },
+                child: CshCard(cardWidth: double.infinity, child: CshTextNew.subTitle1(item?.groupLotName ?? "")),
+              );
+            },
+          ),
         )
       ],
     );

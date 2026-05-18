@@ -15,8 +15,8 @@ Future<MarkToTlReason?> showMarkToTlDialog(BuildContext context) async {
 
   try {
     await MarkToTlService.getReasons().listen((event) {
-      if (event != null && event.isSuccess && event.responseData != null) {
-        reasons = event.responseData;
+      if (!Validator.isListNullOrEmpty(event?.responseData)) {
+        reasons = event!.responseData;
       } else {
         errorMessage = "Failed to load reasons";
       }
@@ -39,10 +39,9 @@ Future<MarkToTlReason?> showMarkToTlDialog(BuildContext context) async {
     context: context,
     useRootNavigator: false,
     builder: (dialogContext) {
+      DropDownItem? selectedItem;
       return StatefulBuilder(
         builder: (context, setState) {
-          DropDownItem? selectedItem;
-
           return Dialog(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -59,9 +58,7 @@ Future<MarkToTlReason?> showMarkToTlDialog(BuildContext context) async {
                       return CshDropDown(
                         hintText: "Select Reason",
                         selectedItem: selectedItem,
-                        items: reasons!
-                            .map((r) => DropDownItem(r.id.toString(), r.reason ?? ''))
-                            .toList(),
+                        items: reasons!.map((r) => DropDownItem(r.id.toString(), r.reason ?? '')).toList(),
                         onChanged: (DropDownItem item) {
                           setDropdownState(() {
                             selectedItem = item;

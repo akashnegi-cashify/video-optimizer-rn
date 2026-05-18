@@ -1,14 +1,14 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_trc/src/common/receive_device/receive_device_enum.dart';
+import 'package:flutter_trc/src/common/receive_device/laptop_receive_device_enum.dart';
 import 'package:flutter_trc/src/common/receive_device/receive_device_provider.dart';
 import 'package:flutter_trc/src/common/utils/csh_ml_scanner_util.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
 class ReceiveDeviceWidget extends StatelessWidget {
-  final ReceiveDeviceEnum deviceType;
+  final LaptopReceiveDeviceEnum deviceType;
 
   const ReceiveDeviceWidget({super.key, required this.deviceType});
 
