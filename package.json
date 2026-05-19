@@ -9,9 +9,12 @@
     "test": "jest",
     "link-assets": "react-native-asset",
 
-    "build:flutter-aar:prod": "cd flutter_module && flutter pub get && flutter build aar --no-debug --no-profile --dart-define=env=prod && cd .. && ./scripts/fix_aar_artifacts.sh",
-    "build:flutter-aar:beta": "cd flutter_module && flutter pub get && flutter build aar --no-debug --no-profile --dart-define=env=beta && cd .. && ./scripts/fix_aar_artifacts.sh",
-    "build:flutter-aar:stage": "cd flutter_module && flutter pub get && flutter build aar --no-debug --no-profile --dart-define=env=stage && cd .. && ./scripts/fix_aar_artifacts.sh",
+    "build:flutter-aar:prod": "cd flutter_module && flutter pub get && flutter build aar --no-profile --dart-define=env=prod && cd .. && ./scripts/fix_aar_artifacts.sh",
+    "build:flutter-aar:beta": "cd flutter_module && flutter pub get && flutter build aar --no-profile --dart-define=env=beta && cd .. && ./scripts/fix_aar_artifacts.sh",
+    "build:flutter-aar:stage": "cd flutter_module && flutter pub get && flutter build aar --no-profile --dart-define=env=stage && cd .. && ./scripts/fix_aar_artifacts.sh",
+    "build:flutter-aar:prod:release-only": "cd flutter_module && flutter pub get && flutter build aar --no-debug --no-profile --dart-define=env=prod && cd .. && ./scripts/fix_aar_artifacts.sh",
+    "build:flutter-aar:beta:release-only": "cd flutter_module && flutter pub get && flutter build aar --no-debug --no-profile --dart-define=env=beta && cd .. && ./scripts/fix_aar_artifacts.sh",
+    "build:flutter-aar:stage:release-only": "cd flutter_module && flutter pub get && flutter build aar --no-debug --no-profile --dart-define=env=stage && cd .. && ./scripts/fix_aar_artifacts.sh",
     "build:flutter-ios": "cd flutter_module && flutter pub get && flutter build ios-framework --no-debug --no-profile",
 
     "android:prod": "yarn build:flutter-aar:prod && cd android && ./gradlew installProdDebug && adb shell am start -n in.cashify.androidtrc/in.cashify.androidtrc.MainActivity",
@@ -20,7 +23,10 @@
 
     "android:prod:fast": "cd android && ./gradlew installProdDebug && adb shell am start -n in.cashify.androidtrc/in.cashify.androidtrc.MainActivity",
     "android:beta:fast": "cd android && ./gradlew installBetaDebug && adb shell am start -n in.cashify.androidtrc.beta/in.cashify.androidtrc.MainActivity",
-    "android:stage:fast": "cd android && ./gradlew installStageDebug && adb shell am start -n in.cashify.androidtrc.stage/in.cashify.androidtrc.MainActivity"
+    "android:stage:fast": "cd android && ./gradlew installStageDebug && adb shell am start -n in.cashify.androidtrc.stage/in.cashify.androidtrc.MainActivity",
+
+    "flutter:attach": "cd flutter_module && flutter attach",
+    "flutter:logs": "adb logcat | grep -iE 'flutter|in.cashify'"
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.83.1",

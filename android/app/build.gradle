@@ -169,11 +169,18 @@ dependencies {
         implementation jscFlavor
     }
 
-    // Flutter add-to-app — pre-built AAR (build via `cd flutter_module && flutter build aar
-    // --dart-define=env=<flavor>` first, then `scripts/fix_aar_artifacts.sh` to patch
-    // plugin POM/maven issues, then host gradle assembles).
-    // The AAR pulls in all Flutter plugins as transitive deps.
-    implementation "in.cashify.androidtrc:flutter_release:1.0"
+    // Flutter add-to-app — pre-built AAR.
+    //
+    // The Flutter Gradle plugin produces THREE flavors of the AAR depending on the
+    // flags passed to `flutter build aar`:
+    //   - debug   → JIT mode + Dart VM Service (required for `flutter attach` + hot reload)
+    //   - profile → AOT + perf instrumentation
+    //   - release → AOT, stripped (production)
+    //
+    // Wire each Android build type to the matching Flutter AAR variant so debug builds
+    // get hot reload and release builds get the optimized binary.
+    debugImplementation   "in.cashify.androidtrc:flutter_debug:1.0"
+    releaseImplementation "in.cashify.androidtrc:flutter_release:1.0"
 
     // Firebase BoM (Analytics + Crashlytics + Remote Config — matches Flutter side).
     implementation platform('com.google.firebase:firebase-bom:33.7.0')

@@ -32,51 +32,51 @@ if [[ ! -d "$AAR_REPO" ]]; then
 fi
 
 # -----------------------------------------------------------------------------
-# 1a. Strip the malformed flat-file <dependency> block from
-#     flutter_tesseract_ocr_release-1.0.pom (no <groupId> → AGP rejects).
-# 1b. Delete flutter_tesseract_ocr_release-1.0.module (Gradle Module Metadata).
-#     Gradle prefers the .module over the POM, and the .module has the same
-#     bad dependency entry (`"group": null` for tesseract4android-release).
-#     Removing it forces Gradle to fall back to the patched POM.
+# 1. For each Flutter build variant (debug | profile | release):
+#    a. Strip the malformed flat-file <dependency> block from
+#       flutter_tesseract_ocr_<variant>-1.0.pom (no <groupId> → AGP rejects).
+#    b. Delete flutter_tesseract_ocr_<variant>-1.0.module (Gradle Module Metadata).
+#       Gradle prefers the .module over the POM, and the .module has the same
+#       bad dependency entry (`"group": null` for tesseract<variant>-<variant>).
+#       Removing it forces Gradle to fall back to the patched POM.
 #
 # Both are needed because Gradle reads the .module file first when present and
 # the POM marker `do_not_remove: published-with-gradle-metadata` tells Gradle
-# to prefer the .module. We can't safely edit the .module since Gradle expects
-# specific checksums; deleting it is cleaner.
+# to prefer the .module. We can't safely edit the .module (Gradle expects
+# specific checksums); deleting it is cleaner.
 # -----------------------------------------------------------------------------
-TESS_DIR="$AAR_REPO/io/paratoner/flutter_tesseract_ocr/flutter_tesseract_ocr_release/1.0"
-TESS_POM_PATTERN="$TESS_DIR/flutter_tesseract_ocr_release-1.0.pom"
-TESS_MODULE="$TESS_DIR/flutter_tesseract_ocr_release-1.0.module"
+for variant in release debug profile; do
+  TESS_DIR="$AAR_REPO/io/paratoner/flutter_tesseract_ocr/flutter_tesseract_ocr_${variant}/1.0"
+  TESS_POM="$TESS_DIR/flutter_tesseract_ocr_${variant}-1.0.pom"
+  TESS_MODULE="$TESS_DIR/flutter_tesseract_ocr_${variant}-1.0.module"
 
-if [[ -f "$TESS_POM_PATTERN" ]]; then
-  if grep -q "<artifactId>tesseract4android-release</artifactId>" "$TESS_POM_PATTERN"; then
-    python3 - "$TESS_POM_PATTERN" <<'PY'
+  if [[ -f "$TESS_POM" ]]; then
+    if grep -q "<artifactId>tesseract4android-${variant}</artifactId>" "$TESS_POM" 2>/dev/null \
+       || grep -q "<artifactId>tesseract4android-release</artifactId>" "$TESS_POM" 2>/dev/null; then
+      python3 - "$TESS_POM" <<'PY'
 import re, sys, pathlib
 p = pathlib.Path(sys.argv[1])
 src = p.read_text()
+# Strip any <dependency>…</dependency> block whose <artifactId> starts with
+# tesseract4android- (no <groupId> → AGP rejects).
 cleaned = re.sub(
     r'\n?\s*<dependency>\s*'
-    r'<artifactId>tesseract4android-release</artifactId>.*?</dependency>',
+    r'<artifactId>tesseract4android-[^<]+</artifactId>.*?</dependency>',
     '',
     src,
     flags=re.DOTALL,
 )
 p.write_text(cleaned)
-print(f"[fix-aar] stripped malformed tesseract4android-release <dependency> from {p.name}")
+print(f"[fix-aar] stripped malformed tesseract4android-* <dependency> from {p.name}")
 PY
-  else
-    echo "[fix-aar] tesseract POM already patched, skipping."
+    fi
   fi
-else
-  echo "[fix-aar] tesseract POM not present (plugin may have been removed). Skipping."
-fi
 
-if [[ -f "$TESS_MODULE" ]]; then
-  rm -f "$TESS_MODULE" "$TESS_MODULE".md5 "$TESS_MODULE".sha1 "$TESS_MODULE".sha256 "$TESS_MODULE".sha512
-  echo "[fix-aar] deleted flutter_tesseract_ocr_release-1.0.module (forces POM fallback)."
-else
-  echo "[fix-aar] tesseract .module already removed, skipping."
-fi
+  if [[ -f "$TESS_MODULE" ]]; then
+    rm -f "$TESS_MODULE" "$TESS_MODULE".md5 "$TESS_MODULE".sha1 "$TESS_MODULE".sha256 "$TESS_MODULE".sha512
+    echo "[fix-aar] deleted flutter_tesseract_ocr_${variant}-1.0.module (forces POM fallback)."
+  fi
+done
 
 # -----------------------------------------------------------------------------
 # 2. Copy the plugin-local ffmpeg-kit maven artifacts into our shared repo.

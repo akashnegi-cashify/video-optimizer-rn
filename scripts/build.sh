@@ -46,9 +46,15 @@ fi
 "$REPO_ROOT/scripts/patch_pub_cache_manifests.sh"
 
 if [[ "$PLATFORM" == "android" ]]; then
-  # Pre-built AAR approach: build the Flutter AAR per-flavor with --dart-define=env=$FLAVOR.
-  # Then patch known plugin packaging issues. Then assemble the host APK.
-  (cd flutter_module && flutter build aar --no-debug --no-profile --dart-define=env="$FLAVOR")
+  # Pre-built AAR approach: build the Flutter AAR per-flavor.
+  # For release host builds we only need the release AAR variant (faster build).
+  # For debug host builds we need the debug AAR too (Dart VM Service + hot reload).
+  if [[ "$BUILD_MODE" == "release" ]]; then
+    AAR_VARIANT_FLAGS="--no-debug --no-profile"
+  else
+    AAR_VARIANT_FLAGS="--no-profile"
+  fi
+  (cd flutter_module && flutter build aar $AAR_VARIANT_FLAGS --dart-define=env="$FLAVOR")
   "$REPO_ROOT/scripts/fix_aar_artifacts.sh"
 
   FLAVOR_CAP="$(tr '[:lower:]' '[:upper:]' <<< ${FLAVOR:0:1})${FLAVOR:1}"
