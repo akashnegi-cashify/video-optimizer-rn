@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="teal">#42C8B7</color>
+    <color name="teal_transparent">#1642C8B7</color>
+    <color name="green">#108610</color>
+    <color name="teal_text_color">#3bcaa6</color>
+    <color name="red_text_dim">#FF6565</color>
+    <color name="red">#FF0000</color>
+    <color name="red_light">#FF8888</color>
+    <color name="darkGrey">#707070</color>
+    <color name="transparent">#00000000</color>
+    <color name="lightGrey">#DCDCDC</color>
+    <color name="card_boundry_color">#CABBBBBB</color>
+    <color name="text_color_opacity_20">#33000000</color>
+    <color name="text_color_opacity_50">#80000000</color>
+    <color name="shimmer_background">#f3f4f7</color>
+    <color name="white">#ffffff</color>
+    <color name="consoleThemePrimary">#0080F0</color>
+
+    <!--ScreenPro color-->
+    <color name="runnerColorPrimary">#7f5eff</color>
+
+
+
+</resources>

@@ -242,6 +242,12 @@ dependency_overrides:
 #    path: ../flutter_admin_ui/calculator_ui
 
 flutter:
+  # Add-to-app module descriptor — embedded as a guest inside the RN host.
+  # Bundle IDs match the RN host's Android applicationId / iOS bundle ID.
+  module:
+    androidX: true
+    androidPackage: in.cashify.androidtrc
+    iosBundleIdentifier: in.cashify.iostrc
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -1,0 +1,203 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "org.jetbrains.kotlin.android"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+    id "kotlin-parcelize"
+}
+
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+android {
+    compileSdk 36
+    ndkVersion "27.0.12077973"
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+
+    defaultConfig {
+        applicationId "in.cashify.androidtrc"
+        minSdk 24
+        targetSdk flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+    }
+
+//    androidExtensions {
+//        experimental = true
+//    }
+
+    signingConfigs {
+        stage {
+            keyAlias credentials.keyAlias
+            keyPassword credentials.keyAlias
+            storeFile file("${credentials.storeFileStage}")
+            storePassword credentials.storePassword
+        }
+        cashify {
+            keyAlias credentials.keyAlias
+            keyPassword credentials.keyPassword
+            storeFile file("${credentials.storeFileProd}")
+            storePassword credentials.storePassword
+        }
+    }
+
+    buildTypes {
+        staging {
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            debuggable false
+            shrinkResources false
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
+            signingConfig signingConfigs.cashify
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                debugSymbolLevel 'FULL'
+                abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+            }
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "tier"
+
+    productFlavors {
+        prod {
+            applicationId "in.cashify.androidtrc"
+            signingConfig signingConfigs.cashify
+            dimension "tier"
+        }
+        beta {
+            applicationId "in.cashify.androidtrc.beta"
+            signingConfig signingConfigs.cashify
+            dimension "tier"
+        }
+        stage {
+            applicationId "in.cashify.androidtrc.stage"
+            dimension "tier"
+            signingConfig signingConfigs.stage
+
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force "androidx.camera:camera-core:1.3.4"
+            force "androidx.camera:camera-camera2:1.3.4"
+            force "androidx.camera:camera-lifecycle:1.3.4"
+            force "androidx.camera:camera-video:1.3.4"
+            force "com.google.errorprone:error_prone_annotations:2.30.0"
+        }
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+            pickFirsts += ['lib/x86/libc++_shared.so', 'lib/x86_64/libc++_shared.so', 'lib/armeabi-v7a/libc++_shared.so', 'lib/arm64-v8a/libc++_shared.so']
+        }
+    }
+
+    namespace 'in.cashify.androidtrc'
+    androidResources {
+        noCompress 'tflite'
+    }
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+        ignoreWarnings true
+    }
+    rootProject.ext.ffmpegKitPackage = "video"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+//    implementation 'com.otaliastudios:transcoder:0.9.1'
+
+
+    // implementation 'com.google.firebase:firebase-analytics:21.1.0'
+    // implementation 'com.google.firebase:firebase-crashlytics:18.2.12'
+
+
+    // Import the BoM for the Firebase platform
+//    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+
+}
+

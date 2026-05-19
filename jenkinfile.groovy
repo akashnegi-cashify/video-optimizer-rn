@@ -1,3 +1,16 @@
+// =============================================================================
+// MIGRATION NOTE (RN host + Flutter guest):
+// The combined build now uses ./scripts/build.sh as the single entrypoint.
+// The existing FlutterBuilder pipeline below still works for pure-Flutter
+// builds against the legacy android_flutter_backup/ios_flutter_backup paths,
+// but RN-host builds must use scripts/build.sh.
+//
+// To switch this Jenkins job to the RN-host pipeline:
+//   sh "FLAVOR=${params.FLAVOR} PLATFORM=${params.PLATFORM} ./scripts/build.sh"
+//
+// See docs/DEVELOPER_WORKFLOW.md section 9 for the full migration steps.
+// =============================================================================
+
 @Library('jenkins-build-pipeline')
 import in.cashify.build.FlutterBuilder
 

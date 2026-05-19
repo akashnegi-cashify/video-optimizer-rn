@@ -1,81 +1,56 @@
-# Uncomment this line to define a global platform for your project
-# pod 'GoogleMLKit/MLKitCore'
+# =============================================================================
+# Cashify-OPS — Podfile (RN host + Flutter module add-to-app)
+# Static frameworks: required because Flutter ships frameworks; RN's default
+# dynamic linkage conflicts with that, so we force static everywhere.
+# =============================================================================
 
-# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
-platform :ios, '15.5.0'  # or newer version
+# Resolve react_native_pods.rb with node to allow for hoisting
+require Pod::Executable.execute_command('node', ['-p',
+  'require.resolve(
+    "react-native/scripts/react_native_pods.rb",
+    {paths: [process.argv[1]]},
+  )', __dir__]).strip
 
-# add this line:
-$iOSVersion = '15.5.0'  # or newer version
-ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+platform :ios, '16.0'
+prepare_react_native_project!
 
-project 'Runner', {
-  'Debug' => :debug,
-  'Profile' => :release,
-  'Release' => :release,
-}
+# Force STATIC frameworks for Flutter add-to-app compatibility.
+ENV['USE_FRAMEWORKS'] ||= 'static'
 
-def flutter_root
-  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
-  unless File.exist?(generated_xcode_build_settings_path)
-    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
-  end
-
-  File.foreach(generated_xcode_build_settings_path) do |line|
-    matches = line.match(/FLUTTER_ROOT\=(.*)/)
-    return matches[1].strip if matches
-  end
-  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
 end
 
-require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+# Path to the Flutter module — relative to ios/Podfile (one level up from ios/).
+flutter_application_path = '../flutter_module'
+load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
 
-flutter_ios_podfile_setup
+target 'CashifyOps' do
+  config = use_native_modules!
 
-target 'Runner' do
-  use_frameworks!
-  use_modular_headers!
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
 
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-end
+  # Flutter pods (engine + all plugins from flutter_module/pubspec.yaml).
+  install_all_flutter_pods(flutter_application_path)
 
-target 'Runner Prod' do
-  use_frameworks!
-  use_modular_headers!
+  post_install do |installer|
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false,
+    )
+    flutter_post_install(installer) if defined?(flutter_post_install)
 
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-end
-
-target 'Runner Beta' do
-  use_frameworks!
-  use_modular_headers!
-
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-end
-
-target 'Runner Stage' do
-  use_frameworks!
-  use_modular_headers!
-
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-end
-
-
-post_install do |installer|
-  # add these lines:
-  installer.pods_project.build_configurations.each do |config|
-    config.build_settings["EXCLUDED_ARCHS[sdk=*]"] = "armv7"
-    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
-  end
-
-  installer.pods_project.targets.each do |target|
-    flutter_additional_ios_build_settings(target)
-
-    # add these lines:
-    target.build_configurations.each do |config|
-      if Gem::Version.new($iOSVersion) > Gem::Version.new(config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'])
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
+    # Force iOS 16.0 deployment target on every pod (some plugins still ship 13.0 default).
+    installer.pods_project.targets.each do |t|
+      t.build_configurations.each do |bc|
+        bc.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '16.0'
       end
     end
-
   end
 end

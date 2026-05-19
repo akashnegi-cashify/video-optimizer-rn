@@ -1,17 +1,11 @@
-# Add project specific ProGuard rules here.
-# By default, the flags in this file are appended to flags specified
-# in C:\Users\user\AppData\Local\Android\sdk/tools/proguard/proguard-android.txt
-# You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# =====================================================================
+# Cashify-OPS — Merged ProGuard / R8 rules
+#   (a) Original Flutter project rules
+#   (b) React Native + Hermes keep rules
+#   (c) Flutter wrapper keeps for add-to-app
+# =====================================================================
 
-# Add any project specific keep options here:
-
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
+# ----- (a) From original Flutter project (DO NOT remove) -----
 -dontwarn org.bouncycastle.jsse.BCSSLParameters
 -dontwarn org.bouncycastle.jsse.BCSSLSocket
 -dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
@@ -23,4 +17,40 @@
 -dontwarn org.openjsse.net.ssl.OpenJSSE
 -dontwarn j$.*
 
+# FFmpeg Kit native bridge classes — used reflectively.
 -keep class com.antonkarpenko.ffmpegkit.** { *; }
+
+# ----- (b) React Native + Hermes -----
+-keep class com.facebook.react.** { *; }
+-keep class com.facebook.hermes.** { *; }
+-keep class com.facebook.jni.** { *; }
+-keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip
+-keep,allowobfuscation @interface com.facebook.proguard.annotations.KeepGettersAndSetters
+-keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
+-keep @com.facebook.proguard.annotations.DoNotStrip class * { *; }
+-keep @com.facebook.common.internal.DoNotStrip class * { *; }
+-keepclassmembers class * {
+    @com.facebook.proguard.annotations.DoNotStrip *;
+    @com.facebook.common.internal.DoNotStrip *;
+}
+-keepclassmembers @com.facebook.proguard.annotations.KeepGettersAndSetters class * {
+    void set*(***);
+    *** get*();
+}
+-keep class * extends com.facebook.react.bridge.JavaScriptModule { *; }
+-keep class * extends com.facebook.react.bridge.NativeModule { *; }
+-keepclassmembers,includedescriptorclasses class * { native <methods>; }
+-keepclassmembers class *  { @com.facebook.react.uimanager.UIProp <fields>; }
+-keepclassmembers class *  { @com.facebook.react.uimanager.annotations.ReactProp <methods>; }
+-keepclassmembers class *  { @com.facebook.react.uimanager.annotations.ReactPropGroup <methods>; }
+
+# ----- (c) Flutter add-to-app wrapper -----
+-keep class io.flutter.embedding.** { *; }
+-keep class io.flutter.plugin.** { *; }
+-keep class io.flutter.plugins.** { *; }
+-keep class io.flutter.app.FlutterApplication { *; }
+-keep class io.flutter.view.** { *; }
+-dontwarn io.flutter.embedding.**
+
+# Flutter Play Core / split install warnings — Flutter still references these.
+-dontwarn com.google.android.play.core.**

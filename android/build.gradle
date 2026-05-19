@@ -1,117 +1,60 @@
+// =====================================================================
+// Cashify-OPS: root build.gradle (RN host)
+// Loads signing credentials from android/local.properties and exposes
+// them as rootProject.ext.credentials for app/build.gradle.
+// =====================================================================
 
 buildscript {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    def storeFileStage = properties.getProperty('CASHIFY_STAGE')
-    def storeFileTest = properties.getProperty('CASHIFY_TEST')
-    def storeFileProd = properties.getProperty('CASHIFY_PROD')
-    def keyAlias = properties.getProperty('SIGNING_CONFIGS_KEY_ALIAS')
-    def keyPassword = properties.getProperty('SIGNING_CONFIGS_KEY_PASSWORD')
-    def storePassword = properties.getProperty('SIGNING_CONFIGS_STORE_PASSWORD')
-
-    /*reading properties from project*/
-    def pStoreFileStage = project.getProperty("signingKeyFile")
-    def pKeyAlias = project.getProperty("signingKeyAlias")
-    def pKeyPassword = project.getProperty("signingKeyPassword")
-    def pStorePassword = project.getProperty("signingStorePassword")
-
-    ext.isNull = { param ->
-        return param == null || param == 'null'
+    // Load signing credentials early so app/build.gradle can reference them.
+    def localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        def properties = new Properties()
+        localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
+        def storeFileStage = properties.getProperty("CASHIFY_STAGE")
+        def storeFileProd = properties.getProperty("CASHIFY_PROD")
+        def keyAlias = properties.getProperty("SIGNING_CONFIGS_KEY_ALIAS")
+        def keyPassword = properties.getProperty("SIGNING_CONFIGS_KEY_PASSWORD")
+        def storePassword = properties.getProperty("SIGNING_CONFIGS_STORE_PASSWORD")
+        if (keyAlias != null && storePassword != null && storeFileProd != null && storeFileStage != null) {
+            ext.credentials = [
+                storeFileStage: storeFileStage,
+                storeFileProd : storeFileProd,
+                keyAlias      : keyAlias,
+                keyPassword   : keyPassword,
+                storePassword : storePassword,
+            ]
+        }
     }
 
-    if (!ext.isNull(pKeyAlias)) {
-        keyAlias = pKeyAlias
+    ext {
+        buildToolsVersion = "36.0.0"
+        minSdkVersion = 24
+        compileSdkVersion = 36
+        targetSdkVersion = 36
+        ndkVersion = "27.1.12297006"
+        kotlinVersion = "2.1.20"
     }
-    if (!ext.isNull(pKeyPassword)) {
-        keyPassword = pKeyPassword
+    repositories {
+        google()
+        mavenCentral()
     }
-    if (!ext.isNull(pStorePassword)) {
-        storePassword = pStorePassword
+    dependencies {
+        classpath("com.android.tools.build:gradle")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath("com.google.gms:google-services:4.4.2")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.2")
     }
-    if (!ext.isNull(pStoreFileStage)) {
-        storeFileStage = pStoreFileStage
-        storeFileTest = pStoreFileStage
-        storeFileProd = pStoreFileStage
-    }
-
-    ext.credentials = [
-            'storeFileTest' : storeFileTest,
-            'storeFileStage': storeFileStage,
-            'storeFileProd' : storeFileProd,
-            'keyAlias'      : keyAlias,
-            'keyPassword'   : keyPassword,
-            'storePassword' : storePassword,
-    ]
-
-
-    ext.kotlin_version = '2.0.0'
 }
 
 allprojects {
     repositories {
-        google()
-        mavenCentral()
-//        maven {
-//            url 'https://maven.google.com/'
-//            name 'Google'
-//        }
-//        maven {
-//            url 's3://in.cashify.sdk/maven/'
-//            credentials(AwsCredentials) {
-//                accessKey = AWS_ACCESS_KEY
-//                secretKey = AWS_SECRET_KEY
-//            }
-//        }
-//        maven { url "https://jitpack.io" }
+        // Flutter add-to-app: pre-built AAR output from `cd flutter_module && flutter build aar`.
+        // Anchored to rootProject so it resolves correctly from every subproject.
+        maven { url uri("${rootProject.projectDir}/../flutter_module/build/host/outputs/repo") }
+        // Flutter engine artifacts (debug / profile / release).
+        maven { url 'https://storage.googleapis.com/download.flutter.io' }
     }
 }
 
-ext {
-    cshCompileSdkVersion = 35
-    cshMinSdkVersion = 21
-    cshTargetSdkVersion = 32
-    cd_core_ktx = '1.9.0'
-}
-
-rootProject.buildDir = '../build'
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-
-subprojects {
-    afterEvaluate { project ->
-        if (project.name == "face_detector") {
-            project.android.namespace = "in.cashify.face_detector"
-        } else if (project.name == "firebase_crashlytics") {
-            project.android.namespace = "io.flutter.plugins.firebase.crashlytics"
-        } else if (project.name == "flutter_image_compress") {
-            project.android.namespace = "com.google.firebase.crashlytics"
-        } else if (project.name == "flutter_jailbreak_detection") {
-            project.android.namespace = "appmire.be.flutterjailbreakdetection"
-        } else if (project.name == "text_recognizer") {
-            project.android.namespace = "in.cashify.text_recognizer"
-        } else if (project.name == "udid") {
-            project.android.namespace = "in.reglobe.udid"
-        } else if (project.name == "video_thumbnail") {
-            project.android.namespace = "xyz.justsoft.video_thumbnail"
-        } else if (project.name == "webview_cookie_manager") {
-            project.android.namespace = "io.flutter.plugins.webview_cookie_manager"
-        } else if (project.name == "device_info_plus") {
-            project.android.namespace = "dev.fluttercommunity.plus.device_info"
-        } else if (project.name == "flutter_tesseract_ocr") {
-            project.android.namespace = "io.paratoner.flutter_tesseract_ocr"
-        } else if (project.name == "assets_audio_playe") {
-            project.android.namespace = "com.github.florent37.assets_audio_player"
-        } else if (project.name == "android_id") {
-            project.android.namespace = "dev.fluttercommunity.android_id"
-        }
-
-    }
-}
-subprojects {
-    project.evaluationDependsOn(':app')
-}
-
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
-}
+apply plugin: "com.facebook.react.rootproject"

@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "81194165828",
+    "project_id": "cashify-trc",
+    "storage_bucket": "cashify-trc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81194165828:android:17cea7d1cfbce40fdf3e11",
+        "android_client_info": {
+          "package_name": "in.cashify.androidtrc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81194165828-khsjadorq32fsskk47ptsjknsr5g36jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkqe9M6TDBoZDopBYMPT33X2jFDkdjg6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81194165828-khsjadorq32fsskk47ptsjknsr5g36jn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81194165828:android:83e3d9f031f13326df3e11",
+        "android_client_info": {
+          "package_name": "in.cashify.androidtrc.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81194165828-khsjadorq32fsskk47ptsjknsr5g36jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkqe9M6TDBoZDopBYMPT33X2jFDkdjg6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81194165828-khsjadorq32fsskk47ptsjknsr5g36jn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81194165828:android:cb0ee785e389584adf3e11",
+        "android_client_info": {
+          "package_name": "in.cashify.androidtrc.stage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81194165828-khsjadorq32fsskk47ptsjknsr5g36jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkqe9M6TDBoZDopBYMPT33X2jFDkdjg6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81194165828-khsjadorq32fsskk47ptsjknsr5g36jn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81194165828:android:5bad1d4ed7e8189ddf3e11",
+        "android_client_info": {
+          "package_name": "in.cashify.trc.diagno"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81194165828-khsjadorq32fsskk47ptsjknsr5g36jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkqe9M6TDBoZDopBYMPT33X2jFDkdjg6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81194165828-khsjadorq32fsskk47ptsjknsr5g36jn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
