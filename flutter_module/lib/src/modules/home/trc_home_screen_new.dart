@@ -13,6 +13,7 @@ import 'package:flutter_trc/src/modules/engineer/widgets/engineer_home_widget.da
 import 'package:flutter_trc/src/modules/inventory_manager/screens/inventory_home_screen.dart';
 import 'package:flutter_trc/src/modules/l4/l4_home_screen.dart';
 import 'package:flutter_trc/src/modules/laptop_analyzer/screens/laptop_analyzer_home_screen.dart';
+import 'package:flutter_trc/src/modules/laptop_assembly/screens/laptop_assembly_home_screen.dart';
 import 'package:flutter_trc/src/modules/paint_shop/screens/paint_shop_home_screen.dart';
 import 'package:flutter_trc/src/modules/part_qc/screens/pq_home_screen.dart';
 import 'package:flutter_trc/src/modules/rider/rider_home_screen.dart';
@@ -34,10 +35,12 @@ class TrcHomeScreenNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TrcHeader("Home", showBackBtn: false, showLogoutButton: true, showProfileButton: true),
+      appBar: TrcHeader("Home",
+          showBackBtn: false, showLogoutButton: true, showProfileButton: true),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: Dimens.space_16, vertical: Dimens.space_24),
+          padding: const EdgeInsets.symmetric(
+              horizontal: Dimens.space_16, vertical: Dimens.space_24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,8 +59,10 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Elss",
                   onPressed: () {
-                    ElssHomeScreenArguments args = ElssHomeScreenArguments(isLogicFromQC: false);
-                    Navigator.of(context).pushNamed(ElssHomeScreen.route, arguments: args);
+                    ElssHomeScreenArguments args =
+                        ElssHomeScreenArguments(isLogicFromQC: false);
+                    Navigator.of(context)
+                        .pushNamed(ElssHomeScreen.route, arguments: args);
                   },
                 ),
               ),
@@ -68,7 +73,8 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Rubbing",
                   onPressed: () {
-                    UserDetails().setRubbingRoleType(RubbingModuleRoleType.rubbing);
+                    UserDetails()
+                        .setRubbingRoleType(RubbingModuleRoleType.rubbing);
                     Navigator.of(context).pushNamed(RubbingHomeScreen.route);
                   },
                 ),
@@ -80,7 +86,8 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Glass Change",
                   onPressed: () {
-                    UserDetails().setRubbingRoleType(RubbingModuleRoleType.glassChange);
+                    UserDetails()
+                        .setRubbingRoleType(RubbingModuleRoleType.glassChange);
                     Navigator.of(context).pushNamed(RubbingHomeScreen.route);
                   },
                 ),
@@ -92,7 +99,8 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Camera Cleaning",
                   onPressed: () {
-                    UserDetails().setRubbingRoleType(RubbingModuleRoleType.cameraCleaning);
+                    UserDetails().setRubbingRoleType(
+                        RubbingModuleRoleType.cameraCleaning);
                     Navigator.of(context).pushNamed(RubbingHomeScreen.route);
                   },
                 ),
@@ -101,13 +109,17 @@ class TrcHomeScreenNew extends StatelessWidget {
               TRCRolePermissionWidget(
                 permission: TrcPermissions.engineer,
                 padding: EdgeInsets.only(top: Dimens.space_16),
-                child: CshBigButton(text: "Engineer", onPressed: () => _enterLocation(context, false)),
+                child: CshBigButton(
+                    text: "Engineer",
+                    onPressed: () => _enterLocation(context, false)),
               ),
               // L4 Engineer
               TRCRolePermissionWidget(
                 permission: TrcPermissions.l4Engineer,
                 padding: EdgeInsets.only(top: Dimens.space_16),
-                child: CshBigButton(text: "L4 Engineer", onPressed: () => _enterLocation(context, true)),
+                child: CshBigButton(
+                    text: "L4 Engineer",
+                    onPressed: () => _enterLocation(context, true)),
               ),
               // Rider
               TRCRolePermissionWidget(
@@ -171,7 +183,8 @@ class TrcHomeScreenNew extends StatelessWidget {
                 child: CshBigButton(
                   text: "Store Manager",
                   onPressed: () {
-                    Navigator.of(context).pushNamed(StoreManagerHomeScreen.route);
+                    Navigator.of(context)
+                        .pushNamed(StoreManagerHomeScreen.route);
                   },
                 ),
               ),
@@ -211,9 +224,18 @@ class TrcHomeScreenNew extends StatelessWidget {
               CshBigButton(
                 text: "Laptop Analyzer",
                 onPressed: () {
-                  Navigator.of(context).pushNamed(LaptopAnalyzerHomeScreen.route);
+                  Navigator.of(context)
+                      .pushNamed(LaptopAnalyzerHomeScreen.route);
                 },
-              )
+              ),
+              SizedBox(height: Dimens.space_16),
+              CshBigButton(
+                text: "Laptop Assembly",
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(LaptopAssemblyHomeScreen.route);
+                },
+              ),
             ],
           ),
         ),
@@ -228,7 +250,8 @@ class TrcHomeScreenNew extends StatelessWidget {
       context: context,
       child: StatefulBuilder(builder: (innerContext, setState) {
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(innerContext).viewInsets.bottom),
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(innerContext).viewInsets.bottom),
           child: Container(
             padding: const EdgeInsets.all(Dimens.space_16),
             child: Column(
@@ -258,21 +281,25 @@ class TrcHomeScreenNew extends StatelessWidget {
                       locationError = null;
                     });
                     CshLoading().showLoading(innerContext);
-                    EngineerAPIService.updateEngineerLocation(location).listen((event) {
+                    EngineerAPIService.updateEngineerLocation(location).listen(
+                        (event) {
                       if (innerContext.mounted) {
                         CshLoading().hideLoading(innerContext);
                         Navigator.of(innerContext).pop();
                         if (isL4Engineer) {
-                          Navigator.of(innerContext).pushNamed(L4HomeScreen.route);
+                          Navigator.of(innerContext)
+                              .pushNamed(L4HomeScreen.route);
                         } else {
-                          Navigator.of(innerContext).pushNamed(EngineerHomeScreen.route);
+                          Navigator.of(innerContext)
+                              .pushNamed(EngineerHomeScreen.route);
                         }
                       }
                     }, onError: (error) {
                       if (innerContext.mounted) {
                         CshLoading().hideLoading(innerContext);
                         setState(() {
-                          locationError = ApiErrorHelper.getErrorMessage(error).toString();
+                          locationError =
+                              ApiErrorHelper.getErrorMessage(error).toString();
                         });
                       }
                     });

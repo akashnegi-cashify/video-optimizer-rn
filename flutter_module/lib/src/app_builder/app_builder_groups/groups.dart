@@ -86,7 +86,8 @@ enum ComponentGroup with AbsComponentGroup {
   paintShopHomeComponentKey("Paint Shop Home"),
   dismantleHomeComponentKey("Dismantle Home"),
   laptopAnalyzerHomeComponentKey("Laptop Analyzer Home"),
-  bodyShopHomeComponentKey("Body Shop Home");
+  bodyShopHomeComponentKey("Body Shop Home"),
+  laptopAssemblyHomeComponentKey("Laptop Assembly Home");
 
   @override
   final String value;
@@ -176,7 +177,8 @@ enum PageGroup with AbsPageGroup {
   paintShopHomePageKey("Paint Shop Home"),
   dismantleHomePageKey("Dismantle Home"),
   laptopAnalyzerHomePageKey("Laptop Analyzer Home"),
-  bodyShopHomePageKey("Body Shop Home");
+  bodyShopHomePageKey("Body Shop Home"),
+  laptopAssemblyHomePageKey("Laptop Assembly Home");
 
   @override
   final String value;

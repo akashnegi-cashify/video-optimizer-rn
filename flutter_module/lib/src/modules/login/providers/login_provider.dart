@@ -34,7 +34,7 @@ class TRCLoginProvider extends CshChangeNotifier {
         var token = event?.data?.token;
         if (!Validator.isNullOrEmpty(token)) {
           AppPreferences.app.saveAuthToken(token!);
-          UserDetails().setUserDetailsDataTemp(token);
+          UserDetails().setUserDetailsData();
           AppPreferences.app.setLoginType(LoginTypes.trcLogin.value);
           completer.complete();
         }
@@ -83,7 +83,7 @@ class TRCLoginProvider extends CshChangeNotifier {
           String? accessToken = event.accessToken;
           if (!Validator.isNullOrEmpty(accessToken)) {
             AppPreferences.app.saveAuthToken(accessToken!);
-            UserDetails().setUserDetailsDataTemp(accessToken);
+            UserDetails().setUserDetailsData();
             AppPreferences.app.setLoginType(LoginTypes.qcLogin.value);
             _fireLoginAnalytics();
             UserRoles.navigateToUserRoleScreen(context, loginType: LoginTypes.qcLogin);

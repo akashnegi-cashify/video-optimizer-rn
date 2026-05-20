@@ -24,20 +24,11 @@ class UserDetails {
 
   UserDetailsResponse? get userDetailsData => _userDetailsData;
 
-  console.UserDetailsResponse? get consoleUserDetail => _myUserDetailsResponse?.userDetailsResponse;
+  console.UserDetailsResponse? get consoleUserDetail =>
+      _myUserDetailsResponse?.userDetailsResponse;
 
-  PermissionResponse? get permissionResponse => _myUserDetailsResponse?.permissionResponse;
-
-  setUserDetailsDataTemp(String token) {
-    var completer = Completer<void>();
-    UserUtil.onUserLoggedIn().then((value) {
-      _myUserDetailsResponse = value;
-      completer.complete();
-    }, onError: (error) {
-      completer.complete(error);
-    });
-    return completer.future;
-  }
+  PermissionResponse? get permissionResponse =>
+      _myUserDetailsResponse?.permissionResponse;
 
   Future<void> setUserDetailsData() {
     var completer = Completer<void>();

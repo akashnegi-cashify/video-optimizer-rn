@@ -55,6 +55,7 @@ import 'package:flutter_trc/src/modules/trc_executive/screens/trc_executive_stor
 import 'package:flutter_trc/src/modules/dismantle/screens/dismantle_home_screen.dart';
 import 'package:flutter_trc/src/modules/body_shop/screens/body_shop_home_screen.dart';
 import 'package:flutter_trc/src/modules/laptop_analyzer/screens/laptop_analyzer_home_screen.dart';
+import 'package:flutter_trc/src/modules/laptop_assembly/screens/laptop_assembly_home_screen.dart';
 import 'package:flutter_trc/src/modules/paint_shop/screens/paint_shop_home_screen.dart';
 import 'package:flutter_trc/src/modules/trc_tester/trc_tester_screen.dart';
 
@@ -133,6 +134,7 @@ class TrcRoutes {
       PaintShopHomeScreen.route: (_) => const PaintShopHomeScreen(),
       DismantleHomeScreen.route: (_) => const DismantleHomeScreen(),
       LaptopAnalyzerHomeScreen.route: (_) => const LaptopAnalyzerHomeScreen(),
+      LaptopAssemblyHomeScreen.route: (_) => const LaptopAssemblyHomeScreen(),
       BodyShopHomeScreen.route: (_) => const BodyShopHomeScreen(),
       UserProfileScreen.route: (_) => const UserProfileScreen(),
       PendingDeliveryReceiveScreen.route: (_) => const PendingDeliveryReceiveScreen(),

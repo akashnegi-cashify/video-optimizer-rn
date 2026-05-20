@@ -22,7 +22,8 @@
     "android:beta:fast": "cd android && ./gradlew installBetaDebug && adb shell am start -n in.cashify.androidtrc.beta/in.cashify.androidtrc.MainActivity",
     "android:stage:fast": "cd android && ./gradlew installStageDebug && adb shell am start -n in.cashify.androidtrc.stage/in.cashify.androidtrc.MainActivity",
     "flutter:attach": "cd flutter_module && flutter attach",
-    "flutter:logs": "adb logcat | grep -iE 'flutter|in.cashify'"
+    "flutter:logs": "adb logcat | grep -iE 'flutter|in.cashify'",
+    "build:stage": "cd android && ./gradlew assembleStageRelease"
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.83.1",
