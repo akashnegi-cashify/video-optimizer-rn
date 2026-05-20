@@ -5,6 +5,7 @@ import 'package:components/list_page/widgets/csh_api_list.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/header/trc_header.dart';
+import 'package:flutter_trc/src/modules/engineer/my_devices/wip_devices/view_parts/widgets/assigned_parts_screen.dart';
 import 'package:flutter_trc/src/services/service_groups.dart';
 
 import '../resources/body_shop_device_response.dart';
@@ -14,11 +15,13 @@ class BodyShopInProgressScreen extends StatefulWidget {
   const BodyShopInProgressScreen({super.key});
 
   static void open(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => const BodyShopInProgressScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => const BodyShopInProgressScreen()));
   }
 
   @override
-  State<BodyShopInProgressScreen> createState() => _BodyShopInProgressScreenState();
+  State<BodyShopInProgressScreen> createState() =>
+      _BodyShopInProgressScreenState();
 }
 
 class _BodyShopInProgressScreenState extends State<BodyShopInProgressScreen> {
@@ -62,7 +65,12 @@ class _BodyShopInProgressScreenState extends State<BodyShopInProgressScreen> {
                 return BodyShopDeviceWidget(
                   item: item,
                   index: index,
-                  onItemClick: () {},
+                  onRepairClick: () {
+                    Navigator.pushNamed(context, AssignedPartsScreen.route,
+                        arguments: AssignedPartsData(true,
+                            deviceBarcode: item?.deviceBarcode));
+                  },
+                  onActionComplete: () => _listController.refresh(),
                 );
               },
             ),
