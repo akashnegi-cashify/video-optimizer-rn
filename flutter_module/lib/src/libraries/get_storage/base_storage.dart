@@ -1,43 +1,35 @@
 import 'package:flutter_trc/src/libraries/get_storage/storage_type.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:lego_storage/lego_storage.dart';
 
 abstract class BaseStorage {
   final StorageType _storageType;
-  late final GetStorage _getStorage;
+  late final MmkvEngine _engine;
 
   BaseStorage(this._storageType) {
-    _getStorage = GetStorage(_storageType.value);
+    _engine = MmkvEngine(mmapID: _storageType.value);
   }
 
-  Future<bool> init() {
-    return GetStorage.init(_storageType.value);
-  }
+  Future<bool> init() async => true;
 
-  Future<void> clear() {
-    return _getStorage.erase();
-  }
+  Future<void> clear() async => _engine.clear();
 
   int? getInt(String key) {
-    return _getStorage.read(key);
+    final raw = _engine.getItem(key);
+    if (raw == null) return null;
+    return int.tryParse(raw);
   }
 
-  String? getString(String key) {
-    return _getStorage.read(key);
-  }
+  String? getString(String key) => _engine.getItem(key);
 
   bool? getBool(String key) {
-    return _getStorage.read(key);
+    final raw = _engine.getItem(key);
+    if (raw == null) return null;
+    return raw == 'true';
   }
 
-  Future<void> setString(String key, String value) {
-    return _getStorage.write(key, value);
-  }
+  Future<void> setString(String key, String value) async => _engine.setItem(key, value);
 
-  Future<void> setInt(String key, int value) {
-    return _getStorage.write(key, value);
-  }
+  Future<void> setInt(String key, int value) async => _engine.setItem(key, value.toString());
 
-  Future<void> setBool(String key, bool value) {
-    return _getStorage.write(key, value);
-  }
+  Future<void> setBool(String key, bool value) async => _engine.setItem(key, value.toString());
 }

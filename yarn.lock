@@ -2362,6 +2362,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@reglobe/lego-storage@npm:5.0.0-alpha.0":
+  version: 5.0.0-alpha.0
+  resolution: "@reglobe/lego-storage@npm:5.0.0-alpha.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40reglobe%2Flego-storage%2F5.0.0-alpha.0%2Fe2a62ec1954befc8bdd0f6435b29266c0efc65fe"
+  peerDependencies:
+    "@react-native-async-storage/async-storage": 2.2.0
+    lru-cache: 11.1.0
+    react: ">=18.0.0"
+    react-native-mmkv: ">=3.0.0"
+  checksum: 10c0/3d40e44fe85dbc3c6ab53cebb8e809c1586f823f971d1ea6741a43bab4ec8b7da7f7805a877156da14cd987f22201d19596b0fcc13b7a38bf4c937eb8fd13517
+  languageName: node
+  linkType: hard
+
 "@sideway/address@npm:^4.1.5":
   version: 4.1.5
   resolution: "@sideway/address@npm:4.1.5"
@@ -2716,6 +2728,7 @@ __metadata:
     "@react-native/metro-config": "npm:0.83.1"
     "@react-native/new-app-screen": "npm:0.83.1"
     "@react-native/typescript-config": "npm:0.83.1"
+    "@reglobe/lego-storage": "npm:5.0.0-alpha.0"
     "@types/jest": "npm:^29.5.13"
     "@types/react": "npm:^19.2.0"
     "@types/react-test-renderer": "npm:^19.1.0"

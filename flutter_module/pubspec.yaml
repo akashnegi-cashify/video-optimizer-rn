@@ -112,6 +112,12 @@ dependencies:
       url: https://github.com/reglobe/flutter_packages.git
       ref: v2.0.15
       path: csh_gallery_view
+  
+  lego_storage:
+    git:
+      url: https://github.com/reglobe/flutter_admin_ui.git
+      ref: main
+      path: lego_storage
 
   device_info_plus: ^11.1.1
   alice: ^0.4.2
@@ -146,7 +152,7 @@ dependencies:
   firebase_crashlytics: ^4.3.0
   qr_flutter: ^4.1.0
   disk_space_2: ^1.0.8
-  get_storage: ^2.1.1
+  mmkv: ^2.0.0
   local_auth: ^2.3.0
 #  app_settings: 5.1.1
   app_settings: ^6.1.1

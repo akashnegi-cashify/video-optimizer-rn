@@ -1032,22 +1032,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.15.6"
-  get:
-    dependency: transitive
-    description:
-      name: get
-      sha256: "5ed34a7925b85336e15d472cc4cfe7d9ebf4ab8e8b9f688585bf6b50f4c3d79a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.7.3"
-  get_storage:
-    dependency: "direct main"
-    description:
-      name: get_storage
-      sha256: "39db1fffe779d0c22b3a744376e86febe4ade43bf65e06eab5af707dc84185a2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   glob:
     dependency: transitive
     description:
@@ -1322,6 +1306,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  lego_storage:
+    dependency: "direct main"
+    description:
+      path: lego_storage
+      ref: main
+      resolved-ref: "335a34a11d5b3e6cb546819c1e7a39f137fdbba0"
+      url: "https://github.com/reglobe/flutter_admin_ui.git"
+    source: git
+    version: "2.3.2"
   lints:
     dependency: transitive
     description:
@@ -1453,6 +1446,62 @@ packages:
       url: "https://github.com/reglobe/flutter_admin_ui.git"
     source: git
     version: "2.2.4"
+  mmkv:
+    dependency: "direct main"
+    description:
+      name: mmkv
+      sha256: "42fb1a6be1b00051612b4060e343eb28ade355ef6b845b07351696b2c6d2b256"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  mmkv_android:
+    dependency: transitive
+    description:
+      name: mmkv_android
+      sha256: "1cf400ea4527306fcbe9db962441d8fe347cfad1dfd8034b4f465c5d501dc40d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  mmkv_ios:
+    dependency: transitive
+    description:
+      name: mmkv_ios
+      sha256: ee97fd5c1d7941fc4a5a60f68c08b505d9257a22b10081a90aa3325fd782da18
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  mmkv_linux:
+    dependency: transitive
+    description:
+      name: mmkv_linux
+      sha256: a8f66b18c673d56c62abf7e7097d2d5b760f8e10afc5ff01f02f4e91683b3dcf
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  mmkv_ohos:
+    dependency: transitive
+    description:
+      name: mmkv_ohos
+      sha256: "3477f5f9233ed6e5929e75bee9273f7835de576d637fedd6a72572bb230b72b5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  mmkv_platform_interface:
+    dependency: transitive
+    description:
+      name: mmkv_platform_interface
+      sha256: bef7422b14f84297fe637adc82b9fe018155a429fcbaef53efb06ecf005b0288
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+  mmkv_win32:
+    dependency: transitive
+    description:
+      name: mmkv_win32
+      sha256: "34b8b8a4596a23bc375f4ea811fc7d81674a15a4961d58dd9b126b50168d41a8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
   mobile_scanner:
     dependency: "direct overridden"
     description:

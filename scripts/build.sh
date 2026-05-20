@@ -41,9 +41,14 @@ if [[ "${SKIP_PUB:-0}" != "1" ]]; then
   (cd flutter_module && flutter pub get)
 fi
 
-# 2a. Patch git-pinned plugin manifests for AGP 8 compatibility.
+# 2a. Patch git-pinned plugin manifests for AGP 8 compatibility (G2).
 # Idempotent — only edits files that still have the old `package="..."` attribute.
 "$REPO_ROOT/scripts/patch_pub_cache_manifests.sh"
+
+# 2b. Re-inject the G1 namespace fallback into flutter_module/.android/build.gradle.
+# `flutter pub get` regenerates that file when git deps change, wiping the patch.
+# Idempotent — skipped if the marker is already present.
+"$REPO_ROOT/scripts/patch_flutter_module_build_gradle.sh"
 
 if [[ "$PLATFORM" == "android" ]]; then
   # Pre-built AAR approach: build the Flutter AAR per-flavor.

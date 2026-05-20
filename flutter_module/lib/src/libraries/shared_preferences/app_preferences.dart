@@ -3,6 +3,7 @@ import 'package:flutter_trc/src/libraries/get_storage/app_storage.dart';
 import 'package:flutter_trc/src/libraries/get_storage/qc_storage.dart';
 import 'package:flutter_trc/src/libraries/get_storage/rms_storage.dart';
 import 'package:flutter_trc/src/libraries/get_storage/trc_storage.dart';
+import 'package:mmkv/mmkv.dart';
 
 class AppPreferences {
   static final QcStorage _qcStorage = QcStorage();
@@ -23,6 +24,7 @@ class AppPreferences {
   static final AppPreferences instance = AppPreferences._privateConstructor();
 
   Future<void> init() async {
+    await MMKV.initialize();
     await _qcStorage.init();
     await _appStorage.init();
     await _rmsStorage.init();
