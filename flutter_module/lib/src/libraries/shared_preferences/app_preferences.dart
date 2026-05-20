@@ -31,6 +31,8 @@ class AppPreferences {
     await _trcStorage.init();
   }
 
+  // Note: _appStorage.clear() wipes the entire lego_shared MMKV bucket (including the auth token).
+  // If RN later stores other keys in lego_shared, switch to surgical per-key removal.
   Future<void> resetAndClearAll() async {
     _appStorage.clear();
     _rmsStorage.clear();

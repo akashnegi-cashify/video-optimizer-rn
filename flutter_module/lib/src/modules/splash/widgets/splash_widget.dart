@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_trc/src/libraries/shared_preferences/app_preferences.dart';
@@ -48,11 +47,11 @@ class _SplashWidgetState extends State<SplashWidget> with SingleTickerProviderSt
   void _checkAuth(BuildContext context) {
     var loginType = AppPreferences.app.getLoginType();
     var loginTypeEnum = LoginTypes.fromValue(loginType ?? "");
-    String? userAuth = AuthHandler().userAuth;
+    String? userAuth = AppPreferences.app.getAuthToken();
     if (Validator.isNullOrEmpty(userAuth)) {
       Navigator.of(context).pushNamedAndRemoveUntil(TrcAndQcLoginScreen.route, (route) => false);
     } else {
-      AuthHandler().setUserAuth(userAuth!);
+      AppPreferences.app.saveAuthToken(userAuth!);
       UserDetails().setUserDetailsData().then((value) {
         UserRoles.navigateToUserRoleScreen(context, loginType: loginTypeEnum);
       }, onError: (error) {

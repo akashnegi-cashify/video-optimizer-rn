@@ -54,3 +54,6 @@
 
 # Flutter Play Core / split install warnings — Flutter still references these.
 -dontwarn com.google.android.play.core.**
+
+# flutter_tesseract_ocr plugin references TessBaseAPI which is not on the classpath.
+-dontwarn com.googlecode.tesseract.android.TessBaseAPI

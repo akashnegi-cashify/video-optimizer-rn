@@ -13,6 +13,8 @@ abstract class BaseStorage {
 
   Future<void> clear() async => _engine.clear();
 
+  Future<void> remove(String key) async => _engine.removeItem(key);
+
   int? getInt(String key) {
     final raw = _engine.getItem(key);
     if (raw == null) return null;

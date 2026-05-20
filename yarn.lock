@@ -2362,6 +2362,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@reglobe/lego-http@github:vipin-cashify/react-lego-http#main":
+  version: 1.0.0
+  resolution: "@reglobe/lego-http@https://github.com/vipin-cashify/react-lego-http.git#commit=02fcc674b268dd4b73226c2ae4c329fcae4f30c5"
+  peerDependencies:
+    "@reglobe/lego-core": ">=3.0.0"
+    "@reglobe/lego-fetch": ">=3.0.0"
+    "@reglobe/lego-storage": ">=5.0.0-alpha.0"
+  checksum: 10c0/bb5755f194fb72ce7607fae53e5a61aeb3a0fa79fa60cb29525d78a860287b4c0776be0d3b4889c159ee525e887c39e5d05f8bd5ae09393b536cf9c434a227a4
+  languageName: node
+  linkType: hard
+
 "@reglobe/lego-storage@npm:5.0.0-alpha.0":
   version: 5.0.0-alpha.0
   resolution: "@reglobe/lego-storage@npm:5.0.0-alpha.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40reglobe%2Flego-storage%2F5.0.0-alpha.0%2Fe2a62ec1954befc8bdd0f6435b29266c0efc65fe"
@@ -2728,6 +2739,7 @@ __metadata:
     "@react-native/metro-config": "npm:0.83.1"
     "@react-native/new-app-screen": "npm:0.83.1"
     "@react-native/typescript-config": "npm:0.83.1"
+    "@reglobe/lego-http": "github:vipin-cashify/react-lego-http#main"
     "@reglobe/lego-storage": "npm:5.0.0-alpha.0"
     "@types/jest": "npm:^29.5.13"
     "@types/react": "npm:^19.2.0"

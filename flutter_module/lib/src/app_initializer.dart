@@ -25,6 +25,7 @@ class AppInitializer {
   static init({Map<String, HttpInterceptorFactory>? interceptors}) async {
     await AppPreferences.instance.init();
     await AuthHandler().syncAuth();
+    _hydrateAuthHandlerFromAppStorage();
     await FirebaseHelper().initFirebase();
     await RemoteConfigHelper().initialize();
     await LoggingService.initialize();
@@ -71,5 +72,17 @@ class AppInitializer {
 
   static void _registerProjectActions() {
     ProjectActions.getAction = ProjectActionType.getAction;
+  }
+
+  // Covers RN-wrote-while-Flutter-cold: AppStorage (mmapID lego_shared) may have a token
+  // written by RN that AuthHandler's in-memory cache (rehydrated from SharedPreferences) is
+  // unaware of. Push it into AuthHandler so the Flutter HTTP interceptor reads the fresh value.
+  static void _hydrateAuthHandlerFromAppStorage() {
+    final currentAuth = AuthHandler().userAuth;
+    if (currentAuth != null && currentAuth.isNotEmpty) return;
+    final shared = AppPreferences.app.getAuthToken();
+    if (shared != null && shared.isNotEmpty) {
+      AuthHandler().setUserAuth(shared);
+    }
   }
 }

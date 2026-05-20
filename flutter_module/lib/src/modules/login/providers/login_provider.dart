@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:components/auth/handler/auth_handler.dart';
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,7 @@ class TRCLoginProvider extends CshChangeNotifier {
       TRCLoginService.userLogin(employeeId, password, location, deviceId).listen((event) async {
         var token = event?.data?.token;
         if (!Validator.isNullOrEmpty(token)) {
-          AuthHandler().setUserAuth(token!);
+          AppPreferences.app.saveAuthToken(token!);
           UserDetails().setUserDetailsDataTemp(token);
           AppPreferences.app.setLoginType(LoginTypes.trcLogin.value);
           completer.complete();
@@ -83,9 +82,8 @@ class TRCLoginProvider extends CshChangeNotifier {
         if (event != null) {
           String? accessToken = event.accessToken;
           if (!Validator.isNullOrEmpty(accessToken)) {
-            AuthHandler().setUserAuth(accessToken!);
+            AppPreferences.app.saveAuthToken(accessToken!);
             UserDetails().setUserDetailsDataTemp(accessToken);
-            AppPreferences.qc.saveUserAuthToken(accessToken);
             AppPreferences.app.setLoginType(LoginTypes.qcLogin.value);
             _fireLoginAnalytics();
             UserRoles.navigateToUserRoleScreen(context, loginType: LoginTypes.qcLogin);

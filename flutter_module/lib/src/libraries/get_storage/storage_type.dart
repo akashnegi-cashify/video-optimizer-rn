@@ -1,5 +1,5 @@
 enum StorageType {
-  appStorage("GetStorage"),
+  appStorage("lego_shared"),
   qcStorage("QcStorage"),
   rmsStorage("RmsStorage"),
   trcStorage("TrcStorage");

@@ -1,4 +1,3 @@
-import 'package:components/auth/handler/auth_handler.dart';
 import 'package:components/auth/providers/login_provider.dart';
 import 'package:components/auth/types.dart';
 import 'package:components/auth/widget/login/login_widget.dart';
@@ -53,7 +52,7 @@ class ConsoleLoginWidget extends StatelessWidget {
               'companyKey',
               companyKey
             ]);
-            AuthHandler().setUserAuth(userAuth!);
+            AppPreferences.app.saveAuthToken(userAuth!);
             UserDetails().setUserDetailsData().then((value) {
               AppPreferences.app.setLoginType(loginType.value);
               UserRoles.navigateToUserRoleScreen(context, loginType: loginType);
