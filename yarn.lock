@@ -2362,6 +2362,86 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@reglobe/lego-core@npm:^3.1.16":
+  version: 3.1.17
+  resolution: "@reglobe/lego-core@npm:3.1.17::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40reglobe%2Flego-core%2F3.1.17%2F398102956f8b306673d731fa776e475b6dbc57a9"
+  peerDependencies:
+    "@eabdullazyanov/react-native-sms-user-consent": 1.2.1
+    "@microsoft/react-native-clarity": 4.3.3
+    "@react-native-async-storage/async-storage": 2.2.0
+    "@react-native-community/geolocation": 3.4.0
+    "@react-native-community/netinfo": 11.4.1
+    "@react-native-cookies/cookies": 6.2.1
+    "@react-native-firebase/analytics": 23.1.2
+    "@react-native-firebase/app": 23.1.2
+    "@react-native-firebase/firestore": 23.1.2
+    "@react-navigation/native": 7.1.17
+    "@react-navigation/native-stack": 7.3.25
+    "@reglobe/lego-cli": 3.1.2
+    "@reglobe/lego-fetch": 3.0.8
+    "@reglobe/lego-storage": 3.0.3
+    "@sentry/nextjs": 10.45.0
+    "@sentry/react-native": 6.22.0
+    clsx: 2.1.1
+    fflate: 0.8.2
+    headless-sdk-turborn: 0.0.1
+    html-react-parser: 5.2.6
+    json-logic-js: 2.0.5
+    lodash.debounce: 4.0.8
+    lottie-react-native: 7.3.2
+    lru-cache: 11.1.0
+    mixpanel-react-native: 3.1.2
+    next: 16.2.1
+    object-hash: 3.0.0
+    path-to-regexp: 6.3.0
+    pretty-hrtime: 1.0.3
+    react-dom: 19.1.0
+    react-freeze: 1.0.4
+    react-intersection-observer: 9.16.0
+    react-native-config: 1.5.6
+    react-native-crypto: 2.2.1
+    react-native-fs: 2.20.0
+    react-native-gesture-handler: 2.28.0
+    react-native-get-random-values: 1.11.0
+    react-native-google-mobile-ads: 15.8.0
+    react-native-image-picker: 8.2.1
+    react-native-linear-gradient: 2.8.3
+    react-native-maps: 1.26.1
+    react-native-otp-verify: 1.1.8
+    react-native-permissions: 5.4.2
+    react-native-randombytes: 3.6.2
+    react-native-razorpay: 2.3.1
+    react-native-safe-area-context: 5.6.1
+    react-native-screens: 4.15.3
+    react-native-share: 12.1.0
+    react-native-svg: 15.12.1
+    react-native-url-polyfill: 2.0.0
+    react-native-video: "*"
+    react-native-we-personalization: 1.1.1
+    react-native-web: 0.21.1
+    react-native-webengage: 1.6.2
+    react-native-webview: 13.16.0
+    react-qr-code: 2.0.18
+    react-swipeable: 7.0.2
+    redis: 4.7.1
+    redis-info: 3.1.0
+    server-only: 0.0.1
+    trackier-expo-sdk: 0.6.0
+    uuid: 11.1.0
+  checksum: 10c0/34ea33a3be5b43246593ef2e8ae2de51bb6b4552dca5765e555195cb54152deac6294bcf94b420c7d3b00e634698696b8f38c68ad9367797ab9824b89f271465
+  languageName: node
+  linkType: hard
+
+"@reglobe/lego-fetch@npm:^3.0.8":
+  version: 3.0.12
+  resolution: "@reglobe/lego-fetch@npm:3.0.12::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40reglobe%2Flego-fetch%2F3.0.12%2Fa0b4a82bdae02e479fe0e053b512cb634a41f6b4"
+  peerDependencies:
+    object-hash: ^3.0.0
+    react-native-url-polyfill: 2.0.0
+  checksum: 10c0/ec6acb09d70d1d07b5daef28406371097721e99f8471244129708b78c3d1749ba5a202d70e5734a937426fb697b4c7e01f1a686525c79e2fe6276ef9681bac0d
+  languageName: node
+  linkType: hard
+
 "@reglobe/lego-http@github:vipin-cashify/react-lego-http#main":
   version: 1.0.0
   resolution: "@reglobe/lego-http@https://github.com/vipin-cashify/react-lego-http.git#commit=02fcc674b268dd4b73226c2ae4c329fcae4f30c5"
@@ -2739,6 +2819,8 @@ __metadata:
     "@react-native/metro-config": "npm:0.83.1"
     "@react-native/new-app-screen": "npm:0.83.1"
     "@react-native/typescript-config": "npm:0.83.1"
+    "@reglobe/lego-core": "npm:^3.1.16"
+    "@reglobe/lego-fetch": "npm:^3.0.8"
     "@reglobe/lego-http": "github:vipin-cashify/react-lego-http#main"
     "@reglobe/lego-storage": "npm:5.0.0-alpha.0"
     "@types/jest": "npm:^29.5.13"
@@ -2750,6 +2832,7 @@ __metadata:
     react: "npm:19.2.0"
     react-native: "npm:0.83.1"
     react-native-asset: "npm:^2.2.8"
+    react-native-lego-api-logger: "github:vipin-cashify/rn_api_logger#main"
     react-native-safe-area-context: "npm:^5.5.2"
     react-test-renderer: "npm:19.2.0"
     typescript: "npm:^5.8.3"
@@ -7325,6 +7408,17 @@ __metadata:
   bin:
     react-native-asset: esm/mod.js
   checksum: 10c0/1af2d92b2fc760a4e4f19c7f30e87be2741957c6e00be01b64280d3001a93a2ae8cf6e67f0441cd61eac26140d08eb6133c77a725ee4efe2ee38ca161b1c3080
+  languageName: node
+  linkType: hard
+
+"react-native-lego-api-logger@github:vipin-cashify/rn_api_logger#main":
+  version: 1.0.0
+  resolution: "react-native-lego-api-logger@https://github.com/vipin-cashify/rn_api_logger.git#commit=5a2f444d90be580d34c5248501f7eec6d91cd391"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-native: ">=0.70.0"
+    react-native-safe-area-context: ">=4.0.0"
+  checksum: 10c0/dbc1d5dd12e5b8a093a95107493ada1ae30f98c06ef2e524476f4bd72ba9279fdd4182b47f3828f8a77b9a3d1c938189ee48c256b925ee4064f7cba72fe1749a
   languageName: node
   linkType: hard
 

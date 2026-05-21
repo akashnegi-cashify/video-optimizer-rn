@@ -9,6 +9,9 @@ import com.facebook.react.ReactHost
 import com.facebook.react.ReactNativeApplicationEntryPoint.loadReactNative
 import com.facebook.react.ReactPackage
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
+import com.facebook.react.modules.network.OkHttpClientProvider
+import com.legoapilogger.LegoAPILoggerInterceptor
+import com.legoapilogger.LegoTimingEventListener
 import `in`.cashify.androidtrc.flutter.CopsFlutterPackage
 import java.lang.ref.WeakReference
 
@@ -44,7 +47,16 @@ class CopsApp : Application(), ReactApplication {
     StrictMode.setVmPolicy(builder.build())
     builder.detectFileUriExposure()
 
+    initHttpClient()
     loadReactNative(this)
+  }
+
+  private fun initHttpClient() {
+    val builder = OkHttpClientProvider.createClientBuilder(this)
+    builder.addInterceptor(LegoAPILoggerInterceptor())
+    builder.eventListenerFactory(LegoTimingEventListener.Factory())
+    val okHttpClient = builder.build()
+    OkHttpClientProvider.setOkHttpClientFactory { okHttpClient }
   }
 
   companion object {

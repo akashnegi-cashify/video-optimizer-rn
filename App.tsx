@@ -10,10 +10,17 @@
  * (#0080F0) so any frame-level flash blends with the splash.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar, View } from 'react-native';
+import { LegoApiLogger } from 'react-native-lego-api-logger';
 
 function App(): React.ReactElement {
+  useEffect(() => {
+    if (__DEV__) {
+      LegoApiLogger.start();
+    }
+  }, []);
+
   return (
     <View style={{ flex: 1, backgroundColor: '#0080F0' }}>
       <StatusBar hidden />

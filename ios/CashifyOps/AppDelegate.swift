@@ -16,6 +16,9 @@ import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import UIKit
+#if DEBUG
+import LegoApiLogger
+#endif
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -39,6 +42,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // 3. Boot React Native in the background so the JS bridge exists for
     //    any RN-callable native modules. The RN root view is NOT made visible.
+#if DEBUG
+    RCTSetCustomNSURLSessionConfigurationProvider {
+      LegoAPILoggerModule.configurationWithProtocol()
+    }
+#endif
     let delegate = ReactNativeDelegate()
     let factory = RCTReactNativeFactory(delegate: delegate)
     delegate.dependencyProvider = RCTAppDependencyProvider()

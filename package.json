@@ -23,14 +23,18 @@
     "android:stage:fast": "cd android && ./gradlew installStageDebug && adb shell am start -n in.cashify.androidtrc.stage/in.cashify.androidtrc.MainActivity",
     "flutter:attach": "cd flutter_module && flutter attach",
     "flutter:logs": "adb logcat | grep -iE 'flutter|in.cashify'",
-    "build:stage": "cd android && ./gradlew assembleStageRelease"
+    "build:stage": "cd android && ./gradlew assembleStageRelease",
+    "postinstall": "./scripts/patch_lego_core_autolink.sh"
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.83.1",
+    "@reglobe/lego-core": "^3.1.16",
+    "@reglobe/lego-fetch": "^3.0.8",
     "@reglobe/lego-http": "github:vipin-cashify/react-lego-http#main",
     "@reglobe/lego-storage": "5.0.0-alpha.0",
     "react": "19.2.0",
     "react-native": "0.83.1",
+    "react-native-lego-api-logger": "github:vipin-cashify/rn_api_logger#main",
     "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
