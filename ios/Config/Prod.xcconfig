@@ -1,5 +1,0 @@
-#include "Shared.xcconfig"
-
-PRODUCT_BUNDLE_IDENTIFIER = in.cashify.iostrc
-DISPLAY_NAME = Cashify Ops
-COPS_FLAVOR = prod

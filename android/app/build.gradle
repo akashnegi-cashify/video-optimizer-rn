@@ -5,21 +5,25 @@ apply plugin: "com.facebook.react"
 apply plugin: "com.google.gms.google-services"
 apply plugin: "com.google.firebase.crashlytics"
 
-// Load versionName / versionCode from android/local.properties so they stay in sync
-// with the existing Flutter-side conventions (flutter.versionName / flutter.versionCode).
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader) }
-}
-def appVersionName = localProperties.getProperty('flutter.versionName') ?: '6.0.4'
-def appVersionCode = (localProperties.getProperty('flutter.versionCode') ?: '87').toInteger()
+// react-native-config: per flavor × buildType env file selection.
+// versionName / versionCode are now read from the active env file via project.env.get(...).
+project.ext.envConfigFiles = [
+    stageDebug     : "../env/.env.stage.local",
+    stageRelease   : "../env/.env.stage",
+    betaDebug      : "../env/.env.beta.local",
+    betaRelease    : "../env/.env.beta",
+    prodTestDebug  : "../env/.env.prodTest.local",
+    prodTestRelease: "../env/.env.prodTest",
+    prodDebug      : "../env/.env.prod.local",
+    prodRelease    : "../env/.env.prod",
+]
+apply from: new File(rootProject.projectDir, "../node_modules/react-native-config/android/dotenv.gradle")
 
 react {
     autolinkLibrariesWithApp()
 
     // Skip JS bundle generation for these debug variants (Metro serves the bundle).
-    debuggableVariants = ["prodDebug", "betaDebug", "stageDebug"]
+    debuggableVariants = ["prodDebug", "betaDebug", "stageDebug", "prodTestDebug"]
 }
 
 /**
@@ -41,8 +45,8 @@ android {
         applicationId "in.cashify.androidtrc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode appVersionCode
-        versionName appVersionName
+        versionCode project.env.get("CURRENT_PROJECT_VERSION").toInteger()
+        versionName project.env.get("MARKETING_VERSION")
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -122,6 +126,11 @@ android {
             dimension "tier"
             applicationId "in.cashify.androidtrc.stage"
             signingConfig rootProject.hasProperty("credentials") ? signingConfigs.cashifystage : signingConfigs.debug
+        }
+        prodTest {
+            dimension "tier"
+            applicationId "in.cashify.androidtrc.prodtest"
+            signingConfig rootProject.hasProperty("credentials") ? signingConfigs.cashify : signingConfigs.debug
         }
     }
 

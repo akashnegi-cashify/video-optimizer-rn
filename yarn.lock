@@ -2832,6 +2832,7 @@ __metadata:
     react: "npm:19.2.0"
     react-native: "npm:0.83.1"
     react-native-asset: "npm:^2.2.8"
+    react-native-config: "npm:^1.6.1"
     react-native-lego-api-logger: "github:vipin-cashify/rn_api_logger#main"
     react-native-safe-area-context: "npm:^5.5.2"
     react-test-renderer: "npm:19.2.0"
@@ -7408,6 +7409,20 @@ __metadata:
   bin:
     react-native-asset: esm/mod.js
   checksum: 10c0/1af2d92b2fc760a4e4f19c7f30e87be2741957c6e00be01b64280d3001a93a2ae8cf6e67f0441cd61eac26140d08eb6133c77a725ee4efe2ee38ca161b1c3080
+  languageName: node
+  linkType: hard
+
+"react-native-config@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "react-native-config@npm:1.6.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-windows: ">=0.61"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 10c0/9e2bbb7fb04bac878471f7b06132d84233c482952fc7dd0b651669a62cd35c35428302c7502a92898402505ec9b8d7997848122356b42de5c072dcce549d5813
   languageName: node
   linkType: hard
 

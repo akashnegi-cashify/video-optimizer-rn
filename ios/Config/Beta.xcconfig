@@ -1,5 +1,0 @@
-#include "Shared.xcconfig"
-
-PRODUCT_BUNDLE_IDENTIFIER = in.cashify.iostrc.beta
-DISPLAY_NAME = Cashify Ops Beta
-COPS_FLAVOR = beta

@@ -1,0 +1,6 @@
+// Wrapper: Shared (deployment target etc.) + react-native-config tmp.xcconfig (per-flavor) + Pods.
+// Include order matters: Shared first (base settings), then tmp.xcconfig (per-flavor overrides win),
+// then Pods (linker flags etc.).
+#include "Config/Shared.xcconfig"
+#include "tmp.xcconfig"
+#include "Pods/Target Support Files/Pods-CashifyOps/Pods-CashifyOps.debug.xcconfig"

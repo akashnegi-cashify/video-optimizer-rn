@@ -1,0 +1,7 @@
+// Wrapper: Shared (deployment target etc.) + react-native-config tmp.xcconfig (per-flavor) + Pods.
+#include "Config/Shared.xcconfig"
+#include "tmp.xcconfig"
+#include "Pods/Target Support Files/Pods-CashifyOps/Pods-CashifyOps.release.xcconfig"
+
+// dSYMs for Crashlytics upload from Archive builds.
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym

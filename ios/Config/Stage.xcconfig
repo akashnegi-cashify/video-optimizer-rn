@@ -1,5 +1,0 @@
-#include "Shared.xcconfig"
-
-PRODUCT_BUNDLE_IDENTIFIER = in.cashify.iostrc.stage
-DISPLAY_NAME = Cashify Ops Stage
-COPS_FLAVOR = stage

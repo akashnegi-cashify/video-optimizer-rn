@@ -1,15 +1,11 @@
 // =============================================================================
 // Cashify-OPS — Shared xcconfig (deployment target, common build flags)
-// Wire into the Xcode target via:
-//   Project > Info > Configurations > Debug/Release base config = Config/<Flavor>.xcconfig
-// Each per-flavor xcconfig #includes this file.
+// Per-flavor values (PRODUCT_BUNDLE_IDENTIFIER, DISPLAY_NAME, MARKETING_VERSION,
+// CURRENT_PROJECT_VERSION) come from env/.env.<flavor> via tmp.xcconfig — see the
+// CashifyOps-{Debug,Release}.xcconfig wrappers.
 // =============================================================================
 
 IPHONEOS_DEPLOYMENT_TARGET = 16.0
 SWIFT_VERSION = 5.0
 ENABLE_BITCODE = NO
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-
-// Marketing version + build number — wired manually in Info.plist or via build script.
-MARKETING_VERSION = 7.0.0
-CURRENT_PROJECT_VERSION = 88
