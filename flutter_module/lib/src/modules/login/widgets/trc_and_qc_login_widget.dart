@@ -83,8 +83,8 @@ class TrcAndQcLoginWidget extends StatelessWidget {
     );
   }
 
-  _moveToLoginScreen(BuildContext context, LoginTypes loginType) async {
-    var auth = await SharedPreferencesHelper().getUserAuth();
+  _moveToLoginScreen(BuildContext context, LoginTypes loginType) {
+    var auth = AppPreferences.app.getAuthToken();
     if (auth != null) {
       AppPreferences.app.setLoginType(loginType.value);
       UserRoles.navigateToUserRoleScreen(context, loginType: loginType);

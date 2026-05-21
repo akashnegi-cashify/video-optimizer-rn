@@ -11,5 +11,5 @@ ENABLE_BITCODE = NO
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 
 // Marketing version + build number — wired manually in Info.plist or via build script.
-MARKETING_VERSION = 6.0.4
-CURRENT_PROJECT_VERSION = 87
+MARKETING_VERSION = 7.0.0
+CURRENT_PROJECT_VERSION = 88

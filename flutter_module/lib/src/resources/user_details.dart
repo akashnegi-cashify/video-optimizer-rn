@@ -36,7 +36,7 @@ class UserDetails {
       _myUserDetailsResponse = value;
       completer.complete();
     }, onError: (error) {
-      completer.complete(error);
+      completer.completeError(error);
     });
     return completer.future;
   }

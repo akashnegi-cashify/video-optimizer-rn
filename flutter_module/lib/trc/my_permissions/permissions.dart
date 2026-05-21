@@ -14,4 +14,9 @@ class TrcPermissions {
   static Permission glassChange = Permission(module: "trc-console", permissions: ["app_glass_change"]);
   static Permission elss = Permission(module: "trc-console", permissions: ["app_elss"]);
   static Permission cameraCleaning = Permission(module: "trc-console", permissions: ["app_camera_cleaning"]);
+  static Permission paintShop = Permission(module: "trc-console", permissions: ["app_paint_shop"]);
+  static Permission bodyShop = Permission(module: "trc-console", permissions: ["app_body_shop"]);
+  static Permission laptopAppAnalysis = Permission(module: "trc-console", permissions: ["app_analysis"]);
+  static Permission laptopDismenting = Permission(module: "trc-console", permissions: ["app_dismantling"]);
+  static Permission laptopAssembly = Permission(module: "trc-console", permissions: ["app_assembly"]);
 }

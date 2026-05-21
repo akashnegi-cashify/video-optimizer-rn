@@ -23,8 +23,11 @@ class AppStorage extends BaseStorage {
   }
 
   Future<void> saveAuthToken(String token) async {
-    await setString(_AppPreferencesKeys.authToken.value, token);
+    // AuthHandler must be set BEFORE any await so the in-memory _userAuth is
+    // available to the HTTP interceptor on the very next call, even when this
+    // method is invoked fire-and-forget (without await).
     AuthHandler().setUserAuth(token);
+    await setString(_AppPreferencesKeys.authToken.value, token);
   }
 
   String? getAuthToken() {

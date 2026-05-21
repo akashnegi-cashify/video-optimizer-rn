@@ -199,42 +199,62 @@ class TrcHomeScreenNew extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: Dimens.space_16),
-              CshBigButton(
-                text: "Paint Shop",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(PaintShopHomeScreen.route);
-                },
+              // Paint Shop
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.paintShop,
+                padding: EdgeInsets.only(top: Dimens.space_16),
+                child: CshBigButton(
+                  text: "Paint Shop",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(PaintShopHomeScreen.route);
+                  },
+                ),
               ),
-              SizedBox(height: Dimens.space_16),
-              CshBigButton(
-                text: "Body Shop",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(BodyShopHomeScreen.route);
-                },
+              // Body Shop
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.bodyShop,
+                padding: EdgeInsets.only(top: Dimens.space_16),
+                child: CshBigButton(
+                  text: "Body Shop",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(BodyShopHomeScreen.route);
+                  },
+                ),
               ),
-              SizedBox(height: Dimens.space_16),
-              CshBigButton(
-                text: "Dismantling",
-                onPressed: () {
-                  Navigator.of(context).pushNamed(DismantleHomeScreen.route);
-                },
+              // Dismantling
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.laptopDismenting,
+                padding: EdgeInsets.only(top: Dimens.space_16),
+                child: CshBigButton(
+                  text: "Dismantling",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(DismantleHomeScreen.route);
+                  },
+                ),
               ),
-              SizedBox(height: Dimens.space_16),
-              CshBigButton(
-                text: "Laptop Analyzer",
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(LaptopAnalyzerHomeScreen.route);
-                },
+              // Laptop Analyzer
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.laptopAppAnalysis,
+                padding: EdgeInsets.only(top: Dimens.space_16),
+                child: CshBigButton(
+                  text: "Laptop Analyzer",
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(LaptopAnalyzerHomeScreen.route);
+                  },
+                ),
               ),
-              SizedBox(height: Dimens.space_16),
-              CshBigButton(
-                text: "Laptop Assembly",
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(LaptopAssemblyHomeScreen.route);
-                },
+              // Laptop Assembly
+              TRCRolePermissionWidget(
+                permission: TrcPermissions.laptopAssembly,
+                padding: EdgeInsets.only(top: Dimens.space_16),
+                child: CshBigButton(
+                  text: "Laptop Assembly",
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(LaptopAssemblyHomeScreen.route);
+                  },
+                ),
               ),
             ],
           ),

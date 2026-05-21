@@ -1,5 +1,13 @@
 # TRC Releases
 
+# v7.0.0+88 (XX-05-2026)
+
+### Feature:
+
+* `Laptop Flow` [(SCM-14357)](https://reglobe.atlassian.net/browse/SCM-14357)
+* `RN Init` [(SCM-14720)](https://reglobe.atlassian.net/browse/SCM-14720)
+
+
 # v6.0.4+87 (24-04-2026)
 
 ### Feature:
