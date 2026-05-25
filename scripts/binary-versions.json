@@ -1,0 +1,22 @@
+{
+  "version": "6.0-2.LTS",
+  "android": {
+    "aar": {
+      "url": "https://github.com/akashnegi-cashify/video-optimizer-rn/releases/download/binaries-v1/ffmpeg-kit-full-gpl-6.0-2.LTS.aar",
+      "sha256": "2ec56561ec593c4c4ff3b3c892b49f271699ac01f09d0f0249a7c8952a44554a",
+      "filename": "ffmpeg-kit-full-gpl-6.0-2.LTS.aar"
+    },
+    "pom": {
+      "url": "https://github.com/akashnegi-cashify/video-optimizer-rn/releases/download/binaries-v1/ffmpeg-kit-full-gpl-6.0-2.LTS.pom",
+      "sha256": "7e5d0f34a499d26e364f4c6cb01fac540a23d2dfda3075653f98105bf3aba19b",
+      "filename": "ffmpeg-kit-full-gpl-6.0-2.LTS.pom"
+    }
+  },
+  "ios": {
+    "frameworkZip": {
+      "url": "https://github.com/akashnegi-cashify/video-optimizer-rn/releases/download/binaries-v1/ffmpeg-kit-full-gpl-6.0.LTS-ios-framework.zip",
+      "sha256": "f2bb2ed0276e4238d0c3c98e13cfc9812aeab573e6c133126aaa35df1db7e88d",
+      "filename": "ffmpeg-kit-full-gpl-6.0.LTS-ios-framework.zip"
+    }
+  }
+}

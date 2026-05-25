@@ -2,21 +2,27 @@
   "name": "@cashify/video-optimizer-rn",
   "version": "0.1.0",
   "description": "React Native port of the Flutter video_optimizer package. FFmpeg-based video and image optimization with progress callbacks.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "react-native": "src/index.ts",
   "files": [
     "dist",
     "src",
+    "scripts",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
   ],
+  "bin": {
+    "video-optimizer-rn": "scripts/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint src --ext .ts,.tsx",
+    "postinstall": "node scripts/postinstall.js",
     "prepublishOnly": "npm run clean && npm run build && npm test"
   },
   "keywords": [
