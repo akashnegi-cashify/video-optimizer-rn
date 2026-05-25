@@ -1,6 +1,13 @@
 node_modules/
 dist/
 coverage/
+
+# We don't commit a lockfile for the library — consumers resolve their own
+# dependency tree against their app's lockfile. A library-level lockfile would
+# pin peer-dep versions in a way that can conflict with the consumer's choices.
+yarn.lock
+package-lock.json
+
 .DS_Store
 *.log
 npm-debug.log*

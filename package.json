@@ -13,9 +13,7 @@
     "LICENSE",
     "CHANGELOG.md"
   ],
-  "bin": {
-    "video-optimizer-rn": "scripts/cli.js"
-  },
+  "bin": "scripts/cli.js",
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
