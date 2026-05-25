@@ -28,6 +28,8 @@ class CopsFlutterActivity : FlutterFragmentActivity() {
     super.configureFlutterEngine(flutterEngine)
     // Register the in.cashify.trc/plugin MethodChannel handlers on THIS activity's engine.
     FlutterEngineManager.configureEngine(flutterEngine, applicationContext)
+    // RN-leaf hand-off bridge — needs an Activity context to start RnLeafActivity.
+    CopsRnLeafBridge.configureEngine(flutterEngine, this)
   }
 
   companion object {

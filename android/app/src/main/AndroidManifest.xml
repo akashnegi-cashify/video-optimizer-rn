@@ -51,6 +51,17 @@
             </intent-filter>
         </activity>
 
+        <!-- RN leaf host. Launched on demand from Flutter via CopsRnLeafBridge. -->
+        <activity
+            android:name=".RnLeafActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchThemeAppCompat"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Flutter host. Theme + splash metadata preserved from the original Flutter project. -->
         <activity
             android:name=".flutter.CopsFlutterActivity"

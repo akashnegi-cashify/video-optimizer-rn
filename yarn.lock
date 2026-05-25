@@ -2834,6 +2834,8 @@ __metadata:
     react-native-asset: "npm:^2.2.8"
     react-native-config: "npm:^1.6.1"
     react-native-lego-api-logger: "github:vipin-cashify/rn_api_logger#main"
+    react-native-mmkv: "npm:^4.3.1"
+    react-native-nitro-modules: "npm:^0.35.7"
     react-native-safe-area-context: "npm:^5.5.2"
     react-test-renderer: "npm:19.2.0"
     typescript: "npm:^5.8.3"
@@ -7434,6 +7436,27 @@ __metadata:
     react-native: ">=0.70.0"
     react-native-safe-area-context: ">=4.0.0"
   checksum: 10c0/dbc1d5dd12e5b8a093a95107493ada1ae30f98c06ef2e524476f4bd72ba9279fdd4182b47f3828f8a77b9a3d1c938189ee48c256b925ee4064f7cba72fe1749a
+  languageName: node
+  linkType: hard
+
+"react-native-mmkv@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "react-native-mmkv@npm:4.3.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-nitro-modules: "*"
+  checksum: 10c0/cfafff8e9837e9244c4544fcf26d8570f66539e97ade7ee9cfd2dc51328b6e793357a29a8336bf6f5a540f894780726ae404fef5059756b157ea3cee2fce6566
+  languageName: node
+  linkType: hard
+
+"react-native-nitro-modules@npm:^0.35.7":
+  version: 0.35.7
+  resolution: "react-native-nitro-modules@npm:0.35.7"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/f0c9167655032952bfdadd6802eade60796df2021e29a451ec205843dd6e95c6cb274d77c77534703a5d5d55e45c6f7ca1900a94813de3e0bdb0f3aa654cf3fc
   languageName: node
   linkType: hard
 

@@ -143,6 +143,13 @@ android {
             force "androidx.camera:camera-video:1.3.4"
             force "com.google.errorprone:error_prone_annotations:2.30.0"
         }
+
+        // react-native-mmkv@4 pulls in `io.github.zhongwuzw:mmkv:2.4.0`, which publishes the
+        // same `com.tencent.mmkv.*` classes as the official `com.tencent:mmkv:2.4.0` that the
+        // Flutter `mmkv` plugin already brings in via the AAR. Two AARs → duplicate-class
+        // build failure. The zhongwuzw artifact is a maintainer re-publish (same bytes), so
+        // we drop it and let everyone use the canonical Tencent jar.
+        exclude group: "io.github.zhongwuzw", module: "mmkv"
     }
 
     packagingOptions {
@@ -153,6 +160,14 @@ android {
                 'lib/x86_64/libc++_shared.so',
                 'lib/armeabi-v7a/libc++_shared.so',
                 'lib/arm64-v8a/libc++_shared.so',
+                // libmmkv.so ships in both the Flutter `mmkv` plugin's transitive dep
+                // (com.tencent:mmkv) and react-native-mmkv@4's transitive dep. Both AARs
+                // contain bytecode-identical copies of the same 2.4.0 native lib, so the
+                // first one wins.
+                'lib/x86/libmmkv.so',
+                'lib/x86_64/libmmkv.so',
+                'lib/armeabi-v7a/libmmkv.so',
+                'lib/arm64-v8a/libmmkv.so',
             ]
         }
     }

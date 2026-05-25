@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:core_widgets/core_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_trc/bridge/rn_leaf_navigator.dart';
 import 'package:flutter_trc/src/common/version_updates/app_update_helper.dart';
 import 'package:flutter_trc/src/environments/environment_config.dart';
 import 'package:flutter_trc/src/libraries/firebase/remote_config_helper.dart';
@@ -66,7 +67,8 @@ class TrcAndQcLoginWidget extends StatelessWidget {
                       text: l10n.rmsLogin,
                       onPressed: () {
                         _checkAppUpdate(context, () {
-                          _moveToLoginScreen(context, LoginTypes.rmsLogin);
+                          RnLeafNavigator.openRoute('rms-root');
+                          // _moveToLoginScreen(context, LoginTypes.rmsLogin);
                         });
                       },
                     ),
