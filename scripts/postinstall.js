@@ -23,11 +23,16 @@ if (process.env.VIDEO_OPTIMIZER_RN_SKIP_POSTINSTALL === '1') {
   process.exit(0);
 }
 
-// Skip when running inside the library's own repo. We detect this by checking
-// whether the library dir (two above scripts/) is the same as process.cwd() —
-// i.e., the user ran `yarn install` from inside the library itself.
+// Skip when running inside the library's own repo. We detect this via INIT_CWD,
+// which npm/yarn set to the directory from which `install` was originally invoked.
+// When a consumer runs `yarn install`, INIT_CWD is their project root; when we run
+// it inside the library, INIT_CWD === the library root.
+//
+// process.cwd() is not reliable here because Yarn 4 runs postinstall with cwd
+// set to the linked package dir (inside node_modules), not the invocation dir.
 const libRoot = path.resolve(__dirname, '..');
-if (path.resolve(process.cwd()) === libRoot) {
+const invocationDir = process.env.INIT_CWD || process.cwd();
+if (path.resolve(invocationDir) === libRoot) {
   log('Running inside the library repo — postinstall skipped.');
   process.exit(0);
 }
