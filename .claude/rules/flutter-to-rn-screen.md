@@ -292,34 +292,77 @@ Before converting any screen, **walk the entire Flutter widget tree** and identi
 
 ### What are "common/leaf widgets"?
 
-These are reusable, self-contained Flutter widgets from `flutter_module/lib/widgets/` that appear as leaf nodes in the screen's widget tree. Examples:
+These are reusable, self-contained Flutter widgets from `flutter_module/lib/widgets/` (and `flutter_admin_ui/core_widgets/` / `flutter_admin_ui/components/`) that appear as leaf nodes in the screen's widget tree.
 
-| Flutter widget | RN location (if exists) |
+### Lookup order (MANDATORY — check ALL sources before creating new)
+
+Resolve every common widget in this exact order. **Stop at the first match.** Only create a new local component if all three sources miss.
+
+1. **`@reglobe/admin-ui-core-widgets-react`** — primitive/core widgets (CshButton, CshTextFormField, CshDropDown, CshCheckbox, CshRadio, CshSwitch, CshTabBar, CshCard, CshIcon, CshText, CshBadge, CshStepper, CshAppbar, CshSearchBar, CshShimmer, CshExpandableCard, CshOverlayPanel, CshBottomSheet, CshLoadingOverlay, CshMultiSelectDropDown, etc.). Read the barrel at `node_modules/@reglobe/admin-ui-core-widgets-react/index.ts` to see the full export list.
+2. **`@reglobe/admin-ui-components-react`** — composite widgets built on core (ConfirmActionSheet, GenericBottomSheet, RemarksActionSheet, CshApiList family, LoginScreen / ForgetPasswordScreen, etc.). Read the barrel at `node_modules/@reglobe/admin-ui-components-react/index.ts`.
+3. **`src/components/common/`** — project-local widgets. Read `src/components/common/index.ts` for current exports.
+4. **Create new** at `src/components/common/{WidgetName}.tsx` only if none of the three sources expose it.
+
+### Quick reference — known mappings
+
+| Flutter widget | Resolution |
 |---|---|
-| `CshButton` | `src/components/common/CshButton.tsx` |
-| `CshTextFormField` | `src/components/common/CshTextFormField.tsx` |
-| `CshDropDown` | `src/components/common/CshDropDown.tsx` |
-| `CshCheckbox` | `src/components/common/CshCheckbox.tsx` |
-| `CshChip` | `src/components/common/CshChip.tsx` |
-| `CshTag` | `src/components/common/CshTag.tsx` |
-| `CshCard` / `CshElevatedCard` | `src/components/common/CshCard.tsx` |
-| `CshExpansionWidget` | `src/components/common/CshExpansionWidget.tsx` |
-| `CshLoading` | `src/components/common/CshLoading.tsx` |
-| `CshNetworkImage` | `src/components/common/CshNetworkImage.tsx` |
-| `CshBadge` | `src/components/common/CshBadge.tsx` |
-| `CshStep` | `src/components/common/CshStep.tsx` |
-| Any other `Csh*` / reusable widget | `src/components/common/{WidgetName}.tsx` |
+| `CshButton`, `ActionsButton`, `CshSwipeButton` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshTextFormField` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshDropDown`, `CshMultiSelectDropDown` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshCheckbox`, `CshRadio`, `CshSwitch` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshTabBar`, `CshTab`, `CshDecorationTabBar` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshCard`, `CshExpandableCard` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshBadge`, `LabelChip` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshIcon`, `CshAssetIcon`, `CshNetworkIcon` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshText` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshStepper` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshAppbar` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshSearchBar`, `CshElevatedSearchBar` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshShimmer`, `CshListItemSkeleton` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshLoadingOverlay` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshBottomSheet`, `CshOverlayPanel` | `@reglobe/admin-ui-core-widgets-react` |
+| `HorizontalKeyValue`, `DottedLineDivider` | `@reglobe/admin-ui-core-widgets-react` |
+| `CshDrawerExpansionTile` | `@reglobe/admin-ui-core-widgets-react` |
+| `ConfirmActionSheet`, `GenericBottomSheet`, `RemarksActionSheet` | `@reglobe/admin-ui-components-react` |
+| `CshApiList` (and filters / hooks / api) | `@reglobe/admin-ui-components-react/list` |
+| `LoginScreen`, `ForgetPasswordScreen`, MFA flow | `@reglobe/admin-ui-components-react/auth` |
+| Local-only / project-specific (e.g. `CshLoading` overlay hook) | `src/components/common/` |
+| Anything not found above | Create at `src/components/common/{WidgetName}.tsx` |
+
+> The tables above are a quick reference, not the source of truth. Always re-read the package `index.ts` files in case new widgets have been added.
 
 ### Resolution steps
 
-1. **Scan** the Flutter screen widget file (and any sub-widgets it renders). Collect every distinct widget reference that comes from `flutter_module/lib/widgets/` (the shared widgets folder).
-2. **Check** if each widget already exists in `src/components/common/`. Look at `src/components/common/index.ts` for the current export list.
-3. **For each missing widget**:
-   a. Read the Flutter source from `flutter_module/lib/widgets/{category}/{widget_file}.dart`.
+1. **Scan** the Flutter screen widget file (and any sub-widgets it renders). Collect every distinct widget reference that comes from `flutter_module/lib/widgets/`, `flutter_admin_ui/core_widgets/`, or `flutter_admin_ui/components/`.
+2. **Resolve each widget** by walking the lookup order above:
+   a. Read `node_modules/@reglobe/admin-ui-core-widgets-react/index.ts` — does it export this widget?
+   b. If not, read `node_modules/@reglobe/admin-ui-components-react/index.ts` — does it export this widget?
+   c. If not, read `src/components/common/index.ts` — does it already exist locally?
+   d. If none of the above, mark it for creation.
+3. **Prefer npm package over local**: If the same widget exists in both `@reglobe/admin-ui-*` and `src/components/common/`, **prefer the npm package** and treat the local copy as legacy (do not import the local one in new screens). Flag the duplicate to the user.
+4. **For each widget that must be created**:
+   a. Read the Flutter source from `flutter_module/lib/widgets/{category}/{widget_file}.dart` (or `flutter_admin_ui/...`).
    b. Convert it to a React Native component at `src/components/common/{WidgetName}.tsx` following the same conversion rules as Step 2 (pure functional component).
    c. **Match the Flutter constructor params exactly** — every named parameter in the Flutter widget becomes a prop in the RN component's `interface`. Keep the same names (camelCase). Preserve optional/required status.
    d. Export the new component from `src/components/common/index.ts`.
-4. **Only after all common components are resolved**, proceed to Step 0 (images) and beyond.
+5. **Report to the user** which widgets resolved to which source (npm vs local vs new) before proceeding.
+6. **Only after all common components are resolved**, proceed to Step 0 (images) and beyond.
+
+### Import conventions
+
+```tsx
+// Preferred — core primitives from npm package
+import {CshButton, CshTextFormField, CshDropDown} from '@reglobe/admin-ui-core-widgets-react';
+
+// Preferred — composite widgets from npm package
+import {ConfirmActionSheet, CshApiList} from '@reglobe/admin-ui-components-react';
+
+// Fallback — project-local widgets only when not in either npm package
+import {CshLoading} from '../../common/CshLoading';
+```
+
+Do NOT import `CshButton` / `CshTextFormField` / etc. from `src/components/common/` if `@reglobe/admin-ui-core-widgets-react` exports the same name.
 
 ### Conversion rules — Common Components
 
@@ -328,8 +371,8 @@ These are reusable, self-contained Flutter widgets from `flutter_module/lib/widg
 3. **Export from barrel**: Add to `src/components/common/index.ts`.
 4. **Recursion**: If a common widget itself uses another common widget (e.g., `CshDropDown` uses `CshTextFormField`), resolve the dependency first (depth-first).
 5. **Theming**: Use `AppColors` from `src/theme/colors.ts` for colors. Primary is `#42C8B7`.
-6. **No duplication**: If the component already exists, reuse it as-is. Do NOT recreate or duplicate.
-7. **Inform the user**: Before converting, list which common widgets are missing and will be created. Proceed automatically unless ambiguity exists.
+6. **No duplication**: If the component already exists in `@reglobe/admin-ui-core-widgets-react`, `@reglobe/admin-ui-components-react`, or `src/components/common/`, reuse it as-is. Do NOT recreate or duplicate. When the same name exists in both an npm package and `src/components/common/`, prefer the npm package.
+7. **Inform the user**: Before converting, list each common widget and how it resolved — npm package (which one), local, or "will be created". Proceed automatically unless ambiguity exists.
 8. **Pixel-perfect design**: The RN component must visually match the Flutter widget exactly — same heights, paddings, font sizes, border radii, and spacing. Read the Flutter source carefully: extract every `Dimens.*`, `EdgeInsets`, `contentPadding`, `borderRadius`, `fontSize`, and color value, then apply the same numeric values in the RN `StyleSheet`. Do NOT approximate or guess dimensions.
    - When picking designs/references, explicitly map equivalent spacing tokens first: every outer margin, inner padding, inter-item gap, and section spacing must match Flutter values one-to-one.
    - If a direct token is not available in RN, use explicit numeric values copied from Flutter instead of nearest approximations.
@@ -343,13 +386,20 @@ These are reusable, self-contained Flutter widgets from `flutter_module/lib/widg
 
 ### Example workflow
 
-User says: "convert this screen" (a Flutter screen that uses `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox`)
+User says: "convert this screen" (a Flutter screen that uses `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox`, `ConfirmActionSheet`, `MyCustomBanner`)
 
-1. Scan → found: `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox`
-2. Check `src/components/common/` → `CshButton` exists, `CshTextFormField` exists, `CshDropDown` missing, `CshCheckbox` missing
-3. Convert `CshDropDown` → `src/components/common/CshDropDown.tsx`, export from index
-4. Convert `CshCheckbox` → `src/components/common/CshCheckbox.tsx`, export from index
-5. Proceed with Step 0 (images), Step 1 (hook), Step 2 (widget), Step 3 (screen)
+1. Scan → found: `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox`, `ConfirmActionSheet`, `MyCustomBanner`
+2. Walk lookup order:
+   - `@reglobe/admin-ui-core-widgets-react` → `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox` ✅
+   - `@reglobe/admin-ui-components-react` → `ConfirmActionSheet` ✅
+   - `src/components/common/` → `MyCustomBanner` not found
+   - → `MyCustomBanner` must be created
+3. Report to user:
+   - `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox` → import from `@reglobe/admin-ui-core-widgets-react`
+   - `ConfirmActionSheet` → import from `@reglobe/admin-ui-components-react`
+   - `MyCustomBanner` → will be created at `src/components/common/MyCustomBanner.tsx`
+4. Create `MyCustomBanner` from Flutter source, export from `src/components/common/index.ts`
+5. Proceed with Step 0 (images), Step 1 (hook), Step 2 (widget), Step 3 (screen) — using imports from the npm packages where resolved
 
 ## Step 0 — Migrate Images (Run BEFORE converting widgets)
 
