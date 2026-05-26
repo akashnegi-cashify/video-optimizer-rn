@@ -2362,6 +2362,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@reglobe/admin-ui-components-react@portal:../flutter_admin_ui/react/components::locator=CashifyOps%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@reglobe/admin-ui-components-react@portal:../flutter_admin_ui/react/components::locator=CashifyOps%40workspace%3A."
+  peerDependencies:
+    "@reglobe/admin-ui-core-widgets-react": "*"
+    "@reglobe/lego-fetch": "*"
+    react: ">=19.0.0"
+    react-native: ">=0.83.0"
+    react-native-safe-area-context: ">=5.0.0"
+  languageName: node
+  linkType: soft
+
+"@reglobe/admin-ui-core-widgets-react@portal:../flutter_admin_ui/react/core_widgets::locator=CashifyOps%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@reglobe/admin-ui-core-widgets-react@portal:../flutter_admin_ui/react/core_widgets::locator=CashifyOps%40workspace%3A."
+  peerDependencies:
+    react: ">=19.0.0"
+    react-native: ">=0.83.0"
+    react-native-svg: ">=15.0.0"
+  languageName: node
+  linkType: soft
+
 "@reglobe/lego-core@npm:^3.1.16":
   version: 3.1.17
   resolution: "@reglobe/lego-core@npm:3.1.17::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40reglobe%2Flego-core%2F3.1.17%2F398102956f8b306673d731fa776e475b6dbc57a9"
@@ -2819,6 +2841,8 @@ __metadata:
     "@react-native/metro-config": "npm:0.83.1"
     "@react-native/new-app-screen": "npm:0.83.1"
     "@react-native/typescript-config": "npm:0.83.1"
+    "@reglobe/admin-ui-components-react": "portal:../flutter_admin_ui/react/components"
+    "@reglobe/admin-ui-core-widgets-react": "portal:../flutter_admin_ui/react/core_widgets"
     "@reglobe/lego-core": "npm:^3.1.16"
     "@reglobe/lego-fetch": "npm:^3.0.8"
     "@reglobe/lego-http": "github:vipin-cashify/react-lego-http#main"

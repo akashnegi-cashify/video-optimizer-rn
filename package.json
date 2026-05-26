@@ -31,6 +31,8 @@
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.83.1",
+    "@reglobe/admin-ui-components-react": "portal:../flutter_admin_ui/react/components",
+    "@reglobe/admin-ui-core-widgets-react": "portal:../flutter_admin_ui/react/core_widgets",
     "@reglobe/lego-core": "^3.1.16",
     "@reglobe/lego-fetch": "^3.0.8",
     "@reglobe/lego-http": "github:vipin-cashify/react-lego-http#main",
