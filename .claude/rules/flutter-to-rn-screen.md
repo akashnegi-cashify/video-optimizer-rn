@@ -286,7 +286,123 @@ Only introduce `React.createContext` when state is **shared across multiple scre
 
 For per-screen state, always use custom hooks.
 
-## Pre-Step — Analyze Widget Tree & Resolve Common Components (Run FIRST)
+## Pre-Step A — Map the Flutter Builder Pattern (Run FIRST, BEFORE Pre-Step B)
+
+Flutter screens in this codebase are NOT self-contained. The `_screen.dart` file the user hands you is typically just a **registration shell** for a `@CshPage` / `@CshComponent` builder/registry pattern. The actual UI is spread across 6–8 files. Before migrating anything, walk the whole chain and snapshot every file that contributes to the final UI.
+
+In RN we DO NOT replicate the builder pattern. The Flutter chain collapses into the standard `hook + widget + screen` trio. This pre-step is about *reading* the Flutter side correctly so you know what to flatten.
+
+### The Flutter screen anatomy (typical files)
+
+| # | Filename pattern | Annotation / wrapper | Responsibility | What lives there |
+|---|---|---|---|---|
+| 1 | `screens/{name}_screen.dart` | `@CshPage` | Route entry + registers `pageKey` | Thin `BaseScreen<Args>` whose `buildView` returns `PageWidget(pageKey: ..., initialValue: {...})`. Also a `static navigate(...)` method and a `*ScreenArgs extends BaseArguments` class. **No UI logic.** |
+| 2 | `components/{name}_component.dart` | `@CshComponent` | Bound to the same `pageKey`/`pageGroup`; provides the actual `buildView` | Uses `paramBuilder((paramModel) => ...)` to unpack typed params and branch on them (e.g. `if (lotType == 1) NormalLotScanContainer(...) else BinLotScanContainer(...)`). |
+| 3 | `models/{name}_comp_params.dart` | `@CshPageParam` + `AbsParamKey` enum | Typed view over `initialValue` map | Class with `@ParamKey` fields + an enum of short keys (e.g. `header("h")`, `lotName("ln")`, `lotId("lid")`, `lotType("lt")`). |
+| 4 | `widgets/{name}_container.dart` | `ChangeNotifierProvider<XxxProvider>` | Provider scope + glue between provider state and presentational widget | Reads `provider.dataState`, handles `initial`/`loading`/`failure`/`success` branches, wires callbacks (scan, submit), shows dialogs/snackbars, navigates. |
+| 5 | `providers/{name}_provider.dart` | `ChangeNotifier` (or subclass like `QcTrcServiceInitProvider`) | State + API calls | Holds `DataState<T>` fields, calls services on init, exposes methods (e.g. `moveNext`, `verifyBarCode`). |
+| 6 | `widgets/{name}_widget.dart` | (none) | Pure layout | Stateless widget that accepts slot props (`topContent`, `content`, `footer`, `onScannerDetected`) and arranges them. **No state, no API.** |
+| 7 | `resources/services.dart` (or `resources/{name}_service.dart`) | (static class) | API layer | `static Stream<T?> someApi(...) => service.get/post(url, T.fromJson, ...)`. |
+| 8 | `resources/{name}_request.dart` / `{name}_response.dart` | `@JsonSerializable` | DTOs | Hand-mapped to RN by `flutter-to-rn-api.md`. |
+
+Files you can usually ignore:
+- `*.g.dart` — json_serializable / annotation build artifacts. In RN we write `fromJson`/`toJson` by hand.
+- `l10n.dart` — string keys. In RN, inline the strings unless the project already has i18n.
+- `index.dart` — barrel re-exports.
+
+### How to walk the chain
+
+Starting from the `screens/*_screen.dart` file the user gave you:
+
+1. **Find the `pageKey` constant** on the screen (e.g. `"QC_qc_lot_items_scan"`).
+2. **Find the `pageGroup`** it registers under (e.g. `QcPageGroup.qcStoreOutLotItemsScanPageKey`). Grep for that enum value in `flutter_module/lib/src/app_builder/app_builder_groups/`.
+3. **In the same module's `components/` folder**, find the `@CshComponent` whose `componentGroup` matches the screen's `pageGroup`. **This is the file that actually builds the UI.**
+4. **From the component**, read `paramBuilder((paramModel) => ...)` and follow every container/widget it can return.
+5. **For each container**, open it and identify the `ChangeNotifierProvider<XxxProvider>` — that's the state source.
+6. **Open the provider**, list every API method it calls. Trace each into `resources/services.dart`.
+7. **Open every presentational widget** the container renders — those are the layout primitives that map to your RN widget.
+8. **Open the param model** to learn the exact param keys/types your RN `route.params` interface must accept.
+
+By the end, you should have a tree like this in your head:
+
+```
+{Name}Screen (route entry)
+└── {Name}Component (paramBuilder)
+    ├── params: {list with types}
+    ├── branch A → {A}Container
+    │   ├── provider: {Provider}.{state field A}
+    │   └── widget: {SharedWidget} (slot list)
+    └── branch B → {B}Container
+        ├── provider: {Provider}.{state field B}
+        └── widget: {SharedWidget} (same slot list)
+services: {endpoint list}
+```
+
+### How the chain collapses into RN
+
+| Flutter piece | RN equivalent | Notes |
+|---|---|---|
+| `@CshPage` + `PageWidget` shell | `{Name}Screen.tsx` (thin glue) | No registry. Screen directly calls the hook and renders the widget. |
+| `@CshComponent` + `paramBuilder` | TypeScript interface on `route.params` + `if/else` inside the widget or screen | No registry. Branching becomes plain JS. |
+| `@CshPageParam` + short keys (`h`, `ln`, `lid`, `lt`) | Named props on `route.params` | RN doesn't need short keys — use full names (`header`, `lotName`, `lotId`, `lotType`). |
+| `*_container.dart` + `ChangeNotifierProvider` | Folded into `use{Name}.ts` hook + the widget's composition | No Provider tree. Hook returns state; screen passes to widget. |
+| `*_provider.dart` (`ChangeNotifier`) | `use{Name}.ts` (`useState` + `useEffect` + `useCallback`) | One hook per screen. Follow Step 1. |
+| `*_widget.dart` (presentational) | `{Name}Widget.tsx` (pure component) | Slot props (`topContent`, `content`, `footer`) become regular props or children. |
+| `resources/services.dart` (static methods) | `{Module}.service.ts` (instance methods) | Follow `flutter-to-rn-api.md`. `Stream<T?>` → `Promise<T>`. |
+| `request/*.dart` / `response/*.dart` | `src/resources/{module}/request/*.request.ts` / `response/*.response.ts` | Follow `flutter-to-rn-api.md`. |
+| `*.g.dart` | (skip) | Hand-write `fromJson` / `toJson` in the RN classes. |
+| `l10n.dart` | Inline strings (unless i18n exists) | |
+| `Provider.of<T>(context)` (deeply nested reads) | Hook return value passed down via props | RN has no implicit ambient state. |
+
+### Worked example — `LotItemsScanScreen` snapshot
+
+The file [lot_items_scan_screen.dart](flutter_module/lib/qc/modules/store_out/screens/lot_items_scan_screen.dart) is 56 lines and looks trivial, but the full screen spans 8 contributing files:
+
+| File | What it contributes |
+|---|---|
+| [screens/lot_items_scan_screen.dart](flutter_module/lib/qc/modules/store_out/screens/lot_items_scan_screen.dart) | `pageKey = "QC_qc_lot_items_scan"`, registered under `QcPageGroup.qcStoreOutLotItemsScanPageKey`. `buildView` returns `PageWidget(pageKey, initialValue: {h, lt, ln, lid})`. `static navigate(context, lotType, lotName, lotId)`. |
+| [components/lot_items_scan_component.dart](flutter_module/lib/qc/modules/store_out/components/lot_items_scan_component.dart) | `paramBuilder` unpacks `lotType`, then renders `NormalLotScanContainer` (lotType=1, lotId required) OR `BinLotScanContainer` (lotType=2, lotName required) OR an inline error text. |
+| [models/lot_items_scan_comp_params.dart](flutter_module/lib/qc/modules/store_out/models/lot_items_scan_comp_params.dart) | Short keys `h`/`ln`/`lid`/`lt` ↔ typed fields `header` / `lotName` / `lotId` / `lotType`. |
+| [widgets/normal_lot_scan_container.dart](flutter_module/lib/qc/modules/store_out/widgets/normal_lot_scan_container.dart) | Wraps `ChangeNotifierProvider<LotScanProvider>`. Renders `LotScanWidget`. On scan match: `provider.normalLotOutVerifyBarCode` → `moveNext` → `popUntil(StoreOutScreen.route)` when done. |
+| [widgets/bin_lot_scan_container.dart](flutter_module/lib/qc/modules/store_out/widgets/bin_lot_scan_container.dart) | Same shape as Normal but uses `binDataState` + `binOutVerifyBarCode`. |
+| [widgets/lot_scan_widget.dart](flutter_module/lib/qc/modules/store_out/widgets/lot_scan_widget.dart) | Pure layout: `topContent` (progress bar) + `MlBarcodeScannerWidget` + `content` (item-detail card) + `footer` (Skip button), all inside `CshCard`s. |
+| [providers/lot_scan_provider.dart](flutter_module/lib/qc/modules/store_out/providers/lot_scan_provider.dart) | One provider, branches on `lotType`. Has `dataState`, `binDataState`, `scanPosition`, `moveNext`, fetch + verify methods. |
+| [resources/services.dart](flutter_module/lib/qc/modules/store_out/resources/services.dart) | 4 endpoints used by this screen: `GET /v1/store-out/devices`, `GET /bin/lot/store-out/device/list`, `POST /v1/store-out/device`, `POST /bin/store-out`. |
+
+Would collapse to in RN (illustration only — DO NOT migrate as part of this snapshot):
+
+```
+src/components/qcStoreOut/LotItemsScan/
+  hooks/useLotItemsScan.ts        ← merges LotScanProvider + container glue + paramBuilder branching
+  LotItemsScanWidget.tsx           ← merged LotScanWidget + Normal/Bin presentation
+  LotItemsScanScreen.tsx           ← thin: route.params → hook → widget
+
+src/resources/qcStoreOut/
+  qcStoreOut.constants.ts          ← LotType enum
+  service/StoreOut.service.ts      ← 4 API methods
+  request/BinOutRequest.request.ts
+  request/NormalLotOutRequest.request.ts
+  response/ScanNormalLotItem.response.ts
+  response/ScanBinLotListResponse.response.ts
+  response/NormalLotVerifyResponse.response.ts
+  response/BinOutVerifyResponse.response.ts
+```
+
+### Snapshot checklist (must complete before Pre-Step B)
+
+- [ ] Listed every `.dart` file in the screen's module that contributes to the final UI (screen + component + params + containers + provider + widgets + services + requests + responses)
+- [ ] Identified all params the screen accepts (name, type, required/optional)
+- [ ] Identified every API endpoint the screen hits (method + path + request body + response shape)
+- [ ] Identified every conditional branch in the component / containers (e.g. `lotType` switch, loading/error/empty states)
+- [ ] Identified every popup/dialog/snackbar/alert the screen shows
+- [ ] Identified every navigation action (`popUntil`, `pushNamed`, callbacks)
+- [ ] Listed all common widgets used (so Pre-Step B can resolve them)
+
+Only after this snapshot is complete do you move to **Pre-Step B**.
+
+---
+
+## Pre-Step B — Analyze Widget Tree & Resolve Common Components (Run AFTER Pre-Step A)
 
 Before converting any screen, **walk the entire Flutter widget tree** and identify all leaf/common widgets used. Convert any missing ones to RN before proceeding.
 
@@ -386,7 +502,7 @@ Do NOT import `CshButton` / `CshTextFormField` / etc. from `src/components/commo
 
 ### Example workflow
 
-User says: "convert this screen" (a Flutter screen that uses `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox`, `ConfirmActionSheet`, `MyCustomBanner`)
+User says: "convert this screen" → Pre-Step A is already done, snapshot is in hand. Pre-Step B now scans the widgets the snapshot identified. (Same hypothetical screen uses `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox`, `ConfirmActionSheet`, `MyCustomBanner`.)
 
 1. Scan → found: `CshButton`, `CshTextFormField`, `CshDropDown`, `CshCheckbox`, `ConfirmActionSheet`, `MyCustomBanner`
 2. Walk lookup order:
