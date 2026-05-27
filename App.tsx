@@ -10,9 +10,18 @@
  * (#0080F0) so any frame-level flash blends with the splash.
  */
 
+import { LegoServiceType } from '@reglobe/lego-core/lego-service/lego-service-type';
+import { initializeHttpNative } from '@reglobe/lego-http';
 import React, { useEffect } from 'react';
 import { StatusBar, View } from 'react-native';
 import { LegoApiLogger } from 'react-native-lego-api-logger';
+
+// Bootstrap LegoFetch once at JS init so the RN leaf (login + future flows) hits the
+// right CAS / API URLs from the env. Without this, every legoFetch call falls back to
+// `localhost` because `LegoServiceGroupInterceptor` has no baseUrl/apiUrl wired up.
+// `LegoFetch.init` is idempotent (logs and bails if already initialized) so it's safe
+// to call from both the host shell and any future leaf-specific bootstrap.
+initializeHttpNative(LegoServiceType.MAIN);
 
 function App(): React.ReactElement {
   useEffect(() => {

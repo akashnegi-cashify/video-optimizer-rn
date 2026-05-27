@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { RmsRootScreen } from '../components/rms/RmsRoot/RmsRootScreen';
+
+import { RnNavigator } from './RnNavigator';
 import { Routes, type RouteName } from './Routes';
 
 type LeafRenderer = (params: Record<string, unknown>) => React.ReactElement;
 
 const REGISTRY: Record<RouteName, LeafRenderer> = {
-  [Routes.RMS_ROOT]: (params) => <RmsRootScreen params={params} />,
+  [Routes.LOGIN]: (params) => <RnNavigator initialParams={params} />,
 };
 
 /**

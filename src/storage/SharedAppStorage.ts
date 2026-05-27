@@ -51,6 +51,9 @@ export const SharedAppStorage = {
 /** Auth token key — matches enum _AppPreferencesKeys.authToken on the Flutter side. */
 export const AUTH_TOKEN_KEY = 'X-User-Auth';
 
+/** Login type key — matches enum _AppPreferencesKeys.loginType on the Flutter side. */
+export const LOGIN_TYPE_KEY = 'loginType';
+
 /**
  * Diagnostic helper. Tries multiple candidate paths × candidate mmapIDs to find where the
  * Flutter side actually wrote its data. Returns a list of {path, id, keys, error} so the

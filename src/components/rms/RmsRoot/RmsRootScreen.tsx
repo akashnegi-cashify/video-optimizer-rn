@@ -8,18 +8,17 @@ import {
   probeSharedStorage,
 } from '../../../storage/SharedAppStorage';
 
-type RmsRootScreenProps = {
-  params?: Record<string, unknown>;
-};
-
 /**
  * Placeholder landing screen for the RN-migrated RMS module.
  *
  * Reads the auth token written by the Flutter side and renders a multi-path/multi-id probe
  * so we can locate where Flutter's MMKV files actually live on this device. Once cross-
  * framework storage is confirmed working, the diagnostic block can be removed.
+ *
+ * Rendered as a React Navigation stack screen — no inbound params today
+ * (`RmsRoot: undefined` in `RootStackParamList`).
  */
-export function RmsRootScreen(_props: RmsRootScreenProps): React.ReactElement {
+export function RmsRootScreen(): React.ReactElement {
   const { authToken, otherKeys, probe } = useMemo(() => {
     const token = SharedAppStorage.getString(AUTH_TOKEN_KEY);
     const keys = SharedAppStorage.getAllKeys().filter((k) => k !== AUTH_TOKEN_KEY);

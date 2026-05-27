@@ -67,8 +67,7 @@ class TrcAndQcLoginWidget extends StatelessWidget {
                       text: l10n.rmsLogin,
                       onPressed: () {
                         _checkAppUpdate(context, () {
-                          RnLeafNavigator.openRoute('rms-root');
-                          // _moveToLoginScreen(context, LoginTypes.rmsLogin);
+                          RnLeafNavigator.openRoute('login', params: {'loginType': 'RMS'});
                         });
                       },
                     ),

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CashifyOps</string>
+    <!--
+        Tells `react-native-config`'s RNCConfigModule which package to look in for the
+        generated BuildConfig class. Without this, it falls back to context.getPackageName()
+        which is the flavor-suffixed applicationId (e.g. "in.cashify.androidtrc.stage") —
+        but BuildConfig.java is generated under the `namespace` (in.cashify.androidtrc), so
+        the reflective Class.forName(...) fails and JS sees every Config.* as undefined.
+    -->
+    <string name="build_config_package">in.cashify.androidtrc</string>
 </resources>
